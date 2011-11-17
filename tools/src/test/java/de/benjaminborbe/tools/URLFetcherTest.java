@@ -1,5 +1,10 @@
 package de.benjaminborbe.tools;
 
-public class URLFetcherTest {
+import junit.framework.TestCase;
 
+public class URLFetcherTest extends TestCase {
+
+	public void testNothing() {
+		assertTrue(true);
+	}
 }

@@ -1,3 +1,5 @@
 target
 tools/target
 bridge/target
+index/target
+index_test/target

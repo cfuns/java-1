@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>tools</artifactId>
-	<name>Tools</name>
-	<description></description>
+	<artifactId>de.benjaminborbe.tools</artifactId>
+	<name>Benjamin Borbe - Tools</name>
+	<description>Benjamin Borbe - Tools</description>
 	<packaging>jar</packaging>
 </project>
