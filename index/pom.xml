@@ -119,5 +119,10 @@
 			<artifactId>${slf4j.impl}</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.0</version>
+		</dependency>
 	</dependencies>
 </project>

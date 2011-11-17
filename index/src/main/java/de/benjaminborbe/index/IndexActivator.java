@@ -1,21 +1,17 @@
 package de.benjaminborbe.index;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.ops4j.peaberry.Peaberry;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
-import com.google.inject.servlet.ServletModule;
 
-import de.benjaminborbe.index.guice.IndexModule;
-import de.benjaminborbe.index.guice.IndexOsgiModule;
+import de.benjaminborbe.index.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.index.servlet.IndexServlet;
 
 public class IndexActivator implements BundleActivator {
@@ -97,8 +93,7 @@ public class IndexActivator implements BundleActivator {
 
 	private Injector getInjector(final BundleContext context) {
 		if (injector == null)
-			injector = Guice.createInjector(Peaberry.osgiModule(context), new ServletModule(), new IndexOsgiModule(),
-					new IndexModule());
+			injector = GuiceInjectorBuilder.getInjector(context);
 		return injector;
 	}
 
