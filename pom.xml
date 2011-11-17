@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>	
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.benjaminborbe</groupId>
 	<artifactId>parent</artifactId>
 	<name>Parent</name>
@@ -8,10 +8,23 @@
 	<version>0.0.1</version>
 	<packaging>pom</packaging>
 	<properties>
+		<!-- Print unit test results into files instead of console -->
+		<unitTestUseFile>true</unitTestUseFile>
+		<!-- tell the compiler it should use 1.6 -->
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<!-- Sourcefiles UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.finalName>${project.artifactId}</project.build.finalName>
+		<!-- Versions -->
+		<felix.version>3.0.1</felix.version>
+		<felix.version.http>2.0.4</felix.version.http>
+		<felix.plugin.version>2.0.1</felix.plugin.version>
+		<mysql.version>5.1.17</mysql.version>
+		<servlet-api.version>2.5</servlet-api.version>
 	</properties>
 	<modules>
+		<module>bridge</module>
 		<module>tools</module>
 	</modules>
 	<build>
