@@ -105,7 +105,7 @@ public class IndexActivator implements BundleActivator {
 			service.registerFilter(guiceFilter, ".*", null, 999, null);
 
 			// servlet
-			service.registerServlet("/index", indexServlet, null, null);
+			service.registerServlet("/", indexServlet, null, null);
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);

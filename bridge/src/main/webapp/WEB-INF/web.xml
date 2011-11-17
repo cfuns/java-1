@@ -4,7 +4,7 @@
 	<display-name>Osgi-Bridge</display-name>
 	<description>Osgi-Bridge</description>
 	<welcome-file-list>
-		<welcome-file>/test</welcome-file>
+		<welcome-file>/</welcome-file>
 	</welcome-file-list>
 	<!-- StartupListener -->
 	<listener>
