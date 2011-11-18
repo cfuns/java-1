@@ -31,6 +31,6 @@ public class TimetrackerServlet extends HttpServlet {
 		logger.debug("service");
 		response.setContentType("text/plain");
 		final PrintWriter out = response.getWriter();
-		out.println("Timetracker");
+		out.println("Timetracker!");
 	}
 }

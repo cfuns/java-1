@@ -16,7 +16,7 @@
 		<!-- Sourcefiles UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- OSGI-Test includes -->
-		<felix_plugin_imports>*;resolution:=optional,org.w3c.dom,javax.xml.transform,javax.xml.transform.dom,javax.xml.transform.stream,com.mysql.jdbc,com.sun.mail,com.sun.mail.handlers,com.sun.mail.iap,com.sun.mail.imap,com.sun.mail.imap.protocol,com.sun.mail.mbox,com.sun.mail.pop3,com.sun.mail.smtp,com.sun.mail.util,javax.mail,javax.mail.event,javax.mail.internet,javax.mail.search,javax.mail.util,com.sun.activation,com.sun.activation.registries,com.sun.activation.viewers,javax.activation,com.sun.faces.util</felix_plugin_imports>
+		<felix_plugin_imports>*;resolution:=optional,org.w3c.dom,javax.xml.transform,javax.xml.transform.dom,javax.xml.transform.stream,com.mysql.jdbc,com.sun.mail,com.sun.mail.handlers,com.sun.mail.iap,com.sun.mail.imap,com.sun.mail.imap.protocol,com.sun.mail.mbox,com.sun.mail.pop3,com.sun.mail.smtp,com.sun.mail.util,javax.mail,javax.mail.event,javax.mail.internet,javax.mail.search,javax.mail.util,com.sun.activation,com.sun.activation.registries,com.sun.activation.viewers,javax.activation</felix_plugin_imports>
 		<felix_plugin_junit>javax.servlet;javax.servlet.http;version=2.5,org.osgi.service.http;version=1.2,com.mysql.jdbc;version=5.1.17,com.sun.mail,com.sun.mail.handlers,com.sun.mail.iap,com.sun.mail.imap,com.sun.mail.imap.protocol,com.sun.mail.mbox,com.sun.mail.pop3,com.sun.mail.smtp,com.sun.mail.util,javax.mail,javax.mail.event,javax.mail.internet,javax.mail.search,javax.mail.util,com.sun.activation,com.sun.activation.registries,com.sun.activation.viewers,javax.activation</felix_plugin_junit>
 		<!-- Versions -->
 		<felix.version>3.0.1</felix.version>
