@@ -1,4 +1,4 @@
-package de.benjaminborbe.index;
+package de.benjaminborbe.timetracker;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleActivator;
@@ -11,10 +11,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
-import de.benjaminborbe.index.guice.IndexGuiceInjectorBuilder;
-import de.benjaminborbe.index.servlet.IndexServlet;
+import de.benjaminborbe.timetracker.guice.TimetrackerGuiceInjectorBuilder;
+import de.benjaminborbe.timetracker.servlet.TimetrackerServlet;
 
-public class IndexActivator implements BundleActivator {
+public class TimetrackerActivator implements BundleActivator {
 
 	private Injector injector;
 
@@ -27,7 +27,7 @@ public class IndexActivator implements BundleActivator {
 	private GuiceFilter guiceFilter;
 
 	@Inject
-	private IndexServlet indexServlet;
+	private TimetrackerServlet timetrackerServlet;
 
 	public void start(final BundleContext context) throws Exception {
 		try {
@@ -93,7 +93,7 @@ public class IndexActivator implements BundleActivator {
 
 	private Injector getInjector(final BundleContext context) {
 		if (injector == null)
-			injector = IndexGuiceInjectorBuilder.getInjector(context);
+			injector = TimetrackerGuiceInjectorBuilder.getInjector(context);
 		return injector;
 	}
 
@@ -105,7 +105,7 @@ public class IndexActivator implements BundleActivator {
 			service.registerFilter(guiceFilter, ".*", null, 999, null);
 
 			// servlet
-			service.registerServlet("/", indexServlet, null, null);
+			service.registerServlet("/timetracker", timetrackerServlet, null, null);
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);
@@ -119,7 +119,7 @@ public class IndexActivator implements BundleActivator {
 		service.unregisterFilter(guiceFilter);
 
 		// servlet
-		service.unregisterServlet(indexServlet);
+		service.unregisterServlet(timetrackerServlet);
 	}
 
 }

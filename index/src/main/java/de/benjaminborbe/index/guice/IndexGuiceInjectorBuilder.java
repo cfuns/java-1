@@ -7,9 +7,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.ServletModule;
 
-public class GuiceInjectorBuilder {
+public class IndexGuiceInjectorBuilder {
 
-	private GuiceInjectorBuilder() {
+	private IndexGuiceInjectorBuilder() {
 	}
 
 	public static Injector getInjector(final BundleContext context) {

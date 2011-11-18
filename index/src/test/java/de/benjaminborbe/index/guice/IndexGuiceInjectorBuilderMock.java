@@ -3,9 +3,9 @@ package de.benjaminborbe.index.guice;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-public class GuiceInjectorBuilderMock {
+public class IndexGuiceInjectorBuilderMock {
 
-	private GuiceInjectorBuilderMock() {
+	private IndexGuiceInjectorBuilderMock() {
 	}
 
 	public static Injector getInjector() {

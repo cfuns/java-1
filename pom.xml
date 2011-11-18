@@ -38,6 +38,8 @@
 		<module>tools</module>
 		<module>index</module>
 		<module>index_test</module>
+		<module>timetracker</module>
+		<module>timetracker_test</module>
 	</modules>
 	<build>
 		<resources>
