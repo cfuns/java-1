@@ -1,0 +1,4 @@
+2011-11-22 15:44:59,172 [DEBUG] org.apache.jasper.compiler.JspRuntimeContext  - Parent class loader is: ContextLoader@GWT
+2011-11-22 15:44:59,174 [DEBUG] org.apache.jasper.servlet.JspServlet  - Scratch dir for the JSP engine is: /var/folders/7s/2bgykr_14t75l2b30m92qvmm0000gp/T/Jetty_127_0_0_1_8888_war____-g0qk00/jsp
+2011-11-22 15:44:59,175 [DEBUG] org.apache.jasper.servlet.JspServlet  - IMPORTANT: Do not modify the generated servlets
+2011-11-22 15:45:32,597 [DEBUG] org.apache.jasper.servlet.JspServlet  - JspServlet.destroy()

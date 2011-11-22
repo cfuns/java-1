@@ -3,3 +3,9 @@ tools/target
 bridge/target
 index/target
 index_test/target
+timetracker/target
+timetracker_test/target
+gwt/target
+gwt/war
+gwt/.gwt
+gwt_test/target

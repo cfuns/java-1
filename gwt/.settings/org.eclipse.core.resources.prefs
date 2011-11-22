@@ -1,0 +1,16 @@
+#Tue Nov 22 15:43:45 CET 2011
+eclipse.preferences.version=1
+encoding//src/main/resources/de/rocketnews/gwt/client/message/AppMessages.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/AppMessages_de.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/ImprintMessages.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/ImprintMessages_de.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/ProfileMessages.properites=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/ProfileMessages_de.properites=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/StatusMessages.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/StatusMessages_de.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/UserMessages.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/UserMessages_de.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/WelcomeMessages.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/WelcomeMessages_de.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/WikiMessages.properties=UTF-8
+encoding//src/main/resources/de/rocketnews/gwt/client/message/WikiMessages_de.properties=UTF-8
