@@ -8,4 +8,6 @@ public interface BookmarkService {
 
 	List<Bookmark> getBookmarks();
 
+	List<Bookmark> searchBookmarks(String search);
+
 }

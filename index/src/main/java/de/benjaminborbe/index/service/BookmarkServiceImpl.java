@@ -43,4 +43,16 @@ public class BookmarkServiceImpl implements BookmarkService {
 		Collections.sort(bookmarks, c);
 		return bookmarks;
 	}
+
+	@Override
+	public List<Bookmark> searchBookmarks(final String search) {
+		final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+		for (final Bookmark bookmark : getBookmarks()) {
+			if (bookmark.getUrl().toLowerCase().indexOf(search.toLowerCase()) != -1
+					|| bookmark.getName().toLowerCase().indexOf(search.toLowerCase()) != -1) {
+				bookmarks.add(bookmark);
+			}
+		}
+		return bookmarks;
+	}
 }

@@ -38,28 +38,56 @@ public class IndexServlet extends HttpServlet {
 		logger.debug("service");
 		response.setContentType("text/html");
 		final PrintWriter out = response.getWriter();
-		printHtml(out);
+		final String contextPath = request.getContextPath();
+		printHtml(out, contextPath);
 	}
 
-	protected void printHtml(final PrintWriter out) {
+	protected void printHtml(final PrintWriter out, final String contextPath) {
 		out.println("<html>");
-		printHead(out);
-		printBody(out);
+		printHead(out, contextPath);
+		printBody(out, contextPath);
 		out.println("</html>");
 	}
 
-	protected void printHead(final PrintWriter out) {
+	protected void printHead(final PrintWriter out, final String contextPath) {
 		out.println("<head>");
 		out.println("<title>" + PAGE_TITLE + "</title>");
+		out.println("<link href=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css\" rel=\"stylesheet\" type=\"text/css\" />");
+		out.println("<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js\"></script>");
+		out.println("<script src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js\"></script>");
+		out.println("<link href=\"" + contextPath + "/css/style.css\" rel=\"stylesheet\" type=\"text/css\" />");
 		out.println("</head>");
 	}
 
-	protected void printBody(final PrintWriter out) {
+	protected void printBody(final PrintWriter out, final String contextPath) {
 		out.println("<body>");
 		out.println("<h1>" + PAGE_TITLE + "</h1>");
+		printSearchBox(out, contextPath);
 		printLinks(out);
 		out.println("</body>");
 	}
+
+	protected void printSearchBox(final PrintWriter out, final String contextPath) {
+		final String searchUrl = contextPath + "/search";
+		out.println("<form method=\"POST\" target=\"_blank\" action=\"" + contextPath + "/go\">");
+		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\" />");
+		out.println("<input type=\"submit\" value=\"search\" />");
+		out.println("</form>");
+		out.println("<script language=\"javascript\">");
+		out.println("$(document).ready(function() {");
+		out.println("$('input#searchBox').autocomplete({");
+		out.println("source: '" + searchUrl + "',");
+		out.println("method: 'POST',");
+		out.println("minLength: 1,");
+		out.println("});");
+		out.println("});");
+		out.println("</script>");
+	}
+
+	//
+	// $("input[name=receiver]").autocomplete({
+	// source: "http://jquery.bassistance.de/autocomplete/demo/search.php"
+	// });
 
 	protected void printLinks(final PrintWriter out) {
 		out.println("<h2>Links</h2>");

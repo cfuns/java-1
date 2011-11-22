@@ -28,6 +28,8 @@ public abstract class DaoBase<T extends Entity> implements Dao<T> {
 		this.logger = logger;
 		this.idGenerator = idGenerator;
 		this.provider = provider;
+
+		init();
 	}
 
 	protected abstract void init();

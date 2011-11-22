@@ -12,7 +12,9 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
 import de.benjaminborbe.index.guice.IndexGuiceInjectorBuilder;
+import de.benjaminborbe.index.servlet.GoServlet;
 import de.benjaminborbe.index.servlet.IndexServlet;
+import de.benjaminborbe.index.servlet.SearchServlet;
 
 public class IndexActivator implements BundleActivator {
 
@@ -28,6 +30,12 @@ public class IndexActivator implements BundleActivator {
 
 	@Inject
 	private IndexServlet indexServlet;
+
+	@Inject
+	private SearchServlet searchServlet;
+
+	@Inject
+	private GoServlet goServlet;
 
 	public void start(final BundleContext context) throws Exception {
 		try {
@@ -104,8 +112,15 @@ public class IndexActivator implements BundleActivator {
 			// filter
 			service.registerFilter(guiceFilter, ".*", null, 999, null);
 
+			// resources
+			service.registerResources("/js", "js", null);
+			service.registerResources("/css", "css", null);
+
 			// servlet
 			service.registerServlet("/", indexServlet, null, null);
+			service.registerServlet("/search", searchServlet, null, null);
+			service.registerServlet("/go", goServlet, null, null);
+
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);
@@ -120,6 +135,8 @@ public class IndexActivator implements BundleActivator {
 
 		// servlet
 		service.unregisterServlet(indexServlet);
+		service.unregisterServlet(searchServlet);
+		service.unregisterServlet(goServlet);
 	}
 
 }
