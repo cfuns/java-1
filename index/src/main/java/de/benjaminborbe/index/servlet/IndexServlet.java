@@ -2,10 +2,6 @@ package de.benjaminborbe.index.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +12,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.index.dao.Bookmark;
+import de.benjaminborbe.index.service.BookmarkService;
+
 @Singleton
 public class IndexServlet extends HttpServlet {
 
@@ -25,9 +24,12 @@ public class IndexServlet extends HttpServlet {
 
 	private final Logger logger;
 
+	private final BookmarkService bookmarkService;
+
 	@Inject
-	public IndexServlet(final Logger logger) {
+	public IndexServlet(final Logger logger, final BookmarkService bookmarkService) {
 		this.logger = logger;
+		this.bookmarkService = bookmarkService;
 	}
 
 	@Override
@@ -61,20 +63,11 @@ public class IndexServlet extends HttpServlet {
 
 	protected void printLinks(final PrintWriter out) {
 		out.println("<h2>Links</h2>");
-		final Map<String, String> links = getLinks();
-		for (final Entry<String, String> e : links.entrySet()) {
+		for (final Bookmark bookmark : bookmarkService.getBookmarks()) {
 			out.println("<li>");
-			out.println("<a href=\"" + e.getKey() + "\" target=\"_blank\">" + e.getValue() + "</a>");
+			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"_blank\">" + bookmark.getName() + "</a>");
 			out.println("</li>");
 		}
 	}
 
-	protected Map<String, String> getLinks() {
-		final Map<String, String> links = new TreeMap<String, String>();
-		links.put("http://localhost:8180/app/", "Devel - Twentyfeet");
-		links.put("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Devel - Twentyfeet - GWT");
-		links.put("https://timetracker.rp.seibert-media.net/", "Live - Timetracker");
-		links.put("https://www.twentyfeet.com/", "Live - Twentyfeet");
-		return links;
-	}
 }
