@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -15,6 +14,20 @@ import de.benjaminborbe.index.dao.BookmarkDao;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
+
+	private final class MatchComparator implements Comparator<Match> {
+
+		@Override
+		public int compare(final Match a, final Match b) {
+			if (a.getCounter() > b.getCounter()) {
+				return -1;
+			}
+			if (a.getCounter() < b.getCounter()) {
+				return 1;
+			}
+			return 0;
+		}
+	}
 
 	private final class BookmarkByNameComparator implements Comparator<Bookmark> {
 
@@ -46,13 +59,57 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> searchBookmarks(final String search) {
-		final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+		final String[] parts = search.split("\\s+");
+
+		final List<Match> matches = new ArrayList<Match>();
 		for (final Bookmark bookmark : getBookmarks()) {
-			if (bookmark.getUrl().toLowerCase().indexOf(search.toLowerCase()) != -1
-					|| bookmark.getName().toLowerCase().indexOf(search.toLowerCase()) != -1) {
-				bookmarks.add(bookmark);
+			final int counter = match(bookmark, parts);
+			if (counter > 0) {
+				final Match match = new Match(bookmark, counter);
+				matches.add(match);
 			}
 		}
-		return bookmarks;
+		Collections.sort(matches, new MatchComparator());
+		final List<Bookmark> result = new ArrayList<Bookmark>();
+		for (final Match match : matches) {
+			result.add(match.getBookmark());
+		}
+		return result;
+	}
+
+	protected int match(final Bookmark bookmark, final String... searchTerms) {
+		int counter = 0;
+		for (final String searchTerm : searchTerms) {
+			if (searchTerm != null && searchTerm.length() > 0 && match(bookmark, searchTerm)) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+
+	protected boolean match(final Bookmark bookmark, final String search) {
+		return bookmark.getUrl().toLowerCase().indexOf(search.toLowerCase()) != -1
+				|| bookmark.getName().toLowerCase().indexOf(search.toLowerCase()) != -1;
+	}
+
+	private final class Match {
+
+		private final Bookmark bookmark;
+
+		private final int counter;
+
+		public Match(final Bookmark bookmark, final int counter) {
+			this.bookmark = bookmark;
+			this.counter = counter;
+		}
+
+		public Bookmark getBookmark() {
+			return bookmark;
+		}
+
+		public int getCounter() {
+			return counter;
+		}
+
 	}
 }
