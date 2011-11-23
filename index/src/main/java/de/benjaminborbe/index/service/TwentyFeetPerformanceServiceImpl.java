@@ -85,15 +85,26 @@ public class TwentyFeetPerformanceServiceImpl implements TwentyFeetPerformanceSe
 
 	protected Collection<URL> getURLs() throws MalformedURLException {
 		final Set<URL> urls = new HashSet<URL>();
-		urls.add(new URL("http://www.heise.de"));
-		urls.add(new URL("https://www.heise.de"));
-		final List<String> hosts = Arrays.asList("https://www.twentyfeet.com", "https://frontend1.twentyfeet.com",
-				"https://frontend2.twentyfeet.com", "http://www.twentyfeet.com", "http://frontend1.twentyfeet.com",
-				"http://frontend2.twentyfeet.com", "http://test.twentyfeet.com", "https://test.twentyfeet.com");
-		final List<String> parts = Arrays.asList("/", "/app", "/iframe-website/de/index.html", "/wiki/dashboard.action");
-		for (final String host : hosts) {
-			for (final String part : parts) {
-				urls.add(new URL(host + part));
+
+		// extern urls
+		{
+			final List<String> hosts = Arrays.asList("http://www.heise.de/", "https://www.heise.de/",
+					"http://aws.amazon.com/", "https://aws.amazon.com/");
+			for (final String host : hosts) {
+				urls.add(new URL(host));
+			}
+		}
+
+		// twentyfeet urls
+		{
+			final List<String> hosts = Arrays.asList("https://www.twentyfeet.com", "https://frontend1.twentyfeet.com",
+					"https://frontend2.twentyfeet.com", "http://www.twentyfeet.com", "http://frontend1.twentyfeet.com",
+					"http://frontend2.twentyfeet.com", "http://test.twentyfeet.com", "https://test.twentyfeet.com");
+			final List<String> parts = Arrays.asList("/", "/app", "/iframe-website/de/index.html", "/wiki/dashboard.action");
+			for (final String host : hosts) {
+				for (final String part : parts) {
+					urls.add(new URL(host + part));
+				}
 			}
 		}
 		return urls;

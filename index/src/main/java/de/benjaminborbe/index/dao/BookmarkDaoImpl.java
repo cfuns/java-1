@@ -28,6 +28,7 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Live - Twentyfeet - ActiveMQ - JMS"));
 		save(createBookmark("https://test.twentyfeet.com/", "Test - Twentyfeet"));
 		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Test - Twentyfeet - ActiveMQ - JMS"));
+		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
 	}
 
 	protected Bookmark createBookmark(final String url, final String name) {
