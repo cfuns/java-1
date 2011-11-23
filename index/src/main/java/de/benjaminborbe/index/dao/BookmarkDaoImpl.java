@@ -18,7 +18,7 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 
 	@Override
 	protected void init() {
-		save(createBookmark("http://www.heise.de/", "Heise"));
+		save(createBookmark("/bb/twentyfeetperformance", "Devel - Twentyfeet - Performance"));
 		save(createBookmark("http://localhost:8180/app/", "Devel - Twentyfeet"));
 		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Devel - Twentyfeet - ActiveMQ - JMS"));
 		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Devel - Twentyfeet with Debug"));

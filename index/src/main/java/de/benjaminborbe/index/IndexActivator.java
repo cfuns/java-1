@@ -15,6 +15,7 @@ import de.benjaminborbe.index.guice.IndexGuiceInjectorBuilder;
 import de.benjaminborbe.index.servlet.GoServlet;
 import de.benjaminborbe.index.servlet.IndexServlet;
 import de.benjaminborbe.index.servlet.SearchServlet;
+import de.benjaminborbe.index.servlet.TwentyfeetPerformanceServlet;
 
 public class IndexActivator implements BundleActivator {
 
@@ -33,6 +34,9 @@ public class IndexActivator implements BundleActivator {
 
 	@Inject
 	private SearchServlet searchServlet;
+
+	@Inject
+	private TwentyfeetPerformanceServlet twentyfeetPerformanceServlet;
 
 	@Inject
 	private GoServlet goServlet;
@@ -120,7 +124,7 @@ public class IndexActivator implements BundleActivator {
 			service.registerServlet("/", indexServlet, null, null);
 			service.registerServlet("/search", searchServlet, null, null);
 			service.registerServlet("/go", goServlet, null, null);
-
+			service.registerServlet("/twentyfeetperformance", twentyfeetPerformanceServlet, null, null);
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);
@@ -137,6 +141,7 @@ public class IndexActivator implements BundleActivator {
 		service.unregisterServlet(indexServlet);
 		service.unregisterServlet(searchServlet);
 		service.unregisterServlet(goServlet);
+		service.unregisterServlet(twentyfeetPerformanceServlet);
 	}
 
 }

@@ -26,6 +26,7 @@ public class IndexServlet extends HttpServlet {
 
 	private final BookmarkService bookmarkService;
 
+	// only service are allowed to inject
 	@Inject
 	public IndexServlet(final Logger logger, final BookmarkService bookmarkService) {
 		this.logger = logger;

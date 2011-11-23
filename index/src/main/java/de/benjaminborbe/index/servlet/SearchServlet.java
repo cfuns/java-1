@@ -29,6 +29,7 @@ public class SearchServlet extends HttpServlet {
 
 	private final static String PARAMETER_SEARCH = "term";
 
+	// only service are allowed to inject
 	@Inject
 	public SearchServlet(final Logger logger, final BookmarkService bookmarkService) {
 		this.logger = logger;
@@ -39,7 +40,6 @@ public class SearchServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
-		logger.debug(request.getParameterMap().keySet().toString());
 		response.setContentType("application/json");
 		final PrintWriter out = response.getWriter();
 		final String search = request.getParameter(PARAMETER_SEARCH);
