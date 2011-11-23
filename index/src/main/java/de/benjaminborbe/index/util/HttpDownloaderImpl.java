@@ -51,9 +51,6 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		}
 	}
 
-	// 30 sec
-	private static final int CONNECTION_TIMEOUT = 30 * 1000;
-
 	private final Logger logger;
 
 	private final StreamUtil streamUtil;
@@ -68,7 +65,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrlUnsecure(final URL url) throws IOException {
+	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout) throws IOException {
 		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManagerAllowAll() };
 
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
@@ -80,7 +77,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			HttpsURLConnection.setDefaultHostnameVerifier(hv);
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-			return downloadUrl(url);
+			return downloadUrl(url, timeout);
 		}
 		catch (final NoSuchAlgorithmException e) {
 			logger.debug("NoSuchAlgorithmException", e);
@@ -97,14 +94,15 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrl(final URL url) throws IOException {
+	public HttpDownloadResult downloadUrl(final URL url, final int timeout) throws IOException {
 		logger.debug("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
 		InputStream inputStream = null;
 		ByteArrayOutputStream outputStream = null;
 		try {
 			final URLConnection connection = url.openConnection();
-			connection.setConnectTimeout(CONNECTION_TIMEOUT);
+			connection.setConnectTimeout(timeout);
+			connection.setReadTimeout(timeout);
 			final Encoding contentEncoding = new Encoding(connection.getContentEncoding());
 			inputStream = connection.getInputStream();
 			outputStream = new ByteArrayOutputStream();

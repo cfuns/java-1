@@ -76,7 +76,12 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 	private Map<URL, Long> getAverageDurations() {
 		final Map<URL, Long> result = new HashMap<URL, Long>();
 		for (final Entry<URL, List<Long>> e : durations.entrySet()) {
-			result.put(e.getKey(), mathUtil.avgLong(e.getValue()));
+			if (e.getValue().size() == 0) {
+				result.put(e.getKey(), -1l);
+			}
+			else {
+				result.put(e.getKey(), mathUtil.avgLong(e.getValue()));
+			}
 		}
 		return result;
 	}
@@ -110,7 +115,8 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 			out.println("<td sorttable_customkey=\"" + url + "\">");
 			out.println("<a target=\"_blank\" href=\"" + url + "\">" + url + "</a>");
 			out.println("</td>");
-			out.println("<td sorttable_customkey=\"" + duration + "\">" + duration + " ms</td>");
+			out.println("<td " + (duration == -1 ? "bgcolor=\"red\" " : "") + "sorttable_customkey=\"" + duration + "\">"
+					+ duration + " ms</td>");
 			out.println("<td sorttable_customkey=\"" + counter + "\">" + counter + "</td>");
 			out.println("</tr>");
 		}
@@ -128,7 +134,9 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 				list = new ArrayList<Long>();
 				durations.put(e.getKey(), list);
 			}
-			list.add(e.getValue().getDuration());
+			if (e.getValue() != null) {
+				list.add(e.getValue().getDuration());
+			}
 		}
 	}
 

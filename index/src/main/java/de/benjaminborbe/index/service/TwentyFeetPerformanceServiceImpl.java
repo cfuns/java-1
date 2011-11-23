@@ -25,6 +25,9 @@ public class TwentyFeetPerformanceServiceImpl implements TwentyFeetPerformanceSe
 
 	private final class DownloadRunnable implements Runnable {
 
+		// 5 sec timeout
+		private static final int TIMEOUT = 5 * 1000;
+
 		private final URL url;
 
 		private final Map<URL, HttpDownloadResult> result;
@@ -37,10 +40,11 @@ public class TwentyFeetPerformanceServiceImpl implements TwentyFeetPerformanceSe
 		@Override
 		public void run() {
 			try {
-				result.put(url, httpDownloader.downloadUrlUnsecure(url));
+				result.put(url, httpDownloader.downloadUrlUnsecure(url, TIMEOUT));
 			}
 			catch (final IOException e) {
 				logger.debug("IOException", e);
+				result.put(url, null);
 			}
 		}
 	}
@@ -85,7 +89,7 @@ public class TwentyFeetPerformanceServiceImpl implements TwentyFeetPerformanceSe
 		urls.add(new URL("https://www.heise.de"));
 		final List<String> hosts = Arrays.asList("https://www.twentyfeet.com", "https://frontend1.twentyfeet.com",
 				"https://frontend2.twentyfeet.com", "http://www.twentyfeet.com", "http://frontend1.twentyfeet.com",
-				"http://frontend2.twentyfeet.com");
+				"http://frontend2.twentyfeet.com", "http://test.twentyfeet.com", "https://test.twentyfeet.com");
 		final List<String> parts = Arrays.asList("/", "/app", "/iframe-website/de/index.html", "/wiki/dashboard.action");
 		for (final String host : hosts) {
 			for (final String part : parts) {
