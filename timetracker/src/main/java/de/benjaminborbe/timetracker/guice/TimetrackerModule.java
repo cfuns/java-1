@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+
 public class TimetrackerModule extends AbstractModule {
 
 	@Override

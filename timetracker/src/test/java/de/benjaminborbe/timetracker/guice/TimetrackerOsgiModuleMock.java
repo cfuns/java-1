@@ -6,6 +6,9 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.tools.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.mock.LogServiceMock;
+
 public class TimetrackerOsgiModuleMock extends AbstractModule {
 
 	@Override

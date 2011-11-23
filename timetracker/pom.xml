@@ -124,5 +124,15 @@
 			<artifactId>easymock</artifactId>
 			<version>${easymock.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

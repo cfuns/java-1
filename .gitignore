@@ -1,6 +1,9 @@
 target
 tools/target
+tools_osgi/target
 bridge/target
+cron/target
+cron_test/target
 index/target
 index_test/target
 timetracker/target

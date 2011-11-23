@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.index.service.TwentyFeetPerformanceService;
-import de.benjaminborbe.index.util.HttpDownloadResult;
-import de.benjaminborbe.index.util.MathUtil;
+import de.benjaminborbe.tools.util.HttpDownloadResult;
+import de.benjaminborbe.tools.util.MathUtil;
 
 @Singleton
 public class TwentyfeetPerformanceServlet extends HttpServlet {
@@ -36,7 +35,7 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 
 	private final TwentyFeetPerformanceService twentyFeetPerformanceService;
 
-	private final Map<URL, List<Long>> durations = new HashMap<URL, List<Long>>();
+	private final Map<String, List<Long>> durations = new HashMap<String, List<Long>>();
 
 	private final MathUtil mathUtil;
 
@@ -73,9 +72,9 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 		out.println("<body>");
 	}
 
-	private Map<URL, Long> getAverageDurations() {
-		final Map<URL, Long> result = new HashMap<URL, Long>();
-		for (final Entry<URL, List<Long>> e : durations.entrySet()) {
+	private Map<String, Long> getAverageDurations() {
+		final Map<String, Long> result = new HashMap<String, Long>();
+		for (final Entry<String, List<Long>> e : durations.entrySet()) {
 			if (e.getValue().size() == 0) {
 				result.put(e.getKey(), -1l);
 			}
@@ -90,17 +89,10 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 		out.println("<h1>" + TITLE + "</h1>");
 		updatePerformance();
 
-		final Map<URL, Long> data = getAverageDurations();
+		final Map<String, Long> data = getAverageDurations();
 
-		final List<URL> urls = new ArrayList<URL>(data.keySet());
-		Collections.sort(urls, new Comparator<URL>() {
-
-			@Override
-			public int compare(final URL a, final URL b) {
-				return a.toString().compareTo(b.toString());
-			}
-		});
-
+		final List<String> urls = new ArrayList<String>(data.keySet());
+		Collections.sort(urls);
 		out.println("<table class=\"sortable\">");
 		out.println("<tr>");
 		out.println("<th>Url</th>");
@@ -108,7 +100,7 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 		out.println("<th class=\"sorttable_numeric\">Counter</th>");
 		out.println("</tr>");
 
-		for (final URL url : urls) {
+		for (final String url : urls) {
 			final long duration = data.get(url);
 			final int counter = durations.containsKey(url) ? durations.get(url).size() : 0;
 			out.println("<tr>");
@@ -126,13 +118,14 @@ public class TwentyfeetPerformanceServlet extends HttpServlet {
 	protected synchronized void updatePerformance() throws IOException {
 		final Map<URL, HttpDownloadResult> performance = twentyFeetPerformanceService.getPerformance();
 		for (final Entry<URL, HttpDownloadResult> e : performance.entrySet()) {
+			final String url = e.getKey().toExternalForm();
 			List<Long> list;
-			if (durations.containsKey(e.getKey())) {
-				list = durations.get(e.getKey());
+			if (durations.containsKey(url)) {
+				list = durations.get(url);
 			}
 			else {
 				list = new ArrayList<Long>();
-				durations.put(e.getKey(), list);
+				durations.put(url, list);
 			}
 			if (e.getValue() != null) {
 				list.add(e.getValue().getDuration());

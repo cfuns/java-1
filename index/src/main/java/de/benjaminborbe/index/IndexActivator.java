@@ -11,11 +11,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
-import de.benjaminborbe.index.guice.IndexGuiceInjectorBuilder;
+import de.benjaminborbe.index.guice.IndexModules;
 import de.benjaminborbe.index.servlet.GoServlet;
 import de.benjaminborbe.index.servlet.IndexServlet;
 import de.benjaminborbe.index.servlet.SearchServlet;
 import de.benjaminborbe.index.servlet.TwentyfeetPerformanceServlet;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class IndexActivator implements BundleActivator {
 
@@ -41,6 +42,7 @@ public class IndexActivator implements BundleActivator {
 	@Inject
 	private GoServlet goServlet;
 
+	@Override
 	public void start(final BundleContext context) throws Exception {
 		try {
 			getInjector(context);
@@ -79,6 +81,7 @@ public class IndexActivator implements BundleActivator {
 
 	}
 
+	@Override
 	public void stop(final BundleContext context) throws Exception {
 		try {
 			final Injector injector = getInjector(context);
@@ -105,7 +108,7 @@ public class IndexActivator implements BundleActivator {
 
 	private Injector getInjector(final BundleContext context) {
 		if (injector == null)
-			injector = IndexGuiceInjectorBuilder.getInjector(context);
+			injector = GuiceInjectorBuilder.getInjector(new IndexModules(context));
 		return injector;
 	}
 

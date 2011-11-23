@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import de.benjaminborbe.index.util.HttpDownloadResult;
+import de.benjaminborbe.tools.util.HttpDownloadResult;
 
 public interface TwentyFeetPerformanceService {
 

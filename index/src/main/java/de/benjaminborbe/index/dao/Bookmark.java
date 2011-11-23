@@ -1,5 +1,7 @@
 package de.benjaminborbe.index.dao;
 
+import de.benjaminborbe.tools.dao.Entity;
+
 public class Bookmark implements Entity {
 
 	private static final long serialVersionUID = 6058606350883201939L;

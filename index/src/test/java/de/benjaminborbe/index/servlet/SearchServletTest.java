@@ -10,13 +10,14 @@ import org.json.simple.JSONArray;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.index.dao.Bookmark;
-import de.benjaminborbe.index.guice.IndexGuiceInjectorBuilderMock;
+import de.benjaminborbe.index.guice.IndexModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import junit.framework.TestCase;
 
 public class SearchServletTest extends TestCase {
 
 	public void testSingleton() {
-		final Injector injector = IndexGuiceInjectorBuilderMock.getInjector();
+		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final SearchServlet a = injector.getInstance(SearchServlet.class);
 		final SearchServlet b = injector.getInstance(SearchServlet.class);
 		assertEquals(a, b);
@@ -25,7 +26,7 @@ public class SearchServletTest extends TestCase {
 	}
 
 	public void testBuildJson() throws IOException {
-		final Injector injector = IndexGuiceInjectorBuilderMock.getInjector();
+		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final SearchServlet searchServlet = injector.getInstance(SearchServlet.class);
 		final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
 		final Bookmark bookmark = new Bookmark();

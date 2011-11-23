@@ -316,5 +316,10 @@
 			<artifactId>shiro-all</artifactId>
 			<version>1.0.0-incubating</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

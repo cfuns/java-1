@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.index.util.HttpDownloadResult;
-import de.benjaminborbe.index.util.HttpDownloader;
-import de.benjaminborbe.index.util.ThreadRunner;
+import de.benjaminborbe.tools.util.HttpDownloadResult;
+import de.benjaminborbe.tools.util.HttpDownloader;
+import de.benjaminborbe.tools.util.ThreadRunner;
 
 @Singleton
 public class TwentyFeetPerformanceServiceImpl implements TwentyFeetPerformanceService {
@@ -88,8 +88,8 @@ public class TwentyFeetPerformanceServiceImpl implements TwentyFeetPerformanceSe
 
 		// extern urls
 		{
-			final List<String> hosts = Arrays.asList("http://www.heise.de/", "https://www.heise.de/",
-					"http://aws.amazon.com/", "https://aws.amazon.com/");
+			final List<String> hosts = Arrays.asList("http://www.heise.de/index.html", "http://aws.amazon.com/",
+					"https://aws.amazon.com/");
 			for (final String host : hosts) {
 				urls.add(new URL(host));
 			}

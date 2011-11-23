@@ -6,7 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.index.util.IdGenerator;
+import de.benjaminborbe.tools.dao.DaoBase;
+import de.benjaminborbe.tools.util.IdGenerator;
 
 @Singleton
 public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
@@ -29,6 +30,7 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		save(createBookmark("https://test.twentyfeet.com/", "Test - Twentyfeet"));
 		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Test - Twentyfeet - ActiveMQ - JMS"));
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
+		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Live - Twentyfeet - phpMyadmin"));
 	}
 
 	protected Bookmark createBookmark(final String url, final String name) {

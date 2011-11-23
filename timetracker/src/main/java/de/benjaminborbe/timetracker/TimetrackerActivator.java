@@ -11,8 +11,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
-import de.benjaminborbe.timetracker.guice.TimetrackerGuiceInjectorBuilder;
+import de.benjaminborbe.timetracker.guice.TimeTrackerModules;
 import de.benjaminborbe.timetracker.servlet.TimetrackerServlet;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class TimetrackerActivator implements BundleActivator {
 
@@ -29,6 +30,7 @@ public class TimetrackerActivator implements BundleActivator {
 	@Inject
 	private TimetrackerServlet timetrackerServlet;
 
+	@Override
 	public void start(final BundleContext context) throws Exception {
 		try {
 			getInjector(context);
@@ -67,6 +69,7 @@ public class TimetrackerActivator implements BundleActivator {
 
 	}
 
+	@Override
 	public void stop(final BundleContext context) throws Exception {
 		try {
 			final Injector injector = getInjector(context);
@@ -93,7 +96,7 @@ public class TimetrackerActivator implements BundleActivator {
 
 	private Injector getInjector(final BundleContext context) {
 		if (injector == null)
-			injector = TimetrackerGuiceInjectorBuilder.getInjector(context);
+			injector = GuiceInjectorBuilder.getInjector(new TimeTrackerModules(context));
 		return injector;
 	}
 
