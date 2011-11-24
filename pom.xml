@@ -48,6 +48,8 @@
 		<module>cron_test</module>
 		<module>monitoring</module>
 		<module>monitoring_test</module>
+		<module>mail</module>
+		<module>mail_test</module>
 	</modules>
 	<build>
 		<resources>

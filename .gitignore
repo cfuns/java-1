@@ -14,3 +14,5 @@ gwt/.gwt
 gwt_test/target
 monitoring/target
 monitoring_test/target
+mail/target
+mail_test/target
