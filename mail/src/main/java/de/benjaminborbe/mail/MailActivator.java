@@ -1,9 +1,14 @@
 package de.benjaminborbe.mail;
 
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 
@@ -11,6 +16,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
+import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModules;
 import de.benjaminborbe.mail.servlet.MailServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -21,6 +27,8 @@ public class MailActivator implements BundleActivator {
 
 	private ServiceTracker extHttpServiceTracker;
 
+	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
+
 	@Inject
 	private Logger logger;
 
@@ -29,6 +37,9 @@ public class MailActivator implements BundleActivator {
 
 	@Inject
 	private MailServlet mailServlet;
+
+	@Inject
+	private MailService mailService;
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -54,6 +65,11 @@ public class MailActivator implements BundleActivator {
 			};
 			extHttpServiceTracker.open();
 
+			// register mailService
+			{
+				final Properties props = new Properties();
+				serviceRegistrations.add(context.registerService(MailService.class.getName(), mailService, props));
+			}
 		}
 		catch (final Exception e) {
 			if (logger != null) {
@@ -78,6 +94,12 @@ public class MailActivator implements BundleActivator {
 
 			// close tracker
 			extHttpServiceTracker.close();
+
+			// unregister services
+			for (final ServiceRegistration serviceRegistration : serviceRegistrations) {
+				serviceRegistration.unregister();
+			}
+			serviceRegistrations.clear();
 
 			logger.info("stopping: " + this.getClass().getName() + " done");
 		}

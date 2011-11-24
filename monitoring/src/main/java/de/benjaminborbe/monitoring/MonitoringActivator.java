@@ -28,6 +28,8 @@ public class MonitoringActivator implements BundleActivator {
 
 	private ServiceTracker extHttpServiceTracker;
 
+	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
+
 	@Inject
 	private Logger logger;
 
@@ -39,8 +41,6 @@ public class MonitoringActivator implements BundleActivator {
 
 	@Inject
 	private MonitoringCronJob monitoringCronJob;
-
-	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
