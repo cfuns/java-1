@@ -46,13 +46,20 @@ public class MonitoringCronJob implements CronJob {
 		final Collection<Check> failedChecks = callChecks();
 
 		// send mail
-		final Mail mail = buildMail(failedChecks);
-		try {
-			mailService.send(mail);
+		if (failedChecks.size() > 0) {
+			logger.debug(failedChecks.size() + " checks failed, try sending mail");
+			final Mail mail = buildMail(failedChecks);
+			try {
+				mailService.send(mail);
+			}
+			catch (final MailSendException e) {
+				logger.error("MailSendException", e);
+			}
 		}
-		catch (final MailSendException e) {
-			logger.error("MailSendException", e);
+		else {
+			logger.debug("all checks past");
 		}
+
 		logger.debug("MonitoringCronJob.execute() - finished");
 	}
 
