@@ -18,7 +18,7 @@ public class EchoJob implements Job {
 
 	@Override
 	public void execute(final JobExecutionContext context) throws JobExecutionException {
-		logger.debug("execute");
+		logger.debug("EchoJob.execute");
 	}
 
 }

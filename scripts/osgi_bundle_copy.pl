@@ -19,14 +19,19 @@ push(@cmds, 'rm -rf '.$to_dir);
 push(@cmds, 'rm -rf '.$to_dir_test);
 push(@cmds, 'rm -rf '.$from_dir.'/target');
 push(@cmds, 'rm -rf '.$from_dir_test.'/target');
-push(@cmds,'cp -R '.$from_dir.' '.$to_dir);
+push(@cmds, 'cp -R '.$from_dir.' '.$to_dir);
 push(@cmds, 'cp -R '.$from_dir_test.' '.$to_dir_test);
 push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' -type f | xargs sed -i \'\' \'s/'.$from_dir.'/'.$to_dir.'/g\'');
 push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' -type f | xargs sed -i \'\' \'s/'.$from_name.'/'.$to_name.'/g\'');
+push(@cmds, 'echo '.$to_dir.'/target >> .gitignore');
+push(@cmds, 'echo '.$to_dir_test.'/target >> .gitignore');
 
-push(@cmds,'rename files and dirs');
-push(@cmds,'add module to pom.xml');
-push(@cmds,'add module to bridge/pom.xml');
+push(@cmds, '# rename files and dirs');
+push(@cmds, '# add module to pom.xml');
+push(@cmds, '# add module to bridge/pom.xml');
+push(@cmds, '# git add '.$to_dir);
+push(@cmds, '# git add '.$to_dir_test);
+
 
 # -exec mv "{}" echo "{}" sed s/'.$from_name.'/'.$to_name.'/" \;
 #push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' -name \'*'.$from_name.'*\' -exec bash -c "echo {} `echo {} | sed s/'.$from_name.'/'.$to_name.'/g`" \;');

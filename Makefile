@@ -4,6 +4,8 @@ installwotest:
 	mvn -Dmaven.test.skip=true install
 test:
 	mvn test
+console:
+	telnet localhost 5555
 cleanup:
 	find . -name '.DS_Store' -exec rm -rf "{}" \;
 	find . -name '.svn' -exec rm -rf "{}" \;

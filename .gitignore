@@ -12,3 +12,5 @@ gwt/target
 gwt/war
 gwt/.gwt
 gwt_test/target
+monitoring/target
+monitoring_test/target

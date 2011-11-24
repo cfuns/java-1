@@ -46,6 +46,8 @@
 		<module>gwt</module>
 		<module>cron</module>
 		<module>cron_test</module>
+		<module>monitoring</module>
+		<module>monitoring_test</module>
 	</modules>
 	<build>
 		<resources>

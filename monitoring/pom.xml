@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.cron</artifactId>
-	<name>Benjamin Borbe - Cron</name>
-	<description>Benjamin Borbe - Cron</description>
+	<artifactId>de.benjaminborbe.monitoring</artifactId>
+	<name>Benjamin Borbe - Monitoring</name>
+	<description>Benjamin Borbe - Monitoring</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -40,14 +40,14 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.cron.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.cron.CronActivator </Bundle-Activator>
-						<Private-Package>de.benjaminborbe.cron.*</Private-Package>
+						<Export-Package></Export-Package>
+						<Bundle-Activator>de.benjaminborbe.monitoring.MonitoringActivator </Bundle-Activator>
+						<Private-Package>de.benjaminborbe.monitoring.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Cron</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Cron</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Monitoring</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Monitoring</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
@@ -125,11 +125,6 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -138,6 +133,12 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cron</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,9 +1,14 @@
-package de.benjaminborbe.timetracker;
+package de.benjaminborbe.monitoring;
+
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 
@@ -11,11 +16,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
-import de.benjaminborbe.timetracker.guice.TimetrackerModules;
-import de.benjaminborbe.timetracker.servlet.TimetrackerServlet;
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.guice.MonitoringModules;
+import de.benjaminborbe.monitoring.service.MonitoringCronJob;
+import de.benjaminborbe.monitoring.servlet.MonitoringServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class TimetrackerActivator implements BundleActivator {
+public class MonitoringActivator implements BundleActivator {
 
 	private Injector injector;
 
@@ -28,7 +35,12 @@ public class TimetrackerActivator implements BundleActivator {
 	private GuiceFilter guiceFilter;
 
 	@Inject
-	private TimetrackerServlet timetrackerServlet;
+	private MonitoringServlet monitoringServlet;
+
+	@Inject
+	private MonitoringCronJob monitoringCronJob;
+
+	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -54,6 +66,12 @@ public class TimetrackerActivator implements BundleActivator {
 			};
 			extHttpServiceTracker.open();
 
+			// register ApiService
+			{
+				final Properties props = new Properties();
+				props.put("name", monitoringCronJob.getClass().getName());
+				serviceRegistrations.add(context.registerService(CronJob.class.getName(), monitoringCronJob, props));
+			}
 		}
 		catch (final Exception e) {
 			if (logger != null) {
@@ -79,6 +97,11 @@ public class TimetrackerActivator implements BundleActivator {
 			// close tracker
 			extHttpServiceTracker.close();
 
+			for (final ServiceRegistration serviceRegistration : serviceRegistrations) {
+				serviceRegistration.unregister();
+			}
+			serviceRegistrations.clear();
+
 			logger.info("stopping: " + this.getClass().getName() + " done");
 		}
 		catch (final Exception e) {
@@ -96,7 +119,7 @@ public class TimetrackerActivator implements BundleActivator {
 
 	private Injector getInjector(final BundleContext context) {
 		if (injector == null)
-			injector = GuiceInjectorBuilder.getInjector(new TimetrackerModules(context));
+			injector = GuiceInjectorBuilder.getInjector(new MonitoringModules(context));
 		return injector;
 	}
 
@@ -108,7 +131,7 @@ public class TimetrackerActivator implements BundleActivator {
 			service.registerFilter(guiceFilter, ".*", null, 999, null);
 
 			// servlet
-			service.registerServlet("/timetracker", timetrackerServlet, null, null);
+			service.registerServlet("/monitoring", monitoringServlet, null, null);
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);
@@ -122,7 +145,7 @@ public class TimetrackerActivator implements BundleActivator {
 		service.unregisterFilter(guiceFilter);
 
 		// servlet
-		service.unregisterServlet(timetrackerServlet);
+		service.unregisterServlet(monitoringServlet);
 	}
 
 }
