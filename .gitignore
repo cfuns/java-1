@@ -16,3 +16,5 @@ monitoring/target
 monitoring_test/target
 mail/target
 mail_test/target
+storage/target
+storage_test/target

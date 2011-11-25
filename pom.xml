@@ -34,6 +34,7 @@
                 <gwt-log.version>3.0.1</gwt-log.version>
 		<easymock.version>3.0</easymock.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
+		<commons.collections.version>3.2.1</commons.collections.version>
 	</properties>
 	<modules>
 		<module>bridge</module>
@@ -50,6 +51,8 @@
 		<module>monitoring_test</module>
 		<module>mail</module>
 		<module>mail_test</module>
+		<module>storage</module>
+		<module>storage_test</module>
 	</modules>
 	<build>
 		<resources>

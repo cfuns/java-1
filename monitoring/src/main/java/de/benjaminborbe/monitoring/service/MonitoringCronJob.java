@@ -85,7 +85,7 @@ public class MonitoringCronJob implements CronJob {
 	protected Mail buildMail(final Collection<Check> failedChecks) {
 		final StringBuffer content = new StringBuffer();
 		for (final Check check : failedChecks) {
-			content.append(check.toString());
+			content.append(check.getMessage());
 			content.append("\n");
 		}
 		final String from = "bborbe@seibert-media.net";

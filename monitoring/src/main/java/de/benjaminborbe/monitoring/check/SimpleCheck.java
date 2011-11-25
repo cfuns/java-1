@@ -15,4 +15,8 @@ public class SimpleCheck implements Check {
 		return true;
 	}
 
+	@Override
+	public String getMessage() {
+		return "allways true";
+	}
 }

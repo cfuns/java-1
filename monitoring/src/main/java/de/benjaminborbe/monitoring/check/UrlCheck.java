@@ -44,4 +44,9 @@ public class UrlCheck implements Check {
 		}
 	}
 
+	@Override
+	public String getMessage() {
+		return "fetch url " + urlString;
+	}
+
 }
