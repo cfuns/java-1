@@ -19,18 +19,30 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 
 	@Override
 	protected void init() {
-		save(createBookmark("/bb/twentyfeetperformance", "Devel - Twentyfeet - Performance"));
-		save(createBookmark("http://localhost:8180/app/", "Devel - Twentyfeet"));
-		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Devel - Twentyfeet - ActiveMQ - JMS"));
-		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Devel - Twentyfeet with Debug"));
-		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Devel - Twentyfeet - GWT"));
-		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Live - Timetracker"));
-		save(createBookmark("https://www.twentyfeet.com/", "Live - Twentyfeet"));
-		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Live - Twentyfeet - ActiveMQ - JMS"));
-		save(createBookmark("https://test.twentyfeet.com/", "Test - Twentyfeet"));
-		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Test - Twentyfeet - ActiveMQ - JMS"));
+		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
-		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Live - Twentyfeet - phpMyadmin"));
+
+		// 20ft devel
+		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance"));
+		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel"));
+		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Twentyfeet - Devel - ActiveMQ - JMS"));
+		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
+		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997",
+				"Twentyfeet - Devel - App in Developermode"));
+
+		// 20ft live
+		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live"));
+		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Live - ActiveMQ - JMS"));
+		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Twentyfeet - Live - phpMyadmin"));
+
+		// 20ft test
+		save(createBookmark("https://test.twentyfeet.com/", "Twentyfeet - Test"));
+		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Test - ActiveMQ - JMS"));
+
+		// seibert-media
+		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker"));
+		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Wiki"));
+		save(createBookmark("https://kunden.seibert-media.net/", "Seibert-Media - Kunden-Wiki"));
 	}
 
 	protected Bookmark createBookmark(final String url, final String name) {

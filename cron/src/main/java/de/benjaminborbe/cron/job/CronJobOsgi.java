@@ -1,5 +1,6 @@
 package de.benjaminborbe.cron.job;
 
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -12,6 +13,7 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.util.CronJobRegistry;
 
 @Singleton
+@DisallowConcurrentExecution
 public class CronJobOsgi implements Job {
 
 	private final Logger logger;

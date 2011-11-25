@@ -1,8 +1,5 @@
 package de.benjaminborbe.monitoring.check;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -10,22 +7,61 @@ import de.benjaminborbe.tools.util.HttpDownloader;
 
 public class UrlCheckBuilder {
 
-	private final static List<String> urls = Arrays.asList("http://www.twentyfeet.com/", "http://test.twentyfeet.com/",
-			"http://www.benjamin-borbe.de/", "http://www.benjaminborbe.de/", "http://www.harteslicht.com/",
-			"http://confluence.rocketnews.de/");
-
 	private UrlCheckBuilder() {
 
 	}
 
 	@Inject
 	public static void link(final Logger logger, final CheckRegistry registry, final HttpDownloader httpDownloader) {
-		for (final String url : urls) {
-			registry.register(buildCheck(logger, httpDownloader, url));
-		}
-	}
 
-	protected static UrlCheck buildCheck(final Logger logger, final HttpDownloader httpDownloader, final String url) {
-		return new UrlCheck(logger, httpDownloader, url);
+		{
+			final String url = "https://www.twentyfeet.com/index.xhtml";
+			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
+			final String contentMatch = "<a id=\"logo_l\" href=\"/\">TwentyFeet Online-Performance-Tracking</a>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "https://test.twentyfeet.com/index.xhtml";
+			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
+			final String contentMatch = "<a id=\"logo_l\" href=\"/\">TwentyFeet Online-Performance-Tracking</a>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "http://www.benjamin-borbe.de/";
+			final String titleMatch = "Portrait - Benjamin Borbe";
+			final String contentMatch = "<span class=\"photography\">photography</span>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "http://www.benjaminborbe.de/";
+			final String titleMatch = "Portrait - Benjamin Borbe";
+			final String contentMatch = "<span class=\"photography\">photography</span>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "http://www.harteslicht.com/";
+			final String titleMatch = "harteslicht.com | Portrait Beauty Shooting in Wiesbaden";
+			final String contentMatch = "<div id=\"site-description\">von Benjamin Borbe &amp; Mäx Gasbarro</div>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "http://confluence.rocketnews.de/";
+			final String titleMatch = "Dashboard - Confluence";
+			final String contentMatch = "<span>Dashboard</span>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "http://0.0.0.0:8161/admin/queues.jsp";
+			final String titleMatch = "localhost : Queues";
+			final String contentMatch = ">Queues<";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
 	}
 }
