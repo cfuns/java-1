@@ -11,11 +11,11 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 
-public class TimetrackerModules implements Modules {
+public class TModules implements Modules {
 
 	private final BundleContext context;
 
-	public TimetrackerModules(final BundleContext context) {
+	public TModules(final BundleContext context) {
 		this.context = context;
 	}
 
