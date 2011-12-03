@@ -12,3 +12,5 @@ cleanup:
 	find . -name 'target' -exec rm -rf "{}" \;
 deploy:
 	cd bridge && make deploy
+dir:
+	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
