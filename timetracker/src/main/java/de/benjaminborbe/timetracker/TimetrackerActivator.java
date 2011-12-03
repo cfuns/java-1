@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
-import de.benjaminborbe.timetracker.guice.TModules;
+import de.benjaminborbe.timetracker.guice.TimetrackerModules;
 import de.benjaminborbe.timetracker.servlet.TimetrackerServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -96,7 +96,7 @@ public class TimetrackerActivator implements BundleActivator {
 
 	private Injector getInjector(final BundleContext context) {
 		if (injector == null)
-			injector = GuiceInjectorBuilder.getInjector(new TModules(context));
+			injector = GuiceInjectorBuilder.getInjector(new TimetrackerModules(context));
 		return injector;
 	}
 
