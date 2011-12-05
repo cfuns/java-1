@@ -21,6 +21,8 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 	protected void init() {
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
+		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
+		save(createBookmark("http://phpmyadmin/", "Local - phpMyAdmin"));
 
 		// 20ft devel
 		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance"));
