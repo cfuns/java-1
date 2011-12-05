@@ -17,3 +17,5 @@ bundle:
 deploy:
 	../scripts/osgi_deploy.pl 'Benjamin Borbe - Timetracker' ./target/de.benjaminborbe.timetracker.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
 .PHONY: clean installwotest deploy
+dir:
+	mkdir -p src/main/resources src/main/java src/test/resources src/test/java

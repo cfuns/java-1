@@ -29,3 +29,5 @@ deploy:
 	../scripts/osgi_deploy.pl 'Benjamin Borbe - GWT' ./target/de.benjaminborbe.gwt.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
 gwt:
 	mvn gwt:run
+dir:
+	mkdir -p src/main/resources src/main/java src/test/resources src/test/java

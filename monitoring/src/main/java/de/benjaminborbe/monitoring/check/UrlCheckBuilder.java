@@ -45,7 +45,7 @@ public class UrlCheckBuilder {
 		{
 			final String url = "http://www.harteslicht.com/";
 			final String titleMatch = "harteslicht.com | Portrait Beauty Shooting in Wiesbaden";
-			final String contentMatch = "<div id=\"site-description\">von Benjamin Borbe &amp; Mäx Gasbarro</div>";
+			final String contentMatch = "<div id=\"site-description\">von Benjamin Borbe";
 			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
 		}
 
