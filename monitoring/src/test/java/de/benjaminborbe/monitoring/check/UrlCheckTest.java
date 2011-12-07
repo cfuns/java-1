@@ -1,11 +1,11 @@
 package de.benjaminborbe.monitoring.check;
 
+import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.util.HttpDownloader;
-
-import junit.framework.TestCase;
 
 public class UrlCheckTest extends TestCase {
 

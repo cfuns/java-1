@@ -20,9 +20,6 @@ import org.apache.thrift.TException;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.storage.util.StorageConfig;
-import de.benjaminborbe.storage.util.StorageConnection;
-import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class StorageDaoUtilIntegrationTest extends TestCase {

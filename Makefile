@@ -2,6 +2,8 @@ all:
 	mvn install
 installwotest:
 	mvn -Dmaven.test.skip=true install
+update:
+	make all deploy
 test:
 	mvn test
 console:

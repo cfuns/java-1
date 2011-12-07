@@ -30,12 +30,14 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel"));
 		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Twentyfeet - Devel - ActiveMQ - JMS"));
 		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
-		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode"));
+		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997",
+				"Twentyfeet - Devel - App in Developermode"));
 
 		// 20ft live
 		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live"));
 		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Live - ActiveMQ - JMS"));
 		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Twentyfeet - Live - phpMyadmin"));
+		save(createBookmark("https://kunden.seibert-media.net/display/20ft", "Twentyfeet - Live - Wiki"));
 
 		// 20ft test
 		save(createBookmark("https://test.twentyfeet.com/", "Twentyfeet - Test"));
@@ -44,7 +46,8 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		// seibert-media
 		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker"));
 		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Wiki"));
-		save(createBookmark("https://kunden.seibert-media.net/", "Seibert-Media - Kunden-Wiki"));
+		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins"));
+
 	}
 
 	protected Bookmark createBookmark(final String url, final String name) {

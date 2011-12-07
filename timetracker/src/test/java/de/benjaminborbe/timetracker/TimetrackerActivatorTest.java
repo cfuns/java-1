@@ -1,11 +1,11 @@
 package de.benjaminborbe.timetracker;
 
+import junit.framework.TestCase;
+
 import com.google.inject.Injector;
 
-import de.benjaminborbe.timetracker.TimetrackerActivator;
 import de.benjaminborbe.timetracker.guice.TimetrackerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
 public class TimetrackerActivatorTest extends TestCase {
 

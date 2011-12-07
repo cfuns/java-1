@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import com.google.inject.Module;
 
-import de.benjaminborbe.monitoring.guice.MonitoringModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 import de.benjaminborbe.tools.mock.PeaberryModuleMock;

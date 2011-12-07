@@ -15,11 +15,6 @@ public class FlushPrintWriter {
 		out.flush();
 	}
 
-	public void println(final Exception e) {
-		out.println(e);
-		out.flush();
-	}
-
 	public void printStackTrace(final Exception e) {
 		e.printStackTrace(out);
 		out.flush();

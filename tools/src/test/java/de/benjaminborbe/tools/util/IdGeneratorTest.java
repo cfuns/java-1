@@ -1,6 +1,5 @@
 package de.benjaminborbe.tools.util;
 
-import de.benjaminborbe.tools.util.IdGenerator;
 import junit.framework.TestCase;
 
 public class IdGeneratorTest extends TestCase {

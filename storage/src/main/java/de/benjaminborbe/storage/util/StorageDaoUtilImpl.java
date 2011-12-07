@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.inject.Inject;
-import org.apache.thrift.TException;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.Column;
@@ -24,7 +22,10 @@ import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
+import org.apache.thrift.TException;
 import org.slf4j.Logger;
+
+import com.google.inject.Inject;
 
 public class StorageDaoUtilImpl implements StorageDaoUtil {
 

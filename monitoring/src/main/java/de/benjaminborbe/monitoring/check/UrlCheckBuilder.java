@@ -3,6 +3,7 @@ package de.benjaminborbe.monitoring.check;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+
 import de.benjaminborbe.tools.util.HttpDownloader;
 
 public class UrlCheckBuilder {
@@ -16,6 +17,20 @@ public class UrlCheckBuilder {
 
 		{
 			final String url = "https://www.twentyfeet.com/index.xhtml";
+			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
+			final String contentMatch = "<a id=\"logo_l\" href=\"/\">TwentyFeet Online-Performance-Tracking</a>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "https://frontend1.twentyfeet.com/index.xhtml";
+			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
+			final String contentMatch = "<a id=\"logo_l\" href=\"/\">TwentyFeet Online-Performance-Tracking</a>";
+			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));
+		}
+
+		{
+			final String url = "https://frontend2.twentyfeet.com/index.xhtml";
 			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
 			final String contentMatch = "<a id=\"logo_l\" href=\"/\">TwentyFeet Online-Performance-Tracking</a>";
 			registry.register(new UrlCheck(logger, httpDownloader, url, titleMatch, contentMatch));

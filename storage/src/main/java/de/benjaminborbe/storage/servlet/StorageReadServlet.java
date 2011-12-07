@@ -1,6 +1,7 @@
 package de.benjaminborbe.storage.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class StorageReadServlet extends HttpServlet {
 				out.println("</pre>");
 			}
 			catch (final Exception e) {
-				out.println(e);
+				out.printStackTrace(e);
 			}
 		}
 		else {

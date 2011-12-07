@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.cassandra.thrift.NotFoundException;
 import org.slf4j.Logger;
 
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

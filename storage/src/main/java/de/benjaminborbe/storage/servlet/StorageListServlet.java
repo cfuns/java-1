@@ -66,7 +66,7 @@ public class StorageListServlet extends HttpServlet {
 				out.println("</pre>");
 			}
 			catch (final Exception e) {
-				out.println(e);
+				out.printStackTrace(e);
 			}
 		}
 		out.println("</body></html>");

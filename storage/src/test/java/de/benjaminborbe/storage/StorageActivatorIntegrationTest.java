@@ -1,9 +1,9 @@
 package de.benjaminborbe.storage;
 
+import junit.framework.TestCase;
+
 import com.google.inject.Injector;
 
-import junit.framework.TestCase;
-import de.benjaminborbe.storage.StorageActivator;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

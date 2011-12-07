@@ -1,10 +1,11 @@
 package de.benjaminborbe.index.dao;
 
+import junit.framework.TestCase;
+
 import com.google.inject.Injector;
 
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
 public class BookmarkDaoTest extends TestCase {
 

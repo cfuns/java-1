@@ -10,8 +10,6 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 
-import de.benjaminborbe.bridge.ProvisionActivator;
-
 public class ProvisionActivatorTest extends TestCase {
 
 	public void testGetProperties() {

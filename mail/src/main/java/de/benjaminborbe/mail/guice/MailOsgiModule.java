@@ -1,6 +1,7 @@
 package de.benjaminborbe.mail.guice;
 
 import static org.ops4j.peaberry.Peaberry.service;
+
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 

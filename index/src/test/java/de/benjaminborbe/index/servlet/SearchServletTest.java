@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.json.simple.JSONArray;
 
 import com.google.inject.Injector;
@@ -12,7 +14,6 @@ import com.google.inject.Injector;
 import de.benjaminborbe.index.dao.Bookmark;
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
 public class SearchServletTest extends TestCase {
 

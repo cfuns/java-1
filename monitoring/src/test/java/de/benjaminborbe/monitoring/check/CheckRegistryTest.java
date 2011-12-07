@@ -1,10 +1,11 @@
 package de.benjaminborbe.monitoring.check;
 
+import junit.framework.TestCase;
+
 import com.google.inject.Injector;
 
 import de.benjaminborbe.monitoring.guice.MonitoringModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
 public class CheckRegistryTest extends TestCase {
 

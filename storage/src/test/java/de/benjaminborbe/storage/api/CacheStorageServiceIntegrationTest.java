@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.storage.api.CacheStorageService;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

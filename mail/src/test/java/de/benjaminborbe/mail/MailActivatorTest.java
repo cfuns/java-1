@@ -1,11 +1,11 @@
 package de.benjaminborbe.mail;
 
+import junit.framework.TestCase;
+
 import com.google.inject.Injector;
 
-import de.benjaminborbe.mail.MailActivator;
 import de.benjaminborbe.mail.guice.MailModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
 public class MailActivatorTest extends TestCase {
 
