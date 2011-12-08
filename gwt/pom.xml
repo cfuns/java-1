@@ -168,30 +168,16 @@
 		<dependency>
 			<groupId>org.ops4j</groupId>
 			<artifactId>peaberry</artifactId>
-			<version>1.1.1</version>
+			<version>${peaberry.version}</version>
 		</dependency>
-		<!-- only needed when injecting Eclipse extensions -->
+
+
+		
 		<dependency>
-			<groupId>org.ops4j</groupId>
-			<artifactId>peaberry.eclipse</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		<!-- bundle-ized dependencies, not official releases -->
-		<dependency>
-			<groupId>org.ops4j.peaberry.dependencies</groupId>
-			<artifactId>aopalliance</artifactId>
-			<version>${peaberry-aopalliance.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.ops4j.peaberry.dependencies</groupId>
-			<artifactId>guice</artifactId>
-			<version>${peaberry-guice.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.guice</groupId>
-			<artifactId>guice-servlet</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
+	<groupId>com.google.inject.extensions</groupId>
+	<artifactId>guice-servlet</artifactId>
+	<version>${guice.version}</version>
+</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
