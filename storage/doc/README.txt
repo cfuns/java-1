@@ -10,6 +10,6 @@ use bb;
 
 drop column family data;
 create column family tracking with
-  comparator = AsciiType and
-  key_validation_class = AsciiType and
-  default_validation_class = AsciiType;
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;

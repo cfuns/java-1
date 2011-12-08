@@ -48,6 +48,8 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Wiki"));
 		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins"));
 
+		// Kino
+		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Kino - Mainz - Cinestar"));
 	}
 
 	protected Bookmark createBookmark(final String url, final String name) {
