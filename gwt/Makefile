@@ -6,7 +6,7 @@ LOCAL_BUNDLE_BASE ?=
 # Tell the osgi console to look in this basepath for bundles
 # For example /thedevel/bundles
 REMOTE_BUNDLE_BASE ?= 
-all: setversion
+all: 
 	rm -rf target war
 	mvn clean install
 clean:
