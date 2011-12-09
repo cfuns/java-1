@@ -6,18 +6,18 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GwtAppServlet extends ResourceServlet {
+public class GwtHomeServlet extends ResourceServlet {
 
 	private static final long serialVersionUID = -2162585976374394940L;
 
 	@Inject
-	public GwtAppServlet(final Logger logger) {
+	public GwtHomeServlet(final Logger logger) {
 		super(logger);
 	}
 
 	@Override
 	public String getPath() {
-		return "/app.html";
+		return "/Home.html";
 	}
 
 	@Override

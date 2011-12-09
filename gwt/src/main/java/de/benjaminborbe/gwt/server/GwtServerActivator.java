@@ -12,8 +12,8 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
 import de.benjaminborbe.gwt.server.guice.GwtServerModules;
-import de.benjaminborbe.gwt.server.servlet.GwtAppServlet;
-import de.benjaminborbe.gwt.server.servlet.GwtServlet;
+import de.benjaminborbe.gwt.server.servlet.GwtHomeServlet;
+import de.benjaminborbe.gwt.server.servlet.GwtHomeNoCacheJsServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class GwtServerActivator implements BundleActivator {
@@ -29,10 +29,10 @@ public class GwtServerActivator implements BundleActivator {
 	private GuiceFilter guiceFilter;
 
 	@Inject
-	private GwtServlet gwtServlet;
+	private GwtHomeNoCacheJsServlet gwtHomeNoCacheJsServlet;
 
 	@Inject
-	private GwtAppServlet gwtAppServlet;
+	private GwtHomeServlet gwtHomeServlet;
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -111,9 +111,12 @@ public class GwtServerActivator implements BundleActivator {
 			// filter
 			service.registerFilter(guiceFilter, ".*", null, 999, null);
 
+			// resources
+			service.registerResources("/gwt/Home", "Home", null);
+
 			// servlet
-			service.registerServlet("/gwt", gwtServlet, null, null);
-			service.registerServlet("/gwt/app", gwtAppServlet, null, null);
+			service.registerServlet("/gwt/Home/Home.nocache.js", gwtHomeNoCacheJsServlet, null, null);
+			service.registerServlet("/gwt/Home.html", gwtHomeServlet, null, null);
 
 		}
 		catch (final Exception e) {
@@ -128,8 +131,8 @@ public class GwtServerActivator implements BundleActivator {
 		service.unregisterFilter(guiceFilter);
 
 		// servlet
-		service.unregisterServlet(gwtServlet);
-		service.unregisterServlet(gwtAppServlet);
+		service.unregisterServlet(gwtHomeNoCacheJsServlet);
+		service.unregisterServlet(gwtHomeServlet);
 	}
 
 }

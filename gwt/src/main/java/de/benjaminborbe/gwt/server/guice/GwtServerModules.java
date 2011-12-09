@@ -24,4 +24,5 @@ public class GwtServerModules implements Modules {
 		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new GwtServerOsgiModule(),
 				new GwtServerModule(), new ToolModule());
 	}
+
 }

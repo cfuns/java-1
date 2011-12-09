@@ -31,3 +31,5 @@ gwt:
 	mvn gwt:run
 dir:
 	mkdir -p src/main/resources src/main/java src/test/resources src/test/java
+update:
+	make installwotest deploy
