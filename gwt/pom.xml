@@ -6,28 +6,18 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>de.benjaminborbe.gwt</artifactId>
-	<name>Benjamin Borbe - GWT</name>
-	<description>Benjamin Borbe - GWT</description>
+	<name>Benjamin Borbe - Gwt</name>
+	<description>Benjamin Borbe - Gwt</description>
 	<packaging>bundle</packaging>
+	<properties>
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<outputDirectory>war/WEB-INF/classes</outputDirectory>
+		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
 		<resources>
 			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.java</include>
-					<include>**/*.xml</include>
-				</includes>
-			</resource>
-			<resource>
 				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>target/${build.finalName}</directory>
 				<includes>
 					<include>**/*.*</include>
 				</includes>
@@ -42,56 +32,6 @@
 			</testResource>
 		</testResources>
 		<plugins>
-			<!-- GWT2-Plugin -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.4.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<!-- goal>mergewebxml</goal -->
-							<goal>compile</goal>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<runTarget>de.benjaminborbe.gwt.Home/Home.html</runTarget>
-					<mergedWebXml>src/main/webapp/WEB-INF/web.xml</mergedWebXml>
-					<buildDir>war/WEB-INF</buildDir>
-				</configuration>
-			</plugin>
-			<!-- Copy Maven Deps for Development-Mode -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-bundles</id>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/war/WEB-INF/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- If you want to use the target/web.xml file mergewebxml produces, tell the war plugin to use it. Also, exclude what you want from the final artifact here. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>src/main/webapp</directory>
-						</resource>
-					</webResources>
-					<warSourceDirectory>war</warSourceDirectory>
-					<!-- webXml>war/WEB-INF/web.xml</webXml -->
-				</configuration>
-			</plugin>
 			<!-- http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html -->
 			<!-- http://repo2.maven.org/maven2/org/apache/felix/maven-bundle-plugin/2.0.1/ -->
 			<plugin>
@@ -105,93 +45,63 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.gwt.server.GwtActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.gwt.client.*,de.benjaminborbe.gwt.server.*</Private-Package>
-						<Import-Package>*;resolution:=optional</Import-Package>
+						<Bundle-Activator>de.benjaminborbe.gwt.server.GwtServerActivator </Bundle-Activator>
+						<Private-Package>de.benjaminborbe.gwt.*</Private-Package>
+						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Bundle-Vendor>Seibert-Media</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - GWT</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - GWT</Bundle-Description>
-						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
+						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
+						<Bundle-Name>Benjamin Borbe - Gwt</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Gwt</Bundle-Description>
+						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
+						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
 			</plugin>
+			<!-- GWT Maven Plugin -->
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.3</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>2.4.0</version>
 				<executions>
 					<execution>
-						<id>copy-resources-for-devel-mode</id>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<copy file="src/main/webapp/WEB-INF/web.xml" tofile="war/WEB-INF/web.xml" />
-							</tasks>
-						</configuration>
 						<goals>
-							<goal>run</goal>
+							<goal>compile</goal>
+							<goal>test</goal>
 						</goals>
 					</execution>
 				</executions>
+				<!-- Plugin configuration. There are many available options, see gwt-maven-plugin documentation at codehaus.org -->
+				<configuration>
+					<runTarget>Home.html</runTarget>
+					<hostedWebapp>${webappDirectory}</hostedWebapp>
+				</configuration>
+			</plugin>
+			<!-- Copy static web files before executing gwt:run -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>exploded</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<webappDirectory>${webappDirectory}</webappDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>snapshots.repository.codehaus.org</id>
-			<name>snapshots.repository.codehaus.org</name>
-			<url>http://snapshots.repository.codehaus.org/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>gwt-maven</id>
-			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<repositories>
-		<repository>
-			<id>lib-repo</id>
-			<name>lib-m1-repository</name>
-			<url>file://${basedir}/lib</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<checksumPolicy>ignore</checksumPolicy>
-			</releases>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.ops4j</groupId>
 			<artifactId>peaberry</artifactId>
 			<version>${peaberry.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-servlet</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<version>${gwt.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
@@ -212,31 +122,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gwtx</groupId>
-			<artifactId>gwtx</artifactId>
-			<version>1.5.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gwt-dnd</groupId>
-			<artifactId>gwt-dnd</artifactId>
-			<version>2.6.5</version>
-		</dependency>
-		<dependency>
-			<groupId>net.customware.gwt.dispatch</groupId>
-			<artifactId>gwt-dispatch</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.customware.gwt.presenter</groupId>
-			<artifactId>gwt-presenter</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.allen-sauer.gwt.log</groupId>
-			<artifactId>gwt-log</artifactId>
-			<version>${gwt-log.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
@@ -247,62 +132,67 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>${easymock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<version>1.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>${commons-logging.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-all</artifactId>
-			<version>1.0.0-incubating</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- GWT -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<classifier>sources</classifier>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

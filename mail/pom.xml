@@ -63,14 +63,11 @@
 			<artifactId>peaberry</artifactId>
 			<version>${peaberry.version}</version>
 		</dependency>
-
-
-		
 		<dependency>
-	<groupId>com.google.inject.extensions</groupId>
-	<artifactId>guice-servlet</artifactId>
-	<version>${guice.version}</version>
-</dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
