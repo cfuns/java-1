@@ -33,6 +33,7 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
 		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997",
 				"Twentyfeet - Devel - App in Developermode"));
+		save(createBookmark("http://nexus.rp.seibert-media.net/", "Twentyfeet - Nexus"));
 
 		// 20ft live
 		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live"));
