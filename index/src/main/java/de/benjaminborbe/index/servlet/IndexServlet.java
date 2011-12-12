@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.index.dao.Bookmark;
-import de.benjaminborbe.index.service.BookmarkService;
+import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkService;
 
 @Singleton
 public class IndexServlet extends HttpServlet {
@@ -70,7 +70,7 @@ public class IndexServlet extends HttpServlet {
 	}
 
 	protected void printSearchBox(final PrintWriter out, final String contextPath) {
-		final String searchUrl = contextPath + "/search";
+		final String searchUrl = contextPath + "/bookmarksearch";
 		out.println("<form method=\"POST\" target=\"_blank\" action=\"" + contextPath + "/go\">");
 		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\" />");
 		out.println("<input type=\"submit\" value=\"search\" />");

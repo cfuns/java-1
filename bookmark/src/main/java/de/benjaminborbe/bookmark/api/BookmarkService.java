@@ -1,8 +1,6 @@
-package de.benjaminborbe.index.service;
+package de.benjaminborbe.bookmark.api;
 
 import java.util.List;
-
-import de.benjaminborbe.index.dao.Bookmark;
 
 public interface BookmarkService {
 

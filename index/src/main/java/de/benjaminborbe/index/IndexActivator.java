@@ -14,7 +14,6 @@ import com.google.inject.servlet.GuiceFilter;
 import de.benjaminborbe.index.guice.IndexModules;
 import de.benjaminborbe.index.servlet.GoServlet;
 import de.benjaminborbe.index.servlet.IndexServlet;
-import de.benjaminborbe.index.servlet.SearchServlet;
 import de.benjaminborbe.index.servlet.TwentyfeetPerformanceServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -32,9 +31,6 @@ public class IndexActivator implements BundleActivator {
 
 	@Inject
 	private IndexServlet indexServlet;
-
-	@Inject
-	private SearchServlet searchServlet;
 
 	@Inject
 	private TwentyfeetPerformanceServlet twentyfeetPerformanceServlet;
@@ -125,7 +121,6 @@ public class IndexActivator implements BundleActivator {
 
 			// servlet
 			service.registerServlet("/", indexServlet, null, null);
-			service.registerServlet("/search", searchServlet, null, null);
 			service.registerServlet("/go", goServlet, null, null);
 			service.registerServlet("/twentyfeetperformance", twentyfeetPerformanceServlet, null, null);
 		}
@@ -142,7 +137,6 @@ public class IndexActivator implements BundleActivator {
 
 		// servlet
 		service.unregisterServlet(indexServlet);
-		service.unregisterServlet(searchServlet);
 		service.unregisterServlet(goServlet);
 		service.unregisterServlet(twentyfeetPerformanceServlet);
 	}

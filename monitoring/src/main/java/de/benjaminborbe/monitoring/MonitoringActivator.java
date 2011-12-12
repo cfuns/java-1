@@ -97,6 +97,7 @@ public class MonitoringActivator implements BundleActivator {
 			// close tracker
 			extHttpServiceTracker.close();
 
+			// unregister all services
 			for (final ServiceRegistration serviceRegistration : serviceRegistrations) {
 				serviceRegistration.unregister();
 			}

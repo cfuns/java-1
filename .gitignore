@@ -21,3 +21,5 @@ storage/target
 storage_test/target
 search/target
 search_test/target
+bookmark/target
+bookmark_test/target

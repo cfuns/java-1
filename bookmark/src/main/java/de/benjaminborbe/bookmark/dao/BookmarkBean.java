@@ -1,8 +1,9 @@
-package de.benjaminborbe.index.dao;
+package de.benjaminborbe.bookmark.dao;
 
+import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.tools.dao.Entity;
 
-public class Bookmark implements Entity {
+public class BookmarkBean implements Entity, Bookmark {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
@@ -12,6 +13,7 @@ public class Bookmark implements Entity {
 
 	private String url;
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -20,6 +22,7 @@ public class Bookmark implements Entity {
 		this.name = name;
 	}
 
+	@Override
 	public String getUrl() {
 		return url;
 	}
@@ -28,10 +31,12 @@ public class Bookmark implements Entity {
 		this.url = url;
 	}
 
-	public void setId(Long id) {
+	@Override
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}

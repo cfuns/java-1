@@ -28,6 +28,8 @@ public class SearchServlet extends HttpServlet {
 
 	private final static String PARAMETER_SEARCH = "q";
 
+	private static final int MAX_RESULTS = 20;
+
 	@Inject
 	public SearchServlet(final Logger logger, final SearchService searchService) {
 		this.logger = logger;
@@ -42,7 +44,7 @@ public class SearchServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		final String search = request.getParameter(PARAMETER_SEARCH);
 
-		final List<SearchResult> results = searchService.search(search);
+		final List<SearchResult> results = searchService.search(search, MAX_RESULTS);
 		out.println("results: " + results.size());
 	}
 }

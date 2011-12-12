@@ -11,8 +11,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
 import de.benjaminborbe.search.servlet.SearchServlet;
+import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class SearchActivator implements BundleActivator {
@@ -29,6 +31,11 @@ public class SearchActivator implements BundleActivator {
 
 	@Inject
 	private SearchServlet searchServlet;
+
+	private ServiceTracker searchServiceTracker;
+
+	@Inject
+	private SearchServiceComponentRegistry searchServiceComponentRegistry;
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -54,6 +61,23 @@ public class SearchActivator implements BundleActivator {
 			};
 			extHttpServiceTracker.open();
 
+			// create serviceTracker for CronJob
+			searchServiceTracker = new ServiceTracker(context, SearchServiceComponent.class.getName(), null) {
+
+				@Override
+				public Object addingService(final ServiceReference ref) {
+					final Object service = super.addingService(ref);
+					serviceAdded((SearchServiceComponent) service);
+					return service;
+				}
+
+				@Override
+				public void removedService(final ServiceReference ref, final Object service) {
+					serviceRemoved((SearchServiceComponent) service);
+					super.removedService(ref, service);
+				}
+			};
+			searchServiceTracker.open();
 		}
 		catch (final Exception e) {
 			if (logger != null) {
@@ -67,6 +91,16 @@ public class SearchActivator implements BundleActivator {
 			throw e;
 		}
 
+	}
+
+	protected void serviceRemoved(final SearchServiceComponent service) {
+		logger.debug("serviceRemoved: " + service);
+		searchServiceComponentRegistry.unregister(service);
+	}
+
+	protected void serviceAdded(final SearchServiceComponent service) {
+		logger.debug("serviceAdded: " + service);
+		searchServiceComponentRegistry.register(service);
 	}
 
 	@Override

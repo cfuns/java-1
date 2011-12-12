@@ -1,4 +1,4 @@
-package de.benjaminborbe.index.service;
+package de.benjaminborbe.bookmark.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.index.dao.Bookmark;
-import de.benjaminborbe.index.dao.BookmarkDao;
+import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.bookmark.dao.BookmarkDao;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {

@@ -1,4 +1,4 @@
-package de.benjaminborbe.index.servlet;
+package de.benjaminborbe.bookmark.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,11 +15,11 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.index.dao.Bookmark;
-import de.benjaminborbe.index.service.BookmarkService;
+import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkService;
 
 @Singleton
-public class SearchServlet extends HttpServlet {
+public class BookmarkSearchServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 7928536214812474981L;
 
@@ -31,7 +31,7 @@ public class SearchServlet extends HttpServlet {
 
 	// only service are allowed to inject
 	@Inject
-	public SearchServlet(final Logger logger, final BookmarkService bookmarkService) {
+	public BookmarkSearchServlet(final Logger logger, final BookmarkService bookmarkService) {
 		this.logger = logger;
 		this.bookmarkService = bookmarkService;
 	}

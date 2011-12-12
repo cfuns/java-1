@@ -55,6 +55,8 @@
 		<module>storage_test</module>
 		<module>search</module>
 		<module>search_test</module>
+		<module>bookmark</module>
+		<module>bookmark_test</module>
 	</modules>
 	<build>
 		<resources>

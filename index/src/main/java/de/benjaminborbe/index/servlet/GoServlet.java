@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.index.dao.Bookmark;
-import de.benjaminborbe.index.service.BookmarkService;
+import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkService;
 
 @Singleton
 public class GoServlet extends HttpServlet {

@@ -1,4 +1,4 @@
-package de.benjaminborbe.index.dao;
+package de.benjaminborbe.bookmark.dao;
 
 import org.slf4j.Logger;
 
@@ -10,10 +10,10 @@ import de.benjaminborbe.tools.dao.DaoBase;
 import de.benjaminborbe.tools.util.IdGenerator;
 
 @Singleton
-public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
+public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDao {
 
 	@Inject
-	public BookmarkDaoImpl(final Logger logger, final IdGenerator idGenerator, final Provider<Bookmark> provider) {
+	public BookmarkDaoImpl(final Logger logger, final IdGenerator idGenerator, final Provider<BookmarkBean> provider) {
 		super(logger, idGenerator, provider);
 	}
 
@@ -54,8 +54,8 @@ public class BookmarkDaoImpl extends DaoBase<Bookmark> implements BookmarkDao {
 		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Kino - Mainz - Cinestar"));
 	}
 
-	protected Bookmark createBookmark(final String url, final String name) {
-		final Bookmark bookmark = create();
+	protected BookmarkBean createBookmark(final String url, final String name) {
+		final BookmarkBean bookmark = create();
 		bookmark.setUrl(url);
 		bookmark.setName(name);
 		return bookmark;
