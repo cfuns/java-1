@@ -19,3 +19,5 @@ mail/target
 mail_test/target
 storage/target
 storage_test/target
+search/target
+search_test/target

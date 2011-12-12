@@ -53,6 +53,8 @@
 		<module>mail_test</module>
 		<module>storage</module>
 		<module>storage_test</module>
+		<module>search</module>
+		<module>search_test</module>
 	</modules>
 	<build>
 		<resources>
