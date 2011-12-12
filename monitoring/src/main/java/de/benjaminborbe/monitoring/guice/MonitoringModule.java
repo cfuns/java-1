@@ -9,6 +9,7 @@ import de.benjaminborbe.monitoring.check.CheckLinker;
 import de.benjaminborbe.monitoring.check.CheckRegistry;
 import de.benjaminborbe.monitoring.check.CheckRegistryImpl;
 import de.benjaminborbe.monitoring.check.SimpleCheck;
+import de.benjaminborbe.monitoring.check.TcpCheckBuilder;
 import de.benjaminborbe.monitoring.check.UrlCheckBuilder;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
@@ -24,5 +25,6 @@ public class MonitoringModule extends AbstractModule {
 		bind(CheckRegistry.class).to(CheckRegistryImpl.class).in(Singleton.class);
 		requestStaticInjection(CheckLinker.class);
 		requestStaticInjection(UrlCheckBuilder.class);
+		requestStaticInjection(TcpCheckBuilder.class);
 	}
 }
