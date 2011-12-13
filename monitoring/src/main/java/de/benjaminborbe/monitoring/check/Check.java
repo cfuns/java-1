@@ -2,7 +2,7 @@ package de.benjaminborbe.monitoring.check;
 
 public interface Check {
 
-	boolean check();
+	CheckResult check();
 
-	String getMessage();
+	String getDescription();
 }

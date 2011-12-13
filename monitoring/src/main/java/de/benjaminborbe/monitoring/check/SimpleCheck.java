@@ -11,12 +11,12 @@ public class SimpleCheck implements Check {
 	}
 
 	@Override
-	public boolean check() {
-		return true;
+	public CheckResult check() {
+		return new CheckResultImpl(this, true, null);
 	}
 
 	@Override
-	public String getMessage() {
-		return "allways true";
+	public String getDescription() {
+		return "Simple Check. Return allways true";
 	}
 }

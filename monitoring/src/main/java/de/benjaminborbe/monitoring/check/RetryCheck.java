@@ -13,18 +13,20 @@ public class RetryCheck implements Check {
 	}
 
 	@Override
-	public boolean check() {
+	public CheckResult check() {
+		CheckResult result = null;
 		for (int i = 0; i < retryLimit; ++i) {
-			if (check.check()) {
-				return true;
+			result = check.check();
+			if (result.isSuccess()) {
+				return result;
 			}
 		}
-		return false;
+		return result;
 	}
 
 	@Override
-	public String getMessage() {
-		return check.getMessage();
+	public String getDescription() {
+		return check.getDescription();
 	}
 
 }

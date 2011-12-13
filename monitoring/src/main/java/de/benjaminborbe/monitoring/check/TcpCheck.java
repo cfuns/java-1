@@ -24,17 +24,26 @@ public class TcpCheck implements Check {
 	}
 
 	@Override
-	public boolean check() {
+	public CheckResult check() {
 		Socket socket = null;
 		try {
 			socket = new Socket();
 			final SocketAddress endpoint = new InetSocketAddress(hostname, port);
 			socket.connect(endpoint, TIMEOUT);
-			return socket.isConnected();
+			if (socket.isConnected()) {
+				final String msg = "connected successful to " + hostname + ":" + port;
+				logger.debug(msg);
+				return new CheckResultImpl(this, true, msg);
+			}
+			else {
+				final String msg = "connecting failed to " + hostname + ":" + port;
+				logger.warn(msg);
+				return new CheckResultImpl(this, false, msg);
+			}
 		}
 		catch (final Exception e) {
 			logger.warn("check tcp-connect to " + hostname + ":" + port + " failed");
-			return false;
+			return new CheckResultImpl(this, false, "connecting failed to " + hostname + ":" + port);
 		}
 		finally {
 			try {
@@ -42,12 +51,13 @@ public class TcpCheck implements Check {
 					socket.close();
 			}
 			catch (final IOException e) {
+				logger.debug("IOException while close socket", e);
 			}
 		}
 	}
 
 	@Override
-	public String getMessage() {
+	public String getDescription() {
 		return "TCP-Check host: " + hostname + ":" + port;
 	}
 

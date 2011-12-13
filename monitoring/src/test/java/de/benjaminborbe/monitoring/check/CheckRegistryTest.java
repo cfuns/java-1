@@ -9,6 +9,13 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class CheckRegistryTest extends TestCase {
 
+	public void testSingleton() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
+		final CheckRegistry o1 = injector.getInstance(CheckRegistry.class);
+		final CheckRegistry o2 = injector.getInstance(CheckRegistry.class);
+		assertTrue(o1 == o2);
+	}
+
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
 		final CheckRegistry o = injector.getInstance(CheckRegistry.class);

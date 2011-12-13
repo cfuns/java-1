@@ -15,6 +15,7 @@ import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.monitoring.check.Check;
 import de.benjaminborbe.monitoring.check.CheckRegistry;
+import de.benjaminborbe.monitoring.check.CheckResult;
 
 @Singleton
 public class MonitoringCronJob implements CronJob {
@@ -43,7 +44,7 @@ public class MonitoringCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.debug("MonitoringCronJob.execute()");
-		final Collection<Check> failedChecks = callChecks();
+		final Collection<CheckResult> failedChecks = callChecks();
 
 		// send mail
 		if (failedChecks.size() > 0) {
@@ -63,16 +64,17 @@ public class MonitoringCronJob implements CronJob {
 		logger.debug("MonitoringCronJob.execute() - finished");
 	}
 
-	protected Collection<Check> callChecks() {
-		final Set<Check> failedChecks = new HashSet<Check>();
+	protected Collection<CheckResult> callChecks() {
+		final Set<CheckResult> failedChecks = new HashSet<CheckResult>();
 		for (final Check check : checkRegistry.getAll()) {
 			try {
-				if (check.check()) {
+				final CheckResult result = check.check();
+				if (result.isSuccess()) {
 					logger.debug("[OK] " + check.getClass().getSimpleName());
 				}
 				else {
 					logger.warn("[FAIL] " + check.getClass().getSimpleName());
-					failedChecks.add(check);
+					failedChecks.add(result);
 				}
 			}
 			catch (final Exception e) {
@@ -82,12 +84,12 @@ public class MonitoringCronJob implements CronJob {
 		return failedChecks;
 	}
 
-	protected Mail buildMail(final Collection<Check> failedChecks) {
+	protected Mail buildMail(final Collection<CheckResult> failedChecks) {
 		final StringBuffer content = new StringBuffer();
 		content.append("Checks failed: " + failedChecks.size());
 		content.append("\n");
-		for (final Check check : failedChecks) {
-			content.append("[FAIL] " + check.getMessage());
+		for (final CheckResult check : failedChecks) {
+			content.append("[FAIL] " + check.getDescription() + " - " + check.getMessage());
 			content.append("\n");
 		}
 		final String from = "bborbe@seibert-media.net";

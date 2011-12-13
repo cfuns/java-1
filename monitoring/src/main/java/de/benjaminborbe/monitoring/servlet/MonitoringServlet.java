@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.monitoring.check.Check;
 import de.benjaminborbe.monitoring.check.CheckRegistry;
+import de.benjaminborbe.monitoring.check.CheckResult;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
 
 @Singleton
@@ -39,7 +40,8 @@ public class MonitoringServlet extends HttpServlet {
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("monitoring checks started");
 		for (final Check check : checkRegistry.getAll()) {
-			out.println((check.check() ? "[OK] " : "[FAIL] ") + check.getMessage());
+			final CheckResult result = check.check();
+			out.println((result.isSuccess() ? "[OK] " : "[FAIL] ") + check.getDescription() + " - " + result.getMessage());
 		}
 		out.println("monitoring checks finished");
 	}

@@ -39,33 +39,37 @@ public class UrlCheck implements Check {
 	}
 
 	@Override
-	public boolean check() {
+	public CheckResult check() {
 		try {
 			final URL url = new URL(urlString);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
 			logger.debug("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {
-				logger.warn("downloaded " + url + " slow");
-				return false;
+				final String msg = "timeout while downloading url: " + url;
+				logger.warn(msg);
+				return new CheckResultImpl(this, false, msg);
 			}
 			final String content = getContent(result);
 			if (!checkTitle(content)) {
-				logger.warn("cannot find title " + titleMatch + " in content of " + url);
-				return false;
+				final String msg = "cannot find title " + titleMatch + " in content of " + url;
+				logger.warn(msg);
+				return new CheckResultImpl(this, false, msg);
 			}
 			if (!checkContent(content)) {
-				logger.warn("cannot find string " + contentMatch + " in content of " + url);
-				return false;
+				final String msg = "cannot find string " + contentMatch + " in content of " + url;
+				logger.warn(msg);
+				return new CheckResultImpl(this, false, msg);
 			}
-			return true;
+			final String msg = "download url successful " + url;
+			return new CheckResultImpl(this, true, msg);
 		}
 		catch (final MalformedURLException e) {
 			logger.warn("MalformedURLException", e);
-			return false;
+			return new CheckResultImpl(this, false, "MalformedURLException");
 		}
 		catch (final IOException e) {
 			logger.warn("IOException", e);
-			return false;
+			return new CheckResultImpl(this, false, "IOException");
 		}
 	}
 
@@ -90,7 +94,7 @@ public class UrlCheck implements Check {
 	}
 
 	@Override
-	public String getMessage() {
+	public String getDescription() {
 		return "check url: " + urlString + " titleMatch: " + titleMatch + " contentMatch: " + contentMatch;
 	}
 

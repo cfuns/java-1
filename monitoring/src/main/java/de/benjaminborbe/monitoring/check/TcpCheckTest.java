@@ -13,12 +13,14 @@ public class TcpCheckTest extends TestCase {
 		// success
 		{
 			final TcpCheck check = new TcpCheck(logger, "www.google.de", 80);
-			assertTrue(check.check());
+			final CheckResult result = check.check();
+			assertTrue(result.isSuccess());
 		}
 		// fail
 		{
 			final TcpCheck check = new TcpCheck(logger, "www.google.de", 1337);
-			assertFalse(check.check());
+			final CheckResult result = check.check();
+			assertFalse(result.isSuccess());
 		}
 	}
 }
