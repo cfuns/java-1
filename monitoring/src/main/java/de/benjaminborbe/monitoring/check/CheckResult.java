@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface CheckResult extends Serializable {
 
-	Check check();
+	Check getCheck();
 
 	boolean isSuccess();
 

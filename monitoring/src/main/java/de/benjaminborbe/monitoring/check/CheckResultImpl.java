@@ -32,8 +32,24 @@ public class CheckResultImpl implements CheckResult {
 	}
 
 	@Override
-	public Check check() {
+	public Check getCheck() {
 		return check;
 	}
 
+	@Override
+	public String toString() {
+		final StringBuffer content = new StringBuffer();
+		if (isSuccess()) {
+			content.append("[OK] ");
+		}
+		else {
+			content.append("[FAIL] ");
+		}
+		content.append(getCheck().getClass().getSimpleName());
+		content.append(" - ");
+		content.append(getDescription());
+		content.append(" - ");
+		content.append(getMessage());
+		return content.toString();
+	}
 }

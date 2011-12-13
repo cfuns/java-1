@@ -40,8 +40,9 @@ public class MonitoringServlet extends HttpServlet {
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("monitoring checks started");
 		for (final Check check : checkRegistry.getAll()) {
-			final CheckResult result = check.check();
-			out.println((result.isSuccess() ? "[OK] " : "[FAIL] ") + check.getDescription() + " - " + result.getMessage());
+			final CheckResult checkResult = check.check();
+			logger.debug(checkResult.toString());
+			out.println(checkResult.toString());
 		}
 		out.println("monitoring checks finished");
 	}

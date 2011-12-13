@@ -68,13 +68,13 @@ public class MonitoringCronJob implements CronJob {
 		final Set<CheckResult> failedChecks = new HashSet<CheckResult>();
 		for (final Check check : checkRegistry.getAll()) {
 			try {
-				final CheckResult result = check.check();
-				if (result.isSuccess()) {
-					logger.debug("[OK] " + check.getClass().getSimpleName());
+				final CheckResult checkResult = check.check();
+				if (checkResult.isSuccess()) {
+					logger.debug(checkResult.toString());
 				}
 				else {
-					logger.warn("[FAIL] " + check.getClass().getSimpleName());
-					failedChecks.add(result);
+					logger.warn(checkResult.toString());
+					failedChecks.add(checkResult);
 				}
 			}
 			catch (final Exception e) {
@@ -88,8 +88,8 @@ public class MonitoringCronJob implements CronJob {
 		final StringBuffer content = new StringBuffer();
 		content.append("Checks failed: " + failedChecks.size());
 		content.append("\n");
-		for (final CheckResult check : failedChecks) {
-			content.append("[FAIL] " + check.getDescription() + " - " + check.getMessage());
+		for (final CheckResult checkResult : failedChecks) {
+			content.append(checkResult.toString());
 			content.append("\n");
 		}
 		final String from = "bborbe@seibert-media.net";
