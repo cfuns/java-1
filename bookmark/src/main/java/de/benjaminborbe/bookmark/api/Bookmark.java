@@ -6,4 +6,6 @@ public interface Bookmark {
 
 	String getUrl();
 
+	String getDescription();
+
 }

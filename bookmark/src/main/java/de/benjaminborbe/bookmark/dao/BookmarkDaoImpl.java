@@ -12,6 +12,8 @@ import de.benjaminborbe.tools.util.IdGenerator;
 @Singleton
 public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDao {
 
+	private static final String DEFAULT_DESCRIPTION = "-";
+
 	@Inject
 	public BookmarkDaoImpl(final Logger logger, final IdGenerator idGenerator, final Provider<BookmarkBean> provider) {
 		super(logger, idGenerator, provider);
@@ -19,21 +21,25 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 
 	@Override
 	protected void init() {
-		// extern
-		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
-		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
-		save(createBookmark("http://phpmyadmin/", "Local - phpMyAdmin"));
+		// internal
 		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring"));
 		save(createBookmark("/bb/gwt/Home.html", "Local - BB - GWT"));
+		save(createBookmark("/bb/search", "Local - BB - Search"));
+
+		// extern
+		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
+
+		// local
+		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
+		save(createBookmark("http://phpmyadmin/", "Local - phpMyAdmin"));
+		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Local - ActiveMQ - JMS"));
 
 		// 20ft devel
 		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance"));
 		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel"));
-		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Twentyfeet - Devel - ActiveMQ - JMS"));
 		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
 		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997",
 				"Twentyfeet - Devel - App in Developermode"));
-		save(createBookmark("http://nexus.rp.seibert-media.net/", "Twentyfeet - Nexus"));
 
 		// 20ft live
 		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live"));
@@ -50,15 +56,21 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Wiki"));
 		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins"));
 		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog"));
+		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus"));
 
 		// Kino
 		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Kino - Mainz - Cinestar"));
 	}
 
 	protected BookmarkBean createBookmark(final String url, final String name) {
+		return createBookmark(url, name, DEFAULT_DESCRIPTION);
+	}
+
+	protected BookmarkBean createBookmark(final String url, final String name, final String description) {
 		final BookmarkBean bookmark = create();
 		bookmark.setUrl(url);
 		bookmark.setName(name);
+		bookmark.setDescription(description);
 		return bookmark;
 	}
 

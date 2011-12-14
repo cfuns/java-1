@@ -13,6 +13,8 @@ public class BookmarkBean implements Entity, Bookmark {
 
 	private String url;
 
+	private String description;
+
 	@Override
 	public String getName() {
 		return name;
@@ -39,5 +41,14 @@ public class BookmarkBean implements Entity, Bookmark {
 	@Override
 	public Long getId() {
 		return id;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 }

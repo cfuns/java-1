@@ -19,6 +19,8 @@ import de.benjaminborbe.search.api.SearchServiceComponent;
 @Singleton
 public class BookmarkSearchService implements SearchServiceComponent {
 
+	private static final String SEARCH_TYPE = "Bookmark";
+
 	private final Logger logger;
 
 	private final BookmarkService bookmarkService;
@@ -49,7 +51,7 @@ public class BookmarkSearchService implements SearchServiceComponent {
 
 	protected SearchResult mapBookmark(final Bookmark bookmark) throws MalformedURLException {
 		final URL url = buildUrl(bookmark.getUrl());
-		return new SearchResultImpl(bookmark.getName(), url);
+		return new SearchResultImpl(SEARCH_TYPE, bookmark.getName(), url, bookmark.getDescription());
 	}
 
 	protected URL buildUrl(final String url) throws MalformedURLException {

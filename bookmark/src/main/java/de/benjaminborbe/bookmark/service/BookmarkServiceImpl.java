@@ -61,7 +61,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> searchBookmarks(final String search) {
-		final String[] parts = search.split("\\s+");
+		final String[] parts = search != null ? search.split("\\s+") : new String[0];
 
 		final List<Match> matches = new ArrayList<Match>();
 		for (final Bookmark bookmark : getBookmarks()) {
