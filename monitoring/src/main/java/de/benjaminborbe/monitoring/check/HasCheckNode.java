@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.check;
 
-public interface HasCheck {
+public interface HasCheckNode extends Node {
 
 	Check getCheck();
 }

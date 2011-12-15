@@ -13,9 +13,9 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.monitoring.check.Check;
-import de.benjaminborbe.monitoring.check.CheckRegistry;
 import de.benjaminborbe.monitoring.check.CheckResult;
+import de.benjaminborbe.monitoring.check.NodeChecker;
+import de.benjaminborbe.monitoring.check.RootNode;
 
 @Singleton
 public class MonitoringCronJob implements CronJob {
@@ -25,15 +25,22 @@ public class MonitoringCronJob implements CronJob {
 
 	private final Logger logger;
 
-	private final CheckRegistry checkRegistry;
-
 	private final MailService mailService;
 
+	private final RootNode rootNode;
+
+	private final NodeChecker nodeChecker;
+
 	@Inject
-	public MonitoringCronJob(final Logger logger, final CheckRegistry checkRegistry, final MailService mailService) {
+	public MonitoringCronJob(
+			final Logger logger,
+			final MailService mailService,
+			final RootNode rootNode,
+			final NodeChecker nodeChecker) {
 		this.logger = logger;
-		this.checkRegistry = checkRegistry;
 		this.mailService = mailService;
+		this.rootNode = rootNode;
+		this.nodeChecker = nodeChecker;
 	}
 
 	@Override
@@ -65,10 +72,11 @@ public class MonitoringCronJob implements CronJob {
 	}
 
 	protected Collection<CheckResult> callChecks() {
+		final Collection<CheckResult> results = nodeChecker.checkNode(rootNode);
+
 		final Set<CheckResult> failedChecks = new HashSet<CheckResult>();
-		for (final Check check : checkRegistry.getAll()) {
+		for (final CheckResult checkResult : results) {
 			try {
-				final CheckResult checkResult = check.check();
 				if (checkResult.isSuccess()) {
 					logger.debug(checkResult.toString());
 				}
@@ -78,7 +86,7 @@ public class MonitoringCronJob implements CronJob {
 				}
 			}
 			catch (final Exception e) {
-				logger.warn("Check failed: " + check.getClass().getSimpleName(), e);
+				logger.warn("Check failed: " + checkResult.getCheck().getClass().getSimpleName(), e);
 			}
 		}
 		return failedChecks;
