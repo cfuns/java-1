@@ -12,7 +12,6 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
 import de.benjaminborbe.index.guice.IndexModules;
-import de.benjaminborbe.index.servlet.GoServlet;
 import de.benjaminborbe.index.servlet.IndexServlet;
 import de.benjaminborbe.index.servlet.TwentyfeetPerformanceServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -34,9 +33,6 @@ public class IndexActivator implements BundleActivator {
 
 	@Inject
 	private TwentyfeetPerformanceServlet twentyfeetPerformanceServlet;
-
-	@Inject
-	private GoServlet goServlet;
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -117,11 +113,9 @@ public class IndexActivator implements BundleActivator {
 
 			// resources
 			service.registerResources("/js", "js", null);
-			service.registerResources("/css", "css", null);
 
 			// servlet
 			service.registerServlet("/", indexServlet, null, null);
-			service.registerServlet("/go", goServlet, null, null);
 			service.registerServlet("/twentyfeetperformance", twentyfeetPerformanceServlet, null, null);
 		}
 		catch (final Exception e) {
@@ -137,7 +131,6 @@ public class IndexActivator implements BundleActivator {
 
 		// servlet
 		service.unregisterServlet(indexServlet);
-		service.unregisterServlet(goServlet);
 		service.unregisterServlet(twentyfeetPerformanceServlet);
 	}
 

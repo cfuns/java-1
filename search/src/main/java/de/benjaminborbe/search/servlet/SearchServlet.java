@@ -45,23 +45,28 @@ public class SearchServlet extends HttpServlet {
 		logger.debug("service");
 		response.setContentType("text/html");
 		final PrintWriter out = response.getWriter();
+		final String contextPath = request.getContextPath();
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		out.println("<html>");
-		printHeader(out);
-		printBody(out, searchQuery);
+		printHeader(out, contextPath);
+		printBody(out, contextPath, searchQuery);
 		printFooter(out);
 		out.println("</html>");
 	}
 
-	protected void printBody(final PrintWriter out, final String searchQuery) {
-		printSearchForm(out, searchQuery);
+	protected void printBody(final PrintWriter out, final String contextPath, final String searchQuery) {
+		printSearchForm(out, contextPath, searchQuery);
 		final List<SearchResult> results = searchService.search(searchQuery, MAX_RESULTS);
 		printSearchResults(out, results);
 	}
 
-	protected void printHeader(final PrintWriter out) {
+	protected void printHeader(final PrintWriter out, final String contextPath) {
 		out.println("<head>");
 		out.println("<title>" + TITLE + "</title>");
+		out.println("<link href=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css\" rel=\"stylesheet\" type=\"text/css\" />");
+		out.println("<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js\"></script>");
+		out.println("<script src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js\"></script>");
+		out.println("<link href=\"" + contextPath + "/search/css/style.css\" rel=\"stylesheet\" type=\"text/css\" />");
 		out.println("</head>");
 	}
 
@@ -77,12 +82,22 @@ public class SearchServlet extends HttpServlet {
 		}
 	}
 
-	protected void printSearchForm(final PrintWriter out, final String searchQuery) {
+	protected void printSearchForm(final PrintWriter out, final String contextPath, final String searchQuery) {
+		final String searchSuggestUrl = contextPath + "/search/suggest";
 		out.println("<form method=\"GET\" action=\"\">");
-		out.println("<input type=\"text\" name=\"q\" value=\""
+		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\""
 				+ (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
 		out.println("<input type=\"submit\" value=\"search\" />");
 		out.println("</form>");
+		out.println("<script language=\"javascript\">");
+		out.println("$(document).ready(function() {");
+		out.println("$('input#searchBox').autocomplete({");
+		out.println("source: '" + searchSuggestUrl + "',");
+		out.println("method: 'POST',");
+		out.println("minLength: 1,");
+		out.println("});");
+		out.println("});");
+		out.println("</script>");
 	}
 
 	protected void printSearchResult(final PrintWriter out, final SearchResult result) {
@@ -90,15 +105,19 @@ public class SearchServlet extends HttpServlet {
 		final String type = result.getType();
 		final String title = result.getTitle();
 		final String description = result.getDescription();
-		out.println("<div>");
+		out.println("<div class=\"searchResult\">");
+		out.println("<div class=\"title\">");
 		out.println("<a href=\"" + url + "\" target=\"_blank\">");
 		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(title));
 		out.println("</a>");
-		out.println("<br/>");
+		out.println("</div>");
+		out.println("<div class=\"link\">");
 		out.println("<a href=\"" + url + "\" target=\"_blank\">" + StringEscapeUtils.escapeHtml(url) + "</a>");
-		out.println("<br/>");
+		out.println("</div>");
+		out.println("<div class=\"description\">");
 		out.println(StringEscapeUtils.escapeHtml(description));
 		out.println("<br/>");
+		out.println("</div>");
 		out.println("</div>");
 	}
 }

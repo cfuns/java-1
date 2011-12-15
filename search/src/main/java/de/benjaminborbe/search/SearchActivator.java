@@ -14,14 +14,19 @@ import com.google.inject.servlet.GuiceFilter;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
 import de.benjaminborbe.search.servlet.SearchServlet;
+import de.benjaminborbe.search.servlet.SearchSuggestServlet;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class SearchActivator implements BundleActivator {
 
+	private static final String PREFIX = "/search";
+
 	private Injector injector;
 
 	private ServiceTracker extHttpServiceTracker;
+
+	private ServiceTracker searchServiceTracker;
 
 	@Inject
 	private Logger logger;
@@ -32,7 +37,8 @@ public class SearchActivator implements BundleActivator {
 	@Inject
 	private SearchServlet searchServlet;
 
-	private ServiceTracker searchServiceTracker;
+	@Inject
+	private SearchSuggestServlet searchSuggestServlet;
 
 	@Inject
 	private SearchServiceComponentRegistry searchServiceComponentRegistry;
@@ -141,8 +147,13 @@ public class SearchActivator implements BundleActivator {
 			// filter
 			service.registerFilter(guiceFilter, ".*", null, 999, null);
 
+			// resources
+			service.registerResources(PREFIX + "/js", "js", null);
+			service.registerResources(PREFIX + "/css", "css", null);
+
 			// servlet
-			service.registerServlet("/search", searchServlet, null, null);
+			service.registerServlet(PREFIX, searchServlet, null, null);
+			service.registerServlet(PREFIX + "/suggest", searchSuggestServlet, null, null);
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);
@@ -157,6 +168,6 @@ public class SearchActivator implements BundleActivator {
 
 		// servlet
 		service.unregisterServlet(searchServlet);
+		service.unregisterServlet(searchSuggestServlet);
 	}
-
 }

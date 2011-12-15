@@ -58,8 +58,11 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog"));
 		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus"));
 
-		// Kino
-		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Kino - Mainz - Cinestar"));
+		// Movie
+		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar"));
+		save(createBookmark("http://www.filmstarts.de/", "Movie - Review - Filmstarts"));
+		save(createBookmark("http://rogerebert.suntimes.com/", "Movie - Review - Roger Ebert"));
+		save(createBookmark("http://imdb.com/", "Movie - Review - Imdb"));
 	}
 
 	protected BookmarkBean createBookmark(final String url, final String name) {

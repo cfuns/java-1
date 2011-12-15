@@ -19,7 +19,6 @@ import com.google.inject.servlet.GuiceFilter;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
 import de.benjaminborbe.bookmark.service.BookmarkSearchService;
-import de.benjaminborbe.bookmark.servlet.BookmarkSearchServlet;
 import de.benjaminborbe.bookmark.servlet.BookmarkServlet;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -46,9 +45,6 @@ public class BookmarkActivator implements BundleActivator {
 
 	@Inject
 	private BookmarkSearchService bookmarkSearchService;
-
-	@Inject
-	private BookmarkSearchServlet bookmarkSearchServlet;
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
@@ -149,7 +145,6 @@ public class BookmarkActivator implements BundleActivator {
 
 			// servlet
 			service.registerServlet("/bookmark", bookmarkServlet, null, null);
-			service.registerServlet("/bookmarksearch", bookmarkSearchServlet, null, null);
 		}
 		catch (final Exception e) {
 			logger.error("error during service activation", e);
@@ -164,7 +159,6 @@ public class BookmarkActivator implements BundleActivator {
 
 		// servlet
 		service.unregisterServlet(bookmarkServlet);
-		service.unregisterServlet(bookmarkSearchServlet);
 	}
 
 }
