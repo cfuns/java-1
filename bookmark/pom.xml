@@ -63,14 +63,11 @@
 			<artifactId>peaberry</artifactId>
 			<version>${peaberry.version}</version>
 		</dependency>
-
-
-		
 		<dependency>
-	<groupId>com.google.inject.extensions</groupId>
-	<artifactId>guice-servlet</artifactId>
-	<version>${guice.version}</version>
-</dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -125,7 +122,7 @@
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.search</artifactId>
 			<version>${project.version}</version>

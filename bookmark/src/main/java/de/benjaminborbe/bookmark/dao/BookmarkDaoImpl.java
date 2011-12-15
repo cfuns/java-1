@@ -37,6 +37,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		// 20ft devel
 		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance"));
 		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel"));
+		save(createBookmark("http://localhost:8180/app/admin", "Twentyfeet - Devel - Admin"));
 		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
 		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997",
 				"Twentyfeet - Devel - App in Developermode"));

@@ -2,20 +2,14 @@ package de.benjaminborbe.monitoring.check;
 
 import com.google.inject.Inject;
 
-public class InternetNode extends HasChildNodesImpl implements HasChildNodes, HasCheckNode {
-
-	private Check check;
+public class InternetNode extends TreeNode implements HasChildNodes, HasPreconditionCheckNode {
 
 	@Inject
 	public InternetNode(final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder) {
-		// node-check
-		{
-			final String hostname = "www.google.de";
-			final int port = 80;
-			check = tcpCheckBuilder.buildCheck(hostname, port);
-		}
+		super(tcpCheckBuilder.buildCheck("www.google.de", 80));
 
 		// childs-checks
+
 		{
 			final String url = "https://www.twentyfeet.com/index.xhtml";
 			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
@@ -59,8 +53,4 @@ public class InternetNode extends HasChildNodesImpl implements HasChildNodes, Ha
 		}
 	}
 
-	@Override
-	public Check getCheck() {
-		return check;
-	}
 }

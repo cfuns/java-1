@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.search.util.SearchUtil;
 
 @Singleton
 public class SearchSuggestServlet extends HttpServlet {
@@ -31,10 +32,13 @@ public class SearchSuggestServlet extends HttpServlet {
 
 	private final SearchService searchService;
 
+	private final SearchUtil searchUtil;
+
 	@Inject
-	public SearchSuggestServlet(final Logger logger, final SearchService searchService) {
+	public SearchSuggestServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.searchService = searchService;
+		this.searchUtil = searchUtil;
 	}
 
 	@Override
@@ -44,7 +48,8 @@ public class SearchSuggestServlet extends HttpServlet {
 		response.setContentType("application/json");
 		final PrintWriter out = response.getWriter();
 		final String queryString = request.getParameter(PARAMETER_SEARCH);
-		final List<SearchResult> searchResults = searchService.search(queryString, MAX_RESULTS);
+		final String[] words = searchUtil.buildSearchParts(queryString);
+		final List<SearchResult> searchResults = searchService.search(words, MAX_RESULTS);
 		logger.debug("found " + searchResults.size() + " searchResults");
 		final JSONArray obj = buildJson(searchResults);
 		obj.writeJSONString(out);

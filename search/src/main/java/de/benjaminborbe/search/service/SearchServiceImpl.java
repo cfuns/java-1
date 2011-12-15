@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -28,17 +29,18 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResult> search(final String queryString, final int maxResults) {
-		logger.debug("search queryString: " + queryString);
+	public List<SearchResult> search(final String[] words, final int maxResults) {
+		logger.debug("search words: " + StringUtils.join(words, ","));
 
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final Collection<SearchServiceComponent> searchServiceComponents = searchServiceComponentRegistry.getAll();
 		logger.debug("searchServiceComponents " + searchServiceComponents.size());
 		for (final SearchServiceComponent searchServiceComponent : searchServiceComponents) {
 			logger.debug("search in searchServiceComponent: " + searchServiceComponent.getClass().getSimpleName());
-			result.addAll(searchServiceComponent.search(queryString, maxResults));
+			result.addAll(searchServiceComponent.search(words, maxResults));
 		}
 		logger.debug("found " + result.size() + " results");
 		return result;
 	}
+
 }

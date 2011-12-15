@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -32,10 +33,10 @@ public class BookmarkSearchService implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final String queryString, final int maxResults) {
-		logger.debug("search: queryString: " + queryString + " maxResults: " + maxResults);
+	public List<SearchResult> search(final String[] words, final int maxResults) {
+		logger.debug("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
-		final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(queryString);
+		final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(words);
 		final int max = Math.min(maxResults, bookmarks.size());
 		for (int i = 0; i < max; ++i) {
 			try {

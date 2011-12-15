@@ -19,7 +19,7 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final String search) {
+	public List<Bookmark> searchBookmarks(final String[] words) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -29,4 +29,5 @@ public class BookmarkServiceTest extends TestCase {
 			assertNotNull(bookmark.getName());
 		}
 	}
+
 }

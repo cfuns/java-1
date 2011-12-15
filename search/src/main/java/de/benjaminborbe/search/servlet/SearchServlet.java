@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.search.util.SearchUtil;
 
 @Singleton
 public class SearchServlet extends HttpServlet {
@@ -33,10 +34,13 @@ public class SearchServlet extends HttpServlet {
 
 	private static final String TITLE = "Search";
 
+	private final SearchUtil searchUtil;
+
 	@Inject
-	public SearchServlet(final Logger logger, final SearchService searchService) {
+	public SearchServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.searchService = searchService;
+		this.searchUtil = searchUtil;
 	}
 
 	@Override
@@ -56,7 +60,8 @@ public class SearchServlet extends HttpServlet {
 
 	protected void printBody(final PrintWriter out, final String contextPath, final String searchQuery) {
 		printSearchForm(out, contextPath, searchQuery);
-		final List<SearchResult> results = searchService.search(searchQuery, MAX_RESULTS);
+		final String[] words = searchUtil.buildSearchParts(searchQuery);
+		final List<SearchResult> results = searchService.search(words, MAX_RESULTS);
 		printSearchResults(out, results);
 	}
 
