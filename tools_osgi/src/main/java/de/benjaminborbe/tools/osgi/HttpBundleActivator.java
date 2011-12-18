@@ -30,44 +30,31 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 		this.prefix = "/" + name.toLowerCase();
 	}
 
-	protected void serviceRemoved(final ExtHttpService service) {
-		for (final FilterInfo filterInfo : getFilterInfos()) {
-			final Filter filter = filterInfo.getFilter();
-			service.unregisterFilter(filter);
-		}
-		for (final ServletInfo servletInfo : getServletInfos()) {
-			final Servlet servlet = servletInfo.getServlet();
-			service.unregisterServlet(servlet);
-		}
-		for (final ResourceInfo resourceInfo : getResouceInfos()) {
-			final String alias = resourceInfo.getAlias();
-			service.unregister(alias);
-		}
-	}
-
 	protected void serviceAdded(final ExtHttpService service) {
 		for (final FilterInfo filterInfo : getFilterInfos()) {
 			final HttpContext context = filterInfo.getContext();
 			final Filter filter = filterInfo.getFilter();
-			final String pattern = filterInfo.getPattern();
+			final String pattern = cleanupPattern(prefix + "/" + filterInfo.getPattern());
 			@SuppressWarnings("rawtypes")
 			final Dictionary initParams = filterInfo.getInitParams();
 			final int ranking = filterInfo.getRanking();
 			try {
-				service.registerFilter(filter, prefix + "/" + pattern, initParams, ranking, context);
+				logger.debug("registerFilter for pattern: " + pattern);
+				service.registerFilter(filter, pattern, initParams, ranking, context);
 			}
 			catch (final ServletException e) {
 				logger.error("ServletException", e);
 			}
 		}
 		for (final ServletInfo servletInfo : getServletInfos()) {
-			final String alias = servletInfo.getAlias();
+			final String alias = cleanupAlias(prefix + "/" + servletInfo.getAlias());
 			final Servlet servlet = servletInfo.getServlet();
 			@SuppressWarnings("rawtypes")
 			final Dictionary initparams = servletInfo.getInitParams();
 			final HttpContext context = servletInfo.getContext();
 			try {
-				service.registerServlet(cleanupAlias(prefix + alias), servlet, initparams, context);
+				logger.debug("registerServlet for alias: " + alias);
+				service.registerServlet(alias, servlet, initparams, context);
 			}
 			catch (final ServletException e) {
 				logger.error("ServletException", e);
@@ -86,6 +73,21 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			catch (final NamespaceException e) {
 				logger.error("NamespaceException", e);
 			}
+		}
+	}
+
+	protected void serviceRemoved(final ExtHttpService service) {
+		for (final FilterInfo filterInfo : getFilterInfos()) {
+			final Filter filter = filterInfo.getFilter();
+			service.unregisterFilter(filter);
+		}
+		for (final ServletInfo servletInfo : getServletInfos()) {
+			final Servlet servlet = servletInfo.getServlet();
+			service.unregisterServlet(servlet);
+		}
+		for (final ResourceInfo resourceInfo : getResouceInfos()) {
+			final String alias = resourceInfo.getAlias();
+			service.unregister(alias);
 		}
 	}
 
@@ -136,4 +138,9 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 		else
 			return alias.replaceAll("//", "/").replaceFirst("/$", "");
 	}
+
+	protected String cleanupPattern(final String pattern) {
+		return pattern.replaceAll("//", "/").replaceFirst("/$", "");
+	}
+
 }
