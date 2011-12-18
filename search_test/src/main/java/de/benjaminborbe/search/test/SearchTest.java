@@ -45,7 +45,6 @@ public class SearchTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
-
 	}
 
 }

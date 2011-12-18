@@ -25,6 +25,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring"));
 		save(createBookmark("/bb/gwt/Home.html", "Local - BB - GWT"));
 		save(createBookmark("/bb/search", "Local - BB - Search"));
+		save(createBookmark("/bb/search/components", "Local - BB - Search Components"));
 
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));

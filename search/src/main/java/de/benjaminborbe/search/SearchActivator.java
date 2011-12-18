@@ -10,6 +10,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
+import de.benjaminborbe.search.servlet.SearchServiceComponentsServlet;
 import de.benjaminborbe.search.servlet.SearchServlet;
 import de.benjaminborbe.search.servlet.SearchSuggestServlet;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
@@ -23,6 +24,9 @@ public class SearchActivator extends HttpBundleActivator {
 	public SearchActivator() {
 		super("search");
 	}
+
+	@Inject
+	private SearchServiceComponentsServlet searchServiceComponentsServlet;
 
 	@Inject
 	private SearchServlet searchServlet;
@@ -81,6 +85,7 @@ public class SearchActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(searchServlet, "/"));
 		result.add(new ServletInfo(searchSuggestServlet, "/suggest"));
+		result.add(new ServletInfo(searchServiceComponentsServlet, "/components"));
 		return result;
 	}
 

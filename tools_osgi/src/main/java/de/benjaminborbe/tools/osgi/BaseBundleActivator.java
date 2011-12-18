@@ -108,7 +108,10 @@ public abstract class BaseBundleActivator implements BundleActivator {
 
 	protected abstract Modules getModules(BundleContext context);
 
-	protected abstract Collection<ServiceTracker> getServiceTrackers(BundleContext context);
+	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+		final Set<ServiceTracker> result = new HashSet<ServiceTracker>();
+		return result;
+	}
 
 	protected void onStarted() {
 	}

@@ -5,6 +5,8 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class BookmarkTest extends OSGiTestCase {
@@ -46,6 +48,20 @@ public class BookmarkTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 
+	}
+
+	public void testGetBookmarkService() {
+		final Object serviceObject = getServiceObject(BookmarkService.class.getName(), null);
+		final BookmarkService service = (BookmarkService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.bookmark.service.BookmarkServiceImpl", service.getClass().getName());
+	}
+
+	public void testGetSearchServiceComponent() {
+		final Object serviceObject = getServiceObject(SearchServiceComponent.class.getName(), null);
+		final SearchServiceComponent service = (SearchServiceComponent) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl", service.getClass().getName());
 	}
 
 }

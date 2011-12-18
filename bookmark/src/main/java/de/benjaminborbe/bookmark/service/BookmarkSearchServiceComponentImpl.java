@@ -18,7 +18,7 @@ import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 
 @Singleton
-public class BookmarkSearchService implements SearchServiceComponent {
+public class BookmarkSearchServiceComponentImpl implements SearchServiceComponent {
 
 	private static final String SEARCH_TYPE = "Bookmark";
 
@@ -27,7 +27,7 @@ public class BookmarkSearchService implements SearchServiceComponent {
 	private final BookmarkService bookmarkService;
 
 	@Inject
-	public BookmarkSearchService(final Logger logger, final BookmarkService bookmarkService) {
+	public BookmarkSearchServiceComponentImpl(final Logger logger, final BookmarkService bookmarkService) {
 		this.logger = logger;
 		this.bookmarkService = bookmarkService;
 	}

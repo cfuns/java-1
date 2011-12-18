@@ -9,8 +9,9 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
-import de.benjaminborbe.bookmark.service.BookmarkSearchService;
+import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl;
 import de.benjaminborbe.bookmark.servlet.BookmarkServlet;
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -26,7 +27,7 @@ public class BookmarkActivator extends HttpBundleActivator {
 	private BookmarkService bookmarkService;
 
 	@Inject
-	private BookmarkSearchService bookmarkSearchService;
+	private BookmarkSearchServiceComponentImpl bookmarkSearchService;
 
 	public BookmarkActivator() {
 		super("bookmark");
@@ -46,7 +47,7 @@ public class BookmarkActivator extends HttpBundleActivator {
 		{
 			final Properties props = new Properties();
 			props.put("name", bookmarkSearchService.getClass().getName());
-			result.add(new ServiceInfo(BookmarkSearchService.class, bookmarkSearchService, props));
+			result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, props));
 		}
 		return result;
 	}
