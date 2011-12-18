@@ -15,4 +15,5 @@ public class SlashActivatorTest extends TestCase {
 		final SlashActivator o = injector.getInstance(SlashActivator.class);
 		assertNotNull(o);
 	}
+
 }

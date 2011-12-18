@@ -115,4 +115,8 @@ public abstract class BaseBundleActivator implements BundleActivator {
 
 	protected void onStopped() {
 	}
+
+	public Injector getInjector() {
+		return injector;
+	}
 }

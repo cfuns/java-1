@@ -81,6 +81,7 @@ public class HttpBundleActivatorTest extends TestCase {
 		EasyMock.replay(context);
 		httpBundleActivator.start(context);
 
+		assertEquals("/", httpBundleActivator.cleanupAlias("/"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("/search"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("//search"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("/search/"));
@@ -110,7 +111,7 @@ public class HttpBundleActivatorTest extends TestCase {
 		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
 				.andReturn(value);
 
-		EasyMock.expect(context.registerService(name.getClass().getName(), service, properties)).andReturn(null);
+		EasyMock.expect(context.registerService(TestService.class.getName(), service, properties)).andReturn(null);
 		EasyMock.replay(context);
 		httpBundleActivator.start(context);
 

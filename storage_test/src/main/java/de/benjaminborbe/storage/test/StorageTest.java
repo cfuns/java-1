@@ -8,6 +8,7 @@ import org.osgi.framework.ServiceRegistration;
 import de.benjaminborbe.storage.api.CacheStorageService;
 import de.benjaminborbe.storage.api.PersistentStorageService;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class StorageTest extends OSGiTestCase {
 
@@ -28,25 +29,25 @@ public class StorageTest extends OSGiTestCase {
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
 		assertNotNull(extHttpService);
 		// zum start: keine Dienste registriert
-		assertEquals(0, extHttpService.registerFilterCallCounter);
-		assertEquals(0, extHttpService.registerServletCallCounter);
-		assertEquals(0, extHttpService.unregisterFilterCallCounter);
-		assertEquals(0, extHttpService.unregisterServletCallCounter);
+		assertEquals(0, extHttpService.getRegisterFilterCallCounter());
+		assertEquals(0, extHttpService.getRegisterServletCallCounter());
+		assertEquals(0, extHttpService.getUnregisterFilterCallCounter());
+		assertEquals(0, extHttpService.getUnregisterServletCallCounter());
 		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(),
 				extHttpService, null);
 		assertNotNull(serviceRegistration);
 		// nach start: Dienste vorhanden?
-		assertTrue("no filters registered", extHttpService.registerFilterCallCounter > 0);
-		assertTrue("no servlets registered.", extHttpService.registerServletCallCounter > 0);
-		assertEquals(0, extHttpService.unregisterFilterCallCounter);
-		assertEquals(0, extHttpService.unregisterServletCallCounter);
+		assertTrue("no filters registered", extHttpService.getRegisterFilterCallCounter() > 0);
+		assertTrue("no servlets registered.", extHttpService.getRegisterServletCallCounter() > 0);
+		assertEquals(0, extHttpService.getUnregisterFilterCallCounter());
+		assertEquals(0, extHttpService.getUnregisterServletCallCounter());
 
 		// do unregister
 		serviceRegistration.unregister();
 
-		assertTrue("no servlets unregistered", extHttpService.unregisterServletCallCounter > 0);
-		assertEquals(extHttpService.registerServletCallCounter, extHttpService.registerServletCallCounter);
-		assertEquals(extHttpService.registerFilterCallCounter, extHttpService.unregisterFilterCallCounter);
+		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
+		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
+		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 
 	}
 

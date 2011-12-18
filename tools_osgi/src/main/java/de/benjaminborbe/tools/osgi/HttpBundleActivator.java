@@ -131,6 +131,9 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 	}
 
 	protected String cleanupAlias(final String alias) {
-		return alias.replaceAll("//", "/").replaceFirst("/$", "");
+		if ("/".equals(alias))
+			return alias;
+		else
+			return alias.replaceAll("//", "/").replaceFirst("/$", "");
 	}
 }
