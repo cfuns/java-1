@@ -57,6 +57,8 @@
 		<module>search_test</module>
 		<module>bookmark</module>
 		<module>bookmark_test</module>
+		<module>slash</module>
+		<module>slash_test</module>
 	</modules>
 	<build>
 		<resources>

@@ -28,6 +28,10 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
+		save(createBookmark("http://kleinanzeigen.ebay.de/", "Ebay Kleinanzeigen"));
+		save(createBookmark("http://confluence.rocketnews.de", "Rocketnews - Confluence - Wiki"));
+		save(createBookmark("http://www.harteslicht.com", "Harteslicht"));
+		save(createBookmark("http://www.benjamin-borbe.de", "Benjamin Borbe"));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
@@ -54,7 +58,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 
 		// seibert-media
 		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker"));
-		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Wiki"));
+		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Confluence - Wiki"));
 		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins"));
 		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog"));
 		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus"));

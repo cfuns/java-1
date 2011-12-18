@@ -8,8 +8,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceMock;
-import de.benjaminborbe.tools.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.mock.LogServiceMock;
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 
 public class MonitoringOsgiModuleMock extends AbstractModule {
 

@@ -1,38 +1,28 @@
 package de.benjaminborbe.search;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleActivator;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceFilter;
-
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
 import de.benjaminborbe.search.servlet.SearchServlet;
 import de.benjaminborbe.search.servlet.SearchSuggestServlet;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServletInfo;
 
-public class SearchActivator implements BundleActivator {
+public class SearchActivator extends HttpBundleActivator {
 
-	private static final String PREFIX = "/search";
-
-	private Injector injector;
-
-	private ServiceTracker extHttpServiceTracker;
-
-	private ServiceTracker searchServiceTracker;
-
-	@Inject
-	private Logger logger;
-
-	@Inject
-	private GuiceFilter guiceFilter;
+	public SearchActivator() {
+		super("search");
+	}
 
 	@Inject
 	private SearchServlet searchServlet;
@@ -44,31 +34,11 @@ public class SearchActivator implements BundleActivator {
 	private SearchServiceComponentRegistry searchServiceComponentRegistry;
 
 	@Override
-	public void start(final BundleContext context) throws Exception {
-		try {
-			getInjector(context);
-			injector.injectMembers(this);
-
-			// create serviceTracker for ExtHttpService
-			extHttpServiceTracker = new ServiceTracker(context, ExtHttpService.class.getName(), null) {
-
-				@Override
-				public Object addingService(final ServiceReference ref) {
-					final Object service = super.addingService(ref);
-					serviceAdded((ExtHttpService) service);
-					return service;
-				}
-
-				@Override
-				public void removedService(final ServiceReference ref, final Object service) {
-					serviceRemoved((ExtHttpService) service);
-					super.removedService(ref, service);
-				}
-			};
-			extHttpServiceTracker.open();
-
-			// create serviceTracker for CronJob
-			searchServiceTracker = new ServiceTracker(context, SearchServiceComponent.class.getName(), null) {
+	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		// create serviceTracker for CronJob
+		{
+			final ServiceTracker serviceTracker = new ServiceTracker(context, SearchServiceComponent.class.getName(), null) {
 
 				@Override
 				public Object addingService(final ServiceReference ref) {
@@ -83,20 +53,9 @@ public class SearchActivator implements BundleActivator {
 					super.removedService(ref, service);
 				}
 			};
-			searchServiceTracker.open();
+			serviceTrackers.add(serviceTracker);
 		}
-		catch (final Exception e) {
-			if (logger != null) {
-				logger.error("starting: " + this.getClass().getName() + " failed: " + e.toString(), e);
-			}
-			// fallback if injector start fails!
-			else {
-				e.printStackTrace();
-				System.out.println("starting: " + this.getClass().getName() + " failed: " + e.toString());
-			}
-			throw e;
-		}
-
+		return serviceTrackers;
 	}
 
 	protected void serviceRemoved(final SearchServiceComponent service) {
@@ -110,64 +69,23 @@ public class SearchActivator implements BundleActivator {
 	}
 
 	@Override
-	public void stop(final BundleContext context) throws Exception {
-		try {
-			final Injector injector = getInjector(context);
-			injector.injectMembers(this);
-			logger.info("stopping: " + this.getClass().getName() + " ...");
-
-			// close tracker
-			extHttpServiceTracker.close();
-
-			logger.info("stopping: " + this.getClass().getName() + " done");
-		}
-		catch (final Exception e) {
-			if (logger != null) {
-				logger.error("stopping: " + this.getClass().getName() + " failed: " + e.toString(), e);
-			}
-			// fallback if injector start fails!
-			else {
-				e.printStackTrace();
-				System.out.println("stopping: " + this.getClass().getName() + " failed: " + e.toString());
-			}
-			throw e;
-		}
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo("/js", "js"));
+		return result;
 	}
 
-	private Injector getInjector(final BundleContext context) {
-		if (injector == null)
-			injector = GuiceInjectorBuilder.getInjector(new SearchModules(context));
-		return injector;
+	@Override
+	protected Collection<ServletInfo> getServletInfos() {
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(searchServlet, "/"));
+		result.add(new ServletInfo(searchSuggestServlet, "/suggest"));
+		return result;
 	}
 
-	private void serviceAdded(final ExtHttpService service) {
-		logger.debug("Activator.serviceAdded(ExtHttpService)");
-		try {
-
-			// filter
-			service.registerFilter(guiceFilter, ".*", null, 999, null);
-
-			// resources
-			service.registerResources(PREFIX + "/js", "js", null);
-			service.registerResources(PREFIX + "/css", "css", null);
-
-			// servlet
-			service.registerServlet(PREFIX, searchServlet, null, null);
-			service.registerServlet(PREFIX + "/suggest", searchSuggestServlet, null, null);
-		}
-		catch (final Exception e) {
-			logger.error("error during service activation", e);
-		}
-	}
-
-	private void serviceRemoved(final ExtHttpService service) {
-		logger.debug("Activator.serviceRemoved(ExtHttpService)");
-
-		// filter
-		service.unregisterFilter(guiceFilter);
-
-		// servlet
-		service.unregisterServlet(searchServlet);
-		service.unregisterServlet(searchSuggestServlet);
+	@Override
+	protected Modules getModules(final BundleContext context) {
+		return new SearchModules(context);
 	}
 }

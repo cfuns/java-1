@@ -14,13 +14,13 @@ public class BookmarkServiceMock implements BookmarkService {
 
 	@Override
 	public List<Bookmark> getBookmarks() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<Bookmark> searchBookmarks(final String[] words) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

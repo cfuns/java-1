@@ -1,6 +1,8 @@
 package de.benjaminborbe.index.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +29,8 @@ public class IndexServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
-		// response.setContentType("text/html");
-		// final PrintWriter out = response.getWriter();
-		// out.println("/");
-		final String target = request.getContextPath() + "/search";
-		logger.debug("redirect to target: " + target);
-		response.sendRedirect(target);
+		response.setContentType("text/plain");
+		final PrintWriter out = response.getWriter();
+		out.println("Index");
 	}
 }

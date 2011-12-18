@@ -10,6 +10,26 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 
 		// childs-checks
 
+		// tcp-checks
+		{
+			final String hostname = "test.twentyfeet.com";
+			final int port = 22;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(hostname, port)));
+		}
+		{
+			// git.rocketnews.de
+			final String hostname = "77.244.108.206";
+			final int port = 22;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(hostname, port)));
+		}
+		{
+			// www.rocketnews.de
+			final String hostname = "77.244.108.198";
+			final int port = 22;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(hostname, port)));
+		}
+
+		// url-checks
 		{
 			final String url = "https://www.twentyfeet.com/index.xhtml";
 			final String titleMatch = "TwentyFeet - Social Media Monitoring &amp; Ego tracking";
@@ -52,5 +72,4 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(url, titleMatch, contentMatch)));
 		}
 	}
-
 }

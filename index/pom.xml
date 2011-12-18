@@ -40,7 +40,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
+						<Export-Package>de.benjaminborbe.index.api.*</Export-Package>
 						<Bundle-Activator>de.benjaminborbe.index.IndexActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.index.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
@@ -63,14 +63,11 @@
 			<artifactId>peaberry</artifactId>
 			<version>${peaberry.version}</version>
 		</dependency>
-
-
-		
 		<dependency>
-	<groupId>com.google.inject.extensions</groupId>
-	<artifactId>guice-servlet</artifactId>
-	<version>${guice.version}</version>
-</dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -111,11 +108,6 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1</version>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -124,12 +116,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-				<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.bookmark</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.util.SearchUtil;
+import de.benjaminborbe.tools.html.Target;
 
 @Singleton
 public class SearchServlet extends HttpServlet {
@@ -33,6 +34,8 @@ public class SearchServlet extends HttpServlet {
 	private static final int MAX_RESULTS = 20;
 
 	private static final String TITLE = "Search";
+
+	private static final Target target = Target.SELF;
 
 	private final SearchUtil searchUtil;
 
@@ -112,12 +115,12 @@ public class SearchServlet extends HttpServlet {
 		final String description = result.getDescription();
 		out.println("<div class=\"searchResult\">");
 		out.println("<div class=\"title\">");
-		out.println("<a href=\"" + url + "\" target=\"_blank\">");
+		out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
 		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(title));
 		out.println("</a>");
 		out.println("</div>");
 		out.println("<div class=\"link\">");
-		out.println("<a href=\"" + url + "\" target=\"_blank\">" + StringEscapeUtils.escapeHtml(url) + "</a>");
+		out.println("<a href=\"" + url + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(url) + "</a>");
 		out.println("</div>");
 		out.println("<div class=\"description\">");
 		out.println(StringEscapeUtils.escapeHtml(description));

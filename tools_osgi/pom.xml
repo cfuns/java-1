@@ -60,5 +60,10 @@
 			<version>${felix.version.http}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

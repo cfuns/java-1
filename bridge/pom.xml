@@ -13,8 +13,25 @@
 		<finalName>bridge</finalName>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<mode>both</mode>
+					<path>/</path>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<id>copy-bundles</id>
@@ -22,7 +39,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>org.apache.felix.http.bridge,org.apache.felix.metatype,org.apache.felix.webconsole,org.apache.felix.prefs,org.apache.felix.scr,org.apache.felix.configadmin,org.apache.felix.log,org.apache.felix.shell.remote,org.apache.felix.shell,org.apache.felix.bundlerepository,org.osgi.service.obr,de.benjaminborbe.index,de.benjaminborbe.timetracker,de.benjaminborbe.gwt,de.benjaminborbe.cron,de.benjaminborbe.monitoring,de.benjaminborbe.mail,de.benjaminborbe.storage,de.benjaminborbe.search,de.benjaminborbe.bookmark</includeArtifactIds>
+							<includeArtifactIds>org.apache.felix.http.bridge,org.apache.felix.metatype,org.apache.felix.webconsole,org.apache.felix.prefs,org.apache.felix.scr,org.apache.felix.configadmin,org.apache.felix.log,org.apache.felix.shell.remote,org.apache.felix.shell,org.apache.felix.bundlerepository,org.osgi.service.obr,de.benjaminborbe.index,de.benjaminborbe.timetracker,de.benjaminborbe.gwt,de.benjaminborbe.cron,de.benjaminborbe.monitoring,de.benjaminborbe.mail,de.benjaminborbe.storage,de.benjaminborbe.search,de.benjaminborbe.bookmark,de.benjaminborbe.slash</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
 						</configuration>
@@ -32,6 +49,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
 				<configuration>
 					<webResources>
 						<resource>
@@ -93,6 +111,16 @@
 			<artifactId>org.apache.felix.log</artifactId>
 			<version>1.0.0</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>javax.servlet</artifactId>
+					<groupId>org.apache.felix</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
@@ -209,6 +237,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.bookmark</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+				<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.slash</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

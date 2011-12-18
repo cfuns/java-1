@@ -6,8 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.mock.LogServiceMock;
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 
 public class GwtServerOsgiModuleMock extends AbstractModule {
 

@@ -6,8 +6,8 @@ import java.util.Collection;
 import com.google.inject.Module;
 
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.mock.PeaberryModuleMock;
-import de.benjaminborbe.tools.mock.ServletModuleMock;
+import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;
+import de.benjaminborbe.tools.osgi.mock.ServletModuleMock;
 
 public class TimetrackerModulesMock implements Modules {
 

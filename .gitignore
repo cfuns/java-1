@@ -23,3 +23,5 @@ search/target
 search_test/target
 bookmark/target
 bookmark_test/target
+slash/target
+slash_test/target

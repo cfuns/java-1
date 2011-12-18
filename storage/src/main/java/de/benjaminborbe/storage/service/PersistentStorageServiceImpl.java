@@ -114,7 +114,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 		try {
 			storageConnection.open();
 
-			// TODO in DB search
+			// OLDDOin DB search
 			final List<String> list = storageDaoUtil.list(config.getKeySpace(), columnFamily);
 			for (final String id : list) {
 				if (id.startsWith(prefix)) {

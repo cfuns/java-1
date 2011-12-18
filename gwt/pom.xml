@@ -54,7 +54,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
+						<Export-Package>de.benjaminborbe.gwt.api.*</Export-Package>
 						<Bundle-Activator>de.benjaminborbe.gwt.server.GwtServerActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.gwt.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
