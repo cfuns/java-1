@@ -33,6 +33,10 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("http://confluence.rocketnews.de", "Rocketnews - Confluence - Wiki"));
 		save(createBookmark("http://www.harteslicht.com", "Harteslicht"));
 		save(createBookmark("http://www.benjamin-borbe.de", "Benjamin Borbe"));
+		save(createBookmark("http://tomtom.de/gettingstarted", "TomTom"));
+		save(createBookmark("http://www.guenstiger.de", "Guenstiger"));
+		save(createBookmark("http://geizhals.at/deutschland/", "Geizhals"));
+		save(createBookmark("http://www.google.de/?hl=en", "Google"));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
