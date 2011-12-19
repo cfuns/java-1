@@ -8,8 +8,8 @@ public class TwentyfeetNode extends HasChildNodesImpl implements HasChildNodes {
 	public TwentyfeetNode(final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder) {
 		// tcp-checks
 		{
-			final String name = "TCP-Check on test.twentyfeet.com:22";
-			final String hostname = "test.twentyfeet.com";
+			final String name = "TCP-Check on test1.twentyfeet.com:22";
+			final String hostname = "test1.twentyfeet.com";
 			final int port = 22;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
