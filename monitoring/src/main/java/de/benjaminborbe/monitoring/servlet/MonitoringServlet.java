@@ -1,7 +1,11 @@
 package de.benjaminborbe.monitoring.servlet;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +23,14 @@ import de.benjaminborbe.tools.io.FlushPrintWriter;
 
 @Singleton
 public class MonitoringServlet extends HttpServlet {
+
+	private final class CheckResultComparator implements Comparator<CheckResult> {
+
+		@Override
+		public int compare(final CheckResult a, final CheckResult b) {
+			return a.toString().compareTo(b.toString());
+		}
+	}
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -47,7 +59,8 @@ public class MonitoringServlet extends HttpServlet {
 	}
 
 	protected void printCheckWithRootNode(final FlushPrintWriter out) {
-		final Collection<CheckResult> checkResults = nodeChecker.checkNode(rootNode);
+		final List<CheckResult> checkResults = new ArrayList<CheckResult>(nodeChecker.checkNode(rootNode));
+		Collections.sort(checkResults, new CheckResultComparator());
 		for (final CheckResult checkResult : checkResults) {
 			logger.debug(checkResult.toString());
 			out.println(checkResult.toString());
