@@ -55,6 +55,26 @@ public class UrlCheckTest extends TestCase {
 			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check3", urlString, titleMatch, contentMatch);
 			assertTrue(urlCheck.checkTitle("<title>TestTitle</title>"));
 		}
+		{
+			final String titleMatch = "TestTitle";
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check4", urlString, titleMatch, contentMatch);
+			assertTrue(urlCheck.checkTitle("<title>bla TestTitle bla</title>"));
+		}
 	}
 
+	public void testCheckTitle() {
+		assertTrue(checkTitle("a", "<title>a</title>"));
+		assertTrue(checkTitle("a", "<title> a </title>"));
+		assertTrue(checkTitle("a", "<title>\na\n</title>"));
+		assertFalse(checkTitle("a", "<title>b</title>"));
+		assertTrue(checkTitle("a", "<title>fooa</title>"));
+		assertTrue(checkTitle("a", "<title>afoo</title>"));
+	}
+
+	protected boolean checkTitle(final String titleMatch, final String content) {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		final UrlCheck urlCheck = new UrlCheck(logger, null, null, null, titleMatch, null);
+		return urlCheck.checkTitle(content);
+	}
 }

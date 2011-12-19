@@ -94,7 +94,10 @@ public class UrlCheck implements Check {
 	}
 
 	protected boolean checkTitle(final String content) {
-		return titleMatch == null || content.indexOf("<title>" + titleMatch + "</title>") != -1;
+		final int posStart = content.indexOf("<title>");
+		final int posEnd = content.indexOf("</title>");
+		final String title = content.substring(posStart, posEnd);
+		return titleMatch == null || title.indexOf(titleMatch) != -1;
 	}
 
 	@Override

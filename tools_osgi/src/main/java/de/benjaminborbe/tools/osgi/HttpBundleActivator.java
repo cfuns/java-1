@@ -34,7 +34,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 		for (final FilterInfo filterInfo : getFilterInfos()) {
 			final HttpContext context = filterInfo.getContext();
 			final Filter filter = filterInfo.getFilter();
-			final String pattern = cleanupPattern(prefix + "/" + filterInfo.getPattern());
+			final String pattern = cleanupPattern(prefix + filterInfo.getPattern());
 			@SuppressWarnings("rawtypes")
 			final Dictionary initParams = filterInfo.getInitParams();
 			final int ranking = filterInfo.getRanking();

@@ -8,8 +8,10 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModules;
+import de.benjaminborbe.mail.servlet.MailLogFilter;
 import de.benjaminborbe.mail.servlet.MailServlet;
 import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -21,6 +23,9 @@ public class MailActivator extends HttpBundleActivator {
 
 	@Inject
 	private MailService mailService;
+
+	@Inject
+	private MailLogFilter mailLogFilter;
 
 	public MailActivator() {
 		super("mail");
@@ -42,6 +47,13 @@ public class MailActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(MailService.class, mailService));
+		return result;
+	}
+
+	@Override
+	protected Collection<FilterInfo> getFilterInfos() {
+		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
+		result.add(new FilterInfo(mailLogFilter, ".*", 1));
 		return result;
 	}
 

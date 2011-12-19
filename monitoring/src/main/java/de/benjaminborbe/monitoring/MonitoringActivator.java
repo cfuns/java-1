@@ -25,7 +25,7 @@ public class MonitoringActivator extends HttpBundleActivator {
 	private MonitoringCronJob monitoringCronJob;
 
 	public MonitoringActivator() {
-		super("monitor");
+		super("monitoring");
 	}
 
 	@Override
