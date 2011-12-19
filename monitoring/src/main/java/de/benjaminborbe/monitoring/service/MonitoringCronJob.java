@@ -21,7 +21,7 @@ import de.benjaminborbe.monitoring.check.RootNode;
 public class MonitoringCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 * * * * ?";
+	private static final String SCHEDULE_EXPRESSION = "0 */5 * * * ?";
 
 	private final Logger logger;
 
