@@ -19,8 +19,8 @@ public class UrlCheckBuilder {
 
 	}
 
-	public Check buildCheck(final String urlString, final String titleMatch, final String contentMatch) {
-		return new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+	public Check buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch) {
+		return new UrlCheck(logger, httpDownloader, name, urlString, titleMatch, contentMatch);
 	}
 
 }

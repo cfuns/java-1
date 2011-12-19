@@ -12,15 +12,17 @@ public class TcpCheckTest extends TestCase {
 		EasyMock.replay(logger);
 		// success
 		{
-			final TcpCheck check = new TcpCheck(logger, "www.google.de", 80);
+			final TcpCheck check = new TcpCheck(logger, "Check1", "www.google.de", 80);
 			final CheckResult result = check.check();
 			assertTrue(result.isSuccess());
+			assertEquals("Check1", check.getName());
 		}
 		// fail
 		{
-			final TcpCheck check = new TcpCheck(logger, "www.google.de", 1337);
+			final TcpCheck check = new TcpCheck(logger, "Check2", "www.google.de", 1337);
 			final CheckResult result = check.check();
 			assertFalse(result.isSuccess());
+			assertEquals("Check1", check.getName());
 		}
 	}
 }

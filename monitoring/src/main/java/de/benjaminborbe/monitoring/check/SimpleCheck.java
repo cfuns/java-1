@@ -19,4 +19,9 @@ public class SimpleCheck implements Check {
 	public String getDescription() {
 		return "Simple Check. Return allways true";
 	}
+
+	@Override
+	public String getName() {
+		return "SimpleCheck";
+	}
 }

@@ -17,8 +17,11 @@ public class TcpCheck implements Check {
 
 	private final Logger logger;
 
-	public TcpCheck(final Logger logger, final String hostname, final int port) {
+	private final String name;
+
+	public TcpCheck(final Logger logger, String name, final String hostname, final int port) {
 		this.logger = logger;
+		this.name = name;
 		this.hostname = hostname;
 		this.port = port;
 	}
@@ -59,6 +62,10 @@ public class TcpCheck implements Check {
 	@Override
 	public String getDescription() {
 		return "TCP-Check host: " + hostname + ":" + port;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

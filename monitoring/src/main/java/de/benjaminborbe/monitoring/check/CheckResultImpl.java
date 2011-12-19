@@ -45,11 +45,14 @@ public class CheckResultImpl implements CheckResult {
 		else {
 			content.append("[FAIL] ");
 		}
-		content.append(getCheck().getClass().getSimpleName());
-		content.append(" - ");
-		content.append(getDescription());
+		content.append(getName());
 		content.append(" - ");
 		content.append(getMessage());
 		return content.toString();
+	}
+
+	@Override
+	public String getName() {
+		return check.getName();
 	}
 }

@@ -25,14 +25,18 @@ public class UrlCheck implements Check {
 
 	private final String contentMatch;
 
+	private final String name;
+
 	public UrlCheck(
 			final Logger logger,
 			final HttpDownloader httpDownloader,
+			final String name,
 			final String urlString,
 			final String titleMatch,
 			final String contentMatch) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
+		this.name = name;
 		this.urlString = urlString;
 		this.titleMatch = titleMatch;
 		this.contentMatch = contentMatch;
@@ -96,6 +100,11 @@ public class UrlCheck implements Check {
 	@Override
 	public String getDescription() {
 		return "check url: " + urlString + " titleMatch: " + titleMatch + " contentMatch: " + contentMatch;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

@@ -29,4 +29,9 @@ public class RetryCheck implements Check {
 		return check.getDescription();
 	}
 
+	@Override
+	public String getName() {
+		return check.getName();
+	}
+
 }

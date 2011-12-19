@@ -15,8 +15,8 @@ public class TcpCheckBuilder {
 		this.logger = logger;
 	}
 
-	public Check buildCheck(final String hostname, final int port) {
-		return new TcpCheck(logger, hostname, port);
+	public Check buildCheck(final String name, final String hostname, final int port) {
+		return new TcpCheck(logger, name, hostname, port);
 	}
 
 }

@@ -18,17 +18,17 @@ public class UrlCheckTest extends TestCase {
 		final String titleMatch = null;
 		{
 			final String contentMatch = null;
-			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check1", urlString, titleMatch, contentMatch);
 			assertTrue(urlCheck.checkContent("<h1>Content</h1>"));
 		}
 		{
 			final String contentMatch = "bla";
-			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check2", urlString, titleMatch, contentMatch);
 			assertFalse(urlCheck.checkContent("<h1>Content</h1>"));
 		}
 		{
 			final String contentMatch = "Content";
-			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check3", urlString, titleMatch, contentMatch);
 			assertTrue(urlCheck.checkContent("<h1>Content</h1>"));
 		}
 	}
@@ -42,17 +42,17 @@ public class UrlCheckTest extends TestCase {
 		final String contentMatch = null;
 		{
 			final String titleMatch = null;
-			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check1", urlString, titleMatch, contentMatch);
 			assertTrue(urlCheck.checkTitle("<title>TestTitle</title>"));
 		}
 		{
 			final String titleMatch = "bla";
-			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check2", urlString, titleMatch, contentMatch);
 			assertFalse(urlCheck.checkTitle("<title>TestTitle</title>"));
 		}
 		{
 			final String titleMatch = "TestTitle";
-			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, urlString, titleMatch, contentMatch);
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check3", urlString, titleMatch, contentMatch);
 			assertTrue(urlCheck.checkTitle("<title>TestTitle</title>"));
 		}
 	}

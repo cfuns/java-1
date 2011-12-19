@@ -10,5 +10,7 @@ public interface CheckResult extends Serializable {
 
 	String getMessage();
 
+	String getName();
+
 	String getDescription();
 }
