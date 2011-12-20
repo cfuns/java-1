@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
 
 @Singleton
@@ -32,7 +33,12 @@ public class WorktimeCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.debug("execute WorktimeCronJob");
-		worktimeRecorder.recordWorktime();
+		try {
+			worktimeRecorder.recordWorktime();
+		}
+		catch (final StorageException e) {
+			logger.error("StorageException", e);
+		}
 	}
 
 }

@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.PersistentStorageService;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -50,7 +51,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	}
 
 	@Override
-	public void save(final WorktimeValue worktimeValue) {
+	public void save(final WorktimeValue worktimeValue) throws StorageException {
 		logger.debug("save");
 		final String dateTimeString = calendarUtil.toDateTimeString(worktimeValue.getDate());
 		final String inOffice = String.valueOf(worktimeValue.getInOffice());
@@ -59,11 +60,12 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	}
 
 	@Override
-	public Collection<WorktimeValue> findByDate(final Calendar calendar) {
+	public Collection<WorktimeValue> findByDate(final Calendar calendar) throws StorageException {
 		logger.debug("findByDate");
 		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
-		final String dateString = calendarUtil.toDateTimeString(calendar);
+		final String dateString = calendarUtil.toDateString(calendar);
 		final Collection<String> ids = storageService.findByIdPrefix(COLUMNFAMILY, dateString);
+		logger.debug("found " + ids.size() + " ids for worktime");
 		for (final String id : ids) {
 			final String inOfficeString = storageService.get(COLUMNFAMILY, id, FIELD_IN_OFFICE);
 			final String dateTimeString = storageService.get(COLUMNFAMILY, id, FIELD_DATETIME);
@@ -75,6 +77,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 				logger.error("ParseException", e);
 			}
 		}
+		logger.debug("found " + result.size() + " worktimeValues");
 		return result;
 	}
 }

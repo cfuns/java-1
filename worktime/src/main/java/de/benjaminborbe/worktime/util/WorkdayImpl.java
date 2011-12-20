@@ -10,7 +10,10 @@ public class WorkdayImpl implements Workday {
 
 	private final Calendar end;
 
-	public WorkdayImpl(final Calendar start, final Calendar end) {
+	private final Calendar date;
+
+	public WorkdayImpl(final Calendar date, final Calendar start, final Calendar end) {
+		this.date = date;
 		this.start = start;
 		this.end = end;
 	}
@@ -23,6 +26,11 @@ public class WorkdayImpl implements Workday {
 	@Override
 	public Calendar getEnd() {
 		return end;
+	}
+
+	@Override
+	public Calendar getDate() {
+		return date;
 	}
 
 }

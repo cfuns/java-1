@@ -132,6 +132,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 				list.add(new String(keySlice.getKey(), config.getEncoding()));
 			}
 		}
+		logger.debug("found " + list.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
 		return list;
 	}
 }

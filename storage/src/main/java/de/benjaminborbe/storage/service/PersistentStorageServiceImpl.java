@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.PersistentStorageService;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnection;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
@@ -79,9 +80,12 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	 * id <=> primarykey
 	 * key <=> fieldname
 	 * value <=> fieldvalue
+	 * 
+	 * @throws StorageException
 	 */
 	@Override
-	public void set(final String columnFamily, final String id, final String key, final String value) {
+	public void set(final String columnFamily, final String id, final String key, final String value)
+			throws StorageException {
 		final Map<String, String> data = new HashMap<String, String>();
 		data.put(key, value);
 		set(columnFamily, id, data);
@@ -93,9 +97,11 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	 * data: multible
 	 * - key <=> fieldname
 	 * - value <=> fieldvalue
+	 * 
+	 * @throws StorageException
 	 */
 	@Override
-	public void set(final String columnFamily, final String id, final Map<String, String> data) {
+	public void set(final String columnFamily, final String id, final Map<String, String> data) throws StorageException {
 		try {
 			storageConnection.open();
 
@@ -103,6 +109,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 		}
 		catch (final Exception e) {
 			logger.debug("Exception", e);
+			throw new StorageException(e);
 		}
 		finally {
 			storageConnection.close();
@@ -110,15 +117,15 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	}
 
 	@Override
-	public Collection<String> findByIdPrefix(final String columnFamily, final String prefix) {
+	public Collection<String> findByIdPrefix(final String columnFamily, final String idPrefix) throws StorageException {
 		final List<String> result = new ArrayList<String>();
 		try {
 			storageConnection.open();
 
-			// OLDDOin DB search
-			final List<String> list = storageDaoUtil.list(config.getKeySpace(), columnFamily);
-			for (final String id : list) {
-				if (id.startsWith(prefix)) {
+			// TODO search in database
+			final List<String> idList = storageDaoUtil.list(config.getKeySpace(), columnFamily);
+			for (final String id : idList) {
+				if (id.startsWith(idPrefix)) {
 					result.add(id);
 				}
 			}
@@ -126,6 +133,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 		}
 		catch (final Exception e) {
 			logger.debug("Exception", e);
+			throw new StorageException(e);
 		}
 		finally {
 			storageConnection.close();
@@ -134,7 +142,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	}
 
 	@Override
-	public List<String> list(final String columnFamily) {
+	public List<String> list(final String columnFamily) throws StorageException {
 		final List<String> result = new ArrayList<String>();
 		try {
 			storageConnection.open();
@@ -144,6 +152,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 		}
 		catch (final Exception e) {
 			logger.debug("Exception", e);
+			throw new StorageException(e);
 		}
 		finally {
 			storageConnection.close();

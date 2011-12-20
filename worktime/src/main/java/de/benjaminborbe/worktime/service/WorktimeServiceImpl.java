@@ -2,6 +2,7 @@ package de.benjaminborbe.worktime.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,26 +10,56 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.util.WorkdayImpl;
+import de.benjaminborbe.worktime.util.WorktimeStorageService;
+import de.benjaminborbe.worktime.util.WorktimeValue;
 
 @Singleton
 public class WorktimeServiceImpl implements WorktimeService {
 
 	private final Logger logger;
 
+	private final WorktimeStorageService worktimeStorageService;
+
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
-	public WorktimeServiceImpl(final Logger logger) {
+	public WorktimeServiceImpl(
+			final Logger logger,
+			final WorktimeStorageService worktimeStorageService,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
+		this.worktimeStorageService = worktimeStorageService;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
-	public List<Workday> getTimes(final int days) {
+	public List<Workday> getTimes(final int days) throws StorageException {
 		logger.debug("get times for " + days + " days");
 		final List<Workday> result = new ArrayList<Workday>();
-		result.add(new WorkdayImpl(Calendar.getInstance(), Calendar.getInstance()));
+
+		// TODO search for all days
+		final Calendar date = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
+		final Collection<WorktimeValue> workTimeValues = worktimeStorageService.findByDate(date);
+		Calendar first = null;
+		Calendar last = null;
+		for (final WorktimeValue workTimeValue : workTimeValues) {
+			if (first == null || first.after(workTimeValue.getDate()))
+				first = workTimeValue.getDate();
+			if (last == null || last.before(workTimeValue.getDate()))
+				last = workTimeValue.getDate();
+		}
+
+		result.add(new WorkdayImpl(date, first, last));
 		return result;
 	}
-
 }

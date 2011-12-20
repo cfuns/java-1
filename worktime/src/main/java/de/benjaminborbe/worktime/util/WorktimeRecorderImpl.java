@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
@@ -45,7 +46,7 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 	}
 
 	@Override
-	public void recordWorktime() {
+	public void recordWorktime() throws StorageException {
 		final boolean inOffice = inOffice();
 		logger.debug("inOffice = " + inOffice);
 		final Calendar calendar = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
