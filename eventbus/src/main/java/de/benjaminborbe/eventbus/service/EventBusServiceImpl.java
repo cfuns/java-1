@@ -38,7 +38,7 @@ public class EventBusServiceImpl implements EventBusService {
 			handlers.put((Type<EventHandler>) type, eventHandlers);
 		}
 		eventHandlers.add(handler);
-		// TODO
+		// TODO Implement HandlerRegistration
 		return null;
 	}
 

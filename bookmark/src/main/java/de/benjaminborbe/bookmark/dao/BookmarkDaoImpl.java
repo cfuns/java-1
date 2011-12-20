@@ -22,6 +22,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 	@Override
 	protected void init() {
 		// internal
+		save(createBookmark("/bb/worktime", "Local - BB - Worktime"));
 		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring"));
 		save(createBookmark("/bb/gwt/Home.html", "Local - BB - GWT"));
 		save(createBookmark("/bb/search", "Local - BB - Search"));

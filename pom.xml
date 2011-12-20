@@ -61,6 +61,8 @@
 		<module>slash_test</module>
 		<module>eventbus</module>
 		<module>eventbus_test</module>
+		<module>worktime</module>
+		<module>worktime_test</module>
 	</modules>
 	<build>
 		<resources>
