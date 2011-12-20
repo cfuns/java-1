@@ -1,10 +1,13 @@
 package de.benjaminborbe.tools.util;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class IdGeneratorTest extends TestCase {
+import org.junit.Test;
 
-	public void testNextId() {
+public class IdGeneratorTest {
+
+	@Test
+	public void NextId() {
 		final IdGenerator idGenerator = new IdGeneratorImpl();
 		assertEquals(1l, idGenerator.nextId());
 		assertEquals(2l, idGenerator.nextId());

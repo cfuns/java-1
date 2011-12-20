@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
+
 import de.benjaminborbe.index.guice.IndexModules;
 import de.benjaminborbe.index.servlet.IndexServlet;
 import de.benjaminborbe.index.servlet.RobotsTxtServlet;

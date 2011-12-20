@@ -1,16 +1,18 @@
 package de.benjaminborbe.bookmark.dao;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class BookmarkDaoTest extends TestCase {
+public class BookmarkDaoTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkDao a = injector.getInstance(BookmarkDao.class);
 		final BookmarkDao b = injector.getInstance(BookmarkDao.class);

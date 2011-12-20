@@ -11,10 +11,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.eventbus.api.Event;
+import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventBusService;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
-import de.benjaminborbe.eventbus.api.Event.Type;
 
 @Singleton
 public class EventBusServiceImpl implements EventBusService {

@@ -1,6 +1,8 @@
 package de.benjaminborbe.search.service;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
@@ -8,9 +10,10 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.guice.SearchModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class SearchServiceTest extends TestCase {
+public class SearchServiceTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchService a = injector.getInstance(SearchService.class);
 		final SearchService b = injector.getInstance(SearchService.class);

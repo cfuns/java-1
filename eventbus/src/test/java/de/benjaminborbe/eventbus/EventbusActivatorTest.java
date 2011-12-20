@@ -1,16 +1,18 @@
 package de.benjaminborbe.eventbus;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.eventbus.EventbusActivator;
 import de.benjaminborbe.eventbus.guice.EventbusModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class EventbusActivatorTest extends TestCase {
+public class EventbusActivatorTest {
 
-	public void testInject() {
+	@Test
+	public void Inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventbusActivator o = injector.getInstance(EventbusActivator.class);
 		assertNotNull(o);

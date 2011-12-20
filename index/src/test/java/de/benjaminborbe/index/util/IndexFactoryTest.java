@@ -1,16 +1,21 @@
 package de.benjaminborbe.index.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.lucene.store.Directory;
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
-public class IndexFactoryTest extends TestCase {
+public class IndexFactoryTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexFactory a = injector.getInstance(IndexFactory.class);
 		final IndexFactory b = injector.getInstance(IndexFactory.class);
@@ -19,7 +24,8 @@ public class IndexFactoryTest extends TestCase {
 		assertEquals(a, b);
 	}
 
-	public void testGetIndex() throws Exception {
+	@Test
+	public void GetIndex() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexFactory indexFactory = injector.getInstance(IndexFactory.class);
 		final Directory a1 = indexFactory.getIndex("indexA");

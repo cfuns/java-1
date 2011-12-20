@@ -1,16 +1,18 @@
 package de.benjaminborbe.worktime.servlet;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
-import de.benjaminborbe.worktime.servlet.WorktimeServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 
-public class WorktimeServletTest extends TestCase {
+public class WorktimeServletTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WorktimeModulesMock());
 		final WorktimeServlet a = injector.getInstance(WorktimeServlet.class);
 		final WorktimeServlet b = injector.getInstance(WorktimeServlet.class);

@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
+
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModules;
 import de.benjaminborbe.mail.servlet.MailLogFilter;

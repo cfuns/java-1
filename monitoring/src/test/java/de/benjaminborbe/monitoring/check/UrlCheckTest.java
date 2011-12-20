@@ -1,15 +1,18 @@
 package de.benjaminborbe.monitoring.check;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.easymock.EasyMock;
+import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.util.HttpDownloader;
 
-public class UrlCheckTest extends TestCase {
+public class UrlCheckTest {
 
-	public void testContentMatch() {
+	@Test
+	public void ContentMatch() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
@@ -33,7 +36,8 @@ public class UrlCheckTest extends TestCase {
 		}
 	}
 
-	public void testTitleMatch() {
+	@Test
+	public void TitleMatch() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
@@ -62,7 +66,8 @@ public class UrlCheckTest extends TestCase {
 		}
 	}
 
-	public void testCheckTitle() {
+	@Test
+	public void CheckTitle() {
 		assertTrue(checkTitle("a", "<title>a</title>"));
 		assertTrue(checkTitle("a", "<title> a </title>"));
 		assertTrue(checkTitle("a", "<title>\na\n</title>"));

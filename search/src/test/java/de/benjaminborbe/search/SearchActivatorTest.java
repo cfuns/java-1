@@ -1,16 +1,18 @@
 package de.benjaminborbe.search;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.search.SearchActivator;
 import de.benjaminborbe.search.guice.SearchModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class SearchActivatorTest extends TestCase {
+public class SearchActivatorTest {
 
-	public void testInject() {
+	@Test
+	public void Inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchActivator o = injector.getInstance(SearchActivator.class);
 		assertNotNull(o);

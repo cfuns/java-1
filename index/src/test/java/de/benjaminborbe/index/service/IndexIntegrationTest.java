@@ -1,7 +1,12 @@
 package de.benjaminborbe.index.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.net.URL;
 import java.util.List;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
@@ -10,11 +15,11 @@ import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import junit.framework.TestCase;
 
-public class IndexIntegrationTest extends TestCase {
+public class IndexIntegrationTest {
 
-	public void testInjections() {
+	@Test
+	public void Injections() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexerService indexerService = injector.getInstance(IndexerService.class);
 		assertNotNull(indexerService);
@@ -22,7 +27,8 @@ public class IndexIntegrationTest extends TestCase {
 		assertNotNull(indexSearcherService);
 	}
 
-	public void testIndexAndSearch() throws Exception {
+	@Test
+	public void IndexAndSearch() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexerService indexerService = injector.getInstance(IndexerService.class);
 		assertNotNull(indexerService);

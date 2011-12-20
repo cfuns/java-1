@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
+
 import de.benjaminborbe.gwt.server.guice.GwtServerModules;
-import de.benjaminborbe.gwt.server.servlet.GwtHomeServlet;
 import de.benjaminborbe.gwt.server.servlet.GwtHomeNoCacheJsServlet;
+import de.benjaminborbe.gwt.server.servlet.GwtHomeServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;

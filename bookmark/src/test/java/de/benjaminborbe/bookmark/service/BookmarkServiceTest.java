@@ -1,6 +1,9 @@
 package de.benjaminborbe.bookmark.service;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
@@ -9,9 +12,10 @@ import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class BookmarkServiceTest extends TestCase {
+public class BookmarkServiceTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkService a = injector.getInstance(BookmarkService.class);
 		final BookmarkService b = injector.getInstance(BookmarkService.class);
@@ -20,7 +24,8 @@ public class BookmarkServiceTest extends TestCase {
 		assertEquals(a, b);
 	}
 
-	public void testDescription() {
+	@Test
+	public void Description() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkService a = injector.getInstance(BookmarkService.class);
 		for (final Bookmark bookmark : a.getBookmarks()) {

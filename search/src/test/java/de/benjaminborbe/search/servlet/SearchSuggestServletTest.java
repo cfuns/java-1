@@ -1,14 +1,16 @@
 package de.benjaminborbe.search.servlet;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.easymock.EasyMock;
 import org.json.simple.JSONArray;
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
@@ -16,9 +18,10 @@ import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.guice.SearchModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class SearchSuggestServletTest extends TestCase {
+public class SearchSuggestServletTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchSuggestServlet a = injector.getInstance(SearchSuggestServlet.class);
 		final SearchSuggestServlet b = injector.getInstance(SearchSuggestServlet.class);
@@ -27,7 +30,8 @@ public class SearchSuggestServletTest extends TestCase {
 		assertEquals(a, b);
 	}
 
-	public void testBuildJson() throws Exception {
+	@Test
+	public void BuildJson() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchSuggestServlet searchServlet = injector.getInstance(SearchSuggestServlet.class);
 		final List<SearchResult> bookmarks = new ArrayList<SearchResult>();

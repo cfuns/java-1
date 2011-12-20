@@ -1,7 +1,14 @@
 package de.benjaminborbe.eventbus.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
@@ -11,18 +18,18 @@ import de.benjaminborbe.eventbus.api.EventBusService;
 import de.benjaminborbe.eventbus.guice.EventbusModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-import junit.framework.TestCase;
+public class EventBusServiceTest {
 
-public class EventBusServiceTest extends TestCase {
-
-	public void testInject() {
+	@Test
+	public void Inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventBusService eventBus = injector.getInstance(EventBusService.class);
 		assertNotNull(eventBus);
 		assertEquals(EventBusServiceImpl.class, eventBus.getClass());
 	}
 
-	public void testEventBus() {
+	@Test
+	public void EventBus() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventBusService eventBus = injector.getInstance(EventBusService.class);
 		assertNotNull(eventBus);

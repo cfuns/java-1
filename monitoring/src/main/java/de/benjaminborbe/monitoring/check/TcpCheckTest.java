@@ -1,13 +1,17 @@
 package de.benjaminborbe.monitoring.check;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.easymock.EasyMock;
+import org.junit.Test;
 import org.slf4j.Logger;
 
-import junit.framework.TestCase;
+public class TcpCheckTest {
 
-public class TcpCheckTest extends TestCase {
-
-	public void testCheck() {
+	@Test
+	public void Check() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		// success

@@ -8,6 +8,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Module;
 import com.google.inject.servlet.ServletModule;
+
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 

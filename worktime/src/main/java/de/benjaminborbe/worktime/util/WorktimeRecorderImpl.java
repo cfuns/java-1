@@ -31,6 +31,7 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 	@Override
 	public void recordWorktime() {
 		logger.debug("inOffice = " + inOffice());
+		// TODO bborbe save results
 	}
 
 	protected boolean inOffice() {

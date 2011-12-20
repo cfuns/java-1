@@ -1,11 +1,14 @@
 package de.benjaminborbe.tools.osgi;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
 import org.easymock.EasyMock;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.ServiceListener;
@@ -18,9 +21,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
-import junit.framework.TestCase;
 
-public class HttpBundleActivatorTest extends TestCase {
+public class HttpBundleActivatorTest {
 
 	private final class TestService {
 	}
@@ -53,7 +55,8 @@ public class HttpBundleActivatorTest extends TestCase {
 		}
 	}
 
-	public void testStartStop() throws Exception {
+	@Test
+	public void StartStop() throws Exception {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("startStop");
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
@@ -68,7 +71,8 @@ public class HttpBundleActivatorTest extends TestCase {
 		httpBundleActivator.stop(context);
 	}
 
-	public void testCleanupAlias() throws Exception {
+	@Test
+	public void CleanupAlias() throws Exception {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("cleanupAlias");
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
@@ -88,7 +92,8 @@ public class HttpBundleActivatorTest extends TestCase {
 		assertEquals("/search/suggest", httpBundleActivator.cleanupAlias("//search//suggest/"));
 	}
 
-	public void testServiceAdded() throws Exception {
+	@Test
+	public void ServiceAdded() throws Exception {
 		final Class<?> name = TestService.class;
 		final Object service = new TestService();
 		final Properties properties = new Properties();

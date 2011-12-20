@@ -1,14 +1,16 @@
 package de.benjaminborbe.search.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.lang.StringUtils;
+import org.junit.Test;
 
-public class SearchUtilTest extends TestCase {
+public class SearchUtilTest {
 
-	public void testBookmarkServiceImpl() {
+	@Test
+	public void BookmarkServiceImpl() {
 		final SearchUtil bookmarkService = new SearchUtil();
 		assertEquals(StringUtils.join(Arrays.asList("a").toArray(), ","),
 				StringUtils.join(bookmarkService.buildSearchParts("a"), ","));

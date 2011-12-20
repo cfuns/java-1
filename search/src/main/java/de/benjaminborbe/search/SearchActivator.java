@@ -7,6 +7,7 @@ import java.util.Set;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.search.api.SearchServiceComponent;

@@ -6,7 +6,9 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
+
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
 import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl;

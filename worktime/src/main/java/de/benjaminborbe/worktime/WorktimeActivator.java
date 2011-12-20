@@ -6,15 +6,17 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
-import de.benjaminborbe.worktime.guice.WorktimeModules;
-import de.benjaminborbe.worktime.service.WorktimeCronJob;
-import de.benjaminborbe.worktime.servlet.WorktimeServlet;
+
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.worktime.guice.WorktimeModules;
+import de.benjaminborbe.worktime.service.WorktimeCronJob;
+import de.benjaminborbe.worktime.servlet.WorktimeServlet;
 
 public class WorktimeActivator extends HttpBundleActivator {
 

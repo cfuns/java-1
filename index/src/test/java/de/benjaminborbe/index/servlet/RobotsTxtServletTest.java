@@ -1,15 +1,18 @@
 package de.benjaminborbe.index.servlet;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class RobotsTxtServletTest extends TestCase {
+public class RobotsTxtServletTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final RobotsTxtServlet a = injector.getInstance(RobotsTxtServlet.class);
 		final RobotsTxtServlet b = injector.getInstance(RobotsTxtServlet.class);

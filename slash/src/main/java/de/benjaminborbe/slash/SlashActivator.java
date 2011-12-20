@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
+
 import de.benjaminborbe.slash.guice.SlashModules;
 import de.benjaminborbe.slash.servlet.SlashLogFilter;
 import de.benjaminborbe.slash.servlet.SlashServlet;

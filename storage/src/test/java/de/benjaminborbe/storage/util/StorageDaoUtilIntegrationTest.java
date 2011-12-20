@@ -1,13 +1,15 @@
 package de.benjaminborbe.storage.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.InvalidRequestException;
@@ -16,21 +18,24 @@ import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class StorageDaoUtilIntegrationTest extends TestCase {
+public class StorageDaoUtilIntegrationTest {
 
 	private static final String FIELD_NAME = "keyA";
 
 	private static final String COLUMNFAMILY = "test";
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() {
+
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
@@ -68,8 +73,8 @@ public class StorageDaoUtilIntegrationTest extends TestCase {
 
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
@@ -97,10 +102,10 @@ public class StorageDaoUtilIntegrationTest extends TestCase {
 			connection.close();
 		}
 
-		super.tearDown();
 	}
 
-	public void testCURD() throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
+	@Test
+	public void CURD() throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, InterruptedException {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
@@ -151,7 +156,8 @@ public class StorageDaoUtilIntegrationTest extends TestCase {
 		}
 	}
 
-	public void testList() throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+	@Test
+	public void List() throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 			UnsupportedEncodingException, NotFoundException {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
@@ -191,7 +197,8 @@ public class StorageDaoUtilIntegrationTest extends TestCase {
 		}
 	}
 
-	public void testLongList() throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+	@Test
+	public void LongList() throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 			UnsupportedEncodingException, NotFoundException {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 

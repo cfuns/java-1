@@ -1,16 +1,18 @@
 package de.benjaminborbe.slash.servlet;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.google.inject.Injector;
 
 import de.benjaminborbe.slash.guice.SlashModulesMock;
-import de.benjaminborbe.slash.servlet.SlashServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class SlashServletTest extends TestCase {
+public class SlashServletTest {
 
-	public void testSingleton() {
+	@Test
+	public void Singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SlashModulesMock());
 		final SlashServlet a = injector.getInstance(SlashServlet.class);
 		final SlashServlet b = injector.getInstance(SlashServlet.class);
