@@ -6,6 +6,34 @@ public class LaptopNode extends HasChildNodesImpl implements HasChildNodes {
 
 	@Inject
 	public LaptopNode(final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder) {
+		// memcached
+		{
+			final String name = "TCP-Check on local memcached-server";
+			final String hostname = "localhost";
+			final int port = 11212;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+		// apache
+		{
+			final String name = "TCP-Check on local apache-server";
+			final String hostname = "localhost";
+			final int port = 80;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+		// squid
+		{
+			final String name = "TCP-Check on local squid-server";
+			final String hostname = "localhost";
+			final int port = 3128;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+		// privoxy
+		{
+			final String name = "TCP-Check on local privoxy-server";
+			final String hostname = "localhost";
+			final int port = 8118;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
 		// mysql
 		{
 			final String name = "TCP-Check on local mysql-server";
