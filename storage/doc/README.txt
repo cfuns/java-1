@@ -9,7 +9,13 @@ create keyspace bb;
 use bb;
 
 drop column family data;
-create column family tracking with
+create column family data with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
+drop column family worktime;
+create column family worktime with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;

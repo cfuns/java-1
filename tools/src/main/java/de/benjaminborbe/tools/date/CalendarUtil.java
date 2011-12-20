@@ -17,4 +17,6 @@ public interface CalendarUtil {
 
 	Calendar parseDateTime(final TimeZone timeZone, String dateTime) throws ParseException;
 
+	Calendar now(TimeZone timeZone);
+
 }

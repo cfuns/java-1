@@ -87,4 +87,9 @@ public class CalendarUtilImpl implements CalendarUtil {
 				parseUtil.parseInt(dateParts[2]), parseUtil.parseInt(hourParts[0]), parseUtil.parseInt(hourParts[1]),
 				parseUtil.parseInt(hourParts[2]));
 	}
+
+	@Override
+	public Calendar now(final TimeZone timeZone) {
+		return Calendar.getInstance(timeZone);
+	}
 }
