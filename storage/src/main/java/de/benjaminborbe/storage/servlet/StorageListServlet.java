@@ -1,6 +1,7 @@
 package de.benjaminborbe.storage.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class StorageListServlet extends HttpServlet {
 				out.println("<pre>");
 				final List<String> keys;
 				if (prefix != null) {
-					keys = persistentStorageService.findByIdPrefix(columnFamily, prefix);
+					keys = new ArrayList<String>(persistentStorageService.findByIdPrefix(columnFamily, prefix));
 				}
 				else {
 					keys = persistentStorageService.list(columnFamily);

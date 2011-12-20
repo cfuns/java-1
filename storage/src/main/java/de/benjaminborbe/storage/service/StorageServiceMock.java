@@ -4,16 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import de.benjaminborbe.storage.api.StorageService;
 
-
+@Singleton
 public class StorageServiceMock implements StorageService {
 
-	private final HashMap<String, HashMap<String, HashMap<String, String>>> storage = new HashMap<String, HashMap<String, HashMap<String, String>>>();
+	protected final HashMap<String, HashMap<String, HashMap<String, String>>> storageData = new HashMap<String, HashMap<String, HashMap<String, String>>>();
+
+	@Inject
+	public StorageServiceMock() {
+	}
 
 	@Override
 	public String get(final String columnFamily, final String id, final String key) {
-		final HashMap<String, HashMap<String, String>> cfData = storage.get(columnFamily);
+		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		if (cfData == null)
 			return null;
 		final HashMap<String, String> idData = cfData.get(id);
@@ -24,7 +31,7 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public void delete(final String columnFamily, final String id, final String key) {
-		final HashMap<String, HashMap<String, String>> cfData = storage.get(columnFamily);
+		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		if (cfData == null)
 			return;
 		final HashMap<String, String> idData = cfData.get(id);
@@ -35,10 +42,10 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public void set(final String columnFamily, final String id, final String key, final String value) {
-		HashMap<String, HashMap<String, String>> cfData = storage.get(columnFamily);
+		HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		if (cfData == null) {
 			cfData = new HashMap<String, HashMap<String, String>>();
-			storage.put(columnFamily, cfData);
+			storageData.put(columnFamily, cfData);
 		}
 		HashMap<String, String> idData = cfData.get(id);
 		if (idData == null) {
@@ -50,10 +57,10 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public void set(final String columnFamily, final String id, final Map<String, String> data) {
-		HashMap<String, HashMap<String, String>> cfData = storage.get(columnFamily);
+		HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		if (cfData == null) {
 			cfData = new HashMap<String, HashMap<String, String>>();
-			storage.put(columnFamily, cfData);
+			storageData.put(columnFamily, cfData);
 		}
 		final HashMap<String, String> idData = new HashMap<String, String>();
 		cfData.put(id, idData);
@@ -61,4 +68,5 @@ public class StorageServiceMock implements StorageService {
 			idData.put(e.getKey(), e.getValue());
 		}
 	}
+
 }

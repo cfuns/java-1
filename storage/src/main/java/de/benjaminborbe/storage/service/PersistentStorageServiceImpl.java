@@ -1,6 +1,7 @@
 package de.benjaminborbe.storage.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +110,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	}
 
 	@Override
-	public List<String> findByIdPrefix(final String columnFamily, final String prefix) {
+	public Collection<String> findByIdPrefix(final String columnFamily, final String prefix) {
 		final List<String> result = new ArrayList<String>();
 		try {
 			storageConnection.open();
@@ -149,4 +150,5 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 		}
 		return result;
 	}
+
 }
