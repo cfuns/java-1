@@ -59,6 +59,8 @@
 		<module>bookmark_test</module>
 		<module>slash</module>
 		<module>slash_test</module>
+		<module>eventbus</module>
+		<module>eventbus_test</module>
 	</modules>
 	<build>
 		<resources>
