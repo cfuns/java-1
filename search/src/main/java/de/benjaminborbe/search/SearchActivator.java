@@ -8,8 +8,10 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
+
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
+import de.benjaminborbe.search.servlet.SearchOsdServlet;
 import de.benjaminborbe.search.servlet.SearchServiceComponentsServlet;
 import de.benjaminborbe.search.servlet.SearchServlet;
 import de.benjaminborbe.search.servlet.SearchSuggestServlet;
@@ -36,6 +38,9 @@ public class SearchActivator extends HttpBundleActivator {
 
 	@Inject
 	private SearchServiceComponentRegistry searchServiceComponentRegistry;
+
+	@Inject
+	private SearchOsdServlet searchOsdServlet;
 
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
@@ -86,6 +91,7 @@ public class SearchActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(searchServlet, "/"));
 		result.add(new ServletInfo(searchSuggestServlet, "/suggest"));
 		result.add(new ServletInfo(searchServiceComponentsServlet, "/components"));
+		result.add(new ServletInfo(searchOsdServlet, "/osd.xml"));
 		return result;
 	}
 
