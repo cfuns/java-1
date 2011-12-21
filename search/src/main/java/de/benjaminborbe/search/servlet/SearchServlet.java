@@ -15,8 +15,11 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.dashboard.api.CssResourceRenderer;
+import de.benjaminborbe.dashboard.api.JavascriptResourceRenderer;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.search.service.SearchDashboardWidget;
 import de.benjaminborbe.search.util.SearchUtil;
 import de.benjaminborbe.tools.html.Target;
 
@@ -39,11 +42,26 @@ public class SearchServlet extends HttpServlet {
 
 	private final SearchUtil searchUtil;
 
+	private final SearchDashboardWidget searchDashboardWidget;
+
+	private final CssResourceRenderer cssResourceRenderer;
+
+	private final JavascriptResourceRenderer javascriptResourceRenderer;
+
 	@Inject
-	public SearchServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil) {
+	public SearchServlet(
+			final Logger logger,
+			final SearchService searchService,
+			final SearchUtil searchUtil,
+			final SearchDashboardWidget searchDashboardWidget,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CssResourceRenderer cssResourceRenderer) {
 		this.logger = logger;
 		this.searchService = searchService;
 		this.searchUtil = searchUtil;
+		this.searchDashboardWidget = searchDashboardWidget;
+		this.javascriptResourceRenderer = javascriptResourceRenderer;
+		this.cssResourceRenderer = cssResourceRenderer;
 	}
 
 	@Override
@@ -51,64 +69,55 @@ public class SearchServlet extends HttpServlet {
 			IOException {
 		logger.debug("service");
 		response.setContentType("text/html");
+		printHtml(request, response);
+	}
+
+	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
-		final String contextPath = request.getContextPath();
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		out.println("<html>");
-		printHeader(out, contextPath);
-		printBody(out, contextPath, searchQuery);
-		printFooter(out);
+		printHeader(request, response);
+		printBody(request, response, searchQuery);
 		out.println("</html>");
 	}
 
-	protected void printBody(final PrintWriter out, final String contextPath, final String searchQuery) {
-		printSearchForm(out, contextPath, searchQuery);
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response,
+			final String searchQuery) throws IOException {
+		printSearchForm(request, response);
 		final String[] words = searchUtil.buildSearchParts(searchQuery);
 		final List<SearchResult> results = searchService.search(words, MAX_RESULTS);
-		printSearchResults(out, results);
+		printSearchResults(request, response, results);
 	}
 
-	protected void printHeader(final PrintWriter out, final String contextPath) {
+	protected void printHeader(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		final PrintWriter out = response.getWriter();
 		out.println("<head>");
 		out.println("<title>" + TITLE + "</title>");
-		out.println("<link href=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css\" rel=\"stylesheet\" type=\"text/css\" />");
-		out.println("<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js\"></script>");
-		out.println("<script src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js\"></script>");
-		out.println("<link href=\"" + contextPath + "/search/css/style.css\" rel=\"stylesheet\" type=\"text/css\" />");
+		javascriptResourceRenderer
+				.render(request, response, searchDashboardWidget.getJavascriptResource(request, response));
+		cssResourceRenderer.render(request, response, searchDashboardWidget.getCssResource(request, response));
 		out.println("</head>");
 	}
 
-	protected void printFooter(final PrintWriter out) {
-	}
-
-	protected void printSearchResults(final PrintWriter out, final List<SearchResult> results) {
+	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response,
+			final List<SearchResult> results) throws IOException {
+		final PrintWriter out = response.getWriter();
 		out.println("<div>");
 		out.println("found " + results.size() + " matches");
 		out.println("</div>");
 		for (final SearchResult result : results) {
-			printSearchResult(out, result);
+			printSearchResult(request, response, result);
 		}
 	}
 
-	protected void printSearchForm(final PrintWriter out, final String contextPath, final String searchQuery) {
-		final String searchSuggestUrl = contextPath + "/search/suggest";
-		out.println("<form method=\"GET\" action=\"\">");
-		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\""
-				+ (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
-		out.println("<input type=\"submit\" value=\"search\" />");
-		out.println("</form>");
-		out.println("<script language=\"javascript\">");
-		out.println("$(document).ready(function() {");
-		out.println("$('input#searchBox').autocomplete({");
-		out.println("source: '" + searchSuggestUrl + "',");
-		out.println("method: 'POST',");
-		out.println("minLength: 1,");
-		out.println("});");
-		out.println("});");
-		out.println("</script>");
+	protected void printSearchForm(final HttpServletRequest request, final HttpServletResponse response)
+			throws IOException {
+		searchDashboardWidget.render(request, response);
 	}
 
-	protected void printSearchResult(final PrintWriter out, final SearchResult result) {
+	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response,
+			final SearchResult result) throws IOException {
+		final PrintWriter out = response.getWriter();
 		final String url = result.getUrl().toExternalForm();
 		final String type = result.getType();
 		final String title = result.getTitle();

@@ -22,7 +22,7 @@ public class DashboardModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DashboardOsgiModule(), new DashboardModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DashboardOsgiModule(),
+				new DashboardModule(), new ToolModule());
 	}
 }
