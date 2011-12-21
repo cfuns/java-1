@@ -3,13 +3,9 @@ package de.benjaminborbe.dashboard.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -108,9 +104,9 @@ public class DashboardServlet extends HttpServlet {
 		out.println("</head>");
 	}
 
-	protected Collection<JavascriptResource> getJavascriptResources(final HttpServletRequest request,
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request,
 			final HttpServletResponse response) throws IOException {
-		final Set<JavascriptResource> result = new HashSet<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		for (final DashboardWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
 			if (dashboardWidget instanceof RequireJavascriptResource) {
 				result.addAll(((RequireJavascriptResource) dashboardWidget).getJavascriptResource(request, response));
@@ -120,9 +116,9 @@ public class DashboardServlet extends HttpServlet {
 		return result;
 	}
 
-	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response)
+	protected List<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response)
 			throws IOException {
-		final Set<CssResource> result = new HashSet<CssResource>();
+		final List<CssResource> result = new ArrayList<CssResource>();
 		for (final DashboardWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
 			if (dashboardWidget instanceof RequireCssResource) {
 				result.addAll(((RequireCssResource) dashboardWidget).getCssResource(request, response));

@@ -35,7 +35,6 @@ public class StorageDaoUtilIntegrationTest {
 
 	@Before
 	public void setUp() {
-
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
@@ -70,7 +69,6 @@ public class StorageDaoUtilIntegrationTest {
 			// Connection zur Datenbank wieder schliessen
 			connection.close();
 		}
-
 	}
 
 	@After

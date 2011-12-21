@@ -2,10 +2,8 @@ package de.benjaminborbe.search.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -69,18 +67,18 @@ public class SearchDashboardWidget implements DashboardWidget, RequireCssResourc
 	}
 
 	@Override
-	public Collection<JavascriptResource> getJavascriptResource(final HttpServletRequest request,
+	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request,
 			final HttpServletResponse response) {
-		final Set<JavascriptResource> result = new HashSet<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl("http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
 		result.add(new JavascriptResourceImpl("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"));
 		return result;
 	}
 
 	@Override
-	public Collection<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
+	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final Set<CssResource> result = new HashSet<CssResource>();
+		final List<CssResource> result = new ArrayList<CssResource>();
 		result.add(new CssResourceImpl("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"));
 		result.add(new CssResourceImpl(contextPath + "/search/css/style.css"));
 		return result;
