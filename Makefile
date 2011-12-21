@@ -6,6 +6,8 @@ update:
 	make all deploy
 test:
 	mvn test
+osgitest:
+	find . -type d -d 1 -name "*_test" -exec sh -c 'cd {} && make' \;
 console:
 	telnet localhost 5555
 cleanup:

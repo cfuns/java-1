@@ -29,3 +29,7 @@ eventbus/target
 eventbus_test/target
 worktime/target
 worktime_test/target
+dashboard/target
+dashboard_test/target
+navigation/target
+navigation_test/target

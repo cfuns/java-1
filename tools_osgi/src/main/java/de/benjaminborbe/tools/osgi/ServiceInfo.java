@@ -10,6 +10,16 @@ public class ServiceInfo {
 
 	private final Properties properties;
 
+	public ServiceInfo(final Class<?> clazz, final Object service, final String name) {
+		this(clazz, service, buildProperties(name));
+	}
+
+	private static Properties buildProperties(final String name) {
+		final Properties properties = new Properties();
+		properties.put("name", name);
+		return properties;
+	}
+
 	public ServiceInfo(final Class<?> clazz, final Object service, final Properties properties) {
 		this.name = clazz.getName();
 		this.service = service;

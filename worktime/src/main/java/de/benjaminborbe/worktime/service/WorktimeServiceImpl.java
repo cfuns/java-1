@@ -53,9 +53,9 @@ public class WorktimeServiceImpl implements WorktimeService {
 		Calendar first = null;
 		Calendar last = null;
 		for (final WorktimeValue workTimeValue : workTimeValues) {
-			if (first == null || first.after(workTimeValue.getDate()))
+			if (first == null || (first.after(workTimeValue.getDate()) && workTimeValue.getInOffice()))
 				first = workTimeValue.getDate();
-			if (last == null || last.before(workTimeValue.getDate()))
+			if (last == null || (last.before(workTimeValue.getDate()) && workTimeValue.getInOffice()))
 				last = workTimeValue.getDate();
 		}
 

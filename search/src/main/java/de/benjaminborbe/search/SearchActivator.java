@@ -5,13 +5,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
+import de.benjaminborbe.search.service.SearchDashboardWidget;
+import de.benjaminborbe.search.service.SearchServiceComponentServiceTracker;
 import de.benjaminborbe.search.servlet.SearchOsdServlet;
 import de.benjaminborbe.search.servlet.SearchServiceComponentsServlet;
 import de.benjaminborbe.search.servlet.SearchServlet;
@@ -20,6 +22,7 @@ import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class SearchActivator extends HttpBundleActivator {
@@ -43,39 +46,15 @@ public class SearchActivator extends HttpBundleActivator {
 	@Inject
 	private SearchOsdServlet searchOsdServlet;
 
+	@Inject
+	private SearchDashboardWidget searchDashboardWidget;
+
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// create serviceTracker for CronJob
-		{
-			final ServiceTracker serviceTracker = new ServiceTracker(context, SearchServiceComponent.class.getName(), null) {
-
-				@Override
-				public Object addingService(final ServiceReference ref) {
-					final Object service = super.addingService(ref);
-					serviceAdded((SearchServiceComponent) service);
-					return service;
-				}
-
-				@Override
-				public void removedService(final ServiceReference ref, final Object service) {
-					serviceRemoved((SearchServiceComponent) service);
-					super.removedService(ref, service);
-				}
-			};
-			serviceTrackers.add(serviceTracker);
-		}
+		serviceTrackers.add(new SearchServiceComponentServiceTracker(searchServiceComponentRegistry, context,
+				SearchServiceComponent.class));
 		return serviceTrackers;
-	}
-
-	protected void serviceRemoved(final SearchServiceComponent service) {
-		logger.debug("serviceRemoved: " + service);
-		searchServiceComponentRegistry.unregister(service);
-	}
-
-	protected void serviceAdded(final SearchServiceComponent service) {
-		logger.debug("serviceAdded: " + service);
-		searchServiceComponentRegistry.register(service);
 	}
 
 	@Override
@@ -99,5 +78,13 @@ public class SearchActivator extends HttpBundleActivator {
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new SearchModules(context);
+	}
+
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result
+				.add(new ServiceInfo(DashboardWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
+		return result;
 	}
 }

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.quartz.SchedulerException;
 
@@ -15,6 +14,7 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.guice.CronModules;
 import de.benjaminborbe.cron.servlet.CronServlet;
 import de.benjaminborbe.cron.util.CronJobRegistry;
+import de.benjaminborbe.cron.util.CronJobServiceTracker;
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -33,18 +33,6 @@ public class CronActivator extends HttpBundleActivator {
 
 	public CronActivator() {
 		super("cron");
-	}
-
-	protected void serviceRemoved(final CronJob cronJob) {
-		logger.debug("CronActivator.serviceRemoved() - CronJob removed " + cronJob.getClass().getName());
-		cronJobRegistry.unregister(cronJob);
-		quartz.removeCronJob(cronJob);
-	}
-
-	protected void serviceAdded(final CronJob cronJob) {
-		logger.debug("CronActivator.serviceAdded() - CronJob added " + cronJob.getClass().getName());
-		cronJobRegistry.register(cronJob);
-		quartz.addCronJob(cronJob);
 	}
 
 	@Override
@@ -84,25 +72,7 @@ public class CronActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// create serviceTracker for CronJob
-		{
-			final ServiceTracker serviceTracker = new ServiceTracker(context, CronJob.class.getName(), null) {
-
-				@Override
-				public Object addingService(final ServiceReference ref) {
-					final Object service = super.addingService(ref);
-					serviceAdded((CronJob) service);
-					return service;
-				}
-
-				@Override
-				public void removedService(final ServiceReference ref, final Object service) {
-					serviceRemoved((CronJob) service);
-					super.removedService(ref, service);
-				}
-			};
-			serviceTrackers.add(serviceTracker);
-		}
+		serviceTrackers.add(new CronJobServiceTracker(logger, quartz, cronJobRegistry, context, CronJob.class));
 		return serviceTrackers;
 	}
 }

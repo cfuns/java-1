@@ -1,14 +1,8 @@
 package de.benjaminborbe.search.util;
 
-import java.util.Collection;
-
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.tools.util.Registry;
 
-public interface SearchServiceComponentRegistry {
+public interface SearchServiceComponentRegistry extends Registry<SearchServiceComponent> {
 
-	void register(SearchServiceComponent searchServiceComponent);
-
-	void unregister(SearchServiceComponent searchServiceComponent);
-
-	Collection<SearchServiceComponent> getAll();
 }
