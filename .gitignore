@@ -35,3 +35,5 @@ navigation/target
 navigation_test/target
 sample/target
 sample_test/target
+calendar/target
+calendar_test/target

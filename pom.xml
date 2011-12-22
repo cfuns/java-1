@@ -69,6 +69,8 @@
 		<module>navigation_test</module>
 		<module>sample</module>
 		<module>sample_test</module>
+		<module>calendar</module>
+		<module>calendar_test</module>
 	</modules>
 	<build>
 		<resources>
