@@ -2,7 +2,6 @@ package de.benjaminborbe.bookmark;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
@@ -43,14 +42,9 @@ public class BookmarkActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		{
-			result.add(new ServiceInfo(BookmarkService.class, bookmarkService));
-		}
-		{
-			final Properties props = new Properties();
-			props.put("name", bookmarkSearchService.getClass().getName());
-			result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, props));
-		}
+		result.add(new ServiceInfo(BookmarkService.class, bookmarkService));
+		result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, bookmarkSearchService.getClass()
+				.getName()));
 		return result;
 	}
 

@@ -42,6 +42,7 @@ public class StorageListServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("StorageReadServlet.service");
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());

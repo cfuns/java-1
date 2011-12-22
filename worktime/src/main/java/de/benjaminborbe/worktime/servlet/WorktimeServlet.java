@@ -39,6 +39,7 @@ public class WorktimeServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		final PrintWriter out = response.getWriter();
 

@@ -67,6 +67,8 @@
 		<module>dashboard_test</module>
 		<module>navigation</module>
 		<module>navigation_test</module>
+		<module>sample</module>
+		<module>sample_test</module>
 	</modules>
 	<build>
 		<resources>

@@ -33,3 +33,5 @@ dashboard/target
 dashboard_test/target
 navigation/target
 navigation_test/target
+sample/target
+sample_test/target

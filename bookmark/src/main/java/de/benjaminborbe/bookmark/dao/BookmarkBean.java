@@ -1,5 +1,7 @@
 package de.benjaminborbe.bookmark.dao;
 
+import java.util.List;
+
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.tools.dao.Entity;
 
@@ -14,6 +16,8 @@ public class BookmarkBean implements Entity, Bookmark {
 	private String url;
 
 	private String description;
+
+	private List<String> keywords;
 
 	@Override
 	public String getName() {
@@ -50,5 +54,13 @@ public class BookmarkBean implements Entity, Bookmark {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public void setKeywords(final List<String> keywords) {
+		this.keywords = keywords;
+	}
+
+	public List<String> getKeywords() {
+		return keywords;
 	}
 }

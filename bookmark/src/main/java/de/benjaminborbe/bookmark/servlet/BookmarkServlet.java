@@ -2,12 +2,16 @@ package de.benjaminborbe.bookmark.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -37,6 +41,7 @@ public class BookmarkServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		final PrintWriter out = response.getWriter();
 		final String contextPath = request.getContextPath();
@@ -68,8 +73,15 @@ public class BookmarkServlet extends HttpServlet {
 		for (final Bookmark bookmark : bookmarkService.getBookmarks()) {
 			out.println("<li>");
 			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"_blank\">" + bookmark.getName() + "</a>");
+			out.println(" ");
+			out.println("[" + keywordsToString(bookmark) + "]");
 			out.println("</li>");
 		}
 	}
 
+	protected String keywordsToString(final Bookmark bookmark) {
+		final List<String> keywords = new ArrayList<String>(bookmark.getKeywords());
+		Collections.sort(keywords);
+		return StringUtils.join(bookmark.getKeywords(), ",");
+	}
 }

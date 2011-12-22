@@ -1,5 +1,7 @@
 package de.benjaminborbe.bookmark.api;
 
+import java.util.List;
+
 public interface Bookmark {
 
 	String getName();
@@ -7,5 +9,7 @@ public interface Bookmark {
 	String getUrl();
 
 	String getDescription();
+
+	List<String> getKeywords();
 
 }
