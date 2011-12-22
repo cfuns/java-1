@@ -71,6 +71,10 @@
 		<module>sample_test</module>
 		<module>calendar</module>
 		<module>calendar_test</module>
+		<module>weather</module>
+		<module>weather_test</module>
+		<module>translate</module>
+		<module>translate_test</module>
 	</modules>
 	<build>
 		<resources>

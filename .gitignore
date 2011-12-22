@@ -37,3 +37,7 @@ sample/target
 sample_test/target
 calendar/target
 calendar_test/target
+translate/target
+translate_test/target
+weather/target
+weather_test/target
