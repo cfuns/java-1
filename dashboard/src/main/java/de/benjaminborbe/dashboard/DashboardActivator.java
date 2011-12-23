@@ -16,6 +16,7 @@ import de.benjaminborbe.dashboard.service.DashboardWidgetServiceTracker;
 import de.benjaminborbe.dashboard.servlet.DashboardServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class DashboardActivator extends HttpBundleActivator {
@@ -47,5 +48,13 @@ public class DashboardActivator extends HttpBundleActivator {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new DashboardWidgetServiceTracker(dashboardWidgetRegistry, context, DashboardWidget.class));
 		return serviceTrackers;
+	}
+
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo("/js", "js"));
+		return result;
 	}
 }

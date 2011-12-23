@@ -41,3 +41,5 @@ translate/target
 translate_test/target
 weather/target
 weather_test/target
+api_website/target
+api_website_test/target

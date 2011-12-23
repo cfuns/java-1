@@ -2,7 +2,6 @@ package de.benjaminborbe.worktime;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
@@ -10,12 +9,14 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.worktime.guice.WorktimeModules;
 import de.benjaminborbe.worktime.service.WorktimeCronJob;
+import de.benjaminborbe.worktime.service.WorktimeDashboardWidget;
 import de.benjaminborbe.worktime.servlet.WorktimeServlet;
 
 public class WorktimeActivator extends HttpBundleActivator {
@@ -25,6 +26,9 @@ public class WorktimeActivator extends HttpBundleActivator {
 
 	@Inject
 	private WorktimeCronJob worktimeCronJob;
+
+	@Inject
+	private WorktimeDashboardWidget worktimeDashboardWidget;
 
 	public WorktimeActivator() {
 		super("worktime");
@@ -45,12 +49,10 @@ public class WorktimeActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		// monitor cronjob
-		{
-			final Properties props = new Properties();
-			props.put("name", worktimeCronJob.getClass().getName());
-			result.add(new ServiceInfo(CronJob.class, worktimeCronJob, props));
-		}
+		result.add(new ServiceInfo(CronJob.class, worktimeCronJob, worktimeCronJob.getClass().getName()));
+		result.add(new ServiceInfo(DashboardWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass()
+				.getName()));
+
 		return result;
 	}
 

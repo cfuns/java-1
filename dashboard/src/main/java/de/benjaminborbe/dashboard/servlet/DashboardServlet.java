@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.CssResource;
+import de.benjaminborbe.dashboard.api.CssResourceImpl;
 import de.benjaminborbe.dashboard.api.CssResourceRenderer;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.api.JavascriptResource;
@@ -119,7 +120,9 @@ public class DashboardServlet extends HttpServlet {
 
 	protected List<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response)
 			throws IOException {
+		final String contextPath = request.getContextPath();
 		final List<CssResource> result = new ArrayList<CssResource>();
+		result.add(new CssResourceImpl(contextPath + "/dashboard/css/style.css"));
 		for (final DashboardWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
 			if (dashboardWidget instanceof RequireCssResource) {
 				result.addAll(((RequireCssResource) dashboardWidget).getCssResource(request, response));
