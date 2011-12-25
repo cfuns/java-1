@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.dashboard.api.JavascriptResourceRenderer;
+import de.benjaminborbe.dashboard.api.JavascriptResourceRendererImpl;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -23,6 +25,7 @@ public class WorktimeModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(JavascriptResourceRenderer.class).to(JavascriptResourceRendererImpl.class).in(Singleton.class);
 		bind(ParseUtil.class).to(ParseUtilImpl.class).in(Singleton.class);
 		bind(TimeZoneUtil.class).to(TimeZoneUtilImpl.class).in(Singleton.class);
 		bind(CalendarUtil.class).to(CalendarUtilImpl.class).in(Singleton.class);

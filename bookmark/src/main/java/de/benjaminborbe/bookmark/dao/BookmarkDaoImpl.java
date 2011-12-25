@@ -28,6 +28,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		// internal
 		save(createBookmark("/bb/bookmark", "Local - BB - Bookmarks", Arrays.asList("bookmark", "lesezeichen")));
 		save(createBookmark("/bb/worktime", "Local - BB - Worktimes"));
+		save(createBookmark("/bb/util/passwordGenerator", "Local - BB - PasswordGenerator"));
 		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring"));
 		save(createBookmark("/bb/gwt/Home.html", "Local - BB - GWT"));
 		save(createBookmark("/bb/search", "Local - BB - Search"));

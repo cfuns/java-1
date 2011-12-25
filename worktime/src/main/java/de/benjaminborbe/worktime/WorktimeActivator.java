@@ -52,7 +52,6 @@ public class WorktimeActivator extends HttpBundleActivator {
 		result.add(new ServiceInfo(CronJob.class, worktimeCronJob, worktimeCronJob.getClass().getName()));
 		result.add(new ServiceInfo(DashboardWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass()
 				.getName()));
-
 		return result;
 	}
 

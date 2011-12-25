@@ -75,6 +75,8 @@
 		<module>weather_test</module>
 		<module>translate</module>
 		<module>translate_test</module>
+		<module>util</module>
+		<module>util_test</module>
 	</modules>
 	<build>
 		<resources>

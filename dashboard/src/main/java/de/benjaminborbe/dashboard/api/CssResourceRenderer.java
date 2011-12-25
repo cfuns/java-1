@@ -6,9 +6,9 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface CssResourceRenderer {
+public interface CssResourceRenderer extends Renderer {
 
-	void render(final HttpServletRequest request, final HttpServletResponse response, Collection<CssResource> cssResources)
+	void render(HttpServletRequest request, HttpServletResponse response, Collection<CssResource> cssResources)
 			throws IOException;
 
 }

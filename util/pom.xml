@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.mail</artifactId>
-	<name>Benjamin Borbe - Mail</name>
-	<description>Benjamin Borbe - Mail</description>
+	<artifactId>de.benjaminborbe.util</artifactId>
+	<name>Benjamin Borbe - Util</name>
+	<description>Benjamin Borbe - Util</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -40,14 +40,14 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.mail.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.mail.MailActivator </Bundle-Activator>
-						<Private-Package>de.benjaminborbe.mail.*</Private-Package>
+						<Export-Package>de.benjaminborbe.util.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.util.UtilActivator </Bundle-Activator>
+						<Private-Package>de.benjaminborbe.util.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Mail</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Mail</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Util</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Util</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
@@ -108,18 +108,6 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<version>1.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -128,12 +116,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,7 +1,6 @@
-package de.benjaminborbe.sample.servlet;
+package de.benjaminborbe.util.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,14 +13,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class SampleServlet extends HttpServlet {
+public class UtilServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
+
+	private static final String DEFAULT_TARGET = "dashboard";
 
 	private final Logger logger;
 
 	@Inject
-	public SampleServlet(final Logger logger) {
+	public UtilServlet(final Logger logger) {
 		this.logger = logger;
 	}
 
@@ -29,9 +30,10 @@ public class SampleServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
-		final PrintWriter out = response.getWriter();
-		out.println("<h2>Sample</h2>");
+		response.sendRedirect(buildRedirectTargetPath(request));
+	}
+
+	protected String buildRedirectTargetPath(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + DEFAULT_TARGET;
 	}
 }

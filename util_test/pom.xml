@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.worktime.test</artifactId>
-	<name>Benjamin Borbe - Worktime-Test</name>
-	<description>Benjamin Borbe - Worktime-Test</description>
+	<artifactId>de.benjaminborbe.util.test</artifactId>
+	<name>Benjamin Borbe - Util-Test</name>
+	<description>Benjamin Borbe - Util-Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>
@@ -22,12 +22,12 @@
 				<configuration>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Private-Package>de.benjaminborbe.worktime.test.*</Private-Package>
+						<Private-Package>de.benjaminborbe.util.test.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Worktime-Tests</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Worktime-Test Bundle</Bundle-Description>
-						<Test-Suite>de.benjaminborbe.worktime.test.WorktimeTestSuite</Test-Suite>
+						<Bundle-Name>Benjamin Borbe - Util-Tests</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Util-Test Bundle</Bundle-Description>
+						<Test-Suite>de.benjaminborbe.util.test.UtilTestSuite</Test-Suite>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Import-Package>*;resolution:=optional</Import-Package>
 						<Embed-Transitive>false</Embed-Transitive>
@@ -129,25 +129,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.worktime</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cron</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard</artifactId>
+			<artifactId>de.benjaminborbe.util</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
