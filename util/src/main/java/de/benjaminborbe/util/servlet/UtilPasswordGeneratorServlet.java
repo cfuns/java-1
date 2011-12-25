@@ -42,7 +42,22 @@ public class UtilPasswordGeneratorServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		printHtml(request, response);
+	}
+
+	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
+		out.println("<html>");
+		printHead(request, response);
+		printBody(request, response);
+		out.println("</html>");
+	}
+
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		final PrintWriter out = response.getWriter();
+		out.println("<body>");
 		out.println("<h2>PasswordGenerator</h2>");
 		out.println("<ul>");
 		for (int i = 0; i < PASSWORD_AMOUNT; ++i) {
@@ -51,5 +66,12 @@ public class UtilPasswordGeneratorServlet extends HttpServlet {
 			out.println("</li>");
 		}
 		out.println("</ul>");
+		out.println("</body>");
+	}
+
+	protected void printHead(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		final PrintWriter out = response.getWriter();
+		out.println("<head>");
+		out.println("</head>");
 	}
 }

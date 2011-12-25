@@ -1,6 +1,7 @@
 package de.benjaminborbe.util.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +18,6 @@ public class UtilServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String DEFAULT_TARGET = "dashboard";
-
 	private final Logger logger;
 
 	@Inject
@@ -30,10 +29,10 @@ public class UtilServlet extends HttpServlet {
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException {
 		logger.debug("service");
-		response.sendRedirect(buildRedirectTargetPath(request));
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		final PrintWriter out = response.getWriter();
+		out.println("<h2>Util</h2>");
 	}
 
-	protected String buildRedirectTargetPath(final HttpServletRequest request) {
-		return request.getContextPath() + "/" + DEFAULT_TARGET;
-	}
 }
