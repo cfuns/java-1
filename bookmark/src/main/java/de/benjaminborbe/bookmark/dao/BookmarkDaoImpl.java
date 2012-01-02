@@ -50,6 +50,12 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("http://www.audible.de/", "Audible - Hörbücher",
 				Arrays.asList("Hörbücher", "Hoerbuecher", "shop")));
 		save(createBookmark("http://www.dwitte.de/", "Dennis Witte", Arrays.asList("Dennis Witte", "dwitte")));
+		save(createBookmark("http://wuhrsteinalm.de/", "Wuhrsteinalm"));
+		save(createBookmark("http://www.postbank.de/", "Postbank", Arrays.asList("bank")));
+		save(createBookmark("https://banking.dkb.de/", "DKB", Arrays.asList("bank")));
+		save(createBookmark("http://www.tagesschau.de/", "Tagesschau", Arrays.asList("Tagesschau")));
+		save(createBookmark("http://www.tagesschau.de/100sekunden/", "Tagesschau in 100 Sekunden",
+				Arrays.asList("Tagesschau")));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
@@ -80,6 +86,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins"));
 		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog"));
 		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus"));
+		save(createBookmark("https://zimbra.rp.seibert-media.net/", "Seibert-Media - Zimbra"));
 
 		// Movie
 		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar"));

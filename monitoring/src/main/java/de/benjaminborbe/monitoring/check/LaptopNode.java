@@ -23,14 +23,14 @@ public class LaptopNode extends HasChildNodesImpl implements HasChildNodes {
 		// squid
 		{
 			final String name = "TCP-Check on local squid-server";
-			final String hostname = "localhost";
+			final String hostname = "127.0.0.1";
 			final int port = 3128;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 		// privoxy
 		{
 			final String name = "TCP-Check on local privoxy-server";
-			final String hostname = "localhost";
+			final String hostname = "127.0.0.1";
 			final int port = 8118;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}

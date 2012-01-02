@@ -12,7 +12,7 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 		super(tcpCheckBuilder.buildCheck("TCP-Check on www.google.de:80", "www.google.de", 80));
 
 		// childs-checks
-		addNode(twentyfeetNode);
+		// addNode(twentyfeetNode);
 
 		// tcp-checks
 
@@ -29,6 +29,22 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 			final String name = "TCP-Check on www.rocketnews.de:22";
 			final String hostname = "77.244.108.198";
 			final int port = 22;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+
+		{
+			// git.rocketnews.de
+			final String name = "TCP-Check on git.rocketnews.de:443";
+			final String hostname = "77.244.108.206";
+			final int port = 443;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+
+		{
+			// www.rocketnews.de
+			final String name = "TCP-Check on www.rocketnews.de:443";
+			final String hostname = "77.244.108.198";
+			final int port = 443;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 
@@ -58,8 +74,8 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 		}
 
 		{
-			final String name = "URL-Check on confluence.rocketnews.de";
-			final String url = "http://confluence.rocketnews.de/";
+			final String name = "URL-Check on confluence.benjamin-borbe.de";
+			final String url = "http://confluence.benjamin-borbe.de/";
 			final String titleMatch = "Dashboard - Confluence";
 			final String contentMatch = "<span>Dashboard</span>";
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));

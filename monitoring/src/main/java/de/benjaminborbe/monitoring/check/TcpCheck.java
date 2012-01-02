@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 
@@ -19,7 +20,7 @@ public class TcpCheck implements Check {
 
 	private final String name;
 
-	public TcpCheck(final Logger logger, String name, final String hostname, final int port) {
+	public TcpCheck(final Logger logger, final String name, final String hostname, final int port) {
 		this.logger = logger;
 		this.name = name;
 		this.hostname = hostname;
@@ -44,9 +45,15 @@ public class TcpCheck implements Check {
 				return new CheckResultImpl(this, false, msg);
 			}
 		}
+		catch (final UnknownHostException e) {
+			final String msg = "connecting failed to " + hostname + ":" + port + " because UnknownHostException";
+			logger.warn(msg);
+			return new CheckResultImpl(this, false, msg);
+		}
 		catch (final Exception e) {
-			logger.warn("check tcp-connect to " + hostname + ":" + port + " failed");
-			return new CheckResultImpl(this, false, "connecting failed to " + hostname + ":" + port);
+			final String msg = "connecting failed to " + hostname + ":" + port + " because " + e.getClass().getSimpleName();
+			logger.warn(msg, e);
+			return new CheckResultImpl(this, false, msg);
 		}
 		finally {
 			try {
@@ -64,6 +71,7 @@ public class TcpCheck implements Check {
 		return "TCP-Check host: " + hostname + ":" + port;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
