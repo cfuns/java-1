@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class BookmarkServletTest {
 
 	@Test
-	public void Singleton() {
+	public void singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkServlet a = injector.getInstance(BookmarkServlet.class);
 		final BookmarkServlet b = injector.getInstance(BookmarkServlet.class);

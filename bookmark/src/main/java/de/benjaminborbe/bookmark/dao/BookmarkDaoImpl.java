@@ -56,6 +56,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("http://www.tagesschau.de/", "Tagesschau", Arrays.asList("Tagesschau")));
 		save(createBookmark("http://www.tagesschau.de/100sekunden/", "Tagesschau in 100 Sekunden",
 				Arrays.asList("Tagesschau")));
+		save(createBookmark("http://filestube.com", "Filestube", Arrays.asList("Download")));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
@@ -87,6 +88,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog"));
 		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus"));
 		save(createBookmark("https://zimbra.rp.seibert-media.net/", "Seibert-Media - Zimbra"));
+		save(createBookmark("https://projectile.rp.seibert-media.net/", "Seibert-Media - Projectile"));
 
 		// Movie
 		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar"));

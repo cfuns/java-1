@@ -7,7 +7,22 @@ import java.util.TimeZone;
 
 import org.junit.Test;
 
+import com.google.inject.Injector;
+
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ToolModules;
+
 public class CalendarUtilTest {
+
+	@Test
+	public void singleton() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final CalendarUtil a = injector.getInstance(CalendarUtil.class);
+		final CalendarUtil b = injector.getInstance(CalendarUtil.class);
+		assertEquals(a, b);
+		assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a, b);
+	}
 
 	@Test
 	public void toDateString() {

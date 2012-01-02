@@ -2,7 +2,6 @@ package de.benjaminborbe.worktime.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import de.benjaminborbe.dashboard.api.JavascriptResource;
 import de.benjaminborbe.dashboard.api.JavascriptResourceImpl;
 import de.benjaminborbe.dashboard.api.RequireJavascriptResource;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 
@@ -31,10 +31,13 @@ public class WorktimeDashboardWidget implements DashboardWidget, RequireJavascri
 
 	private final WorktimeService worktimeService;
 
+	private final DateUtil dateUtil;
+
 	@Inject
-	public WorktimeDashboardWidget(final Logger logger, final WorktimeService worktimeService) {
+	public WorktimeDashboardWidget(final Logger logger, final WorktimeService worktimeService, final DateUtil dateUtil) {
 		this.logger = logger;
 		this.worktimeService = worktimeService;
+		this.dateUtil = dateUtil;
 	}
 
 	@Override
@@ -57,22 +60,20 @@ public class WorktimeDashboardWidget implements DashboardWidget, RequireJavascri
 			out.println("EndTime");
 			out.println("</th>");
 			out.println("</tr>");
-			final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-			final SimpleDateFormat hf = new SimpleDateFormat("hh:mm:ss");
 			for (final Workday workday : worktimes) {
 				out.println("<tr>");
 				out.println("<td>");
-				out.println(df.format(workday.getDate().getTime()));
+				out.println(dateUtil.dateString(workday.getDate().getTime()));
 				out.println("</td>");
 				out.println("<td>");
 				if (workday.getStart() != null)
-					out.println(hf.format(workday.getStart().getTime()));
+					out.println(dateUtil.timeString(workday.getStart().getTime()));
 				else
 					out.println("-");
 				out.println("</td>");
 				out.println("<td>");
 				if (workday.getEnd() != null)
-					out.println(hf.format(workday.getEnd().getTime()));
+					out.println(dateUtil.timeString(workday.getEnd().getTime()));
 				else
 					out.println("-");
 				out.println("</td>");

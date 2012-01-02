@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class SearchOsdServletTest {
 
 	@Test
-	public void Singleton() {
+	public void singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchOsdServlet a = injector.getInstance(SearchOsdServlet.class);
 		final SearchOsdServlet b = injector.getInstance(SearchOsdServlet.class);

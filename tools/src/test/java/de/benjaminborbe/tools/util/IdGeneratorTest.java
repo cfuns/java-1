@@ -4,7 +4,22 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.google.inject.Injector;
+
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ToolModules;
+
 public class IdGeneratorTest {
+
+	@Test
+	public void singleton() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final IdGenerator a = injector.getInstance(IdGenerator.class);
+		final IdGenerator b = injector.getInstance(IdGenerator.class);
+		assertEquals(a, b);
+		assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a, b);
+	}
 
 	@Test
 	public void NextId() {
