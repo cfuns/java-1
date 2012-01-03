@@ -20,4 +20,5 @@ public class WorktimeServletTest {
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);
 	}
+
 }

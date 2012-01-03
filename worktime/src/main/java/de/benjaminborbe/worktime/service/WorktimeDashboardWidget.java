@@ -19,6 +19,7 @@ import de.benjaminborbe.dashboard.api.JavascriptResourceImpl;
 import de.benjaminborbe.dashboard.api.RequireJavascriptResource;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.DateUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 
@@ -27,25 +28,37 @@ public class WorktimeDashboardWidget implements DashboardWidget, RequireJavascri
 
 	private final static int DEFAULT_DAY_AMOUNT = 5;
 
+	private static final String PARAMETER_LIMIT = "limit";
+
 	private final Logger logger;
 
 	private final WorktimeService worktimeService;
 
 	private final DateUtil dateUtil;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public WorktimeDashboardWidget(final Logger logger, final WorktimeService worktimeService, final DateUtil dateUtil) {
+	public WorktimeDashboardWidget(
+			final Logger logger,
+			final WorktimeService worktimeService,
+			final DateUtil dateUtil,
+			final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.worktimeService = worktimeService;
 		this.dateUtil = dateUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("render");
 
+		final int dayAmount = parseUtil.parseInt(request.getParameter(PARAMETER_LIMIT), DEFAULT_DAY_AMOUNT);
+		logger.debug("dayAmount = " + dayAmount);
+
 		try {
-			final List<Workday> worktimes = worktimeService.getTimes(DEFAULT_DAY_AMOUNT);
+			final List<Workday> worktimes = worktimeService.getTimes(dayAmount);
 			final PrintWriter out = response.getWriter();
 
 			out.println("<table class=\"sortable\">");

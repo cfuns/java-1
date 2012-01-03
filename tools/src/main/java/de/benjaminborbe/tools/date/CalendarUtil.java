@@ -19,4 +19,10 @@ public interface CalendarUtil {
 
 	Calendar now(TimeZone timeZone);
 
+	Calendar addDays(Calendar now, int amountOfDays);
+
+	Calendar subDays(Calendar now, int amountOfDays);
+
+	Calendar clone(Calendar calendar);
+
 }

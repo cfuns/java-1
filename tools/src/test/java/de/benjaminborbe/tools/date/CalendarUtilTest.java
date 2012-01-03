@@ -1,6 +1,8 @@
 package de.benjaminborbe.tools.date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -49,6 +51,32 @@ public class CalendarUtilTest {
 		assertEquals(20, calendar.get(Calendar.HOUR_OF_DAY));
 		assertEquals(15, calendar.get(Calendar.MINUTE));
 		assertEquals(13, calendar.get(Calendar.SECOND));
+	}
+
+	@Test
+	public void testClone() {
+		final CalendarUtil u = new CalendarUtilImpl(null);
+		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+		final Calendar clone = u.clone(calendar);
+		assertTrue(calendar.getTimeInMillis() == clone.getTimeInMillis());
+		calendar.set(Calendar.YEAR, 2010);
+		assertFalse(calendar.getTimeInMillis() == clone.getTimeInMillis());
+	}
+
+	@Test
+	public void addDays() {
+		final CalendarUtil u = new CalendarUtilImpl(null);
+		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+		final Calendar clone = u.addDays(calendar, 1);
+		assertEquals("2011-12-25", u.toDateString(clone));
+	}
+
+	@Test
+	public void subDays() {
+		final CalendarUtil u = new CalendarUtilImpl(null);
+		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+		final Calendar clone = u.subDays(calendar, 1);
+		assertEquals("2011-12-23", u.toDateString(clone));
 	}
 
 }

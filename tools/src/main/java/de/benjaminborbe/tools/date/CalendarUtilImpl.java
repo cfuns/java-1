@@ -13,6 +13,8 @@ import de.benjaminborbe.tools.util.ParseUtil;
 @Singleton
 public class CalendarUtilImpl implements CalendarUtil {
 
+	private static final long DAY_MILLISECONDS = 24l * 60l * 60l * 1000l;
+
 	private final ParseUtil parseUtil;
 
 	@Inject
@@ -91,5 +93,22 @@ public class CalendarUtilImpl implements CalendarUtil {
 	@Override
 	public Calendar now(final TimeZone timeZone) {
 		return Calendar.getInstance(timeZone);
+	}
+
+	@Override
+	public Calendar clone(final Calendar calendar) {
+		return (Calendar) calendar.clone();
+	}
+
+	@Override
+	public Calendar addDays(final Calendar calendar, final int amountOfDays) {
+		final Calendar result = clone(calendar);
+		result.setTimeInMillis(result.getTimeInMillis() + amountOfDays * DAY_MILLISECONDS);
+		return result;
+	}
+
+	@Override
+	public Calendar subDays(final Calendar calendar, final int amountOfDays) {
+		return addDays(calendar, amountOfDays * -1);
 	}
 }
