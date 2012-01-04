@@ -54,7 +54,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
-		logger.debug("insert keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " data: " + data);
+		logger.trace("insert keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " data: " + data);
 
 		final long timestamp = System.currentTimeMillis();
 		for (final Entry<String, String> e : data.entrySet()) {
@@ -75,7 +75,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
-		logger.debug("read keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
+		logger.trace("read keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
 
 		final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
 		final ColumnPath column_path = new ColumnPath(columnFamily);
@@ -100,7 +100,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
-		logger.debug("delete keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
+		logger.trace("delete keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
 
 		final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
 		final ColumnPath column_path = new ColumnPath(columnFamily);
@@ -116,7 +116,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	public List<String> list(final String keySpace, final String columnFamily) throws InvalidRequestException,
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
 		final Iface client = getClient(keySpace);
-		logger.debug("list keyspace: " + keySpace + " columnfamily: " + columnFamily);
+		logger.trace("list keyspace: " + keySpace + " columnfamily: " + columnFamily);
 
 		final List<String> list = new ArrayList<String>();
 		final ColumnParent column_parent = new ColumnParent(columnFamily);
@@ -132,7 +132,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 				list.add(new String(keySlice.getKey(), config.getEncoding()));
 			}
 		}
-		logger.debug("found " + list.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
+		logger.trace("found " + list.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
 		return list;
 	}
 }

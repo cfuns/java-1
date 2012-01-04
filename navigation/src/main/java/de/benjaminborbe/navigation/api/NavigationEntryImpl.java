@@ -1,14 +1,12 @@
 package de.benjaminborbe.navigation.api;
 
-import java.net.URL;
-
 public class NavigationEntryImpl implements NavigationEntry {
 
-	private final URL url;
+	private final String url;
 
 	private final String title;
 
-	public NavigationEntryImpl(final String title, final URL url) {
+	public NavigationEntryImpl(final String title, final String url) {
 		this.title = title;
 		this.url = url;
 	}
@@ -19,7 +17,7 @@ public class NavigationEntryImpl implements NavigationEntry {
 	}
 
 	@Override
-	public URL getURL() {
+	public String getURL() {
 		return url;
 	}
 

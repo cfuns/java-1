@@ -58,6 +58,8 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 				Arrays.asList("Tagesschau")));
 		save(createBookmark("http://filestube.com", "Filestube", Arrays.asList("Download")));
 		save(createBookmark("http://store.steampowered.com/", "Steam - Store", Arrays.asList("Steam", "Shop", "Store")));
+		save(createBookmark("http://www.rocketnews.de/manager/html/list", "Rocketnews - Tomcat - Manager",
+				Arrays.asList("Tomcat", "Manager")));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));

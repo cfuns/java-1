@@ -74,6 +74,13 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 		}
 
 		{
+			final String name = "URL-Check on jira.benjamin-borbe.de";
+			final String url = "http://jira.benjamin-borbe.de/";
+			final String titleMatch = "System Dashboard - Rocketnews - Jira";
+			final String contentMatch = "View your current Dashboard";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
+		{
 			final String name = "URL-Check on confluence.benjamin-borbe.de";
 			final String url = "http://confluence.benjamin-borbe.de/";
 			final String titleMatch = "Dashboard - Confluence";

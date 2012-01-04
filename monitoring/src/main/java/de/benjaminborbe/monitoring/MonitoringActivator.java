@@ -2,7 +2,6 @@ package de.benjaminborbe.monitoring;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
@@ -38,12 +37,7 @@ public class MonitoringActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		// monitor cronjob
-		{
-			final Properties props = new Properties();
-			props.put("name", monitoringCronJob.getClass().getName());
-			result.add(new ServiceInfo(CronJob.class, monitoringCronJob, props));
-		}
+		result.add(new ServiceInfo(CronJob.class, monitoringCronJob, monitoringCronJob.getClass().getName()));
 		return result;
 	}
 

@@ -33,7 +33,7 @@ public class StorageConnectionImpl implements StorageConnection {
 
 	@Override
 	public void open() throws TTransportException {
-		logger.info("open cassandra connection " + config.getHost() + ":" + config.getPort());
+		logger.trace("open cassandra connection " + config.getHost() + ":" + config.getPort());
 
 		final TSocket socket = new TSocket(config.getHost(), config.getPort());
 		socket.setTimeout(SOCKET_TIMEOUT);
@@ -47,6 +47,7 @@ public class StorageConnectionImpl implements StorageConnection {
 
 	@Override
 	public void close() {
+		logger.trace("close cassandra connection");
 		final TFramedTransport tr = trThreadLocal.get();
 		trThreadLocal.remove();
 		clientThreadLocal.remove();
