@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.CssResource;
-import de.benjaminborbe.dashboard.api.CssResourceImpl;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
-import de.benjaminborbe.dashboard.api.JavascriptResource;
-import de.benjaminborbe.dashboard.api.JavascriptResourceImpl;
-import de.benjaminborbe.dashboard.api.RequireCssResource;
-import de.benjaminborbe.dashboard.api.RequireJavascriptResource;
+import de.benjaminborbe.html.api.CssResource;
+import de.benjaminborbe.html.api.CssResourceImpl;
+import de.benjaminborbe.html.api.JavascriptResource;
+import de.benjaminborbe.html.api.JavascriptResourceImpl;
+import de.benjaminborbe.html.api.RequireCssResource;
+import de.benjaminborbe.html.api.RequireJavascriptResource;
 
 @Singleton
 public class SearchDashboardWidget implements DashboardWidget, RequireCssResource, RequireJavascriptResource {

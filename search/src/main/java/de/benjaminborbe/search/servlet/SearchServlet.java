@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.CssResourceRenderer;
-import de.benjaminborbe.dashboard.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.service.SearchDashboardWidget;

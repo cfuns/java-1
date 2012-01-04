@@ -14,9 +14,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardWidget;
-import de.benjaminborbe.dashboard.api.JavascriptResource;
-import de.benjaminborbe.dashboard.api.JavascriptResourceImpl;
-import de.benjaminborbe.dashboard.api.RequireJavascriptResource;
+import de.benjaminborbe.html.api.JavascriptResource;
+import de.benjaminborbe.html.api.JavascriptResourceImpl;
+import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.util.ParseUtil;

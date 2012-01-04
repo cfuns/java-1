@@ -1,4 +1,4 @@
-package de.benjaminborbe.dashboard.api;
+package de.benjaminborbe.html.api;
 
 
 public class CssResourceImpl implements CssResource {

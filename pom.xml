@@ -77,6 +77,8 @@
 		<module>translate_test</module>
 		<module>util</module>
 		<module>util_test</module>
+		<module>html</module>
+		<module>html_test</module>
 	</modules>
 	<build>
 		<resources>

@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.JavascriptResourceRenderer;
-import de.benjaminborbe.dashboard.api.JavascriptResourceRendererImpl;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResourceRendererImpl;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;

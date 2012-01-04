@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.worktime.service.WorktimeDashboardWidget;
 
 @Singleton
