@@ -2,10 +2,13 @@ package de.benjaminborbe.bookmark.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -29,7 +32,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("/bb/bookmark", "Local - BB - Bookmarks", Arrays.asList("bookmark", "lesezeichen")));
 		save(createBookmark("/bb/worktime", "Local - BB - Worktimes"));
 		save(createBookmark("/bb/util/passwordGenerator", "Local - BB - PasswordGenerator"));
-		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring"));
+		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring", true));
 		save(createBookmark("/bb/gwt/Home.html", "Local - BB - GWT"));
 		save(createBookmark("/bb/search", "Local - BB - Search"));
 		save(createBookmark("/bb/search/components", "Local - BB - Search Components"));
@@ -101,21 +104,48 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 	}
 
 	protected BookmarkBean createBookmark(final String url, final String name) {
-		return createBookmark(url, name, DEFAULT_DESCRIPTION, new ArrayList<String>());
+		return createBookmark(url, name, false);
 	}
 
 	protected BookmarkBean createBookmark(final String url, final String name, final List<String> keywords) {
-		return createBookmark(url, name, DEFAULT_DESCRIPTION, keywords);
+		return createBookmark(url, name, keywords, false);
 	}
 
 	protected BookmarkBean createBookmark(final String url, final String name, final String description,
 			final List<String> keywords) {
+		return createBookmark(url, name, description, keywords, false);
+	}
+
+	protected BookmarkBean createBookmark(final String url, final String name, final boolean favorite) {
+		return createBookmark(url, name, DEFAULT_DESCRIPTION, new ArrayList<String>(), favorite);
+	}
+
+	protected BookmarkBean createBookmark(final String url, final String name, final List<String> keywords,
+			final boolean favorite) {
+		return createBookmark(url, name, DEFAULT_DESCRIPTION, keywords, favorite);
+	}
+
+	protected BookmarkBean createBookmark(final String url, final String name, final String description,
+			final List<String> keywords, final boolean favorite) {
 		final BookmarkBean bookmark = create();
 		bookmark.setUrl(url);
 		bookmark.setName(name);
 		bookmark.setDescription(description);
 		bookmark.setKeywords(keywords);
+		bookmark.setFavorite(favorite);
 		return bookmark;
+	}
+
+	@Override
+	public Collection<BookmarkBean> getFavorites() {
+		final Predicate<BookmarkBean> filter = new Predicate<BookmarkBean>() {
+
+			@Override
+			public boolean apply(final BookmarkBean bookmark) {
+				return bookmark.isFavorite();
+			}
+		};
+		return Collections2.filter(getAll(), filter);
 	}
 
 }

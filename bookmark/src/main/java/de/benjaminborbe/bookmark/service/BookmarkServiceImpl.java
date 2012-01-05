@@ -39,7 +39,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 		}
 	}
 
-	private final Comparator<Bookmark> c = new BookmarkByNameComparator();
+	private final Comparator<Bookmark> bookmarkComparator = new BookmarkByNameComparator();
 
 	private final Logger logger;
 
@@ -55,7 +55,15 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public List<Bookmark> getBookmarks() {
 		logger.debug("getBookmarks");
 		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getAll());
-		Collections.sort(bookmarks, c);
+		Collections.sort(bookmarks, bookmarkComparator);
+		return bookmarks;
+	}
+
+	@Override
+	public List<Bookmark> getBookmarkFavoritie() {
+		logger.debug("getBookmarks");
+		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites());
+		Collections.sort(bookmarks, bookmarkComparator);
 		return bookmarks;
 	}
 

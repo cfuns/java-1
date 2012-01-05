@@ -14,13 +14,16 @@ public class BookmarkServiceMock implements BookmarkService {
 
 	@Override
 	public List<Bookmark> getBookmarks() {
-		
 		return null;
 	}
 
 	@Override
 	public List<Bookmark> searchBookmarks(final String[] words) {
-		
+		return null;
+	}
+
+	@Override
+	public List<Bookmark> getBookmarkFavoritie() {
 		return null;
 	}
 

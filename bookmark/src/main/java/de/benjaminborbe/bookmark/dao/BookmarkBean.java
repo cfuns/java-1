@@ -19,6 +19,8 @@ public class BookmarkBean implements Entity, Bookmark {
 
 	private List<String> keywords;
 
+	private boolean favorite;
+
 	@Override
 	public String getName() {
 		return name;
@@ -60,7 +62,16 @@ public class BookmarkBean implements Entity, Bookmark {
 		this.keywords = keywords;
 	}
 
+	@Override
 	public List<String> getKeywords() {
 		return keywords;
+	}
+
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(final boolean favorite) {
+		this.favorite = favorite;
 	}
 }

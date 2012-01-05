@@ -10,8 +10,10 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
+import de.benjaminborbe.bookmark.service.BookmarkFavoriteDashboardWidget;
 import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl;
 import de.benjaminborbe.bookmark.servlet.BookmarkServlet;
+import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -30,6 +32,9 @@ public class BookmarkActivator extends HttpBundleActivator {
 	@Inject
 	private BookmarkSearchServiceComponentImpl bookmarkSearchService;
 
+	@Inject
+	private BookmarkFavoriteDashboardWidget bookmarkFavoriteDashboardWidget;
+
 	public BookmarkActivator() {
 		super("bookmark");
 	}
@@ -43,8 +48,8 @@ public class BookmarkActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(BookmarkService.class, bookmarkService));
-		result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, bookmarkSearchService.getClass()
-				.getName()));
+		result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, bookmarkSearchService.getClass().getName()));
+		result.add(new ServiceInfo(DashboardWidget.class, bookmarkFavoriteDashboardWidget, bookmarkFavoriteDashboardWidget.getClass().getName()));
 		return result;
 	}
 
