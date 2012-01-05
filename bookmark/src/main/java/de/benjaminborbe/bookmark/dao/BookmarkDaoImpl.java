@@ -40,29 +40,25 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
 		save(createBookmark("http://kleinanzeigen.ebay.de/", "Ebay Kleinanzeigen"));
-		save(createBookmark("http://confluence.rocketnews.de", "Rocketnews - Confluence - Wiki",
-				Arrays.asList("wiki", "confluence")));
-		save(createBookmark("http://www.harteslicht.com", "Harteslicht",
-				Arrays.asList("foto", "photo", "photography", "fotografie")));
-		save(createBookmark("http://www.benjamin-borbe.de", "Benjamin Borbe",
-				Arrays.asList("foto", "photo", "photography", "fotografie", "portfolio")));
+		save(createBookmark("http://confluence.rocketnews.de", "Rocketnews - Confluence - Wiki", Arrays.asList("wiki", "confluence")));
+		save(createBookmark("http://www.harteslicht.com", "Harteslicht", Arrays.asList("foto", "photo", "photography", "fotografie")));
+		save(createBookmark("http://www.benjamin-borbe.de", "Benjamin Borbe", Arrays.asList("foto", "photo", "photography", "fotografie", "portfolio")));
 		save(createBookmark("http://tomtom.de/gettingstarted", "TomTom"));
 		save(createBookmark("http://www.guenstiger.de", "Guenstiger", Arrays.asList("search")));
 		save(createBookmark("http://geizhals.at/deutschland/", "Geizhals", Arrays.asList("search")));
 		save(createBookmark("http://www.google.de/?hl=en", "Google"));
-		save(createBookmark("http://www.audible.de/", "Audible - Hörbücher",
-				Arrays.asList("Hörbücher", "Hoerbuecher", "shop")));
+		save(createBookmark("http://www.audible.de/", "Audible - Hörbücher", Arrays.asList("Hörbücher", "Hoerbuecher", "shop")));
 		save(createBookmark("http://www.dwitte.de/", "Dennis Witte", Arrays.asList("Dennis Witte", "dwitte")));
 		save(createBookmark("http://wuhrsteinalm.de/", "Wuhrsteinalm"));
 		save(createBookmark("http://www.postbank.de/", "Postbank", Arrays.asList("bank")));
 		save(createBookmark("https://banking.dkb.de/", "DKB", Arrays.asList("bank")));
 		save(createBookmark("http://www.tagesschau.de/", "Tagesschau", Arrays.asList("Tagesschau")));
-		save(createBookmark("http://www.tagesschau.de/100sekunden/", "Tagesschau in 100 Sekunden",
-				Arrays.asList("Tagesschau")));
+		save(createBookmark("http://www.tagesschau.de/100sekunden/", "Tagesschau in 100 Sekunden", Arrays.asList("Tagesschau")));
 		save(createBookmark("http://filestube.com", "Filestube", Arrays.asList("Download")));
 		save(createBookmark("http://store.steampowered.com/", "Steam - Store", Arrays.asList("Steam", "Shop", "Store")));
-		save(createBookmark("http://www.rocketnews.de/manager/html/list", "Rocketnews - Tomcat - Manager",
-				Arrays.asList("Tomcat", "Manager")));
+		save(createBookmark("http://www.rocketnews.de/manager/html/list", "Rocketnews - Tomcat - Manager", Arrays.asList("Tomcat", "Manager")));
+		save(createBookmark("https://www.icloud.com/", "iCloud", Arrays.asList("iCloud", "Apple")));
+		save(createBookmark("https://www.icloud.com/#find", "iCloud - Find", Arrays.asList("iCloud", "Find", "Apple")));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
@@ -74,8 +70,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel"));
 		save(createBookmark("http://localhost:8180/app/admin", "Twentyfeet - Devel - Admin"));
 		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
-		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997",
-				"Twentyfeet - Devel - App in Developermode"));
+		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode"));
 
 		// 20ft live
 		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live"));
@@ -111,8 +106,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		return createBookmark(url, name, keywords, false);
 	}
 
-	protected BookmarkBean createBookmark(final String url, final String name, final String description,
-			final List<String> keywords) {
+	protected BookmarkBean createBookmark(final String url, final String name, final String description, final List<String> keywords) {
 		return createBookmark(url, name, description, keywords, false);
 	}
 
@@ -120,13 +114,11 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		return createBookmark(url, name, DEFAULT_DESCRIPTION, new ArrayList<String>(), favorite);
 	}
 
-	protected BookmarkBean createBookmark(final String url, final String name, final List<String> keywords,
-			final boolean favorite) {
+	protected BookmarkBean createBookmark(final String url, final String name, final List<String> keywords, final boolean favorite) {
 		return createBookmark(url, name, DEFAULT_DESCRIPTION, keywords, favorite);
 	}
 
-	protected BookmarkBean createBookmark(final String url, final String name, final String description,
-			final List<String> keywords, final boolean favorite) {
+	protected BookmarkBean createBookmark(final String url, final String name, final String description, final List<String> keywords, final boolean favorite) {
 		final BookmarkBean bookmark = create();
 		bookmark.setUrl(url);
 		bookmark.setName(name);
