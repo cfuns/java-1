@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -50,7 +50,7 @@ public class WorktimeActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, worktimeCronJob, worktimeCronJob.getClass().getName()));
-		result.add(new ServiceInfo(DashboardWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass()
+		result.add(new ServiceInfo(DashboardContentWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass()
 				.getName()));
 		return result;
 	}

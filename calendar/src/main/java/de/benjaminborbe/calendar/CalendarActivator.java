@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.calendar.guice.CalendarModules;
 import de.benjaminborbe.calendar.service.CalendarDashboardWidget;
 import de.benjaminborbe.calendar.servlet.CalendarServlet;
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -61,7 +61,7 @@ public class CalendarActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(DashboardWidget.class, calendarDashboardWidget, calendarDashboardWidget.getClass()
+		result.add(new ServiceInfo(DashboardContentWidget.class, calendarDashboardWidget, calendarDashboardWidget.getClass()
 				.getName()));
 		return result;
 	}

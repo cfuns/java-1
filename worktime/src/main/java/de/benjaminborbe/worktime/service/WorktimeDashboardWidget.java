@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceImpl;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
@@ -24,7 +24,7 @@ import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 
 @Singleton
-public class WorktimeDashboardWidget implements DashboardWidget, RequireJavascriptResource {
+public class WorktimeDashboardWidget implements DashboardContentWidget, RequireJavascriptResource {
 
 	private final static int DEFAULT_DAY_AMOUNT = 5;
 

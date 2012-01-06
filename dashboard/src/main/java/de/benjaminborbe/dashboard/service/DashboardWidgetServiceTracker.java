@@ -3,10 +3,10 @@ package de.benjaminborbe.dashboard.service;
 import org.osgi.framework.BundleContext;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 
 @Singleton
-public class DashboardWidgetServiceTracker extends RegistryServiceTracker<DashboardWidget> {
+public class DashboardWidgetServiceTracker extends RegistryServiceTracker<DashboardContentWidget> {
 
 	public DashboardWidgetServiceTracker(
 			final DashboardWidgetRegistry registry,

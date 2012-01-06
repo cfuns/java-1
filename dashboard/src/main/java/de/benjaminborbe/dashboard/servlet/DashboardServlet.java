@@ -2,10 +2,7 @@ package de.benjaminborbe.dashboard.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,47 +13,16 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
-import de.benjaminborbe.dashboard.service.DashboardWidgetRegistry;
-import de.benjaminborbe.html.api.CssResource;
-import de.benjaminborbe.html.api.CssResourceImpl;
-import de.benjaminborbe.html.api.CssResourceRenderer;
-import de.benjaminborbe.html.api.JavascriptResource;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
-import de.benjaminborbe.html.api.RequireCssResource;
-import de.benjaminborbe.html.api.RequireJavascriptResource;
-
 @Singleton
 public class DashboardServlet extends HttpServlet {
-
-	private final class ComparatorImplementation implements Comparator<DashboardWidget> {
-
-		@Override
-		public int compare(final DashboardWidget w1, final DashboardWidget w2) {
-			return w1.getTitle().compareTo(w2.getTitle());
-		}
-	}
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private final Logger logger;
 
-	private final DashboardWidgetRegistry dashboardWidgetRegistry;
-
-	private final CssResourceRenderer cssResourceRenderer;
-
-	private final JavascriptResourceRenderer javascriptResourceRenderer;
-
 	@Inject
-	public DashboardServlet(
-			final Logger logger,
-			final DashboardWidgetRegistry dashboardWidgetRegistry,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
-			final CssResourceRenderer cssResourceRenderer) {
+	public DashboardServlet(final Logger logger) {
 		this.logger = logger;
-		this.dashboardWidgetRegistry = dashboardWidgetRegistry;
-		this.javascriptResourceRenderer = javascriptResourceRenderer;
-		this.cssResourceRenderer = cssResourceRenderer;
 	}
 
 	@Override
@@ -65,70 +31,7 @@ public class DashboardServlet extends HttpServlet {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		printHtml(request, response);
-	}
-
-	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<html>");
-		printHead(request, response);
-		printBody(request, response);
-		out.println("</html>");
-	}
-
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<body>");
-		out.println("<h1>Dashboard</h1>");
-		final List<DashboardWidget> dashboardWidgets = new ArrayList<DashboardWidget>(dashboardWidgetRegistry.getAll());
-		Collections.sort(dashboardWidgets, new ComparatorImplementation());
-		for (final DashboardWidget dashboardWidget : dashboardWidgets) {
-			printDashboardWidget(request, response, dashboardWidget);
-		}
-		out.println("</body>");
-	}
-
-	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response,
-			final DashboardWidget dashboardWidget) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<div class=\"dashboardWidget\">");
-		out.println("<h2>" + dashboardWidget.getTitle() + "</h2>");
-		dashboardWidget.render(request, response);
-		out.println("</div>");
-	}
-
-	protected void printHead(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<head>");
-		out.println("<title>Dashboard</title>");
-		javascriptResourceRenderer.render(request, response, getJavascriptResources(request, response));
-		cssResourceRenderer.render(request, response, getCssResources(request, response));
-		out.println("</head>");
-	}
-
-	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request,
-			final HttpServletResponse response) throws IOException {
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
-		for (final DashboardWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
-			if (dashboardWidget instanceof RequireJavascriptResource) {
-				result.addAll(((RequireJavascriptResource) dashboardWidget).getJavascriptResource(request, response));
-			}
-		}
-		logger.debug("found " + result + " required javascript resources");
-		return result;
-	}
-
-	protected List<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response)
-			throws IOException {
-		final String contextPath = request.getContextPath();
-		final List<CssResource> result = new ArrayList<CssResource>();
-		result.add(new CssResourceImpl(contextPath + "/dashboard/css/style.css"));
-		for (final DashboardWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
-			if (dashboardWidget instanceof RequireCssResource) {
-				result.addAll(((RequireCssResource) dashboardWidget).getCssResource(request, response));
-			}
-		}
-		logger.debug("found " + result + " required css resources");
-		return result;
+		out.println("<h2>Sample</h2>");
 	}
 }

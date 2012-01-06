@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 
 @Singleton
-public class MailDashboardWidget implements DashboardWidget {
+public class MailDashboardWidget implements DashboardContentWidget {
 
 	private final Logger logger;
 

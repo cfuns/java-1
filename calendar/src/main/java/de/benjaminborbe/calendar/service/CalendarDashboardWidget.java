@@ -12,12 +12,12 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 
 @Singleton
-public class CalendarDashboardWidget implements DashboardWidget {
+public class CalendarDashboardWidget implements DashboardContentWidget {
 
 	private final CalendarUtil calendarUtil;
 

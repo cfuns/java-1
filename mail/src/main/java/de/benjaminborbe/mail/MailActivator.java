@@ -8,7 +8,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModules;
 import de.benjaminborbe.mail.service.MailDashboardWidget;
@@ -54,7 +54,7 @@ public class MailActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(MailService.class, mailService));
-		result.add(new ServiceInfo(DashboardWidget.class, mailDashboardWidget, mailDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(DashboardContentWidget.class, mailDashboardWidget, mailDashboardWidget.getClass().getName()));
 		return result;
 	}
 

@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 
 @Singleton
-public class WeatherDashboardWidget implements DashboardWidget {
+public class WeatherDashboardWidget implements DashboardContentWidget {
 
 	@Inject
 	public WeatherDashboardWidget(final Logger logger) {

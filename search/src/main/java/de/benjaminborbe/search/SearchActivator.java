@@ -9,7 +9,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
 import de.benjaminborbe.search.service.SearchDashboardWidget;
@@ -84,7 +84,7 @@ public class SearchActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result
-				.add(new ServiceInfo(DashboardWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
+				.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		return result;
 	}
 }

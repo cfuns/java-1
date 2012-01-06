@@ -13,10 +13,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
-import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 
 @Singleton
-public class BookmarkFavoriteDashboardWidget implements DashboardWidget {
+public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 
 	private final Logger logger;
 

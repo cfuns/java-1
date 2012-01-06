@@ -17,7 +17,7 @@ public class SlashServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String DEFAULT_TARGET = "dashboard";
+	private static final String DEFAULT_TARGET = "website/dashboard";
 
 	private final Logger logger;
 
@@ -27,8 +27,7 @@ public class SlashServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.sendRedirect(buildRedirectTargetPath(request));
 	}

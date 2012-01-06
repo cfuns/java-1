@@ -10,7 +10,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.website.guice.WebsiteModules;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
+import de.benjaminborbe.website.servlet.WebsiteDashboardServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class WebsiteActivator extends HttpBundleActivator {
 
 	@Inject
-	private WebsiteServlet websiteServlet;
+	private WebsiteDashboardServlet dashboardServlet;
 
 	public WebsiteActivator() {
 		super("website");
@@ -35,7 +35,7 @@ public class WebsiteActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(websiteServlet, "/"));
+		result.add(new ServletInfo(dashboardServlet, "/dashboard"));
 		return result;
 	}
 
