@@ -30,6 +30,6 @@ public class SlashServletTest {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getContextPath()).andReturn("/bb");
 		EasyMock.replay(request);
-		assertEquals("/bb/dashboard", slashServlet.buildRedirectTargetPath(request));
+		assertEquals("/bb/website/dashboard", slashServlet.buildRedirectTargetPath(request));
 	}
 }

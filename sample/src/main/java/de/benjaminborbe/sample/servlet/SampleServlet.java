@@ -31,6 +31,6 @@ public class SampleServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		final PrintWriter out = response.getWriter();
-		out.println("<h2>Dashboard</h2>");
+		out.println("<h2>Sample</h2>");
 	}
 }
