@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.website.servlet.WebsiteResourceServlet;
+
 @Singleton
-public class GwtHomeNoCacheJsServlet extends ResourceServlet {
+public class GwtHomeNoCacheJsServlet extends WebsiteResourceServlet {
 
 	private static final long serialVersionUID = -2162585976374394940L;
 

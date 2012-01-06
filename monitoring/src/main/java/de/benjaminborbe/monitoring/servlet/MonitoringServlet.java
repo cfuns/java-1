@@ -1,13 +1,10 @@
 package de.benjaminborbe.monitoring.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,54 +13,53 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.monitoring.check.CheckResult;
-import de.benjaminborbe.monitoring.check.NodeChecker;
-import de.benjaminborbe.monitoring.check.RootNode;
-import de.benjaminborbe.tools.io.FlushPrintWriter;
+import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.monitoring.api.MonitoringWidget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class MonitoringServlet extends HttpServlet {
+public class MonitoringServlet extends WebsiteHtmlServlet {
 
-	private final class CheckResultComparator implements Comparator<CheckResult> {
+	private static final long serialVersionUID = -3368317580182944276L;
 
-		@Override
-		public int compare(final CheckResult a, final CheckResult b) {
-			return a.toString().compareTo(b.toString());
-		}
-	}
+	private static final String TITLE = "Monitoring";
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private final MonitoringWidget monitoringWidget;
 
-	private final Logger logger;
-
-	private final RootNode rootNode;
-
-	private final NodeChecker nodeChecker;
+	private final NavigationWidget navigationWidget;
 
 	@Inject
-	public MonitoringServlet(final Logger logger, final RootNode rootNode, final NodeChecker nodeChecker) {
-		this.logger = logger;
-		this.rootNode = rootNode;
-		this.nodeChecker = nodeChecker;
+	public MonitoringServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final NavigationWidget navigationWidget,
+			final MonitoringWidget monitoringWidget) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+		this.navigationWidget = navigationWidget;
+		this.monitoringWidget = monitoringWidget;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		logger.debug("service");
-		response.setContentType("text/plain");
-		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
-		out.println("monitoring checks started");
-		printCheckWithRootNode(out);
-		out.println("monitoring checks finished");
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		navigationWidget.render(request, response);
+		monitoringWidget.render(request, response);
 	}
 
-	protected void printCheckWithRootNode(final FlushPrintWriter out) {
-		final List<CheckResult> checkResults = new ArrayList<CheckResult>(nodeChecker.checkNode(rootNode));
-		Collections.sort(checkResults, new CheckResultComparator());
-		for (final CheckResult checkResult : checkResults) {
-			logger.debug(checkResult.toString());
-			out.println(checkResult.toString());
-		}
+	@Override
+	protected String getTitle() {
+		return TITLE;
+	}
+
+	@Override
+	protected Collection<Widget> getWidgets() {
+		final Set<Widget> result = new HashSet<Widget>();
+		result.add(navigationWidget);
+		result.add(monitoringWidget);
+		return result;
 	}
 
 }

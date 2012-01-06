@@ -11,6 +11,7 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
+import de.benjaminborbe.website.guice.WebsiteModule;
 
 public class DashboardModules implements Modules {
 
@@ -22,6 +23,6 @@ public class DashboardModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DashboardOsgiModule(), new DashboardModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DashboardOsgiModule(), new DashboardModule(), new ToolModule(), new WebsiteModule());
 	}
 }

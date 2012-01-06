@@ -3,8 +3,6 @@ package de.benjaminborbe.index.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,18 +11,20 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.website.servlet.WebsiteTextServlet;
+
 @Singleton
-public class RobotsTxtServlet extends HttpServlet {
+public class RobotsTxtServlet extends WebsiteTextServlet {
 
 	private static final long serialVersionUID = -7647639127591841698L;
 
 	@Inject
-	private Logger logger;
+	public RobotsTxtServlet(final Logger logger) {
+		super(logger);
+	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		logger.debug("service");
-		response.setContentType("text/plain");
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("User-agent: *");
 		out.println("Disallow: /css/");

@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +24,7 @@ import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 
 @Singleton
-public abstract class WebsiteMainServlet extends HttpServlet {
+public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1544940069187374367L;
 
@@ -36,7 +35,7 @@ public abstract class WebsiteMainServlet extends HttpServlet {
 	protected final JavascriptResourceRenderer javascriptResourceRenderer;
 
 	@Inject
-	public WebsiteMainServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer) {
+	public WebsiteHtmlServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer) {
 		this.logger = logger;
 		this.cssResourceRenderer = cssResourceRenderer;
 		this.javascriptResourceRenderer = javascriptResourceRenderer;
@@ -44,10 +43,12 @@ public abstract class WebsiteMainServlet extends HttpServlet {
 
 	protected abstract String getTitle();
 
-	protected abstract Collection<Widget> getWidgets();
+	protected Collection<Widget> getWidgets() {
+		return new HashSet<Widget>();
+	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
@@ -67,6 +68,7 @@ public abstract class WebsiteMainServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		logger.debug("printBody");
 		out.println("<body>");
+		out.println("<h1>" + getTitle() + "</h1>");
 		out.println("</body>");
 	}
 

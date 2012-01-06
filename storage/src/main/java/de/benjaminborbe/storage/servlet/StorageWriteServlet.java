@@ -2,7 +2,6 @@ package de.benjaminborbe.storage.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +38,7 @@ public class StorageWriteServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("StorageReadServlet.service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");

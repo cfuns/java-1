@@ -3,7 +3,6 @@ package de.benjaminborbe.util.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +37,7 @@ public class UtilPasswordGeneratorServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");

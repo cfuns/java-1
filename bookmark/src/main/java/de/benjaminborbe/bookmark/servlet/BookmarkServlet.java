@@ -3,11 +3,11 @@ package de.benjaminborbe.bookmark.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,10 +19,14 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class BookmarkServlet extends HttpServlet {
+public class BookmarkServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -30,47 +34,25 @@ public class BookmarkServlet extends HttpServlet {
 
 	private static final Target target = Target.BLANK;
 
-	private final Logger logger;
-
 	private final BookmarkService bookmarkService;
 
 	@Inject
-	public BookmarkServlet(final Logger logger, final BookmarkService bookmarkService) {
-		this.logger = logger;
+	public BookmarkServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer, final BookmarkService bookmarkService) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer);
 		this.bookmarkService = bookmarkService;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		logger.debug("service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
-		final String contextPath = request.getContextPath();
-		printHtml(out, contextPath);
-	}
-
-	protected void printHtml(final PrintWriter out, final String contextPath) {
-		out.println("<html>");
-		printHead(out, contextPath);
-		printBody(out, contextPath);
-		out.println("</html>");
-	}
-
-	protected void printHead(final PrintWriter out, final String contextPath) {
-		out.println("<head>");
-		out.println("<title>" + PAGE_TITLE + "</title>");
-		out.println("</head>");
-	}
-
-	protected void printBody(final PrintWriter out, final String contextPath) {
 		out.println("<body>");
 		out.println("<h1>" + PAGE_TITLE + "</h1>");
-		printLinks(out);
+		printLinks(request, response);
 		out.println("</body>");
 	}
 
-	protected void printLinks(final PrintWriter out) {
+	protected void printLinks(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		final PrintWriter out = response.getWriter();
 		out.println("<h2>Links</h2>");
 		for (final Bookmark bookmark : bookmarkService.getBookmarks()) {
 			out.println("<li>");
@@ -85,5 +67,15 @@ public class BookmarkServlet extends HttpServlet {
 		final List<String> keywords = new ArrayList<String>(bookmark.getKeywords());
 		Collections.sort(keywords);
 		return StringUtils.join(bookmark.getKeywords(), ",");
+	}
+
+	@Override
+	protected String getTitle() {
+		return PAGE_TITLE;
+	}
+
+	@Override
+	protected Collection<Widget> getWidgets() {
+		return new HashSet<Widget>();
 	}
 }

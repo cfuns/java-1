@@ -17,6 +17,7 @@ import de.benjaminborbe.search.service.SearchDashboardWidget;
 import de.benjaminborbe.search.service.SearchServiceComponentServiceTracker;
 import de.benjaminborbe.search.servlet.SearchOsdServlet;
 import de.benjaminborbe.search.servlet.SearchServiceComponentsServlet;
+import de.benjaminborbe.search.servlet.SearchServlet;
 import de.benjaminborbe.search.servlet.SearchSuggestServlet;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -49,6 +50,9 @@ public class SearchActivator extends HttpBundleActivator {
 	@Inject
 	private SearchDashboardWidget searchDashboardWidget;
 
+	@Inject
+	private SearchServlet searchServlet;
+
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
@@ -67,8 +71,9 @@ public class SearchActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(searchServlet, "/"));
 		result.add(new ServletInfo(searchSuggestServlet, "/suggest"));
-		result.add(new ServletInfo(searchServiceComponentsServlet, "/"));
+		result.add(new ServletInfo(searchServiceComponentsServlet, "/component"));
 		result.add(new ServletInfo(searchOsdServlet, "/osd.xml"));
 		return result;
 	}

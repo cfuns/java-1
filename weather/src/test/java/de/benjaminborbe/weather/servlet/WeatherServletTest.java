@@ -2,9 +2,6 @@ package de.benjaminborbe.weather.servlet;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -24,12 +21,4 @@ public class WeatherServletTest {
 		assertEquals(a, b);
 	}
 
-	@Test
-	public void buildRedirectTargetPath() {
-		final WeatherServlet weatherServlet = new WeatherServlet(null);
-		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		EasyMock.expect(request.getContextPath()).andReturn("/bb");
-		EasyMock.replay(request);
-		assertEquals("/bb/dashboard", weatherServlet.buildRedirectTargetPath(request));
-	}
 }

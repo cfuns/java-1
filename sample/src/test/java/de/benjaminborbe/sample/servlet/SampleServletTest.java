@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,10 @@ import org.slf4j.Logger;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.html.api.CssResource;
+import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResource;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.sample.guice.SampleModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -33,21 +39,38 @@ public class SampleServletTest {
 
 	@Test
 	public void service() throws Exception {
+
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		final SampleServlet sampleServlet = new SampleServlet(logger);
-		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		EasyMock.replay(request);
+
 		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		final StringWriter sw = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(sw);
-		EasyMock.expect(response.getWriter()).andReturn(printWriter);
+		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
 		EasyMock.replay(response);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.replay(request);
+
+		final Collection<CssResource> cssResources = new HashSet<CssResource>();
+
+		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
+		cssResourceRenderer.render(request, response, cssResources);
+		EasyMock.replay(cssResourceRenderer);
+
+		final Collection<JavascriptResource> javascriptResources = new HashSet<JavascriptResource>();
+
+		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
+		javascriptResourceRenderer.render(request, response, javascriptResources);
+		EasyMock.replay(javascriptResourceRenderer);
+
+		final SampleServlet sampleServlet = new SampleServlet(logger, cssResourceRenderer, javascriptResourceRenderer);
+
 		sampleServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h2>Sample</h2>") != -1);
+		assertTrue(content.indexOf("<h1>Sample</h1>") != -1);
 	}
 }

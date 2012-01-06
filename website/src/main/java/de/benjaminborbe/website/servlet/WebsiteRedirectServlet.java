@@ -1,4 +1,4 @@
-package de.benjaminborbe.translate.servlet;
+package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
 
@@ -12,16 +12,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class TranslateServlet extends HttpServlet {
+public abstract class WebsiteRedirectServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private static final long serialVersionUID = -548691469381588488L;
 
-	private static final String DEFAULT_TARGET = "dashboard";
-
-	private final Logger logger;
+	protected final Logger logger;
 
 	@Inject
-	public TranslateServlet(final Logger logger) {
+	public WebsiteRedirectServlet(final Logger logger) {
 		this.logger = logger;
 	}
 
@@ -32,6 +30,8 @@ public class TranslateServlet extends HttpServlet {
 	}
 
 	protected String buildRedirectTargetPath(final HttpServletRequest request) {
-		return request.getContextPath() + "/" + DEFAULT_TARGET;
+		return request.getContextPath() + "/" + getTarget();
 	}
+
+	protected abstract String getTarget();
 }

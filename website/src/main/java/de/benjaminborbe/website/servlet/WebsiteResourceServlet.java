@@ -1,4 +1,4 @@
-package de.benjaminborbe.gwt.server.servlet;
+package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,6 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,19 +19,19 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public abstract class ResourceServlet extends HttpServlet {
+public abstract class WebsiteResourceServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5530978651192430456L;
 
 	private final Logger logger;
 
 	@Inject
-	public ResourceServlet(final Logger logger) {
+	public WebsiteResourceServlet(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("service");
 		response.setContentType(contentType());
 		final InputStream input = getClass().getClassLoader().getResourceAsStream(getPath());

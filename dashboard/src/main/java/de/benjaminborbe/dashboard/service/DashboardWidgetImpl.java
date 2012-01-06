@@ -18,10 +18,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.html.api.CssResource;
-import de.benjaminborbe.html.api.CssResourceImpl;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
+import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
 public class DashboardWidgetImpl implements DashboardWidget {

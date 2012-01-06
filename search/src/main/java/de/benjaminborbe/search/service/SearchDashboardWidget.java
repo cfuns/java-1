@@ -16,11 +16,11 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
-import de.benjaminborbe.html.api.CssResourceImpl;
 import de.benjaminborbe.html.api.JavascriptResource;
-import de.benjaminborbe.html.api.JavascriptResourceImpl;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
+import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
 
 @Singleton
 public class SearchDashboardWidget implements DashboardContentWidget, RequireCssResource, RequireJavascriptResource {
@@ -45,7 +45,7 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 		final String searchSuggestUrl = contextPath + "/search/suggest";
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 
-		final String action = contextPath + "/website/search";
+		final String action = contextPath + "/search";
 		out.println("<form method=\"GET\" action=\"" + action + "\">");
 		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\"" + (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
 		out.println("<input type=\"submit\" value=\"search\" />");

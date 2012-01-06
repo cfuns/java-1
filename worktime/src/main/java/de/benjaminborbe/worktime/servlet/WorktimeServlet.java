@@ -2,9 +2,10 @@ package de.benjaminborbe.worktime.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,43 +14,32 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.worktime.service.WorktimeDashboardWidget;
 
 @Singleton
-public class WorktimeServlet extends HttpServlet {
+public class WorktimeServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private final Logger logger;
+	private static final String TITLE = "Worktime";
 
 	private final WorktimeDashboardWidget worktimeDashboardWidget;
 
-	private final JavascriptResourceRenderer javascriptResourceRenderer;
-
 	@Inject
-	public WorktimeServlet(final Logger logger, final WorktimeDashboardWidget worktimeDashboardWidget, final JavascriptResourceRenderer javascriptResourceRenderer) {
-		this.logger = logger;
+	public WorktimeServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final WorktimeDashboardWidget worktimeDashboardWidget) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer);
 		this.worktimeDashboardWidget = worktimeDashboardWidget;
-		this.javascriptResourceRenderer = javascriptResourceRenderer;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		logger.debug("service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
-		printHtml(request, response);
-	}
-
-	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<html>");
-		printHeader(request, response);
-		printBody(request, response);
-		out.println("</html>");
-	}
-
 	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<body>");
@@ -58,10 +48,15 @@ public class WorktimeServlet extends HttpServlet {
 		out.println("</body>");
 	}
 
-	protected void printHeader(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<head>");
-		javascriptResourceRenderer.render(request, response, worktimeDashboardWidget.getJavascriptResource(request, response));
-		out.println("</head>");
+	@Override
+	protected Collection<Widget> getWidgets() {
+		final Set<Widget> result = new HashSet<Widget>();
+		result.add(worktimeDashboardWidget);
+		return result;
+	}
+
+	@Override
+	protected String getTitle() {
+		return TITLE;
 	}
 }

@@ -1,4 +1,6 @@
-package de.benjaminborbe.html.api;
+package de.benjaminborbe.website.util;
+
+import de.benjaminborbe.html.api.JavascriptResource;
 
 public class JavascriptResourceImpl implements JavascriptResource {
 

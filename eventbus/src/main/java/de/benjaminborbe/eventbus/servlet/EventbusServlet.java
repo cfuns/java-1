@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,24 +16,27 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.service.EventBusServiceImpl;
+import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class EventbusServlet extends HttpServlet {
+public class EventbusServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private final Logger logger;
+	private static final String TITLE = "EventBus";
 
 	private final EventBusServiceImpl eventBusServiceImpl;
 
 	@Inject
-	public EventbusServlet(final Logger logger, final EventBusServiceImpl eventBusServiceImpl) {
-		this.logger = logger;
+	public EventbusServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer, final EventBusServiceImpl eventBusServiceImpl) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer);
 		this.eventBusServiceImpl = eventBusServiceImpl;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("service");
 		response.setContentType("text/plain");
 		final PrintWriter out = response.getWriter();
@@ -49,5 +50,10 @@ public class EventbusServlet extends HttpServlet {
 			}
 			out.println("");
 		}
+	}
+
+	@Override
+	protected String getTitle() {
+		return TITLE;
 	}
 }

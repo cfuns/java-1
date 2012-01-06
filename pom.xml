@@ -82,7 +82,6 @@
 		<module>html</module>
 		<module>html_test</module>
 		<module>website</module>
-		<module>website_test</module>
 	</modules>
 	<build>
 		<resources>

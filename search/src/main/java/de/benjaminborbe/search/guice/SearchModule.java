@@ -6,9 +6,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResourceRenderer;
-import de.benjaminborbe.html.api.CssResourceRendererImpl;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
-import de.benjaminborbe.html.api.JavascriptResourceRendererImpl;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.service.SearchServiceImpl;
@@ -16,6 +14,8 @@ import de.benjaminborbe.search.service.SearchWidgetImpl;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistryImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import de.benjaminborbe.website.util.CssResourceRendererImpl;
+import de.benjaminborbe.website.util.JavascriptResourceRendererImpl;
 
 public class SearchModule extends AbstractModule {
 

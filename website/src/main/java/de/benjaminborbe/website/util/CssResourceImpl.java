@@ -1,4 +1,6 @@
-package de.benjaminborbe.html.api;
+package de.benjaminborbe.website.util;
+
+import de.benjaminborbe.html.api.CssResource;
 
 public class CssResourceImpl implements CssResource {
 
