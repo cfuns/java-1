@@ -34,7 +34,7 @@ public class SearchWidgetImpl implements SearchWidget {
 
 	private static final int MAX_RESULTS = 20;
 
-	private static final Target target = Target.SELF;
+	private static final Target target = Target.BLANK;
 
 	private static final String TITLE = "Search";
 

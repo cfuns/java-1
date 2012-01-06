@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.tools.html.Target;
 
 @Singleton
 public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
@@ -21,6 +22,8 @@ public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 	private final Logger logger;
 
 	private final BookmarkService bookmarkService;
+
+	private static final Target target = Target.BLANK;
 
 	@Inject
 	public BookmarkFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService) {
@@ -35,7 +38,7 @@ public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 		out.println("<ul>");
 		out.println("<li>");
 		for (final Bookmark bookmark : bookmarkService.getBookmarkFavoritie()) {
-			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"_blank\">" + bookmark.getName() + "</a>");
+			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"" + target + "\">" + bookmark.getName() + "</a>");
 		}
 		out.println("</li>");
 		out.println("</ul>");

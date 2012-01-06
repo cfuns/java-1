@@ -89,7 +89,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 					parseUtil.parseInt(hourParts[1]), parseUtil.parseInt(hourParts[2]));
 		}
 		catch (final NullPointerException e) {
-			throw new ParseException("NullPointerException", e);
+			throw new ParseException("NullPointerException while parseing timeZone " + timeZone + " dateTime: " + dateTime, e);
 		}
 	}
 

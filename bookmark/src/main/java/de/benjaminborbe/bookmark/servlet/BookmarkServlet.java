@@ -19,6 +19,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.tools.html.Target;
 
 @Singleton
 public class BookmarkServlet extends HttpServlet {
@@ -26,6 +27,8 @@ public class BookmarkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String PAGE_TITLE = "Bookmarks";
+
+	private static final Target target = Target.BLANK;
 
 	private final Logger logger;
 
@@ -71,7 +74,7 @@ public class BookmarkServlet extends HttpServlet {
 		out.println("<h2>Links</h2>");
 		for (final Bookmark bookmark : bookmarkService.getBookmarks()) {
 			out.println("<li>");
-			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"_blank\">" + bookmark.getName() + "</a>");
+			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"" + target + "\">" + bookmark.getName() + "</a>");
 			out.println(" ");
 			out.println("[" + keywordsToString(bookmark) + "]");
 			out.println("</li>");
