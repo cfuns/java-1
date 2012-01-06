@@ -2,6 +2,7 @@ package de.benjaminborbe.worktime.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,26 +28,21 @@ public class WorktimeServlet extends HttpServlet {
 	private final JavascriptResourceRenderer javascriptResourceRenderer;
 
 	@Inject
-	public WorktimeServlet(
-			final Logger logger,
-			final WorktimeDashboardWidget worktimeDashboardWidget,
-			final JavascriptResourceRenderer javascriptResourceRenderer) {
+	public WorktimeServlet(final Logger logger, final WorktimeDashboardWidget worktimeDashboardWidget, final JavascriptResourceRenderer javascriptResourceRenderer) {
 		this.logger = logger;
 		this.worktimeDashboardWidget = worktimeDashboardWidget;
 		this.javascriptResourceRenderer = javascriptResourceRenderer;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		printHtml(request, response);
 	}
 
-	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<html>");
 		printHeader(request, response);
@@ -65,8 +61,7 @@ public class WorktimeServlet extends HttpServlet {
 	protected void printHeader(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<head>");
-		javascriptResourceRenderer.render(request, response,
-				worktimeDashboardWidget.getJavascriptResource(request, response));
+		javascriptResourceRenderer.render(request, response, worktimeDashboardWidget.getJavascriptResource(request, response));
 		out.println("</head>");
 	}
 }

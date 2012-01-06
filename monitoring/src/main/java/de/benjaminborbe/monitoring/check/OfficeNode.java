@@ -6,8 +6,7 @@ public class OfficeNode extends TreeNode implements HasChildNodes, HasPreconditi
 
 	@Inject
 	public OfficeNode(final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder) {
-		super(tcpCheckBuilder.buildCheck("TCP-Check on timetracker.rp.seibert-media.net:443",
-				"timetracker.rp.seibert-media.net", 443));
+		super(tcpCheckBuilder.buildCheck("TCP-Check on timetracker.rp.seibert-media.net:443", "timetracker.rp.seibert-media.net", 443));
 
 		// dev-cassandra
 		{

@@ -38,8 +38,7 @@ public class StorageReadServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("StorageReadServlet.service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
@@ -63,10 +62,8 @@ public class StorageReadServlet extends HttpServlet {
 		}
 		else {
 			out.println("missing parameters.<br>usage: ");
-			out.println(PARAMETER_COLUMNFAMILY + "=[Column_family]&" + PARAMETER_ID + "=[ID]&" + PARAMETER_KEY
-					+ "=[colname]<br>");
-			out.println("example to read api-data: " + PARAMETER_COLUMNFAMILY + "=api_data&" + PARAMETER_ID
-					+ "=[content_key from database]&" + PARAMETER_KEY + "=content<br>");
+			out.println(PARAMETER_COLUMNFAMILY + "=[Column_family]&" + PARAMETER_ID + "=[ID]&" + PARAMETER_KEY + "=[colname]<br>");
+			out.println("example to read api-data: " + PARAMETER_COLUMNFAMILY + "=api_data&" + PARAMETER_ID + "=[content_key from database]&" + PARAMETER_KEY + "=content<br>");
 		}
 		out.println("</body></html>");
 	}

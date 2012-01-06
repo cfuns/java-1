@@ -6,9 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.website.WebsiteActivator;
-import de.benjaminborbe.website.guice.WebsiteModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.website.guice.WebsiteModulesMock;
 
 public class WebsiteActivatorTest {
 

@@ -83,10 +83,8 @@ public class QuartzImpl implements Quartz {
 		else {
 			try {
 				final String name = cronJob.getClass().getName();
-				final JobDetail jobDetail = newJob(CronJobOsgi.class).withIdentity(name, name).usingJobData("name", name)
-						.build();
-				final CronTrigger trigger = newTrigger().withIdentity(name, name)
-						.withSchedule(cronSchedule(cronJob.getScheduleExpression())).forJob(name, name).build();
+				final JobDetail jobDetail = newJob(CronJobOsgi.class).withIdentity(name, name).usingJobData("name", name).build();
+				final CronTrigger trigger = newTrigger().withIdentity(name, name).withSchedule(cronSchedule(cronJob.getScheduleExpression())).forJob(name, name).build();
 
 				jobDetails.put(cronJob.getClass(), jobDetail.getKey());
 

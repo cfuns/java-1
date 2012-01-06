@@ -14,7 +14,6 @@ public class EventbusModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new EventbusOsgiModuleMock(),
-				new EventbusModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new EventbusOsgiModuleMock(), new EventbusModule(), new ToolModule());
 	}
 }

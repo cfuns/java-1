@@ -13,10 +13,7 @@ import de.benjaminborbe.navigation.util.NavigationEntryRegistry;
 public class NavigationServiceTracker extends RegistryServiceTracker<NavigationEntry> {
 
 	@Inject
-	public NavigationServiceTracker(
-			final NavigationEntryRegistry navigationEntryRegistry,
-			final BundleContext context,
-			final Class<?> clazz) {
+	public NavigationServiceTracker(final NavigationEntryRegistry navigationEntryRegistry, final BundleContext context, final Class<?> clazz) {
 		super(navigationEntryRegistry, context, clazz);
 	}
 

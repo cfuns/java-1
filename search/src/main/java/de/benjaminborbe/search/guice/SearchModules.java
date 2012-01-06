@@ -22,7 +22,6 @@ public class SearchModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SearchOsgiModule(), new SearchModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SearchOsgiModule(), new SearchModule(), new ToolModule());
 	}
 }

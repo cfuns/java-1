@@ -23,8 +23,7 @@ public class UtilPasswordGeneratorServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2429004714466731564L;
 
-	private static final UtilPasswordCharacter[] DEFAULT_CHARACTERS = { UtilPasswordCharacter.LOWER,
-			UtilPasswordCharacter.UPPER, UtilPasswordCharacter.NUMBER, UtilPasswordCharacter.SPECIAL };
+	private static final UtilPasswordCharacter[] DEFAULT_CHARACTERS = { UtilPasswordCharacter.LOWER, UtilPasswordCharacter.UPPER, UtilPasswordCharacter.NUMBER, UtilPasswordCharacter.SPECIAL };
 
 	private static final int DEFAULT_LENGHT = 8;
 
@@ -39,8 +38,7 @@ public class UtilPasswordGeneratorServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");

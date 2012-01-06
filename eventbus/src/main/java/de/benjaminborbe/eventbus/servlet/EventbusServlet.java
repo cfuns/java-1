@@ -35,8 +35,7 @@ public class EventbusServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.setContentType("text/plain");
 		final PrintWriter out = response.getWriter();

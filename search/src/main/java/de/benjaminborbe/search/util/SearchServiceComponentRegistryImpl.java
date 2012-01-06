@@ -6,7 +6,6 @@ import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.util.RegistryImpl;
 
 @Singleton
-public class SearchServiceComponentRegistryImpl extends RegistryImpl<SearchServiceComponent> implements
-		SearchServiceComponentRegistry {
+public class SearchServiceComponentRegistryImpl extends RegistryImpl<SearchServiceComponent> implements SearchServiceComponentRegistry {
 
 }

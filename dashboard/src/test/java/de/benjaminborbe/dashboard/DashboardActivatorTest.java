@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.dashboard.DashboardActivator;
 import de.benjaminborbe.dashboard.guice.DashboardModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

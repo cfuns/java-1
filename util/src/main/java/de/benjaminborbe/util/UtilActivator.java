@@ -9,15 +9,15 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.util.guice.UtilModules;
-import de.benjaminborbe.util.servlet.UtilPasswordGeneratorServlet;
-import de.benjaminborbe.util.servlet.UtilServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.util.guice.UtilModules;
+import de.benjaminborbe.util.servlet.UtilPasswordGeneratorServlet;
+import de.benjaminborbe.util.servlet.UtilServlet;
 
 public class UtilActivator extends HttpBundleActivator {
 

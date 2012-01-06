@@ -19,8 +19,7 @@ public class BookmarkSearchServiceComponentTest {
 		EasyMock.replay(logger);
 		final BookmarkService bookmarkService = EasyMock.createMock(BookmarkService.class);
 		EasyMock.replay(bookmarkService);
-		final BookmarkSearchServiceComponentImpl bookmarkSearchService = new BookmarkSearchServiceComponentImpl(logger,
-				bookmarkService);
+		final BookmarkSearchServiceComponentImpl bookmarkSearchService = new BookmarkSearchServiceComponentImpl(logger, bookmarkService);
 		assertEquals(new URL("http://www.heise.de"), bookmarkSearchService.buildUrl("http://www.heise.de"));
 		assertEquals(new URL("http://bb/bla"), bookmarkSearchService.buildUrl("/bla"));
 	}

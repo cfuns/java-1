@@ -96,8 +96,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	protected boolean match(final Bookmark bookmark, final String search) {
-		return bookmark.getUrl().toLowerCase().indexOf(search.toLowerCase()) != -1
-				|| bookmark.getName().toLowerCase().indexOf(search.toLowerCase()) != -1;
+		return bookmark.getUrl().toLowerCase().indexOf(search.toLowerCase()) != -1 || bookmark.getName().toLowerCase().indexOf(search.toLowerCase()) != -1;
 	}
 
 	private final class Match {

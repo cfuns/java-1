@@ -22,8 +22,7 @@ public class StorageModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new StorageOsgiModule(),
-				new StorageModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new StorageOsgiModule(), new StorageModule(), new ToolModule());
 	}
 
 }

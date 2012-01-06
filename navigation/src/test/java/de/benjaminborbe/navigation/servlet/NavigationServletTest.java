@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.navigation.guice.NavigationModulesMock;
-import de.benjaminborbe.navigation.servlet.NavigationServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class NavigationServletTest {

@@ -16,9 +16,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.util.guice.UtilModulesMock;
-import de.benjaminborbe.util.servlet.UtilServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.util.guice.UtilModulesMock;
 
 public class UtilServletTest {
 

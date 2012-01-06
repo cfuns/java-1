@@ -10,12 +10,14 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.guice.NavigationModules;
 import de.benjaminborbe.navigation.service.NavigationServiceTracker;
 import de.benjaminborbe.navigation.servlet.NavigationServlet;
 import de.benjaminborbe.navigation.util.NavigationEntryRegistry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class NavigationActivator extends HttpBundleActivator {
@@ -25,6 +27,9 @@ public class NavigationActivator extends HttpBundleActivator {
 
 	@Inject
 	private NavigationEntryRegistry navigationEntryRegistry;
+
+	@Inject
+	private NavigationWidget navigationWidget;
 
 	public NavigationActivator() {
 		super("navigation");
@@ -39,6 +44,13 @@ public class NavigationActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(navigationServlet, "/"));
+		return result;
+	}
+
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationWidget.class, navigationWidget));
 		return result;
 	}
 

@@ -22,7 +22,6 @@ public class WebsiteModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new WebsiteOsgiModule(), new WebsiteModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new WebsiteOsgiModule(), new WebsiteModule(), new ToolModule());
 	}
 }

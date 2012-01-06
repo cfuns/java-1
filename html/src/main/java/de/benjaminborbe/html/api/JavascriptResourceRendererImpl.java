@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JavascriptResourceRendererImpl implements JavascriptResourceRenderer {
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response,
-			final Collection<JavascriptResource> javascriptResources) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final Collection<JavascriptResource> javascriptResources) throws IOException {
 		final PrintWriter out = response.getWriter();
 		for (final JavascriptResource javascriptResource : javascriptResources) {
 			out.println("<script src=\"" + javascriptResource.getUrl() + "\"></script>");

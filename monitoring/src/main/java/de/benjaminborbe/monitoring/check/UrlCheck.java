@@ -27,13 +27,7 @@ public class UrlCheck implements Check {
 
 	private final String name;
 
-	public UrlCheck(
-			final Logger logger,
-			final HttpDownloader httpDownloader,
-			final String name,
-			final String urlString,
-			final String titleMatch,
-			final String contentMatch) {
+	public UrlCheck(final Logger logger, final HttpDownloader httpDownloader, final String name, final String urlString, final String titleMatch, final String contentMatch) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.name = name;

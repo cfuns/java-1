@@ -22,7 +22,6 @@ public class NavigationModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new NavigationOsgiModule(), new NavigationModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new NavigationOsgiModule(), new NavigationModule(), new ToolModule());
 	}
 }

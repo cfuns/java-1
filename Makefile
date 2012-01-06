@@ -1,5 +1,7 @@
 all:
 	mvn install
+package:
+	cd bridge && make installwotest
 installwotest:
 	mvn -Dmaven.test.skip=true install
 update:

@@ -31,8 +31,7 @@ public class IndexerServiceImpl implements IndexerService {
 
 	@Override
 	public void addToIndex(final String indexName, final URL url, final String title, final String content) {
-		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: "
-				+ content);
+		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + content);
 
 		try {
 			final Directory index = indexFactory.getIndex(indexName);

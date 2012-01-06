@@ -14,7 +14,6 @@ public class GwtServerModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new GwtServerOsgiModuleMock(),
-				new GwtServerModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new GwtServerOsgiModuleMock(), new GwtServerModule(), new ToolModule());
 	}
 }

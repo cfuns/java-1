@@ -30,8 +30,7 @@ public class NavigationTest extends OSGiTestCase {
 		assertEquals(0, extHttpService.getRegisterServletCallCounter());
 		assertEquals(0, extHttpService.getUnregisterFilterCallCounter());
 		assertEquals(0, extHttpService.getUnregisterServletCallCounter());
-		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(),
-				extHttpService, null);
+		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(), extHttpService, null);
 		assertNotNull(serviceRegistration);
 		// nach start: Dienste vorhanden?
 		assertTrue("no filters registered", extHttpService.getRegisterFilterCallCounter() > 0);
@@ -45,7 +44,6 @@ public class NavigationTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
-
 	}
 
 }

@@ -1,6 +1,5 @@
 package de.benjaminborbe.html.api;
 
-
 public class JavascriptResourceImpl implements JavascriptResource {
 
 	private final String path;

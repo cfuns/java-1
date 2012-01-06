@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.navigation.NavigationActivator;
 import de.benjaminborbe.navigation.guice.NavigationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

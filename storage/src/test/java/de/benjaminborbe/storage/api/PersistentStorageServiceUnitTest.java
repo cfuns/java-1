@@ -43,8 +43,7 @@ public class PersistentStorageServiceUnitTest {
 		EasyMock.expect(storageDaoUtil.list(keySpace, columnFamily)).andReturn(ids);
 		EasyMock.replay(storageDaoUtil);
 
-		final PersistentStorageService p = new PersistentStorageServiceImpl(logger, storageConfig, storageDaoUtil,
-				storageConnection);
+		final PersistentStorageService p = new PersistentStorageServiceImpl(logger, storageConfig, storageDaoUtil, storageConnection);
 
 		// test call
 		final Collection<String> result = p.findByIdPrefix(columnFamily, prefix);

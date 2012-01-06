@@ -22,7 +22,6 @@ public class BookmarkModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new BookmarkOsgiModule(), new BookmarkModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new BookmarkOsgiModule(), new BookmarkModule(), new ToolModule());
 	}
 }

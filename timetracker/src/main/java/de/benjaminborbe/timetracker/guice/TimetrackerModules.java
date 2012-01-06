@@ -21,8 +21,7 @@ public class TimetrackerModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new TimetrackerOsgiModule(),
-				new TimetrackerModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new TimetrackerOsgiModule(), new TimetrackerModule());
 	}
 
 }

@@ -9,9 +9,6 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.translate.guice.TranslateModules;
-import de.benjaminborbe.translate.service.TranslateDashboardWidget;
-import de.benjaminborbe.translate.servlet.TranslateServlet;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
@@ -19,6 +16,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.translate.guice.TranslateModules;
+import de.benjaminborbe.translate.service.TranslateDashboardWidget;
+import de.benjaminborbe.translate.servlet.TranslateServlet;
 
 public class TranslateActivator extends HttpBundleActivator {
 
@@ -61,8 +61,7 @@ public class TranslateActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(DashboardContentWidget.class, translateDashboardWidget, translateDashboardWidget.getClass()
-				.getName()));
+		result.add(new ServiceInfo(DashboardContentWidget.class, translateDashboardWidget, translateDashboardWidget.getClass().getName()));
 		return result;
 	}
 

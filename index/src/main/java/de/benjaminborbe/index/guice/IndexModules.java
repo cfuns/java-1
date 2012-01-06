@@ -22,7 +22,6 @@ public class IndexModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new IndexOsgiModule(), new IndexModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new IndexOsgiModule(), new IndexModule(), new ToolModule());
 	}
 }

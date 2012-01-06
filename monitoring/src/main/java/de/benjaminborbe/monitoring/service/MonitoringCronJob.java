@@ -32,11 +32,7 @@ public class MonitoringCronJob implements CronJob {
 	private final NodeChecker nodeChecker;
 
 	@Inject
-	public MonitoringCronJob(
-			final Logger logger,
-			final MailService mailService,
-			final RootNode rootNode,
-			final NodeChecker nodeChecker) {
+	public MonitoringCronJob(final Logger logger, final MailService mailService, final RootNode rootNode, final NodeChecker nodeChecker) {
 		this.logger = logger;
 		this.mailService = mailService;
 		this.rootNode = rootNode;

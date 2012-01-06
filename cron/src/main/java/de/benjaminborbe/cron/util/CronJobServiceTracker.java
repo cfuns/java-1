@@ -15,12 +15,7 @@ public class CronJobServiceTracker extends RegistryServiceTracker<CronJob> {
 
 	private final Quartz quartz;
 
-	public CronJobServiceTracker(
-			final Logger logger,
-			final Quartz quartz,
-			final CronJobRegistry registry,
-			final BundleContext context,
-			final Class<?> clazz) {
+	public CronJobServiceTracker(final Logger logger, final Quartz quartz, final CronJobRegistry registry, final BundleContext context, final Class<?> clazz) {
 		super(registry, context, clazz);
 		this.logger = logger;
 		this.quartz = quartz;

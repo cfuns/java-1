@@ -26,8 +26,7 @@ public class SlashLogFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse,
-			final FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain filterChain) throws IOException, ServletException {
 		try {
 			// log cookies
 			if (servletRequest instanceof HttpServletRequest) {

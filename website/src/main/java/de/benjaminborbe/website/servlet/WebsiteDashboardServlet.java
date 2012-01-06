@@ -17,6 +17,7 @@ import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 @Singleton
 public class WebsiteDashboardServlet extends WebsiteMainServlet {
@@ -27,20 +28,30 @@ public class WebsiteDashboardServlet extends WebsiteMainServlet {
 
 	private final DashboardWidget dashboardWidget;
 
+	private final NavigationWidget navigationWidget;
+
 	@Inject
-	public WebsiteDashboardServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer, final DashboardWidget dashboardWidget) {
+	public WebsiteDashboardServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final DashboardWidget dashboardWidget,
+			final NavigationWidget navigationWidget) {
 		super(logger, cssResourceRenderer, javascriptResourceRenderer);
 		this.dashboardWidget = dashboardWidget;
+		this.navigationWidget = navigationWidget;
 	}
 
 	@Override
 	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		navigationWidget.render(request, response);
 		dashboardWidget.render(request, response);
 	}
 
 	@Override
 	protected Collection<Widget> getWidgets() {
 		final Set<Widget> result = new HashSet<Widget>();
+		result.add(navigationWidget);
 		result.add(dashboardWidget);
 		return result;
 	}

@@ -22,7 +22,6 @@ public class TranslateModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new TranslateOsgiModule(), new TranslateModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new TranslateOsgiModule(), new TranslateModule(), new ToolModule());
 	}
 }

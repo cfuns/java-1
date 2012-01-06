@@ -64,8 +64,7 @@ public class HttpBundleActivatorTest {
 		EasyMock.expect(context.createFilter(EasyMock.anyObject(String.class))).andReturn(filter).times(2);
 		context.addServiceListener(EasyMock.anyObject(ServiceListener.class), EasyMock.anyObject(String.class));
 		final ServiceReference[] value = new ServiceReference[0];
-		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
-				.andReturn(value);
+		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(value);
 		EasyMock.replay(context);
 		httpBundleActivator.start(context);
 		httpBundleActivator.stop(context);
@@ -80,8 +79,7 @@ public class HttpBundleActivatorTest {
 		EasyMock.expect(context.createFilter(EasyMock.anyObject(String.class))).andReturn(filter).times(1);
 		context.addServiceListener(EasyMock.anyObject(ServiceListener.class), EasyMock.anyObject(String.class));
 		final ServiceReference[] value = new ServiceReference[0];
-		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
-				.andReturn(value);
+		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(value);
 		EasyMock.replay(context);
 		httpBundleActivator.start(context);
 
@@ -113,8 +111,7 @@ public class HttpBundleActivatorTest {
 		EasyMock.expect(context.createFilter(EasyMock.anyObject(String.class))).andReturn(filter).times(1);
 		context.addServiceListener(EasyMock.anyObject(ServiceListener.class), EasyMock.anyObject(String.class));
 		final ServiceReference[] value = new ServiceReference[0];
-		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
-				.andReturn(value);
+		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(value);
 
 		EasyMock.expect(context.registerService(TestService.class.getName(), service, properties)).andReturn(null);
 		EasyMock.replay(context);

@@ -25,8 +25,8 @@ public interface StorageDaoUtil {
 	 * @throws TException
 	 * @throws UnsupportedEncodingException
 	 */
-	void insert(String keySpace, String columnFamily, final String id, final Map<String, String> data)
-			throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException;
+	void insert(String keySpace, String columnFamily, final String id, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException;
 
 	/**
 	 * Liest einen Wert mit der uebergeben ID und Key aus der Datenbank
@@ -43,8 +43,8 @@ public interface StorageDaoUtil {
 	 * @throws TException
 	 * @throws UnsupportedEncodingException
 	 */
-	String read(String keySpace, String columnFamily, final String id, final String key) throws InvalidRequestException,
-			NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException;
+	String read(String keySpace, String columnFamily, final String id, final String key) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException;
 
 	/**
 	 * Loescht einen Wert mit der uebergeben ID und Key aus der Datenbank
@@ -60,10 +60,9 @@ public interface StorageDaoUtil {
 	 * @throws TException
 	 * @throws UnsupportedEncodingException
 	 */
-	void delete(String keySpace, String columnFamily, final String id, final String key) throws InvalidRequestException,
-			NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException;
+	void delete(String keySpace, String columnFamily, final String id, final String key) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException;
 
-	List<String> list(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException,
-			TimedOutException, TException, UnsupportedEncodingException, NotFoundException;
+	List<String> list(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException;
 
 }

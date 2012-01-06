@@ -36,23 +36,20 @@ public class ExtHttpServiceMock implements ExtHttpService {
 	}
 
 	@Override
-	public void registerServlet(final String alias, final Servlet servlet,
-			@SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context) throws ServletException,
+	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context) throws ServletException,
 			NamespaceException {
 		servletAlias.put(servlet, alias);
 		registerServletCallCounter++;
 	}
 
 	@Override
-	public void registerResources(final String alias, final String name, final HttpContext context)
-			throws NamespaceException {
+	public void registerResources(final String alias, final String name, final HttpContext context) throws NamespaceException {
 		resourceAlias.put(alias, name);
 		registerResourceCallCounter++;
 	}
 
 	@Override
-	public void registerFilter(final Filter filter, final String pattern,
-			@SuppressWarnings("rawtypes") final Dictionary initParams, final int ranking, final HttpContext context)
+	public void registerFilter(final Filter filter, final String pattern, @SuppressWarnings("rawtypes") final Dictionary initParams, final int ranking, final HttpContext context)
 			throws ServletException {
 		filterAlias.put(filter, pattern);
 		registerFilterCallCounter++;

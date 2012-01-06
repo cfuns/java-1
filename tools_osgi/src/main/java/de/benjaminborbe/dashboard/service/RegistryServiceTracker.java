@@ -3,6 +3,7 @@ package de.benjaminborbe.dashboard.service;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
+
 import de.benjaminborbe.tools.util.Registry;
 
 public class RegistryServiceTracker<T> extends ServiceTracker {

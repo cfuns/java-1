@@ -39,11 +39,7 @@ public class WorktimeDashboardWidget implements DashboardContentWidget, RequireJ
 	private final ParseUtil parseUtil;
 
 	@Inject
-	public WorktimeDashboardWidget(
-			final Logger logger,
-			final WorktimeService worktimeService,
-			final DateUtil dateUtil,
-			final ParseUtil parseUtil) {
+	public WorktimeDashboardWidget(final Logger logger, final WorktimeService worktimeService, final DateUtil dateUtil, final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.worktimeService = worktimeService;
 		this.dateUtil = dateUtil;
@@ -106,8 +102,7 @@ public class WorktimeDashboardWidget implements DashboardContentWidget, RequireJ
 	}
 
 	@Override
-	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request,
-			final HttpServletResponse response) {
+	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
 		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));

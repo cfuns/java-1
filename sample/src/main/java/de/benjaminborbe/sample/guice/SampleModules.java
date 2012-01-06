@@ -22,7 +22,6 @@ public class SampleModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SampleOsgiModule(), new SampleModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SampleOsgiModule(), new SampleModule(), new ToolModule());
 	}
 }

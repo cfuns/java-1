@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,7 +53,12 @@ public class DashboardWidgetImpl implements DashboardWidget {
 		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
 		Collections.sort(dashboardWidgets, new ComparatorImplementation());
 		for (final DashboardContentWidget dashboardWidget : dashboardWidgets) {
-			printDashboardWidget(request, response, dashboardWidget);
+			try {
+				printDashboardWidget(request, response, dashboardWidget);
+			}
+			catch (final Exception e) {
+				e.printStackTrace(out);
+			}
 		}
 	}
 

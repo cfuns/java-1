@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -40,11 +41,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
-	public WorktimeServiceImpl(
-			final Logger logger,
-			final WorktimeStorageService worktimeStorageService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil) {
+	public WorktimeServiceImpl(final Logger logger, final WorktimeStorageService worktimeStorageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;

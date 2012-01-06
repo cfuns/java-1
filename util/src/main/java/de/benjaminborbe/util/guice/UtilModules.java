@@ -22,7 +22,6 @@ public class UtilModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new UtilOsgiModule(), new UtilModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new UtilOsgiModule(), new UtilModule(), new ToolModule());
 	}
 }

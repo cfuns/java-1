@@ -6,9 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.util.UtilActivator;
-import de.benjaminborbe.util.guice.UtilModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.util.guice.UtilModulesMock;
 
 public class UtilActivatorTest {
 

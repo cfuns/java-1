@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.sample.SampleActivator;
 import de.benjaminborbe.sample.guice.SampleModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

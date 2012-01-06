@@ -14,8 +14,7 @@ public class StorageModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new StorageOsgiModuleMock(),
-				new StorageModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new StorageOsgiModuleMock(), new StorageModule(), new ToolModule());
 	}
 
 }

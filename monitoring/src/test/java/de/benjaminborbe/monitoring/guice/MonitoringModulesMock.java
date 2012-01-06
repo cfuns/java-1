@@ -14,8 +14,7 @@ public class MonitoringModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new MonitoringOsgiModuleMock(),
-				new MonitoringModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new MonitoringOsgiModuleMock(), new MonitoringModule(), new ToolModule());
 	}
 
 }

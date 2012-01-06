@@ -9,9 +9,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.translate.guice.TranslateModulesMock;
-import de.benjaminborbe.translate.servlet.TranslateServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.translate.guice.TranslateModulesMock;
 
 public class TranslateServletTest {
 

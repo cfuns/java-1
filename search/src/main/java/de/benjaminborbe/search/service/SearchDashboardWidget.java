@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,10 +45,9 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 		final String searchSuggestUrl = contextPath + "/search/suggest";
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 
-		final String action = contextPath + "/search";
+		final String action = contextPath + "/website/search";
 		out.println("<form method=\"GET\" action=\"" + action + "\">");
-		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\""
-				+ (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
+		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\"" + (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
 		out.println("<input type=\"submit\" value=\"search\" />");
 		out.println("</form>");
 		out.println("<script language=\"javascript\">");
@@ -67,8 +67,7 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 	}
 
 	@Override
-	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request,
-			final HttpServletResponse response) {
+	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl("http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
 		result.add(new JavascriptResourceImpl("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"));

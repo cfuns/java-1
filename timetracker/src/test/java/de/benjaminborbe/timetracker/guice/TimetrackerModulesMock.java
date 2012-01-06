@@ -13,8 +13,7 @@ public class TimetrackerModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new TimetrackerOsgiModuleMock(),
-				new TimetrackerModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new TimetrackerOsgiModuleMock(), new TimetrackerModule());
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import com.google.inject.Module;
 
-import de.benjaminborbe.translate.guice.TranslateModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;
@@ -15,7 +14,6 @@ public class TranslateModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new TranslateOsgiModuleMock(),
-				new TranslateModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new TranslateOsgiModuleMock(), new TranslateModule(), new ToolModule());
 	}
 }

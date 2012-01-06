@@ -21,8 +21,7 @@ public class MailModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MailOsgiModule(),
-				new MailModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MailOsgiModule(), new MailModule());
 	}
 
 }

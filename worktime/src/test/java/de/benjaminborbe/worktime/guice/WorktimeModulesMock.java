@@ -14,7 +14,6 @@ public class WorktimeModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new WorktimeOsgiModuleMock(),
-				new WorktimeModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new WorktimeOsgiModuleMock(), new WorktimeModule(), new ToolModule());
 	}
 }

@@ -48,8 +48,7 @@ public class MonitoringServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.setContentType("text/plain");
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());

@@ -32,8 +32,7 @@ public abstract class ResourceServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.setContentType(contentType());
 		final InputStream input = getClass().getClassLoader().getResourceAsStream(getPath());

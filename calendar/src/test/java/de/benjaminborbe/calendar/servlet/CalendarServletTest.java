@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.calendar.guice.CalendarModulesMock;
-import de.benjaminborbe.calendar.servlet.CalendarServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class CalendarServletTest {

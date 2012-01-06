@@ -50,8 +50,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	 * java.util.Map)
 	 */
 	@Override
-	public void insert(final String keySpace, final String columnFamily, final String id, final Map<String, String> data)
-			throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException {
+	public void insert(final String keySpace, final String columnFamily, final String id, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("insert keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " data: " + data);
@@ -60,8 +60,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		for (final Entry<String, String> e : data.entrySet()) {
 			final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
-			final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(config.getEncoding())), ByteBuffer.wrap(e
-					.getValue().getBytes(config.getEncoding())), timestamp);
+			final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(config.getEncoding())), ByteBuffer.wrap(e.getValue().getBytes(config.getEncoding())), timestamp);
 			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
 			// schreiben eines datensatzes
@@ -70,9 +69,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public String read(final String keySpace, final String columnFamily, final String id, final String field)
-			throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
-			UnsupportedEncodingException {
+	public String read(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("read keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
@@ -95,9 +93,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public void delete(final String keySpace, final String columnFamily, final String id, final String field)
-			throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
-			UnsupportedEncodingException {
+	public void delete(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("delete keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
@@ -113,8 +110,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public List<String> list(final String keySpace, final String columnFamily) throws InvalidRequestException,
-			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
+	public List<String> list(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException,
+			NotFoundException {
 		final Iface client = getClient(keySpace);
 		logger.trace("list keyspace: " + keySpace + " columnfamily: " + columnFamily);
 

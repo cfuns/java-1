@@ -14,7 +14,6 @@ public class SlashModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SlashOsgiModuleMock(),
-				new SlashModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SlashOsgiModuleMock(), new SlashModule(), new ToolModule());
 	}
 }

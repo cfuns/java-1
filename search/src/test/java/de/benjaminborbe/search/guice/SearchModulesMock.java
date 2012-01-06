@@ -14,7 +14,6 @@ public class SearchModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SearchOsgiModuleMock(),
-				new SearchModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SearchOsgiModuleMock(), new SearchModule(), new ToolModule());
 	}
 }

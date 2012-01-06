@@ -22,8 +22,7 @@ public class MonitoringModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MonitoringOsgiModule(),
-				new MonitoringModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MonitoringOsgiModule(), new MonitoringModule(), new ToolModule());
 	}
 
 }

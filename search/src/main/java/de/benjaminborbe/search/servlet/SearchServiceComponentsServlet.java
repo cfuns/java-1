@@ -29,16 +29,13 @@ public class SearchServiceComponentsServlet extends HttpServlet {
 	private final SearchServiceComponentRegistry searchServiceComponentRegistry;
 
 	@Inject
-	public SearchServiceComponentsServlet(
-			final Logger logger,
-			final SearchServiceComponentRegistry searchServiceComponentRegistry) {
+	public SearchServiceComponentsServlet(final Logger logger, final SearchServiceComponentRegistry searchServiceComponentRegistry) {
 		this.logger = logger;
 		this.searchServiceComponentRegistry = searchServiceComponentRegistry;
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");

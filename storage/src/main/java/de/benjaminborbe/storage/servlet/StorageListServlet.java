@@ -39,8 +39,7 @@ public class StorageListServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
-			IOException {
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.debug("StorageReadServlet.service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");

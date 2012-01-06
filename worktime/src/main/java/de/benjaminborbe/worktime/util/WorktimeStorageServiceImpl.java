@@ -37,12 +37,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
-	public WorktimeStorageServiceImpl(
-			final Logger logger,
-			final PersistentStorageService storageService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil) {
+	public WorktimeStorageServiceImpl(final Logger logger, final PersistentStorageService storageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.calendarUtil = calendarUtil;
@@ -70,8 +65,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 			final String inOfficeString = storageService.get(COLUMNFAMILY, id, FIELD_IN_OFFICE);
 			final String dateTimeString = storageService.get(COLUMNFAMILY, id, FIELD_DATETIME);
 			try {
-				result.add(new WorktimeValueImpl(calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), dateTimeString),
-						parseUtil.parseBoolean(inOfficeString)));
+				result.add(new WorktimeValueImpl(calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), dateTimeString), parseUtil.parseBoolean(inOfficeString)));
 			}
 			catch (final ParseException e) {
 				logger.error("ParseException", e);

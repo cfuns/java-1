@@ -1,6 +1,5 @@
 package de.benjaminborbe.html.api;
 
-
 public class CssResourceImpl implements CssResource {
 
 	private final String path;

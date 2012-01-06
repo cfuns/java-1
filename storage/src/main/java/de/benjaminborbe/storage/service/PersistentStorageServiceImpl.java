@@ -30,11 +30,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	private final StorageConnection storageConnection;
 
 	@Inject
-	public PersistentStorageServiceImpl(
-			final Logger logger,
-			final StorageConfig config,
-			final StorageDaoUtil storageDaoUtil,
-			final StorageConnection storageConnection) {
+	public PersistentStorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil, final StorageConnection storageConnection) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
@@ -84,8 +80,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	 * @throws StorageException
 	 */
 	@Override
-	public void set(final String columnFamily, final String id, final String key, final String value)
-			throws StorageException {
+	public void set(final String columnFamily, final String id, final String key, final String value) throws StorageException {
 		final Map<String, String> data = new HashMap<String, String>();
 		data.put(key, value);
 		set(columnFamily, id, data);

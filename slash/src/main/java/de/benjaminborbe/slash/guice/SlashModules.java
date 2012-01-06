@@ -22,7 +22,6 @@ public class SlashModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SlashOsgiModule(), new SlashModule(),
-				new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SlashOsgiModule(), new SlashModule(), new ToolModule());
 	}
 }

@@ -61,8 +61,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
-	public Calendar getCalendar(final TimeZone timeZone, final int year, final int month, final int date,
-			final int hourOfDay, final int minute, final int second) {
+	public Calendar getCalendar(final TimeZone timeZone, final int year, final int month, final int date, final int hourOfDay, final int minute, final int second) {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.clear();
 		calendar.setTimeZone(timeZone);
@@ -82,12 +81,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar parseDateTime(final TimeZone timeZone, final String dateTime) throws ParseException {
-		final String[] parts = dateTime.split(" ");
-		final String[] dateParts = parts[0].split("-");
-		final String[] hourParts = parts[1].split(":");
-		return getCalendar(timeZone, parseUtil.parseInt(dateParts[0]), parseUtil.parseInt(dateParts[1]),
-				parseUtil.parseInt(dateParts[2]), parseUtil.parseInt(hourParts[0]), parseUtil.parseInt(hourParts[1]),
-				parseUtil.parseInt(hourParts[2]));
+		try {
+			final String[] parts = dateTime.split(" ");
+			final String[] dateParts = parts[0].split("-");
+			final String[] hourParts = parts[1].split(":");
+			return getCalendar(timeZone, parseUtil.parseInt(dateParts[0]), parseUtil.parseInt(dateParts[1]), parseUtil.parseInt(dateParts[2]), parseUtil.parseInt(hourParts[0]),
+					parseUtil.parseInt(hourParts[1]), parseUtil.parseInt(hourParts[2]));
+		}
+		catch (final NullPointerException e) {
+			throw new ParseException("NullPointerException", e);
+		}
 	}
 
 	@Override
