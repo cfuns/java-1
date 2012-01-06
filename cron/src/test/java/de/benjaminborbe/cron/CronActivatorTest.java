@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class CronActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CronModulesMock());
 		final CronActivator o = injector.getInstance(CronActivator.class);
 		assertNotNull(o);

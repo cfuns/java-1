@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class SlashActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SlashModulesMock());
 		final SlashActivator o = injector.getInstance(SlashActivator.class);
 		assertNotNull(o);

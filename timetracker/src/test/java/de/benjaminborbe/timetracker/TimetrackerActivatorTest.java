@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class TimetrackerActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TimetrackerModulesMock());
 		final TimetrackerActivator o = injector.getInstance(TimetrackerActivator.class);
 		assertNotNull(o);

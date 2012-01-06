@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class BookmarkActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkActivator o = injector.getInstance(BookmarkActivator.class);
 		assertNotNull(o);

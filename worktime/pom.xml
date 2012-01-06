@@ -141,7 +141,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard</artifactId>
+			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

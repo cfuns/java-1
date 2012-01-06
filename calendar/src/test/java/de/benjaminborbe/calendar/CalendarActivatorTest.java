@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class CalendarActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarModulesMock());
 		final CalendarActivator o = injector.getInstance(CalendarActivator.class);
 		assertNotNull(o);

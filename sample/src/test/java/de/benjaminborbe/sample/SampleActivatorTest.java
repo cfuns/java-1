@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class SampleActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
 		final SampleActivator o = injector.getInstance(SampleActivator.class);
 		assertNotNull(o);

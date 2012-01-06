@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class GwtServerActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
 		final GwtServerActivator o = injector.getInstance(GwtServerActivator.class);
 		assertNotNull(o);

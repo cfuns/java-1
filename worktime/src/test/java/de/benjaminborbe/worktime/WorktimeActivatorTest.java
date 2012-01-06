@@ -12,7 +12,7 @@ import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 public class WorktimeActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WorktimeModulesMock());
 		final WorktimeActivator o = injector.getInstance(WorktimeActivator.class);
 		assertNotNull(o);

@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class StorageActivatorIntegrationTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageActivator o = injector.getInstance(StorageActivator.class);
 		assertNotNull(o);

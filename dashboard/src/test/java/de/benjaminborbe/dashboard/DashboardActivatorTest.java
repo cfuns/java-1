@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class DashboardActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new DashboardModulesMock());
 		final DashboardActivator o = injector.getInstance(DashboardActivator.class);
 		assertNotNull(o);

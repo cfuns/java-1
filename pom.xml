@@ -64,8 +64,10 @@
 		<module>worktime</module>
 		<module>worktime_test</module>
 		<module>dashboard</module>
+		<module>dashboard_api</module>
 		<module>dashboard_test</module>
 		<module>navigation</module>
+		<module>navigation_api</module>
 		<module>navigation_test</module>
 		<module>sample</module>
 		<module>sample_test</module>

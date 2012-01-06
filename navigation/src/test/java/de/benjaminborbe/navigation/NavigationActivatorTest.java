@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class NavigationActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationModulesMock());
 		final NavigationActivator o = injector.getInstance(NavigationActivator.class);
 		assertNotNull(o);

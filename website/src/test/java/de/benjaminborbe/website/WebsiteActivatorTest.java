@@ -12,7 +12,7 @@ import de.benjaminborbe.website.guice.WebsiteModulesMock;
 public class WebsiteActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsiteModulesMock());
 		final WebsiteActivator o = injector.getInstance(WebsiteActivator.class);
 		assertNotNull(o);

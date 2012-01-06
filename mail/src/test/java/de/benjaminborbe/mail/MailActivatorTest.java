@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class MailActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MailModulesMock());
 		final MailActivator o = injector.getInstance(MailActivator.class);
 		assertNotNull(o);

@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class EventbusActivatorTest {
 
 	@Test
-	public void Inject() {
+	public void inject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventbusActivator o = injector.getInstance(EventbusActivator.class);
 		assertNotNull(o);

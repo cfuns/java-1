@@ -11,8 +11,6 @@ public class NavigationWidgetMock implements NavigationWidget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
-
 	}
 
 }
