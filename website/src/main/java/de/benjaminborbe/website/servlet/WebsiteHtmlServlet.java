@@ -2,6 +2,7 @@ package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,16 +18,22 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1544940069187374367L;
+
+	private static final String START_TIME = "start_time";
 
 	protected final Logger logger;
 
@@ -34,11 +41,26 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	protected final JavascriptResourceRenderer javascriptResourceRenderer;
 
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public WebsiteHtmlServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer) {
+	public WebsiteHtmlServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.cssResourceRenderer = cssResourceRenderer;
 		this.javascriptResourceRenderer = javascriptResourceRenderer;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	protected abstract String getTitle();
@@ -47,32 +69,54 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return new HashSet<Widget>();
 	}
 
+	protected long getNowAsLong() {
+		final Calendar now = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
+		return now.getTimeInMillis();
+	}
+
+	protected String getNowAsString() {
+		return String.valueOf(getNowAsLong());
+	}
+
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		printHtml(request, response);
+		final HttpContext context = new HttpContext();
+		context.getData().put(START_TIME, getNowAsString());
+		printHtml(request, response, context);
 	}
 
-	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("printHtml");
 		final PrintWriter out = response.getWriter();
 		out.println("<html>");
-		printHead(request, response);
-		printBody(request, response);
+		printHead(request, response, context);
+		printBody(request, response, context);
 		out.println("</html>");
 	}
 
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		logger.debug("printBody");
 		out.println("<body>");
 		out.println("<h1>" + getTitle() + "</h1>");
+		printFooter(request, response, context);
 		out.println("</body>");
 	}
 
-	protected void printHead(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printFooter(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final PrintWriter out = response.getWriter();
+		logger.debug("printFooter");
+		out.println("<div>");
+		final long now = getNowAsLong();
+		final long startTime = parseUtil.parseLong(context.getData().get(START_TIME), now);
+		out.println("request takes " + (now - startTime) + " ms");
+		out.println("</div>");
+	}
+
+	protected void printHead(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("printHead");
 		final PrintWriter out = response.getWriter();
 		out.println("<head>");

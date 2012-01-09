@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.check.CheckResult;
 import de.benjaminborbe.monitoring.check.NodeChecker;
@@ -60,7 +61,7 @@ public class MonitoringWidgetImpl implements MonitoringWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("monitoring checks started");

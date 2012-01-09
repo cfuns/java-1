@@ -20,9 +20,13 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
@@ -37,13 +41,20 @@ public class BookmarkServlet extends WebsiteHtmlServlet {
 	private final BookmarkService bookmarkService;
 
 	@Inject
-	public BookmarkServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer, final BookmarkService bookmarkService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+	public BookmarkServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final BookmarkService bookmarkService,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 		this.bookmarkService = bookmarkService;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<body>");
 		out.println("<h1>" + PAGE_TITLE + "</h1>");

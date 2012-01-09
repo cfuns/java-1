@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.html.api.CssResource;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 
 public class DashboardWidgetMock implements DashboardWidget {
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 	}
 
 	@Override

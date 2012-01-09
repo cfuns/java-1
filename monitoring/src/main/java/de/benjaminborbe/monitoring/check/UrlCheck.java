@@ -7,8 +7,8 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.util.HttpDownloadResult;
-import de.benjaminborbe.tools.util.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloadResult;
+import de.benjaminborbe.tools.http.HttpDownloader;
 
 public class UrlCheck implements Check {
 

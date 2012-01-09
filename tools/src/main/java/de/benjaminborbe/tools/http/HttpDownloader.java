@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.util;
+package de.benjaminborbe.tools.http;
 
 import java.io.IOException;
 import java.net.URL;

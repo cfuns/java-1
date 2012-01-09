@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
 
 @Singleton
@@ -27,7 +28,7 @@ public class TranslateDashboardWidget implements DashboardContentWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final PrintWriter out = response.getWriter();
 		out.println("<form method=\"GET\" action=\"http://dict.leo.org/ende\" target=\"" + target + "\">");

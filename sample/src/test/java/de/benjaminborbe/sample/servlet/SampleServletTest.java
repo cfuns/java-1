@@ -6,8 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,10 @@ import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.sample.guice.SampleModulesMock;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 public class SampleServletTest {
 
@@ -66,7 +71,30 @@ public class SampleServletTest {
 		javascriptResourceRenderer.render(request, response, javascriptResources);
 		EasyMock.replay(javascriptResourceRenderer);
 
-		final SampleServlet sampleServlet = new SampleServlet(logger, cssResourceRenderer, javascriptResourceRenderer);
+		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
+		EasyMock.replay(timeZone);
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final long startTime = 42l;
+		final long endTime = 1337l;
+
+		final Calendar calendar = EasyMock.createMock(Calendar.class);
+		EasyMock.expect(calendar.getTimeInMillis()).andReturn(startTime);
+		EasyMock.expect(calendar.getTimeInMillis()).andReturn(endTime);
+		EasyMock.replay(calendar);
+
+		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);
+		EasyMock.expect(calendarUtil.now(timeZone)).andReturn(calendar).anyTimes();
+		EasyMock.replay(calendarUtil);
+
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
+		EasyMock.replay(parseUtil);
+
+		final SampleServlet sampleServlet = new SampleServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 
 		sampleServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

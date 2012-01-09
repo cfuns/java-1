@@ -15,8 +15,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.worktime.service.WorktimeDashboardWidget;
 
@@ -34,17 +38,20 @@ public class WorktimeServlet extends WebsiteHtmlServlet {
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,
-			final WorktimeDashboardWidget worktimeDashboardWidget) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+			final WorktimeDashboardWidget worktimeDashboardWidget,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 		this.worktimeDashboardWidget = worktimeDashboardWidget;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<body>");
 		out.println("<h1>Worktime</h1>");
-		worktimeDashboardWidget.render(request, response);
+		worktimeDashboardWidget.render(request, response, context);
 		out.println("</body>");
 	}
 

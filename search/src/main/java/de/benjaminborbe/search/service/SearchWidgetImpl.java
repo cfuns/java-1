@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResource;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
@@ -51,13 +52,13 @@ public class SearchWidgetImpl implements SearchWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final PrintWriter out = response.getWriter();
 		out.println("<h1>" + TITLE + "</h1>");
 
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-		printSearchForm(request, response);
+		printSearchForm(request, response, context);
 		final String[] words = searchUtil.buildSearchParts(searchQuery);
 		final List<SearchResult> results = searchService.search(words, MAX_RESULTS);
 		printSearchResults(request, response, results);
@@ -83,8 +84,8 @@ public class SearchWidgetImpl implements SearchWidget {
 		}
 	}
 
-	protected void printSearchForm(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		searchDashboardWidget.render(request, response);
+	protected void printSearchForm(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		searchDashboardWidget.render(request, response, context);
 	}
 
 	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result) throws IOException {

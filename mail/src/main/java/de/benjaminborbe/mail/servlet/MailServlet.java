@@ -7,6 +7,9 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
@@ -17,8 +20,14 @@ public class MailServlet extends WebsiteHtmlServlet {
 	private static final String TITLE = "Mail";
 
 	@Inject
-	public MailServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+	public MailServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 	}
 
 	@Override

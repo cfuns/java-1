@@ -17,7 +17,11 @@ import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.service.EventBusServiceImpl;
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
@@ -30,13 +34,20 @@ public class EventbusServlet extends WebsiteHtmlServlet {
 	private final EventBusServiceImpl eventBusServiceImpl;
 
 	@Inject
-	public EventbusServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer, final EventBusServiceImpl eventBusServiceImpl) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+	public EventbusServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil,
+			final EventBusServiceImpl eventBusServiceImpl) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 		this.eventBusServiceImpl = eventBusServiceImpl;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("service");
 		response.setContentType("text/plain");
 		final PrintWriter out = response.getWriter();

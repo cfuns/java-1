@@ -7,7 +7,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.util.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloader;
 
 public class UrlCheckTest {
 

@@ -16,6 +16,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
@@ -37,7 +38,7 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 
 		final PrintWriter out = response.getWriter();

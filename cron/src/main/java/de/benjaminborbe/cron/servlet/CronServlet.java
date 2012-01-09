@@ -14,7 +14,11 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
@@ -33,13 +37,20 @@ public class CronServlet extends WebsiteHtmlServlet {
 	private final Quartz quartz;
 
 	@Inject
-	public CronServlet(final Logger logger, final CssResourceRenderer cssResourceRenderer, final JavascriptResourceRenderer javascriptResourceRenderer, final Quartz quartz) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+	public CronServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil,
+			final Quartz quartz) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 		this.quartz = quartz;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("service");
 		final PrintWriter out = response.getWriter();
 		final String action = request.getParameter(PARAMETER_ACTION);

@@ -1,7 +1,5 @@
 package de.benjaminborbe.cron.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
@@ -16,6 +14,5 @@ public class CronModule extends AbstractModule {
 	protected void configure() {
 		bind(CronJobRegistry.class).to(CronJobRegistryImpl.class).in(Singleton.class);
 		bind(Quartz.class).to(QuartzImpl.class).in(Singleton.class);
-		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
 	}
 }

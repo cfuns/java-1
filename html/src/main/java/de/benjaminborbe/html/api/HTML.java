@@ -7,5 +7,5 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface HTML {
 
-	void render(final HttpServletRequest request, final HttpServletResponse response) throws IOException;
+	void render(final HttpServletRequest request, final HttpServletResponse response, HttpContext context) throws IOException;
 }

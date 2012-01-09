@@ -14,10 +14,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
@@ -36,17 +40,20 @@ public class MonitoringServlet extends WebsiteHtmlServlet {
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final MonitoringWidget monitoringWidget) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer);
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
 		this.navigationWidget = navigationWidget;
 		this.monitoringWidget = monitoringWidget;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		navigationWidget.render(request, response);
-		monitoringWidget.render(request, response);
+	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		navigationWidget.render(request, response, context);
+		monitoringWidget.render(request, response, context);
 	}
 
 	@Override

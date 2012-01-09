@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.tools.util.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloader;
 
 public class UrlCheckBuilder {
 

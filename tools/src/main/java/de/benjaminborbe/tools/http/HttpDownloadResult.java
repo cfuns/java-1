@@ -1,6 +1,8 @@
-package de.benjaminborbe.tools.util;
+package de.benjaminborbe.tools.http;
 
 import java.io.Serializable;
+
+import de.benjaminborbe.tools.util.Encoding;
 
 public class HttpDownloadResult implements Serializable {
 

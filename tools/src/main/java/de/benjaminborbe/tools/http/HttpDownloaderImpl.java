@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.util;
+package de.benjaminborbe.tools.http;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,6 +20,11 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
+import de.benjaminborbe.tools.util.Encoding;
+import de.benjaminborbe.tools.util.StreamUtil;
 
 @Singleton
 public class HttpDownloaderImpl implements HttpDownloader {
