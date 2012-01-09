@@ -9,8 +9,10 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.monitoring.guice.MonitoringModules;
 import de.benjaminborbe.monitoring.service.MonitoringCronJob;
+import de.benjaminborbe.monitoring.service.MonitoringDashboardWidget;
 import de.benjaminborbe.monitoring.servlet.MonitoringServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -25,6 +27,9 @@ public class MonitoringActivator extends HttpBundleActivator {
 	@Inject
 	private MonitoringCronJob monitoringCronJob;
 
+	@Inject
+	private MonitoringDashboardWidget monitoringDashboardWidget;
+
 	public MonitoringActivator() {
 		super("monitoring");
 	}
@@ -38,6 +43,7 @@ public class MonitoringActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, monitoringCronJob, monitoringCronJob.getClass().getName()));
+		result.add(new ServiceInfo(DashboardContentWidget.class, monitoringDashboardWidget, monitoringDashboardWidget.getClass().getName()));
 		return result;
 	}
 

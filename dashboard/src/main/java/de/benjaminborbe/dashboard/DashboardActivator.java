@@ -15,6 +15,8 @@ import de.benjaminborbe.dashboard.guice.DashboardModules;
 import de.benjaminborbe.dashboard.service.DashboardWidgetRegistry;
 import de.benjaminborbe.dashboard.service.DashboardWidgetServiceTracker;
 import de.benjaminborbe.dashboard.servlet.DashboardServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -52,6 +54,7 @@ public class DashboardActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardWidget.class, dashboardWidget));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Dashboard", "/bb/dashboard")));
 		return result;
 	}
 
