@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResourceRenderer;
@@ -37,15 +38,16 @@ public class NavigationServlet extends WebsiteHtmlServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.navigationWidget = navigationWidget;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<h2>Navigation</h2>");
+		out.println("<h1>" + getTitle() + "</h1>");
 		navigationWidget.render(request, response, context);
 	}
 

@@ -32,8 +32,8 @@ public class TwentyfeetNode extends HasChildNodesImpl implements HasChildNodes {
 		}
 
 		{
-			final String name = "URL-Check on www.twentyfeet.com/wiki";
-			final String url = "https://www.twentyfeet.com/wiki/dashboard.action";
+			final String name = "URL-Check on wiki.twentyfeet.com";
+			final String url = "https://wiki.twentyfeet.com/dashboard.action";
 			final String titleMatch = "Dashboard - TwentyFeet Wiki";
 			final String contentMatch = "Editors' Wiki";
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));

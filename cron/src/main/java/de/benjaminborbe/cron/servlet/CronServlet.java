@@ -10,12 +10,14 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -44,15 +46,18 @@ public class CronServlet extends WebsiteHtmlServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final Quartz quartz) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+			final Quartz quartz,
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.quartz = quartz;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("service");
 		final PrintWriter out = response.getWriter();
+		out.println("<h1>" + getTitle() + "</h1>");
 		final String action = request.getParameter(PARAMETER_ACTION);
 
 		try {

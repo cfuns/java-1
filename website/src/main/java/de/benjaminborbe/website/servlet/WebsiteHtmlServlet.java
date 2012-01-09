@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResource;
@@ -24,6 +25,7 @@ import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -47,6 +49,10 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final NavigationWidget navigationWidget;
+
+	private final Provider<HttpContext> httpContextProvider;
+
 	@Inject
 	public WebsiteHtmlServlet(
 			final Logger logger,
@@ -54,19 +60,25 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil) {
+			final ParseUtil parseUtil,
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
 		this.logger = logger;
 		this.cssResourceRenderer = cssResourceRenderer;
 		this.javascriptResourceRenderer = javascriptResourceRenderer;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.parseUtil = parseUtil;
+		this.navigationWidget = navigationWidget;
+		this.httpContextProvider = httpContextProvider;
 	}
 
 	protected abstract String getTitle();
 
 	protected Collection<Widget> getWidgets() {
-		return new HashSet<Widget>();
+		final Set<Widget> widgets = new HashSet<Widget>();
+		widgets.add(navigationWidget);
+		return widgets;
 	}
 
 	protected long getNowAsLong() {
@@ -83,7 +95,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		logger.debug("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		final HttpContext context = new HttpContext();
+		final HttpContext context = httpContextProvider.get();
 		context.getData().put(START_TIME, getNowAsString());
 		printHtml(request, response, context);
 	}
@@ -101,9 +113,21 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		logger.debug("printBody");
 		out.println("<body>");
-		out.println("<h1>" + getTitle() + "</h1>");
+		printTop(request, response, context);
+		printContent(request, response, context);
 		printFooter(request, response, context);
 		out.println("</body>");
+	}
+
+	protected void printTop(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		logger.debug("printTop");
+		navigationWidget.render(request, response, context);
+	}
+
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final PrintWriter out = response.getWriter();
+		logger.debug("printContent");
+		out.println("<h1>" + getTitle() + "</h1>");
 	}
 
 	protected void printFooter(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

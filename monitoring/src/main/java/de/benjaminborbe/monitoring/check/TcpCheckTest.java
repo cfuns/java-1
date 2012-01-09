@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 public class TcpCheckTest {
 
 	@Test
-	public void Check() {
+	public void check() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		// success

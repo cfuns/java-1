@@ -1,6 +1,7 @@
 package de.benjaminborbe.search.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.html.api.CssResourceRenderer;
@@ -33,8 +35,6 @@ public class SearchServlet extends WebsiteHtmlServlet {
 
 	private final SearchWidget searchWidget;
 
-	private final NavigationWidget navigationWidget;
-
 	@Inject
 	public SearchServlet(
 			final Logger logger,
@@ -44,22 +44,22 @@ public class SearchServlet extends WebsiteHtmlServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final SearchWidget searchWidget,
-			final NavigationWidget navigationWidget) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.searchWidget = searchWidget;
-		this.navigationWidget = navigationWidget;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		navigationWidget.render(request, response, context);
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final PrintWriter out = response.getWriter();
+		out.println("<h1>" + getTitle() + "</h1>");
 		searchWidget.render(request, response, context);
 	}
 
 	@Override
 	protected Collection<Widget> getWidgets() {
 		final Set<Widget> result = new HashSet<Widget>();
-		result.add(navigationWidget);
 		result.add(searchWidget);
 		return result;
 	}

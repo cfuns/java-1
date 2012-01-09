@@ -1,6 +1,7 @@
 package de.benjaminborbe.dashboard.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardWidget;
@@ -33,8 +35,6 @@ public class DashboardServlet extends WebsiteHtmlServlet {
 
 	private final DashboardWidget dashboardWidget;
 
-	private final NavigationWidget navigationWidget;
-
 	@Inject
 	public DashboardServlet(
 			final Logger logger,
@@ -44,22 +44,22 @@ public class DashboardServlet extends WebsiteHtmlServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final DashboardWidget dashboardWidget,
-			final NavigationWidget navigationWidget) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.dashboardWidget = dashboardWidget;
-		this.navigationWidget = navigationWidget;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		navigationWidget.render(request, response, context);
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final PrintWriter out = response.getWriter();
+		out.println("<h1>" + getTitle() + "</h1>");
 		dashboardWidget.render(request, response, context);
 	}
 
 	@Override
 	protected Collection<Widget> getWidgets() {
-		final Set<Widget> result = new HashSet<Widget>();
-		result.add(navigationWidget);
+		final Set<Widget> result = new HashSet<Widget>(super.getWidgets());
 		result.add(dashboardWidget);
 		return result;
 	}

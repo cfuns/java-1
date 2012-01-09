@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
@@ -23,6 +24,7 @@ import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
@@ -48,18 +50,18 @@ public class BookmarkServlet extends WebsiteHtmlServlet {
 			final BookmarkService bookmarkService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+			final ParseUtil parseUtil,
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.bookmarkService = bookmarkService;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<body>");
-		out.println("<h1>" + PAGE_TITLE + "</h1>");
+		out.println("<h1>" + getTitle() + "</h1>");
 		printLinks(request, response);
-		out.println("</body>");
 	}
 
 	protected void printLinks(final HttpServletRequest request, final HttpServletResponse response) throws IOException {

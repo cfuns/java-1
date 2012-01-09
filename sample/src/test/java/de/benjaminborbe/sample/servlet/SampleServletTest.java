@@ -8,7 +8,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +21,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.sample.guice.SampleModulesMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -94,7 +99,24 @@ public class SampleServletTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final SampleServlet sampleServlet = new SampleServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+		final Map<String, String> data = new HashMap<String, String>();
+
+		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
+		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
+		EasyMock.replay(httpContext);
+
+		final NavigationWidget navigationWidget = EasyMock.createMock(NavigationWidget.class);
+		navigationWidget.render(request, response, httpContext);
+		EasyMock.replay(navigationWidget);
+
+		final Provider<HttpContext> httpContextProvider = new Provider<HttpContext>() {
+
+			@Override
+			public HttpContext get() {
+				return httpContext;
+			}
+		};
+		final SampleServlet sampleServlet = new SampleServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 
 		sampleServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

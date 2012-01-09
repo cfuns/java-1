@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.eventbus.api.Event.Type;
@@ -19,6 +20,7 @@ import de.benjaminborbe.eventbus.service.EventBusServiceImpl;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -41,26 +43,31 @@ public class EventbusServlet extends WebsiteHtmlServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final EventBusServiceImpl eventBusServiceImpl) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil);
+			final EventBusServiceImpl eventBusServiceImpl,
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.eventBusServiceImpl = eventBusServiceImpl;
 	}
 
 	@Override
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("service");
-		response.setContentType("text/plain");
 		final PrintWriter out = response.getWriter();
+		out.println("<h1>" + getTitle() + "</h1>");
 		out.println("EventHandlers:");
+		out.println("<ul>");
 		for (final Entry<Type<EventHandler>, List<EventHandler>> e : eventBusServiceImpl.getHandlers().entrySet()) {
+			out.println("<li>");
 			final Type<EventHandler> type = e.getKey();
 			final List<EventHandler> eventHandlers = e.getValue();
 			out.println("Type: " + type.getClass().getName());
 			for (final EventHandler eventHandler : eventHandlers) {
 				out.println(" - " + eventHandler.getClass().getName());
 			}
-			out.println("");
+			out.println("</li>");
 		}
+		out.println("</ul>");
 	}
 
 	@Override
