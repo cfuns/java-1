@@ -96,7 +96,6 @@ public class DashboardWidgetImpl implements DashboardWidget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<h1>Dashboard</h1>");
 		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
 		Collections.sort(dashboardWidgets, new ComparatorImplementation());
 		final Set<Thread> threads = new HashSet<Thread>();
@@ -117,6 +116,7 @@ public class DashboardWidgetImpl implements DashboardWidget {
 		for (final StringWriter result : results) {
 			out.println(result.toString());
 		}
+		out.println("<br class=\"clear\">");
 	}
 
 	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final DashboardContentWidget dashboardWidget) throws IOException {
