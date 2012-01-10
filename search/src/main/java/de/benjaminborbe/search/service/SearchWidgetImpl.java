@@ -37,8 +37,6 @@ public class SearchWidgetImpl implements SearchWidget {
 
 	private static final Target target = Target.BLANK;
 
-	private static final String TITLE = "Search";
-
 	private final SearchUtil searchUtil;
 
 	private final SearchDashboardWidget searchDashboardWidget;
@@ -54,9 +52,6 @@ public class SearchWidgetImpl implements SearchWidget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
-		final PrintWriter out = response.getWriter();
-		out.println("<h1>" + TITLE + "</h1>");
-
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		printSearchForm(request, response, context);
 		final String[] words = searchUtil.buildSearchParts(searchQuery);
