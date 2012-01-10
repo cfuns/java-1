@@ -62,6 +62,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
+		save(createBookmark("http://localhost:8180/jenkins", "Local - Jenkins", Arrays.asList("Local", "Lokal", "Hudson", "Jenkins")));
 		save(createBookmark("http://phpmyadmin/", "Local - phpMyAdmin"));
 		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Local - ActiveMQ - JMS"));
 

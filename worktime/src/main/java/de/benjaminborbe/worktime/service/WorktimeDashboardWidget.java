@@ -91,10 +91,13 @@ public class WorktimeDashboardWidget implements DashboardContentWidget, RequireJ
 				out.println("</tr>");
 			}
 			out.println("</table>");
+			out.println("<a href=\"" + request.getContextPath() + "/worktime?limit=20\">more</a>");
 		}
 		catch (final StorageException e) {
 			final PrintWriter out = response.getWriter();
+			out.println("<pre>");
 			e.printStackTrace(out);
+			out.println("</pre>");
 		}
 	}
 
