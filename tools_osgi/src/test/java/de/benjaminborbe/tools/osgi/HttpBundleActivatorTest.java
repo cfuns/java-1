@@ -92,7 +92,9 @@ public class HttpBundleActivatorTest {
 		assertEquals("/robots.txt", httpBundleActivator.cleanupAlias("///robots.txt"));
 		assertEquals("/robots.txt", httpBundleActivator.cleanupAlias("////robots.txt"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("/search"));
-		assertEquals("/search", httpBundleActivator.cleanupAlias("//search"));
+		assertEquals("/search", httpBundleActivator.cleanupAlias("/search/"));
+		assertEquals("/search", httpBundleActivator.cleanupAlias("/search//"));
+		assertEquals("/search", httpBundleActivator.cleanupAlias("/search///"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("/search/"));
 		assertEquals("/search/suggest", httpBundleActivator.cleanupAlias("//search//suggest/"));
 	}

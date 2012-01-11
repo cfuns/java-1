@@ -134,14 +134,14 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 
 	protected String cleanupAlias(final String alias) {
 		logger.debug("alias to cleanup " + alias);
-		if ("/".equals(alias))
-			return alias;
+		if (alias.matches("/+"))
+			return "/";
 		else
-			return alias.replaceFirst("/$", "").replaceAll("/+", "/");
+			return alias.replaceFirst("/+$", "").replaceAll("/+", "/");
 	}
 
 	protected String cleanupPattern(final String pattern) {
-		return pattern.replaceFirst("/$", "").replaceAll("/+", "/");
+		return pattern.replaceFirst("/+$", "").replaceAll("/+", "/");
 	}
 
 }
