@@ -17,7 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
 import de.benjaminborbe.monitoring.check.CheckResult;
-import de.benjaminborbe.monitoring.check.NodeChecker;
+import de.benjaminborbe.monitoring.check.NodeCheckerCache;
 import de.benjaminborbe.monitoring.check.RootNode;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
 
@@ -38,10 +38,10 @@ public class MonitoringSummaryWidgetImpl implements MonitoringSummaryWidget {
 
 	private final RootNode rootNode;
 
-	private final NodeChecker nodeChecker;
+	private final NodeCheckerCache nodeChecker;
 
 	@Inject
-	public MonitoringSummaryWidgetImpl(final Logger logger, final RootNode rootNode, final NodeChecker nodeChecker) {
+	public MonitoringSummaryWidgetImpl(final Logger logger, final RootNode rootNode, final NodeCheckerCache nodeChecker) {
 		this.logger = logger;
 		this.rootNode = rootNode;
 		this.nodeChecker = nodeChecker;
@@ -51,7 +51,7 @@ public class MonitoringSummaryWidgetImpl implements MonitoringSummaryWidget {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
-		final List<CheckResult> checkResults = new ArrayList<CheckResult>(nodeChecker.checkNode(rootNode));
+		final List<CheckResult> checkResults = new ArrayList<CheckResult>(nodeChecker.checkNodeWithCache(rootNode));
 		Collections.sort(checkResults, new CheckResultComparator());
 		final List<CheckResult> failCheckResults = new ArrayList<CheckResult>();
 		for (final CheckResult checkResult : checkResults) {

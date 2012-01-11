@@ -25,4 +25,6 @@ public interface CalendarUtil {
 
 	Calendar clone(Calendar calendar);
 
+	long getTime();
+
 }

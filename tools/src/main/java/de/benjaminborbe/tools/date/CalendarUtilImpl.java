@@ -114,4 +114,9 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public Calendar subDays(final Calendar calendar, final int amountOfDays) {
 		return addDays(calendar, amountOfDays * -1);
 	}
+
+	@Override
+	public long getTime() {
+		return Calendar.getInstance().getTimeInMillis();
+	}
 }

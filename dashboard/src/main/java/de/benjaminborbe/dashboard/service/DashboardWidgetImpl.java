@@ -25,6 +25,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpServletResponseBuffer;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.util.CssResourceImpl;
@@ -44,28 +45,36 @@ public class DashboardWidgetImpl implements DashboardWidget {
 
 		private final HttpContext context;
 
+		private final CalendarUtil calendarUtil;
+
 		private DashboardWidgetRenderRunnable(
 				final HttpServletRequest request,
 				final HttpServletResponse response,
 				final HttpContext context,
 				final DashboardContentWidget dashboardWidget,
-				final List<StringWriter> results) {
+				final List<StringWriter> results,
+				final CalendarUtil calendarUtil) {
 			this.context = context;
 			this.results = results;
 			this.response = response;
 			this.request = request;
 			this.dashboardWidget = dashboardWidget;
+			this.calendarUtil = calendarUtil;
 		}
 
 		@Override
 		public void run() {
 			try {
+				final long startTime = calendarUtil.getTime();
 				final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
-				results.add(httpServletResponseAdapter.getStringWriter());
+				final StringWriter stringWriter = httpServletResponseAdapter.getStringWriter();
+				results.add(stringWriter);
 				printDashboardWidget(request, httpServletResponseAdapter, context, dashboardWidget);
+				final long endTime = calendarUtil.getTime();
+				stringWriter.append("<!-- render widget " + dashboardWidget.getClass().getSimpleName() + " in " + (endTime - startTime) + " ms -->");
 			}
-			catch (final IOException e) {
-				logger.error("IOException", e);
+			catch (final Exception e) {
+				logger.error("Render widget " + dashboardWidget.getClass().getSimpleName() + " failed!", e);
 			}
 		}
 	}
@@ -86,11 +95,14 @@ public class DashboardWidgetImpl implements DashboardWidget {
 
 	private final ThreadRunner threadRunner;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public DashboardWidgetImpl(final Logger logger, final DashboardWidgetRegistry dashboardWidgetRegistry, final ThreadRunner threadRunner) {
+	public DashboardWidgetImpl(final Logger logger, final DashboardWidgetRegistry dashboardWidgetRegistry, final ThreadRunner threadRunner, final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.dashboardWidgetRegistry = dashboardWidgetRegistry;
 		this.threadRunner = threadRunner;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -102,7 +114,7 @@ public class DashboardWidgetImpl implements DashboardWidget {
 		final List<StringWriter> results = new ArrayList<StringWriter>();
 		// render all widgets
 		for (final DashboardContentWidget dashboardWidget : dashboardWidgets) {
-			threads.add(threadRunner.run("dashboard-widget-render", new DashboardWidgetRenderRunnable(request, response, context, dashboardWidget, results)));
+			threads.add(threadRunner.run("dashboard-widget-render", new DashboardWidgetRenderRunnable(request, response, context, dashboardWidget, results, calendarUtil)));
 		}
 		// wait unitil rendering finished
 		for (final Thread thread : threads) {
