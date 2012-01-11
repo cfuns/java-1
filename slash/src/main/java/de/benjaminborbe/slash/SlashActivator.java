@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.slash.guice.SlashModules;
+import de.benjaminborbe.slash.servlet.RobotsTxtServlet;
 import de.benjaminborbe.slash.servlet.SlashLogFilter;
 import de.benjaminborbe.slash.servlet.SlashServlet;
 import de.benjaminborbe.tools.guice.Modules;
@@ -24,6 +25,9 @@ public class SlashActivator extends HttpBundleActivator {
 	@Inject
 	private SlashLogFilter slashLogFilter;
 
+	@Inject
+	private RobotsTxtServlet robotsTxtServlet;
+
 	public SlashActivator() {
 		super("");
 	}
@@ -37,6 +41,7 @@ public class SlashActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(slashServlet, "/"));
+		result.add(new ServletInfo(robotsTxtServlet, "/robots.txt"));
 		return result;
 	}
 

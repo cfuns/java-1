@@ -39,7 +39,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final Dictionary initParams = filterInfo.getInitParams();
 			final int ranking = filterInfo.getRanking();
 			try {
-				logger.debug("registerFilter for pattern: " + pattern);
+				logger.debug("registerFilter for pattern: \"" + pattern + "\"");
 				service.registerFilter(filter, pattern, initParams, ranking, context);
 			}
 			catch (final ServletException e) {
@@ -53,7 +53,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final Dictionary initparams = servletInfo.getInitParams();
 			final HttpContext context = servletInfo.getContext();
 			try {
-				logger.debug("registerServlet for alias: " + alias);
+				logger.debug("registerServlet for alias: \"" + alias + "\"");
 				service.registerServlet(alias, servlet, initparams, context);
 			}
 			catch (final ServletException e) {
@@ -133,14 +133,15 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 	}
 
 	protected String cleanupAlias(final String alias) {
+		logger.debug("alias to cleanup " + alias);
 		if ("/".equals(alias))
 			return alias;
 		else
-			return alias.replaceAll("//", "/").replaceFirst("/$", "");
+			return alias.replaceFirst("/$", "").replaceAll("/+", "/");
 	}
 
 	protected String cleanupPattern(final String pattern) {
-		return pattern.replaceAll("//", "/").replaceFirst("/$", "");
+		return pattern.replaceFirst("/$", "").replaceAll("/+", "/");
 	}
 
 }

@@ -56,7 +56,7 @@ public class HttpBundleActivatorTest {
 	}
 
 	@Test
-	public void StartStop() throws Exception {
+	public void startStop() throws Exception {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("startStop");
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
@@ -71,7 +71,7 @@ public class HttpBundleActivatorTest {
 	}
 
 	@Test
-	public void CleanupAlias() throws Exception {
+	public void cleanupAlias() throws Exception {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("cleanupAlias");
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
@@ -84,6 +84,13 @@ public class HttpBundleActivatorTest {
 		httpBundleActivator.start(context);
 
 		assertEquals("/", httpBundleActivator.cleanupAlias("/"));
+		assertEquals("/", httpBundleActivator.cleanupAlias("//"));
+		assertEquals("/", httpBundleActivator.cleanupAlias("///"));
+		assertEquals("/", httpBundleActivator.cleanupAlias("////"));
+		assertEquals("/robots.txt", httpBundleActivator.cleanupAlias("/robots.txt"));
+		assertEquals("/robots.txt", httpBundleActivator.cleanupAlias("//robots.txt"));
+		assertEquals("/robots.txt", httpBundleActivator.cleanupAlias("///robots.txt"));
+		assertEquals("/robots.txt", httpBundleActivator.cleanupAlias("////robots.txt"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("/search"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("//search"));
 		assertEquals("/search", httpBundleActivator.cleanupAlias("/search/"));
@@ -91,7 +98,7 @@ public class HttpBundleActivatorTest {
 	}
 
 	@Test
-	public void ServiceAdded() throws Exception {
+	public void serviceAdded() throws Exception {
 		final Class<?> name = TestService.class;
 		final Object service = new TestService();
 		final Properties properties = new Properties();

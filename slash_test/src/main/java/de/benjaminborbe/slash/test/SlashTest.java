@@ -1,5 +1,7 @@
 package de.benjaminborbe.slash.test;
 
+import java.util.Arrays;
+
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
@@ -20,7 +22,6 @@ public class SlashTest extends OSGiTestCase {
 	}
 
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
@@ -44,7 +45,17 @@ public class SlashTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
-
 	}
 
+	public void testServletSlash() {
+		final BundleContext bundleContext = getContext();
+		assertNotNull(bundleContext);
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		assertNotNull(extHttpService);
+		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(), extHttpService, null);
+		assertNotNull(serviceRegistration);
+		for (final String path : Arrays.asList("/", "/robots.txt")) {
+			assertTrue("found no servlet for path \"" + path + "\"", extHttpService.hasServletPath(path));
+		}
+	}
 }

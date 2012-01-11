@@ -117,5 +117,10 @@
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.website</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

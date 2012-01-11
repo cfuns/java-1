@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.index.guice.IndexModules;
 import de.benjaminborbe.index.servlet.IndexServlet;
-import de.benjaminborbe.index.servlet.RobotsTxtServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -20,9 +19,6 @@ public class IndexActivator extends HttpBundleActivator {
 
 	@Inject
 	private IndexServlet indexServlet;
-
-	@Inject
-	private RobotsTxtServlet robotsTxtServlet;
 
 	public IndexActivator() {
 		super("index");
@@ -37,7 +33,6 @@ public class IndexActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(indexServlet, "/"));
-		result.add(new ServletInfo(robotsTxtServlet, "/robots.txt"));
 		return result;
 	}
 

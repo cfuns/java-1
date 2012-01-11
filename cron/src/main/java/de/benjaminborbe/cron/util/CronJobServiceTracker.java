@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.dashboard.service.RegistryServiceTracker;
+import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;
 
 @Singleton
 public class CronJobServiceTracker extends RegistryServiceTracker<CronJob> {

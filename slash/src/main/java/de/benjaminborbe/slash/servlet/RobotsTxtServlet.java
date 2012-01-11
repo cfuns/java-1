@@ -1,4 +1,4 @@
-package de.benjaminborbe.index.servlet;
+package de.benjaminborbe.slash.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

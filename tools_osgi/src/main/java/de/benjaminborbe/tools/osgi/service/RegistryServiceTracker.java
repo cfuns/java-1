@@ -1,4 +1,4 @@
-package de.benjaminborbe.dashboard.service;
+package de.benjaminborbe.tools.osgi.service;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
