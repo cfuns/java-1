@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 
@@ -15,6 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.util.WorkdayImpl;
@@ -24,11 +27,33 @@ import de.benjaminborbe.worktime.util.WorktimeValue;
 @Singleton
 public class WorktimeServiceImpl implements WorktimeService {
 
-	private final class CalendarComparator implements Comparator<Calendar> {
+	private final class WorkdayCalcRunnable implements Runnable {
+
+		private final Calendar calendar;
+
+		private final Set<Workday> workdays;
+
+		private WorkdayCalcRunnable(final Calendar calendar, final Set<Workday> workdays) {
+			this.calendar = calendar;
+			this.workdays = workdays;
+		}
 
 		@Override
-		public int compare(final Calendar o1, final Calendar o2) {
-			return o1.compareTo(o2);
+		public void run() {
+			try {
+				workdays.add(getWorkday(calendar));
+			}
+			catch (final StorageException e) {
+				logger.error("StorageException", e);
+			}
+		}
+	}
+
+	private final class WorkdayComparator implements Comparator<Workday> {
+
+		@Override
+		public int compare(final Workday w1, final Workday w2) {
+			return w1.getDate().compareTo(w2.getDate());
 		}
 	}
 
@@ -40,37 +65,53 @@ public class WorktimeServiceImpl implements WorktimeService {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
-	public WorktimeServiceImpl(final Logger logger, final WorktimeStorageService worktimeStorageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
+	public WorktimeServiceImpl(final Logger logger, final WorktimeStorageService worktimeStorageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ThreadRunner threadRunner) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
+		this.threadRunner = threadRunner;
 	}
 
 	@Override
 	public List<Workday> getTimes(final int days) throws StorageException {
 		logger.debug("get times for " + days + " days");
-		final List<Workday> result = new ArrayList<Workday>();
+		final Set<Workday> workdays = new HashSet<Workday>();
+		final Collection<Calendar> calendars = getLastDays(days);
 
-		final List<Calendar> calendars = getLastDays(days);
-		Collections.sort(calendars, new CalendarComparator());
-		for (final Calendar date : calendars) {
-			final Collection<WorktimeValue> workTimeValues = worktimeStorageService.findByDate(date);
-			Calendar first = null;
-			Calendar last = null;
-			for (final WorktimeValue workTimeValue : workTimeValues) {
-				if (first == null || (first.after(workTimeValue.getDate()) && workTimeValue.getInOffice()))
-					first = workTimeValue.getDate();
-				if (last == null || (last.before(workTimeValue.getDate()) && workTimeValue.getInOffice()))
-					last = workTimeValue.getDate();
-			}
-			result.add(new WorkdayImpl(date, first, last));
+		final Set<Thread> threads = new HashSet<Thread>();
+		for (final Calendar calendar : calendars) {
+			threads.add(threadRunner.run("workday-calc", new WorkdayCalcRunnable(calendar, workdays)));
 		}
+		for (final Thread thread : threads) {
+			try {
+				thread.join();
+			}
+			catch (final InterruptedException e) {
+			}
+		}
+		final List<Workday> result = new ArrayList<Workday>(workdays);
+		Collections.sort(result, new WorkdayComparator());
 		return result;
 	}
 
-	protected List<Calendar> getLastDays(final int amount) {
+	protected Workday getWorkday(final Calendar calendar) throws StorageException {
+		final Collection<WorktimeValue> workTimeValues = worktimeStorageService.findByDate(calendar);
+		Calendar first = null;
+		Calendar last = null;
+		for (final WorktimeValue workTimeValue : workTimeValues) {
+			if (first == null || (first.after(workTimeValue.getDate()) && workTimeValue.getInOffice()))
+				first = workTimeValue.getDate();
+			if (last == null || (last.before(workTimeValue.getDate()) && workTimeValue.getInOffice()))
+				last = workTimeValue.getDate();
+		}
+		return new WorkdayImpl(calendar, first, last);
+	}
+
+	protected Collection<Calendar> getLastDays(final int amount) {
 		final List<Calendar> calendars = new ArrayList<Calendar>();
 		final Calendar now = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
 		for (int i = 0; i < amount; ++i) {

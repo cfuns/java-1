@@ -37,12 +37,13 @@ public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 		logger.debug("render");
 		final PrintWriter out = response.getWriter();
 		out.println("<ul>");
-		out.println("<li>");
 		for (final Bookmark bookmark : bookmarkService.getBookmarkFavoritie()) {
+			out.println("<li>");
 			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"" + target + "\">" + bookmark.getName() + "</a>");
+			out.println("</li>");
 		}
-		out.println("</li>");
 		out.println("</ul>");
+		out.println("<a href=\"" + request.getContextPath() + "/bookmark\">more</a>");
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import com.google.inject.Injector;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadRunnerMock;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 
@@ -58,7 +60,8 @@ public class WorktimeServiceTest {
 		EasyMock.expect(calendarUtil.subDays(now0, 4)).andReturn(now4).anyTimes();
 		EasyMock.replay(calendarUtil);
 
-		final WorktimeServiceImpl worktimeService = new WorktimeServiceImpl(null, null, calendarUtil, timeZoneUtil);
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
+		final WorktimeServiceImpl worktimeService = new WorktimeServiceImpl(null, null, calendarUtil, timeZoneUtil, threadRunner);
 		for (int i = 0; i <= 5; ++i) {
 			assertNotNull(worktimeService.getLastDays(i));
 			assertEquals(i, worktimeService.getLastDays(i).size());

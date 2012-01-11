@@ -26,7 +26,7 @@ public class TcpCheckTest {
 			final TcpCheck check = new TcpCheck(logger, "Check2", "www.google.de", 1337);
 			final CheckResult result = check.check();
 			assertFalse(result.isSuccess());
-			assertEquals("Check1", check.getName());
+			assertEquals("Check2", check.getName());
 		}
 	}
 }

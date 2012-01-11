@@ -32,7 +32,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("/bb/bookmark", "Local - BB - Bookmarks", Arrays.asList("bookmark", "lesezeichen")));
 		save(createBookmark("/bb/worktime", "Local - BB - Worktimes"));
 		save(createBookmark("/bb/util/passwordGenerator", "Local - BB - PasswordGenerator"));
-		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring", true));
+		save(createBookmark("/bb/monitoring", "Local - BB - Monitoring"));
 		save(createBookmark("/bb/gwt/Home.html", "Local - BB - GWT"));
 		save(createBookmark("/bb/search", "Local - BB - Search"));
 		save(createBookmark("/bb/search/components", "Local - BB - Search Components"));
@@ -67,36 +67,36 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Local - ActiveMQ - JMS"));
 
 		// 20ft devel
-		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance"));
-		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel"));
-		save(createBookmark("http://localhost:8180/app/admin", "Twentyfeet - Devel - Admin"));
-		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug"));
-		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode"));
+		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://localhost:8180/app/admin", "Twentyfeet - Devel - Admin", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
 
 		// 20ft live
-		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live"));
-		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Live - ActiveMQ - JMS"));
-		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Twentyfeet - Live - phpMyadmin"));
-		save(createBookmark("https://kunden.seibert-media.net/display/20ft", "Twentyfeet - Live - Wiki"));
+		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live", Arrays.asList("TwentyFeet", "20ft", "Live")));
+		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Live - ActiveMQ - JMS", Arrays.asList("TwentyFeet", "20ft", "Live"), true));
+		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Twentyfeet - Live - phpMyadmin", Arrays.asList("TwentyFeet", "20ft", "Live")));
+		save(createBookmark("https://kunden.seibert-media.net/display/20ft", "Twentyfeet - Live - Wiki", Arrays.asList("TwentyFeet", "20ft", "Live"), true));
 
 		// 20ft test
-		save(createBookmark("https://test.twentyfeet.com/", "Twentyfeet - Test"));
-		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Test - ActiveMQ - JMS"));
+		save(createBookmark("https://test.twentyfeet.com/", "Twentyfeet - Test", Arrays.asList("TwentyFeet", "20ft", "Test")));
+		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Test - ActiveMQ - JMS", Arrays.asList("TwentyFeet", "20ft", "Test")));
 
 		// seibert-media
-		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker"));
-		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Confluence - Wiki"));
-		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins"));
-		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog"));
-		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus"));
-		save(createBookmark("https://zimbra.rp.seibert-media.net/", "Seibert-Media - Zimbra"));
-		save(createBookmark("https://projectile.rp.seibert-media.net/", "Seibert-Media - Projectile"));
+		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker", Arrays.asList("Seibert-Media", "SM"), true));
+		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Confluence - Wiki", Arrays.asList("Seibert-Media", "SM"), true));
+		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "SM"), true));
+		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog", Arrays.asList("Seibert-Media", "SM")));
+		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus", Arrays.asList("Seibert-Media", "SM")));
+		save(createBookmark("https://zimbra.rp.seibert-media.net/", "Seibert-Media - Zimbra", Arrays.asList("Seibert-Media", "SM")));
+		save(createBookmark("https://projectile.rp.seibert-media.net/", "Seibert-Media - Projectile", Arrays.asList("Seibert-Media", "SM")));
 
 		// Movie
-		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar"));
-		save(createBookmark("http://www.filmstarts.de/", "Movie - Review - Filmstarts"));
-		save(createBookmark("http://rogerebert.suntimes.com/", "Movie - Review - Roger Ebert"));
-		save(createBookmark("http://imdb.com/", "Movie - Review - Imdb"));
+		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar", Arrays.asList("Movie", "Film")));
+		save(createBookmark("http://www.filmstarts.de/", "Movie - Review - Filmstarts", Arrays.asList("Movie", "Film")));
+		save(createBookmark("http://rogerebert.suntimes.com/", "Movie - Review - Roger Ebert", Arrays.asList("Movie", "Film")));
+		save(createBookmark("http://imdb.com/", "Movie - Review - Imdb", Arrays.asList("Movie", "Film")));
 	}
 
 	protected BookmarkBean createBookmark(final String url, final String name) {
