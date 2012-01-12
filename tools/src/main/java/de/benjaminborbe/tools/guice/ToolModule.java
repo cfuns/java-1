@@ -13,6 +13,8 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderImpl;
+import de.benjaminborbe.tools.jndi.JndiContext;
+import de.benjaminborbe.tools.jndi.JndiContextImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
@@ -27,6 +29,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(JndiContext.class).to(JndiContextImpl.class).in(Singleton.class);
 		bind(Base64Util.class).to(Base64UtilImpl.class).in(Singleton.class);
 		bind(TimeZoneUtil.class).to(TimeZoneUtilImpl.class).in(Singleton.class);
 		bind(ParseUtil.class).to(ParseUtilImpl.class).in(Singleton.class);

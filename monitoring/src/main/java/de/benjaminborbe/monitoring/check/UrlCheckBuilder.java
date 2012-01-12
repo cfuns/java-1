@@ -20,7 +20,10 @@ public class UrlCheckBuilder {
 	}
 
 	public Check buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch) {
-		return new UrlCheck(logger, httpDownloader, name, urlString, titleMatch, contentMatch);
+		return buildCheck(name, urlString, titleMatch, contentMatch, null, null);
 	}
 
+	public Check buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch, final String username, final String password) {
+		return new UrlCheck(logger, httpDownloader, name, urlString, titleMatch, contentMatch, username, password);
+	}
 }
