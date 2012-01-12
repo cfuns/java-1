@@ -3,6 +3,7 @@ package de.benjaminborbe.tools.osgi.mock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -38,6 +39,14 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	private int registerFilterCallCounter;
 
 	private int registerResourceCallCounter;
+
+	public Collection<Filter> getFilters() {
+		return filterAlias.keySet();
+	}
+
+	public Collection<Servlet> getServlets() {
+		return servletAlias.keySet();
+	}
 
 	@Override
 	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context) throws ServletException,
@@ -88,6 +97,10 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	public boolean hasFilter(final Filter filter) {
 		return filterAlias.containsKey(filter);
+	}
+
+	public boolean hasFilterPath(final String path) {
+		return filterAlias.containsValue(path);
 	}
 
 	public int getUnregisterServletCallCounter() {

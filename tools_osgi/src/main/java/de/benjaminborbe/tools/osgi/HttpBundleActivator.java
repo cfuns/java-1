@@ -17,14 +17,13 @@ import org.osgi.service.http.NamespaceException;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
-import com.google.inject.servlet.GuiceFilter;
 
 public abstract class HttpBundleActivator extends BaseBundleActivator {
 
 	private final String prefix;
 
 	@Inject
-	private GuiceFilter guiceFilter;
+	private BaseGuiceFilter guiceFilter;
 
 	public HttpBundleActivator(final String name) {
 		this.prefix = "/" + name.toLowerCase();

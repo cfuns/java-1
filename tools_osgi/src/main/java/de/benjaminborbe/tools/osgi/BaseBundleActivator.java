@@ -27,16 +27,15 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
 
 	private Injector getInjector(final BundleContext context) {
-		if (injector == null)
+		if (getInjector() == null)
 			injector = GuiceInjectorBuilder.getInjector(getModules(context));
-		return injector;
+		return getInjector();
 	}
 
 	@Override
 	public void stop(final BundleContext context) throws Exception {
 		try {
-			final Injector injector = getInjector(context);
-			injector.injectMembers(this);
+			getInjector(context).injectMembers(this);
 			logger.info("stopping: " + this.getClass().getName() + " ...");
 
 			// close servicetracker
@@ -68,8 +67,7 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	@Override
 	public void start(final BundleContext context) throws Exception {
 		try {
-			getInjector(context);
-			injector.injectMembers(this);
+			getInjector(context).injectMembers(this);
 			logger.info("starting: " + this.getClass().getName() + " done");
 
 			// register serviceTrackers
