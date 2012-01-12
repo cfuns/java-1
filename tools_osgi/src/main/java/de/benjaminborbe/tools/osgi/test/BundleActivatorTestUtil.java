@@ -1,5 +1,7 @@
 package de.benjaminborbe.tools.osgi.test;
 
+import java.util.Dictionary;
+
 import org.easymock.EasyMock;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -40,6 +42,7 @@ public class BundleActivatorTestUtil {
 		EasyMock.expect(context.createFilter(EasyMock.anyObject(String.class))).andReturn(filter).anyTimes();
 		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(serviceReferences).anyTimes();
 		EasyMock.expect(context.getService(serviceReference)).andReturn(extBundle);
+		EasyMock.expect(context.registerService(EasyMock.anyObject(String.class), EasyMock.anyObject(Object.class), EasyMock.anyObject(Dictionary.class))).andReturn(serviceRegistration).anyTimes();
 		EasyMock.replay(context);
 
 		bundleActivator.start(context);

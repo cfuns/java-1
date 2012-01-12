@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,12 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cassandra.thrift.CfDef;
-import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.cassandra.thrift.NotFoundException;
-import org.apache.cassandra.thrift.TimedOutException;
-import org.apache.cassandra.thrift.UnavailableException;
-import org.apache.thrift.TException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,7 +96,7 @@ public class StorageDaoUtilIntegrationTest {
 	}
 
 	@Test
-	public void CURD() throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, InterruptedException {
+	public void CURD() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
@@ -152,7 +147,7 @@ public class StorageDaoUtilIntegrationTest {
 	}
 
 	@Test
-	public void List() throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
+	public void List() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
@@ -190,7 +185,7 @@ public class StorageDaoUtilIntegrationTest {
 	}
 
 	@Test
-	public void LongList() throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
+	public void LongList() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);

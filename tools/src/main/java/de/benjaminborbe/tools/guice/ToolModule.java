@@ -14,6 +14,8 @@ import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import de.benjaminborbe.tools.util.Base64Util;
+import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.IdGenerator;
 import de.benjaminborbe.tools.util.IdGeneratorImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -25,6 +27,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(Base64Util.class).to(Base64UtilImpl.class).in(Singleton.class);
 		bind(TimeZoneUtil.class).to(TimeZoneUtilImpl.class).in(Singleton.class);
 		bind(ParseUtil.class).to(ParseUtilImpl.class).in(Singleton.class);
 		bind(DateUtil.class).to(DateUtilImpl.class).in(Singleton.class);

@@ -17,7 +17,6 @@ import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
@@ -57,13 +56,6 @@ public class BookmarkActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(bookmarkServlet, "/"));
-		return result;
-	}
-
-	@Override
-	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		result.add(new ResourceInfo("/js", "js"));
 		return result;
 	}
 

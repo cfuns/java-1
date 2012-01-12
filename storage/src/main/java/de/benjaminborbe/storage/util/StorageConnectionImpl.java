@@ -1,5 +1,7 @@
 package de.benjaminborbe.storage.util;
 
+import java.net.SocketException;
+
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -32,11 +34,14 @@ public class StorageConnectionImpl implements StorageConnection {
 	}
 
 	@Override
-	public void open() throws TTransportException {
+	public void open() throws TTransportException, SocketException {
 		logger.trace("open cassandra connection " + config.getHost() + ":" + config.getPort());
 
 		final TSocket socket = new TSocket(config.getHost(), config.getPort());
 		socket.setTimeout(SOCKET_TIMEOUT);
+		socket.getSocket().setReuseAddress(true);
+		socket.getSocket().setSoLinger(true, 0);
+
 		final TFramedTransport tr = new TFramedTransport(socket);
 		trThreadLocal.set(tr);
 		tr.open();

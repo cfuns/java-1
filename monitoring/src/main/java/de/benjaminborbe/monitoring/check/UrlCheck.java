@@ -27,20 +27,44 @@ public class UrlCheck implements Check {
 
 	private final String name;
 
+	private final String username;
+
+	private final String password;
+
 	public UrlCheck(final Logger logger, final HttpDownloader httpDownloader, final String name, final String urlString, final String titleMatch, final String contentMatch) {
+		this(logger, httpDownloader, name, urlString, titleMatch, contentMatch, null, null);
+	}
+
+	public UrlCheck(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final String name,
+			final String urlString,
+			final String titleMatch,
+			final String contentMatch,
+			final String username,
+			final String password) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.name = name;
 		this.urlString = urlString;
 		this.titleMatch = titleMatch;
 		this.contentMatch = contentMatch;
+		this.username = username;
+		this.password = password;
 	}
 
 	@Override
 	public CheckResult check() {
 		try {
 			final URL url = new URL(urlString);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result;
+			if (username != null && password != null) {
+				result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
+			}
+			else {
+				result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			}
 			logger.debug("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;
