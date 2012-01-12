@@ -103,4 +103,36 @@ public class HttpDownloaderTest {
 			assertNotNull(result.getContent());
 		}
 	}
+
+	@Test
+	public void downloadUrlAuthUrl() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final StreamUtil streamUtil = new StreamUtil();
+
+		final Duration duration = EasyMock.createMock(Duration.class);
+		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();
+		EasyMock.replay(duration);
+
+		final DurationUtil durationUtil = EasyMock.createMock(DurationUtil.class);
+		EasyMock.expect(durationUtil.getDuration()).andReturn(duration).anyTimes();
+		EasyMock.replay(durationUtil);
+
+		final Base64Util base64Util = new Base64UtilImpl();
+		final HttpDownloader httpDownloader = new HttpDownloaderImpl(logger, streamUtil, durationUtil, base64Util);
+		final URL url = new URL("http://test:test@htaccesstest.benjamin-borbe.de/index.html");
+
+		{
+			final HttpDownloadResult result = httpDownloader.downloadUrl(url, TIMEOUT);
+			assertTrue(result.getDuration() > 0);
+			assertNotNull(result.getContent());
+		}
+
+		{
+			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			assertTrue(result.getDuration() > 0);
+			assertNotNull(result.getContent());
+		}
+	}
 }

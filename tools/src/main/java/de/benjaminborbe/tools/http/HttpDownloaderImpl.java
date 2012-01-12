@@ -95,8 +95,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		ByteArrayOutputStream outputStream = null;
 		try {
 			final URLConnection connection = url.openConnection();
-			if (username != null && password != null) {
-				final String stringUserIdPassword = username + ":" + password;
+			if (username != null && password != null || url.getUserInfo() != null) {
+				final String stringUserIdPassword = url.getUserInfo() != null ? url.getUserInfo() : username + ":" + password;
 				final String base64UserIdPassword = base64Util.encode(stringUserIdPassword.getBytes("ASCII"));
 				connection.setRequestProperty("Authorization", "Basic " + base64UserIdPassword);
 			}
