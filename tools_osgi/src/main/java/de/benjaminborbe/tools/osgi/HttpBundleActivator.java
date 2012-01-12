@@ -132,7 +132,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 	}
 
 	protected String cleanupAlias(final String alias) {
-		logger.debug("alias to cleanup " + alias);
+		logger.trace("alias to cleanup " + alias);
 		if (alias.matches("/+"))
 			return "/";
 		else

@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.http.HttpDownloader;
 public class UrlCheckTest {
 
 	@Test
-	public void ContentMatch() {
+	public void testContentMatch() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
@@ -37,13 +37,14 @@ public class UrlCheckTest {
 	}
 
 	@Test
-	public void TitleMatch() {
+	public void testTitleMatch() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
 		EasyMock.replay(httpDownloader);
 		final String urlString = null;
 		final String contentMatch = null;
+
 		{
 			final String titleMatch = null;
 			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check1", urlString, titleMatch, contentMatch);
@@ -64,10 +65,30 @@ public class UrlCheckTest {
 			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check4", urlString, titleMatch, contentMatch);
 			assertTrue(urlCheck.checkTitle("<title>bla TestTitle bla</title>"));
 		}
+		{
+			final String titleMatch = null;
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check5", urlString, titleMatch, contentMatch);
+			assertTrue(urlCheck.checkTitle(null));
+		}
+		{
+			final String titleMatch = null;
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check6", urlString, titleMatch, contentMatch);
+			assertTrue(urlCheck.checkTitle(""));
+		}
+		{
+			final String titleMatch = "TestTitle";
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check5", urlString, titleMatch, contentMatch);
+			assertFalse(urlCheck.checkTitle(null));
+		}
+		{
+			final String titleMatch = "TestTitle";
+			final UrlCheck urlCheck = new UrlCheck(logger, httpDownloader, "Check6", urlString, titleMatch, contentMatch);
+			assertFalse(urlCheck.checkTitle(""));
+		}
 	}
 
 	@Test
-	public void CheckTitle() {
+	public void testCheckTitle() {
 		assertTrue(checkTitle("a", "<title>a</title>"));
 		assertTrue(checkTitle("a", "<title> a </title>"));
 		assertTrue(checkTitle("a", "<title>\na\n</title>"));

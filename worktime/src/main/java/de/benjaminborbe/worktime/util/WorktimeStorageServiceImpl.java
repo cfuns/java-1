@@ -47,7 +47,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 
 	@Override
 	public void save(final WorktimeValue worktimeValue) throws StorageException {
-		logger.debug("save");
+		logger.trace("save");
 		final String dateTimeString = calendarUtil.toDateTimeString(worktimeValue.getDate());
 		final String inOffice = String.valueOf(worktimeValue.getInOffice());
 		storageService.set(COLUMNFAMILY, dateTimeString, FIELD_IN_OFFICE, inOffice);
@@ -56,11 +56,11 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 
 	@Override
 	public Collection<WorktimeValue> findByDate(final Calendar calendar) throws StorageException {
-		logger.debug("findByDate");
+		logger.trace("findByDate");
 		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
 		final String dateString = calendarUtil.toDateString(calendar);
 		final Collection<String> ids = storageService.findByIdPrefix(COLUMNFAMILY, dateString);
-		logger.debug("found " + ids.size() + " ids for worktime");
+		logger.trace("found " + ids.size() + " ids for worktime");
 		for (final String id : ids) {
 			final String inOfficeString = storageService.get(COLUMNFAMILY, id, FIELD_IN_OFFICE);
 			final String dateTimeString = storageService.get(COLUMNFAMILY, id, FIELD_DATETIME);
@@ -71,7 +71,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 				logger.error("ParseException", e);
 			}
 		}
-		logger.debug("found " + result.size() + " worktimeValues");
+		logger.trace("found " + result.size() + " worktimeValues");
 		return result;
 	}
 }

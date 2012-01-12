@@ -13,4 +13,8 @@ public class HasCheckNodeImpl implements HasCheckNode {
 		return check;
 	}
 
+	@Override
+	public String toString() {
+		return "HasCheckNodeImpl with check " + check;
+	}
 }

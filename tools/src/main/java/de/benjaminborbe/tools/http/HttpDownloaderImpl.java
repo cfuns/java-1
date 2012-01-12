@@ -89,7 +89,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 	@Override
 	public HttpDownloadResult downloadUrl(final URL url, final int timeout, final String username, final String password) throws IOException {
-		logger.debug("downloadUrl started");
+		logger.trace("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
 		InputStream inputStream = null;
 		ByteArrayOutputStream outputStream = null;
@@ -109,7 +109,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			streamUtil.copy(inputStream, outputStream);
 			final byte[] content = outputStream.toByteArray();
 			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentEncoding);
-			logger.debug("downloadUrl finished");
+			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		}
 		finally {
@@ -136,11 +136,11 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			return downloadUrl(url, timeout, username, password);
 		}
 		catch (final NoSuchAlgorithmException e) {
-			logger.debug("NoSuchAlgorithmException", e);
+			logger.error("NoSuchAlgorithmException", e);
 			throw new IOException("NoSuchAlgorithmException", e);
 		}
 		catch (final KeyManagementException e) {
-			logger.debug("KeyManagementException", e);
+			logger.error("KeyManagementException", e);
 			throw new IOException("KeyManagementException", e);
 		}
 		finally {

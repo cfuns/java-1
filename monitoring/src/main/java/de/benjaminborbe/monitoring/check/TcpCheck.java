@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
@@ -44,6 +45,11 @@ public class TcpCheck implements Check {
 				logger.warn(msg);
 				return new CheckResultImpl(this, false, msg);
 			}
+		}
+		catch (final SocketTimeoutException e) {
+			final String msg = "connecting failed to " + hostname + ":" + port + " because SocketTimeoutException";
+			logger.warn(msg);
+			return new CheckResultImpl(this, false, msg);
 		}
 		catch (final UnknownHostException e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because UnknownHostException";

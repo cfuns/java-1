@@ -12,13 +12,19 @@ public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPr
 
 	@Inject
 	public TwentyfeetTestNode(final Logger logger, final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder, final JndiContext jndiContext) {
-		super(tcpCheckBuilder.buildCheck("TCP-Check on test1.twentyfeet.com:22", "test1.twentyfeet.com", 22));
+		super(tcpCheckBuilder.buildCheck("TCP-Check on test.twentyfeet.com:80", "test.twentyfeet.com", 80));
 
 		// tcp-checks
 		{
-			final String name = "TCP-Check on test1.twentyfeet.com:22";
-			final String hostname = "test1.twentyfeet.com";
-			final int port = 22;
+			final String name = "TCP-Check on test.twentyfeet.com:80";
+			final String hostname = "test.twentyfeet.com";
+			final int port = 80;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+		{
+			final String name = "TCP-Check on test.twentyfeet.com:443";
+			final String hostname = "test.twentyfeet.com";
+			final int port = 443;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 
@@ -44,7 +50,18 @@ public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPr
 				logger.error("NamingException", e);
 			}
 		}
-
+		{
+			final String name = "URL-Check on test.twentyfeet.com/app/admin/";
+			final String url = "https://test.twentyfeet.com/app/admin/";
+			final String titleMatch = null;
+			final String contentMatch = "<h1>Admin</h1>";
+			try {
+				addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch, (String) jndiContext.lookup("twentyfeet_admin_username"),
+						(String) jndiContext.lookup("twentyfeet_admin_password"))));
+			}
+			catch (final NamingException e) {
+				logger.error("NamingException", e);
+			}
+		}
 	}
-
 }

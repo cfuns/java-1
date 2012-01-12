@@ -13,7 +13,7 @@ public class SearchUtil {
 			return new String[0];
 		}
 		else {
-			return searchQuery.toLowerCase().replaceAll("[^a-z]", " ").split("\\s+");
+			return searchQuery.toLowerCase().replaceAll("[^a-z0-9]", " ").split("\\s+");
 		}
 	}
 }
