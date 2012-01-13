@@ -117,6 +117,6 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public long getTime() {
-		return Calendar.getInstance().getTimeInMillis();
+		return System.currentTimeMillis();
 	}
 }

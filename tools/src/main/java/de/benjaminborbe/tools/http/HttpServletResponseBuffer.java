@@ -11,13 +11,15 @@ public class HttpServletResponseBuffer extends HttpServletResponseAdapter {
 
 	private final StringWriter writer = new StringWriter();
 
+	private final ServletOutputStreamBuffer outputStream = new ServletOutputStreamBuffer();
+
 	public HttpServletResponseBuffer(final HttpServletResponse response) {
 		super(response);
 	}
 
 	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
-		throw new IllegalArgumentException("can't be used");
+		return outputStream;
 	}
 
 	@Override
@@ -27,5 +29,9 @@ public class HttpServletResponseBuffer extends HttpServletResponseAdapter {
 
 	public StringWriter getStringWriter() {
 		return writer;
+	}
+
+	public byte[] toByteArray() {
+		return outputStream.toByteArray();
 	}
 }

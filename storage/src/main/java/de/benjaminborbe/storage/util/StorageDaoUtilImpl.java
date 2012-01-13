@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.tools.date.CalendarUtil;
+
 public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 	private static final int LIMIT = 10000;
@@ -37,11 +39,14 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 	private final Logger logger;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public StorageDaoUtilImpl(final StorageConnection connection, final StorageConfig config, final Logger logger) {
+	public StorageDaoUtilImpl(final StorageConnection connection, final StorageConfig config, final Logger logger, final CalendarUtil calendarUtil) {
 		this.connection = connection;
 		this.config = config;
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 	}
 
 	/*
@@ -56,7 +61,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 		logger.trace("insert keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " data: " + data);
 
-		final long timestamp = System.currentTimeMillis();
+		final long timestamp = calendarUtil.getTime();
 		for (final Entry<String, String> e : data.entrySet()) {
 			final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
 			final ColumnParent column_parent = new ColumnParent(columnFamily);

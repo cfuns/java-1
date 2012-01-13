@@ -1,17 +1,23 @@
 package de.benjaminborbe.tools.util;
 
-import java.util.Date;
+import com.google.inject.Inject;
+
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 public class Duration {
 
 	private final long startTime;
 
-	public Duration() {
+	private final CalendarUtil calendarUtil;
+
+	@Inject
+	public Duration(final CalendarUtil calendarUtil) {
+		this.calendarUtil = calendarUtil;
 		startTime = getNowTime();
 	}
 
 	protected long getNowTime() {
-		return new Date().getTime();
+		return calendarUtil.getTime();
 	}
 
 	public long getTime() {
