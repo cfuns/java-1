@@ -28,6 +28,7 @@ import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpServletResponseBuffer;
+import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.util.CssResourceImpl;
 
@@ -46,8 +47,6 @@ public class DashboardWidgetImpl implements DashboardWidget {
 
 	private final class DashboardWidgetRenderRunnable implements Runnable {
 
-		private final List<StringWriter> results;
-
 		private final HttpServletResponse response;
 
 		private final HttpServletRequest request;
@@ -58,15 +57,17 @@ public class DashboardWidgetImpl implements DashboardWidget {
 
 		private final CalendarUtil calendarUtil;
 
+		private final ThreadResult<String> threadResult;
+
 		private DashboardWidgetRenderRunnable(
 				final HttpServletRequest request,
 				final HttpServletResponse response,
 				final HttpContext context,
 				final DashboardContentWidget dashboardWidget,
-				final List<StringWriter> results,
+				final ThreadResult<String> threadResult,
 				final CalendarUtil calendarUtil) {
 			this.context = context;
-			this.results = results;
+			this.threadResult = threadResult;
 			this.response = response;
 			this.request = request;
 			this.dashboardWidget = dashboardWidget;
@@ -79,7 +80,7 @@ public class DashboardWidgetImpl implements DashboardWidget {
 				final long startTime = calendarUtil.getTime();
 				final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 				final StringWriter stringWriter = httpServletResponseAdapter.getStringWriter();
-				results.add(stringWriter);
+				threadResult.set(stringWriter.toString());
 				printDashboardWidget(request, httpServletResponseAdapter, context, dashboardWidget);
 				final long endTime = calendarUtil.getTime();
 				stringWriter.append("<!-- render widget " + dashboardWidget.getClass().getSimpleName() + " in " + (endTime - startTime) + " ms -->");
@@ -122,10 +123,12 @@ public class DashboardWidgetImpl implements DashboardWidget {
 		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
 		Collections.sort(dashboardWidgets, new ComparatorImplementation());
 		final Set<Thread> threads = new HashSet<Thread>();
-		final List<StringWriter> results = new ArrayList<StringWriter>();
+		final List<ThreadResult<String>> results = new ArrayList<ThreadResult<String>>();
 		// render all widgets
-		for (final DashboardContentWidget dashboardWidget : dashboardWidgets) {
-			threads.add(threadRunner.run("dashboard-widget-render", new DashboardWidgetRenderRunnable(request, response, context, dashboardWidget, results, calendarUtil)));
+		for (final DashboardContentWidget dashboardWidget : sortWidgets(dashboardWidgets)) {
+			final ThreadResult<String> result = new ThreadResult<String>();
+			results.add(result);
+			threads.add(threadRunner.run("dashboard-widget-render", new DashboardWidgetRenderRunnable(request, response, context, dashboardWidget, result, calendarUtil)));
 		}
 		// wait unitil rendering finished
 		for (final Thread thread : threads) {
@@ -136,8 +139,8 @@ public class DashboardWidgetImpl implements DashboardWidget {
 			}
 		}
 		// append output
-		for (final StringWriter result : results) {
-			out.println(result.toString());
+		for (final ThreadResult<String> result : results) {
+			out.println(result.get());
 		}
 		out.println("<br class=\"clear\">");
 	}
@@ -155,7 +158,7 @@ public class DashboardWidgetImpl implements DashboardWidget {
 		final String contextPath = request.getContextPath();
 		final List<CssResource> result = new ArrayList<CssResource>();
 		result.add(new CssResourceImpl(contextPath + "/dashboard/css/style.css"));
-		for (final DashboardContentWidget dashboardWidget : sortWidgets(dashboardWidgetRegistry.getAll())) {
+		for (final DashboardContentWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
 			if (dashboardWidget instanceof RequireCssResource) {
 				result.addAll(((RequireCssResource) dashboardWidget).getCssResource(request, response));
 			}
