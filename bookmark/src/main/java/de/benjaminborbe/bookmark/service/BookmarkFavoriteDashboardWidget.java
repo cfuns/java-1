@@ -51,4 +51,9 @@ public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 		return "Bookmark-Favorites";
 	}
 
+	@Override
+	public long getPriority() {
+		return 1;
+	}
+
 }

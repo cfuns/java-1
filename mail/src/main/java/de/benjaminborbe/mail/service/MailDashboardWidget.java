@@ -36,4 +36,9 @@ public class MailDashboardWidget implements DashboardContentWidget {
 		return "Mail";
 	}
 
+	@Override
+	public long getPriority() {
+		return 1;
+	}
+
 }

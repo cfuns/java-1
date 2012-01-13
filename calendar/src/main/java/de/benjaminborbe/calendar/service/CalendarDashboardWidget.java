@@ -43,4 +43,10 @@ public class CalendarDashboardWidget implements DashboardContentWidget {
 	public String getTitle() {
 		return "CalendarWidget";
 	}
+
+	@Override
+	public long getPriority() {
+		return 1;
+	}
+
 }

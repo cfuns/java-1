@@ -113,4 +113,9 @@ public class WorktimeDashboardWidget implements DashboardContentWidget, RequireJ
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
 	}
+
+	@Override
+	public long getPriority() {
+		return 997;
+	}
 }

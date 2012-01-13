@@ -39,4 +39,9 @@ public class MonitoringDashboardWidget implements DashboardContentWidget {
 		return TITLE;
 	}
 
+	@Override
+	public long getPriority() {
+		return 2;
+	}
+
 }

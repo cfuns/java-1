@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -32,6 +33,16 @@ import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
 public class DashboardWidgetImpl implements DashboardWidget {
+
+	private final class DashboardContentWidgetComparator implements Comparator<DashboardContentWidget> {
+
+		@Override
+		public int compare(final DashboardContentWidget widget1, final DashboardContentWidget widget2) {
+			final Long p1 = new Long(widget1.getPriority());
+			final Long p2 = new Long(widget2.getPriority());
+			return p2.compareTo(p1);
+		}
+	}
 
 	private final class DashboardWidgetRenderRunnable implements Runnable {
 
@@ -144,12 +155,18 @@ public class DashboardWidgetImpl implements DashboardWidget {
 		final String contextPath = request.getContextPath();
 		final List<CssResource> result = new ArrayList<CssResource>();
 		result.add(new CssResourceImpl(contextPath + "/dashboard/css/style.css"));
-		for (final DashboardContentWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
+		for (final DashboardContentWidget dashboardWidget : sortWidgets(dashboardWidgetRegistry.getAll())) {
 			if (dashboardWidget instanceof RequireCssResource) {
 				result.addAll(((RequireCssResource) dashboardWidget).getCssResource(request, response));
 			}
 		}
 		logger.debug("found " + result + " required css resources");
+		return result;
+	}
+
+	protected List<DashboardContentWidget> sortWidgets(final Collection<DashboardContentWidget> dashboardContentWidgets) {
+		final List<DashboardContentWidget> result = new ArrayList<DashboardContentWidget>(dashboardContentWidgets);
+		Collections.sort(result, new DashboardContentWidgetComparator());
 		return result;
 	}
 

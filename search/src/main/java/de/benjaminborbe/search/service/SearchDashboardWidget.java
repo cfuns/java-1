@@ -83,4 +83,9 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 		result.add(new CssResourceImpl(contextPath + "/search/css/style.css"));
 		return result;
 	}
+
+	@Override
+	public long getPriority() {
+		return 999;
+	}
 }

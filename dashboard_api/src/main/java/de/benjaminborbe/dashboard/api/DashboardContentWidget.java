@@ -6,4 +6,6 @@ public interface DashboardContentWidget extends HTML {
 
 	String getTitle();
 
+	long getPriority();
+
 }

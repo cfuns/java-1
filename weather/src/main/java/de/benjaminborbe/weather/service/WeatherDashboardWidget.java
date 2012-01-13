@@ -31,4 +31,9 @@ public class WeatherDashboardWidget implements DashboardContentWidget {
 	public String getTitle() {
 		return "WeatherWidget";
 	}
+
+	@Override
+	public long getPriority() {
+		return 1;
+	}
 }

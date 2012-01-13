@@ -41,4 +41,9 @@ public class TranslateDashboardWidget implements DashboardContentWidget {
 	public String getTitle() {
 		return "TranslateWidget";
 	}
+
+	@Override
+	public long getPriority() {
+		return 998;
+	}
 }
