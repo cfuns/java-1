@@ -80,10 +80,10 @@ public class DashboardWidgetImpl implements DashboardWidget {
 				final long startTime = calendarUtil.getTime();
 				final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 				final StringWriter stringWriter = httpServletResponseAdapter.getStringWriter();
-				threadResult.set(stringWriter.toString());
 				printDashboardWidget(request, httpServletResponseAdapter, context, dashboardWidget);
 				final long endTime = calendarUtil.getTime();
 				stringWriter.append("<!-- render widget " + dashboardWidget.getClass().getSimpleName() + " in " + (endTime - startTime) + " ms -->");
+				threadResult.set(stringWriter.toString());
 			}
 			catch (final Exception e) {
 				logger.error("Render widget " + dashboardWidget.getClass().getSimpleName() + " failed!", e);
