@@ -37,6 +37,8 @@ public class CalendarDashboardWidget implements DashboardContentWidget {
 		out.println("today: " + calendarUtil.toDateString(now));
 		out.println("<br>");
 		out.println("now: " + calendarUtil.toDateTimeString(now));
+		out.println("<br>");
+		out.println("time: " + calendarUtil.getTime());
 	}
 
 	@Override

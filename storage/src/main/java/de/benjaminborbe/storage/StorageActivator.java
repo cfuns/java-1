@@ -8,8 +8,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.storage.api.CacheStorageService;
-import de.benjaminborbe.storage.api.PersistentStorageService;
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.guice.StorageModules;
 import de.benjaminborbe.storage.servlet.StorageDeleteServlet;
 import de.benjaminborbe.storage.servlet.StorageListServlet;
@@ -27,10 +26,7 @@ public class StorageActivator extends HttpBundleActivator {
 	}
 
 	@Inject
-	private CacheStorageService cacheStorageService;
-
-	@Inject
-	private PersistentStorageService persistentStorageService;
+	private StorageService persistentStorageService;
 
 	@Inject
 	private StorageReadServlet storageReadServlet;
@@ -47,8 +43,7 @@ public class StorageActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(PersistentStorageService.class, persistentStorageService));
-		result.add(new ServiceInfo(CacheStorageService.class, cacheStorageService));
+		result.add(new ServiceInfo(StorageService.class, persistentStorageService));
 		return result;
 	}
 

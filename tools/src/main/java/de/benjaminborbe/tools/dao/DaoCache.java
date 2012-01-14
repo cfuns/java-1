@@ -13,7 +13,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.tools.util.IdGenerator;
 
 @Singleton
-public abstract class DaoBase<T extends Entity> implements Dao<T> {
+public abstract class DaoCache<T extends Entity> implements Dao<T> {
 
 	protected final Logger logger;
 
@@ -24,7 +24,7 @@ public abstract class DaoBase<T extends Entity> implements Dao<T> {
 	private final Provider<T> provider;
 
 	@Inject
-	public DaoBase(final Logger logger, final IdGenerator idGenerator, final Provider<T> provider) {
+	public DaoCache(final Logger logger, final IdGenerator idGenerator, final Provider<T> provider) {
 		this.logger = logger;
 		this.idGenerator = idGenerator;
 		this.provider = provider;

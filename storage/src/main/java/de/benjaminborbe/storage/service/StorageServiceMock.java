@@ -1,7 +1,11 @@
 package de.benjaminborbe.storage.service;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import com.google.inject.Inject;
@@ -69,4 +73,24 @@ public class StorageServiceMock implements StorageService {
 		}
 	}
 
+	@Override
+	public Collection<String> findByIdPrefix(final String columnFamily, final String idStartWith) {
+
+		final Set<String> result = new HashSet<String>();
+		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
+		if (cfData == null)
+			return null;
+		for (final String id : cfData.keySet()) {
+			if (id.startsWith(idStartWith)) {
+				result.add(id);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<String> list(final String columnFamily) {
+
+		return null;
+	}
 }

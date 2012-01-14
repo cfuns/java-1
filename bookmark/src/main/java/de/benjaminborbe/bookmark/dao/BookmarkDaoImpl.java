@@ -13,11 +13,19 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.dao.DaoBase;
+import de.benjaminborbe.tools.dao.DaoCache;
 import de.benjaminborbe.tools.util.IdGenerator;
 
 @Singleton
-public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDao {
+public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkDao {
+
+	private final class BookmarkFavoritePredicate implements Predicate<BookmarkBean> {
+
+		@Override
+		public boolean apply(final BookmarkBean bookmark) {
+			return bookmark.isFavorite();
+		}
+	}
 
 	private static final String DEFAULT_DESCRIPTION = "-";
 
@@ -131,13 +139,7 @@ public class BookmarkDaoImpl extends DaoBase<BookmarkBean> implements BookmarkDa
 
 	@Override
 	public Collection<BookmarkBean> getFavorites() {
-		final Predicate<BookmarkBean> filter = new Predicate<BookmarkBean>() {
-
-			@Override
-			public boolean apply(final BookmarkBean bookmark) {
-				return bookmark.isFavorite();
-			}
-		};
+		final Predicate<BookmarkBean> filter = new BookmarkFavoritePredicate();
 		return Collections2.filter(getAll(), filter);
 	}
 

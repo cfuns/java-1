@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.storage.api.PersistentStorageService;
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
 
 @Singleton
@@ -29,10 +29,10 @@ public class StorageWriteServlet extends HttpServlet {
 
 	private final Logger logger;
 
-	private final PersistentStorageService persistentStorageService;
+	private final StorageService persistentStorageService;
 
 	@Inject
-	public StorageWriteServlet(final Logger logger, final PersistentStorageService persistentStorageService) {
+	public StorageWriteServlet(final Logger logger, final StorageService persistentStorageService) {
 		this.logger = logger;
 		this.persistentStorageService = persistentStorageService;
 	}

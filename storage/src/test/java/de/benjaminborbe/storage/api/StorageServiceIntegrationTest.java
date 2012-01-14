@@ -10,13 +10,13 @@ import com.google.inject.Injector;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class PersistentStorageServiceIntegrationTest {
+public class StorageServiceIntegrationTest {
 
 	@Test
 	public void IsSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final PersistentStorageService o1 = injector.getInstance(PersistentStorageService.class);
-		final PersistentStorageService o2 = injector.getInstance(PersistentStorageService.class);
+		final StorageService o1 = injector.getInstance(StorageService.class);
+		final StorageService o2 = injector.getInstance(StorageService.class);
 		assertEquals(o1, o2);
 		assertTrue(o1 == o2);
 	}

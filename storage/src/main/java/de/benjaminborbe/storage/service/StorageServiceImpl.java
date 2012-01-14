@@ -12,14 +12,14 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.storage.api.PersistentStorageService;
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnection;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 
 @Singleton
-public class PersistentStorageServiceImpl implements PersistentStorageService {
+public class StorageServiceImpl implements StorageService {
 
 	private final StorageConfig config;
 
@@ -30,7 +30,7 @@ public class PersistentStorageServiceImpl implements PersistentStorageService {
 	private final StorageConnection storageConnection;
 
 	@Inject
-	public PersistentStorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil, final StorageConnection storageConnection) {
+	public StorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil, final StorageConnection storageConnection) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;

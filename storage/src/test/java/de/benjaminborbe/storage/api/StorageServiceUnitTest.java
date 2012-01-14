@@ -10,12 +10,12 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.storage.service.PersistentStorageServiceImpl;
+import de.benjaminborbe.storage.service.StorageServiceImpl;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnection;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 
-public class PersistentStorageServiceUnitTest {
+public class StorageServiceUnitTest {
 
 	@Test
 	public void findByIdPrefix() throws Exception {
@@ -43,7 +43,7 @@ public class PersistentStorageServiceUnitTest {
 		EasyMock.expect(storageDaoUtil.list(keySpace, columnFamily)).andReturn(ids);
 		EasyMock.replay(storageDaoUtil);
 
-		final PersistentStorageService p = new PersistentStorageServiceImpl(logger, storageConfig, storageDaoUtil, storageConnection);
+		final StorageService p = new StorageServiceImpl(logger, storageConfig, storageDaoUtil, storageConnection);
 
 		// test call
 		final Collection<String> result = p.findByIdPrefix(columnFamily, prefix);

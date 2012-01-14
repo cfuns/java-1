@@ -5,8 +5,6 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.storage.api.CacheStorageService;
-import de.benjaminborbe.storage.api.PersistentStorageService;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
@@ -50,28 +48,16 @@ public class StorageTest extends OSGiTestCase {
 
 	}
 
-	protected StorageService getCacheStorageService() {
-		final Object serviceObject = getServiceObject(CacheStorageService.class.getName(), null);
-		final CacheStorageService storageService = (CacheStorageService) serviceObject;
+	protected StorageService getStorageService() {
+		final Object serviceObject = getServiceObject(StorageService.class.getName(), null);
+		final StorageService storageService = (StorageService) serviceObject;
 		return storageService;
 	}
 
-	protected StorageService getPersistentStorageService() {
-		final Object serviceObject = getServiceObject(PersistentStorageService.class.getName(), null);
-		final PersistentStorageService storageService = (PersistentStorageService) serviceObject;
-		return storageService;
-	}
-
-	public void testGetPersistentStorageService() {
-		final StorageService storageService = getPersistentStorageService();
+	public void testGetStorageService() {
+		final StorageService storageService = getStorageService();
 		assertNotNull(storageService);
-		assertEquals("de.benjaminborbe.storage.service.PersistentStorageServiceImpl", storageService.getClass().getName());
-	}
-
-	public void testGetCacheStorageService() {
-		final StorageService storageService = getCacheStorageService();
-		assertNotNull(storageService);
-		assertEquals("de.benjaminborbe.storage.service.CacheStorageServiceImpl", storageService.getClass().getName());
+		assertEquals("de.benjaminborbe.storage.service.StorageServiceImpl", storageService.getClass().getName());
 	}
 
 }

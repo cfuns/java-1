@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.storage.api.PersistentStorageService;
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -28,7 +28,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 
 	private final Logger logger;
 
-	private final PersistentStorageService storageService;
+	private final StorageService storageService;
 
 	private final CalendarUtil calendarUtil;
 
@@ -37,7 +37,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
-	public WorktimeStorageServiceImpl(final Logger logger, final PersistentStorageService storageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ParseUtil parseUtil) {
+	public WorktimeStorageServiceImpl(final Logger logger, final StorageService storageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.calendarUtil = calendarUtil;
