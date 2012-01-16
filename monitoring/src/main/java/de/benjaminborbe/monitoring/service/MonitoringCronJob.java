@@ -46,7 +46,7 @@ public class MonitoringCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("MonitoringCronJob.execute()");
+		logger.trace("MonitoringCronJob.execute()");
 		final Collection<CheckResult> failedChecks = callChecks();
 
 		// send mail
@@ -61,10 +61,10 @@ public class MonitoringCronJob implements CronJob {
 			}
 		}
 		else {
-			logger.debug("all checks past");
+			logger.trace("all checks past");
 		}
 
-		logger.debug("MonitoringCronJob.execute() - finished");
+		logger.trace("MonitoringCronJob.execute() - finished");
 	}
 
 	protected Collection<CheckResult> callChecks() {

@@ -3,20 +3,28 @@ package de.benjaminborbe.util.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.util.UtilPasswordCharacter;
 import de.benjaminborbe.util.UtilPasswordGenerator;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class UtilPasswordGeneratorServlet extends HttpServlet {
+public class UtilPasswordGeneratorServlet extends WebsiteHtmlServlet {
 
 	private static final int PASSWORD_AMOUNT = 10;
 
@@ -26,49 +34,43 @@ public class UtilPasswordGeneratorServlet extends HttpServlet {
 
 	private static final int DEFAULT_LENGHT = 8;
 
-	private final Logger logger;
+	private static final String TITLE = "PasswordGenerator";
+
+	private static final String PARAMETER_LENGTH = "length";
 
 	private final UtilPasswordGenerator utilPasswordGenerator;
 
 	@Inject
-	public UtilPasswordGeneratorServlet(final Logger logger, final UtilPasswordGenerator utilPasswordGenerator) {
-		this.logger = logger;
+	public UtilPasswordGeneratorServlet(
+			final Logger logger,
+			final CssResourceRenderer cssResourceRenderer,
+			final JavascriptResourceRenderer javascriptResourceRenderer,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil,
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider,
+			final UtilPasswordGenerator utilPasswordGenerator) {
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 		this.utilPasswordGenerator = utilPasswordGenerator;
 	}
 
-	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
-		printHtml(request, response);
-	}
-
-	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<html>");
-		printHead(request, response);
-		printBody(request, response);
-		out.println("</html>");
-	}
-
-	protected void printBody(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<body>");
-		out.println("<h2>PasswordGenerator</h2>");
+		out.println("<h1>PasswordGenerator</h1>");
 		out.println("<ul>");
 		for (int i = 0; i < PASSWORD_AMOUNT; ++i) {
 			out.println("<li>");
-			out.println(utilPasswordGenerator.generatePassword(DEFAULT_LENGHT, DEFAULT_CHARACTERS));
+			final int length = parseUtil.parseInt(request.getParameter(PARAMETER_LENGTH), DEFAULT_LENGHT);
+			out.println(utilPasswordGenerator.generatePassword(length, DEFAULT_CHARACTERS));
 			out.println("</li>");
 		}
 		out.println("</ul>");
-		out.println("</body>");
 	}
 
-	protected void printHead(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<head>");
-		out.println("</head>");
+	@Override
+	protected String getTitle() {
+		return TITLE;
 	}
+
 }

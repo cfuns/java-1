@@ -32,7 +32,7 @@ public class WorktimeCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("execute WorktimeCronJob");
+		logger.trace("execute WorktimeCronJob");
 		try {
 			worktimeRecorder.recordWorktime();
 		}

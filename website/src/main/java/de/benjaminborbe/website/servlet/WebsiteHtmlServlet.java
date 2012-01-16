@@ -43,11 +43,11 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	protected final JavascriptResourceRenderer javascriptResourceRenderer;
 
-	private final CalendarUtil calendarUtil;
+	protected final CalendarUtil calendarUtil;
 
-	private final TimeZoneUtil timeZoneUtil;
+	protected final TimeZoneUtil timeZoneUtil;
 
-	private final ParseUtil parseUtil;
+	protected final ParseUtil parseUtil;
 
 	private final NavigationWidget navigationWidget;
 
