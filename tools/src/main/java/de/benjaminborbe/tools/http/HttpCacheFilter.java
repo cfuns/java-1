@@ -36,15 +36,22 @@ public class HttpCacheFilter extends HttpFilter {
 	@Override
 	public void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
 		final String identifier = buildIdentifier(request);
-		if (cache.containsKey(identifier)) {
-			final CacheEntry result = cache.get(identifier);
-			response.setContentType(result.getContentType());
-			response.getWriter().print(result.getContent());
-		}
-		else {
+		if (!cache.containsKey(identifier)) {
+			logger.trace("cache miss for " + identifier);
 			final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 			filterChain.doFilter(request, httpServletResponseAdapter);
-			cache.put(identifier, new CacheEntry(httpServletResponseAdapter.getContentType(), httpServletResponseAdapter.getStringWriter().toString()));
+			cache.put(identifier, new CacheEntry(httpServletResponseAdapter.getContentType(), httpServletResponseAdapter.getWriterContent(), httpServletResponseAdapter.getOutputStreamContent()));
+		}
+		else {
+			logger.trace("cache hit for " + identifier);
+		}
+		final CacheEntry cacheEntry = cache.get(identifier);
+		response.setContentType(cacheEntry.getContentType());
+		if (cacheEntry.getStreamContent().length > 0) {
+			response.getOutputStream().write(cacheEntry.getStreamContent());
+		}
+		else {
+			response.getWriter().print(cacheEntry.getWriterContent());
 		}
 	}
 
@@ -56,19 +63,27 @@ public class HttpCacheFilter extends HttpFilter {
 
 		private final String contentType;
 
-		private final String content;
+		private final String writerContent;
 
-		public CacheEntry(final String contentType, final String content) {
+		private final byte[] streamContent;
+
+		public CacheEntry(final String contentType, final String writerContent, final byte[] streamContent) {
 			this.contentType = contentType;
-			this.content = content;
+			this.writerContent = writerContent;
+			this.streamContent = streamContent;
 		}
 
 		public String getContentType() {
 			return contentType;
 		}
 
-		public String getContent() {
-			return content;
+		public String getWriterContent() {
+			return writerContent;
 		}
+
+		public byte[] getStreamContent() {
+			return streamContent;
+		}
+
 	}
 }

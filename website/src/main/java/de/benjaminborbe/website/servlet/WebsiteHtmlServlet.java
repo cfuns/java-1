@@ -92,7 +92,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		final HttpContext context = httpContextProvider.get();
@@ -101,7 +101,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected void printHtml(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("printHtml");
+		logger.trace("printHtml");
 		final PrintWriter out = response.getWriter();
 		out.println("<html>");
 		printHead(request, response, context);
@@ -111,7 +111,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	protected void printBody(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		logger.debug("printBody");
+		logger.trace("printBody");
 		out.println("<body>");
 		printTop(request, response, context);
 		printContent(request, response, context);
@@ -120,19 +120,19 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected void printTop(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("printTop");
+		logger.trace("printTop");
 		navigationWidget.render(request, response, context);
 	}
 
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		logger.debug("printContent");
+		logger.trace("printContent");
 		out.println("<h1>" + getTitle() + "</h1>");
 	}
 
 	protected void printFooter(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		logger.debug("printFooter");
+		logger.trace("printFooter");
 		out.println("<div>");
 		final long now = getNowAsLong();
 		final long startTime = parseUtil.parseLong(context.getData().get(START_TIME), now);
@@ -141,7 +141,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected void printHead(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("printHead");
+		logger.trace("printHead");
 		final PrintWriter out = response.getWriter();
 		out.println("<head>");
 		out.println("<title>" + getTitle() + "</title>");
@@ -151,14 +151,14 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected Collection<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
-		logger.debug("getJavascriptResources");
+		logger.trace("getJavascriptResources");
 		final Set<JavascriptResource> result = new HashSet<JavascriptResource>();
 		final Collection<Widget> widgets = getWidgets();
-		logger.debug("found " + widgets.size() + " widgets");
+		logger.trace("found " + widgets.size() + " widgets");
 		for (final Widget widget : widgets) {
-			logger.debug("try widget " + widget.getClass().getName());
+			logger.trace("try widget " + widget.getClass().getName());
 			if (widget instanceof RequireJavascriptResource) {
-				logger.debug("widget " + widget.getClass().getName() + " requireJavascriptResource");
+				logger.trace("widget " + widget.getClass().getName() + " requireJavascriptResource");
 				final RequireJavascriptResource requireJavascriptResource = (RequireJavascriptResource) widget;
 				result.addAll(requireJavascriptResource.getJavascriptResource(request, response));
 			}
@@ -167,14 +167,14 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
-		logger.debug("getCssResources");
+		logger.trace("getCssResources");
 		final Set<CssResource> result = new HashSet<CssResource>();
 		final Collection<Widget> widgets = getWidgets();
-		logger.debug("found " + widgets.size() + " widgets");
+		logger.trace("found " + widgets.size() + " widgets");
 		for (final Widget widget : widgets) {
-			logger.debug("try widget " + widget.getClass().getName());
+			logger.trace("try widget " + widget.getClass().getName());
 			if (widget instanceof RequireCssResource) {
-				logger.debug("widget " + widget.getClass().getName() + " requireJavascriptResource");
+				logger.trace("widget " + widget.getClass().getName() + " requireJavascriptResource");
 				final RequireCssResource requireCssResource = (RequireCssResource) widget;
 				result.addAll(requireCssResource.getCssResource(request, response));
 			}

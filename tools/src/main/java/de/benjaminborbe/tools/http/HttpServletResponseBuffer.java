@@ -27,11 +27,15 @@ public class HttpServletResponseBuffer extends HttpServletResponseAdapter {
 		return new PrintWriter(writer);
 	}
 
-	public StringWriter getStringWriter() {
-		return writer;
+	public String getWriterContent() {
+		return writer.toString();
 	}
 
-	public byte[] toByteArray() {
+	public byte[] getOutputStreamContent() {
 		return outputStream.toByteArray();
+	}
+
+	public StringWriter getStringWriter() {
+		return writer;
 	}
 }

@@ -67,6 +67,7 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 		save(createBookmark("http://www.rocketnews.de/manager/html/list", "Rocketnews - Tomcat - Manager", Arrays.asList("Tomcat", "Manager")));
 		save(createBookmark("https://www.icloud.com/", "iCloud", Arrays.asList("iCloud", "Apple")));
 		save(createBookmark("https://www.icloud.com/#find", "iCloud - Find", Arrays.asList("iCloud", "Find", "Apple")));
+		save(createBookmark("http://dict.leo.org/", "dict.leo.org", Arrays.asList("Dictionary", "Translate")));
 
 		// local
 		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));

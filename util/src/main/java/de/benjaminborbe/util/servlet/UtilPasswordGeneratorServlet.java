@@ -55,7 +55,13 @@ public class UtilPasswordGeneratorServlet extends WebsiteHtmlServlet {
 		this.utilPasswordGenerator = utilPasswordGenerator;
 	}
 
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	@Override
+	protected String getTitle() {
+		return TITLE;
+	}
+
+	@Override
+	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<h1>PasswordGenerator</h1>");
 		out.println("<ul>");
@@ -66,11 +72,6 @@ public class UtilPasswordGeneratorServlet extends WebsiteHtmlServlet {
 			out.println("</li>");
 		}
 		out.println("</ul>");
-	}
-
-	@Override
-	protected String getTitle() {
-		return TITLE;
 	}
 
 }
