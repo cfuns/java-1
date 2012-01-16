@@ -40,8 +40,8 @@ public class BookmarkActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/bookmark")) {
+		assertEquals(5, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/bookmark", "/bookmark/list", "/bookmark/create", "/bookmark/update", "/bookmark/delete")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}

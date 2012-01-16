@@ -21,7 +21,7 @@ public class NodeCheckerImpl implements NodeChecker {
 
 	@Override
 	public Collection<CheckResult> checkNode(final Node node) {
-		logger.debug("checkNode: " + node);
+		logger.trace("checkNode: " + node);
 		final Set<CheckResult> result = new HashSet<CheckResult>();
 
 		// return empty result if precontition fails

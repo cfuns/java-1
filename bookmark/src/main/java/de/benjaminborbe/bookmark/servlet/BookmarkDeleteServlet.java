@@ -8,14 +8,14 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.website.servlet.WebsiteRedirectServlet;
 
 @Singleton
-public class BookmarkServlet extends WebsiteRedirectServlet {
+public class BookmarkDeleteServlet extends WebsiteRedirectServlet {
 
-	private static final long serialVersionUID = -4538727884647259439L;
+	private static final long serialVersionUID = 4956434804365230995L;
 
 	private static final String TARGET = "/list";
 
 	@Inject
-	public BookmarkServlet(final Logger logger) {
+	public BookmarkDeleteServlet(final Logger logger) {
 		super(logger);
 	}
 

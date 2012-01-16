@@ -12,7 +12,11 @@ import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
 import de.benjaminborbe.bookmark.service.BookmarkFavoriteDashboardWidget;
 import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl;
+import de.benjaminborbe.bookmark.servlet.BookmarkCreateServlet;
+import de.benjaminborbe.bookmark.servlet.BookmarkDeleteServlet;
+import de.benjaminborbe.bookmark.servlet.BookmarkListServlet;
 import de.benjaminborbe.bookmark.servlet.BookmarkServlet;
+import de.benjaminborbe.bookmark.servlet.BookmarkUpdateServlet;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
@@ -23,7 +27,10 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class BookmarkActivator extends HttpBundleActivator {
 
 	@Inject
-	private BookmarkServlet bookmarkServlet;
+	private BookmarkListServlet bookmarkListServlet;
+
+	@Inject
+	private BookmarkCreateServlet bookmarkCreateServlet;
 
 	@Inject
 	private BookmarkService bookmarkService;
@@ -33,6 +40,15 @@ public class BookmarkActivator extends HttpBundleActivator {
 
 	@Inject
 	private BookmarkFavoriteDashboardWidget bookmarkFavoriteDashboardWidget;
+
+	@Inject
+	private BookmarkServlet bookmarkServlet;
+
+	@Inject
+	private BookmarkDeleteServlet bookmarkDeleteServlet;
+
+	@Inject
+	private BookmarkUpdateServlet bookmarkUpdateServlet;
 
 	public BookmarkActivator() {
 		super("bookmark");
@@ -55,6 +71,10 @@ public class BookmarkActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(bookmarkListServlet, "/list"));
+		result.add(new ServletInfo(bookmarkCreateServlet, "/create"));
+		result.add(new ServletInfo(bookmarkUpdateServlet, "/update"));
+		result.add(new ServletInfo(bookmarkDeleteServlet, "/delete"));
 		result.add(new ServletInfo(bookmarkServlet, "/"));
 		return result;
 	}

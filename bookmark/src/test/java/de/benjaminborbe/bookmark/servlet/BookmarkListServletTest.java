@@ -9,13 +9,13 @@ import com.google.inject.Injector;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class BookmarkServletTest {
+public class BookmarkListServletTest {
 
 	@Test
 	public void singleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
-		final BookmarkServlet a = injector.getInstance(BookmarkServlet.class);
-		final BookmarkServlet b = injector.getInstance(BookmarkServlet.class);
+		final BookmarkListServlet a = injector.getInstance(BookmarkListServlet.class);
+		final BookmarkListServlet b = injector.getInstance(BookmarkListServlet.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);
