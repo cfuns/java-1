@@ -95,6 +95,10 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 		return servletAlias.containsKey(servlet);
 	}
 
+	public boolean hasResource(final String path) {
+		return resourceAlias.containsKey(path);
+	}
+
 	public boolean hasFilter(final Filter filter) {
 		return filterAlias.containsKey(filter);
 	}

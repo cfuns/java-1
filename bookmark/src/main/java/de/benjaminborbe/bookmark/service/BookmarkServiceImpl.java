@@ -1,9 +1,12 @@
 package de.benjaminborbe.bookmark.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 
@@ -96,7 +99,21 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	protected boolean match(final Bookmark bookmark, final String search) {
-		return bookmark.getUrl().toLowerCase().indexOf(search.toLowerCase()) != -1 || bookmark.getName().toLowerCase().indexOf(search.toLowerCase()) != -1;
+		for (final String value : getSearchValues(bookmark)) {
+			if (value.toLowerCase().indexOf(search.toLowerCase()) != -1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected Collection<String> getSearchValues(final Bookmark bookmark) {
+		final Set<String> values = new HashSet<String>();
+		values.add(bookmark.getUrl());
+		values.add(bookmark.getName());
+		values.add(bookmark.getDescription());
+		values.addAll(bookmark.getKeywords());
+		return values;
 	}
 
 	private final class Match {

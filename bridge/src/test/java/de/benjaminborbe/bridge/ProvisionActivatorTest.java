@@ -14,7 +14,7 @@ import org.junit.Test;
 public class ProvisionActivatorTest {
 
 	@Test
-	public void GetProperties() {
+	public void testGetProperties() {
 		final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
 		final InputStream inputStream = new ByteArrayInputStream("twentyfeet.bundle.1 = bla".getBytes());
 		EasyMock.expect(servletContext.getResourceAsStream("/WEB-INF/activator.properties")).andReturn(inputStream);
@@ -23,4 +23,5 @@ public class ProvisionActivatorTest {
 		final Properties props = pa.getProperties();
 		assertTrue(props.containsKey("twentyfeet.bundle.1"));
 	}
+
 }

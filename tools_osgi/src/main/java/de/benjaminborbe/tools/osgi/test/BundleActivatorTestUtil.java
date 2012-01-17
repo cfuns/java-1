@@ -27,21 +27,29 @@ public class BundleActivatorTestUtil {
 
 		final ExtHttpServiceMock extBundle = new ExtHttpServiceMock();
 
-		final ServiceReference serviceReference = EasyMock.createMock(ServiceReference.class);
-		EasyMock.expect(serviceReference.getBundle()).andReturn(extBundle);
-		EasyMock.replay(serviceReference);
+		final ServiceReference extServiceReference = EasyMock.createMock(ServiceReference.class);
+		EasyMock.expect(extServiceReference.getBundle()).andReturn(extBundle);
+		EasyMock.replay(extServiceReference);
 
 		final ServiceRegistration serviceRegistration = EasyMock.createMock(ServiceRegistration.class);
 		EasyMock.replay(serviceRegistration);
 
-		final ServiceReference[] serviceReferences = new ServiceReference[] { serviceReference };
+		final ServiceReference[] extServiceReferences = new ServiceReference[] { extServiceReference };
+		final ServiceReference[] emptyServiceReferences = new ServiceReference[] {};
 
 		final BundleContext context = EasyMock.createMock(BundleContext.class);
 		context.addServiceListener(EasyMock.anyObject(ServiceListener.class), EasyMock.anyObject(String.class));
-		EasyMock.expect(context.getBundle()).andReturn(bundle);
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.expect(context.getBundle()).andReturn(bundle).anyTimes();
 		EasyMock.expect(context.createFilter(EasyMock.anyObject(String.class))).andReturn(filter).anyTimes();
-		EasyMock.expect(context.getServiceReferences(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(serviceReferences).anyTimes();
-		EasyMock.expect(context.getService(serviceReference)).andReturn(extBundle);
+
+		EasyMock.expect(context.getServiceReferences("org.apache.felix.http.api.ExtHttpService", null)).andReturn(extServiceReferences).anyTimes();
+		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.cron.api.CronJob", null)).andReturn(emptyServiceReferences).anyTimes();
+		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.search.api.SearchServiceComponent", null)).andReturn(emptyServiceReferences).anyTimes();
+		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.dashboard.api.DashboardContentWidget", null)).andReturn(emptyServiceReferences).anyTimes();
+		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.navigation.api.NavigationEntry", null)).andReturn(emptyServiceReferences).anyTimes();
+		EasyMock.expect(context.getService(extServiceReference)).andReturn(extBundle);
+
 		EasyMock.expect(context.registerService(EasyMock.anyObject(String.class), EasyMock.anyObject(Object.class), EasyMock.anyObject(Dictionary.class))).andReturn(serviceRegistration).anyTimes();
 		EasyMock.replay(context);
 

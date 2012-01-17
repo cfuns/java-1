@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.check.CheckResult;
+import de.benjaminborbe.monitoring.check.CheckResultRenderer;
 import de.benjaminborbe.monitoring.check.NodeChecker;
 import de.benjaminborbe.monitoring.check.RootNode;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
@@ -47,14 +48,16 @@ public class MonitoringWidgetImpl implements MonitoringWidget {
 		this.nodeChecker = nodeChecker;
 	}
 
-	protected void printCheckWithRootNode(final FlushPrintWriter out) {
+	protected void printCheckWithRootNode(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final List<CheckResult> checkResults = new ArrayList<CheckResult>(nodeChecker.checkNode(rootNode));
 		Collections.sort(checkResults, new CheckResultComparator());
+		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("<ul>");
 		for (final CheckResult checkResult : checkResults) {
 			logger.debug(checkResult.toString());
 			out.println("<li>");
-			out.println(checkResult.toString());
+			final CheckResultRenderer renderer = new CheckResultRenderer(checkResult);
+			renderer.render(request, response, context);
 			out.println("</li>");
 		}
 		out.println("</ul>");
@@ -65,7 +68,7 @@ public class MonitoringWidgetImpl implements MonitoringWidget {
 		logger.debug("render");
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("monitoring checks started");
-		printCheckWithRootNode(out);
+		printCheckWithRootNode(request, response, context);
 		out.println("monitoring checks finished");
 	}
 

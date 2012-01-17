@@ -16,6 +16,7 @@ import de.benjaminborbe.monitoring.service.MonitoringDashboardWidget;
 import de.benjaminborbe.monitoring.servlet.MonitoringServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
@@ -51,6 +52,13 @@ public class MonitoringActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(monitoringServlet, "/"));
+		return result;
+	}
+
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}
 

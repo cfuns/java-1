@@ -70,16 +70,17 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 		save(createBookmark("http://dict.leo.org/", "dict.leo.org", Arrays.asList("Dictionary", "Translate")));
 
 		// local
-		save(createBookmark("http://localhost:8180/manager/html/list", "Local - Tomcat Manager"));
-		save(createBookmark("http://localhost:8180/jenkins", "Local - Jenkins", Arrays.asList("Local", "Lokal", "Hudson", "Jenkins")));
+		save(createBookmark("http://127.0.0.1:8180/sonar", "Local - Sonar"));
+		save(createBookmark("http://127.0.0.1:8180/manager/html/list", "Local - Tomcat Manager"));
+		save(createBookmark("http://127.0.0.1:8180/jenkins", "Local - Jenkins", Arrays.asList("Local", "Lokal", "Hudson", "Jenkins")));
 		save(createBookmark("http://phpmyadmin/", "Local - phpMyAdmin"));
 		save(createBookmark("http://0.0.0.0:8161/admin/queues.jsp", "Local - ActiveMQ - JMS"));
 
 		// 20ft devel
 		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://localhost:8180/app/", "Twentyfeet - Devel", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://localhost:8180/app/admin", "Twentyfeet - Devel - Admin", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://localhost:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://127.0.0.1:8180/app/", "Twentyfeet - Devel", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://127.0.0.1:8180/app/admin", "Twentyfeet - Devel - Admin", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://127.0.0.1:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
 		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
 
 		// 20ft live

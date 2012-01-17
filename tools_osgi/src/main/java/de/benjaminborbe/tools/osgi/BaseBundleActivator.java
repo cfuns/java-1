@@ -33,38 +33,6 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	}
 
 	@Override
-	public void stop(final BundleContext context) throws Exception {
-		try {
-			getInjector(context).injectMembers(this);
-			logger.info("stopping: " + this.getClass().getName() + " ...");
-
-			// close servicetracker
-			for (final ServiceTracker serviceTracker : getServiceTrackers(context)) {
-				serviceTracker.close();
-			}
-
-			// unregister all services
-			for (final ServiceRegistration serviceRegistration : serviceRegistrations) {
-				serviceRegistration.unregister();
-			}
-			serviceRegistrations.clear();
-
-			logger.info("stopping: " + this.getClass().getName() + " done");
-		}
-		catch (final Exception e) {
-			if (logger != null) {
-				logger.error("stopping: " + this.getClass().getName() + " failed: " + e.toString(), e);
-			}
-			// fallback if injector start fails!
-			else {
-				e.printStackTrace();
-				System.out.println("stopping: " + this.getClass().getName() + " failed: " + e.toString());
-			}
-			throw e;
-		}
-	}
-
-	@Override
 	public void start(final BundleContext context) throws Exception {
 		try {
 			getInjector(context).injectMembers(this);
@@ -95,6 +63,38 @@ public abstract class BaseBundleActivator implements BundleActivator {
 			else {
 				e.printStackTrace();
 				System.out.println("starting: " + this.getClass().getName() + " failed: " + e.toString());
+			}
+			throw e;
+		}
+	}
+
+	@Override
+	public void stop(final BundleContext context) throws Exception {
+		try {
+			getInjector(context).injectMembers(this);
+			logger.info("stopping: " + this.getClass().getName() + " ...");
+
+			// close servicetracker
+			for (final ServiceTracker serviceTracker : getServiceTrackers(context)) {
+				serviceTracker.close();
+			}
+
+			// unregister all services
+			for (final ServiceRegistration serviceRegistration : serviceRegistrations) {
+				serviceRegistration.unregister();
+			}
+			serviceRegistrations.clear();
+
+			logger.info("stopping: " + this.getClass().getName() + " done");
+		}
+		catch (final Exception e) {
+			if (logger != null) {
+				logger.error("stopping: " + this.getClass().getName() + " failed: " + e.toString(), e);
+			}
+			// fallback if injector start fails!
+			else {
+				e.printStackTrace();
+				System.out.println("stopping: " + this.getClass().getName() + " failed: " + e.toString());
 			}
 			throw e;
 		}

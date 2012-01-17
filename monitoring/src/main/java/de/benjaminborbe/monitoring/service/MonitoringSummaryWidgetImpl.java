@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
 import de.benjaminborbe.monitoring.check.CheckResult;
+import de.benjaminborbe.monitoring.check.CheckResultRenderer;
 import de.benjaminborbe.monitoring.check.NodeCheckerCache;
 import de.benjaminborbe.monitoring.check.RootNode;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
@@ -65,7 +66,8 @@ public class MonitoringSummaryWidgetImpl implements MonitoringSummaryWidget {
 		for (final CheckResult checkResult : failCheckResults) {
 			logger.debug(checkResult.toString());
 			out.println("<li>");
-			out.println(checkResult.toString());
+			final CheckResultRenderer renderer = new CheckResultRenderer(checkResult);
+			renderer.render(request, response, context);
 			out.println("</li>");
 		}
 		out.println("</ul>");
