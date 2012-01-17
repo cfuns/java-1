@@ -14,16 +14,19 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
 import de.benjaminborbe.monitoring.check.CheckResult;
 import de.benjaminborbe.monitoring.check.CheckResultRenderer;
 import de.benjaminborbe.monitoring.check.NodeCheckerCache;
 import de.benjaminborbe.monitoring.check.RootNode;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
+import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
-public class MonitoringSummaryWidgetImpl implements MonitoringSummaryWidget {
+public class MonitoringSummaryWidgetImpl implements MonitoringSummaryWidget, RequireCssResource {
 
 	private final class CheckResultComparator implements Comparator<CheckResult> {
 
@@ -71,5 +74,13 @@ public class MonitoringSummaryWidgetImpl implements MonitoringSummaryWidget {
 			out.println("</li>");
 		}
 		out.println("</ul>");
+	}
+
+	@Override
+	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
+		final String contextPath = request.getContextPath();
+		final List<CssResource> result = new ArrayList<CssResource>();
+		result.add(new CssResourceImpl(contextPath + "/monitoring/css/style.css"));
+		return result;
 	}
 }

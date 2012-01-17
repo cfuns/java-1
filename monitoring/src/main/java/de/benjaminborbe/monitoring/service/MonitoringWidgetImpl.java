@@ -14,16 +14,19 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.check.CheckResult;
 import de.benjaminborbe.monitoring.check.CheckResultRenderer;
 import de.benjaminborbe.monitoring.check.NodeChecker;
 import de.benjaminborbe.monitoring.check.RootNode;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
+import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
-public class MonitoringWidgetImpl implements MonitoringWidget {
+public class MonitoringWidgetImpl implements MonitoringWidget, RequireCssResource {
 
 	private final class CheckResultComparator implements Comparator<CheckResult> {
 
@@ -70,6 +73,14 @@ public class MonitoringWidgetImpl implements MonitoringWidget {
 		out.println("monitoring checks started");
 		printCheckWithRootNode(request, response, context);
 		out.println("monitoring checks finished");
+	}
+
+	@Override
+	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
+		final String contextPath = request.getContextPath();
+		final List<CssResource> result = new ArrayList<CssResource>();
+		result.add(new CssResourceImpl(contextPath + "/monitoring/css/style.css"));
+		return result;
 	}
 
 }

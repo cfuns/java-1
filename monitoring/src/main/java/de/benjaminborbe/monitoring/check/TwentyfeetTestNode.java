@@ -27,6 +27,24 @@ public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPr
 			final int port = 443;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
+		{
+			final String name = "TCP-Check on test1.twentyfeet.com:22";
+			final String hostname = "test1.twentyfeet.com";
+			final int port = 22;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+		{
+			final String name = "TCP-Check on test1.twentyfeet.com:80";
+			final String hostname = "test1.twentyfeet.com";
+			final int port = 80;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+		{
+			final String name = "TCP-Check on test1.twentyfeet.com:443";
+			final String hostname = "test1.twentyfeet.com";
+			final int port = 443;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
 
 		// url-checks
 		{

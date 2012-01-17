@@ -20,3 +20,5 @@ deploy:
 	cd bridge && make deploy
 dir:
 	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
+sonar:
+	mvn sonar:sonar

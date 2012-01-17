@@ -78,10 +78,10 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 
 		// 20ft devel
 		save(createBookmark("/bb/twentyfeetperformance", "Twentyfeet - Devel - Performance", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://127.0.0.1:8180/app/", "Twentyfeet - Devel", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://127.0.0.1:8180/app/admin", "Twentyfeet - Devel - Admin", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://127.0.0.1:8180/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
-		save(createBookmark("http://127.0.0.1:8888/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://20ft/", "Twentyfeet - Devel", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://20ft/app/admin", "Twentyfeet - Devel - Admin", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://20ft/app/?log_level=DEBUG", "Twentyfeet - Devel - App with Debug", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
+		save(createBookmark("http://20ft/app/Home.html?gwt.codesvr=127.0.0.1:9997", "Twentyfeet - Devel - App in Developermode", Arrays.asList("TwentyFeet", "20ft", "Dev", "Devel")));
 
 		// 20ft live
 		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live", Arrays.asList("TwentyFeet", "20ft", "Live")));
