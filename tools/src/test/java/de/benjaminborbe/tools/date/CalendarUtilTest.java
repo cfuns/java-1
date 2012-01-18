@@ -23,7 +23,6 @@ public class CalendarUtilTest {
 		final CalendarUtil b = injector.getInstance(CalendarUtil.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
-		assertEquals(a, b);
 	}
 
 	@Test

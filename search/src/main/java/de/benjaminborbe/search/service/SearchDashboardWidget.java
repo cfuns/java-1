@@ -48,7 +48,7 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 
 		final String action = contextPath + "/search";
 		out.println("<form method=\"GET\" action=\"" + action + "\">");
-		out.println("<input name=\"q\" id=\"searchBox\" type=\"text\"" + (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
+		out.println("<input name=\"q\" id=\"searchBox\" placeholder=\"searchtext ...\" type=\"text\"" + (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
 		out.println("<input type=\"submit\" value=\"search\" />");
 		out.println("</form>");
 		out.println("<script language=\"javascript\">");

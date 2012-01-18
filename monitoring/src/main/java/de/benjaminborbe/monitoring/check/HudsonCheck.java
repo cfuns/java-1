@@ -1,0 +1,105 @@
+package de.benjaminborbe.monitoring.check;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.slf4j.Logger;
+
+import de.benjaminborbe.tools.http.HttpDownloadResult;
+import de.benjaminborbe.tools.http.HttpDownloader;
+
+public class HudsonCheck implements Check {
+
+	// 3 sec
+	private static final int TIMEOUT = 3 * 1000;
+
+	private final String hudsonUrl;
+
+	private final String job;
+
+	private final String name;
+
+	private final HttpDownloader httpDownloader;
+
+	private final Logger logger;
+
+	public HudsonCheck(final Logger logger, final HttpDownloader httpDownloader, final String name, final String hudsonUrl, final String job) {
+		this.logger = logger;
+		this.httpDownloader = httpDownloader;
+		this.name = name;
+		this.hudsonUrl = hudsonUrl;
+		this.job = job;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String getDescription() {
+		return "Hudson check on host " + hudsonUrl + " for job " + job;
+	}
+
+	@Override
+	public CheckResult check() {
+		try {
+			final URL url = new URL(hudsonUrl);
+			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final String content = getContent(result);
+			final String row = getRow(content);
+			// hudson not valid
+			if (row == null) {
+				final String msg = "Parse Hudson-Content failed";
+				logger.debug(msg);
+				return new CheckResultImpl(this, false, msg);
+			}
+			// found unstable => false
+			else if (row.indexOf("<img alt=\"Unstable\" ") != -1) {
+				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is unstable";
+				logger.debug(msg);
+				return new CheckResultImpl(this, false, msg);
+			}
+			// found no unstable => true
+			else {
+				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is stable";
+				logger.debug(msg);
+				return new CheckResultImpl(this, true, msg);
+			}
+		}
+		catch (final MalformedURLException e) {
+			logger.warn("MalformedURLException", e);
+			return new CheckResultImpl(this, false, "MalformedURLException");
+		}
+		catch (final IOException e) {
+			logger.warn("IOException", e);
+			return new CheckResultImpl(this, false, "IOException");
+		}
+	}
+
+	private String getRow(final String content) {
+		final int pos = content.indexOf(job);
+		final int start = content.lastIndexOf("<tr>", pos);
+		final int end = content.indexOf("</tr>", pos);
+		if (start != -1 && end != -1) {
+			return content.substring(start + 4, end);
+		}
+		else {
+			return null;
+		}
+	}
+
+	protected String getContent(final HttpDownloadResult result) throws UnsupportedEncodingException {
+		if (result.getContent() == null) {
+			return null;
+		}
+		else if (result.getContentEncoding() != null && result.getContentEncoding().getEncoding() != null) {
+			return new String(result.getContent(), result.getContentEncoding().getEncoding());
+		}
+		else {
+			return new String(result.getContent());
+		}
+	}
+}

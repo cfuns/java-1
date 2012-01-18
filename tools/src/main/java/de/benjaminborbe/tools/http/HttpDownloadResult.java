@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.http;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import de.benjaminborbe.tools.util.Encoding;
 
@@ -19,7 +20,7 @@ public class HttpDownloadResult implements Serializable {
 
 	public HttpDownloadResult(final long duration, final byte[] content, final Encoding contentEncoding) {
 		this.duration = duration;
-		this.content = content;
+		this.content = Arrays.copyOf(content, content.length);
 		this.contentEncoding = contentEncoding;
 	}
 

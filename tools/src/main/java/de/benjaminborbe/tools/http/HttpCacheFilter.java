@@ -59,31 +59,4 @@ public class HttpCacheFilter extends HttpFilter {
 		return request.getRequestURI();
 	}
 
-	private final class CacheEntry {
-
-		private final String contentType;
-
-		private final String writerContent;
-
-		private final byte[] streamContent;
-
-		public CacheEntry(final String contentType, final String writerContent, final byte[] streamContent) {
-			this.contentType = contentType;
-			this.writerContent = writerContent;
-			this.streamContent = streamContent;
-		}
-
-		public String getContentType() {
-			return contentType;
-		}
-
-		public String getWriterContent() {
-			return writerContent;
-		}
-
-		public byte[] getStreamContent() {
-			return streamContent;
-		}
-
-	}
 }

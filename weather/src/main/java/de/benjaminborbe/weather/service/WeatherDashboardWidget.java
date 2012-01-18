@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.tools.html.Target;
 
 @Singleton
 public class WeatherDashboardWidget implements DashboardContentWidget {
@@ -24,7 +25,7 @@ public class WeatherDashboardWidget implements DashboardContentWidget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("weather");
+		out.println("<a href=\"http://uk.weather.yahoo.com/germany/hesse/wiesbaden-706329/\" target=\"" + Target.BLANK + "\">Yahoo-Weather</a>");
 	}
 
 	@Override
