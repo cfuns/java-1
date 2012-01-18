@@ -52,7 +52,7 @@ public class OfficeNode extends TreeNode implements HasChildNodes, HasPreconditi
 			addNode(new HasCheckNodeImpl(hudsonCheckBuilder.buildCheck(name, url, job)));
 		}
 		{
-			final String name = "URL-Check on Twentyfeet-IntegrationTest";
+			final String name = "Hudson-Check on Twentyfeet-IntegrationTest";
 			final String url = "https://hudson.rp.seibert-media.net/";
 			final String job = "Twentyfeet-IntegrationTest";
 			addNode(new HasCheckNodeImpl(hudsonCheckBuilder.buildCheck(name, url, job)));

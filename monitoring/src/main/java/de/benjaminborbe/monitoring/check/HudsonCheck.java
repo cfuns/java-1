@@ -57,10 +57,22 @@ public class HudsonCheck implements Check {
 				return new CheckResultImpl(this, false, msg);
 			}
 			// found unstable => false
-			else if (row.indexOf("<img alt=\"Unstable\" ") != -1) {
+			else if (row.indexOf(" alt=\"Unstable\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is unstable";
 				logger.debug(msg);
 				return new CheckResultImpl(this, false, msg);
+			}
+			// found failed => false
+			else if (row.indexOf(" alt=\"Failed\" ") != -1) {
+				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is failed";
+				logger.debug(msg);
+				return new CheckResultImpl(this, false, msg);
+			}
+			// found failed => false
+			else if (row.indexOf(" alt=\"In progress\" ") != -1) {
+				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is in progress";
+				logger.debug(msg);
+				return new CheckResultImpl(this, true, msg);
 			}
 			// found no unstable => true
 			else {
@@ -80,13 +92,21 @@ public class HudsonCheck implements Check {
 	}
 
 	private String getRow(final String content) {
-		final int pos = content.indexOf(job);
-		final int start = content.lastIndexOf("<tr>", pos);
-		final int end = content.indexOf("</tr>", pos);
+		final String startString = "<tr><td data=\"";
+		final String endString = "</tr>";
+		final int pos = content.indexOf(">" + job + "</a></td><td data=\"");
+		logger.debug("pos = " + pos);
+		final int start = content.lastIndexOf(startString, pos);
+		logger.debug("start = " + start);
+		final int end = content.indexOf(endString, pos);
+		logger.debug("end = " + end);
 		if (start != -1 && end != -1) {
-			return content.substring(start + 4, end);
+			final String result = content.substring(start + startString.length(), end);
+			logger.debug(result);
+			return result;
 		}
 		else {
+			logger.debug("no result");
 			return null;
 		}
 	}

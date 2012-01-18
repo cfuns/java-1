@@ -25,7 +25,7 @@ public class HudsonCheckTest {
 		final String job = "TwentyFeet-UnitTests";
 		final int timeOut = 3000;
 
-		final String content = "bla <tr>TwentyFeet-UnitTests</tr> bla";
+		final String content = "bla <tr><td data=\"5\"><a>TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
 		final Encoding encoding = new Encoding("UTF8");
 
 		final HttpDownloadResult httpDownloadResult = EasyMock.createMock(HttpDownloadResult.class);
@@ -57,7 +57,7 @@ public class HudsonCheckTest {
 		final String job = "TwentyFeet-UnitTests";
 		final int timeOut = 3000;
 
-		final String content = "bla <tr><img alt=\"Unstable\" src=\"foo.jpg\">TwentyFeet-UnitTests</tr> bla";
+		final String content = "bla <tr><td data=\"5\"><img alt=\"Unstable\" src=\"foo.jpg\">TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
 		final Encoding encoding = new Encoding("UTF8");
 
 		final HttpDownloadResult httpDownloadResult = EasyMock.createMock(HttpDownloadResult.class);
