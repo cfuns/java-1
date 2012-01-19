@@ -14,10 +14,17 @@ public class FilterInfo {
 
 	private final int ranking;
 
+	private final boolean slashFilter;
+
 	public FilterInfo(final Filter filter, final String pattern, final int ranking) {
+		this(filter, pattern, ranking, false);
+	}
+
+	public FilterInfo(final Filter filter, final String pattern, final int ranking, final boolean slashFilter) {
 		this.filter = filter;
 		this.pattern = pattern;
 		this.ranking = ranking;
+		this.slashFilter = slashFilter;
 	}
 
 	public int getRanking() {
@@ -39,5 +46,9 @@ public class FilterInfo {
 
 	public HttpContext getContext() {
 		return null;
+	}
+
+	public boolean isSlashFilter() {
+		return slashFilter;
 	}
 }

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,6 +32,8 @@ import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.performance.guice.PerformanceModulesMock;
 import de.benjaminborbe.performance.servlet.PerformanceServlet;
+import de.benjaminborbe.performance.util.PerformanceEntry;
+import de.benjaminborbe.performance.util.PerformanceTracker;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -117,7 +120,12 @@ public class PerformanceServletTest {
 				return httpContext;
 			}
 		};
-		final PerformanceServlet performanceServlet = new PerformanceServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+		final PerformanceTracker performanceTracker = EasyMock.createMock(PerformanceTracker.class);
+		EasyMock.expect(performanceTracker.getSlowestEntries(20)).andReturn(new ArrayList<PerformanceEntry>());
+		EasyMock.replay(performanceTracker);
+
+		final PerformanceServlet performanceServlet = new PerformanceServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				httpContextProvider, performanceTracker);
 
 		performanceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
