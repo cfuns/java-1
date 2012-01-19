@@ -9,7 +9,11 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.guice.MicroblogModules;
+import de.benjaminborbe.microblog.service.MicroblogCronJob;
+import de.benjaminborbe.microblog.service.MicroblogDashboardWidget;
 import de.benjaminborbe.microblog.servlet.MicroblogServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
@@ -22,6 +26,12 @@ public class MicroblogActivator extends HttpBundleActivator {
 
 	@Inject
 	private MicroblogServlet microblogServlet;
+
+	@Inject
+	private MicroblogCronJob microblogCronJob;
+
+	@Inject
+	private MicroblogDashboardWidget microblogDashboardWidget;
 
 	public MicroblogActivator() {
 		super("microblog");
@@ -55,17 +65,18 @@ public class MicroblogActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		// result.add(new ServiceInfo(MicroblogService.class, microblogService));
-		return result;
-	}
-
-	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		// serviceTrackers.add(new MicroblogServiceTracker(microblogRegistry, context,
 		// MicroblogService.class));
 		return serviceTrackers;
+	}
+
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(CronJob.class, microblogCronJob, microblogCronJob.getClass().getName()));
+		result.add(new ServiceInfo(DashboardContentWidget.class, microblogDashboardWidget, microblogDashboardWidget.getClass().getName()));
+		return result;
 	}
 }

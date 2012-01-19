@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.http.HttpDownloadResult;
+import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.util.Encoding;
 
@@ -40,7 +41,11 @@ public class HudsonCheckTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HudsonCheck check = new HudsonCheck(logger, httpDownloader, name, url, job);
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createMock(HttpDownloadUtil.class);
+		EasyMock.expect(httpDownloadUtil.getContent(httpDownloadResult)).andReturn(content);
+		EasyMock.replay(httpDownloadUtil);
+
+		final HudsonCheck check = new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, url, job);
 		final CheckResult result = check.check();
 		assertNotNull(result);
 		assertNotNull(result.getCheck());
@@ -72,7 +77,11 @@ public class HudsonCheckTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HudsonCheck check = new HudsonCheck(logger, httpDownloader, name, url, job);
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createMock(HttpDownloadUtil.class);
+		EasyMock.expect(httpDownloadUtil.getContent(httpDownloadResult)).andReturn(content);
+		EasyMock.replay(httpDownloadUtil);
+
+		final HudsonCheck check = new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, url, job);
 		final CheckResult result = check.check();
 		assertNotNull(result);
 		assertNotNull(result.getCheck());

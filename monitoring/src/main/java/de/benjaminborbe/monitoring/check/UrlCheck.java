@@ -1,13 +1,13 @@
 package de.benjaminborbe.monitoring.check;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.http.HttpDownloadResult;
+import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 
 public class UrlCheck implements Check {
@@ -31,19 +31,30 @@ public class UrlCheck implements Check {
 
 	private final String password;
 
-	public UrlCheck(final Logger logger, final HttpDownloader httpDownloader, final String name, final String urlString, final String titleMatch, final String contentMatch) {
-		this(logger, httpDownloader, name, urlString, titleMatch, contentMatch, null, null);
+	private final HttpDownloadUtil httpDownloadUtil;
+
+	public UrlCheck(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final String name,
+			final String urlString,
+			final String titleMatch,
+			final String contentMatch) {
+		this(logger, httpDownloader, httpDownloadUtil, name, urlString, titleMatch, contentMatch, null, null);
 	}
 
 	public UrlCheck(
 			final Logger logger,
 			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
 			final String name,
 			final String urlString,
 			final String titleMatch,
 			final String contentMatch,
 			final String username,
 			final String password) {
+		this.httpDownloadUtil = httpDownloadUtil;
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.name = name;
@@ -71,7 +82,7 @@ public class UrlCheck implements Check {
 				logger.warn(msg);
 				return new CheckResultImpl(this, false, msg);
 			}
-			final String content = getContent(result);
+			final String content = httpDownloadUtil.getContent(result);
 			if (!checkTitle(content)) {
 				final String msg = "cannot find title " + titleMatch + " in content of " + url;
 				logger.warn(msg);
@@ -92,18 +103,6 @@ public class UrlCheck implements Check {
 		catch (final IOException e) {
 			logger.warn("IOException", e);
 			return new CheckResultImpl(this, false, "IOException");
-		}
-	}
-
-	protected String getContent(final HttpDownloadResult result) throws UnsupportedEncodingException {
-		if (result.getContent() == null) {
-			return null;
-		}
-		else if (result.getContentEncoding() != null && result.getContentEncoding().getEncoding() != null) {
-			return new String(result.getContent(), result.getContentEncoding().getEncoding());
-		}
-		else {
-			return new String(result.getContent());
 		}
 	}
 
@@ -132,6 +131,14 @@ public class UrlCheck implements Check {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public String getTitleMatch() {
+		return titleMatch;
+	}
+
+	public String getContentMatch() {
+		return contentMatch;
 	}
 
 }

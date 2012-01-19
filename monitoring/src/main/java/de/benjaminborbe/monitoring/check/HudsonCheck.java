@@ -1,13 +1,13 @@
 package de.benjaminborbe.monitoring.check;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.http.HttpDownloadResult;
+import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 
 public class HudsonCheck implements Check {
@@ -25,9 +25,12 @@ public class HudsonCheck implements Check {
 
 	private final Logger logger;
 
-	public HudsonCheck(final Logger logger, final HttpDownloader httpDownloader, final String name, final String hudsonUrl, final String job) {
+	private final HttpDownloadUtil httpDownloadUtil;
+
+	public HudsonCheck(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final String name, final String hudsonUrl, final String job) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
+		this.httpDownloadUtil = httpDownloadUtil;
 		this.name = name;
 		this.hudsonUrl = hudsonUrl;
 		this.job = job;
@@ -48,7 +51,7 @@ public class HudsonCheck implements Check {
 		try {
 			final URL url = new URL(hudsonUrl);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
-			final String content = getContent(result);
+			final String content = httpDownloadUtil.getContent(result);
 			final String row = getRow(content);
 			// hudson not valid
 			if (row == null) {
@@ -105,15 +108,4 @@ public class HudsonCheck implements Check {
 		}
 	}
 
-	protected String getContent(final HttpDownloadResult result) throws UnsupportedEncodingException {
-		if (result.getContent() == null) {
-			return null;
-		}
-		else if (result.getContentEncoding() != null && result.getContentEncoding().getEncoding() != null) {
-			return new String(result.getContent(), result.getContentEncoding().getEncoding());
-		}
-		else {
-			return new String(result.getContent());
-		}
-	}
 }
