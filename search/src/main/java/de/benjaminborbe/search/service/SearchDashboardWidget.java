@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -21,6 +20,9 @@ import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.FormInputSubmitWidget;
+import de.benjaminborbe.website.util.FormInputTextWidget;
+import de.benjaminborbe.website.util.FormWidget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 
 @Singleton
@@ -40,16 +42,14 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
-
 		final PrintWriter out = response.getWriter();
 		final String contextPath = request.getContextPath();
 		final String searchSuggestUrl = contextPath + "/search/suggest";
-		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-
 		final String action = contextPath + "/search";
-		out.println("<form method=\"GET\" action=\"" + action + "\">");
-		out.println("<input name=\"q\" id=\"searchBox\" placeholder=\"searchtext ...\" type=\"text\"" + (searchQuery != null ? StringEscapeUtils.escapeHtml(searchQuery) : "") + "\" />");
-		out.println("<input type=\"submit\" value=\"search\" />");
+		final FormWidget formWidget = new FormWidget(action).addMethod("POST");
+		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext ...").addId("searchBox"));
+		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
+		formWidget.render(request, response, context);
 		out.println("</form>");
 		out.println("<script language=\"javascript\">");
 		out.println("$(document).ready(function() {");

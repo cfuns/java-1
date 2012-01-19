@@ -53,3 +53,5 @@ website/target
 website_test/target
 dashboard_api/target
 navigation_api/target
+microblog/target
+microblog_test/target

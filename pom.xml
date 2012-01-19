@@ -82,6 +82,8 @@
 		<module>html</module>
 		<module>html_test</module>
 		<module>website</module>
+		<module>microblog</module>
+		<module>microblog_test</module>
 	</modules>
 	<build>
 		<resources>

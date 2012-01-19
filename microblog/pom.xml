@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.translate</artifactId>
-	<name>Benjamin Borbe - Translate</name>
-	<description>Benjamin Borbe - Translate</description>
+	<artifactId>de.benjaminborbe.microblog</artifactId>
+	<name>Benjamin Borbe - Microblog</name>
+	<description>Benjamin Borbe - Microblog</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -40,14 +40,14 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.translate.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.translate.TranslateActivator </Bundle-Activator>
-						<Private-Package>de.benjaminborbe.translate.*</Private-Package>
+						<Export-Package>de.benjaminborbe.microblog.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.microblog.MicroblogActivator </Bundle-Activator>
+						<Private-Package>de.benjaminborbe.microblog.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Translate</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Translate</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Microblog</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Microblog</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
@@ -119,20 +119,19 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
+			<artifactId>de.benjaminborbe.website</artifactId>
 			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.html</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
+		</dependency>	<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.website</artifactId>
+			<artifactId>de.benjaminborbe.navigation.api</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

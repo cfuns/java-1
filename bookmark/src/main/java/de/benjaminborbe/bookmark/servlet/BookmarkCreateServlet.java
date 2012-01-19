@@ -2,9 +2,6 @@ package de.benjaminborbe.bookmark.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +21,6 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.FormInputSubmitWidget;
 import de.benjaminborbe.website.util.FormInputTextWidget;
-import de.benjaminborbe.website.util.FormInputWidget;
 import de.benjaminborbe.website.util.FormWidget;
 
 @Singleton
@@ -57,14 +53,13 @@ public class BookmarkCreateServlet extends WebsiteHtmlServlet {
 		final PrintWriter out = response.getWriter();
 		logger.debug("printContent");
 		out.println("<h1>" + getTitle() + "</h1>");
-		final List<FormInputWidget> formInputWidgets = new ArrayList<FormInputWidget>();
-		formInputWidgets.add(new FormInputTextWidget("url", "Url", ""));
-		formInputWidgets.add(new FormInputTextWidget("name", "Name", ""));
-		formInputWidgets.add(new FormInputTextWidget("description", "Description", ""));
-		formInputWidgets.add(new FormInputTextWidget("keywords", "Keywords", ""));
-		formInputWidgets.add(new FormInputSubmitWidget());
 		final String action = request.getContextPath() + "/save";
-		final FormWidget formWidget = new FormWidget(action, formInputWidgets);
+		final FormWidget formWidget = new FormWidget(action).addMethod("GET");
+		formWidget.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("url ..."));
+		formWidget.addFormInputWidget(new FormInputTextWidget("name").addLabel("Name").addPlaceholder("name ..."));
+		formWidget.addFormInputWidget(new FormInputTextWidget("description").addLabel("Description").addPlaceholder("description ..."));
+		formWidget.addFormInputWidget(new FormInputTextWidget("keywords").addLabel("Keywords").addPlaceholder("keywords ..."));
+		formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 		formWidget.render(request, response, context);
 	}
 }

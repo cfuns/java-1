@@ -10,26 +10,77 @@ import de.benjaminborbe.html.api.HttpContext;
 
 public class FormInputBaseWidget implements FormInputWidget {
 
-	private final String name;
+	private String name;
 
-	private final String label;
+	private String label;
 
-	private final String defaultValue;
+	private String defaultValue;
 
-	private final String type;
+	private String type;
 
-	public FormInputBaseWidget(final String type, final String name, final String label, final String defaultValue) {
+	private String placeholder;
+
+	private String id;
+
+	public FormInputBaseWidget(final String type, final String name) {
 		this.type = type;
 		this.name = name;
-		this.label = label;
-		this.defaultValue = defaultValue;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final String value = request.getParameter(name) != null ? request.getParameter(name) : defaultValue;
 		final PrintWriter out = response.getWriter();
-		out.println("<label for=\"" + name + "\">" + label + "</label>");
-		out.println("<input type=\"" + type + "\" name=\"" + name + "\" value=\"" + value + "\">");
+		if (label != null) {
+			out.println("<label for=\"" + name + "\">" + label + "</label>");
+		}
+		out.print("<input");
+		if (id != null) {
+			out.print(" id=\"" + id + "\"");
+		}
+		if (type != null) {
+			out.print(" type=\"" + type + "\"");
+		}
+		if (name != null) {
+			out.print(" name=\"" + name + "\"");
+		}
+		if (value != null) {
+			out.print(" value=\"" + value + "\"");
+		}
+		if (placeholder != null) {
+			out.print(" placeholder=\"" + placeholder + "\"");
+		}
+		out.println("/>");
 	}
+
+	public FormInputBaseWidget addName(final String name) {
+		this.name = name;
+		return this;
+	}
+
+	public FormInputBaseWidget addLabel(final String label) {
+		this.label = label;
+		return this;
+	}
+
+	public FormInputBaseWidget addDefaultValue(final String defaultValue) {
+		this.defaultValue = defaultValue;
+		return this;
+	}
+
+	public FormInputBaseWidget addType(final String type) {
+		this.type = type;
+		return this;
+	}
+
+	public FormInputBaseWidget addPlaceholder(final String placeholder) {
+		this.placeholder = placeholder;
+		return this;
+	}
+
+	public FormInputBaseWidget addId(final String id) {
+		this.id = id;
+		return this;
+	}
+
 }
