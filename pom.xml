@@ -84,6 +84,8 @@
 		<module>website</module>
 		<module>microblog</module>
 		<module>microblog_test</module>
+		<module>performance</module>
+		<module>performance_test</module>
 	</modules>
 	<build>
 		<resources>
