@@ -33,14 +33,16 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 	}
 
 	@Override
-	public long getLastRevision() throws MicroblogRevisionStorageException {
+	public Long getLastRevision() throws MicroblogRevisionStorageException {
 		logger.debug("getLastRevision");
 		try {
-			return parseUtil.parseLong(storageService.get(COLUMNFAMILY, ID, KEY));
+			final long result = parseUtil.parseLong(storageService.get(COLUMNFAMILY, ID, KEY));
+			logger.debug("getLastRevision - found " + result);
+			return result;
 		}
 		catch (final ParseException e) {
 			logger.debug("ParseException", e);
-			throw new MicroblogRevisionStorageException("ParseException", e);
+			return null;
 		}
 		catch (final StorageException e) {
 			logger.debug("StorageException", e);
@@ -50,7 +52,7 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 
 	@Override
 	public void setLastRevision(final long revision) throws MicroblogRevisionStorageException {
-		logger.debug("setLastRevision");
+		logger.debug("setLastRevision to " + revision);
 		try {
 			storageService.set(COLUMNFAMILY, ID, KEY, String.valueOf(revision));
 		}

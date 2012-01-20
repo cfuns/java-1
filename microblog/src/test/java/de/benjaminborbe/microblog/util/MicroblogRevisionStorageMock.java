@@ -8,7 +8,7 @@ public class MicroblogRevisionStorageMock implements MicroblogRevisionStorage {
 	private long revision;
 
 	@Override
-	public long getLastRevision() {
+	public Long getLastRevision() {
 		return revision;
 	}
 
