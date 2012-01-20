@@ -12,13 +12,16 @@ import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
 import de.benjaminborbe.microblog.util.MicroblogConnector;
+import de.benjaminborbe.microblog.util.MicroblogPostMailer;
 import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.http.HttpDownloadUtil;
+import de.benjaminborbe.tools.http.HttpDownloader;
 
 public class MicroblogCronJobTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
 		final MicroblogCronJob a = injector.getInstance(MicroblogCronJob.class);
 		final MicroblogCronJob b = injector.getInstance(MicroblogCronJob.class);
@@ -47,7 +50,16 @@ public class MicroblogCronJobTest {
 		mailService.send(EasyMock.anyObject(Mail.class)); // 1337
 		EasyMock.replay(mailService);
 
-		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, mailService);
+		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);
+		EasyMock.replay(httpDownloader);
+
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createNiceMock(HttpDownloadUtil.class);
+		EasyMock.replay(httpDownloadUtil);
+
+		final MicroblogPostMailer microblogPostMailer = EasyMock.createNiceMock(MicroblogPostMailer.class);
+		EasyMock.replay(microblogPostMailer);
+
+		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogPostMailer);
 
 		microblogCronJob.execute();
 	}
@@ -68,8 +80,17 @@ public class MicroblogCronJobTest {
 		final MailService mailService = EasyMock.createMock(MailService.class);
 		EasyMock.replay(mailService);
 
-		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, mailService);
+		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);
+		EasyMock.replay(httpDownloader);
+
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createNiceMock(HttpDownloadUtil.class);
+		EasyMock.replay(httpDownloadUtil);
+		final MicroblogPostMailer microblogPostMailer = EasyMock.createNiceMock(MicroblogPostMailer.class);
+		EasyMock.replay(microblogPostMailer);
+
+		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogPostMailer);
 
 		microblogCronJob.execute();
 	}
+
 }

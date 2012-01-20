@@ -14,6 +14,7 @@ import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.guice.MicroblogModules;
 import de.benjaminborbe.microblog.service.MicroblogCronJob;
 import de.benjaminborbe.microblog.service.MicroblogDashboardWidget;
+import de.benjaminborbe.microblog.servlet.MicroblogSendServlet;
 import de.benjaminborbe.microblog.servlet.MicroblogServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
@@ -33,6 +34,9 @@ public class MicroblogActivator extends HttpBundleActivator {
 	@Inject
 	private MicroblogDashboardWidget microblogDashboardWidget;
 
+	@Inject
+	private MicroblogSendServlet microblogSendServlet;
+
 	public MicroblogActivator() {
 		super("microblog");
 	}
@@ -46,6 +50,7 @@ public class MicroblogActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(microblogServlet, "/"));
+		result.add(new ServletInfo(microblogSendServlet, "/send"));
 		return result;
 	}
 
