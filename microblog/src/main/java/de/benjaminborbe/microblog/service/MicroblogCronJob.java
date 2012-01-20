@@ -9,6 +9,7 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.microblog.util.MicroblogConnector;
 import de.benjaminborbe.microblog.util.MicroblogConnectorException;
 import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
+import de.benjaminborbe.microblog.util.MicroblogRevisionStorageException;
 
 @Singleton
 public class MicroblogCronJob implements CronJob {
@@ -45,6 +46,9 @@ public class MicroblogCronJob implements CronJob {
 		}
 		catch (final MicroblogConnectorException e) {
 			logger.debug("MicroblogConnectorException", e);
+		}
+		catch (final MicroblogRevisionStorageException e) {
+			logger.debug("MicroblogRevisionStorageException", e);
 		}
 
 		// TODO

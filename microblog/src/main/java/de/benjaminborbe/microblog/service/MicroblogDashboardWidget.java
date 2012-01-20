@@ -18,6 +18,7 @@ import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
+import de.benjaminborbe.microblog.util.MicroblogRevisionStorageException;
 import de.benjaminborbe.tools.html.Target;
 
 @Singleton
@@ -39,7 +40,14 @@ public class MicroblogDashboardWidget implements DashboardContentWidget, Require
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final PrintWriter out = response.getWriter();
-		out.println("latest revision: " + microblogRevisionStorage.getLastRevision() + "<br/>");
+		String lastestRevision;
+		try {
+			lastestRevision = String.valueOf(microblogRevisionStorage.getLastRevision());
+		}
+		catch (final MicroblogRevisionStorageException e) {
+			lastestRevision = "-";
+		}
+		out.println("latest revision: " + lastestRevision + "<br/>");
 		out.println("<a href=\"https://micro.rp.seibert-media.net/\" target=\"" + Target.BLANK + "\">Microblog</a>");
 	}
 

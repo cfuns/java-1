@@ -2,7 +2,7 @@ package de.benjaminborbe.microblog.util;
 
 public interface MicroblogRevisionStorage {
 
-	long getLastRevision();
+	long getLastRevision() throws MicroblogRevisionStorageException;
 
-	void setLastRevision(long revision);
+	void setLastRevision(long revision) throws MicroblogRevisionStorageException;
 }
