@@ -38,7 +38,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 public class SampleServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
 		final SampleServlet a = injector.getInstance(SampleServlet.class);
 		final SampleServlet b = injector.getInstance(SampleServlet.class);

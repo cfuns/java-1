@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class BookmarkDaoTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkDao a = injector.getInstance(BookmarkDao.class);
 		final BookmarkDao b = injector.getInstance(BookmarkDao.class);

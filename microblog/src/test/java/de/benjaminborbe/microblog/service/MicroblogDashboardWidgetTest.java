@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class MicroblogDashboardWidgetTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
 		final MicroblogDashboardWidget a = injector.getInstance(MicroblogDashboardWidget.class);
 		final MicroblogDashboardWidget b = injector.getInstance(MicroblogDashboardWidget.class);

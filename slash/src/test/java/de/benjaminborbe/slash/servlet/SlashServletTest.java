@@ -15,7 +15,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class SlashServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SlashModulesMock());
 		final SlashServlet a = injector.getInstance(SlashServlet.class);
 		final SlashServlet b = injector.getInstance(SlashServlet.class);

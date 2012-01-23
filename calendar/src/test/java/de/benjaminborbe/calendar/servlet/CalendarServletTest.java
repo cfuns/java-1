@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class CalendarServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarModulesMock());
 		final CalendarServlet a = injector.getInstance(CalendarServlet.class);
 		final CalendarServlet b = injector.getInstance(CalendarServlet.class);

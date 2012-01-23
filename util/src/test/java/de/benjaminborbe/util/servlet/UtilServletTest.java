@@ -22,7 +22,7 @@ import de.benjaminborbe.util.guice.UtilModulesMock;
 public class UtilServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new UtilModulesMock());
 		final UtilServlet a = injector.getInstance(UtilServlet.class);
 		final UtilServlet b = injector.getInstance(UtilServlet.class);

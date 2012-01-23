@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.guice.ToolModules;
 public class CalendarUtilTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final CalendarUtil a = injector.getInstance(CalendarUtil.class);
 		final CalendarUtil b = injector.getInstance(CalendarUtil.class);

@@ -15,7 +15,7 @@ import de.benjaminborbe.tools.guice.ToolModules;
 public class DateUtilTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final DateUtil a = injector.getInstance(DateUtil.class);
 		final DateUtil b = injector.getInstance(DateUtil.class);

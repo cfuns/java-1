@@ -15,7 +15,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class IndexFactoryTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexFactory a = injector.getInstance(IndexFactory.class);
 		final IndexFactory b = injector.getInstance(IndexFactory.class);

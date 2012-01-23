@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class IndexServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexServlet a = injector.getInstance(IndexServlet.class);
 		final IndexServlet b = injector.getInstance(IndexServlet.class);

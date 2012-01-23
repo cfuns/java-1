@@ -12,7 +12,7 @@ import de.benjaminborbe.weather.guice.WeatherModulesMock;
 public class WeatherServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WeatherModulesMock());
 		final WeatherServlet a = injector.getInstance(WeatherServlet.class);
 		final WeatherServlet b = injector.getInstance(WeatherServlet.class);

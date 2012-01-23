@@ -15,7 +15,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class BookmarkServiceTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkService a = injector.getInstance(BookmarkService.class);
 		final BookmarkService b = injector.getInstance(BookmarkService.class);

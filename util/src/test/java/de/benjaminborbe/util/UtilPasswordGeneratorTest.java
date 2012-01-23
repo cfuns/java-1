@@ -22,7 +22,7 @@ public class UtilPasswordGeneratorTest {
 	}
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new UtilModulesMock());
 		final UtilPasswordGenerator a = injector.getInstance(UtilPasswordGenerator.class);
 		final UtilPasswordGenerator b = injector.getInstance(UtilPasswordGenerator.class);

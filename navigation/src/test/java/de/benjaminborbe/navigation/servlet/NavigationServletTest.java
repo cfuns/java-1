@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class NavigationServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationModulesMock());
 		final NavigationServlet a = injector.getInstance(NavigationServlet.class);
 		final NavigationServlet b = injector.getInstance(NavigationServlet.class);

@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class RobotsTxtServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SlashModulesMock());
 		final RobotsTxtServlet a = injector.getInstance(RobotsTxtServlet.class);
 		final RobotsTxtServlet b = injector.getInstance(RobotsTxtServlet.class);

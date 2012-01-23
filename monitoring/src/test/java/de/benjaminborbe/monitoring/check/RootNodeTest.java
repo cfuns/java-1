@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class RootNodeTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
 		final RootNode a = injector.getInstance(RootNode.class);
 		final RootNode b = injector.getInstance(RootNode.class);

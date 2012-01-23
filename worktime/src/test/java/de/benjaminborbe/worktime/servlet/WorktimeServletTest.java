@@ -12,7 +12,7 @@ import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 public class WorktimeServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WorktimeModulesMock());
 		final WorktimeServlet a = injector.getInstance(WorktimeServlet.class);
 		final WorktimeServlet b = injector.getInstance(WorktimeServlet.class);

@@ -15,7 +15,7 @@ import de.benjaminborbe.translate.guice.TranslateModulesMock;
 public class TranslateServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TranslateModulesMock());
 		final TranslateServlet a = injector.getInstance(TranslateServlet.class);
 		final TranslateServlet b = injector.getInstance(TranslateServlet.class);

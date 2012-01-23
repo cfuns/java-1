@@ -40,7 +40,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 public class MicroblogServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
 		final MicroblogServlet a = injector.getInstance(MicroblogServlet.class);
 		final MicroblogServlet b = injector.getInstance(MicroblogServlet.class);

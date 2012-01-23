@@ -22,7 +22,7 @@ import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 public class WorktimeServiceTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WorktimeModulesMock());
 		final WorktimeService a = injector.getInstance(WorktimeService.class);
 		final WorktimeService b = injector.getInstance(WorktimeService.class);

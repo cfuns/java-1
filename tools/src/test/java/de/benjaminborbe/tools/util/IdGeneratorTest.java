@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.ToolModules;
 public class IdGeneratorTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final IdGenerator a = injector.getInstance(IdGenerator.class);
 		final IdGenerator b = injector.getInstance(IdGenerator.class);

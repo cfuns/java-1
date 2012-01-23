@@ -69,4 +69,55 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			throw new MicroblogConnectorException("ParseException", e);
 		}
 	}
+
+	@Override
+	public MicroblogPostResult getPost(final long revision) throws MicroblogConnectorException {
+		try {
+			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + revision;
+			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(postUrl), TIMEOUT);
+			final String pageContent = httpDownloadUtil.getContent(result);
+			final String content = extractContent(pageContent);
+			final String author = extractAuhor(pageContent);
+			final String conversationUrl = extractConversationUrl(pageContent);
+			return new MicroblogPostResult(content, author, postUrl, conversationUrl);
+		}
+		catch (final MalformedURLException e) {
+			throw new MicroblogConnectorException("MalformedURLException", e);
+		}
+		catch (final IOException e) {
+			throw new MicroblogConnectorException("IOException", e);
+		}
+	}
+
+	protected String extractConversationUrl(final String pageContent) {
+		final String content = extract(pageContent, "<span class=\"source\">", "</div>");
+		return extract(content, " href=\"", "\"");
+	}
+
+	protected String extractAuhor(final String pageContent) {
+		final String content = extract(pageContent, "<span class=\"vcard author\">", "</span>");
+		return extract(content, "<a href=\"https://micro.rp.seibert-media.net/", "\"");
+	}
+
+	protected String extractContent(final String pageContent) {
+		final String startPattern = "<p class=\"entry-content\">";
+		final String endPattern = "</p>";
+		return filterHtmlTages(extract(pageContent, startPattern, endPattern));
+	}
+
+	protected String extract(final String pageContent, final String startPattern, final String endPattern) {
+		if (pageContent == null)
+			return null;
+		final int startPos = pageContent.indexOf(startPattern);
+		if (startPos == -1)
+			return null;
+		final int endPos = pageContent.indexOf(endPattern, startPos + startPattern.length());
+		if (endPos == -1)
+			return null;
+		return pageContent.substring(startPos + startPattern.length(), endPos);
+	}
+
+	protected String filterHtmlTages(final String content) {
+		return content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim();
+	}
 }

@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.guice.ToolModules;
 public class TimeZoneUtilTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final TimeZoneUtil a = injector.getInstance(TimeZoneUtil.class);
 		final TimeZoneUtil b = injector.getInstance(TimeZoneUtil.class);

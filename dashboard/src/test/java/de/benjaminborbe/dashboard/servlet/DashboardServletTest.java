@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class DashboardServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new DashboardModulesMock());
 		final DashboardServlet a = injector.getInstance(DashboardServlet.class);
 		final DashboardServlet b = injector.getInstance(DashboardServlet.class);

@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class SearchSuggestServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchSuggestServlet a = injector.getInstance(SearchSuggestServlet.class);
 		final SearchSuggestServlet b = injector.getInstance(SearchSuggestServlet.class);

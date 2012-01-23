@@ -42,7 +42,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 public class PerformanceServletTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PerformanceModulesMock());
 		final PerformanceServlet a = injector.getInstance(PerformanceServlet.class);
 		final PerformanceServlet b = injector.getInstance(PerformanceServlet.class);

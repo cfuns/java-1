@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class MicroblogRevisionStorageTest {
 
 	@Test
-	public void singleton() {
+	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
 		final MicroblogRevisionStorage a = injector.getInstance(MicroblogRevisionStorage.class);
 		final MicroblogRevisionStorage b = injector.getInstance(MicroblogRevisionStorage.class);
