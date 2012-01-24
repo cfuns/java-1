@@ -35,7 +35,7 @@ public class HudsonCheckTest {
 		EasyMock.replay(httpDownloadResult);
 
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
-		EasyMock.expect(httpDownloader.downloadUrlUnsecure(new URL(url), timeOut)).andReturn(httpDownloadResult);
+		EasyMock.expect(httpDownloader.downloadUrlUnsecure(new URL(url), timeOut, null, null)).andReturn(httpDownloadResult);
 		EasyMock.replay(httpDownloader);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
@@ -71,7 +71,7 @@ public class HudsonCheckTest {
 		EasyMock.replay(httpDownloadResult);
 
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
-		EasyMock.expect(httpDownloader.downloadUrlUnsecure(new URL(url), timeOut)).andReturn(httpDownloadResult);
+		EasyMock.expect(httpDownloader.downloadUrlUnsecure(new URL(url), timeOut, null, null)).andReturn(httpDownloadResult);
 		EasyMock.replay(httpDownloader);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);

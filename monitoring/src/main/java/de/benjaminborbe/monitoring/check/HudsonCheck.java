@@ -27,13 +27,31 @@ public class HudsonCheck implements Check {
 
 	private final HttpDownloadUtil httpDownloadUtil;
 
-	public HudsonCheck(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final String name, final String hudsonUrl, final String job) {
+	private final String username;
+
+	private final String password;
+
+	public HudsonCheck(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final String name,
+			final String hudsonUrl,
+			final String job,
+			final String username,
+			final String password) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.name = name;
 		this.hudsonUrl = hudsonUrl;
 		this.job = job;
+		this.username = username;
+		this.password = password;
+	}
+
+	public HudsonCheck(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final String name, final String hudsonUrl, final String job) {
+		this(logger, httpDownloader, httpDownloadUtil, name, hudsonUrl, job, null, null);
 	}
 
 	@Override
@@ -50,7 +68,7 @@ public class HudsonCheck implements Check {
 	public CheckResult check() {
 		try {
 			final URL url = new URL(hudsonUrl);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
 			final String content = httpDownloadUtil.getContent(result);
 			final String row = getRow(content);
 			// hudson not valid

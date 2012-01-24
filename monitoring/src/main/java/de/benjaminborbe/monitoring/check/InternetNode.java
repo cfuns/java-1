@@ -5,10 +5,16 @@ import com.google.inject.Inject;
 public class InternetNode extends TreeNode implements HasChildNodes, HasPreconditionCheckNode {
 
 	@Inject
-	public InternetNode(final TwentyfeetLiveNode twentyfeetLiveNode, final TwentyfeetTestNode twentyfeetTestNode, final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder) {
+	public InternetNode(
+			final RisikoNode risikoNode,
+			final TwentyfeetLiveNode twentyfeetLiveNode,
+			final TwentyfeetTestNode twentyfeetTestNode,
+			final TcpCheckBuilder tcpCheckBuilder,
+			final UrlCheckBuilder urlCheckBuilder) {
 		super(tcpCheckBuilder.buildCheck("TCP-Check on www.google.de:80", "www.google.de", 80));
 
 		// childs-checks
+		// addNode(risikoNode);
 		addNode(twentyfeetLiveNode);
 		addNode(twentyfeetTestNode);
 

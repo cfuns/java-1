@@ -27,4 +27,8 @@ public class HudsonCheckBuilder {
 	public Check buildCheck(final String name, final String hostname, final String job) {
 		return new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, hostname, job);
 	}
+
+	public Check buildCheck(final String name, final String hostname, final String job, final String username, final String password) {
+		return new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, hostname, job, username, password);
+	}
 }
