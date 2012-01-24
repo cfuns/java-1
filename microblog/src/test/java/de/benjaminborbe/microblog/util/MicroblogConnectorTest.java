@@ -67,7 +67,7 @@ public class MicroblogConnectorTest {
 		pageContent.append("<a href=\"https://micro.rp.seibert-media.net/group/design\" title=\"design\" class=\"addressee group\">DESIGN</a>");
 		pageContent.append("</span>");
 		pageContent.append("</div>");
-		pageContent.append("<p class=\"entry-content\">Foo<br/><b>Bar</b></p>");
+		pageContent.append("<p class=\"entry-content\">Foo<br/><b>&quote;Bar&quote;</b></p>");
 		pageContent.append("</div>");
 		pageContent.append("<div class=\"entry-content thumbnails\"></div>");
 		pageContent.append("<div class=\"entry-content\">");
@@ -102,16 +102,15 @@ public class MicroblogConnectorTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.replay(parseUtil);
 
-		final String result = "Foo Bar";
+		final String result = "Foo \"Bar\"";
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
-		EasyMock.expect(htmlUtil.unescapeHtml(result)).andReturn(result);
+		EasyMock.expect(htmlUtil.unescapeHtml("Foo &quote;Bar&quote;")).andReturn(result);
 		EasyMock.replay(htmlUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
 
 		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
-
 	}
 
 	@Test
