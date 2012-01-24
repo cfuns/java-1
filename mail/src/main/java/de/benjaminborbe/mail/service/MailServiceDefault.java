@@ -16,14 +16,14 @@ import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.util.MailSessionFactory;
 
 @Singleton
-public class MailServiceImpl implements MailService {
+public class MailServiceDefault implements MailService {
 
 	private final Logger logger;
 
 	private final MailSessionFactory mailSessionFactory;
 
 	@Inject
-	public MailServiceImpl(final Logger logger, final MailSessionFactory mailSessionFactory) {
+	public MailServiceDefault(final Logger logger, final MailSessionFactory mailSessionFactory) {
 		this.logger = logger;
 		this.mailSessionFactory = mailSessionFactory;
 	}

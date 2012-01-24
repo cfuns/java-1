@@ -14,11 +14,14 @@ public class Mail implements Serializable {
 
 	private final String content;
 
-	public Mail(final String from, final String to, final String subject, final String content) {
+	private final String contentType;
+
+	public Mail(final String from, final String to, final String subject, final String content, final String contentType) {
 		this.from = from;
 		this.to = to;
 		this.subject = subject;
 		this.content = content;
+		this.contentType = contentType;
 	}
 
 	public String getFrom() {
@@ -35,6 +38,10 @@ public class Mail implements Serializable {
 
 	public String getContent() {
 		return content;
+	}
+
+	public String getContentType() {
+		return contentType;
 	}
 
 }

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -34,12 +35,15 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	private final ParseUtil parseUtil;
 
+	private final HtmlUtil htmlUtil;
+
 	@Inject
-	public MicroblogConnectorImpl(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final ParseUtil parseUtil) {
+	public MicroblogConnectorImpl(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final ParseUtil parseUtil, final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.parseUtil = parseUtil;
+		this.htmlUtil = htmlUtil;
 	}
 
 	@Override
@@ -118,6 +122,6 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	protected String filterHtmlTages(final String content) {
-		return content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim();
+		return htmlUtil.unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
 	}
 }

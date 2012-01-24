@@ -99,6 +99,6 @@ public class MonitoringCronJob implements CronJob {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "BB - Monitoring";
-		return new Mail(from, to, subject, content.toString());
+		return new Mail(from, to, subject, content.toString(), "text/plain");
 	}
 }

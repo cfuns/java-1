@@ -51,7 +51,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		final String from = post.getAuthor() + "@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "Micro: " + preview(post.getContent());
-		return new Mail(from, to, subject, mailContent.toString());
+		return new Mail(from, to, subject, mailContent.toString(), "text/plain");
 	}
 
 	protected String preview(final String content) {

@@ -9,6 +9,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -40,7 +41,10 @@ public class MicroblogConnectorTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(rev))).andReturn(rev);
 		EasyMock.replay(parseUtil);
 
-		final MicroblogConnector microblogConnector = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil);
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.replay(htmlUtil);
+
+		final MicroblogConnector microblogConnector = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
 		assertEquals(rev, microblogConnector.getLatestRevision());
 	}
 
@@ -98,9 +102,15 @@ public class MicroblogConnectorTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.replay(parseUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil);
+		final String result = "Foo Bar";
 
-		assertEquals("Foo Bar", microblogConnectorImpl.extractContent(pageContent.toString()));
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.expect(htmlUtil.unescapeHtml(result)).andReturn(result);
+		EasyMock.replay(htmlUtil);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
+
+		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
 
 	}
 
@@ -135,7 +145,10 @@ public class MicroblogConnectorTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.replay(parseUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil);
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.replay(htmlUtil);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
 		assertEquals("bgates", microblogConnectorImpl.extractAuhor(pageContent.toString()));
 	}
 
@@ -173,7 +186,10 @@ public class MicroblogConnectorTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.replay(parseUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil);
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.replay(htmlUtil);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
 		assertEquals("https://micro.rp.seibert-media.net/conversation/42#notice-1337", microblogConnectorImpl.extractConversationUrl(pageContent.toString()));
 	}
 }
