@@ -59,3 +59,5 @@ performance/target
 performance_test/target
 crawler/target
 crawler_test/target
+websearch/target
+websearch_test/target

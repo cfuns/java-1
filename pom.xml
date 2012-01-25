@@ -88,6 +88,8 @@
 		<module>performance_test</module>
 		<module>crawler</module>
 		<module>crawler_test</module>
+		<module>websearch</module>
+		<module>websearch_test</module>
 	</modules>
 	<build>
 		<resources>

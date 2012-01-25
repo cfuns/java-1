@@ -9,8 +9,12 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.guice.CrawlerModules;
+import de.benjaminborbe.crawler.service.CrawlerNotifierServiceTracker;
 import de.benjaminborbe.crawler.servlet.CrawlerServlet;
+import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -22,6 +26,12 @@ public class CrawlerActivator extends HttpBundleActivator {
 
 	@Inject
 	private CrawlerServlet crawlerServlet;
+
+	@Inject
+	private CrawlerService crawlerService;
+
+	@Inject
+	private CrawlerNotifierRegistry crawlerNotifierRegistry;
 
 	public CrawlerActivator() {
 		super("crawler");
@@ -57,15 +67,14 @@ public class CrawlerActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		// result.add(new ServiceInfo(CrawlerService.class, crawlerService));
+		result.add(new ServiceInfo(CrawlerService.class, crawlerService));
 		return result;
 	}
 
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new CrawlerServiceTracker(crawlerRegistry, context,
-		// CrawlerService.class));
+		serviceTrackers.add(new CrawlerNotifierServiceTracker(crawlerNotifierRegistry, context, CrawlerNotifier.class));
 		return serviceTrackers;
 	}
 }

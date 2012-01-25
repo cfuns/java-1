@@ -37,7 +37,12 @@ public class SearchServiceImpl implements SearchService {
 		logger.debug("searchServiceComponents " + searchServiceComponents.size());
 		for (final SearchServiceComponent searchServiceComponent : searchServiceComponents) {
 			logger.debug("search in searchServiceComponent: " + searchServiceComponent.getClass().getSimpleName());
-			result.addAll(searchServiceComponent.search(words, maxResults));
+			try {
+				result.addAll(searchServiceComponent.search(words, maxResults));
+			}
+			catch (final Exception e) {
+				logger.error(e.getClass().getSimpleName(), e);
+			}
 		}
 		logger.debug("found " + result.size() + " results");
 		return result;

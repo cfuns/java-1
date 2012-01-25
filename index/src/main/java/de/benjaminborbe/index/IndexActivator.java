@@ -8,17 +8,26 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.index.api.IndexSearcherService;
+import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.guice.IndexModules;
 import de.benjaminborbe.index.servlet.IndexServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class IndexActivator extends HttpBundleActivator {
 
 	@Inject
 	private IndexServlet indexServlet;
+
+	@Inject
+	private IndexerService indexerService;
+
+	@Inject
+	private IndexSearcherService indexSearcherService;
 
 	public IndexActivator() {
 		super("index");
@@ -43,4 +52,11 @@ public class IndexActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(IndexerService.class, indexerService));
+		result.add(new ServiceInfo(IndexSearcherService.class, indexSearcherService));
+		return result;
+	}
 }

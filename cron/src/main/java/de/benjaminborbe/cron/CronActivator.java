@@ -12,9 +12,9 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.guice.CronModules;
+import de.benjaminborbe.cron.service.CronJobServiceTracker;
 import de.benjaminborbe.cron.servlet.CronServlet;
 import de.benjaminborbe.cron.util.CronJobRegistry;
-import de.benjaminborbe.cron.util.CronJobServiceTracker;
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;

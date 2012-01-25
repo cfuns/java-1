@@ -41,7 +41,7 @@ public class StorageActivatorIntegrationTest {
 	}
 
 	@Test
-	public void Services() throws Exception {
+	public void testServices() throws Exception {
 		final StorageActivator storageActivator = new StorageActivator() {
 
 			@Override

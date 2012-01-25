@@ -50,7 +50,7 @@ public class SearchDashboardWidget implements DashboardContentWidget, RequireCss
 		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext ...").addId("searchBox"));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
 		formWidget.render(request, response, context);
-		out.println("</form>");
+
 		out.println("<script language=\"javascript\">");
 		out.println("$(document).ready(function() {");
 		out.println("$('input#searchBox').autocomplete({");

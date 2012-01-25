@@ -1,4 +1,4 @@
-package de.benjaminborbe.cron.util;
+package de.benjaminborbe.cron.service;
 
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.cron.util.CronJobRegistry;
+import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;
 
 @Singleton
