@@ -86,6 +86,8 @@
 		<module>microblog_test</module>
 		<module>performance</module>
 		<module>performance_test</module>
+		<module>crawler</module>
+		<module>crawler_test</module>
 	</modules>
 	<build>
 		<resources>

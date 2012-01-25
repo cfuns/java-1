@@ -57,3 +57,5 @@ microblog/target
 microblog_test/target
 performance/target
 performance_test/target
+crawler/target
+crawler_test/target
