@@ -13,6 +13,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerException;
+import de.benjaminborbe.crawler.api.CrawlerInstruction;
+import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -64,7 +66,8 @@ public class CrawlerServlet extends WebsiteHtmlServlet {
 		out.println("<h1>" + getTitle() + "</h1>");
 		if (request.getParameter(PARAMETER_URL) != null) {
 			try {
-				crawlerService.crawleDomain(request.getParameter(PARAMETER_URL));
+				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(request.getParameter(PARAMETER_URL)).setDepth(0).setFollowDomainLinksAllowed(false);
+				crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
 				out.println("add url successful");
 			}
 			catch (final CrawlerException e) {

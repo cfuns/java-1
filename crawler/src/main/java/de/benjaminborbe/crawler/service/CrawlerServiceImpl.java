@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
@@ -39,8 +40,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 		this.crawlerNotifier = crawlerNotifier;
 	}
 
-	@Override
-	public void crawleDomain(final String domainUrl) throws CrawlerException {
+	protected void crawleDomain(final String domainUrl) throws CrawlerException {
 		try {
 			logger.debug("crawle domain: " + domainUrl);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(domainUrl), TIMEOUT);
@@ -54,6 +54,11 @@ public class CrawlerServiceImpl implements CrawlerService {
 		catch (final IOException e) {
 			throw new CrawlerException("MalformedURLException", e);
 		}
+	}
+
+	@Override
+	public void processCrawlerInstruction(final CrawlerInstruction crawlerInstruction) throws CrawlerException {
+		crawleDomain(crawlerInstruction.getUrl());
 	}
 
 }

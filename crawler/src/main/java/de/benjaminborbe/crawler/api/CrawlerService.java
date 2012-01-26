@@ -2,5 +2,5 @@ package de.benjaminborbe.crawler.api;
 
 public interface CrawlerService {
 
-	void crawleDomain(String domainUrl) throws CrawlerException;
+	void processCrawlerInstruction(CrawlerInstruction crawlerInstruction) throws CrawlerException;
 }
