@@ -36,7 +36,7 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String PAGE_TITLE = "BookmarkGuis";
+	private static final String PAGE_TITLE = "Bookmarks";
 
 	private static final Target target = Target.BLANK;
 
