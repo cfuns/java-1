@@ -90,6 +90,8 @@
 		<module>crawler_test</module>
 		<module>websearch</module>
 		<module>websearch_test</module>
+		<module>vaadin</module>
+		<module>vaadin_test</module>
 	</modules>
 	<build>
 		<resources>
