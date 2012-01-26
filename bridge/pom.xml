@@ -39,7 +39,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>org.apache.felix.http.bridge,org.apache.felix.metatype,org.apache.felix.webconsole,org.apache.felix.prefs,org.apache.felix.scr,org.apache.felix.configadmin,org.apache.felix.log,org.apache.felix.shell.remote,org.apache.felix.shell,org.apache.felix.bundlerepository,org.osgi.service.obr,de.benjaminborbe.index,de.benjaminborbe.timetracker,de.benjaminborbe.gwt,de.benjaminborbe.cron,de.benjaminborbe.monitoring,de.benjaminborbe.mail,de.benjaminborbe.storage,de.benjaminborbe.search,de.benjaminborbe.bookmark,de.benjaminborbe.slash,de.benjaminborbe.eventbus,de.benjaminborbe.worktime,de.benjaminborbe.dashboard,de.benjaminborbe.navigation,de.benjaminborbe.calendar,de.benjaminborbe.sample,de.benjaminborbe.weather,de.benjaminborbe.translate,de.benjaminborbe.util,de.benjaminborbe.html,de.benjaminborbe.dashboard.api,de.benjaminborbe.navigation.api,de.benjaminborbe.microblog,de.benjaminborbe.performance,de.benjaminborbe.crawler,de.benjaminborbe.websearch,de.benjaminborbe.vaadin</includeArtifactIds>
+							<includeArtifactIds>org.apache.felix.http.bridge,org.apache.felix.metatype,org.apache.felix.webconsole,org.apache.felix.prefs,org.apache.felix.scr,org.apache.felix.configadmin,org.apache.felix.log,org.apache.felix.shell.remote,org.apache.felix.shell,org.apache.felix.bundlerepository,org.osgi.service.obr,de.benjaminborbe.index,de.benjaminborbe.timetracker,de.benjaminborbe.gwt,de.benjaminborbe.cron,de.benjaminborbe.monitoring,de.benjaminborbe.mail,de.benjaminborbe.storage,de.benjaminborbe.search,de.benjaminborbe.bookmark,de.benjaminborbe.bookmark.gui,de.benjaminborbe.slash,de.benjaminborbe.eventbus,de.benjaminborbe.worktime,de.benjaminborbe.dashboard,de.benjaminborbe.navigation,de.benjaminborbe.calendar,de.benjaminborbe.sample,de.benjaminborbe.weather,de.benjaminborbe.translate,de.benjaminborbe.util,de.benjaminborbe.html,de.benjaminborbe.dashboard.api,de.benjaminborbe.navigation.api,de.benjaminborbe.microblog,de.benjaminborbe.performance,de.benjaminborbe.crawler,de.benjaminborbe.websearch,de.benjaminborbe.vaadin</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
 						</configuration>
@@ -237,6 +237,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.bookmark</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.bookmark.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

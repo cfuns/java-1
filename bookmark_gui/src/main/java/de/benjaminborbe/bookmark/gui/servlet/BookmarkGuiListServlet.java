@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.servlet;
+package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,18 +32,18 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class BookmarkListServlet extends WebsiteHtmlServlet {
+public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String PAGE_TITLE = "Bookmarks";
+	private static final String PAGE_TITLE = "BookmarkGuis";
 
 	private static final Target target = Target.BLANK;
 
 	private final BookmarkService bookmarkService;
 
 	@Inject
-	public BookmarkListServlet(
+	public BookmarkGuiListServlet(
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,

@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.service;
+package de.benjaminborbe.bookmark.gui.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
 
 @Singleton
-public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
+public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidget {
 
 	private final Logger logger;
 
@@ -27,7 +27,7 @@ public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 	private static final Target target = Target.BLANK;
 
 	@Inject
-	public BookmarkFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService) {
+	public BookmarkGuiFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService) {
 		this.logger = logger;
 		this.bookmarkService = bookmarkService;
 	}
@@ -43,7 +43,7 @@ public class BookmarkFavoriteDashboardWidget implements DashboardContentWidget {
 			out.println("</li>");
 		}
 		out.println("</ul>");
-		out.println("<a href=\"" + request.getContextPath() + "/bookmark\">more</a>");
+		out.println("<a href=\"" + request.getContextPath() + "/bookmark_gui\">more</a>");
 	}
 
 	@Override

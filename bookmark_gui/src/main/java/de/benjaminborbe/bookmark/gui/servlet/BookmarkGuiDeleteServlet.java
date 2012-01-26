@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.servlet;
+package de.benjaminborbe.bookmark.gui.servlet;
 
 import org.slf4j.Logger;
 
@@ -8,14 +8,14 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.website.servlet.WebsiteRedirectServlet;
 
 @Singleton
-public class BookmarkServlet extends WebsiteRedirectServlet {
+public class BookmarkGuiDeleteServlet extends WebsiteRedirectServlet {
 
-	private static final long serialVersionUID = -4538727884647259439L;
+	private static final long serialVersionUID = 4956434804365230995L;
 
 	private static final String TARGET = "/list";
 
 	@Inject
-	public BookmarkServlet(final Logger logger) {
+	public BookmarkGuiDeleteServlet(final Logger logger) {
 		super(logger);
 	}
 

@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.servlet;
+package de.benjaminborbe.bookmark.gui.servlet;
 
 import org.slf4j.Logger;
 
@@ -16,14 +16,14 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class BookmarkUpdateServlet extends WebsiteHtmlServlet {
+public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 2521414159463570586L;
 
-	private static final String TITLE = "Bookmark - Update";
+	private static final String TITLE = "BookmarkGui - Update";
 
 	@Inject
-	public BookmarkUpdateServlet(
+	public BookmarkGuiUpdateServlet(
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,

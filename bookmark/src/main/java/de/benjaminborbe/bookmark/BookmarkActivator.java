@@ -10,49 +10,19 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
-import de.benjaminborbe.bookmark.service.BookmarkFavoriteDashboardWidget;
 import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl;
-import de.benjaminborbe.bookmark.servlet.BookmarkCreateServlet;
-import de.benjaminborbe.bookmark.servlet.BookmarkDeleteServlet;
-import de.benjaminborbe.bookmark.servlet.BookmarkListServlet;
-import de.benjaminborbe.bookmark.servlet.BookmarkServlet;
-import de.benjaminborbe.bookmark.servlet.BookmarkUpdateServlet;
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
 
-public class BookmarkActivator extends HttpBundleActivator {
-
-	@Inject
-	private BookmarkListServlet bookmarkListServlet;
-
-	@Inject
-	private BookmarkCreateServlet bookmarkCreateServlet;
+public class BookmarkActivator extends BaseBundleActivator {
 
 	@Inject
 	private BookmarkService bookmarkService;
 
 	@Inject
 	private BookmarkSearchServiceComponentImpl bookmarkSearchService;
-
-	@Inject
-	private BookmarkFavoriteDashboardWidget bookmarkFavoriteDashboardWidget;
-
-	@Inject
-	private BookmarkServlet bookmarkServlet;
-
-	@Inject
-	private BookmarkDeleteServlet bookmarkDeleteServlet;
-
-	@Inject
-	private BookmarkUpdateServlet bookmarkUpdateServlet;
-
-	public BookmarkActivator() {
-		super("bookmark");
-	}
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -64,19 +34,6 @@ public class BookmarkActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(BookmarkService.class, bookmarkService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, bookmarkSearchService.getClass().getName()));
-		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkFavoriteDashboardWidget, bookmarkFavoriteDashboardWidget.getClass().getName()));
 		return result;
 	}
-
-	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(bookmarkListServlet, "/list"));
-		result.add(new ServletInfo(bookmarkCreateServlet, "/create"));
-		result.add(new ServletInfo(bookmarkUpdateServlet, "/update"));
-		result.add(new ServletInfo(bookmarkDeleteServlet, "/delete"));
-		result.add(new ServletInfo(bookmarkServlet, "/"));
-		return result;
-	}
-
 }

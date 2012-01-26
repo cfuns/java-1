@@ -5,13 +5,10 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.vaadin</artifactId>
-	<name>Benjamin Borbe - Vaadin</name>
-	<description>Benjamin Borbe - Vaadin</description>
+	<artifactId>de.benjaminborbe.bookmark.gui</artifactId>
+	<name>Benjamin Borbe - Bookmark-Gui</name>
+	<description>Benjamin Borbe - Bookmark-Gui</description>
 	<packaging>bundle</packaging>
-	<properties>
-		<vaadin.version>6.6.6</vaadin.version>
-	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<resources>
@@ -43,14 +40,14 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.vaadin.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.vaadin.VaadinActivator </Bundle-Activator>
-						<Private-Package>de.benjaminborbe.vaadin.*</Private-Package>
+						<Export-Package>de.benjaminborbe.bookmark.gui.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.bookmark.gui.BookmarkGuiActivator </Bundle-Activator>
+						<Private-Package>de.benjaminborbe.bookmark.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Vaadin</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Vaadin</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Bookmark-Gui</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Bookmark-Gui</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
@@ -58,41 +55,9 @@
 					</instructions>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>1.0.2</version>
-			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
-		<!-- Vaadin -->
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-		<!-- GWT This is also used by gwt-maven-plugin to deduce GWT version number. -->
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Validation -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.ops4j</groupId>
 			<artifactId>peaberry</artifactId>
@@ -143,6 +108,16 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -159,13 +134,31 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.html</artifactId>
+			<artifactId>de.benjaminborbe.bookmark</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.search</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+				<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.html</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

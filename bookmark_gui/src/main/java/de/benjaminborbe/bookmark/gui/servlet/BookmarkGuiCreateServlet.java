@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.servlet;
+package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,14 +24,14 @@ import de.benjaminborbe.website.util.FormInputTextWidget;
 import de.benjaminborbe.website.util.FormWidget;
 
 @Singleton
-public class BookmarkCreateServlet extends WebsiteHtmlServlet {
+public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 4468520728605522219L;
 
-	private static final String TITLE = "Bookmark - Create";
+	private static final String TITLE = "BookmarkGui - Create";
 
 	@Inject
-	public BookmarkCreateServlet(
+	public BookmarkGuiCreateServlet(
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,
