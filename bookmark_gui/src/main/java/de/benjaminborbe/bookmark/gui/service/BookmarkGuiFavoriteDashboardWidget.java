@@ -43,7 +43,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			out.println("</li>");
 		}
 		out.println("</ul>");
-		out.println("<a href=\"" + request.getContextPath() + "/bookmark_gui\">more</a>");
+		out.println("<a href=\"" + request.getContextPath() + "/bookmark\">more</a>");
 	}
 
 	@Override

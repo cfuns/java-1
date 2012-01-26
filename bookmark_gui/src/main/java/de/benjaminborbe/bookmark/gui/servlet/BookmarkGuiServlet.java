@@ -12,7 +12,7 @@ public class BookmarkGuiServlet extends WebsiteRedirectServlet {
 
 	private static final long serialVersionUID = -4538727884647259439L;
 
-	private static final String TARGET = "/list";
+	private static final String TARGET = "bookmark/list";
 
 	@Inject
 	public BookmarkGuiServlet(final Logger logger) {

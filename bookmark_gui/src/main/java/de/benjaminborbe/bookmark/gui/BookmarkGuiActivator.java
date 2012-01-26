@@ -24,25 +24,25 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class BookmarkGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private BookmarkGuiListServlet bookmark_guiListServlet;
+	private BookmarkGuiListServlet bookmarkGuiListServlet;
 
 	@Inject
-	private BookmarkGuiCreateServlet bookmark_guiCreateServlet;
+	private BookmarkGuiCreateServlet bookmarkGuiCreateServlet;
 
 	@Inject
-	private BookmarkGuiFavoriteDashboardWidget bookmark_guiFavoriteDashboardWidget;
+	private BookmarkGuiFavoriteDashboardWidget bookmarkGuiFavoriteDashboardWidget;
 
 	@Inject
-	private BookmarkGuiServlet bookmark_guiServlet;
+	private BookmarkGuiServlet bookmarkGuiServlet;
 
 	@Inject
-	private BookmarkGuiDeleteServlet bookmark_guiDeleteServlet;
+	private BookmarkGuiDeleteServlet bookmarkGuiDeleteServlet;
 
 	@Inject
-	private BookmarkGuiUpdateServlet bookmark_guiUpdateServlet;
+	private BookmarkGuiUpdateServlet bookmarkGuiUpdateServlet;
 
 	public BookmarkGuiActivator() {
-		super("bookmark_gui");
+		super("bookmark");
 	}
 
 	@Override
@@ -53,18 +53,18 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(DashboardContentWidget.class, bookmark_guiFavoriteDashboardWidget, bookmark_guiFavoriteDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkGuiFavoriteDashboardWidget, bookmarkGuiFavoriteDashboardWidget.getClass().getName()));
 		return result;
 	}
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(bookmark_guiListServlet, "/list"));
-		result.add(new ServletInfo(bookmark_guiCreateServlet, "/create"));
-		result.add(new ServletInfo(bookmark_guiUpdateServlet, "/update"));
-		result.add(new ServletInfo(bookmark_guiDeleteServlet, "/delete"));
-		result.add(new ServletInfo(bookmark_guiServlet, "/"));
+		result.add(new ServletInfo(bookmarkGuiListServlet, "/list"));
+		result.add(new ServletInfo(bookmarkGuiCreateServlet, "/create"));
+		result.add(new ServletInfo(bookmarkGuiUpdateServlet, "/update"));
+		result.add(new ServletInfo(bookmarkGuiDeleteServlet, "/delete"));
+		result.add(new ServletInfo(bookmarkGuiServlet, "/"));
 		return result;
 	}
 
