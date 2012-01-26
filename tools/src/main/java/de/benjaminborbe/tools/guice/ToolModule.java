@@ -22,6 +22,8 @@ import de.benjaminborbe.tools.util.IdGenerator;
 import de.benjaminborbe.tools.util.IdGeneratorImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import de.benjaminborbe.tools.util.StringUtil;
+import de.benjaminborbe.tools.util.StringUtilImpl;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerImpl;
 
@@ -29,6 +31,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(StringUtil.class).to(StringUtilImpl.class).in(Singleton.class);
 		bind(JndiContext.class).to(JndiContextImpl.class).in(Singleton.class);
 		bind(Base64Util.class).to(Base64UtilImpl.class).in(Singleton.class);
 		bind(TimeZoneUtil.class).to(TimeZoneUtilImpl.class).in(Singleton.class);

@@ -8,9 +8,12 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
 public class MicroblogPostMailerImpl implements MicroblogPostMailer {
+
+	private static final int SUBJECT_MAX_LENGTH = 80;
 
 	private final Logger logger;
 
@@ -18,11 +21,14 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 
 	private final MicroblogConnector microblogConnector;
 
+	private final StringUtil stringUtil;
+
 	@Inject
-	public MicroblogPostMailerImpl(final Logger logger, final MailService mailService, final MicroblogConnector microblogConnector) {
+	public MicroblogPostMailerImpl(final Logger logger, final MailService mailService, final MicroblogConnector microblogConnector, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.mailService = mailService;
 		this.microblogConnector = microblogConnector;
+		this.stringUtil = stringUtil;
 	}
 
 	@Override
@@ -50,14 +56,8 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		mailContent.append(post.getConversationUrl() != null ? post.getConversationUrl() : post.getPostUrl());
 		final String from = post.getAuthor() + "@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
-		final String subject = "Micro: " + preview(post.getContent());
+		final String subject = "Micro: " + stringUtil.shorten(post.getContent(), SUBJECT_MAX_LENGTH);
 		return new Mail(from, to, subject, mailContent.toString(), "text/plain");
 	}
 
-	protected String preview(final String content) {
-		if (content != null && content.length() > 80) {
-			return content.substring(0, 80);
-		}
-		return content;
-	}
 }

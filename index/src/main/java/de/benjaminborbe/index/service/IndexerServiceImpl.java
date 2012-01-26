@@ -15,6 +15,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.util.IndexFactory;
+import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
 public class IndexerServiceImpl implements IndexerService {
@@ -23,15 +24,18 @@ public class IndexerServiceImpl implements IndexerService {
 
 	private final IndexFactory indexFactory;
 
+	private final StringUtil stringUtil;
+
 	@Inject
-	public IndexerServiceImpl(final Logger logger, final IndexFactory indexFactory) {
+	public IndexerServiceImpl(final Logger logger, final IndexFactory indexFactory, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.indexFactory = indexFactory;
+		this.stringUtil = stringUtil;
 	}
 
 	@Override
 	public void addToIndex(final String indexName, final URL url, final String title, final String content) {
-		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + content);
+		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 20));
 
 		try {
 			final Directory index = indexFactory.getIndex(indexName);

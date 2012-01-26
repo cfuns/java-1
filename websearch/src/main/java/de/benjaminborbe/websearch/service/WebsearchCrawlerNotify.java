@@ -15,19 +15,25 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchActivator;
 
 @Singleton
 public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
+	private static final int TITLE_MAX_LENGTH = 80;
+
 	private final Logger logger;
 
 	private final IndexerService indexerService;
 
+	private final StringUtil stringUtil;
+
 	@Inject
-	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService) {
+	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.indexerService = indexerService;
+		this.stringUtil = stringUtil;
 	}
 
 	@Override
@@ -45,7 +51,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		final Document document = Jsoup.parse(content);
 		final Elements a = document.getElementsByTag("title");
 		for (final Element e : a) {
-			return e.html();
+			return stringUtil.shorten(e.html(), TITLE_MAX_LENGTH);
 		}
 		return "-";
 	}
