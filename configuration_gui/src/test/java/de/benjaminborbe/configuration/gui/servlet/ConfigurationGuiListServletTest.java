@@ -29,20 +29,22 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModulesMock;
-import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiServlet;
+import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.ParseUtil;
 
-public class ConfigurationGuiServletTest {
+public class ConfigurationGuiListServletTest {
 
 	@Test
 	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfigurationGuiModulesMock());
-		final ConfigurationGuiServlet a = injector.getInstance(ConfigurationGuiServlet.class);
-		final ConfigurationGuiServlet b = injector.getInstance(ConfigurationGuiServlet.class);
+		final ConfigurationGuiListServlet a = injector.getInstance(ConfigurationGuiListServlet.class);
+		final ConfigurationGuiListServlet b = injector.getInstance(ConfigurationGuiListServlet.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);
@@ -117,11 +119,16 @@ public class ConfigurationGuiServletTest {
 				return httpContext;
 			}
 		};
-		final ConfigurationGuiServlet configurationServlet = new ConfigurationGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+		final ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
+		EasyMock.expect(configurationService.listConfigurations()).andReturn(new HashSet<Configuration<?>>());
+		EasyMock.replay(configurationService);
+
+		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,
+				navigationWidget, httpContextProvider, configurationService);
 
 		configurationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Configuration</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Configuration - List</h1>") != -1);
 	}
 }

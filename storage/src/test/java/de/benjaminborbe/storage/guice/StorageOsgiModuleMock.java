@@ -6,6 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.service.ConfigurationServiceMock;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConfigMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -15,6 +17,7 @@ public class StorageOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(StorageConfig.class).to(StorageConfigMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);
 		bind(ExtHttpService.class).to(ExtHttpServiceMock.class).in(Singleton.class);

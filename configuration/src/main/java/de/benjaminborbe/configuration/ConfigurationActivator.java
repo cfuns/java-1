@@ -9,8 +9,11 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.guice.ConfigurationModules;
+import de.benjaminborbe.configuration.service.ConfigurationServiceTracker;
+import de.benjaminborbe.configuration.util.ConfigurationRegistry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -19,6 +22,9 @@ public class ConfigurationActivator extends BaseBundleActivator {
 
 	@Inject
 	private ConfigurationService configurationService;
+
+	@Inject
+	private ConfigurationRegistry configurationRegistry;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -35,8 +41,7 @@ public class ConfigurationActivator extends BaseBundleActivator {
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new ConfigurationServiceTracker(configurationRegistry, context,
-		// ConfigurationService.class));
+		serviceTrackers.add(new ConfigurationServiceTracker(configurationRegistry, context, Configuration.class));
 		return serviceTrackers;
 	}
 }

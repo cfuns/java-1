@@ -99,6 +99,7 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Test - ActiveMQ - JMS", Arrays.asList("TwentyFeet", "20ft", "Test")));
 
 		// seibert-media
+		save(createBookmark("https://vpn.rp.seibert-media.net/", "Seibert-Media - VPN", Arrays.asList("Seibert-Media", "SM", "VPN"), true));
 		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker", Arrays.asList("Seibert-Media", "SM"), true));
 		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Confluence - Wiki", Arrays.asList("Seibert-Media", "SM"), true));
 		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "SM"), true));

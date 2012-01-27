@@ -7,7 +7,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.configuration.api.ConfigurationServiceMock;
+import de.benjaminborbe.configuration.service.ConfigurationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.service.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
