@@ -71,3 +71,6 @@ authorization_test/target
 authentication/target
 authentication_gui/target
 authentication_test/target
+configuration/target
+configuration_gui/target
+configuration_test/target
