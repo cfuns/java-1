@@ -41,8 +41,8 @@ public class ConfigurationGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/configuration")) {
+		assertEquals(2, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/configuration", "/configuration/list")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}

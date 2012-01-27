@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModules;
+import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -18,6 +19,9 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private ConfigurationGuiServlet configurationGuiServlet;
+
+	@Inject
+	private ConfigurationGuiListServlet configurationGuiListServlet;
 
 	public ConfigurationGuiActivator() {
 		super("configuration");
@@ -32,6 +36,7 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(configurationGuiServlet, "/"));
+		result.add(new ServletInfo(configurationGuiListServlet, "/list"));
 		return result;
 	}
 

@@ -52,6 +52,7 @@ public class StorageConfigImpl implements StorageConfig {
 		return configurationService.getConfigurationValue(configurationString);
 	}
 
+	@Override
 	public Collection<Configuration<?>> getConfigurations() {
 		final Set<Configuration<?>> result = new HashSet<Configuration<?>>();
 		result.add(hostname);

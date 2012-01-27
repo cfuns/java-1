@@ -53,7 +53,7 @@ public class StorageActivatorIntegrationTest {
 		EasyMock.replay(context);
 		storageActivator.start(context);
 		final Collection<ServiceInfo> serviceInfos = storageActivator.getServiceInfos();
-		assertEquals(1, serviceInfos.size());
+		assertEquals(5, serviceInfos.size());
 	}
 
 	@Test
