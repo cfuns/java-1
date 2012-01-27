@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.servlet;
+package de.benjaminborbe.sample.gui.servlet;
 
 import org.slf4j.Logger;
 
@@ -16,14 +16,14 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class SampleServlet extends WebsiteHtmlServlet {
+public class SampleGuiServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Sample";
 
 	@Inject
-	public SampleServlet(
+	public SampleGuiServlet(
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,

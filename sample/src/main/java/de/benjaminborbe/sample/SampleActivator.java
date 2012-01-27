@@ -9,23 +9,16 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.sample.api.SampleService;
 import de.benjaminborbe.sample.guice.SampleModules;
-import de.benjaminborbe.sample.servlet.SampleServlet;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.FilterInfo;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
 
-public class SampleActivator extends HttpBundleActivator {
+public class SampleActivator extends BaseBundleActivator {
 
 	@Inject
-	private SampleServlet sampleServlet;
-
-	public SampleActivator() {
-		super("sample");
-	}
+	private SampleService sampleService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -33,31 +26,9 @@ public class SampleActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(sampleServlet, "/"));
-		return result;
-	}
-
-	@Override
-	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-		// result.add(new FilterInfo(sampleFilter, ".*", 1));
-		return result;
-	}
-
-	@Override
-	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		// result.add(new ResourceInfo("/css", "css"));
-		// result.add(new ResourceInfo("/js", "js"));
-		return result;
-	}
-
-	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		// result.add(new ServiceInfo(SampleService.class, sampleService));
+		result.add(new ServiceInfo(SampleService.class, sampleService));
 		return result;
 	}
 

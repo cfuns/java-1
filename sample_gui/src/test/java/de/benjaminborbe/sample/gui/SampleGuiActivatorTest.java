@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.gui;
+package de.benjaminborbe.sample.gui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,26 +12,26 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.bookmark.gui.BookmarkGuiActivator;
-import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModulesMock;
+import de.benjaminborbe.sample.gui.SampleGuiActivator;
+import de.benjaminborbe.sample.gui.guice.SampleGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
-public class BookmarkGuiActivatorTest {
+public class SampleGuiActivatorTest {
 
 	@Test
 	public void testInject() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkGuiModulesMock());
-		final BookmarkGuiActivator o = injector.getInstance(BookmarkGuiActivator.class);
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleGuiModulesMock());
+		final SampleGuiActivator o = injector.getInstance(SampleGuiActivator.class);
 		assertNotNull(o);
 	}
 
 	@Test
 	public void testServlets() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkGuiModulesMock());
-		final BookmarkGuiActivator o = new BookmarkGuiActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleGuiModulesMock());
+		final SampleGuiActivator o = new SampleGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -41,16 +41,16 @@ public class BookmarkGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(5, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/bookmark", "/bookmark/list", "/bookmark/create", "/bookmark/update", "/bookmark/delete")) {
+		assertEquals(1, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/sample")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}
 
 	@Test
 	public void testFilters() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkGuiModulesMock());
-		final BookmarkGuiActivator o = new BookmarkGuiActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleGuiModulesMock());
+		final SampleGuiActivator o = new SampleGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -63,7 +63,7 @@ public class BookmarkGuiActivatorTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
 		assertEquals(1, extHttpServiceMock.getRegisterFilterCallCounter());
 
-		for (final String path : Arrays.asList("/bookmark.*")) {
+		for (final String path : Arrays.asList("/sample.*")) {
 			assertTrue("no filter for path " + path + " registered", extHttpServiceMock.hasFilterPath(path));
 		}
 
@@ -75,8 +75,8 @@ public class BookmarkGuiActivatorTest {
 
 	@Test
 	public void testResources() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkGuiModulesMock());
-		final BookmarkGuiActivator o = new BookmarkGuiActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleGuiModulesMock());
+		final SampleGuiActivator o = new SampleGuiActivator() {
 
 			@Override
 			public Injector getInjector() {

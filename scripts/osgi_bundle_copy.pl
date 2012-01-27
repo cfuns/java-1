@@ -3,8 +3,10 @@
 use strict;
 
 my $from_dir = $ARGV[0];
+my $from_dir_gui = $from_dir.'_gui';
 my $from_dir_test = $from_dir.'_test';
 my $to_dir = $ARGV[1];
+my $to_dir_gui = $ARGV[1].'_gui';
 my $to_dir_test = $ARGV[1].'_test';
 my $to_name = first_letter_uppercase($to_dir);
 my $from_name = first_letter_uppercase($from_dir);
@@ -16,20 +18,25 @@ unless ($from_dir && $to_dir && -d $from_dir && -d $from_dir_test && ! -d $to_di
 
 my @cmds = ();
 push(@cmds, 'rm -rf '.$to_dir);
+push(@cmds, 'rm -rf '.$to_dir_gui);
 push(@cmds, 'rm -rf '.$to_dir_test);
 push(@cmds, 'rm -rf '.$from_dir.'/target');
+push(@cmds, 'rm -rf '.$from_dir_gui.'/target');
 push(@cmds, 'rm -rf '.$from_dir_test.'/target');
 push(@cmds, 'cp -R '.$from_dir.' '.$to_dir);
+push(@cmds, 'cp -R '.$from_dir_gui.' '.$to_dir_gui);
 push(@cmds, 'cp -R '.$from_dir_test.' '.$to_dir_test);
-push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' -type f | xargs sed -i \'\' \'s/'.$from_dir.'/'.$to_dir.'/g\'');
-push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' -type f | xargs sed -i \'\' \'s/'.$from_name.'/'.$to_name.'/g\'');
+push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' '.$to_dir_gui.' -type f | xargs sed -i \'\' \'s/'.$from_dir.'/'.$to_dir.'/g\'');
+push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' '.$to_dir_gui.' -type f | xargs sed -i \'\' \'s/'.$from_name.'/'.$to_name.'/g\'');
 push(@cmds, 'echo '.$to_dir.'/target >> .gitignore');
+push(@cmds, 'echo '.$to_dir_gui.'/target >> .gitignore');
 push(@cmds, 'echo '.$to_dir_test.'/target >> .gitignore');
 
 push(@cmds, '# rename files and dirs');
 push(@cmds, '# add module to pom.xml');
 push(@cmds, '# add module to bridge/pom.xml');
 push(@cmds, '# git add '.$to_dir);
+push(@cmds, '# git add '.$to_dir_gui);
 push(@cmds, '# git add '.$to_dir_test);
 
 

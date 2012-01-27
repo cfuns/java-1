@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.guice;
+package de.benjaminborbe.sample.gui.guice;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,17 +11,18 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
+import de.benjaminborbe.website.guice.WebsiteModule;
 
-public class SampleModules implements Modules {
+public class SampleGuiModules implements Modules {
 
 	private final BundleContext context;
 
-	public SampleModules(final BundleContext context) {
+	public SampleGuiModules(final BundleContext context) {
 		this.context = context;
 	}
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SampleOsgiModule(), new SampleModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SampleGuiOsgiModule(), new SampleGuiModule(), new ToolModule(), new WebsiteModule());
 	}
 }

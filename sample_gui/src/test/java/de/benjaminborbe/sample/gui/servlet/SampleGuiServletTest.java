@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.servlet;
+package de.benjaminborbe.sample.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,19 +29,20 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.sample.guice.SampleModulesMock;
+import de.benjaminborbe.sample.gui.guice.SampleGuiModulesMock;
+import de.benjaminborbe.sample.gui.servlet.SampleGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.ParseUtil;
 
-public class SampleServletTest {
+public class SampleGuiServletTest {
 
 	@Test
 	public void testSingleton() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
-		final SampleServlet a = injector.getInstance(SampleServlet.class);
-		final SampleServlet b = injector.getInstance(SampleServlet.class);
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleGuiModulesMock());
+		final SampleGuiServlet a = injector.getInstance(SampleGuiServlet.class);
+		final SampleGuiServlet b = injector.getInstance(SampleGuiServlet.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);
@@ -116,7 +117,7 @@ public class SampleServletTest {
 				return httpContext;
 			}
 		};
-		final SampleServlet sampleServlet = new SampleServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+		final SampleGuiServlet sampleServlet = new SampleGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
 
 		sampleServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

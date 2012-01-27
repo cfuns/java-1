@@ -71,6 +71,7 @@
 		<module>navigation_api</module>
 		<module>navigation_test</module>
 		<module>sample</module>
+		<module>sample_gui</module>
 		<module>sample_test</module>
 		<module>calendar</module>
 		<module>calendar_test</module>
