@@ -31,13 +31,13 @@ push(@cmds, 'find '.$to_dir. ' '.$to_dir_test.' '.$to_dir_gui.' -type f | xargs 
 push(@cmds, 'echo '.$to_dir.'/target >> .gitignore');
 push(@cmds, 'echo '.$to_dir_gui.'/target >> .gitignore');
 push(@cmds, 'echo '.$to_dir_test.'/target >> .gitignore');
+push(@cmds, 'git add '.$to_dir);
+push(@cmds, 'git add '.$to_dir_gui);
+push(@cmds, 'git add '.$to_dir_test);
 
 push(@cmds, '# rename files and dirs');
 push(@cmds, '# add module to pom.xml');
 push(@cmds, '# add module to bridge/pom.xml');
-push(@cmds, '# git add '.$to_dir);
-push(@cmds, '# git add '.$to_dir_gui);
-push(@cmds, '# git add '.$to_dir_test);
 
 
 # -exec mv "{}" echo "{}" sed s/'.$from_name.'/'.$to_name.'/" \;

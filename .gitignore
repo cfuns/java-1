@@ -65,3 +65,9 @@ website_test/target
 website_test/target
 worktime/target
 worktime_test/target
+authorization/target
+authorization_gui/target
+authorization_test/target
+authentication/target
+authentication_gui/target
+authentication_test/target

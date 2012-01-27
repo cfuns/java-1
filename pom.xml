@@ -94,6 +94,12 @@
 		<module>websearch_test</module>
 		<module>vaadin</module>
 		<module>vaadin_test</module>
+		<module>authentication</module>
+		<module>authentication_gui</module>
+		<module>authentication_test</module>
+		<module>authorization</module>
+		<module>authorization_gui</module>
+		<module>authorization_test</module>
 	</modules>
 	<build>
 		<resources>
