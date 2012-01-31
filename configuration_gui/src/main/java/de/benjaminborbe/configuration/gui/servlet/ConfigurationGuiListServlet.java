@@ -68,19 +68,19 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 		out.println("</tr>");
 		for (final Configuration<?> configuration : configurationService.listConfigurations()) {
 			out.println("<tr>");
-			out.println("<td");
+			out.println("<td>");
 			out.println(configuration.getName());
 			out.println("</td>");
-			out.println("<td");
+			out.println("<td>");
 			out.println(configuration.getDescription());
 			out.println("</td>");
-			out.println("<td");
+			out.println("<td>");
 			out.println(configuration.getDefaultValue());
 			out.println("</td>");
-			out.println("<td");
-			out.println(configuration.getType());
+			out.println("<td>");
+			out.println(configuration.getType().getSimpleName());
 			out.println("</td>");
-			out.println("<td");
+			out.println("<td>");
 			out.println(configurationService.getConfigurationValue(configuration));
 			out.println("</td>");
 			out.println("</tr>");

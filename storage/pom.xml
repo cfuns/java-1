@@ -40,7 +40,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.storage.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.storage.StorageActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.storage.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
@@ -165,6 +165,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.configuration.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.storage.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

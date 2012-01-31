@@ -40,7 +40,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.microblog.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.microblog.MicroblogActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.microblog.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
@@ -124,7 +124,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.mail</artifactId>
+			<artifactId>de.benjaminborbe.mail.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -148,13 +148,13 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cron</artifactId>
+			<artifactId>de.benjaminborbe.cron.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage</artifactId>
+			<artifactId>de.benjaminborbe.storage.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

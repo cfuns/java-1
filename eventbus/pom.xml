@@ -40,7 +40,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.eventbus.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.eventbus.EventbusActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.eventbus.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
@@ -131,6 +131,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.eventbus.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

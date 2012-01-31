@@ -12,14 +12,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final Logger logger;
 
+	private final String USERNAME = "bborbe";
+
+	private final String PASSWORD = "test123";
+
 	@Inject
 	public AuthenticationServiceImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public void execute() {
+	public boolean verifyCredential(final String username, final String password) {
 		logger.debug("execute");
+		return USERNAME.equals(username) && PASSWORD.equals(password);
 	}
 
 }

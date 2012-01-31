@@ -18,10 +18,10 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.FormInputSubmitWidget;
-import de.benjaminborbe.website.util.FormInputTextWidget;
-import de.benjaminborbe.website.util.FormWidget;
 
 @Singleton
 public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {

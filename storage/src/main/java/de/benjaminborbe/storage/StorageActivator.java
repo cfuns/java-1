@@ -50,7 +50,7 @@ public class StorageActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(StorageService.class, persistentStorageService));
 		for (final Configuration<?> configuration : storageConfig.getConfigurations()) {
-			result.add(new ServiceInfo(Configuration.class, configuration));
+			result.add(new ServiceInfo(Configuration.class, configuration, configuration.getName()));
 		}
 		return result;
 	}

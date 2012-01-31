@@ -40,7 +40,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.mail.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.mail.MailActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.mail.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
@@ -131,9 +131,8 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
+			<artifactId>de.benjaminborbe.website</artifactId>
 			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -143,12 +142,19 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.website</artifactId>
+			<artifactId>de.benjaminborbe.navigation.api</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.mail.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

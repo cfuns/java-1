@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
@@ -72,6 +73,9 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		catch (final ParseException e) {
 			throw new MicroblogConnectorException("ParseException", e);
 		}
+		catch (final HttpDownloaderException e) {
+			throw new MicroblogConnectorException("HttpDownloaderException", e);
+		}
 	}
 
 	@Override
@@ -90,6 +94,9 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		}
 		catch (final IOException e) {
 			throw new MicroblogConnectorException("IOException", e);
+		}
+		catch (final HttpDownloaderException e) {
+			throw new MicroblogConnectorException("HttpDownloaderException", e);
 		}
 	}
 

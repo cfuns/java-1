@@ -9,12 +9,16 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiLoginServlet authenticationGuiLoginServlet;
 
 	@Inject
 	private AuthenticationGuiServlet authenticationGuiServlet;
@@ -32,6 +36,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(authenticationGuiServlet, "/"));
+		result.add(new ServletInfo(authenticationGuiLoginServlet, "/login"));
 		return result;
 	}
 

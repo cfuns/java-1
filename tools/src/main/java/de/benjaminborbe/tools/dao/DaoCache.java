@@ -36,7 +36,7 @@ public abstract class DaoCache<T extends Entity> implements Dao<T> {
 
 	@Override
 	public void save(final T entity) {
-		logger.debug("save");
+		logger.trace("save");
 		if (entity.getId() == null) {
 			entity.setId(idGenerator.nextId());
 		}
@@ -45,19 +45,19 @@ public abstract class DaoCache<T extends Entity> implements Dao<T> {
 
 	@Override
 	public void delete(final T entity) {
-		logger.debug("delete");
+		logger.trace("delete");
 		data.remove(entity.getId());
 	}
 
 	@Override
 	public T load(final long id) {
-		logger.debug("load");
+		logger.trace("load");
 		return data.get(id);
 	}
 
 	@Override
 	public T create() {
-		logger.debug("create");
+		logger.trace("create");
 		return provider.get();
 	}
 

@@ -36,8 +36,6 @@ public class MonitoringWidgetImpl implements MonitoringWidget, RequireCssResourc
 		}
 	}
 
-	private static final long serialVersionUID = 1328676176772634649L;
-
 	private final Logger logger;
 
 	private final RootNode rootNode;

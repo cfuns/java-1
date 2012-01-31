@@ -30,80 +30,126 @@
 		<log4j.version>1.2.14</log4j.version>
 		<slf4j.impl>slf4j-log4j12</slf4j.impl>
 		<gwt.version>2.4.0</gwt.version>
-                <gwt-log.version>3.1.6</gwt-log.version>
+		<gwt-log.version>3.1.6</gwt-log.version>
 		<easymock.version>3.0</easymock.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<commons.collections.version>3.2.1</commons.collections.version>
 	</properties>
 	<modules>
-		<module>bridge</module>
-		<module>tools</module>
-		<module>tools_osgi</module>
-		<module>index</module>
-		<module>index_test</module>
-		<module>timetracker</module>
-		<module>timetracker_test</module>
-		<module>gwt</module>
-		<module>gwt_test</module>
-		<module>cron</module>
-		<module>cron_test</module>
-		<module>monitoring</module>
-		<module>monitoring_test</module>
-		<module>mail</module>
-		<module>mail_test</module>
-		<module>storage</module>
-		<module>storage_test</module>
-		<module>search</module>
-		<module>search_test</module>
+		<module>authentication</module>
+		<module>authentication_api</module>
+		<module>authentication_gui</module>
+		<module>authentication_test</module>
+		<module>authorization</module>
+		<module>authorization_api</module>
+		<module>authorization_gui</module>
+		<module>authorization_test</module>
 		<module>bookmark</module>
+		<module>bookmark_api</module>
 		<module>bookmark_gui</module>
 		<module>bookmark_test</module>
-		<module>slash</module>
-		<module>slash_test</module>
-		<module>eventbus</module>
-		<module>eventbus_test</module>
-		<module>worktime</module>
-		<module>worktime_test</module>
+		<module>bridge</module>
+		<module>calendar</module>
+		<module>calendar_api</module>
+		<module>calendar_gui</module>
+		<module>calendar_test</module>
+		<module>configuration</module>
+		<module>configuration_api</module>
+		<module>configuration_gui</module>
+		<module>configuration_test</module>
+		<module>crawler</module>
+		<module>crawler_api</module>
+		<module>crawler_gui</module>
+		<module>crawler_test</module>
+		<module>cron</module>
+		<module>cron_api</module>
+		<module>cron_gui</module>
+		<module>cron_test</module>
 		<module>dashboard</module>
 		<module>dashboard_api</module>
+		<module>dashboard_gui</module>
 		<module>dashboard_test</module>
+		<module>eventbus</module>
+		<module>eventbus_api</module>
+		<module>eventbus_gui</module>
+		<module>eventbus_test</module>
+		<module>gwt</module>
+		<module>gwt_api</module>
+		<module>gwt_gui</module>
+		<module>gwt_test</module>
+		<module>html</module>
+		<module>html_test</module>
+		<module>index</module>
+		<module>index_api</module>
+		<module>index_gui</module>
+		<module>index_test</module>
+		<module>mail</module>
+		<module>mail_api</module>
+		<module>mail_gui</module>
+		<module>mail_test</module>
+		<module>microblog</module>
+		<module>microblog_api</module>
+		<module>microblog_gui</module>
+		<module>microblog_test</module>
+		<module>monitoring</module>
+		<module>monitoring_api</module>
+		<module>monitoring_gui</module>
+		<module>monitoring_test</module>
 		<module>navigation</module>
 		<module>navigation_api</module>
+		<module>navigation_gui</module>
 		<module>navigation_test</module>
+		<module>performance</module>
+		<module>performance_api</module>
+		<module>performance_gui</module>
+		<module>performance_test</module>
 		<module>sample</module>
 		<module>sample_api</module>
 		<module>sample_gui</module>
 		<module>sample_test</module>
-		<module>calendar</module>
-		<module>calendar_test</module>
-		<module>weather</module>
-		<module>weather_test</module>
+		<module>search</module>
+		<module>search_api</module>
+		<module>search_gui</module>
+		<module>search_test</module>
+		<module>slash</module>
+		<module>slash_api</module>
+		<module>slash_gui</module>
+		<module>slash_test</module>
+		<module>storage</module>
+		<module>storage_api</module>
+		<module>storage_gui</module>
+		<module>storage_test</module>
+		<module>timetracker</module>
+		<module>timetracker_api</module>
+		<module>timetracker_gui</module>
+		<module>timetracker_test</module>
+		<module>tools</module>
+		<module>tools_osgi</module>
 		<module>translate</module>
+		<module>translate_api</module>
+		<module>translate_gui</module>
 		<module>translate_test</module>
 		<module>util</module>
+		<module>util_api</module>
+		<module>util_gui</module>
 		<module>util_test</module>
-		<module>html</module>
-		<module>html_test</module>
-		<module>website</module>
-		<module>microblog</module>
-		<module>microblog_test</module>
-		<module>performance</module>
-		<module>performance_test</module>
-		<module>crawler</module>
-		<module>crawler_test</module>
-		<module>websearch</module>
-		<module>websearch_test</module>
 		<module>vaadin</module>
+		<module>vaadin_api</module>
+		<module>vaadin_gui</module>
 		<module>vaadin_test</module>
-		<module>authentication</module>
-		<module>authentication_gui</module>
-		<module>authentication_test</module>
-		<module>authorization</module>
-		<module>authorization_gui</module>
-		<module>authorization_test</module>
-		<module>configuration</module>
-		<module>configuration_gui</module>
-		<module>configuration_test</module>
+		<module>weather</module>
+		<module>weather_api</module>
+		<module>weather_gui</module>
+		<module>weather_test</module>
+		<module>websearch</module>
+		<module>websearch_api</module>
+		<module>websearch_gui</module>
+		<module>websearch_test</module>
+		<module>website</module>
+		<module>worktime</module>
+		<module>worktime_api</module>
+		<module>worktime_gui</module>
+		<module>worktime_test</module>
 	</modules>
 	<build>
 		<resources>
@@ -147,11 +193,11 @@
 						<!-- set to false in order to get the output on the console -->
 					</configuration>
 				</plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>2.0</version>
-        </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>2.0</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

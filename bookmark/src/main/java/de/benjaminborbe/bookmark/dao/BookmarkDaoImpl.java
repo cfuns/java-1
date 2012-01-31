@@ -93,24 +93,25 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 		save(createBookmark("https://www.twentyfeet.com/", "Twentyfeet - Live", Arrays.asList("TwentyFeet", "20ft", "Live")));
 		save(createBookmark("https://www.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Live - ActiveMQ - JMS", Arrays.asList("TwentyFeet", "20ft", "Live"), true));
 		save(createBookmark("https://central.twentyfeet.com/phpmyadmin/", "Twentyfeet - Live - phpMyadmin", Arrays.asList("TwentyFeet", "20ft", "Live")));
-		save(createBookmark("https://kunden.seibert-media.net/display/20ft", "Twentyfeet - Live - Wiki", Arrays.asList("TwentyFeet", "20ft", "Live"), true));
+		save(createBookmark("https://kunden.seibert-media.net/display/20ft", "Twentyfeet - Live - Wiki", Arrays.asList("TwentyFeet", "20ft", "Live")));
 
 		// 20ft test
 		save(createBookmark("https://test.twentyfeet.com/", "Twentyfeet - Test", Arrays.asList("TwentyFeet", "20ft", "Test")));
 		save(createBookmark("https://test.twentyfeet.com/admin/queues.jsp", "Twentyfeet - Test - ActiveMQ - JMS", Arrays.asList("TwentyFeet", "20ft", "Test")));
 
 		// seibert-media
-		save(createBookmark("https://vpn.rp.seibert-media.net/", "Seibert-Media - VPN", Arrays.asList("Seibert-Media", "SM", "VPN"), true));
+		save(createBookmark("https://vpn.rp.seibert-media.net/", "Seibert-Media - VPN", Arrays.asList("Seibert-Media", "SM", "VPN")));
 		save(createBookmark("https://timetracker.rp.seibert-media.net/", "Seibert-Media - Timetracker", Arrays.asList("Seibert-Media", "SM"), true));
 		save(createBookmark("https://confluence.rp.seibert-media.net/", "Seibert-Media - Confluence - Wiki", Arrays.asList("Seibert-Media", "SM"), true));
-		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "SM"), true));
+		save(createBookmark("https://hudson.rp.seibert-media.net/", "Seibert-Media - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "SM")));
 		save(createBookmark("https://micro.rp.seibert-media.net", "Seibert-Media - Microblog", Arrays.asList("Seibert-Media", "SM")));
 		save(createBookmark("http://nexus.rp.seibert-media.net/", "Seibert-Media - Nexus", Arrays.asList("Seibert-Media", "SM")));
 		save(createBookmark("https://zimbra.rp.seibert-media.net/", "Seibert-Media - Zimbra", Arrays.asList("Seibert-Media", "SM")));
 		save(createBookmark("https://projectile.rp.seibert-media.net/", "Seibert-Media - Projectile", Arrays.asList("Seibert-Media", "SM")));
 
 		// Movie
-		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar", Arrays.asList("Movie", "Film")));
+		save(createBookmark("http://www.cinestar.de/de/kino/mainz-cinestar/", "Movie - Kino - Mainz - Cinestar", Arrays.asList("Movie", "Film", "Kino")));
+		save(createBookmark("http://www.cineplex.de/kino/programm/city53/?scope=week", "Movie - Kino - Wiesbaden - Cineplex", Arrays.asList("Movie", "Film", "Kino")));
 		save(createBookmark("http://www.filmstarts.de/", "Movie - Review - Filmstarts", Arrays.asList("Movie", "Film")));
 		save(createBookmark("http://rogerebert.suntimes.com/", "Movie - Review - Roger Ebert", Arrays.asList("Movie", "Film")));
 		save(createBookmark("http://imdb.com/", "Movie - Review - Imdb", Arrays.asList("Movie", "Film")));

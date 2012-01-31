@@ -26,4 +26,8 @@ public class ConfigurationServiceMock implements ConfigurationService {
 		return configuration.getDefaultValue();
 	}
 
+	@Override
+	public <T> void setConfigurationValue(final Configuration<T> configuration, final T value) {
+	}
+
 }

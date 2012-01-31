@@ -20,7 +20,7 @@ public class NodeCheckerCacheTest {
 	public void testCache() {
 		final Node node = EasyMock.createMock(Node.class);
 		EasyMock.replay(node);
-		final NodeChecker nodeChecker = EasyMock.createMock(NodeChecker.class);
+		final NodeCheckerImpl nodeChecker = EasyMock.createMock(NodeCheckerImpl.class);
 		final Collection<CheckResult> checkResults = new HashSet<CheckResult>();
 		EasyMock.expect(nodeChecker.checkNode(node)).andReturn(checkResults);
 		EasyMock.replay(nodeChecker);
@@ -45,7 +45,7 @@ public class NodeCheckerCacheTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
 		final RootNode rootNodeA = injector.getInstance(RootNode.class);
 		final RootNode rootNodeB = injector.getInstance(RootNode.class);
-		final NodeChecker nodeChecker = EasyMock.createMock(NodeChecker.class);
+		final NodeCheckerImpl nodeChecker = EasyMock.createMock(NodeCheckerImpl.class);
 		final Collection<CheckResult> checkResults = new HashSet<CheckResult>();
 		EasyMock.expect(nodeChecker.checkNode(rootNodeA)).andReturn(checkResults);
 		EasyMock.replay(nodeChecker);

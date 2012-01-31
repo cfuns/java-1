@@ -35,7 +35,7 @@ public class UtilServletTest {
 	public void service() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		final UtilServlet sampleServlet = new UtilServlet(logger);
+		final UtilServlet utilServlet = new UtilServlet(logger);
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.replay(request);
 		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
@@ -45,7 +45,7 @@ public class UtilServletTest {
 		final PrintWriter printWriter = new PrintWriter(sw);
 		EasyMock.expect(response.getWriter()).andReturn(printWriter);
 		EasyMock.replay(response);
-		sampleServlet.service(request, response);
+		utilServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
 		assertTrue(content.indexOf("<h2>Util</h2>") != -1);

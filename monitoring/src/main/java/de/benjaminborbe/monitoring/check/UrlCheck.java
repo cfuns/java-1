@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloaderException;
 
 public class UrlCheck implements Check {
 
@@ -103,6 +104,10 @@ public class UrlCheck implements Check {
 		catch (final IOException e) {
 			logger.warn("IOException", e);
 			return new CheckResultImpl(this, false, "IOException");
+		}
+		catch (final HttpDownloaderException e) {
+			logger.warn("HttpDownloaderException", e);
+			return new CheckResultImpl(this, false, "HttpDownloaderException");
 		}
 	}
 

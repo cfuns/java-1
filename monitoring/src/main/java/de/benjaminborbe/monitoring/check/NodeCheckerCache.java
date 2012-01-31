@@ -15,7 +15,7 @@ public class NodeCheckerCache implements NodeChecker {
 	private final Map<Node, Collection<CheckResult>> lastResults = new HashMap<Node, Collection<CheckResult>>();
 
 	@Inject
-	public NodeCheckerCache(final NodeChecker nodeChecker) {
+	public NodeCheckerCache(final NodeCheckerImpl nodeChecker) {
 		this.nodeChecker = nodeChecker;
 	}
 

@@ -19,10 +19,10 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
-import de.benjaminborbe.website.util.FormInputSubmitWidget;
-import de.benjaminborbe.website.util.FormInputTextWidget;
-import de.benjaminborbe.website.util.FormWidget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 
 @Singleton

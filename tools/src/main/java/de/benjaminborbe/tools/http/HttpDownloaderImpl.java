@@ -77,18 +77,27 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout) throws IOException {
+	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout) throws HttpDownloaderException {
 		return downloadUrlUnsecure(url, timeout, null, null);
 
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrl(final URL url, final int timeout) throws IOException {
+	public HttpDownloadResult downloadUrl(final URL url, final int timeout) throws HttpDownloaderException {
 		return downloadUrl(url, timeout, null, null);
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrl(final URL url, final int timeout, final String username, final String password) throws IOException {
+	public HttpDownloadResult downloadUrl(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
+		try {
+			return doDownloadUrl(url, timeout, username, password);
+		}
+		catch (final IOException e) {
+			throw new HttpDownloaderException("IOException", e);
+		}
+	}
+
+	protected HttpDownloadResult doDownloadUrl(final URL url, final int timeout, final String username, final String password) throws IOException {
 		logger.trace("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
 		InputStream inputStream = null;
@@ -121,7 +130,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout, final String username, final String password) throws IOException {
+	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
 		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManagerAllowAll() };
 
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
@@ -137,11 +146,11 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		}
 		catch (final NoSuchAlgorithmException e) {
 			logger.error("NoSuchAlgorithmException", e);
-			throw new IOException("NoSuchAlgorithmException", e);
+			throw new HttpDownloaderException("NoSuchAlgorithmException", e);
 		}
 		catch (final KeyManagementException e) {
 			logger.error("KeyManagementException", e);
-			throw new IOException("KeyManagementException", e);
+			throw new HttpDownloaderException("KeyManagementException", e);
 		}
 		finally {
 			HttpsURLConnection.setDefaultHostnameVerifier(orgHostnameVerifier);

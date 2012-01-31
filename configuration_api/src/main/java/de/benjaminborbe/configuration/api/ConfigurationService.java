@@ -13,4 +13,9 @@ public interface ConfigurationService {
 	 * Return the value
 	 */
 	<T> T getConfigurationValue(Configuration<T> configuration);
+
+	/**
+	 * Define new value for configuration
+	 */
+	<T> void setConfigurationValue(Configuration<T> configuration, T value);
 }

@@ -40,7 +40,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.cron.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.cron.CronActivator </Bundle-Activator>
 						<Private-Package>de.benjaminborbe.cron.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
@@ -63,14 +63,11 @@
 			<artifactId>peaberry</artifactId>
 			<version>${peaberry.version}</version>
 		</dependency>
-
-
-		
 		<dependency>
-	<groupId>com.google.inject.extensions</groupId>
-	<artifactId>guice-servlet</artifactId>
-	<version>${guice.version}</version>
-</dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -136,9 +133,15 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cron.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

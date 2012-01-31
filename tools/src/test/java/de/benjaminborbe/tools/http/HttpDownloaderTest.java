@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.net.URL;
 
 import org.easymock.EasyMock;
@@ -76,7 +75,7 @@ public class HttpDownloaderTest {
 				httpDownloader.downloadUrl(url, TIMEOUT);
 				fail("exception expected");
 			}
-			catch (final IOException e) {
+			catch (final HttpDownloaderException e) {
 				assertNotNull(e);
 			}
 
@@ -92,7 +91,7 @@ public class HttpDownloaderTest {
 				httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
 				fail("exception expected");
 			}
-			catch (final IOException e) {
+			catch (final HttpDownloaderException e) {
 				assertNotNull(e);
 			}
 

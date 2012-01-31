@@ -25,8 +25,6 @@ import de.benjaminborbe.tools.html.Target;
 @Singleton
 public class SearchWidgetImpl implements SearchWidget {
 
-	private static final long serialVersionUID = 7928536214812474981L;
-
 	private final Logger logger;
 
 	private final SearchService searchService;

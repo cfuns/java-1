@@ -1,6 +1,6 @@
 package de.benjaminborbe.crawler.service;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -17,6 +17,7 @@ import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloaderException;
 
 @Singleton
 public class CrawlerServiceImpl implements CrawlerService {
@@ -51,7 +52,10 @@ public class CrawlerServiceImpl implements CrawlerService {
 		catch (final MalformedURLException e) {
 			throw new CrawlerException("MalformedURLException", e);
 		}
-		catch (final IOException e) {
+		catch (final HttpDownloaderException e) {
+			throw new CrawlerException("MalformedURLException", e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new CrawlerException("MalformedURLException", e);
 		}
 	}

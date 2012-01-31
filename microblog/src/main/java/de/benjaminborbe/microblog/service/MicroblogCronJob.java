@@ -63,13 +63,13 @@ public class MicroblogCronJob implements CronJob {
 			logger.debug("done");
 		}
 		catch (final MicroblogConnectorException e) {
-			logger.debug("MicroblogConnectorException", e);
+			logger.trace("MicroblogConnectorException", e);
 		}
 		catch (final MicroblogRevisionStorageException e) {
-			logger.debug("MicroblogRevisionStorageException", e);
+			logger.trace("MicroblogRevisionStorageException", e);
 		}
 		catch (final MicroblogPostMailerException e) {
-			logger.debug("MicroblogRevisionStorageException", e);
+			logger.trace("MicroblogRevisionStorageException", e);
 		}
 
 		logger.trace("MonitoringCronJob.execute() - finished");

@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.check;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
+import de.benjaminborbe.tools.http.HttpDownloaderException;
 
 public class HudsonCheck implements Check {
 
@@ -106,9 +107,13 @@ public class HudsonCheck implements Check {
 			logger.warn("MalformedURLException", e);
 			return new CheckResultImpl(this, false, "MalformedURLException");
 		}
-		catch (final IOException e) {
-			logger.warn("IOException", e);
-			return new CheckResultImpl(this, false, "IOException");
+		catch (final HttpDownloaderException e) {
+			logger.warn("HttpDownloaderException", e);
+			return new CheckResultImpl(this, false, "HttpDownloaderException");
+		}
+		catch (final UnsupportedEncodingException e) {
+			logger.warn("UnsupportedEncodingException", e);
+			return new CheckResultImpl(this, false, "UnsupportedEncodingException");
 		}
 	}
 
