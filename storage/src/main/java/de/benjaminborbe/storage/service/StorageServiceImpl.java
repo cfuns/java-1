@@ -123,7 +123,6 @@ public class StorageServiceImpl implements StorageService {
 					result.add(id);
 				}
 			}
-
 		}
 		catch (final Exception e) {
 			logger.debug("Exception", e);

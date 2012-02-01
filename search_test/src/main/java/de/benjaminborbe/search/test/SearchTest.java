@@ -5,6 +5,7 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class SearchTest extends OSGiTestCase {
@@ -44,6 +45,13 @@ public class SearchTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
+	}
+
+	public void testSearchService() {
+		final Object serviceObject = getServiceObject(SearchService.class.getName(), null);
+		final SearchService service = (SearchService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.search.service.SearchServiceImpl", service.getClass().getName());
 	}
 
 }

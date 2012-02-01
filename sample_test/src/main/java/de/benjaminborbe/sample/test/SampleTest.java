@@ -5,6 +5,7 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.sample.api.SampleService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class SampleTest extends OSGiTestCase {
@@ -44,7 +45,23 @@ public class SampleTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
+	}
 
+	// public void testServices() throws Exception {
+	// final BundleContext bundleContext = getContext();
+	// assertNotNull(bundleContext);
+	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
+	// // final Bundle bundle = a.getBundle();
+	// final Object service = bundleContext.getService(a);
+	// System.err.println(service);
+	// }
+	// }
+
+	public void testSampleService() {
+		final Object serviceObject = getServiceObject(SampleService.class.getName(), null);
+		final SampleService service = (SampleService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.sample.service.SampleServiceImpl", service.getClass().getName());
 	}
 
 }

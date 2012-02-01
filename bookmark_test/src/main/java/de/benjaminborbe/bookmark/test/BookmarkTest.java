@@ -50,16 +50,6 @@ public class BookmarkTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// public void testServices() throws Exception {
-	// final BundleContext bundleContext = getContext();
-	// assertNotNull(bundleContext);
-	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
-	// // final Bundle bundle = a.getBundle();
-	// final Object service = bundleContext.getService(a);
-	// System.err.println(service);
-	// }
-	// }
-
 	public void testBookmarkService() {
 		final Object serviceObject = getServiceObject(BookmarkService.class.getName(), null);
 		final BookmarkService service = (BookmarkService) serviceObject;
