@@ -1,42 +1,36 @@
 package de.benjaminborbe.util.gui.servlet;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.html.api.CssResourceRenderer;
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-
 @Singleton
-public class UtilGuiServlet extends WebsiteHtmlServlet {
+public class UtilGuiServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Util";
+	private final Logger logger;
 
 	@Inject
-	public UtilGuiServlet(
-			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+	public UtilGuiServlet(final Logger logger) {
+		this.logger = logger;
 	}
 
 	@Override
-	protected String getTitle() {
-		return TITLE;
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		logger.debug("service");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		final PrintWriter out = response.getWriter();
+		out.println("<h2>Util</h2>");
 	}
+
 }

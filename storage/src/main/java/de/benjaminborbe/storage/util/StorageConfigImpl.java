@@ -48,8 +48,9 @@ public class StorageConfigImpl implements StorageConfig {
 		return getValue(encoding);
 	}
 
-	private <T> T getValue(final Configuration<T> configurationString) {
-		return configurationService.getConfigurationValue(configurationString);
+	private <T> T getValue(final Configuration<T> configuration) {
+		return configuration.getDefaultValue();
+		// return configurationService.getConfigurationValue(configuration);
 	}
 
 	@Override

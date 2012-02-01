@@ -117,7 +117,6 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			storageConnection.open();
 
-			// TODO search in database
 			final List<String> idList = storageDaoUtil.list(config.getKeySpace(), columnFamily);
 			for (final String id : idList) {
 				if (id.startsWith(idPrefix)) {

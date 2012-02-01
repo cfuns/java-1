@@ -9,6 +9,9 @@ import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 
+import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.CheckResult;
+
 public class TcpCheck implements Check {
 
 	private static final int TIMEOUT = 5 * 1000;

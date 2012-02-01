@@ -15,7 +15,7 @@ Created-By: Apache Maven Bundle Plugin
 Bundle-Vendor: Benjamin Borbe
 Build-Jdk: 1.6.0_29
 Bundle-Version: 0.0.1
-Bnd-LastModified: 1328012198093
+Bnd-LastModified: 1328113627794
 Embed-Transitive: true
 Bundle-Activator: de.benjaminborbe.gwt.server.GwtServerActivator
 Bundle-ManifestVersion: 2

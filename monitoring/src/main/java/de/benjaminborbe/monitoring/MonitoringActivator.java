@@ -9,31 +9,20 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.guice.MonitoringModules;
 import de.benjaminborbe.monitoring.service.MonitoringCronJob;
-import de.benjaminborbe.monitoring.service.MonitoringDashboardWidget;
-import de.benjaminborbe.monitoring.servlet.MonitoringServlet;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
 
-public class MonitoringActivator extends HttpBundleActivator {
-
-	@Inject
-	private MonitoringServlet monitoringServlet;
+public class MonitoringActivator extends BaseBundleActivator {
 
 	@Inject
 	private MonitoringCronJob monitoringCronJob;
 
 	@Inject
-	private MonitoringDashboardWidget monitoringDashboardWidget;
-
-	public MonitoringActivator() {
-		super("monitoring");
-	}
+	private MonitoringService monitoringService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -44,21 +33,7 @@ public class MonitoringActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, monitoringCronJob, monitoringCronJob.getClass().getName()));
-		result.add(new ServiceInfo(DashboardContentWidget.class, monitoringDashboardWidget, monitoringDashboardWidget.getClass().getName()));
-		return result;
-	}
-
-	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(monitoringServlet, "/"));
-		return result;
-	}
-
-	@Override
-	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ServiceInfo(MonitoringService.class, monitoringService));
 		return result;
 	}
 

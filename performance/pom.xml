@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.performance.PerformanceActivator </Bundle-Activator>
+						<Export-Package>de.benjaminborbe.performance.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.performance.PerformanceActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.performance.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
@@ -119,17 +119,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.website</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.html</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>	<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<artifactId>de.benjaminborbe.performance.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

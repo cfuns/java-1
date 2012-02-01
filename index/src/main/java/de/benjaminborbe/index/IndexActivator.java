@@ -11,17 +11,11 @@ import com.google.inject.Inject;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.guice.IndexModules;
-import de.benjaminborbe.index.servlet.IndexServlet;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
 
-public class IndexActivator extends HttpBundleActivator {
-
-	@Inject
-	private IndexServlet indexServlet;
+public class IndexActivator extends BaseBundleActivator {
 
 	@Inject
 	private IndexerService indexerService;
@@ -29,27 +23,9 @@ public class IndexActivator extends HttpBundleActivator {
 	@Inject
 	private IndexSearcherService indexSearcherService;
 
-	public IndexActivator() {
-		super("index");
-	}
-
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new IndexModules(context);
-	}
-
-	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(indexServlet, "/"));
-		return result;
-	}
-
-	@Override
-	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		result.add(new ResourceInfo("/js", "js"));
-		return result;
 	}
 
 	@Override

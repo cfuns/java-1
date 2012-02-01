@@ -1,7 +1,7 @@
 package de.benjaminborbe.eventbus.api;
 
-public interface EventBusInitializedEventHandler extends EventHandler {
+public interface EventbusInitializedEventHandler extends EventHandler {
 
-	public void onInitialize(EventBusInitializedEvent event);
+	public void onInitialize(EventbusInitializedEvent event);
 
 }

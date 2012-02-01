@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.storage.service.StorageServiceMock;
+import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 

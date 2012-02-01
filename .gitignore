@@ -38,6 +38,7 @@ eventbus_gui/target
 eventbus_test/target
 gwt/target
 gwt/.gwt/
+gwt/war/
 gwt_api/target
 gwt_gui/target
 gwt_test/target

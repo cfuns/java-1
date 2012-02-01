@@ -41,8 +41,8 @@ public class SearchGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/search")) {
+		assertEquals(4, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/search", "/search/suggest", "/search/osd.xml", "/search/component")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}
@@ -86,11 +86,9 @@ public class SearchGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(0, extHttpServiceMock.getRegisterResourceCallCounter());
-		// for (final String path : Arrays.asList("/", "/robots.txt")) {
-		// assertTrue("no servlet for path " + path + " registered",
-		// extHttpServiceMock.hasServletPath(path));
-		// }
+		assertEquals(2, extHttpServiceMock.getRegisterResourceCallCounter());
+		for (final String path : Arrays.asList("/search/css", "/search/js")) {
+			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasResource(path));
+		}
 	}
-
 }

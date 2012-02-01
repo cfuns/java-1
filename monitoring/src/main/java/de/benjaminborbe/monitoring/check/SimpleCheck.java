@@ -3,6 +3,9 @@ package de.benjaminborbe.monitoring.check;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.CheckResult;
+
 @Singleton
 public class SimpleCheck implements Check {
 

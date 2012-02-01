@@ -5,6 +5,7 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class NavigationTest extends OSGiTestCase {
@@ -44,6 +45,13 @@ public class NavigationTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
+	}
+
+	public void testGetNavigationService() {
+		final Object serviceObject = getServiceObject(NavigationService.class.getName(), null);
+		final NavigationService service = (NavigationService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.navigation.service.NavigationServiceImpl", service.getClass().getName());
 	}
 
 }

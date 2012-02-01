@@ -18,6 +18,5 @@ public class BookmarkDaoTest {
 		final BookmarkDao b = injector.getInstance(BookmarkDao.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
-		assertEquals(a, b);
 	}
 }

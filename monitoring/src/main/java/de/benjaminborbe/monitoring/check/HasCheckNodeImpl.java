@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.check;
 
+import de.benjaminborbe.monitoring.api.Check;
+
 public class HasCheckNodeImpl implements HasCheckNode {
 
 	private final Check check;

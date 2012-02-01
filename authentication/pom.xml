@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.authentication.AuthenticationActivator </Bundle-Activator>
+						<Export-Package>de.benjaminborbe.authentication.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.authentication.AuthenticationActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.authentication.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

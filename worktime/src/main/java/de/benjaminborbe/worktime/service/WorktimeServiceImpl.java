@@ -77,7 +77,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 	}
 
 	@Override
-	public List<Workday> getTimes(final int days) throws StorageException {
+	public List<Workday> getTimes(final int days) {
 		logger.debug("get times for " + days + " days");
 		final Set<Workday> workdays = new HashSet<Workday>();
 		final Collection<Calendar> calendars = getLastDays(days);

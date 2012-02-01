@@ -1,5 +1,8 @@
 package de.benjaminborbe.monitoring.check;
 
+import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.CheckResult;
+
 public class RetryCheck implements Check {
 
 	private final Check check;

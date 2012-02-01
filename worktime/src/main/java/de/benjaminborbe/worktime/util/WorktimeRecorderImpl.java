@@ -11,6 +11,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
+import de.benjaminborbe.worktime.api.WorktimeRecorderException;
 
 @Singleton
 public class WorktimeRecorderImpl implements WorktimeRecorder {
@@ -40,11 +41,16 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 	}
 
 	@Override
-	public void recordWorktime() throws StorageException {
-		final boolean inOffice = inOfficeCheck.check();
-		logger.debug("inOffice = " + inOffice);
-		final Calendar calendar = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
-		worktimeStorageService.save(new WorktimeValueImpl(calendar, inOffice));
+	public void recordWorktime() throws WorktimeRecorderException {
+		try {
+			final boolean inOffice = inOfficeCheck.check();
+			logger.debug("inOffice = " + inOffice);
+			final Calendar calendar = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
+			worktimeStorageService.save(new WorktimeValueImpl(calendar, inOffice));
+		}
+		catch (final StorageException e) {
+			throw new WorktimeRecorderException("StorageException", e);
+		}
 	}
 
 }

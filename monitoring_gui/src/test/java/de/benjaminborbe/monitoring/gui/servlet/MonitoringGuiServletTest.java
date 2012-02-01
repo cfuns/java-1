@@ -29,6 +29,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModulesMock;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -117,7 +118,13 @@ public class MonitoringGuiServletTest {
 				return httpContext;
 			}
 		};
-		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+
+		final MonitoringWidget monitoringWidget = EasyMock.createMock(MonitoringWidget.class);
+		monitoringWidget.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class));
+		EasyMock.replay(monitoringWidget);
+
+		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				monitoringWidget, httpContextProvider);
 
 		monitoringServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

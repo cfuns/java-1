@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -29,6 +30,9 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.eventbus.api.EventbusService;
+import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.gui.guice.EventbusGuiModulesMock;
 import de.benjaminborbe.eventbus.gui.servlet.EventbusGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -117,11 +121,17 @@ public class EventbusGuiServletTest {
 				return httpContext;
 			}
 		};
-		final EventbusGuiServlet eventbusServlet = new EventbusGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+
+		final EventbusService eventBusService = EasyMock.createMock(EventbusService.class);
+		EasyMock.expect(eventBusService.getHandlers()).andReturn(new HashMap<Type<EventHandler>, List<EventHandler>>());
+		EasyMock.replay(eventBusService);
+
+		final EventbusGuiServlet eventbusServlet = new EventbusGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, eventBusService,
+				navigationWidget, httpContextProvider);
 
 		eventbusServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Eventbus</h1>") != -1);
+		assertTrue(content.indexOf("<h1>EventBus</h1>") != -1);
 	}
 }

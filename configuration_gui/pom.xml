@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.configuration.gui.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.configuration.gui.ConfigurationGuiActivator </Bundle-Activator>
+						<Export-Package></Export-Package>
+						<Bundle-Activator>de.benjaminborbe.configuration.gui.ConfigurationGuiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.configuration.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

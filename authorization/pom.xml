@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.authorization.AuthorizationActivator </Bundle-Activator>
+						<Export-Package>de.benjaminborbe.authorization.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.authorization.AuthorizationActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.authorization.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
@@ -116,6 +116,12 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.authorization.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

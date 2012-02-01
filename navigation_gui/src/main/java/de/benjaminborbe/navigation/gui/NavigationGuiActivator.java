@@ -8,16 +8,21 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.gui.guice.NavigationGuiModules;
 import de.benjaminborbe.navigation.gui.servlet.NavigationGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class NavigationGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private NavigationGuiServlet navigationGuiServlet;
+
+	@Inject
+	private NavigationWidget navigationWidget;
 
 	public NavigationGuiActivator() {
 		super("navigation");
@@ -32,6 +37,13 @@ public class NavigationGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(navigationGuiServlet, "/"));
+		return result;
+	}
+
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationWidget.class, navigationWidget));
 		return result;
 	}
 

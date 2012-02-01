@@ -6,6 +6,8 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.performance.api.PerformanceService;
+
 public class PerformanceTrackerTest {
 
 	@Test
@@ -13,7 +15,7 @@ public class PerformanceTrackerTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final PerformanceTracker performanceTracker = new PerformanceTrackerImpl(logger);
+		final PerformanceService performanceTracker = new PerformanceServiceImpl(logger);
 
 		performanceTracker.track("/a", 1l);
 		performanceTracker.track("/b", 2l);

@@ -6,8 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
+import de.benjaminborbe.worktime.api.WorktimeRecorderException;
 
 @Singleton
 public class WorktimeCronJob implements CronJob {
@@ -36,8 +36,8 @@ public class WorktimeCronJob implements CronJob {
 		try {
 			worktimeRecorder.recordWorktime();
 		}
-		catch (final StorageException e) {
-			logger.error("StorageException", e);
+		catch (final WorktimeRecorderException e) {
+			logger.error("WorktimeRecorderException", e);
 		}
 	}
 

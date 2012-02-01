@@ -11,7 +11,7 @@ import de.benjaminborbe.index.api.IndexSearcherServiceMock;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.api.IndexerServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.navigation.service.NavigationWidgetMock;
+import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 

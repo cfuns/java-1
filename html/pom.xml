@@ -41,7 +41,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package>de.benjaminborbe.html.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.html.HtmlActivator </Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.html.HtmlActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.html.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

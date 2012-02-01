@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.translate.TranslateActivator </Bundle-Activator>
+						<Export-Package>de.benjaminborbe.translate.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.translate.TranslateActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.translate.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

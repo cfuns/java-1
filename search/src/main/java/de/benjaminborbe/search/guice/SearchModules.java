@@ -11,7 +11,6 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
-import de.benjaminborbe.website.guice.WebsiteModule;
 
 public class SearchModules implements Modules {
 
@@ -23,6 +22,6 @@ public class SearchModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SearchOsgiModule(), new SearchModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SearchOsgiModule(), new SearchModule(), new ToolModule());
 	}
 }

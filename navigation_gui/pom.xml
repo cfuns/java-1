@@ -41,7 +41,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.navigation.gui.NavigationGuiActivator </Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.navigation.gui.NavigationGuiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.navigation.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
@@ -140,19 +140,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.search</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-				<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<artifactId>de.benjaminborbe.search.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

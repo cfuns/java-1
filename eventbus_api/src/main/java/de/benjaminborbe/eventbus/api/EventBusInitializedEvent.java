@@ -1,20 +1,20 @@
 package de.benjaminborbe.eventbus.api;
 
-public class EventBusInitializedEvent extends Event<EventBusInitializedEventHandler> {
+public class EventbusInitializedEvent extends Event<EventbusInitializedEventHandler> {
 
-	public static Type<EventBusInitializedEventHandler> TYPE = new Type<EventBusInitializedEventHandler>();
+	public static Type<EventbusInitializedEventHandler> TYPE = new Type<EventbusInitializedEventHandler>();
 
-	public EventBusInitializedEvent() {
+	public EventbusInitializedEvent() {
 
 	}
 
 	@Override
-	public void dispatch(EventBusInitializedEventHandler handler) {
+	public void dispatch(EventbusInitializedEventHandler handler) {
 		handler.onInitialize(this);
 	}
 
 	@Override
-	public Type<EventBusInitializedEventHandler> getAssociatedType() {
+	public Type<EventbusInitializedEventHandler> getAssociatedType() {
 		return TYPE;
 	}
 

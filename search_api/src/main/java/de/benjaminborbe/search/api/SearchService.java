@@ -2,7 +2,7 @@ package de.benjaminborbe.search.api;
 
 import java.util.List;
 
-public interface SearchService {
+public interface SearchService extends SearchServiceComponent {
 
-	List<SearchResult> search(String[] words, int maxResults);
+	List<String> getSearchComponentNames();
 }

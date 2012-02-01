@@ -41,7 +41,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.performance.gui.PerformanceGuiActivator </Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.performance.gui.PerformanceGuiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.performance.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
@@ -140,7 +140,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.search</artifactId>
+			<artifactId>de.benjaminborbe.search.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -150,7 +150,7 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.navigation.api</artifactId>
 			<version>${project.version}</version>

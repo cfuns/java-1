@@ -61,9 +61,9 @@ public class PerformanceGuiActivatorTest {
 
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterFilterCallCounter());
+		assertEquals(2, extHttpServiceMock.getRegisterFilterCallCounter());
 
-		for (final String path : Arrays.asList("/performance.*")) {
+		for (final String path : Arrays.asList("/performance.*", ".*")) {
 			assertTrue("no filter for path " + path + " registered", extHttpServiceMock.hasFilterPath(path));
 		}
 

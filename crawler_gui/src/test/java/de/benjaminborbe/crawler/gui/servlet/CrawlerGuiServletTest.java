@@ -29,6 +29,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.gui.guice.CrawlerGuiModulesMock;
 import de.benjaminborbe.crawler.gui.servlet.CrawlerGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -63,6 +64,8 @@ public class CrawlerGuiServletTest {
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getParameter("url")).andReturn(null).anyTimes();
+		EasyMock.expect(request.getContextPath()).andReturn("/path");
 		EasyMock.replay(request);
 
 		final Collection<CssResource> cssResources = new HashSet<CssResource>();
@@ -117,7 +120,12 @@ public class CrawlerGuiServletTest {
 				return httpContext;
 			}
 		};
-		final CrawlerGuiServlet crawlerServlet = new CrawlerGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+
+		final CrawlerService crawlerService = EasyMock.createMock(CrawlerService.class);
+		EasyMock.replay(crawlerService);
+
+		final CrawlerGuiServlet crawlerServlet = new CrawlerGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				httpContextProvider, crawlerService);
 
 		crawlerServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

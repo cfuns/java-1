@@ -12,12 +12,12 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.Event.Type;
-import de.benjaminborbe.eventbus.api.EventBusService;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
 
 @Singleton
-public class EventBusServiceImpl implements EventBusService {
+public class EventBusServiceImpl implements EventbusService {
 
 	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
 
@@ -38,7 +38,6 @@ public class EventBusServiceImpl implements EventBusService {
 			handlers.put((Type<EventHandler>) type, eventHandlers);
 		}
 		eventHandlers.add(handler);
-		// TODO Implement HandlerRegistration
 		return null;
 	}
 
@@ -75,6 +74,7 @@ public class EventBusServiceImpl implements EventBusService {
 		}
 	}
 
+	@Override
 	public Map<Type<EventHandler>, List<EventHandler>> getHandlers() {
 		return handlers;
 	}

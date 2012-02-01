@@ -41,7 +41,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package>de.benjaminborbe.authorization.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.authorization.AuthorizationApiActivator </Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.authorization.AuthorizationApiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.authorization.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

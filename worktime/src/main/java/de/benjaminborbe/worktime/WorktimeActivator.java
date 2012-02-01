@@ -9,30 +9,20 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.guice.WorktimeModules;
 import de.benjaminborbe.worktime.service.WorktimeCronJob;
-import de.benjaminborbe.worktime.service.WorktimeDashboardWidget;
-import de.benjaminborbe.worktime.servlet.WorktimeServlet;
 
-public class WorktimeActivator extends HttpBundleActivator {
-
-	@Inject
-	private WorktimeServlet worktimeServlet;
+public class WorktimeActivator extends BaseBundleActivator {
 
 	@Inject
 	private WorktimeCronJob worktimeCronJob;
 
 	@Inject
-	private WorktimeDashboardWidget worktimeDashboardWidget;
-
-	public WorktimeActivator() {
-		super("worktime");
-	}
+	private WorktimeService worktimeService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -40,17 +30,10 @@ public class WorktimeActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(worktimeServlet, "/"));
-		return result;
-	}
-
-	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, worktimeCronJob, worktimeCronJob.getClass().getName()));
-		result.add(new ServiceInfo(DashboardContentWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(WorktimeService.class, worktimeService));
 		return result;
 	}
 

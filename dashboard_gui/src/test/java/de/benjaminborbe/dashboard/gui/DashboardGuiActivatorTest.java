@@ -86,11 +86,10 @@ public class DashboardGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(0, extHttpServiceMock.getRegisterResourceCallCounter());
-		// for (final String path : Arrays.asList("/", "/robots.txt")) {
-		// assertTrue("no servlet for path " + path + " registered",
-		// extHttpServiceMock.hasServletPath(path));
-		// }
+		assertEquals(2, extHttpServiceMock.getRegisterResourceCallCounter());
+		for (final String path : Arrays.asList("/dashboard/css", "/dashboard/js")) {
+			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasResource(path));
+		}
 	}
 
 }

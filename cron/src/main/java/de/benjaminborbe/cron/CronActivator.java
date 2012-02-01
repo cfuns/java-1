@@ -10,17 +10,17 @@ import org.quartz.SchedulerException;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.guice.CronModules;
 import de.benjaminborbe.cron.service.CronJobServiceTracker;
-import de.benjaminborbe.cron.servlet.CronServlet;
 import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 
-public class CronActivator extends HttpBundleActivator {
+public class CronActivator extends BaseBundleActivator {
 
 	@Inject
 	private CronJobRegistry cronJobRegistry;
@@ -29,11 +29,7 @@ public class CronActivator extends HttpBundleActivator {
 	private Quartz quartz;
 
 	@Inject
-	private CronServlet cronServlet;
-
-	public CronActivator() {
-		super("cron");
-	}
+	private CronController cronController;
 
 	@Override
 	protected void onStarted() {
@@ -58,13 +54,6 @@ public class CronActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>();
-		result.add(new ServletInfo(cronServlet, "/"));
-		return result;
-	}
-
-	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new CronModules(context);
 	}
@@ -75,4 +64,12 @@ public class CronActivator extends HttpBundleActivator {
 		serviceTrackers.add(new CronJobServiceTracker(logger, quartz, cronJobRegistry, context, CronJob.class));
 		return serviceTrackers;
 	}
+
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(CronController.class, cronController));
+		return result;
+	}
+
 }

@@ -36,6 +36,7 @@
 		<commons.collections.version>3.2.1</commons.collections.version>
 	</properties>
 	<modules>
+		<module>bridge</module>
 		<module>authentication</module>
 		<module>authentication_api</module>
 		<module>authentication_gui</module>
@@ -48,7 +49,6 @@
 		<module>bookmark_api</module>
 		<module>bookmark_gui</module>
 		<module>bookmark_test</module>
-		<module>bridge</module>
 		<module>calendar</module>
 		<module>calendar_api</module>
 		<module>calendar_gui</module>

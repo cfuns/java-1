@@ -41,7 +41,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package>de.benjaminborbe.bookmark.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.bookmark.BookmarkApiActivator </Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.bookmark.BookmarkApiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.bookmark.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

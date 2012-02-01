@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.util.UtilActivator </Bundle-Activator>
+						<Export-Package>de.benjaminborbe.util.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.util.UtilActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.util.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

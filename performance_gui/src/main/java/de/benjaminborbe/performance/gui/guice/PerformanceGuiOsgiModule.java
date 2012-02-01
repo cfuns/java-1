@@ -8,11 +8,13 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.performance.api.PerformanceService;
 
 public class PerformanceGuiOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(PerformanceService.class).toProvider(service(PerformanceService.class).single());
 		bind(NavigationWidget.class).toProvider(service(NavigationWidget.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());

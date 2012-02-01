@@ -7,6 +7,8 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.monitoring.api.CheckResult;
+
 @Singleton
 public class NodeCheckerCache implements NodeChecker {
 

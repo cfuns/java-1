@@ -13,7 +13,7 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.monitoring.check.CheckResult;
+import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.monitoring.check.NodeChecker;
 import de.benjaminborbe.monitoring.check.RootNode;
 

@@ -48,4 +48,13 @@ public class SearchServiceImpl implements SearchService {
 		return result;
 	}
 
+	@Override
+	public List<String> getSearchComponentNames() {
+		final List<String> result = new ArrayList<String>();
+		for (final SearchServiceComponent cs : searchServiceComponentRegistry.getAll()) {
+			result.add(cs.getClass().getName());
+		}
+		return null;
+	}
+
 }

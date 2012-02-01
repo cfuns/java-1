@@ -40,8 +40,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.bookmark.gui.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.bookmark.gui.BookmarkGuiActivator </Bundle-Activator>
+						<Export-Package></Export-Package>
+						<Bundle-Activator>de.benjaminborbe.bookmark.gui.BookmarkGuiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.bookmark.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
@@ -135,6 +135,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.bookmark</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.bookmark.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

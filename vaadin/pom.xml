@@ -43,8 +43,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.vaadin.VaadinActivator </Bundle-Activator>
+						<Export-Package>de.benjaminborbe.vaadin.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.vaadin.VaadinActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.vaadin.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

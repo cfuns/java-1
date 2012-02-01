@@ -9,15 +9,21 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.worktime.gui.guice.WorktimeGuiModules;
+import de.benjaminborbe.worktime.gui.service.WorktimeGuiDashboardWidget;
 import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiServlet;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class WorktimeGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private WorktimeGuiServlet worktimeGuiServlet;
+	private WorktimeGuiDashboardWidget worktimeDashboardWidget;
+
+	@Inject
+	private WorktimeGuiServlet worktimeServlet;
 
 	public WorktimeGuiActivator() {
 		super("worktime");
@@ -31,7 +37,14 @@ public class WorktimeGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(worktimeGuiServlet, "/"));
+		result.add(new ServletInfo(worktimeServlet, "/"));
+		return result;
+	}
+
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(DashboardContentWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass().getName()));
 		return result;
 	}
 

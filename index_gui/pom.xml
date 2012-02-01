@@ -41,7 +41,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.index.gui.IndexGuiActivator </Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.index.gui.IndexGuiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.index.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>

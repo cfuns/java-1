@@ -1,5 +1,8 @@
 package de.benjaminborbe.monitoring.check;
 
+import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.CheckResult;
+
 public class CheckResultImpl implements CheckResult {
 
 	private static final long serialVersionUID = 6741576691093237313L;

@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
@@ -22,11 +23,12 @@ public class BookmarkTest extends OSGiTestCase {
 	}
 
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
+
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
 		assertNotNull(extHttpService);
+
 		// zum start: keine Dienste registriert
 		assertEquals(0, extHttpService.getRegisterFilterCallCounter());
 		assertEquals(0, extHttpService.getRegisterServletCallCounter());
@@ -46,21 +48,36 @@ public class BookmarkTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
-
 	}
 
-	public void testGetBookmarkService() {
+	// public void testServices() throws Exception {
+	// final BundleContext bundleContext = getContext();
+	// assertNotNull(bundleContext);
+	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
+	// // final Bundle bundle = a.getBundle();
+	// final Object service = bundleContext.getService(a);
+	// System.err.println(service);
+	// }
+	// }
+
+	public void testBookmarkService() {
 		final Object serviceObject = getServiceObject(BookmarkService.class.getName(), null);
 		final BookmarkService service = (BookmarkService) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.bookmark.service.BookmarkServiceImpl", service.getClass().getName());
 	}
 
-	public void testGetSearchServiceComponent() {
+	public void testSearchServiceComponent() {
 		final Object serviceObject = getServiceObject(SearchServiceComponent.class.getName(), null);
 		final SearchServiceComponent service = (SearchServiceComponent) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl", service.getClass().getName());
 	}
 
+	public void testDashboardContentWidget() {
+		final Object serviceObject = getServiceObject(DashboardContentWidget.class.getName(), null);
+		final DashboardContentWidget service = (DashboardContentWidget) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.bookmark.gui.service.BookmarkGuiFavoriteDashboardWidget", service.getClass().getName());
+	}
 }

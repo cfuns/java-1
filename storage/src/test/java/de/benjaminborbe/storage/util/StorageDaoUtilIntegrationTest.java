@@ -96,7 +96,7 @@ public class StorageDaoUtilIntegrationTest {
 	}
 
 	@Test
-	public void CURD() throws Exception {
+	public void testCURD() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
@@ -147,7 +147,7 @@ public class StorageDaoUtilIntegrationTest {
 	}
 
 	@Test
-	public void List() throws Exception {
+	public void testList() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
@@ -185,7 +185,7 @@ public class StorageDaoUtilIntegrationTest {
 	}
 
 	@Test
-	public void LongList() throws Exception {
+	public void testLongList() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
@@ -218,7 +218,7 @@ public class StorageDaoUtilIntegrationTest {
 		}
 	}
 
-	public String generateLongString(final int length) {
+	protected String generateLongString(final int length) {
 		final StringBuffer result = new StringBuffer();
 		for (int i = 0; i < length; ++i) {
 			result.append('x');
