@@ -41,8 +41,8 @@ public class MicroblogGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/microblog")) {
+		assertEquals(2, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/microblog", "/microblog/send")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}

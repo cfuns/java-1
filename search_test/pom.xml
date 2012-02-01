@@ -124,12 +124,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.search</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -153,7 +147,19 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.search</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.search.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.search.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

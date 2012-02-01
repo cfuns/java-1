@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.microblog.api.MicroblogRevisionStorageException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.util.ParseException;

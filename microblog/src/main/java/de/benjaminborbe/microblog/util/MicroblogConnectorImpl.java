@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.microblog.api.MicroblogConnectorException;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;

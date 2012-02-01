@@ -29,6 +29,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModulesMock;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -117,7 +118,12 @@ public class MicroblogGuiServletTest {
 				return httpContext;
 			}
 		};
-		final MicroblogGuiServlet microblogServlet = new MicroblogGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+		final MicroblogService microblogRevisionStorage = EasyMock.createMock(MicroblogService.class);
+		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(null);
+		EasyMock.replay(microblogRevisionStorage);
+
+		final MicroblogGuiServlet microblogServlet = new MicroblogGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				httpContextProvider, microblogRevisionStorage);
 
 		microblogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

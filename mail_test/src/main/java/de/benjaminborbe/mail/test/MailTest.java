@@ -5,6 +5,7 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class MailTest extends OSGiTestCase {
@@ -44,7 +45,12 @@ public class MailTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
+	}
 
+	public void testMailService() {
+		final MailService eventBusService = (MailService) getServiceObject(MailService.class.getName(), null);
+		assertNotNull(eventBusService);
+		assertEquals("de.benjaminborbe.mail.service.MailServiceUTF8", eventBusService.getClass().getName());
 	}
 
 }

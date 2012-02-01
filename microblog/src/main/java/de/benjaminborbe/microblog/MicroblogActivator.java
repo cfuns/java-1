@@ -10,63 +10,24 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.guice.MicroblogModules;
 import de.benjaminborbe.microblog.service.MicroblogCronJob;
-import de.benjaminborbe.microblog.service.MicroblogDashboardWidget;
-import de.benjaminborbe.microblog.servlet.MicroblogSendServlet;
-import de.benjaminborbe.microblog.servlet.MicroblogServlet;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.FilterInfo;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
 
-public class MicroblogActivator extends HttpBundleActivator {
-
-	@Inject
-	private MicroblogServlet microblogServlet;
+public class MicroblogActivator extends BaseBundleActivator {
 
 	@Inject
 	private MicroblogCronJob microblogCronJob;
 
 	@Inject
-	private MicroblogDashboardWidget microblogDashboardWidget;
-
-	@Inject
-	private MicroblogSendServlet microblogSendServlet;
-
-	public MicroblogActivator() {
-		super("microblog");
-	}
+	private MicroblogService microblogService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new MicroblogModules(context);
-	}
-
-	@Override
-	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(microblogServlet, "/"));
-		result.add(new ServletInfo(microblogSendServlet, "/send"));
-		return result;
-	}
-
-	@Override
-	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-		// result.add(new FilterInfo(microblogFilter, ".*", 1));
-		return result;
-	}
-
-	@Override
-	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		// result.add(new ResourceInfo("/css", "css"));
-		// result.add(new ResourceInfo("/js", "js"));
-		return result;
 	}
 
 	@Override
@@ -81,7 +42,7 @@ public class MicroblogActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, microblogCronJob, microblogCronJob.getClass().getName()));
-		result.add(new ServiceInfo(DashboardContentWidget.class, microblogDashboardWidget, microblogDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(MicroblogService.class, microblogService));
 		return result;
 	}
 }

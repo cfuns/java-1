@@ -1,4 +1,4 @@
-package de.benjaminborbe.microblog.servlet;
+package de.benjaminborbe.microblog.gui.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,8 +15,8 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
-import de.benjaminborbe.microblog.util.MicroblogPostMailer;
-import de.benjaminborbe.microblog.util.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.api.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -25,7 +25,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class MicroblogSendServlet extends WebsiteHtmlServlet {
+public class MicroblogGuiSendServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -33,10 +33,10 @@ public class MicroblogSendServlet extends WebsiteHtmlServlet {
 
 	private static final String PARAMTER_REVISION = "rev";
 
-	private final MicroblogPostMailer microblogPostMailer;
+	private final MicroblogService microblogService;
 
 	@Inject
-	public MicroblogSendServlet(
+	public MicroblogGuiSendServlet(
 			final Logger logger,
 			final CssResourceRenderer cssResourceRenderer,
 			final JavascriptResourceRenderer javascriptResourceRenderer,
@@ -45,9 +45,9 @@ public class MicroblogSendServlet extends WebsiteHtmlServlet {
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final MicroblogPostMailer microblogPostMailer) {
+			final MicroblogService microblogService) {
 		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
-		this.microblogPostMailer = microblogPostMailer;
+		this.microblogService = microblogService;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class MicroblogSendServlet extends WebsiteHtmlServlet {
 
 		try {
 			final long rev = parseUtil.parseLong(request.getParameter(PARAMTER_REVISION));
-			microblogPostMailer.mailPost(rev);
+			microblogService.mailPost(rev);
 			out.println("send post with revision " + rev + " done");
 		}
 		catch (final ParseException e) {

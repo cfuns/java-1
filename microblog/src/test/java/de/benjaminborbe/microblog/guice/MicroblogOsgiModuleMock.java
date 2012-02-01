@@ -8,8 +8,6 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceMock;
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -21,7 +19,6 @@ public class MicroblogOsgiModuleMock extends AbstractModule {
 	protected void configure() {
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);
-		bind(NavigationWidget.class).to(NavigationWidgetMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);
 		bind(ExtHttpService.class).to(ExtHttpServiceMock.class).in(Singleton.class);
 	}

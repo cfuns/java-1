@@ -8,6 +8,8 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.microblog.api.MicroblogConnectorException;
+import de.benjaminborbe.microblog.api.MicroblogPostMailerException;
 import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton

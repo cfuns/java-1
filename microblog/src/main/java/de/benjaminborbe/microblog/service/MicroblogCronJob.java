@@ -6,12 +6,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.microblog.api.MicroblogConnectorException;
+import de.benjaminborbe.microblog.api.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.api.MicroblogRevisionStorageException;
 import de.benjaminborbe.microblog.util.MicroblogConnector;
-import de.benjaminborbe.microblog.util.MicroblogConnectorException;
 import de.benjaminborbe.microblog.util.MicroblogPostMailer;
-import de.benjaminborbe.microblog.util.MicroblogPostMailerException;
 import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
-import de.benjaminborbe.microblog.util.MicroblogRevisionStorageException;
 
 @Singleton
 public class MicroblogCronJob implements CronJob {

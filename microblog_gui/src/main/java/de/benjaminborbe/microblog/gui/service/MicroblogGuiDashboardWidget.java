@@ -1,4 +1,4 @@
-package de.benjaminborbe.microblog.service;
+package de.benjaminborbe.microblog.gui.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,23 +17,23 @@ import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
-import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
-import de.benjaminborbe.microblog.util.MicroblogRevisionStorageException;
+import de.benjaminborbe.microblog.api.MicroblogRevisionStorageException;
+import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.tools.html.Target;
 
 @Singleton
-public class MicroblogDashboardWidget implements DashboardContentWidget, RequireCssResource {
+public class MicroblogGuiDashboardWidget implements DashboardContentWidget, RequireCssResource {
 
 	private static final String TITLE = "Microblog";
 
 	private final Logger logger;
 
-	private final MicroblogRevisionStorage microblogRevisionStorage;
+	private final MicroblogService microblogService;
 
 	@Inject
-	public MicroblogDashboardWidget(final Logger logger, final MicroblogRevisionStorage microblogRevisionStorage) {
+	public MicroblogGuiDashboardWidget(final Logger logger, final MicroblogService microblogService) {
 		this.logger = logger;
-		this.microblogRevisionStorage = microblogRevisionStorage;
+		this.microblogService = microblogService;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class MicroblogDashboardWidget implements DashboardContentWidget, Require
 		final PrintWriter out = response.getWriter();
 		String lastestRevision;
 		try {
-			lastestRevision = String.valueOf(microblogRevisionStorage.getLastRevision());
+			lastestRevision = String.valueOf(microblogService.getLastRevision());
 		}
 		catch (final MicroblogRevisionStorageException e) {
 			lastestRevision = "-";
