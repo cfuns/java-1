@@ -5,7 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
+import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 
@@ -45,10 +47,18 @@ public class AuthenticationActivatorTest {
 		// }
 	}
 
+	@Test
 	public void testServices() {
 		final AuthenticationActivator authenticationActivator = new AuthenticationActivator();
 		final Collection<ServiceInfo> serviceInfos = authenticationActivator.getServiceInfos();
-		assertEquals(0, serviceInfos.size());
+		assertEquals(1, serviceInfos.size());
 	}
 
+	@Test
+	public void testGetModules() {
+		final AuthenticationActivator authenticationActivator = new AuthenticationActivator();
+		final BundleContext context = EasyMock.createMock(BundleContext.class);
+		EasyMock.replay(context);
+		assertNotNull(authenticationActivator.getModules(context));
+	}
 }

@@ -16,4 +16,24 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	public boolean verifyCredential(final String username, final String password) {
 		return true;
 	}
+
+	@Override
+	public boolean login(final String sessionId, final String username, final String password) {
+		return false;
+	}
+
+	@Override
+	public boolean isLoggedIn(final String sessionId) {
+		return false;
+	}
+
+	@Override
+	public boolean logout(final String sessionId) {
+		return false;
+	}
+
+	@Override
+	public String getCurrentUser(final String sessionId) {
+		return null;
+	}
 }

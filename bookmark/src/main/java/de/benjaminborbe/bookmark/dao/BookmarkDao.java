@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import de.benjaminborbe.tools.dao.Dao;
 
-public interface BookmarkDao extends Dao<BookmarkBean> {
+public interface BookmarkDao extends Dao<BookmarkBean, Long> {
 
 	Collection<BookmarkBean> getFavorites();
 }

@@ -20,6 +20,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
@@ -54,7 +55,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 		logger.debug("printContent");
 		out.println("<h1>" + getTitle() + "</h1>");
 		final String action = request.getContextPath() + "/save";
-		final FormWidget formWidget = new FormWidget(action).addMethod("GET");
+		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET);
 		formWidget.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("url ..."));
 		formWidget.addFormInputWidget(new FormInputTextWidget("name").addLabel("Name").addPlaceholder("name ..."));
 		formWidget.addFormInputWidget(new FormInputTextWidget("description").addLabel("Description").addPlaceholder("description ..."));

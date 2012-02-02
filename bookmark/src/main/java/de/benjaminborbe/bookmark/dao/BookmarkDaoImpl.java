@@ -13,11 +13,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.dao.DaoCache;
-import de.benjaminborbe.tools.util.IdGenerator;
+import de.benjaminborbe.tools.dao.DaoCacheAutoIncrement;
+import de.benjaminborbe.tools.util.IdGeneratorLong;
 
 @Singleton
-public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkDao {
+public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> implements BookmarkDao {
 
 	private final class BookmarkFavoritePredicate implements Predicate<BookmarkBean> {
 
@@ -30,7 +30,7 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 	private static final String DEFAULT_DESCRIPTION = "-";
 
 	@Inject
-	public BookmarkDaoImpl(final Logger logger, final IdGenerator idGenerator, final Provider<BookmarkBean> provider) {
+	public BookmarkDaoImpl(final Logger logger, final IdGeneratorLong idGenerator, final Provider<BookmarkBean> provider) {
 		super(logger, idGenerator, provider);
 	}
 
@@ -47,6 +47,7 @@ public class BookmarkDaoImpl extends DaoCache<BookmarkBean> implements BookmarkD
 		save(createBookmark("/bb/performance", "Local - BB - Performance"));
 		save(createBookmark("/bb/crawler", "Local - BB - Crawler"));
 		save(createBookmark("/bb/configuration", "Local - BB - Configuration"));
+		save(createBookmark("/bb/authentication/login", "Local - BB - Login"));
 
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));

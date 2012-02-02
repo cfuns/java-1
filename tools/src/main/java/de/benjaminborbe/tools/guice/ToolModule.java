@@ -18,8 +18,8 @@ import de.benjaminborbe.tools.jndi.JndiContextImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
-import de.benjaminborbe.tools.util.IdGenerator;
-import de.benjaminborbe.tools.util.IdGeneratorImpl;
+import de.benjaminborbe.tools.util.IdGeneratorLong;
+import de.benjaminborbe.tools.util.IdGeneratorLongImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -40,7 +40,7 @@ public class ToolModule extends AbstractModule {
 		bind(CalendarUtil.class).to(CalendarUtilImpl.class).in(Singleton.class);
 		bind(ThreadRunner.class).to(ThreadRunnerImpl.class).in(Singleton.class);
 		bind(HttpDownloader.class).to(HttpDownloaderImpl.class).in(Singleton.class);
-		bind(IdGenerator.class).to(IdGeneratorImpl.class).in(Singleton.class);
+		bind(IdGeneratorLong.class).to(IdGeneratorLongImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
 	}
 }

@@ -21,6 +21,7 @@ import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
@@ -46,7 +47,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 		final String contextPath = request.getContextPath();
 		final String searchSuggestUrl = contextPath + "/search/suggest";
 		final String action = contextPath + "/search";
-		final FormWidget formWidget = new FormWidget(action).addMethod("POST");
+		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
 		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext ...").addId("searchBox"));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
 		formWidget.render(request, response, context);

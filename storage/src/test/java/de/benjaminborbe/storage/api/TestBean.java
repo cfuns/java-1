@@ -1,8 +1,8 @@
 package de.benjaminborbe.storage.api;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.tools.dao.EntityLong;
 
-public class TestBean implements Entity {
+public class TestBean implements EntityLong {
 
 	private static final long serialVersionUID = -4849861781774372129L;
 

@@ -2,9 +2,9 @@ package de.benjaminborbe.tools.dao;
 
 import java.io.Serializable;
 
-public interface Entity extends Serializable {
+public interface Entity<T> extends Serializable {
 
-	Long getId();
+	T getId();
 
-	void setId(final Long id);
+	void setId(final T id);
 }

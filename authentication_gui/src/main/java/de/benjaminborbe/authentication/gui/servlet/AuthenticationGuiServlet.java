@@ -12,7 +12,7 @@ public class AuthenticationGuiServlet extends WebsiteRedirectServlet {
 
 	private static final long serialVersionUID = -4538727884647259439L;
 
-	private static final String TARGET = "bookmark/list";
+	private static final String TARGET = "authentication/login";
 
 	@Inject
 	public AuthenticationGuiServlet(final Logger logger) {

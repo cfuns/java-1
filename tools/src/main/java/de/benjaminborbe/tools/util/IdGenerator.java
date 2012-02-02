@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.util;
 
-public interface IdGenerator {
+public interface IdGenerator<T> {
 
-	long nextId();
+	T nextId();
 }

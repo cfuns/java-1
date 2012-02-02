@@ -4,16 +4,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class IdGeneratorImpl implements IdGenerator {
+public class IdGeneratorLongImpl implements IdGeneratorLong {
 
-	private long id;
+	private Long id = 0L;
 
 	@Inject
-	public IdGeneratorImpl() {
+	public IdGeneratorLongImpl() {
 	}
 
 	@Override
-	public synchronized long nextId() {
+	public synchronized Long nextId() {
 		id++;
 		return id;
 	}

@@ -2,16 +2,16 @@ package de.benjaminborbe.tools.dao;
 
 import java.util.Collection;
 
-public interface Dao<T extends Entity> {
+public interface Dao<E extends Entity<T>, T> {
 
-	void save(T entity);
+	void save(E entity);
 
-	void delete(T entity);
+	void delete(E entity);
 
-	T create();
+	E create();
 
-	T load(long id);
+	E load(T id);
 
-	Collection<T> getAll();
+	Collection<E> getAll();
 
 }

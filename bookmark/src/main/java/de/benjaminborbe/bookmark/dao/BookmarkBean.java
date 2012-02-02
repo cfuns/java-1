@@ -3,9 +3,9 @@ package de.benjaminborbe.bookmark.dao;
 import java.util.List;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.tools.dao.EntityLong;
 
-public class BookmarkBean implements Entity, Bookmark {
+public class BookmarkBean implements EntityLong, Bookmark {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 

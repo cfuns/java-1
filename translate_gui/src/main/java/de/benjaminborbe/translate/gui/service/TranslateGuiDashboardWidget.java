@@ -14,6 +14,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 
 @Singleton
@@ -32,7 +33,7 @@ public class TranslateGuiDashboardWidget implements DashboardContentWidget {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final String action = "http://dict.leo.org/ende";
-		final FormWidget formWidget = new FormWidget(action).addMethod("GET").addTarget(target);
+		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET).addTarget(target);
 		formWidget.addFormInputWidget(new FormInputTextWidget("search"));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("translate"));
 		formWidget.render(request, response, context);

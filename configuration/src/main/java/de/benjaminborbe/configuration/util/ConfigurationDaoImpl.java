@@ -7,14 +7,14 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.Configuration;
-import de.benjaminborbe.tools.dao.DaoCache;
-import de.benjaminborbe.tools.util.IdGenerator;
+import de.benjaminborbe.tools.dao.DaoCacheAutoIncrement;
+import de.benjaminborbe.tools.util.IdGeneratorLong;
 
 @Singleton
-public class ConfigurationDaoImpl extends DaoCache<ConfigurationBean> implements ConfigurationDao {
+public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBean> implements ConfigurationDao {
 
 	@Inject
-	public ConfigurationDaoImpl(final Logger logger, final IdGenerator idGenerator, final Provider<ConfigurationBean> provider) {
+	public ConfigurationDaoImpl(final Logger logger, final IdGeneratorLong idGenerator, final Provider<ConfigurationBean> provider) {
 		super(logger, idGenerator, provider);
 	}
 

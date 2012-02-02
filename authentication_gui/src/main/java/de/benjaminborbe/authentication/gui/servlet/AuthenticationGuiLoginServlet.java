@@ -23,6 +23,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
@@ -64,14 +65,20 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 		final PrintWriter out = response.getWriter();
 		logger.trace("printContent");
 		out.println("<h1>" + getTitle() + "</h1>");
-
-		if (request.getParameter(PARAMETER_USERNAME) != null && request.getParameter(PARAMETER_PASSWORD) != null) {
-			out.println("login => " + authenticationService.verifyCredential(request.getParameter(PARAMETER_USERNAME), request.getParameter(PARAMETER_PASSWORD)));
+		final String username = request.getParameter(PARAMETER_USERNAME);
+		final String password = request.getParameter(PARAMETER_PASSWORD);
+		if (username != null && password != null) {
+			if (authenticationService.login(request.getSession().getId(), username, password)) {
+				out.println("login => success");
+			}
+			else {
+				out.println("login => failed");
+			}
 		}
-		final String action = request.getContextPath() + "/login";
-		final FormWidget form = new FormWidget(action);
-		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME));
-		form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD));
+		final String action = request.getContextPath() + "/authentication/login";
+		final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
+		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
+		form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
 		form.addFormInputWidget(new FormInputSubmitWidget("login"));
 		form.render(request, response, context);
 	}

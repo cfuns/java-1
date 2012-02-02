@@ -1,8 +1,8 @@
 package de.benjaminborbe.configuration.util;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.tools.dao.EntityLong;
 
-public class ConfigurationBean implements Entity {
+public class ConfigurationBean implements EntityLong {
 
 	private static final long serialVersionUID = 8032652320006340164L;
 

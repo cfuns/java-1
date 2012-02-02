@@ -10,23 +10,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.util.IdGenerator;
-
 @Singleton
-public abstract class DaoCache<T extends Entity> implements Dao<T> {
+public abstract class DaoCache<E extends Entity<T>, T> implements Dao<E, T> {
 
 	protected final Logger logger;
 
-	private final Map<Long, T> data = new HashMap<Long, T>();
+	private final Map<T, E> data = new HashMap<T, E>();
 
-	private final IdGenerator idGenerator;
-
-	private final Provider<T> provider;
+	private final Provider<E> provider;
 
 	@Inject
-	public DaoCache(final Logger logger, final IdGenerator idGenerator, final Provider<T> provider) {
+	public DaoCache(final Logger logger, final Provider<E> provider) {
 		this.logger = logger;
-		this.idGenerator = idGenerator;
 		this.provider = provider;
 
 		init();
@@ -35,34 +30,34 @@ public abstract class DaoCache<T extends Entity> implements Dao<T> {
 	protected abstract void init();
 
 	@Override
-	public void save(final T entity) {
+	public void save(final E entity) {
 		logger.trace("save");
 		if (entity.getId() == null) {
-			entity.setId(idGenerator.nextId());
+			throw new PrimaryKeyMissingException("primary-key field id is null!");
 		}
 		data.put(entity.getId(), entity);
 	}
 
 	@Override
-	public void delete(final T entity) {
+	public void delete(final E entity) {
 		logger.trace("delete");
 		data.remove(entity.getId());
 	}
 
 	@Override
-	public T load(final long id) {
+	public E load(final T id) {
 		logger.trace("load");
 		return data.get(id);
 	}
 
 	@Override
-	public T create() {
+	public E create() {
 		logger.trace("create");
 		return provider.get();
 	}
 
 	@Override
-	public Collection<T> getAll() {
+	public Collection<E> getAll() {
 		return data.values();
 	}
 }

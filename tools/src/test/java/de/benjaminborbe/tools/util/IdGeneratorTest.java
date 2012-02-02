@@ -14,8 +14,8 @@ public class IdGeneratorTest {
 	@Test
 	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
-		final IdGenerator a = injector.getInstance(IdGenerator.class);
-		final IdGenerator b = injector.getInstance(IdGenerator.class);
+		final IdGeneratorLong a = injector.getInstance(IdGeneratorLong.class);
+		final IdGeneratorLong b = injector.getInstance(IdGeneratorLong.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);
@@ -23,11 +23,11 @@ public class IdGeneratorTest {
 
 	@Test
 	public void NextId() {
-		final IdGenerator idGenerator = new IdGeneratorImpl();
-		assertEquals(1l, idGenerator.nextId());
-		assertEquals(2l, idGenerator.nextId());
-		assertEquals(3l, idGenerator.nextId());
-		assertEquals(4l, idGenerator.nextId());
-		assertEquals(5l, idGenerator.nextId());
+		final IdGeneratorLong idGenerator = new IdGeneratorLongImpl();
+		assertEquals(new Long(1), idGenerator.nextId());
+		assertEquals(new Long(2), idGenerator.nextId());
+		assertEquals(new Long(3), idGenerator.nextId());
+		assertEquals(new Long(4), idGenerator.nextId());
+		assertEquals(new Long(5), idGenerator.nextId());
 	}
 }

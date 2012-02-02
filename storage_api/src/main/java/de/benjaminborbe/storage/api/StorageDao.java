@@ -16,12 +16,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.dao.Dao;
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.tools.dao.EntityLong;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public abstract class StorageDao<T extends Entity> implements Dao<T> {
+public abstract class StorageDao<T extends EntityLong> implements Dao<T, Long> {
 
 	private final Logger logger;
 
@@ -94,7 +94,7 @@ public abstract class StorageDao<T extends Entity> implements Dao<T> {
 	}
 
 	@Override
-	public T load(final long id) {
+	public T load(final Long id) {
 		logger.debug("load");
 		final T entity = create();
 		for (final String fieldName : getFieldNames(entity)) {

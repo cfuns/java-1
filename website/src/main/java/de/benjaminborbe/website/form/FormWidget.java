@@ -18,7 +18,7 @@ public class FormWidget implements Widget {
 
 	private final List<FormInputWidget> formInputWidgets = new ArrayList<FormInputWidget>();
 
-	private String method;
+	private FormMethod method;
 
 	private Target target;
 
@@ -31,7 +31,7 @@ public class FormWidget implements Widget {
 		return this;
 	}
 
-	public FormWidget addMethod(final String method) {
+	public FormWidget addMethod(final FormMethod method) {
 		this.method = method;
 		return this;
 	}
