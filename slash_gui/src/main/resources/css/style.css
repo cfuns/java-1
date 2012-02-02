@@ -4,7 +4,11 @@
 }
 
 body {
-	font-family: arial,sans-serif;
+	font-family: arial, sans-serif;
+}
+
+fieldset {
+	border: none;
 }
 
 a {
