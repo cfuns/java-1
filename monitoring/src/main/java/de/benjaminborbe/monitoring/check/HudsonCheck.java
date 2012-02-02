@@ -69,8 +69,9 @@ public class HudsonCheck implements Check {
 
 	@Override
 	public CheckResult check() {
+		URL url = null;
 		try {
-			final URL url = new URL(hudsonUrl);
+			url = new URL(hudsonUrl);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
 			final String content = httpDownloadUtil.getContent(result);
 			final String row = getRow(content);
@@ -78,44 +79,44 @@ public class HudsonCheck implements Check {
 			if (row == null) {
 				final String msg = "Parse Hudson-Content failed";
 				logger.debug(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, url);
 			}
 			// found unstable => false
 			else if (row.indexOf(" alt=\"Unstable\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is unstable";
 				logger.debug(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, url);
 			}
 			// found failed => false
 			else if (row.indexOf(" alt=\"Failed\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is failed";
 				logger.debug(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, url);
 			}
 			// found failed => false
 			else if (row.indexOf(" alt=\"In progress\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is in progress";
 				logger.debug(msg);
-				return new CheckResultImpl(this, true, msg);
+				return new CheckResultImpl(this, true, msg, url);
 			}
 			// found no unstable => true
 			else {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is stable";
 				logger.debug(msg);
-				return new CheckResultImpl(this, true, msg);
+				return new CheckResultImpl(this, true, msg, url);
 			}
 		}
 		catch (final MalformedURLException e) {
 			logger.warn("MalformedURLException", e);
-			return new CheckResultImpl(this, false, "MalformedURLException");
+			return new CheckResultImpl(this, false, "MalformedURLException", url);
 		}
 		catch (final HttpDownloaderException e) {
-			logger.warn("HttpDownloaderException", e);
-			return new CheckResultImpl(this, false, "HttpDownloaderException");
+			logger.warn("download " + url + " failed");
+			return new CheckResultImpl(this, false, "HttpDownloaderException", url);
 		}
 		catch (final UnsupportedEncodingException e) {
 			logger.warn("UnsupportedEncodingException", e);
-			return new CheckResultImpl(this, false, "UnsupportedEncodingException");
+			return new CheckResultImpl(this, false, "UnsupportedEncodingException", url);
 		}
 	}
 

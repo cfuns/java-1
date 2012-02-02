@@ -1,4 +1,4 @@
-package de.benjaminborbe.slash.servlet;
+package de.benjaminborbe.slash.gui.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,12 +14,12 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.website.servlet.WebsiteTextServlet;
 
 @Singleton
-public class RobotsTxtServlet extends WebsiteTextServlet {
+public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
 
 	private static final long serialVersionUID = -7647639127591841698L;
 
 	@Inject
-	public RobotsTxtServlet(final Logger logger) {
+	public SlashGuiRobotsTxtServlet(final Logger logger) {
 		super(logger);
 	}
 

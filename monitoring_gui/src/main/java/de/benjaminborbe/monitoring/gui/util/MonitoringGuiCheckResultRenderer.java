@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import de.benjaminborbe.html.api.HTML;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.tools.html.Target;
 
 public class MonitoringGuiCheckResultRenderer implements HTML {
 
@@ -27,9 +28,16 @@ public class MonitoringGuiCheckResultRenderer implements HTML {
 		else {
 			out.print("[<span class=\"checkResultFail\">FAIL</span>] ");
 		}
+
+		if (checkResult.getUrl() != null) {
+			out.println("<a href=\"" + checkResult.getUrl().toExternalForm() + "\" target=\"" + Target.BLANK + "\">");
+		}
 		out.print(checkResult.getName());
 		out.print(" - ");
 		out.print(checkResult.getMessage());
+		if (checkResult.getUrl() != null) {
+			out.println("</a>");
+		}
 	}
 
 }

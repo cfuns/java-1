@@ -69,11 +69,12 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			}
 		}
 		for (final ResourceInfo resourceInfo : getResouceInfos()) {
-			final String alias = resourceInfo.getAlias();
+			final String alias = cleanupAlias(prefix + "/" + resourceInfo.getAlias());
 			final String name = resourceInfo.getName();
 			final HttpContext context = resourceInfo.getContext();
 			try {
-				service.registerResources(prefix + alias, name, context);
+				logger.debug("registerResource for alias: \"" + alias + "\"");
+				service.registerResources(alias, name, context);
 			}
 			catch (final NamespaceException e) {
 				logger.error("NamespaceException", e);

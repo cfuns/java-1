@@ -1,4 +1,4 @@
-package de.benjaminborbe.slash.servlet;
+package de.benjaminborbe.slash.gui.servlet;
 
 import java.io.IOException;
 
@@ -16,12 +16,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class SlashLogFilter implements Filter {
+public class SlashGuiLogFilter implements Filter {
 
 	private final Logger logger;
 
 	@Inject
-	public SlashLogFilter(final Logger logger) {
+	public SlashGuiLogFilter(final Logger logger) {
 		this.logger = logger;
 	}
 

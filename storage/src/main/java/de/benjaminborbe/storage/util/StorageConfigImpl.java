@@ -49,8 +49,8 @@ public class StorageConfigImpl implements StorageConfig {
 	}
 
 	private <T> T getValue(final Configuration<T> configuration) {
-		return configuration.getDefaultValue();
-		// return configurationService.getConfigurationValue(configuration);
+		// return configuration.getDefaultValue();
+		return configurationService.getConfigurationValue(configuration);
 	}
 
 	@Override

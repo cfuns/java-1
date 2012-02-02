@@ -70,8 +70,9 @@ public class UrlCheck implements Check {
 
 	@Override
 	public CheckResult check() {
+		URL url = null;
 		try {
-			final URL url = new URL(urlString);
+			url = new URL(urlString);
 			final HttpDownloadResult result;
 			if (username != null && password != null) {
 				result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
@@ -83,33 +84,33 @@ public class UrlCheck implements Check {
 			if (result.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;
 				logger.warn(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, url);
 			}
 			final String content = httpDownloadUtil.getContent(result);
 			if (!checkTitle(content)) {
 				final String msg = "cannot find title " + titleMatch + " in content of " + url;
 				logger.warn(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, url);
 			}
 			if (!checkContent(content)) {
 				final String msg = "cannot find string " + contentMatch + " in content of " + url;
 				logger.warn(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, url);
 			}
 			final String msg = "download url successful " + url;
-			return new CheckResultImpl(this, true, msg);
+			return new CheckResultImpl(this, true, msg, url);
 		}
 		catch (final MalformedURLException e) {
 			logger.warn("MalformedURLException", e);
-			return new CheckResultImpl(this, false, "MalformedURLException");
+			return new CheckResultImpl(this, false, "MalformedURLException", url);
 		}
 		catch (final IOException e) {
 			logger.warn("IOException", e);
-			return new CheckResultImpl(this, false, "IOException");
+			return new CheckResultImpl(this, false, "IOException", url);
 		}
 		catch (final HttpDownloaderException e) {
 			logger.warn("HttpDownloaderException", e);
-			return new CheckResultImpl(this, false, "HttpDownloaderException");
+			return new CheckResultImpl(this, false, "HttpDownloaderException", url);
 		}
 	}
 

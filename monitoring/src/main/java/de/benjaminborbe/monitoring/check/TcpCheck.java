@@ -41,28 +41,28 @@ public class TcpCheck implements Check {
 			if (socket.isConnected()) {
 				final String msg = "connected successful to " + hostname + ":" + port;
 				logger.debug(msg);
-				return new CheckResultImpl(this, true, msg);
+				return new CheckResultImpl(this, true, msg, null);
 			}
 			else {
 				final String msg = "connecting failed to " + hostname + ":" + port;
 				logger.warn(msg);
-				return new CheckResultImpl(this, false, msg);
+				return new CheckResultImpl(this, false, msg, null);
 			}
 		}
 		catch (final SocketTimeoutException e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because SocketTimeoutException";
 			logger.warn(msg);
-			return new CheckResultImpl(this, false, msg);
+			return new CheckResultImpl(this, false, msg, null);
 		}
 		catch (final UnknownHostException e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because UnknownHostException";
 			logger.warn(msg);
-			return new CheckResultImpl(this, false, msg);
+			return new CheckResultImpl(this, false, msg, null);
 		}
 		catch (final Exception e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because " + e.getClass().getSimpleName();
 			logger.warn(msg, e);
-			return new CheckResultImpl(this, false, msg);
+			return new CheckResultImpl(this, false, msg, null);
 		}
 		finally {
 			try {

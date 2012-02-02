@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -49,6 +48,7 @@ public class MonitoringGuiServletTest {
 		assertEquals(a, b);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void service() throws Exception {
 
@@ -64,12 +64,11 @@ public class MonitoringGuiServletTest {
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
 		EasyMock.replay(request);
 
-		final Collection<CssResource> cssResources = new HashSet<CssResource>();
-
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer.render(request, response, cssResources);
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final Collection<JavascriptResource> javascriptResources = new HashSet<JavascriptResource>();

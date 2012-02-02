@@ -9,7 +9,6 @@ import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -23,10 +22,8 @@ import org.slf4j.Logger;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.crawler.api.CrawlerService;
@@ -49,6 +46,7 @@ public class CrawlerGuiServletTest {
 		assertEquals(a, b);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void service() throws Exception {
 
@@ -65,19 +63,15 @@ public class CrawlerGuiServletTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter("url")).andReturn(null).anyTimes();
-		EasyMock.expect(request.getContextPath()).andReturn("/path");
+		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
 		EasyMock.replay(request);
 
-		final Collection<CssResource> cssResources = new HashSet<CssResource>();
-
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer.render(request, response, cssResources);
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
-		final Collection<JavascriptResource> javascriptResources = new HashSet<JavascriptResource>();
-
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
-		javascriptResourceRenderer.render(request, response, javascriptResources);
+		javascriptResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(Collection.class));
 		EasyMock.replay(javascriptResourceRenderer);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);

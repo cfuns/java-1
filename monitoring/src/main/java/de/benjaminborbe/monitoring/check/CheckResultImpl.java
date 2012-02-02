@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.check;
 
+import java.net.URL;
+
 import de.benjaminborbe.monitoring.api.Check;
 import de.benjaminborbe.monitoring.api.CheckResult;
 
@@ -13,10 +15,13 @@ public class CheckResultImpl implements CheckResult {
 
 	private final Check check;
 
-	public CheckResultImpl(final Check check, final boolean success, final String message) {
+	private final URL url;
+
+	public CheckResultImpl(final Check check, final boolean success, final String message, final URL url) {
 		this.check = check;
 		this.success = success;
 		this.message = message;
+		this.url = url;
 	}
 
 	@Override
@@ -57,5 +62,10 @@ public class CheckResultImpl implements CheckResult {
 	@Override
 	public String getName() {
 		return check.getName();
+	}
+
+	@Override
+	public URL getUrl() {
+		return url;
 	}
 }

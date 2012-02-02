@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.api;
 
 import java.io.Serializable;
+import java.net.URL;
 
 public interface CheckResult extends Serializable {
 
@@ -13,4 +14,6 @@ public interface CheckResult extends Serializable {
 	String getName();
 
 	String getDescription();
+
+	URL getUrl();
 }

@@ -41,8 +41,8 @@ public class SlashGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/slash")) {
+		assertEquals(2, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/", "/robots.txt")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}
@@ -61,9 +61,9 @@ public class SlashGuiActivatorTest {
 
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterFilterCallCounter());
+		assertEquals(2, extHttpServiceMock.getRegisterFilterCallCounter());
 
-		for (final String path : Arrays.asList("/slash.*")) {
+		for (final String path : Arrays.asList("/.*")) {
 			assertTrue("no filter for path " + path + " registered", extHttpServiceMock.hasFilterPath(path));
 		}
 
@@ -86,11 +86,10 @@ public class SlashGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(0, extHttpServiceMock.getRegisterResourceCallCounter());
-		// for (final String path : Arrays.asList("/", "/robots.txt")) {
-		// assertTrue("no servlet for path " + path + " registered",
-		// extHttpServiceMock.hasServletPath(path));
-		// }
+		assertEquals(1, extHttpServiceMock.getRegisterResourceCallCounter());
+		for (final String path : Arrays.asList("/css")) {
+			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
+		}
 	}
 
 }

@@ -29,6 +29,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends HttpServlet {
@@ -179,6 +180,11 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 				result.addAll(requireCssResource.getCssResource(request, response));
 			}
 		}
+
+		// static
+		final String contextPath = request.getContextPath();
+		result.add(new CssResourceImpl(contextPath + "/css/style.css"));
+
 		return result;
 	}
 

@@ -15,7 +15,7 @@ public class SimpleCheck implements Check {
 
 	@Override
 	public CheckResult check() {
-		return new CheckResultImpl(this, true, null);
+		return new CheckResultImpl(this, true, null, null);
 	}
 
 	@Override
