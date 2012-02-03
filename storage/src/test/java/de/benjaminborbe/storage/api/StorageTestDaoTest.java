@@ -7,16 +7,14 @@ import static org.junit.Assert.assertNull;
 import java.util.Collections;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.storage.mock.StorageServiceMock;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.util.ParseUtilImpl;
 
 public class StorageTestDaoTest {
 
@@ -33,11 +31,12 @@ public class StorageTestDaoTest {
 	}
 
 	protected StorageTestDao getDao() {
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
+		// final Logger logger = EasyMock.createNiceMock(Logger.class);
+		// EasyMock.replay(logger);
+
+		final Logger logger = LoggerFactory.getLogger(getClass());
 
 		final StorageService storageService = new StorageServiceMock();
-		final ParseUtil parseUtil = new ParseUtilImpl();
 		final Provider<TestBean> beanProvider = new Provider<TestBean>() {
 
 			@Override
@@ -46,7 +45,7 @@ public class StorageTestDaoTest {
 			}
 		};
 
-		final StorageTestDao dao = new StorageTestDao(logger, storageService, parseUtil, beanProvider);
+		final StorageTestDao dao = new StorageTestDao(logger, storageService, beanProvider);
 		return dao;
 	}
 
@@ -54,7 +53,7 @@ public class StorageTestDaoTest {
 	public void testCrud() {
 		final StorageTestDao dao = getDao();
 
-		final Long id = 1l;
+		final String id = "1";
 		final String name = "name";
 
 		// create
@@ -87,8 +86,8 @@ public class StorageTestDaoTest {
 	private final class StorageTestDao extends StorageDao<TestBean> {
 
 		@Inject
-		public StorageTestDao(final Logger logger, final StorageService storageService, final ParseUtil parseUtil, final Provider<TestBean> beanProvider) {
-			super(logger, storageService, parseUtil, beanProvider);
+		public StorageTestDao(final Logger logger, final StorageService storageService, final Provider<TestBean> beanProvider) {
+			super(logger, storageService, beanProvider);
 		}
 
 	}

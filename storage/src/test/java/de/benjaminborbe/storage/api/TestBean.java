@@ -1,22 +1,22 @@
 package de.benjaminborbe.storage.api;
 
-import de.benjaminborbe.tools.dao.EntityLong;
+import de.benjaminborbe.tools.dao.Entity;
 
-public class TestBean implements EntityLong {
+public class TestBean implements Entity<String> {
 
 	private static final long serialVersionUID = -4849861781774372129L;
 
-	private Long id;
+	private String id;
 
 	private String name;
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final Long id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
