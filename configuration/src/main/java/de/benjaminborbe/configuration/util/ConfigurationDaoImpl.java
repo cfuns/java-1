@@ -19,10 +19,6 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 	}
 
 	@Override
-	protected void init() {
-	}
-
-	@Override
 	public ConfigurationBean findByConfiguration(final Configuration<?> configuration) {
 		for (final ConfigurationBean configurationBean : getAll()) {
 			if (configurationBean.getKey().equals(configuration.getName())) {

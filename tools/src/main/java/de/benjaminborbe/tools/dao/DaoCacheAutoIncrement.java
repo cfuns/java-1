@@ -20,9 +20,6 @@ public abstract class DaoCacheAutoIncrement<T extends Entity<Long>> extends DaoC
 	}
 
 	@Override
-	protected abstract void init();
-
-	@Override
 	public void save(final T entity) {
 		logger.trace("save");
 		if (entity.getId() == null) {

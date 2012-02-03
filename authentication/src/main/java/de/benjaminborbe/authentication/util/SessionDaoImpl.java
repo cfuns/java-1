@@ -17,10 +17,6 @@ public class SessionDaoImpl extends DaoCache<SessionBean, String> implements Ses
 	}
 
 	@Override
-	protected void init() {
-	}
-
-	@Override
 	public SessionBean findBySessionId(final String sessionId) {
 		for (final SessionBean session : getAll()) {
 			if (session.getId().equals(sessionId)) {

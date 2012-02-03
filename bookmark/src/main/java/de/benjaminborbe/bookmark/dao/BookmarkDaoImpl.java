@@ -32,10 +32,12 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 	@Inject
 	public BookmarkDaoImpl(final Logger logger, final IdGeneratorLong idGenerator, final Provider<BookmarkBean> provider) {
 		super(logger, idGenerator, provider);
+
+		init();
 	}
 
-	@Override
 	protected void init() {
+
 		// internal
 		save(createBookmark("/bb/bookmark", "Local - BB - Bookmarks", Arrays.asList("bookmark", "lesezeichen")));
 		save(createBookmark("/bb/worktime", "Local - BB - Worktimes"));

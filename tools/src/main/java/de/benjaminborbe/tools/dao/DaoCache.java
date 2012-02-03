@@ -23,11 +23,7 @@ public abstract class DaoCache<E extends Entity<T>, T> implements Dao<E, T> {
 	public DaoCache(final Logger logger, final Provider<E> provider) {
 		this.logger = logger;
 		this.provider = provider;
-
-		init();
 	}
-
-	protected abstract void init();
 
 	@Override
 	public void save(final E entity) {
