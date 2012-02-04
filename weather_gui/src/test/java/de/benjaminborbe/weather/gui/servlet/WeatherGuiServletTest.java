@@ -8,7 +8,6 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.weather.gui.guice.WeatherGuiModulesMock;
-import de.benjaminborbe.weather.gui.servlet.WeatherGuiServlet;
 
 public class WeatherGuiServletTest {
 

@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.mail.gui.guice.MailGuiModulesMock;
-import de.benjaminborbe.mail.gui.service.MailGuiDashboardWidget;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class MailGuiDashboardWidgetTest {

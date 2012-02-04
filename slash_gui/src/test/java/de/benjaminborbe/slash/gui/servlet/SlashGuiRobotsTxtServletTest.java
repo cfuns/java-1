@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.slash.gui.guice.SlashGuiModulesMock;
-import de.benjaminborbe.slash.gui.servlet.SlashGuiRobotsTxtServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class SlashGuiRobotsTxtServletTest {

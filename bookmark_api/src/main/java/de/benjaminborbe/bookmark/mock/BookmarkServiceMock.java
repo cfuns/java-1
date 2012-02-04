@@ -1,9 +1,12 @@
-package de.benjaminborbe.bookmark.api;
+package de.benjaminborbe.bookmark.mock;
 
 import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkService;
 
 @Singleton
 public class BookmarkServiceMock implements BookmarkService {
@@ -23,7 +26,7 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarkFavoritie() {
+	public List<Bookmark> getBookmarkFavorite() {
 		return null;
 	}
 

@@ -1,11 +1,12 @@
 package de.benjaminborbe.authentication.util;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.tools.dao.Dao;
 
 public interface SessionDao extends Dao<SessionBean, String> {
 
-	SessionBean findBySessionId(String sessionId);
+	SessionBean findBySessionId(SessionIdentifier sessionId);
 
-	SessionBean findOrCreateBySessionId(String sessionId);
+	SessionBean findOrCreateBySessionId(SessionIdentifier sessionId);
 
 }

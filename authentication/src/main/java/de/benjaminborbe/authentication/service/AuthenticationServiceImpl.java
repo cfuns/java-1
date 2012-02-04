@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.util.SessionBean;
 import de.benjaminborbe.authentication.util.SessionDao;
 import de.benjaminborbe.authentication.util.UserBean;
@@ -35,7 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean login(final String sessionId, final String username, final String password) {
+	public boolean login(final SessionIdentifier sessionId, final String username, final String password) {
 		if (verifyCredential(username, password)) {
 			final SessionBean session = sessionDao.findOrCreateBySessionId(sessionId);
 			session.setCurrentUser(username);
@@ -46,13 +47,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean isLoggedIn(final String sessionId) {
+	public boolean isLoggedIn(final SessionIdentifier sessionId) {
 		final SessionBean session = sessionDao.findBySessionId(sessionId);
 		return session != null && session.getCurrentUser() != null;
 	}
 
 	@Override
-	public boolean logout(final String sessionId) {
+	public boolean logout(final SessionIdentifier sessionId) {
 		final SessionBean session = sessionDao.findBySessionId(sessionId);
 		if (session != null && session.getCurrentUser() != null) {
 			session.setCurrentUser(null);
@@ -62,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public String getCurrentUser(final String sessionId) {
+	public String getCurrentUser(final SessionIdentifier sessionId) {
 		final SessionBean session = sessionDao.findBySessionId(sessionId);
 		if (session != null) {
 			return session.getCurrentUser();
@@ -71,7 +72,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final String sessionId, final String username, final String password) {
+	public boolean register(final SessionIdentifier sessionId, final String username, final String password) {
 		if (userDao.findByUsername(username) != null) {
 			return false;
 		}
@@ -82,7 +83,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean unregister(final String sessionId) {
+	public boolean unregister(final SessionIdentifier sessionId) {
 		final String username = getCurrentUser(sessionId);
 		if (username == null) {
 			return false;

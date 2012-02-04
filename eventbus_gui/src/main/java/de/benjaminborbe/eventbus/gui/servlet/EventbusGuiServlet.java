@@ -16,8 +16,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.eventbus.api.Event.Type;
-import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;

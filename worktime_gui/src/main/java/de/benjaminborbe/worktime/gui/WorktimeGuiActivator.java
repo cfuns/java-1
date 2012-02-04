@@ -8,14 +8,14 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.worktime.gui.guice.WorktimeGuiModules;
-import de.benjaminborbe.worktime.gui.service.WorktimeGuiDashboardWidget;
-import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiServlet;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.worktime.gui.guice.WorktimeGuiModules;
+import de.benjaminborbe.worktime.gui.service.WorktimeGuiDashboardWidget;
+import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiServlet;
 
 public class WorktimeGuiActivator extends HttpBundleActivator {
 

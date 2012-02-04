@@ -7,9 +7,9 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
-import de.benjaminborbe.sample.api.SampleService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.sample.api.SampleService;
 
 public class SampleGuiOsgiModule extends AbstractModule {
 

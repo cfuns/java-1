@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.configuration.ConfigurationActivator;
 import de.benjaminborbe.configuration.guice.ConfigurationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

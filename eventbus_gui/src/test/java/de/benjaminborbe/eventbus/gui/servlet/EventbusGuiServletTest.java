@@ -25,17 +25,17 @@ import org.slf4j.Logger;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.eventbus.api.Event.Type;
+import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.EventbusService;
+import de.benjaminborbe.eventbus.gui.guice.EventbusGuiModulesMock;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.eventbus.api.EventbusService;
-import de.benjaminborbe.eventbus.api.EventHandler;
-import de.benjaminborbe.eventbus.api.Event.Type;
-import de.benjaminborbe.eventbus.gui.guice.EventbusGuiModulesMock;
-import de.benjaminborbe.eventbus.gui.servlet.EventbusGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -132,7 +132,9 @@ public class EventbusGuiServletTest {
 		};
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService);
+
 		EasyMock.replay(authenticationService);
 
 		final EventbusService eventBusService = EasyMock.createMock(EventbusService.class);

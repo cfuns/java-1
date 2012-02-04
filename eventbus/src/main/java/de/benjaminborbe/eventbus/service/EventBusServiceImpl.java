@@ -12,8 +12,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.Event.Type;
-import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
 
 @Singleton

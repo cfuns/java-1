@@ -18,7 +18,6 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.util.gui.guice.UtilGuiModulesMock;
-import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 
 public class UtilGuiServletTest {
 

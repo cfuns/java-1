@@ -18,6 +18,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -132,7 +133,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		logger.trace("printTop");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(navigationWidget);
-		final String sessionId = request.getSession().getId();
+		final SessionIdentifier sessionId = new SessionIdentifier(request);
 		if (authenticationService.isLoggedIn(sessionId)) {
 			widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
 			widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));

@@ -8,11 +8,11 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.websearch.gui.guice.WebsearchGuiModules;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.websearch.gui.guice.WebsearchGuiModules;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
 

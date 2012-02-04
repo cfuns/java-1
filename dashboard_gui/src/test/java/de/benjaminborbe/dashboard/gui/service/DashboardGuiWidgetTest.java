@@ -10,7 +10,6 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
-import de.benjaminborbe.dashboard.gui.service.DashboardGuiWidgetImpl;
 
 public class DashboardGuiWidgetTest {
 

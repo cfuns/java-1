@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.crawler.api.CrawlerInstruction;
-import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.api.CrawlerException;
+import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
+import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;

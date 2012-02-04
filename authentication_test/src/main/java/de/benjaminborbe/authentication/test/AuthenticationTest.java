@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class AuthenticationTest extends OSGiTestCase {
@@ -62,8 +63,11 @@ public class AuthenticationTest extends OSGiTestCase {
 		final String sessionId = "asdf";
 		final String username = "testuser";
 		final String password = "testpassword";
-		assertTrue(service.register(sessionId, username, password));
-		assertFalse("must fail, because already registered", service.register(sessionId, username, password));
+
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
+
+		assertTrue(service.register(sessionIdentifier, username, password));
+		assertFalse("must fail, because already registered", service.register(sessionIdentifier, username, password));
 	}
 
 	public void testVerifyCredentials() {
@@ -75,7 +79,10 @@ public class AuthenticationTest extends OSGiTestCase {
 		final String sessionId = "asdf";
 		final String username = "testuser";
 		final String password = "testpassword";
-		service.register(sessionId, username, password);
+
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
+
+		service.register(sessionIdentifier, username, password);
 		assertTrue(service.verifyCredential(username, password));
 		assertFalse(service.verifyCredential("wrong", password));
 		assertFalse(service.verifyCredential(username, "wrong"));

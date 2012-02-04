@@ -24,16 +24,16 @@ import org.slf4j.Logger;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModulesMock;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.configuration.api.Configuration;
-import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModulesMock;
-import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -133,7 +133,9 @@ public class ConfigurationGuiListServletTest {
 		EasyMock.replay(configurationService);
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService);
+
 		EasyMock.replay(authenticationService);
 
 		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,

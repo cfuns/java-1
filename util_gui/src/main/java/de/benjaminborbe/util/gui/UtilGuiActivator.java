@@ -8,14 +8,14 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.util.gui.guice.UtilGuiModules;
-import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
-import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.util.gui.guice.UtilGuiModules;
+import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 
 public class UtilGuiActivator extends HttpBundleActivator {
 

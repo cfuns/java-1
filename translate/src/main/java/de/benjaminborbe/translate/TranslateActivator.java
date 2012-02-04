@@ -1,6 +1,7 @@
 package de.benjaminborbe.translate;
 
 import org.osgi.framework.BundleContext;
+
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.translate.guice.TranslateModules;

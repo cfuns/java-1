@@ -7,8 +7,8 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
-import de.benjaminborbe.filestorage.api.FilestorageService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.filestorage.api.FilestorageService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class FilestorageGuiOsgiModule extends AbstractModule {

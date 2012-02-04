@@ -2,11 +2,11 @@ package de.benjaminborbe.crawler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.crawler.CrawlerActivator;
 import de.benjaminborbe.crawler.guice.CrawlerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;

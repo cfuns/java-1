@@ -9,7 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.bookmark.api.BookmarkService;
-import de.benjaminborbe.bookmark.api.BookmarkServiceMock;
+import de.benjaminborbe.bookmark.mock.BookmarkServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;

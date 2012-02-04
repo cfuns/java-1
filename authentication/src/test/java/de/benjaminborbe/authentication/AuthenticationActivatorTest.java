@@ -11,7 +11,6 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.authentication.AuthenticationActivator;
 import de.benjaminborbe.authentication.guice.AuthenticationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

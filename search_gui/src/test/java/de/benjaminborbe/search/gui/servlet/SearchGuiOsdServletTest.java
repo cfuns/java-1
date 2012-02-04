@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.search.gui.guice.SearchGuiModulesMock;
-import de.benjaminborbe.search.gui.servlet.SearchGuiOsdServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class SearchGuiOsdServletTest {

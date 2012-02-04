@@ -2,6 +2,7 @@ package de.benjaminborbe.tools.http;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 import javax.servlet.ServletOutputStream;
 
 public class ServletOutputStreamBuffer extends ServletOutputStream {

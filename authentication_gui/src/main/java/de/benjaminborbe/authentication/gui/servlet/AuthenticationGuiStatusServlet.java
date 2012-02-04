@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
@@ -55,7 +57,7 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-		final String sessionId = request.getSession().getId();
+		final SessionIdentifier sessionId = new SessionIdentifier(request);
 		if (authenticationService.isLoggedIn(sessionId)) {
 			widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
 			widgets.add(new BrWidget());

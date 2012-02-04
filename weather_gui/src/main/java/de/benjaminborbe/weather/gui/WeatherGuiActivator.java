@@ -8,9 +8,6 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.weather.gui.guice.WeatherGuiModules;
-import de.benjaminborbe.weather.gui.service.WeatherGuiDashboardWidget;
-import de.benjaminborbe.weather.gui.servlet.WeatherGuiServlet;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
@@ -18,6 +15,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.weather.gui.guice.WeatherGuiModules;
+import de.benjaminborbe.weather.gui.service.WeatherGuiDashboardWidget;
+import de.benjaminborbe.weather.gui.servlet.WeatherGuiServlet;
 
 public class WeatherGuiActivator extends HttpBundleActivator {
 

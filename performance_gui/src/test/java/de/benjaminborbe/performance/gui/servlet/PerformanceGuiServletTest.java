@@ -26,6 +26,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -34,7 +35,6 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.performance.api.PerformanceEntry;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.performance.gui.guice.PerformanceGuiModulesMock;
-import de.benjaminborbe.performance.gui.servlet.PerformanceGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -135,7 +135,9 @@ public class PerformanceGuiServletTest {
 		EasyMock.replay(performanceTracker);
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService);
+
 		EasyMock.replay(authenticationService);
 
 		final PerformanceGuiServlet performanceServlet = new PerformanceGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,

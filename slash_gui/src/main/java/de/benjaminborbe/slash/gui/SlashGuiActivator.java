@@ -9,8 +9,8 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.slash.gui.guice.SlashGuiModules;
-import de.benjaminborbe.slash.gui.servlet.SlashGuiRobotsTxtServlet;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiLogFilter;
+import de.benjaminborbe.slash.gui.servlet.SlashGuiRobotsTxtServlet;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;

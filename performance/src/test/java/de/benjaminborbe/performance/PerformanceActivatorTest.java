@@ -2,11 +2,11 @@ package de.benjaminborbe.performance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.performance.PerformanceActivator;
 import de.benjaminborbe.performance.guice.PerformanceModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;

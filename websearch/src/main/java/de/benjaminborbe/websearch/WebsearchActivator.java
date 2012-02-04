@@ -9,14 +9,14 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.websearch.guice.WebsearchModules;
-import de.benjaminborbe.websearch.service.WebsearchCrawlerNotify;
-import de.benjaminborbe.websearch.service.WebsearchSearchServiceComponent;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.websearch.guice.WebsearchModules;
+import de.benjaminborbe.websearch.service.WebsearchCrawlerNotify;
+import de.benjaminborbe.websearch.service.WebsearchSearchServiceComponent;
 
 public class WebsearchActivator extends BaseBundleActivator {
 

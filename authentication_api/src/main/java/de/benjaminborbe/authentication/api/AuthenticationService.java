@@ -4,15 +4,15 @@ public interface AuthenticationService {
 
 	boolean verifyCredential(String username, String password);
 
-	boolean login(String sessionId, String username, String password);
+	boolean login(SessionIdentifier sessionIdentifier, String username, String password);
 
-	boolean isLoggedIn(String sessionId);
+	boolean isLoggedIn(SessionIdentifier sessionIdentifier);
 
-	boolean logout(String sessionId);
+	boolean logout(SessionIdentifier sessionIdentifier);
 
-	String getCurrentUser(String sessionId);
+	String getCurrentUser(SessionIdentifier sessionIdentifier);
 
-	boolean register(String sessionId, String username, String password);
+	boolean register(SessionIdentifier sessionIdentifier, String username, String password);
 
-	boolean unregister(String sessionId);
+	boolean unregister(SessionIdentifier sessionIdentifier);
 }

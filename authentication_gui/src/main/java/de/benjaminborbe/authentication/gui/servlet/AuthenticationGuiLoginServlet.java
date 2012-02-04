@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
@@ -23,6 +25,7 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -67,7 +70,8 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 		final String username = request.getParameter(PARAMETER_USERNAME);
 		final String password = request.getParameter(PARAMETER_PASSWORD);
 		if (username != null && password != null) {
-			if (authenticationService.login(request.getSession().getId(), username, password)) {
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			if (authenticationService.login(sessionIdentifier, username, password)) {
 				final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
 				response.sendRedirect(referer);
 				logger.debug("send redirect to: " + referer);
@@ -83,6 +87,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 		form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
 		form.addFormInputWidget(new FormInputSubmitWidget("login"));
 		widgets.add(form);
+		widgets.add(new LinkRelativWidget(request, "/authentication/register", "no user? register here!"));
 		widgets.render(request, response, context);
 	}
 }

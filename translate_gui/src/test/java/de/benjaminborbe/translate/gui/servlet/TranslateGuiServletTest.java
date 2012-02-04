@@ -25,17 +25,17 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.translate.gui.guice.TranslateGuiModulesMock;
-import de.benjaminborbe.translate.gui.servlet.TranslateGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.translate.gui.guice.TranslateGuiModulesMock;
 
 public class TranslateGuiServletTest {
 
@@ -128,7 +128,9 @@ public class TranslateGuiServletTest {
 		};
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService);
+
 		EasyMock.replay(authenticationService);
 
 		final TranslateGuiServlet translateServlet = new TranslateGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,

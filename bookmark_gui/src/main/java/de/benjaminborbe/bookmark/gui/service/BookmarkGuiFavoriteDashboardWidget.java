@@ -1,7 +1,8 @@
 package de.benjaminborbe.bookmark.gui.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,11 @@ import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.link.LinkWidget;
+import de.benjaminborbe.website.util.LiWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidget {
@@ -35,15 +41,22 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
-		final PrintWriter out = response.getWriter();
-		out.println("<ul>");
-		for (final Bookmark bookmark : bookmarkService.getBookmarkFavoritie()) {
-			out.println("<li>");
-			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"" + target + "\">" + bookmark.getName() + "</a>");
-			out.println("</li>");
+		final ListWidget widgets = new ListWidget();
+		final UlWidget ul = new UlWidget();
+		for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite()) {
+			ul.add(new LiWidget(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target)));
 		}
-		out.println("</ul>");
-		out.println("<a href=\"" + request.getContextPath() + "/bookmark\">more</a>");
+		widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
+		widgets.render(request, response, context);
+	}
+
+	protected URL buildUrl(final String url) throws MalformedURLException {
+		if (url != null && url.indexOf("/") == 0) {
+			return new URL("http://bb" + url);
+		}
+		else {
+			return new URL(url);
+		}
 	}
 
 	@Override

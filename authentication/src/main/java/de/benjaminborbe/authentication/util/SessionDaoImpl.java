@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.tools.dao.DaoCache;
 
 @Singleton
@@ -17,9 +18,9 @@ public class SessionDaoImpl extends DaoCache<SessionBean, String> implements Ses
 	}
 
 	@Override
-	public SessionBean findBySessionId(final String sessionId) {
+	public SessionBean findBySessionId(final SessionIdentifier sessionId) {
 		for (final SessionBean session : getAll()) {
-			if (session.getId().equals(sessionId)) {
+			if (session.getId().equals(sessionId.getId())) {
 				return session;
 			}
 		}
@@ -27,7 +28,7 @@ public class SessionDaoImpl extends DaoCache<SessionBean, String> implements Ses
 	}
 
 	@Override
-	public SessionBean findOrCreateBySessionId(final String sessionId) {
+	public SessionBean findOrCreateBySessionId(final SessionIdentifier sessionId) {
 		{
 			final SessionBean session = findBySessionId(sessionId);
 			if (session != null) {
@@ -36,7 +37,7 @@ public class SessionDaoImpl extends DaoCache<SessionBean, String> implements Ses
 		}
 		{
 			final SessionBean session = create();
-			session.setId(sessionId);
+			session.setId(sessionId.getId());
 			save(session);
 			return session;
 		}

@@ -1,7 +1,9 @@
 package de.benjaminborbe.slash;
 
 import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
 
 import de.benjaminborbe.slash.guice.SlashModulesMock;

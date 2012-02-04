@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -12,6 +15,7 @@ import org.slf4j.Logger;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.guice.AuthenticationModulesMock;
 import de.benjaminborbe.authentication.util.SessionBean;
 import de.benjaminborbe.authentication.util.SessionDao;
@@ -65,39 +69,59 @@ public class AuthenticationServiceTest {
 		final String sessionId = "abc";
 		final String username = "username";
 
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final SessionBean session = EasyMock.createMock(SessionBean.class);
-		EasyMock.expect(session.getCurrentUser()).andReturn(username);
-		EasyMock.replay(session);
+		final SessionBean sessionBean = EasyMock.createMock(SessionBean.class);
+		EasyMock.expect(sessionBean.getCurrentUser()).andReturn(username);
+		EasyMock.replay(sessionBean);
 
 		final SessionDao sessionDao = EasyMock.createMock(SessionDao.class);
-		EasyMock.expect(sessionDao.findBySessionId(sessionId)).andReturn(session);
+		EasyMock.expect(sessionDao.findBySessionId(sessionIdentifier)).andReturn(sessionBean);
 		EasyMock.replay(sessionDao);
 
 		final UserDao userDao = EasyMock.createMock(UserDao.class);
 		EasyMock.replay(userDao);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
-		assertEquals(username, authenticationService.getCurrentUser(sessionId));
+		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier));
 	}
 
 	@Test
 	public void testGetCurrentUserExistsNot() {
 		final String sessionId = "abc";
 
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
 		final SessionDao sessionDao = EasyMock.createMock(SessionDao.class);
-		EasyMock.expect(sessionDao.findBySessionId(sessionId)).andReturn(null);
+		EasyMock.expect(sessionDao.findBySessionId(sessionIdentifier)).andReturn(null);
 		EasyMock.replay(sessionDao);
 
 		final UserDao userDao = EasyMock.createMock(UserDao.class);
 		EasyMock.replay(userDao);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
-		assertNull(authenticationService.getCurrentUser(sessionId));
+		assertNull(authenticationService.getCurrentUser(sessionIdentifier));
 	}
 }

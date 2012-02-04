@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 
 @Singleton
 public class AuthenticationServiceMock implements AuthenticationService {
@@ -14,36 +15,44 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public boolean verifyCredential(final String username, final String password) {
-		return true;
-	}
-
-	@Override
-	public boolean login(final String sessionId, final String username, final String password) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean isLoggedIn(final String sessionId) {
+	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean logout(final String sessionId) {
+	public boolean isLoggedIn(final SessionIdentifier sessionIdentifier) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String getCurrentUser(final String sessionId) {
+	public boolean logout(final SessionIdentifier sessionIdentifier) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getCurrentUser(final SessionIdentifier sessionIdentifier) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean register(final String sessionId, final String username, final String password) {
+	public boolean register(final SessionIdentifier sessionIdentifier, final String username, final String password) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean unregister(final String sessionId) {
+	public boolean unregister(final SessionIdentifier sessionIdentifier) {
+		// TODO Auto-generated method stub
 		return false;
 	}
+
 }

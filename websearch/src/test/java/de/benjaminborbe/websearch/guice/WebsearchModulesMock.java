@@ -9,7 +9,6 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;
 import de.benjaminborbe.tools.osgi.mock.ServletModuleMock;
-import de.benjaminborbe.websearch.guice.WebsearchModule;
 import de.benjaminborbe.website.guice.WebsiteModule;
 
 public class WebsearchModulesMock implements Modules {

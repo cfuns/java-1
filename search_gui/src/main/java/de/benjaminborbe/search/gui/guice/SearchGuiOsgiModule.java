@@ -7,9 +7,9 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
-import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.search.api.SearchService;
 
 public class SearchGuiOsgiModule extends AbstractModule {
 

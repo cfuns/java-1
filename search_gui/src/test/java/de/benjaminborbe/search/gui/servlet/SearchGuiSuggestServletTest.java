@@ -16,7 +16,6 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.gui.guice.SearchGuiModulesMock;
-import de.benjaminborbe.search.gui.servlet.SearchGuiSuggestServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class SearchGuiSuggestServletTest {

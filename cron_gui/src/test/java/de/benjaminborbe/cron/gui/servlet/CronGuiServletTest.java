@@ -1,10 +1,12 @@
 package de.benjaminborbe.cron.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.cron.gui.guice.CronGuiModulesMock;
-import de.benjaminborbe.cron.gui.servlet.CronGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class CronGuiServletTest {

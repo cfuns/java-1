@@ -8,7 +8,6 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.worktime.gui.guice.WorktimeGuiModulesMock;
-import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiServlet;
 
 public class WorktimeGuiServletTest {
 

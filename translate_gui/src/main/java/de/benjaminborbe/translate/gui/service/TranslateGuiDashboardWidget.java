@@ -1,6 +1,7 @@
 package de.benjaminborbe.translate.gui.service;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +35,7 @@ public class TranslateGuiDashboardWidget implements DashboardContentWidget {
 		logger.debug("render");
 		final String action = "http://dict.leo.org/ende";
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET).addTarget(target);
-		formWidget.addFormInputWidget(new FormInputTextWidget("search"));
+		formWidget.addFormInputWidget(new FormInputTextWidget("search").addPlaceholder("translate ..."));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("translate"));
 		formWidget.render(request, response, context);
 	}

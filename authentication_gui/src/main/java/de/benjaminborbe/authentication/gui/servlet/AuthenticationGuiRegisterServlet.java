@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
@@ -64,12 +66,11 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-
 		final String username = request.getParameter(PARAMETER_USERNAME);
 		final String password = request.getParameter(PARAMETER_PASSWORD);
 		if (username != null && password != null) {
-			final String sessionId = request.getSession().getId();
-			if (authenticationService.register(sessionId, username, password)) {
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			if (authenticationService.register(sessionIdentifier, username, password)) {
 				final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
 				response.sendRedirect(referer);
 				logger.debug("send redirect to: " + referer);

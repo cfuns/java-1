@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
@@ -62,8 +64,8 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 
 		final String confirm = request.getParameter(PARAMETER_CONFIRM);
 		if ("true".equals(confirm)) {
-			final String sessionId = request.getSession().getId();
-			if (authenticationService.unregister(sessionId)) {
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			if (authenticationService.unregister(sessionIdentifier)) {
 				widgets.add("unregister => success");
 			}
 			else {

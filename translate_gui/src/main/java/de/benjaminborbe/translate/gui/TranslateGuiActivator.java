@@ -9,13 +9,13 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
-import de.benjaminborbe.translate.gui.guice.TranslateGuiModules;
-import de.benjaminborbe.translate.gui.service.TranslateGuiDashboardWidget;
-import de.benjaminborbe.translate.gui.servlet.TranslateGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.translate.gui.guice.TranslateGuiModules;
+import de.benjaminborbe.translate.gui.service.TranslateGuiDashboardWidget;
+import de.benjaminborbe.translate.gui.servlet.TranslateGuiServlet;
 
 public class TranslateGuiActivator extends HttpBundleActivator {
 

@@ -63,7 +63,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarkFavoritie() {
+	public List<Bookmark> getBookmarkFavorite() {
 		logger.debug("getBookmarks");
 		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites());
 		Collections.sort(bookmarks, bookmarkComparator);

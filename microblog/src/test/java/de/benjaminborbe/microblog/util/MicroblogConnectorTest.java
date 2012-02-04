@@ -8,6 +8,7 @@ import java.net.URL;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
+
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
