@@ -12,11 +12,15 @@ import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiStatusServlet authenticationGuiStatusServlet;
 
 	@Inject
 	private AuthenticationGuiLoginServlet authenticationGuiLoginServlet;
@@ -41,6 +45,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(authenticationGuiServlet, "/"));
 		result.add(new ServletInfo(authenticationGuiLoginServlet, "/login"));
+		result.add(new ServletInfo(authenticationGuiStatusServlet, "/status"));
 		result.add(new ServletInfo(authenticationGuiLogoutServlet, "/logout"));
 		return result;
 	}

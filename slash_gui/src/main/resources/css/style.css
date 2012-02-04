@@ -14,3 +14,11 @@ fieldset {
 a {
 	color: #1122CC;
 }
+
+ul {
+	margin-left: 20px;
+}
+
+input {
+	font-size: 17px;
+}
