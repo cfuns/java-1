@@ -119,3 +119,7 @@ worktime_api/target
 worktime_gui/target
 worktime_test/target
 target/
+filestorage/target
+filestorage_api/target
+filestorage_gui/target
+filestorage_test/target

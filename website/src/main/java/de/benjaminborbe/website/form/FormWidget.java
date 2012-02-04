@@ -22,6 +22,8 @@ public class FormWidget implements Widget {
 
 	private Target target;
 
+	private FormEncType encType;
+
 	public FormWidget(final String action) {
 		this.action = action;
 	}
@@ -46,6 +48,9 @@ public class FormWidget implements Widget {
 		if (target != null) {
 			out.print(" target=\"" + target + "\"");
 		}
+		if (encType != null) {
+			out.print(" enctype=\"" + encType + "\"");
+		}
 		out.print(">");
 		out.println("<fieldset>");
 		for (final FormInputWidget formInputWidget : formInputWidgets) {
@@ -57,6 +62,11 @@ public class FormWidget implements Widget {
 
 	public FormWidget addTarget(final Target target) {
 		this.target = target;
+		return this;
+	}
+
+	public FormWidget addEncType(final FormEncType encType) {
+		this.encType = encType;
 		return this;
 	}
 

@@ -154,6 +154,10 @@
 		<module>worktime_api</module>
 		<module>worktime_gui</module>
 		<module>worktime_test</module>
+		<module>filestorage</module>
+		<module>filestorage_api</module>
+		<module>filestorage_gui</module>
+		<module>filestorage_test</module>
 	</modules>
 	<build>
 		<resources>

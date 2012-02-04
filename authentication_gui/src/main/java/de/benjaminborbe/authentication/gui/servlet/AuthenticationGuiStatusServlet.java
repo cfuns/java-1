@@ -55,17 +55,17 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
-		widgets.addWidget(new H1Widget(new StringWidget(getTitle())));
+		widgets.add(new H1Widget(new StringWidget(getTitle())));
 		final String sessionId = request.getSession().getId();
 		if (authenticationService.isLoggedIn(sessionId)) {
-			widgets.addWidget(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
-			widgets.addWidget(new BrWidget());
-			widgets.addWidget(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
+			widgets.add(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
+			widgets.add(new BrWidget());
+			widgets.add(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
 		}
 		else {
-			widgets.addWidget(new StringWidget("not logged in"));
-			widgets.addWidget(new BrWidget());
-			widgets.addWidget(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
+			widgets.add(new StringWidget("not logged in"));
+			widgets.add(new BrWidget());
+			widgets.add(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
 		}
 		widgets.render(request, response, context);
 	}

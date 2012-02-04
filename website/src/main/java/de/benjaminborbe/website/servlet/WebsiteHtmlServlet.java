@@ -32,6 +32,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.StringWidget;
 
@@ -131,22 +132,23 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	protected void printTop(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printTop");
 		final ListWidget widgets = new ListWidget();
-		widgets.addWidget(navigationWidget);
+		widgets.add(navigationWidget);
 		final String sessionId = request.getSession().getId();
 		if (authenticationService.isLoggedIn(sessionId)) {
-			widgets.addWidget(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
-			widgets.addWidget(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
+			widgets.add(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
+			widgets.add(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
 		}
 		else {
-			widgets.addWidget(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
+			widgets.add(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
 		}
 		widgets.render(request, response, context);
 	}
 
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
 		logger.trace("printContent");
-		out.println("<h1>" + getTitle() + "</h1>");
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(new StringWidget(getTitle())));
+		widgets.render(request, response, context);
 	}
 
 	protected void printFooter(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
