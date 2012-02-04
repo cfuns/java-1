@@ -41,8 +41,8 @@ public class AuthenticationGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals("servlet count doesn't match", 4, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/authentication", "/authentication/login", "/authentication/logout", "/authentication/status")) {
+		assertEquals("servlet count doesn't match", 6, extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : Arrays.asList("/authentication", "/authentication/login", "/authentication/logout", "/authentication/status", "/authentication/register", "/authentication/unregister")) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}

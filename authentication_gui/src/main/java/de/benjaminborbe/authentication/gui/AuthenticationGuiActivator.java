@@ -11,8 +11,10 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -31,6 +33,12 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AuthenticationGuiLogoutServlet authenticationGuiLogoutServlet;
 
+	@Inject
+	private AuthenticationGuiUnregisterServlet authenticationGuiUnregisterServlet;
+
+	@Inject
+	private AuthenticationGuiRegisterServlet authenticationGuiRegisterServlet;
+
 	public AuthenticationGuiActivator() {
 		super("authentication");
 	}
@@ -47,6 +55,8 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiLoginServlet, "/login"));
 		result.add(new ServletInfo(authenticationGuiStatusServlet, "/status"));
 		result.add(new ServletInfo(authenticationGuiLogoutServlet, "/logout"));
+		result.add(new ServletInfo(authenticationGuiRegisterServlet, "/register"));
+		result.add(new ServletInfo(authenticationGuiUnregisterServlet, "/unregister"));
 		return result;
 	}
 

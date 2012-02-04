@@ -78,13 +78,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final UserBean user = userDao.findOrCreateByUsername(username);
 		user.setPassword(password);
 		userDao.save(user);
-		return true;
+		return login(sessionId, username, password);
 	}
 
 	@Override
 	public boolean unregister(final String sessionId) {
-		// TODO Auto-generated method stub
-		return false;
+		final String username = getCurrentUser(sessionId);
+		if (username == null) {
+			return false;
+		}
+		final UserBean user = userDao.findByUsername(username);
+		if (user == null) {
+			return false;
+		}
+		userDao.delete(user);
+		return logout(sessionId);
 	}
 
 }
