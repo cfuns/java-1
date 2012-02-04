@@ -26,7 +26,6 @@ import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.StringWidget;
 
 @Singleton
 public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
@@ -64,7 +63,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(new StringWidget(getTitle())));
+		widgets.add(new H1Widget(getTitle()));
 		final String username = request.getParameter(PARAMETER_USERNAME);
 		final String password = request.getParameter(PARAMETER_PASSWORD);
 		if (username != null && password != null) {
@@ -75,7 +74,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 				return;
 			}
 			else {
-				widgets.add(new StringWidget("login => failed"));
+				widgets.add("login => failed");
 			}
 		}
 		final String action = request.getContextPath() + "/authentication/login";

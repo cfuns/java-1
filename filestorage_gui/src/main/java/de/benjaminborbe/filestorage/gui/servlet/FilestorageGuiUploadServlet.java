@@ -34,7 +34,6 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.StringWidget;
 
 @Singleton
 public class FilestorageGuiUploadServlet extends WebsiteHtmlServlet {
@@ -66,7 +65,7 @@ public class FilestorageGuiUploadServlet extends WebsiteHtmlServlet {
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(new StringWidget(getTitle())));
+		widgets.add(new H1Widget(getTitle()));
 
 		final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 		if (isMultipart) {
@@ -81,7 +80,7 @@ public class FilestorageGuiUploadServlet extends WebsiteHtmlServlet {
 				@SuppressWarnings("unchecked")
 				final List<FileItem> items = upload.parseRequest(request);
 				for (final FileItem item : items) {
-					widgets.add(new StringWidget("file " + item.getName() + " uploaded!"));
+					widgets.add("file " + item.getName() + " uploaded!");
 					handleUpload(item);
 				}
 			}

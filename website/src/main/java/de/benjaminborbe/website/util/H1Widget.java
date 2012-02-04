@@ -10,4 +10,7 @@ public class H1Widget extends TagWidget {
 		super(TAG, contentWidget);
 	}
 
+	public H1Widget(final String content) {
+		this(new StringWidget(content));
+	}
 }

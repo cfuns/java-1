@@ -26,4 +26,8 @@ public class ListWidget implements Widget {
 		}
 	}
 
+	public void add(final String content) {
+		add(new StringWidget(content));
+	}
+
 }

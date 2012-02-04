@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 
@@ -14,7 +16,7 @@ public class StringWidget implements Widget {
 	private final String content;
 
 	public StringWidget(final String content) {
-		this.content = content;
+		this.content = StringEscapeUtils.escapeHtml(content);
 	}
 
 	@Override

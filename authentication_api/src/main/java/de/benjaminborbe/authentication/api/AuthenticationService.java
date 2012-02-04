@@ -11,4 +11,8 @@ public interface AuthenticationService {
 	boolean logout(String sessionId);
 
 	String getCurrentUser(String sessionId);
+
+	boolean register(String sessionId, String username, String password);
+
+	boolean unregister(String sessionId);
 }

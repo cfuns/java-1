@@ -34,7 +34,6 @@ import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.StringWidget;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends HttpServlet {
@@ -135,11 +134,11 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		widgets.add(navigationWidget);
 		final String sessionId = request.getSession().getId();
 		if (authenticationService.isLoggedIn(sessionId)) {
-			widgets.add(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
-			widgets.add(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
+			widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
+			widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
 		}
 		else {
-			widgets.add(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
+			widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
 		}
 		widgets.render(request, response, context);
 	}
@@ -147,7 +146,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(new StringWidget(getTitle())));
+		widgets.add(new H1Widget(getTitle()));
 		widgets.render(request, response, context);
 	}
 

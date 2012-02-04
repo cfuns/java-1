@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.website.util.StringWidget;
 
 public class LinkWidget implements Widget {
 
@@ -22,6 +23,10 @@ public class LinkWidget implements Widget {
 	public LinkWidget(final URL url, final Widget contentWidget) {
 		this.url = url;
 		this.contentWidget = contentWidget;
+	}
+
+	public LinkWidget(final URL url, final String content) {
+		this(url, new StringWidget(content));
 	}
 
 	public LinkWidget addTarget(final Target target) {

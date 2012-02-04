@@ -36,4 +36,14 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	public String getCurrentUser(final String sessionId) {
 		return null;
 	}
+
+	@Override
+	public boolean register(final String sessionId, final String username, final String password) {
+		return false;
+	}
+
+	@Override
+	public boolean unregister(final String sessionId) {
+		return false;
+	}
 }

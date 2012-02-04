@@ -1,8 +1,6 @@
 package de.benjaminborbe.crawler.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +27,9 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class CrawlerGuiServlet extends WebsiteHtmlServlet {
@@ -64,19 +65,17 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
 		logger.trace("printContent");
-		out.println("<h1>" + getTitle() + "</h1>");
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(getTitle()));
 		if (request.getParameter(PARAMETER_URL) != null) {
 			try {
 				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(request.getParameter(PARAMETER_URL)).setDepth(0).setFollowDomainLinksAllowed(false);
 				crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
-				out.println("add url successful");
+				widgets.add("add url successful");
 			}
 			catch (final CrawlerException e) {
-				out.println("<pre>");
-				e.printStackTrace(out);
-				out.println("</pre>");
+				widgets.add(new ExceptionWidget(e));
 			}
 		}
 		else {
@@ -84,7 +83,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 			final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url ..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
-			formWidget.render(request, response, context);
+			widgets.add(formWidget);
 		}
+		widgets.render(request, response, context);
 	}
 }

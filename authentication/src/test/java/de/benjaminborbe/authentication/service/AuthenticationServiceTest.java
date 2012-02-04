@@ -15,6 +15,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.guice.AuthenticationModulesMock;
 import de.benjaminborbe.authentication.util.SessionBean;
 import de.benjaminborbe.authentication.util.SessionDao;
+import de.benjaminborbe.authentication.util.UserBean;
+import de.benjaminborbe.authentication.util.UserDao;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class AuthenticationServiceTest {
@@ -43,7 +45,16 @@ public class AuthenticationServiceTest {
 		final SessionDao sessionDao = EasyMock.createMock(SessionDao.class);
 		EasyMock.replay(sessionDao);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao);
+		final UserBean user = EasyMock.createMock(UserBean.class);
+		EasyMock.expect(user.getPassword()).andReturn("test123").anyTimes();
+		EasyMock.replay(user);
+
+		final UserDao userDao = EasyMock.createMock(UserDao.class);
+		EasyMock.expect(userDao.findByUsername("bborbe")).andReturn(user).anyTimes();
+		EasyMock.expect(userDao.findByUsername("wrong")).andReturn(null).anyTimes();
+		EasyMock.replay(userDao);
+
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
 		assertFalse(authenticationService.verifyCredential("wrong", "test123"));
 		assertFalse(authenticationService.verifyCredential("bborbe", "wrong"));
 		assertTrue(authenticationService.verifyCredential("bborbe", "test123"));
@@ -65,7 +76,10 @@ public class AuthenticationServiceTest {
 		EasyMock.expect(sessionDao.findBySessionId(sessionId)).andReturn(session);
 		EasyMock.replay(sessionDao);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao);
+		final UserDao userDao = EasyMock.createMock(UserDao.class);
+		EasyMock.replay(userDao);
+
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
 		assertEquals(username, authenticationService.getCurrentUser(sessionId));
 	}
 
@@ -80,7 +94,10 @@ public class AuthenticationServiceTest {
 		EasyMock.expect(sessionDao.findBySessionId(sessionId)).andReturn(null);
 		EasyMock.replay(sessionDao);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao);
+		final UserDao userDao = EasyMock.createMock(UserDao.class);
+		EasyMock.replay(userDao);
+
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
 		assertNull(authenticationService.getCurrentUser(sessionId));
 	}
 }

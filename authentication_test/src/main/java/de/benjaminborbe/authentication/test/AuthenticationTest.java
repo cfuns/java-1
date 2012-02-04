@@ -5,6 +5,7 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 
 public class AuthenticationTest extends OSGiTestCase {
@@ -45,15 +46,38 @@ public class AuthenticationTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// TODO bborbe fixen
-	// public void testGetAuthenticationService() {
-	// final Object serviceObject = getServiceObject(AuthenticationService.class.getName(),
-	// null);
-	// final AuthenticationService service = (AuthenticationService) serviceObject;
-	// assertNotNull(service);
-	// assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl",
-	// service.getClass().getName());
-	// assertFalse(service.verifyCredential("wrong", "wrong"));
-	// }
+	public void testGetAuthenticationService() {
+		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
+		final AuthenticationService service = (AuthenticationService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
+	}
 
+	public void testRegister() {
+		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
+		final AuthenticationService service = (AuthenticationService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
+
+		final String sessionId = "asdf";
+		final String username = "testuser";
+		final String password = "testpassword";
+		assertTrue(service.register(sessionId, username, password));
+		assertFalse("must fail, because already registered", service.register(sessionId, username, password));
+	}
+
+	public void testVerifyCredentials() {
+		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
+		final AuthenticationService service = (AuthenticationService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
+
+		final String sessionId = "asdf";
+		final String username = "testuser";
+		final String password = "testpassword";
+		service.register(sessionId, username, password);
+		assertTrue(service.verifyCredential(username, password));
+		assertFalse(service.verifyCredential("wrong", password));
+		assertFalse(service.verifyCredential(username, "wrong"));
+	}
 }
