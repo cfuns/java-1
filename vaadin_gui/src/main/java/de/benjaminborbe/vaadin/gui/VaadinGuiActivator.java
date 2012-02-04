@@ -9,15 +9,17 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.vaadin.gui.guice.VaadinGuiModules;
-import de.benjaminborbe.vaadin.gui.servlet.VaadinGuiServlet;
+import de.benjaminborbe.vaadin.gui.servlet.MyApplicationServlet;
+
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class VaadinGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private VaadinGuiServlet vaadinGuiServlet;
+	private MyApplicationServlet myApplicationServlet;
 
 	public VaadinGuiActivator() {
 		super("vaadin");
@@ -31,8 +33,14 @@ public class VaadinGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(vaadinGuiServlet, "/"));
+		result.add(new ServletInfo(myApplicationServlet, "/"));
 		return result;
 	}
 
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/VAADIN", "VAADIN", true));
+		return result;
+	}
 }

@@ -12,9 +12,16 @@ public class ServletInfo {
 
 	private final String alias;
 
+	private final boolean slashServlet;
+
 	public ServletInfo(final HttpServlet servlet, final String alias) {
+		this(servlet, alias, false);
+	}
+
+	public ServletInfo(final HttpServlet servlet, final String alias, final boolean slashServlet) {
 		this.servlet = servlet;
 		this.alias = alias;
+		this.slashServlet = slashServlet;
 	}
 
 	public HttpServlet getServlet() {
@@ -31,5 +38,9 @@ public class ServletInfo {
 
 	public String getAlias() {
 		return alias;
+	}
+
+	public boolean isSlashServlet() {
+		return slashServlet;
 	}
 }

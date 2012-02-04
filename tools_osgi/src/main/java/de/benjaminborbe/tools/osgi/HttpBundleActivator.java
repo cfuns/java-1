@@ -52,7 +52,13 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			}
 		}
 		for (final ServletInfo servletInfo : getServletInfos()) {
-			final String alias = cleanupAlias(prefix + "/" + servletInfo.getAlias());
+			final String alias;
+			if (servletInfo.isSlashServlet()) {
+				alias = cleanupAlias(servletInfo.getAlias());
+			}
+			else {
+				alias = cleanupAlias(prefix + "/" + servletInfo.getAlias());
+			}
 			final Servlet servlet = servletInfo.getServlet();
 			@SuppressWarnings("rawtypes")
 			final Dictionary initparams = servletInfo.getInitParams();
@@ -69,7 +75,13 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			}
 		}
 		for (final ResourceInfo resourceInfo : getResouceInfos()) {
-			final String alias = cleanupAlias(prefix + "/" + resourceInfo.getAlias());
+			final String alias;
+			if (resourceInfo.isSlashResoure()) {
+				alias = cleanupAlias(resourceInfo.getAlias());
+			}
+			else {
+				alias = cleanupAlias(prefix + "/" + resourceInfo.getAlias());
+			}
 			final String name = resourceInfo.getName();
 			final HttpContext context = resourceInfo.getContext();
 			try {

@@ -73,10 +73,12 @@
 		<module>eventbus_api</module>
 		<module>eventbus_gui</module>
 		<module>eventbus_test</module>
+<!--
 		<module>gwt</module>
 		<module>gwt_api</module>
 		<module>gwt_gui</module>
 		<module>gwt_test</module>
+-->
 		<module>html</module>
 		<module>html_test</module>
 		<module>index</module>
@@ -133,10 +135,12 @@
 		<module>util_api</module>
 		<module>util_gui</module>
 		<module>util_test</module>
+<!--
 		<module>vaadin</module>
 		<module>vaadin_api</module>
 		<module>vaadin_gui</module>
 		<module>vaadin_test</module>
+-->
 		<module>weather</module>
 		<module>weather_api</module>
 		<module>weather_gui</module>
