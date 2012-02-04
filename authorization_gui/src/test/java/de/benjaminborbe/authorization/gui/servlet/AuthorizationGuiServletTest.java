@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -28,6 +29,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.gui.guice.AuthorizationGuiModulesMock;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -62,8 +64,16 @@ public class AuthorizationGuiServletTest {
 		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
 		EasyMock.replay(response);
 
+		final String sessionId = "324908234890";
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId).anyTimes();
+		EasyMock.replay(session);
+
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
+		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
+		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
@@ -116,8 +126,13 @@ public class AuthorizationGuiServletTest {
 				return httpContext;
 			}
 		};
+
+		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
+		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.replay(authenticationService);
+
 		final AuthorizationGuiServlet authorizationServlet = new AuthorizationGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				httpContextProvider);
+				authenticationService, httpContextProvider);
 
 		authorizationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

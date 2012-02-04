@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -63,10 +64,18 @@ public class AuthenticationGuiLoginServletTest {
 		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
 		EasyMock.replay(response);
 
+		final String sessionId = "324908234890";
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId).anyTimes();
+		EasyMock.replay(session);
+
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
+		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
+		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getParameter("username")).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter("password")).andReturn(null).anyTimes();
-		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
@@ -121,6 +130,7 @@ public class AuthenticationGuiLoginServletTest {
 		};
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
+		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
 		EasyMock.replay(authenticationService);
 
 		final AuthenticationGuiLoginServlet authenticationServlet = new AuthenticationGuiLoginServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,

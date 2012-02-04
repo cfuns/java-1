@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -63,8 +65,16 @@ public class MonitoringGuiServletTest {
 		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
 		EasyMock.replay(response);
 
+		final String sessionId = "324908234890";
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId).anyTimes();
+		EasyMock.replay(session);
+
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
+		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
+		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
+		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
@@ -122,8 +132,12 @@ public class MonitoringGuiServletTest {
 		monitoringWidget.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class));
 		EasyMock.replay(monitoringWidget);
 
-		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				monitoringWidget, httpContextProvider);
+		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
+		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.replay(authenticationService);
+
+		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				navigationWidget, monitoringWidget, httpContextProvider);
 
 		monitoringServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

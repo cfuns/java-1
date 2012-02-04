@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
@@ -30,7 +31,8 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 2429004714466731564L;
 
-	private static final UtilGuiPasswordCharacter[] DEFAULT_CHARACTERS = { UtilGuiPasswordCharacter.LOWER, UtilGuiPasswordCharacter.UPPER, UtilGuiPasswordCharacter.NUMBER, UtilGuiPasswordCharacter.SPECIAL };
+	private static final UtilGuiPasswordCharacter[] DEFAULT_CHARACTERS = { UtilGuiPasswordCharacter.LOWER, UtilGuiPasswordCharacter.UPPER, UtilGuiPasswordCharacter.NUMBER,
+			UtilGuiPasswordCharacter.SPECIAL };
 
 	private static final int DEFAULT_LENGHT = 8;
 
@@ -48,10 +50,11 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
+			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final UtilGuiPasswordGenerator utilPasswordGenerator) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.utilPasswordGenerator = utilPasswordGenerator;
 	}
 

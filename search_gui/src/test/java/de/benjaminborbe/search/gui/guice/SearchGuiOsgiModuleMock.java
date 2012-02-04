@@ -6,6 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.search.api.SearchService;
@@ -17,6 +19,7 @@ public class SearchGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(SearchService.class).to(SearchServiceMock.class).in(Singleton.class);
 		bind(NavigationWidget.class).to(NavigationWidgetMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);

@@ -6,6 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.mock.CrawlerServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -17,6 +19,7 @@ public class CrawlerGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(CrawlerService.class).to(CrawlerServiceMock.class).in(Singleton.class);
 		bind(NavigationWidget.class).to(NavigationWidgetMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);

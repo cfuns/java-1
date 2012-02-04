@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -29,7 +30,10 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.StringWidget;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends HttpServlet {
@@ -50,9 +54,11 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	protected final ParseUtil parseUtil;
 
-	private final NavigationWidget navigationWidget;
+	protected final NavigationWidget navigationWidget;
 
-	private final Provider<HttpContext> httpContextProvider;
+	protected final Provider<HttpContext> httpContextProvider;
+
+	protected final AuthenticationService authenticationService;
 
 	@Inject
 	public WebsiteHtmlServlet(
@@ -63,6 +69,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider) {
 		this.logger = logger;
 		this.cssResourceRenderer = cssResourceRenderer;
@@ -71,6 +78,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		this.timeZoneUtil = timeZoneUtil;
 		this.parseUtil = parseUtil;
 		this.navigationWidget = navigationWidget;
+		this.authenticationService = authenticationService;
 		this.httpContextProvider = httpContextProvider;
 	}
 
@@ -122,7 +130,17 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	protected void printTop(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printTop");
-		navigationWidget.render(request, response, context);
+		final ListWidget widgets = new ListWidget();
+		widgets.addWidget(navigationWidget);
+		final String sessionId = request.getSession().getId();
+		if (authenticationService.isLoggedIn(sessionId)) {
+			widgets.addWidget(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
+			widgets.addWidget(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
+		}
+		else {
+			widgets.addWidget(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
+		}
+		widgets.render(request, response, context);
 	}
 
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
@@ -41,9 +42,10 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
 			final ConfigurationService configurationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.configurationService = configurationService;
 	}
 

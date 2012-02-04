@@ -1,8 +1,6 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +24,9 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.StringWidget;
 
 @Singleton
 public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
@@ -38,7 +39,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 
 	private static final String PARAMETER_USERNAME = "username";
 
-	private final AuthenticationService authenticationService;
+	private static final String PARAMETER_REFERER = "referer";
 
 	@Inject
 	public AuthenticationGuiLoginServlet(
@@ -51,8 +52,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
-		this.authenticationService = authenticationService;
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 	}
 
 	@Override
@@ -62,17 +62,20 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
 		logger.trace("printContent");
-		out.println("<h1>" + getTitle() + "</h1>");
+		final ListWidget widgets = new ListWidget();
+		widgets.addWidget(new H1Widget(new StringWidget(getTitle())));
 		final String username = request.getParameter(PARAMETER_USERNAME);
 		final String password = request.getParameter(PARAMETER_PASSWORD);
 		if (username != null && password != null) {
 			if (authenticationService.login(request.getSession().getId(), username, password)) {
-				out.println("login => success");
+				final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
+				response.sendRedirect(referer);
+				logger.debug("send redirect to: " + referer);
+				return;
 			}
 			else {
-				out.println("login => failed");
+				widgets.addWidget(new StringWidget("login => failed"));
 			}
 		}
 		final String action = request.getContextPath() + "/authentication/login";
@@ -80,6 +83,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
 		form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
 		form.addFormInputWidget(new FormInputSubmitWidget("login"));
-		form.render(request, response, context);
+		widgets.addWidget(form);
+		widgets.render(request, response, context);
 	}
 }

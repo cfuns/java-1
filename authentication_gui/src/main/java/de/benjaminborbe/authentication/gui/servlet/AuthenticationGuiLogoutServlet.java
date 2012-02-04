@@ -29,8 +29,6 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Authentication - Logout";
 
-	private final AuthenticationService authenticationService;
-
 	@Inject
 	public AuthenticationGuiLogoutServlet(
 			final Logger logger,
@@ -42,8 +40,7 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
-		this.authenticationService = authenticationService;
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 	}
 
 	@Override

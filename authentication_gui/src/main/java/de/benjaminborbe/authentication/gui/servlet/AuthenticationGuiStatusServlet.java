@@ -1,7 +1,6 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,9 +18,11 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.br.BrWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
-import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.StringWidget;
 
 @Singleton
@@ -30,8 +31,6 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Authentication - Login";
-
-	private final AuthenticationService authenticationService;
 
 	@Inject
 	public AuthenticationGuiStatusServlet(
@@ -44,8 +43,7 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, httpContextProvider);
-		this.authenticationService = authenticationService;
+		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 	}
 
 	@Override
@@ -55,22 +53,20 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
 		logger.trace("printContent");
-		out.println("<h1>" + getTitle() + "</h1>");
-
+		final ListWidget widgets = new ListWidget();
+		widgets.addWidget(new H1Widget(new StringWidget(getTitle())));
 		final String sessionId = request.getSession().getId();
 		if (authenticationService.isLoggedIn(sessionId)) {
-			out.println("logged in as " + authenticationService.getCurrentUser(sessionId));
-			out.println("<br/>");
-			final LinkWidget link = new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout"));
-			link.render(request, response, context);
+			widgets.addWidget(new StringWidget("logged in as " + authenticationService.getCurrentUser(sessionId)));
+			widgets.addWidget(new BrWidget());
+			widgets.addWidget(new LinkRelativWidget(request, "/authentication/logout", new StringWidget("logout")));
 		}
 		else {
-			out.println("not logged in");
-			out.println("<br/>");
-			final LinkWidget link = new LinkRelativWidget(request, "/authentication/login", new StringWidget("login"));
-			link.render(request, response, context);
+			widgets.addWidget(new StringWidget("not logged in"));
+			widgets.addWidget(new BrWidget());
+			widgets.addWidget(new LinkRelativWidget(request, "/authentication/login", new StringWidget("login")));
 		}
+		widgets.render(request, response, context);
 	}
 }
