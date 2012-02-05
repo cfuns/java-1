@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -53,7 +54,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		printSearchForm(request, response, context);
 		final String[] words = searchUtil.buildSearchParts(searchQuery);
-		final List<SearchResult> results = searchService.search(words, MAX_RESULTS);
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+		final List<SearchResult> results = searchService.search(sessionIdentifier, words, MAX_RESULTS);
 		printSearchResults(request, response, results);
 	}
 

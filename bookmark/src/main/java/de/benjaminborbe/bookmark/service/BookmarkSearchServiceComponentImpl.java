@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.search.api.SearchResult;
@@ -33,10 +34,10 @@ public class BookmarkSearchServiceComponentImpl implements SearchServiceComponen
 	}
 
 	@Override
-	public List<SearchResult> search(final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
 		logger.debug("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
-		final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(words);
+		final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, words);
 		final int max = Math.min(maxResults, bookmarks.size());
 		for (int i = 0; i < max; ++i) {
 			try {

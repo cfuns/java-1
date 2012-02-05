@@ -14,6 +14,14 @@ public class UserDaoImpl extends DaoCache<UserBean, String> implements UserDao {
 	@Inject
 	public UserDaoImpl(final Logger logger, final Provider<UserBean> provider) {
 		super(logger, provider);
+
+		init();
+	}
+
+	protected void init() {
+		final UserBean user = findOrCreateByUsername("bborbe");
+		user.setPassword("mazdazx");
+		save(user);
 	}
 
 	@Override

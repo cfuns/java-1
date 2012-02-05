@@ -2,12 +2,14 @@ package de.benjaminborbe.bookmark.api;
 
 import java.util.List;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+
 public interface BookmarkService {
 
-	List<Bookmark> getBookmarks();
+	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier);
 
-	List<Bookmark> searchBookmarks(String[] words);
+	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, String[] words);
 
-	List<Bookmark> getBookmarkFavorite();
+	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier);
 
 }

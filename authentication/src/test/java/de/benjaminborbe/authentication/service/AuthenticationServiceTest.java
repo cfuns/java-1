@@ -94,7 +94,7 @@ public class AuthenticationServiceTest {
 		EasyMock.replay(userDao);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
-		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier));
+		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier).getId());
 	}
 
 	@Test

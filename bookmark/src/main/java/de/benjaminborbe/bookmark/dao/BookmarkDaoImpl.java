@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.dao.DaoCacheAutoIncrement;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
 
@@ -24,6 +25,20 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 		@Override
 		public boolean apply(final BookmarkBean bookmark) {
 			return bookmark.isFavorite();
+		}
+	}
+
+	private final class BookmarkOwnerPredicate implements Predicate<BookmarkBean> {
+
+		private final UserIdentifier userIdentifier;
+
+		BookmarkOwnerPredicate(final UserIdentifier userIdentifier) {
+			this.userIdentifier = userIdentifier;
+		}
+
+		@Override
+		public boolean apply(final BookmarkBean bookmark) {
+			return userIdentifier != null && userIdentifier.getId().equals(bookmark.getOwnerUsername());
 		}
 	}
 
@@ -147,13 +162,23 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 		bookmark.setDescription(description);
 		bookmark.setKeywords(keywords);
 		bookmark.setFavorite(favorite);
+		bookmark.setOwnerUsername("bborbe");
 		return bookmark;
 	}
 
 	@Override
-	public Collection<BookmarkBean> getFavorites() {
-		final Predicate<BookmarkBean> filter = new BookmarkFavoritePredicate();
-		return Collections2.filter(getAll(), filter);
+	public Collection<BookmarkBean> getFavorites(final UserIdentifier userIdentifier) {
+		final Collection<BookmarkBean> bookmarks = getAll();
+		Collections2.filter(bookmarks, new BookmarkFavoritePredicate());
+		return bookmarks;
+	}
+
+	@Override
+	public Collection<BookmarkBean> getByUsername(final UserIdentifier userIdentifier) {
+		final Collection<BookmarkBean> bookmarks = getAll();
+		Collections2.filter(bookmarks, new BookmarkFavoritePredicate());
+		Collections2.filter(bookmarks, new BookmarkOwnerPredicate(userIdentifier));
+		return bookmarks;
 	}
 
 }

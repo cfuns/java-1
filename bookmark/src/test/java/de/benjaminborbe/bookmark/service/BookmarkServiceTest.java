@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
@@ -28,7 +29,11 @@ public class BookmarkServiceTest {
 	public void Description() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkService a = injector.getInstance(BookmarkService.class);
-		for (final Bookmark bookmark : a.getBookmarks()) {
+
+		final String sessionId = "asdf";
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
+
+		for (final Bookmark bookmark : a.getBookmarks(sessionIdentifier)) {
 			assertNotNull(bookmark.getDescription());
 			assertNotNull(bookmark.getUrl());
 			assertNotNull(bookmark.getName());

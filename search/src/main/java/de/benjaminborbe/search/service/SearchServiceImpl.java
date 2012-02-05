@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceComponent;
@@ -29,7 +30,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResult> search(final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
 		logger.debug("search words: " + StringUtils.join(words, ","));
 
 		final List<SearchResult> result = new ArrayList<SearchResult>();
@@ -38,7 +39,7 @@ public class SearchServiceImpl implements SearchService {
 		for (final SearchServiceComponent searchServiceComponent : searchServiceComponents) {
 			logger.debug("search in searchServiceComponent: " + searchServiceComponent.getClass().getSimpleName());
 			try {
-				result.addAll(searchServiceComponent.search(words, maxResults));
+				result.addAll(searchServiceComponent.search(sessionIdentifier, words, maxResults));
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);

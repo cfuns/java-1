@@ -19,6 +19,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.html.api.CssResourceRenderer;
@@ -69,7 +70,8 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 	protected void printLinks(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<h2>Links</h2>");
-		for (final Bookmark bookmark : bookmarkService.getBookmarks()) {
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+		for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
 			out.println("<li>");
 			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"" + target + "\">" + bookmark.getName() + "</a>");
 			out.println(" ");

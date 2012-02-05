@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.search.api.SearchResult;
@@ -31,7 +32,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
 		logger.debug("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchActivator.INDEX, StringUtils.join(words, " "));

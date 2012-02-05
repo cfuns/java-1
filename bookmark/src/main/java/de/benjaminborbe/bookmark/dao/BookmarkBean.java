@@ -21,6 +21,8 @@ public class BookmarkBean implements EntityLong, Bookmark {
 
 	private boolean favorite;
 
+	private String ownerUsername;
+
 	@Override
 	public String getName() {
 		return name;
@@ -73,5 +75,13 @@ public class BookmarkBean implements EntityLong, Bookmark {
 
 	public void setFavorite(final boolean favorite) {
 		this.favorite = favorite;
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(final String ownerUsername) {
+		this.ownerUsername = ownerUsername;
 	}
 }

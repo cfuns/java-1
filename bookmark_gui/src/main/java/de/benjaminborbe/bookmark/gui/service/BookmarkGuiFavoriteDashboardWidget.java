@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
@@ -43,7 +44,8 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 		logger.debug("render");
 		final ListWidget widgets = new ListWidget();
 		final UlWidget ul = new UlWidget();
-		for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite()) {
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+		for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite(sessionIdentifier)) {
 			ul.add(new LiWidget(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target)));
 		}
 		widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));

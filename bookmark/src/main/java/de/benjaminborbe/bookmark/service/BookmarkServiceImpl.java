@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
@@ -48,14 +51,17 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	private final BookmarkDao bookmarkDao;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public BookmarkServiceImpl(final Logger logger, final BookmarkDao bookmarkDao) {
+	public BookmarkServiceImpl(final Logger logger, final AuthenticationService authenticationService, final BookmarkDao bookmarkDao) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.bookmarkDao = bookmarkDao;
 	}
 
 	@Override
-	public List<Bookmark> getBookmarks() {
+	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) {
 		logger.debug("getBookmarks");
 		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getAll());
 		Collections.sort(bookmarks, bookmarkComparator);
@@ -63,17 +69,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarkFavorite() {
+	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) {
 		logger.debug("getBookmarks");
-		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites());
+		final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites(userIdentifier));
 		Collections.sort(bookmarks, bookmarkComparator);
 		return bookmarks;
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final String[] parts) {
+	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) {
 		final List<Match> matches = new ArrayList<Match>();
-		for (final Bookmark bookmark : getBookmarks()) {
+		for (final Bookmark bookmark : getBookmarks(sessionIdentifier)) {
 			final int counter = match(bookmark, parts);
 			if (counter > 0) {
 				final Match match = new Match(bookmark, counter);

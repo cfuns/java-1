@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.gui.util.SearchGuiUtil;
@@ -47,7 +48,8 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		final String queryString = request.getParameter(PARAMETER_SEARCH);
 		final String[] words = searchUtil.buildSearchParts(queryString);
-		final List<SearchResult> searchResults = searchService.search(words, MAX_RESULTS);
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+		final List<SearchResult> searchResults = searchService.search(sessionIdentifier, words, MAX_RESULTS);
 		logger.debug("found " + searchResults.size() + " searchResults");
 		final JSONArray obj = buildJson(searchResults);
 		obj.writeJSONString(out);
