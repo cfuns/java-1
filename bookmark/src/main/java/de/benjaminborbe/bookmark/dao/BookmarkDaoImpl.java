@@ -89,6 +89,7 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 		save(createBookmark("https://www.icloud.com/", "iCloud", Arrays.asList("iCloud", "Apple")));
 		save(createBookmark("https://www.icloud.com/#find", "iCloud - Find", Arrays.asList("iCloud", "Find", "Apple")));
 		save(createBookmark("http://dict.leo.org/", "dict.leo.org", Arrays.asList("Dictionary", "Translate")));
+		save(createBookmark("http://www.doodle.com/", "Doodle", Arrays.asList("Abstimmen")));
 
 		// az
 		save(createBookmark("https://code.allianz24.de/hudson/", "Allianz24 - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "Allianz24", "Allsecur"), true));
@@ -168,17 +169,14 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 
 	@Override
 	public Collection<BookmarkBean> getFavorites(final UserIdentifier userIdentifier) {
-		final Collection<BookmarkBean> bookmarks = getAll();
-		Collections2.filter(bookmarks, new BookmarkFavoritePredicate());
-		return bookmarks;
+		final Collection<BookmarkBean> bookmarks = getByUsername(userIdentifier);
+		return Collections2.filter(bookmarks, new BookmarkFavoritePredicate());
 	}
 
 	@Override
 	public Collection<BookmarkBean> getByUsername(final UserIdentifier userIdentifier) {
 		final Collection<BookmarkBean> bookmarks = getAll();
-		Collections2.filter(bookmarks, new BookmarkFavoritePredicate());
-		Collections2.filter(bookmarks, new BookmarkOwnerPredicate(userIdentifier));
-		return bookmarks;
+		return Collections2.filter(bookmarks, new BookmarkOwnerPredicate(userIdentifier));
 	}
 
 }

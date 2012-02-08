@@ -11,7 +11,6 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
-import de.benjaminborbe.website.guice.WebsiteModule;
 
 public class CronModules implements Modules {
 
@@ -23,7 +22,7 @@ public class CronModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new CronOsgiModule(), new CronModule(), new WebsiteModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new CronOsgiModule(), new CronModule(), new ToolModule());
 	}
 
 }

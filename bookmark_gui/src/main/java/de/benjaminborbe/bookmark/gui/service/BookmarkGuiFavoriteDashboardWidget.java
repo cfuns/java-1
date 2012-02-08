@@ -48,6 +48,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 		for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite(sessionIdentifier)) {
 			ul.add(new LiWidget(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target)));
 		}
+		widgets.add(ul);
 		widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
 		widgets.render(request, response, context);
 	}

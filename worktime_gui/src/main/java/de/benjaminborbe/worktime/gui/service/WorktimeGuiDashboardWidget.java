@@ -1,7 +1,6 @@
 package de.benjaminborbe.worktime.gui.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +19,13 @@ import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
+import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.api.WorktimeServiceException;
+import de.benjaminborbe.worktime.gui.widget.WorktimeListWidget;
 
 @Singleton
 public class WorktimeGuiDashboardWidget implements DashboardContentWidget, RequireJavascriptResource, Widget {
@@ -50,55 +52,17 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
-
 		final int dayAmount = parseUtil.parseInt(request.getParameter(PARAMETER_LIMIT), DEFAULT_DAY_AMOUNT);
 		logger.debug("dayAmount = " + dayAmount);
-
+		final ListWidget widgets = new ListWidget();
 		try {
 			final List<Workday> worktimes = worktimeService.getTimes(dayAmount);
-			final PrintWriter out = response.getWriter();
-
-			out.println("<table class=\"sortable\">");
-			out.println("<tr>");
-			out.println("<th>");
-			out.println("Day");
-			out.println("</th>");
-			out.println("<th>");
-			out.println("StartTime");
-			out.println("</th>");
-			out.println("<th>");
-			out.println("EndTime");
-			out.println("</th>");
-			out.println("</tr>");
-			for (final Workday workday : worktimes) {
-				out.println("<tr>");
-				out.println("<td>");
-				out.println(dateUtil.dateString(workday.getDate().getTime()));
-				out.println("</td>");
-				out.println("<td>");
-				if (workday.getStart() != null)
-					out.println(dateUtil.timeString(workday.getStart().getTime()));
-				else
-					out.println("-");
-				out.println("</td>");
-				out.println("<td>");
-				if (workday.getEnd() != null)
-					out.println(dateUtil.timeString(workday.getEnd().getTime()));
-				else
-					out.println("-");
-				out.println("</td>");
-				out.println("</tr>");
-			}
-			out.println("</table>");
-			out.println("<a href=\"" + request.getContextPath() + "/worktime?limit=20\">more</a>");
+			widgets.add(new WorktimeListWidget(dateUtil, worktimes));
 		}
 		catch (final WorktimeServiceException e) {
-			final PrintWriter out = response.getWriter();
-			out.println("<pre>");
-			e.printStackTrace(out);
-			out.println("</pre>");
+			widgets.add(new ExceptionWidget(e));
 		}
+		widgets.render(request, response, context);
 	}
 
 	@Override

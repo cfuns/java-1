@@ -122,28 +122,11 @@
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.website</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.html</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cron.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
+	<dependency>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>de.benjaminborbe.cron.api</artifactId>
+		<version>${project.version}</version>
+		<scope>provided</scope>
+	</dependency>
 	</dependencies>
 </project>

@@ -1,7 +1,6 @@
 package de.benjaminborbe.websearch.service;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +16,8 @@ import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchActivator;
+import de.benjaminborbe.websearch.page.PageBean;
+import de.benjaminborbe.websearch.page.PageDao;
 
 @Singleton
 public class WebsearchCrawlerNotify implements CrawlerNotifier {
@@ -29,22 +30,31 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final StringUtil stringUtil;
 
+	private final PageDao pageDao;
+
 	@Inject
-	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService, final StringUtil stringUtil) {
+	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService, final StringUtil stringUtil, final PageDao pageDao) {
 		this.logger = logger;
 		this.indexerService = indexerService;
 		this.stringUtil = stringUtil;
+		this.pageDao = pageDao;
 	}
 
 	@Override
 	public void notifiy(final CrawlerResult result) {
 		logger.debug("notify");
-		try {
-			indexerService.addToIndex(WebsearchActivator.INDEX, new URL(result.getUrl()), extractTitle(result.getContent()), result.getContent());
-		}
-		catch (final MalformedURLException e) {
-			logger.error("MalformedURLException", e);
-		}
+		addToIndex(result);
+		updateLastVisit(result);
+	}
+
+	protected void addToIndex(final CrawlerResult result) {
+		indexerService.addToIndex(WebsearchActivator.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
+	}
+
+	protected void updateLastVisit(final CrawlerResult result) {
+		final PageBean page = pageDao.findOrCreate(result.getUrl());
+		page.setLastVisit(new Date());
+		pageDao.save(page);
 	}
 
 	protected String extractTitle(final String content) {

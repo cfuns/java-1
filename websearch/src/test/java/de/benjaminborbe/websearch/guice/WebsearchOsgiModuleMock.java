@@ -6,6 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.crawler.api.CrawlerService;
+import de.benjaminborbe.crawler.mock.CrawlerServiceMock;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.api.IndexSearcherServiceMock;
 import de.benjaminborbe.index.api.IndexerService;
@@ -19,7 +21,7 @@ public class WebsearchOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
-
+		bind(CrawlerService.class).to(CrawlerServiceMock.class).in(Singleton.class);
 		bind(IndexSearcherService.class).to(IndexSearcherServiceMock.class).in(Singleton.class);
 		bind(IndexerService.class).to(IndexerServiceMock.class).in(Singleton.class);
 		bind(NavigationWidget.class).to(NavigationWidgetMock.class).in(Singleton.class);

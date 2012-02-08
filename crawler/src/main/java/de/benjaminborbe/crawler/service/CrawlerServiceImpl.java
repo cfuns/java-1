@@ -1,7 +1,6 @@
 package de.benjaminborbe.crawler.service;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.slf4j.Logger;
@@ -41,16 +40,13 @@ public class CrawlerServiceImpl implements CrawlerService {
 		this.crawlerNotifier = crawlerNotifier;
 	}
 
-	protected void crawleDomain(final String domainUrl) throws CrawlerException {
+	protected void crawleDomain(final URL domainUrl) throws CrawlerException {
 		try {
 			logger.debug("crawle domain: " + domainUrl);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(domainUrl), TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(domainUrl, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 			final CrawlerResult crawleResult = new CrawlerResultImpl(domainUrl, content);
 			crawlerNotifier.notifiy(crawleResult);
-		}
-		catch (final MalformedURLException e) {
-			throw new CrawlerException("MalformedURLException", e);
 		}
 		catch (final HttpDownloaderException e) {
 			throw new CrawlerException("MalformedURLException", e);

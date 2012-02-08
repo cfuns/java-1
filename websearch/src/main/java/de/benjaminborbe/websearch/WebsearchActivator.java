@@ -10,10 +10,12 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.websearch.cron.RefreshPagesCronJob;
 import de.benjaminborbe.websearch.guice.WebsearchModules;
 import de.benjaminborbe.websearch.service.WebsearchCrawlerNotify;
 import de.benjaminborbe.websearch.service.WebsearchSearchServiceComponent;
@@ -28,6 +30,9 @@ public class WebsearchActivator extends BaseBundleActivator {
 	@Inject
 	private WebsearchSearchServiceComponent websearchSearchServiceComponent;
 
+	@Inject
+	private RefreshPagesCronJob refreshPagesCronJob;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new WebsearchModules(context);
@@ -38,6 +43,7 @@ public class WebsearchActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CrawlerNotifier.class, websearchCrawlerNotify));
 		result.add(new ServiceInfo(SearchServiceComponent.class, websearchSearchServiceComponent, websearchSearchServiceComponent.getClass().getName()));
+		result.add(new ServiceInfo(CronJob.class, refreshPagesCronJob));
 		return result;
 	}
 

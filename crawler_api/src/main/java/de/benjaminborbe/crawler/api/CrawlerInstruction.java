@@ -1,10 +1,12 @@
 package de.benjaminborbe.crawler.api;
 
+import java.net.URL;
+
 public interface CrawlerInstruction {
 
-	String getUrl();
+	/**
+	 * Start url
+	 */
+	URL getUrl();
 
-	int getDepth();
-
-	boolean isfollowDomainLinksAllowed();
 }

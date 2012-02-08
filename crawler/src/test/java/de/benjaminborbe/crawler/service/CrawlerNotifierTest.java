@@ -1,5 +1,6 @@
 package de.benjaminborbe.crawler.service;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,11 +15,11 @@ import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
 public class CrawlerNotifierTest {
 
 	@Test
-	public void testNotify() {
+	public void testNotify() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final String url = "http://test.de/index.html";
+		final URL url = new URL("http://test.de/index.html");
 		final String content = "Foo Bar";
 		final CrawlerResult result = new CrawlerResultImpl(url, content);
 

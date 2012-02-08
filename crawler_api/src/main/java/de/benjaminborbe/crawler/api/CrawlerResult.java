@@ -1,8 +1,10 @@
 package de.benjaminborbe.crawler.api;
 
+import java.net.URL;
+
 public interface CrawlerResult {
 
-	String getUrl();
+	URL getUrl();
 
 	String getContent();
 }

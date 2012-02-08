@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.tools.util.StringUtil;
+import de.benjaminborbe.websearch.page.PageDao;
 
 public class WebsearchCrawlerNotifyTest {
 
@@ -26,7 +27,10 @@ public class WebsearchCrawlerNotifyTest {
 		EasyMock.expect(stringUtil.shorten(title, 80)).andReturn(title);
 		EasyMock.replay(stringUtil);
 
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, indexerService, stringUtil);
+		final PageDao pageDao = EasyMock.createMock(PageDao.class);
+		EasyMock.replay(pageDao);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, indexerService, stringUtil, pageDao);
 		assertEquals(title, websearchCrawlerNotify.extractTitle(content));
 	}
 }
