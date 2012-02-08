@@ -106,6 +106,7 @@ public class MicroblogConnectorTest {
 		final String result = "Foo \"Bar\"";
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.expect(htmlUtil.filterHtmlTages("Foo<br/><b>&quote;Bar&quote;</b>")).andReturn("Foo &quote;Bar&quote;");
 		EasyMock.expect(htmlUtil.unescapeHtml("Foo &quote;Bar&quote;")).andReturn(result);
 		EasyMock.replay(htmlUtil);
 

@@ -114,7 +114,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	protected String extractContent(final String pageContent) {
 		final String startPattern = "<p class=\"entry-content\">";
 		final String endPattern = "</p>";
-		return htmlUtil.filterHtmlTages(extract(pageContent, startPattern, endPattern));
+		final String content = extract(pageContent, startPattern, endPattern);
+		return htmlUtil.unescapeHtml(htmlUtil.filterHtmlTages(content));
 	}
 
 	protected String extract(final String pageContent, final String startPattern, final String endPattern) {
