@@ -55,4 +55,12 @@ public class GoogleSearchServiceComponentTest {
 			assertEquals("Adopt the World's cutest virtual pets, and play games with these adorable cats and dogs.", result.get(pos).getDescription());
 		}
 	}
+
+	@Test
+	public void buildQueryUrl() throws Exception {
+		final HtmlUtil htmlUtil = new HtmlUtil();
+		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil);
+		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(new String[] { "crawler", "java" }).toExternalForm());
+
+	}
 }

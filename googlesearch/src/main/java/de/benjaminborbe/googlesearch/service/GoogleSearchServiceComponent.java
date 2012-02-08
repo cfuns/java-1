@@ -3,6 +3,7 @@ package de.benjaminborbe.googlesearch.service;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +101,8 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		return searchResults;
 	}
 
-	protected URL buildQueryUrl(final String[] words) throws MalformedURLException {
-		return new URL(PREFIX + htmlUtil.escapeHtml(StringUtils.join(words, ' ')));
+	protected URL buildQueryUrl(final String[] words) throws MalformedURLException, UnsupportedEncodingException {
+		final String url = PREFIX + URLEncoder.encode(StringUtils.join(words, ' '), "UTF8");
+		return new URL(url);
 	}
 }
