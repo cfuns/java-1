@@ -53,7 +53,8 @@
 								de.benjaminborbe.microblog.api, de.benjaminborbe.microblog_gui, de.benjaminborbe.performance, de.benjaminborbe.performance.api, de.benjaminborbe.performance.gui, de.benjaminborbe.crawler,
 								de.benjaminborbe.crawler.api, de.benjaminborbe.crawler.gui, de.benjaminborbe.websearch, de.benjaminborbe.websearch.api, de.benjaminborbe.websearch.gui, de.benjaminborbe.authentication,
 								de.benjaminborbe.authentication.api, de.benjaminborbe.authentication.gui, de.benjaminborbe.authorization, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization.gui,
-								de.benjaminborbe.configuration, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration.gui 
+								de.benjaminborbe.configuration, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration.gui, de.benjaminborbe.googlesearch, de.benjaminborbe.googlesearch.api,
+								de.benjaminborbe.googlesearch.gui 
 							</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
@@ -654,6 +655,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.configuration.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.googlesearch</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.googlesearch.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.googlesearch.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

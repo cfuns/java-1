@@ -19,4 +19,8 @@ public class HtmlUtil {
 	public String unescapeHtml(final String content) {
 		return StringEscapeUtils.unescapeHtml(content);
 	}
+
+	public String filterHtmlTages(final String content) {
+		return unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
+	}
 }

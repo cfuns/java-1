@@ -114,7 +114,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	protected String extractContent(final String pageContent) {
 		final String startPattern = "<p class=\"entry-content\">";
 		final String endPattern = "</p>";
-		return filterHtmlTages(extract(pageContent, startPattern, endPattern));
+		return htmlUtil.filterHtmlTages(extract(pageContent, startPattern, endPattern));
 	}
 
 	protected String extract(final String pageContent, final String startPattern, final String endPattern) {
@@ -129,7 +129,4 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		return pageContent.substring(startPos + startPattern.length(), endPos);
 	}
 
-	protected String filterHtmlTages(final String content) {
-		return htmlUtil.unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
-	}
 }

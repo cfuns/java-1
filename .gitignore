@@ -123,3 +123,7 @@ filestorage/target
 filestorage_api/target
 filestorage_gui/target
 filestorage_test/target
+googlesearch/target
+googlesearch_api/target
+googlesearch_gui/target
+googlesearch_test/target

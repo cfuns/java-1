@@ -158,6 +158,10 @@
 		<module>filestorage_api</module>
 		<module>filestorage_gui</module>
 		<module>filestorage_test</module>
+		<module>googlesearch</module>
+		<module>googlesearch_api</module>
+		<module>googlesearch_gui</module>
+		<module>googlesearch_test</module>
 	</modules>
 	<build>
 		<resources>
