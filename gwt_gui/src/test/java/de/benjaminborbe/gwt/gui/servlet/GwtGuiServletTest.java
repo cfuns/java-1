@@ -30,6 +30,7 @@ import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gwt.gui.guice.GwtGuiModulesMock;
 import de.benjaminborbe.gwt.gui.servlet.GwtGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -128,7 +129,7 @@ public class GwtGuiServletTest {
 		};
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(sessionId)).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
 		EasyMock.replay(authenticationService);
 
 		final GwtGuiServlet gwtServlet = new GwtGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,

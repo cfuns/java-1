@@ -10,6 +10,10 @@ test:
 	mvn test
 osgitest:
 	find . -type d -d 1 -name "*_test" -exec sh -c 'cd {} && make' \;
+guitest:
+	find . -type d -d 1 -name "*_gui" -exec sh -c 'cd {} && make' \;
+apitest:
+	find . -type d -d 1 -name "*_api" -exec sh -c 'cd {} && make' \;
 console:
 	telnet localhost 5555
 cleanup:

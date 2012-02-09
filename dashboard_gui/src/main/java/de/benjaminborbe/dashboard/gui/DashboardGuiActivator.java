@@ -54,7 +54,6 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
-		result.add(new ResourceInfo("/js", "js"));
 		return result;
 	}
 
