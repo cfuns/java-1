@@ -58,9 +58,11 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	protected void parseLinks(final CrawlerResult result) {
 		final Set<String> links = htmlUtil.parseLinks(result.getContent());
+		logger.debug("found " + links.size() + " links");
 		for (final String link : links) {
 			try {
 				final URL url = buildUrl(result.getUrl(), link);
+				logger.debug("found page: " + url.toExternalForm());
 				pageDao.findOrCreate(url);
 			}
 			catch (final MalformedURLException e) {
@@ -70,6 +72,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
+		logger.debug("buildUrl url: " + baseUrl.toExternalForm() + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
 			url = link;
@@ -79,16 +82,19 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			sw.append(baseUrl.getProtocol());
 			sw.append("://");
 			sw.append(baseUrl.getHost());
-			if (baseUrl.getPort() != 80 && baseUrl.getPort() != 443) {
+			if (baseUrl.getPort() != 80 && baseUrl.getPort() != 443 && baseUrl.getPort() != -1) {
 				sw.append(":");
 				sw.append(String.valueOf(baseUrl.getPort()));
 			}
+			sw.append(link);
 			url = sw.toString();
 		}
 		else {
 			url = baseUrl.toExternalForm() + link;
 		}
-		return new URL(cleanUpUrl(url));
+		final String result = cleanUpUrl(url);
+		logger.debug("result = " + result);
+		return new URL(result);
 	}
 
 	protected String cleanUpUrl(final String url) {

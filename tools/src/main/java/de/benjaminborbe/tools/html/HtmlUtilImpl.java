@@ -42,15 +42,15 @@ public class HtmlUtilImpl implements HtmlUtil {
 	public Set<String> parseLinks(final String htmlContent) {
 		final Set<String> result = new HashSet<String>();
 		if (htmlContent == null || htmlContent.length() == 0) {
-			logger.debug("no htmlcontent to parse");
+			logger.trace("no htmlcontent to parse");
 			return result;
 		}
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements elements = document.getElementsByTag("a");
-		logger.debug("found " + elements.size() + " a elements");
+		logger.trace("found " + elements.size() + " a elements");
 		for (final Element element : elements) {
 			final String href = element.attr("href");
-			logger.debug("add link to result " + href);
+			logger.trace("add link to result " + href);
 			result.add(href);
 		}
 		return result;

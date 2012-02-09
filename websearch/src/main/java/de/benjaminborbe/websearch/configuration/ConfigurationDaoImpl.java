@@ -28,7 +28,7 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 
 	protected void init() {
 		try {
-			final URL url = new URL("http://wiki.benjamin-borbe.de/");
+			final URL url = new URL("http://wiki.benjamin-borbe.de");
 			pageDao.findOrCreate(url);
 
 			final ConfigurationBean configuration = create();
