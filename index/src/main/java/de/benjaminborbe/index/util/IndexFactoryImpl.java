@@ -47,6 +47,7 @@ public class IndexFactoryImpl implements IndexFactory {
 
 	protected File getIndexDirectory(final String indexName) throws IOException {
 		final String dirName = getTempDir().getAbsolutePath() + "/lucene_index_" + indexName;
+		logger.debug("getIndexDirectory => " + dirName);
 		final File dir = new File(dirName);
 		if (dir.exists()) {
 			return dir;

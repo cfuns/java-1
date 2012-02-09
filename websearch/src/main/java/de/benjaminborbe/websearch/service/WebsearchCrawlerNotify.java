@@ -90,7 +90,23 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			url = sw.toString();
 		}
 		else {
-			url = baseUrl.toExternalForm() + link;
+			final StringWriter sw = new StringWriter();
+			sw.append(baseUrl.getProtocol());
+			sw.append("://");
+			sw.append(baseUrl.getHost());
+			if (baseUrl.getPort() != 80 && baseUrl.getPort() != 443 && baseUrl.getPort() != -1) {
+				sw.append(":");
+				sw.append(String.valueOf(baseUrl.getPort()));
+			}
+			sw.append("/");
+			final String path = baseUrl.getPath();
+			final int pos = path.lastIndexOf("/");
+			if (pos != -1) {
+				sw.append(path.substring(0, pos));
+			}
+			sw.append("/");
+			sw.append(link);
+			url = sw.toString();
 		}
 		final String result = cleanUpUrl(url);
 		logger.debug("result = " + result);
