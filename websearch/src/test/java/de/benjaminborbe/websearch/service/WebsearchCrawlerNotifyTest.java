@@ -42,7 +42,10 @@ public class WebsearchCrawlerNotifyTest {
 
 	@Test
 	public void testbuildUrl() throws Exception {
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(null, null, null, null, null);
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, null);
 
 		// TODO bborb add more tests
 		assertEquals("http://www.heise.de/", websearchCrawlerNotify.buildUrl(new URL("http://www.rocketnews.de/"), "http://www.heise.de/").toExternalForm());
@@ -51,7 +54,10 @@ public class WebsearchCrawlerNotifyTest {
 
 	@Test
 	public void testCleanUpUrl() {
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(null, null, null, null, null);
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, null);
 
 		assertEquals("http://www.heise.de", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de"));
 		assertEquals("http://www.heise.de/", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de/"));

@@ -72,7 +72,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
-		logger.debug("buildUrl url: " + baseUrl.toExternalForm() + " link: " + link);
+		logger.debug("buildUrl url: " + (baseUrl != null ? baseUrl.toExternalForm() : "null") + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
 			url = link;
