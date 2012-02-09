@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.Filter;
 
@@ -40,8 +41,9 @@ public class MicroblogGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(2, extHttpServiceMock.getRegisterServletCallCounter());
-		for (final String path : Arrays.asList("/microblog", "/microblog/send")) {
+		final List<String> paths = Arrays.asList("/microblog", "/microblog/send");
+		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
 		}
 	}
@@ -60,9 +62,10 @@ public class MicroblogGuiActivatorTest {
 
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(1, extHttpServiceMock.getRegisterFilterCallCounter());
+		final List<String> paths = Arrays.asList("/microblog.*");
+		assertEquals(paths.size(), extHttpServiceMock.getRegisterFilterCallCounter());
 
-		for (final String path : Arrays.asList("/microblog.*")) {
+		for (final String path : paths) {
 			assertTrue("no filter for path " + path + " registered", extHttpServiceMock.hasFilterPath(path));
 		}
 
@@ -85,11 +88,12 @@ public class MicroblogGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(0, extHttpServiceMock.getRegisterResourceCallCounter());
-		// for (final String path : Arrays.asList("/", "/robots.txt")) {
-		// assertTrue("no servlet for path " + path + " registered",
-		// extHttpServiceMock.hasServletPath(path));
-		// }
+		final List<String> paths = Arrays.asList();
+		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
+		for (final String path : paths) {
+			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
+		}
+
 	}
 
 }

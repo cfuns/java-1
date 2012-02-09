@@ -12,12 +12,20 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.websearch.gui.guice.WebsearchGuiModules;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiRefreshPagesServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private WebsearchGuiServlet websearchGuiServlet;
+
+	@Inject
+	private WebsearchGuiRefreshPagesServlet websearchGuiRefreshPagesServlet;
+
+	@Inject
+	private WebsearchGuiListPagesServlet websearchGuiListPagesServlet;
 
 	public WebsearchGuiActivator() {
 		super("websearch");
@@ -32,6 +40,8 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(websearchGuiServlet, "/"));
+		result.add(new ServletInfo(websearchGuiRefreshPagesServlet, "/refresh"));
+		result.add(new ServletInfo(websearchGuiListPagesServlet, "/list"));
 		return result;
 	}
 

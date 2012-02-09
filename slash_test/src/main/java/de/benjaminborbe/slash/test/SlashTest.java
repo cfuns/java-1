@@ -1,6 +1,7 @@
 package de.benjaminborbe.slash.test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
@@ -54,7 +55,8 @@ public class SlashTest extends OSGiTestCase {
 		assertNotNull(extHttpService);
 		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(), extHttpService, null);
 		assertNotNull(serviceRegistration);
-		for (final String path : Arrays.asList("/", "/robots.txt")) {
+		final List<String> paths = Arrays.asList("/", "/robots.txt");
+		for (final String path : paths) {
 			assertTrue("found no servlet for path \"" + path + "\"", extHttpService.hasServletPath(path));
 		}
 	}

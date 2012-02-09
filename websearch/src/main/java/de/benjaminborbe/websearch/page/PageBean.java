@@ -4,8 +4,9 @@ import java.net.URL;
 import java.util.Date;
 
 import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.websearch.api.Page;
 
-public class PageBean implements Entity<URL> {
+public class PageBean implements Entity<URL>, Page {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
@@ -13,6 +14,7 @@ public class PageBean implements Entity<URL> {
 
 	private Date lastVisit;
 
+	@Override
 	public Date getLastVisit() {
 		return lastVisit;
 	}

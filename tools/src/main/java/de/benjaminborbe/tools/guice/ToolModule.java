@@ -11,6 +11,8 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.DateUtilImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderImpl;
 import de.benjaminborbe.tools.jndi.JndiContext;
@@ -33,6 +35,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HtmlUtil.class).to(HtmlUtilImpl.class).in(Singleton.class);
 		bind(ResourceUtil.class).to(ResourceUtilImpl.class).in(Singleton.class);
 		bind(StringUtil.class).to(StringUtilImpl.class).in(Singleton.class);
 		bind(JndiContext.class).to(JndiContextImpl.class).in(Singleton.class);

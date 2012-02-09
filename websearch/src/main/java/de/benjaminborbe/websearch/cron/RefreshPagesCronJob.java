@@ -1,5 +1,7 @@
 package de.benjaminborbe.websearch.cron;
 
+import java.net.URL;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -11,24 +13,25 @@ import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.websearch.page.PageBean;
-import de.benjaminborbe.websearch.page.PageDao;
+import de.benjaminborbe.websearch.util.UpdateDeterminer;
 
 @Singleton
 public class RefreshPagesCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 15 * * * ?";
+	// private static final String SCHEDULE_EXPRESSION = "0 15 * * * ?";
+	private static final String SCHEDULE_EXPRESSION = "0 * * * * ?";
 
 	private final Logger logger;
 
-	private final PageDao pageDao;
-
 	private final CrawlerService crawlerService;
 
+	private final UpdateDeterminer updateDeterminer;
+
 	@Inject
-	public RefreshPagesCronJob(final Logger logger, final PageDao pageDao, final CrawlerService crawlerService) {
+	public RefreshPagesCronJob(final Logger logger, final UpdateDeterminer updateDeterminer, final CrawlerService crawlerService) {
 		this.logger = logger;
-		this.pageDao = pageDao;
+		this.updateDeterminer = updateDeterminer;
 		this.crawlerService = crawlerService;
 	}
 
@@ -40,9 +43,11 @@ public class RefreshPagesCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.debug("execute");
-		for (final PageBean page : pageDao.findExpiredPages()) {
-			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(page.getId());
+		for (final PageBean page : updateDeterminer.determineExpiredPages()) {
 			try {
+				final URL url = page.getId();
+				logger.debug("trigger refresh of url " + url.toExternalForm());
+				final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url);
 				crawlerService.processCrawlerInstruction(crawlerInstruction);
 			}
 			catch (final CrawlerException e) {

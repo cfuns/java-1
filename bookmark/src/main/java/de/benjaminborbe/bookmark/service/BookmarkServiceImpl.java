@@ -62,7 +62,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) {
-		logger.debug("getBookmarks");
+		logger.trace("getBookmarks");
 		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getAll());
 		Collections.sort(bookmarks, bookmarkComparator);
 		return bookmarks;
@@ -70,7 +70,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) {
-		logger.debug("getBookmarks");
+		logger.trace("getBookmarkFavorite");
 		final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites(userIdentifier));
 		Collections.sort(bookmarks, bookmarkComparator);

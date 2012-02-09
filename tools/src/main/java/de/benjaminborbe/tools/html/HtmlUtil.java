@@ -1,26 +1,15 @@
 package de.benjaminborbe.tools.html;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import java.util.Set;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+public interface HtmlUtil {
 
-@Singleton
-public class HtmlUtil {
+	String escapeHtml(final String content);
 
-	@Inject
-	public HtmlUtil() {
-	}
+	String unescapeHtml(final String content);
 
-	public String escapeHtml(final String content) {
-		return StringEscapeUtils.escapeHtml(content);
-	}
+	String filterHtmlTages(final String content);
 
-	public String unescapeHtml(final String content) {
-		return StringEscapeUtils.unescapeHtml(content);
-	}
+	Set<String> parseLinks(final String htmlContent);
 
-	public String filterHtmlTages(final String content) {
-		return unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
-	}
 }

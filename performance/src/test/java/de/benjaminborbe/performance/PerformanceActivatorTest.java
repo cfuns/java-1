@@ -2,6 +2,10 @@ package de.benjaminborbe.performance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -34,10 +38,11 @@ public class PerformanceActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
-		assertEquals(0, extHttpServiceMock.getRegisterResourceCallCounter());
-		// for (final String path : Arrays.asList("/search/css", "/search/js")) {
-		// assertTrue("no resource for path " + path + " registered",
-		// extHttpServiceMock.hasResource(path));
-		// }
+		final List<String> paths = Arrays.asList();
+		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
+		for (final String path : paths) {
+			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
+		}
+
 	}
 }

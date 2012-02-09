@@ -22,3 +22,10 @@ dir:
 	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
 sonar:
 	mvn sonar:sonar
+web:
+	cd websearch_api && make 
+	cd websearch && make 
+	cd websearch_gui && make 
+	cd websearch_test && make
+help:
+	echo "help"

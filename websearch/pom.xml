@@ -108,11 +108,6 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -121,23 +116,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.website</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.html</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -166,6 +144,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.cron.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.websearch.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

@@ -10,7 +10,6 @@ import com.google.inject.AbstractModule;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.api.IndexerService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class WebsearchOsgiModule extends AbstractModule {
 
@@ -19,7 +18,6 @@ public class WebsearchOsgiModule extends AbstractModule {
 		bind(CrawlerService.class).toProvider(service(CrawlerService.class).single());
 		bind(IndexSearcherService.class).toProvider(service(IndexSearcherService.class).single());
 		bind(IndexerService.class).toProvider(service(IndexerService.class).single());
-		bind(NavigationWidget.class).toProvider(service(NavigationWidget.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());
 	}

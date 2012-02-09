@@ -10,4 +10,8 @@ public class LiWidget extends TagWidget {
 		super(TAG, contentWidget);
 	}
 
+	public LiWidget(final String content) {
+		this(new StringWidget(content));
+	}
+
 }

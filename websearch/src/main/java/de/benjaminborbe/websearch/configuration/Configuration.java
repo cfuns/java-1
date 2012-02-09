@@ -6,5 +6,4 @@ public interface Configuration {
 
 	URL getUrl();
 
-	Long expires();
 }
