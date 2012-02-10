@@ -1,16 +1,17 @@
 package de.benjaminborbe.websearch.page;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
 import de.benjaminborbe.tools.dao.Entity;
 import de.benjaminborbe.websearch.api.Page;
 
-public class PageBean implements Entity<URL>, Page {
+public class PageBean implements Entity<String>, Page {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
-	private URL id;
+	private URL url;
 
 	private Date lastVisit;
 
@@ -24,12 +25,25 @@ public class PageBean implements Entity<URL>, Page {
 	}
 
 	@Override
-	public URL getId() {
-		return id;
+	public String getId() {
+		return url != null ? url.toExternalForm() : null;
 	}
 
 	@Override
-	public void setId(final URL id) {
-		this.id = id;
+	public void setId(final String id) {
+		try {
+			this.url = new URL(id);
+		}
+		catch (final MalformedURLException e) {
+		}
 	}
+
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(final URL url) {
+		this.url = url;
+	}
+
 }

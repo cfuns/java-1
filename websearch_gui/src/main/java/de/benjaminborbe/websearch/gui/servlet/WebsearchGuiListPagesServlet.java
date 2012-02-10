@@ -43,7 +43,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 		@Override
 		public int compare(final Page page1, final Page page2) {
-			return page1.getId().toExternalForm().compareTo(page2.getId().toExternalForm());
+			return page1.getUrl().toExternalForm().compareTo(page2.getUrl().toExternalForm());
 		}
 	}
 
@@ -99,7 +99,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	protected Widget buildPageWidget(final Page page) {
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new LinkWidget(page.getId(), page.getId().toExternalForm()));
+		widgets.add(new LinkWidget(page.getUrl(), page.getUrl().toExternalForm()));
 		final StringWriter sw = new StringWriter();
 		sw.append(" ");
 		if (page.getLastVisit() != null) {

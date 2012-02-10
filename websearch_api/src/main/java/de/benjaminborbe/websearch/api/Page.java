@@ -7,6 +7,6 @@ public interface Page {
 
 	Date getLastVisit();
 
-	URL getId();
+	URL getUrl();
 
 }

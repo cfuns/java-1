@@ -65,6 +65,8 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 		save(createBookmark("/bb/crawler", "Local - BB - Crawler"));
 		save(createBookmark("/bb/configuration", "Local - BB - Configuration"));
 		save(createBookmark("/bb/authentication/login", "Local - BB - Login"));
+		save(createBookmark("/bb/websearch/list", "Local - BB - Websearch - Pages"));
+		save(createBookmark("/bb/websearch/refresh", "Local - BB - Websearch - Refresh"));
 
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));

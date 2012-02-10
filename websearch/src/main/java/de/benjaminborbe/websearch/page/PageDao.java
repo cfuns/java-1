@@ -5,12 +5,12 @@ import java.util.Collection;
 
 import de.benjaminborbe.tools.dao.Dao;
 
-public interface PageDao extends Dao<PageBean, URL> {
-
-	Collection<PageBean> findExpiredPages();
+public interface PageDao extends Dao<PageBean, String> {
 
 	PageBean findOrCreate(URL url);
 
 	Collection<PageBean> findSubPages(URL url);
+
+	PageBean load(URL url);
 
 }

@@ -44,7 +44,7 @@ public class RefreshPagesCronJob implements CronJob {
 		logger.debug("execute");
 		for (final PageBean page : updateDeterminer.determineExpiredPages()) {
 			try {
-				final URL url = page.getId();
+				final URL url = page.getUrl();
 				logger.debug("trigger refresh of url " + url.toExternalForm());
 				final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url);
 				crawlerService.processCrawlerInstruction(crawlerInstruction);

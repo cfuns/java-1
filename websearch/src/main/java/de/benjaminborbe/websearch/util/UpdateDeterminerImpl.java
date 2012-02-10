@@ -70,7 +70,7 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 	}
 
 	protected boolean isSubPage(final PageBean page, final Collection<ConfigurationBean> configurations) {
-		final String url = page.getId().toExternalForm();
+		final String url = page.getUrl().toExternalForm();
 		for (final ConfigurationBean configuration : configurations) {
 			if (url.startsWith(configuration.getUrl().toExternalForm())) {
 				return true;
