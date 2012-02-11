@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -24,7 +27,7 @@ public class ParseUtilTest {
 	}
 
 	@Test
-	public void ParseBoolean() throws ParseException {
+	public void testParseBoolean() throws ParseException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		assertEquals(true, parseUtil.parseBoolean("true"));
 		assertEquals(false, parseUtil.parseBoolean("false"));
@@ -42,7 +45,7 @@ public class ParseUtilTest {
 	}
 
 	@Test
-	public void ParseBooleanDefault() throws ParseException {
+	public void testParseBooleanDefault() throws ParseException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		assertEquals(true, parseUtil.parseBoolean("true", false));
 		assertEquals(false, parseUtil.parseBoolean("false", true));
@@ -55,7 +58,7 @@ public class ParseUtilTest {
 	}
 
 	@Test
-	public void ParseEnum() throws ParseException {
+	public void testParseEnum() throws ParseException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		assertEquals(TestEnum.A, parseUtil.parseEnum(TestEnum.class, "A"));
 		assertEquals(TestEnum.B, parseUtil.parseEnum(TestEnum.class, "B"));
@@ -79,13 +82,45 @@ public class ParseUtilTest {
 	}
 
 	@Test
-	public void ParseEnumDefault() {
+	public void testParseEnumDefault() {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		assertEquals(TestEnum.A, parseUtil.parseEnum(TestEnum.class, "A", TestEnum.A));
 		assertEquals(TestEnum.B, parseUtil.parseEnum(TestEnum.class, "B", TestEnum.A));
 		assertEquals(TestEnum.C, parseUtil.parseEnum(TestEnum.class, "C", TestEnum.A));
 		assertEquals(TestEnum.A, parseUtil.parseEnum(TestEnum.class, "D", TestEnum.A));
 		assertEquals(TestEnum.A, parseUtil.parseEnum(TestEnum.class, null, TestEnum.A));
+	}
+
+	public void testParseUrl() throws Exception {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		assertEquals("http://www.google.de", parseUtil.parseURL("http://www.google.de").toExternalForm());
+		try {
+			parseUtil.parseURL(null);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+		}
+		try {
+			parseUtil.parseURL("");
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+		}
+		try {
+			parseUtil.parseURL("www.google.de");
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+		}
+	}
+
+	public void testParseUrlDefault() throws MalformedURLException {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final URL defaultUrl = new URL("http://www.yahoo.de");
+		assertEquals("http://www.google.de", parseUtil.parseURL("http://www.google.de", defaultUrl).toExternalForm());
+		assertEquals(defaultUrl.toExternalForm(), parseUtil.parseURL(null, defaultUrl).toExternalForm());
+		assertEquals(defaultUrl.toExternalForm(), parseUtil.parseURL("", defaultUrl).toExternalForm());
+		assertEquals(defaultUrl.toExternalForm(), parseUtil.parseURL("www.google.de", defaultUrl).toExternalForm());
 	}
 }
 

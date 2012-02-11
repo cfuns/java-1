@@ -1,5 +1,7 @@
 package de.benjaminborbe.tools.util;
 
+import java.net.URL;
+
 public interface ParseUtil {
 
 	double parseDouble(final String number) throws ParseException;
@@ -25,5 +27,9 @@ public interface ParseUtil {
 	<T extends Enum<T>> T parseEnum(Class<T> enumClazz, String value) throws ParseException;
 
 	<T extends Enum<T>> T parseEnum(Class<T> enumClazz, String value, T defaultValue);
+
+	URL parseURL(String value) throws ParseException;
+
+	URL parseURL(String value, URL defaultValue);
 
 }

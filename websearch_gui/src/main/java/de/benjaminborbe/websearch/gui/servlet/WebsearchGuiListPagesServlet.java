@@ -120,8 +120,9 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		else {
 			sw.append("-");
 		}
+		sw.append(" ");
 		widgets.add(sw.toString());
-		widgets.add(new LinkRelativWidget(request, "/websearch/expire?url=url.toExternalForm()", "expire "));
+		widgets.add(new LinkRelativWidget(request, "/websearch/expire?url=" + url.toExternalForm(), "expire "));
 		return widgets;
 	}
 }

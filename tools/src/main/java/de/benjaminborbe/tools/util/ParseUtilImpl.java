@@ -1,5 +1,7 @@
 package de.benjaminborbe.tools.util;
 
+import java.net.URL;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -11,6 +13,7 @@ public class ParseUtilImpl implements ParseUtil {
 
 	}
 
+	@Override
 	public double parseDouble(final String number) throws ParseException {
 		try {
 			return Double.parseDouble(number);
@@ -20,6 +23,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public double parseDouble(final String number, final double defaultValue) {
 		try {
 			return Double.parseDouble(number);
@@ -29,6 +33,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public float parseFloat(final String number) throws ParseException {
 		try {
 			return Float.parseFloat(number);
@@ -38,6 +43,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public float parseFloat(final String number, final float defaultValue) {
 		try {
 			return Float.parseFloat(number);
@@ -47,6 +53,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public long parseLong(final String number) throws ParseException {
 		try {
 			return Long.parseLong(number);
@@ -56,6 +63,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public long parseLong(final String number, final long defaultValue) {
 		try {
 			return Long.parseLong(number);
@@ -65,6 +73,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public int parseInt(final String number) throws ParseException {
 		try {
 			return Integer.parseInt(number);
@@ -74,6 +83,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public int parseInt(final String number, final int defaultValue) {
 		try {
 			return Integer.parseInt(number);
@@ -83,6 +93,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public <T extends Enum<T>> T parseEnum(final Class<T> enumClazz, final String value) throws ParseException {
 		try {
 			return Enum.valueOf(enumClazz, value);
@@ -92,6 +103,7 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
 	public <T extends Enum<T>> T parseEnum(final Class<T> enumClazz, final String value, final T defaultValue) {
 		try {
 			return Enum.valueOf(enumClazz, value);
@@ -121,6 +133,26 @@ public class ParseUtilImpl implements ParseUtil {
 			return false;
 		}
 		return defaultValue;
+	}
+
+	@Override
+	public URL parseURL(final String value) throws ParseException {
+		try {
+			return new URL(value);
+		}
+		catch (final Exception e) {
+			throw new ParseException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public URL parseURL(final String value, final URL defaultValue) {
+		try {
+			return new URL(value);
+		}
+		catch (final Exception e) {
+			return defaultValue;
+		}
 	}
 
 }

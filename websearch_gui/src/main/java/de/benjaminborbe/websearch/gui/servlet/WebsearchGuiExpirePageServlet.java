@@ -19,6 +19,7 @@ import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.PageIdentifierImpl;
 import de.benjaminborbe.websearch.api.WebsearchService;
@@ -70,11 +71,12 @@ public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String url = request.getParameter(PARAMETER_URL);
-			if (url != null) {
-				websearchService.expirePage(new PageIdentifierImpl(new URL(url)));
+			try {
+				final URL url = parseUtil.parseURL(request.getParameter(PARAMETER_URL));
+				websearchService.expirePage(new PageIdentifierImpl(url));
+				widgets.add("url " + url.toExternalForm() + " expired");
 			}
-			else {
+			catch (final ParseException e) {
 				final FormWidget form = new FormWidget("");
 				form.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("Url ..."));
 				form.addFormInputWidget(new FormInputSubmitWidget("expire"));
