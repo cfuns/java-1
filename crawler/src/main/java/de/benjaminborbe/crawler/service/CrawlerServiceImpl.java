@@ -11,7 +11,6 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
@@ -45,14 +44,15 @@ public class CrawlerServiceImpl implements CrawlerService {
 			logger.debug("crawle domain: " + domainUrl);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(domainUrl, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
-			final CrawlerResult crawleResult = new CrawlerResultImpl(domainUrl, content);
-			crawlerNotifier.notifiy(crawleResult);
+			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, content, true));
 		}
 		catch (final HttpDownloaderException e) {
-			throw new CrawlerException("MalformedURLException url: " + domainUrl, e);
+			logger.warn("HttpDownloaderException url: " + domainUrl, e);
+			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, false));
 		}
 		catch (final UnsupportedEncodingException e) {
-			throw new CrawlerException("MalformedURLException url: " + domainUrl, e);
+			logger.warn("UnsupportedEncodingException url: " + domainUrl, e);
+			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, false));
 		}
 	}
 

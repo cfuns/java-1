@@ -21,7 +21,7 @@ public final class ProvisionActivator implements BundleActivator {
 
 		private final Bundle bundle;
 
-		private RunStartBundle(Bundle bundle) {
+		private RunStartBundle(final Bundle bundle) {
 			this.bundle = bundle;
 		}
 
@@ -36,7 +36,7 @@ public final class ProvisionActivator implements BundleActivator {
 		}
 	}
 
-	private static final String BUNDLE_PREFIX = "twentyfeet.bundle.";
+	private static final String BUNDLE_PREFIX = "bb.bundle.";
 
 	private static final boolean THREAD_START = false;
 
@@ -50,6 +50,7 @@ public final class ProvisionActivator implements BundleActivator {
 		this.servletContext = servletContext;
 	}
 
+	@Override
 	public void start(final BundleContext context) throws Exception {
 		servletContext.setAttribute(BundleContext.class.getName(), context);
 
@@ -88,6 +89,7 @@ public final class ProvisionActivator implements BundleActivator {
 		// Reinfolge aus Konfig lesen
 		final List<String> installBundles = getInstallConfigOrders(BUNDLE_PREFIX, props);
 
+		servletContext.log("install config defined bundles started");
 		// Wert aus Konfig durch gehen und einfuegen falls vorhanden
 		for (final String i : installBundles) {
 			final String installBundle = i.trim();
@@ -100,6 +102,7 @@ public final class ProvisionActivator implements BundleActivator {
 				}
 			}
 		}
+		servletContext.log("install config defined bundles finished");
 
 		// Alle bereits hinzugefuegten aus availableBundles entfernen
 		availableBundles.removeAll(result);
@@ -123,6 +126,7 @@ public final class ProvisionActivator implements BundleActivator {
 		return result;
 	}
 
+	@Override
 	public void stop(final BundleContext context) throws Exception {
 		servletContext.setAttribute(BundleContext.class.getName(), context);
 

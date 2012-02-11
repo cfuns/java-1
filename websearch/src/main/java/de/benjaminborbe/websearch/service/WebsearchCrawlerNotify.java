@@ -53,9 +53,14 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	public void notifiy(final CrawlerResult result) {
 		logger.trace("notify");
 		try {
-			addToIndex(result);
 			updateLastVisit(result);
-			parseLinks(result);
+			if (result.isAvailable()) {
+				addToIndex(result);
+				parseLinks(result);
+			}
+			else {
+				logger.warn("result not available for url: " + result.getUrl().toExternalForm());
+			}
 		}
 		catch (final StorageException e) {
 			logger.trace("StorageException", e);

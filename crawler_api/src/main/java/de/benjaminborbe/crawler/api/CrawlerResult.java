@@ -7,4 +7,6 @@ public interface CrawlerResult {
 	URL getUrl();
 
 	String getContent();
+
+	boolean isAvailable();
 }

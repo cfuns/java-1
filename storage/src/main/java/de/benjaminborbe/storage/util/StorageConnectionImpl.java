@@ -56,7 +56,8 @@ public class StorageConnectionImpl implements StorageConnection {
 		final TFramedTransport tr = trThreadLocal.get();
 		trThreadLocal.remove();
 		clientThreadLocal.remove();
-		tr.close();
+		if (tr != null)
+			tr.close();
 	}
 
 	@Override
