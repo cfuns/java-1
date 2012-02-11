@@ -1,6 +1,6 @@
 package de.benjaminborbe.configuration.util;
 
-import de.benjaminborbe.tools.dao.EntityLong;
+import de.benjaminborbe.storage.tools.EntityLong;
 
 public class ConfigurationBean implements EntityLong {
 

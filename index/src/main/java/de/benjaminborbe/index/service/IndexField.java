@@ -3,7 +3,8 @@ package de.benjaminborbe.index.service;
 public enum IndexField {
 	TITLE("title"),
 	URL("url"),
-	CONTENT("");
+	CONTENT("content"),
+	ID("id");
 
 	private final String fieldName;
 

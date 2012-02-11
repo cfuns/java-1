@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class EventbusActivator extends BaseBundleActivator {
 
 	@Inject
-	private EventbusService eventbusService;
+	private EventbusService EventbusService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -27,7 +27,7 @@ public class EventbusActivator extends BaseBundleActivator {
 	@Override
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(EventbusService.class, eventbusService));
+		result.add(new ServiceInfo(EventbusService.class, EventbusService));
 		return result;
 	}
 }

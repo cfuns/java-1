@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.util;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.storage.tools.Entity;
 
 public class SessionBean implements Entity<String> {
 

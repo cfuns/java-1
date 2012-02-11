@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.dao;
+package de.benjaminborbe.storage.tools;
 
 import org.slf4j.Logger;
 

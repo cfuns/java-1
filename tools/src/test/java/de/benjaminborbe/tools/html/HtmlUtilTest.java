@@ -36,7 +36,10 @@ public class HtmlUtilTest {
 		assertEquals(0, htmlUtil.parseLinks("").size());
 		assertEquals(0, htmlUtil.parseLinks("http://www.benjamin-borbe.de").size());
 		assertEquals(1, htmlUtil.parseLinks("<a href=\"http://www.benjamin-borbe.de\">linkLabel</a>").size());
+		assertEquals(0, htmlUtil.parseLinks("<a rel=\"nofollow\" href=\"http://www.benjamin-borbe.de\">linkLabel</a>").size());
 		assertEquals(1, htmlUtil.parseLinks("<html><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
+		assertEquals(0, htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
+		assertEquals(0, htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow,test\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
 	}
 
 }

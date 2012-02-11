@@ -54,7 +54,7 @@ public class AuthenticationTest extends OSGiTestCase {
 		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
 	}
 
-	public void testRegister() {
+	public void testRegister() throws Exception {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
 		assertNotNull(service);
@@ -70,7 +70,7 @@ public class AuthenticationTest extends OSGiTestCase {
 		assertFalse("must fail, because already registered", service.register(sessionIdentifier, username, password));
 	}
 
-	public void testVerifyCredentials() {
+	public void testVerifyCredentials() throws Exception {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
 		assertNotNull(service);

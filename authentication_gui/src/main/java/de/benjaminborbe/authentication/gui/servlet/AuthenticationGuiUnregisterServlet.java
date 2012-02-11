@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -25,6 +26,7 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -58,25 +60,31 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
 
-		final String confirm = request.getParameter(PARAMETER_CONFIRM);
-		if ("true".equals(confirm)) {
-			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-			if (authenticationService.unregister(sessionIdentifier)) {
-				widgets.add("unregister => success");
+			final String confirm = request.getParameter(PARAMETER_CONFIRM);
+			if ("true".equals(confirm)) {
+				final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+				if (authenticationService.unregister(sessionIdentifier)) {
+					widgets.add("unregister => success");
+				}
+				else {
+					widgets.add("unregister => failed");
+				}
 			}
-			else {
-				widgets.add("unregister => failed");
-			}
+			final String action = request.getContextPath() + "/authentication/unregister";
+			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
+			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_CONFIRM).addDefaultValue("true"));
+			form.addFormInputWidget(new FormInputSubmitWidget("unregister"));
+			widgets.add(form);
+			widgets.render(request, response, context);
 		}
-		final String action = request.getContextPath() + "/authentication/unregister";
-		final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_CONFIRM).addDefaultValue("true"));
-		form.addFormInputWidget(new FormInputSubmitWidget("unregister"));
-		widgets.add(form);
-		widgets.render(request, response, context);
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		}
 	}
 }

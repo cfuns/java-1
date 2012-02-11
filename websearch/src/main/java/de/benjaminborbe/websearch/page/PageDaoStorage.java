@@ -9,27 +9,35 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.storage.api.StorageDao;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.tools.StorageDao;
 
 @Singleton
 public class PageDaoStorage extends StorageDao<PageBean> implements PageDao {
 
+	private static final String COLUMNFAMILY = "page";
+
 	private final PageDaoSubPagesAction pageDaoSubPagesAction;
 
 	@Inject
-	public PageDaoStorage(final Logger logger, final StorageService storageService, final Provider<PageBean> beanProvider, final PageDaoSubPagesAction pageDaoSubPagesAction) {
-		super(logger, storageService, beanProvider);
+	public PageDaoStorage(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<PageBean> beanProvider,
+			final PageDaoSubPagesAction pageDaoSubPagesAction,
+			final PageBeanMapper pageBeanMapper) {
+		super(logger, storageService, beanProvider, pageBeanMapper);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 	}
 
 	@Override
-	public PageBean load(final URL url) {
+	public PageBean load(final URL url) throws StorageException {
 		return load(url.toExternalForm());
 	}
 
 	@Override
-	public PageBean findOrCreate(final URL url) {
+	public PageBean findOrCreate(final URL url) throws StorageException {
 		{
 			final PageBean page = load(url);
 			if (page != null) {
@@ -49,4 +57,8 @@ public class PageDaoStorage extends StorageDao<PageBean> implements PageDao {
 		return pageDaoSubPagesAction.findSubPages(url, getAll());
 	}
 
+	@Override
+	protected String getColumnFamily() {
+		return COLUMNFAMILY;
+	}
 }

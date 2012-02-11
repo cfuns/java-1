@@ -19,7 +19,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.WebsearchService;
+import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -54,13 +56,18 @@ public class WebsearchGuiRefreshPagesServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-
-		websearchService.refreshPages();
-		widgets.add("refresh triggered");
-		widgets.render(request, response, context);
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			websearchService.refreshPages();
+			widgets.add("refresh triggered");
+			widgets.render(request, response, context);
+		}
+		catch (final WebsearchServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		}
 	}
 
 }

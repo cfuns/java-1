@@ -86,6 +86,7 @@ storage/target
 storage_api/target
 storage_gui/target
 storage_test/target
+storage_tools/target
 target/target
 timetracker/target
 timetracker_api/target

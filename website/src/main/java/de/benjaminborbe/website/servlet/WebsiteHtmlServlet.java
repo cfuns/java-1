@@ -18,6 +18,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.CssResourceRenderer;
@@ -33,6 +34,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -130,18 +132,24 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected void printTop(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printTop");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(navigationWidget);
-		final SessionIdentifier sessionId = new SessionIdentifier(request);
-		if (authenticationService.isLoggedIn(sessionId)) {
-			widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
-			widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
+		try {
+			logger.trace("printTop");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(navigationWidget);
+			final SessionIdentifier sessionId = new SessionIdentifier(request);
+			if (authenticationService.isLoggedIn(sessionId)) {
+				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
+				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
+			}
+			else {
+				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
+			}
+			widgets.render(request, response, context);
 		}
-		else {
-			widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
 		}
-		widgets.render(request, response, context);
 	}
 
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

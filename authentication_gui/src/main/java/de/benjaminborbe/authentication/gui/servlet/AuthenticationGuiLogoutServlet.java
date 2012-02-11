@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -21,6 +22,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -52,16 +54,22 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-		if (authenticationService.logout(sessionIdentifier)) {
-			widgets.add("logout => success");
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			if (authenticationService.logout(sessionIdentifier)) {
+				widgets.add("logout => success");
+			}
+			else {
+				widgets.add("logout => failed");
+			}
+			widgets.render(request, response, context);
 		}
-		else {
-			widgets.add("logout => failed");
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
 		}
-		widgets.render(request, response, context);
 	}
 }

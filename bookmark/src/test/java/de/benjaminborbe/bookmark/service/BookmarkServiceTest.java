@@ -26,7 +26,7 @@ public class BookmarkServiceTest {
 	}
 
 	@Test
-	public void Description() {
+	public void Description() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkService a = injector.getInstance(BookmarkService.class);
 

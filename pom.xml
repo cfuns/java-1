@@ -121,6 +121,7 @@
 		<module>storage_api</module>
 		<module>storage_gui</module>
 		<module>storage_test</module>
+		<module>storage_tools</module>
 		<module>timetracker</module>
 		<module>timetracker_api</module>
 		<module>timetracker_gui</module>

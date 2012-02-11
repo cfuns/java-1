@@ -1,6 +1,6 @@
 package de.benjaminborbe.authorization.util;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.storage.tools.Entity;
 
 public class RoleBean implements Entity<String> {
 

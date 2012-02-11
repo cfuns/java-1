@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,6 +12,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ToolModules;
+import de.benjaminborbe.tools.util.ParseException;
 
 public class DateUtilTest {
 
@@ -38,6 +40,7 @@ public class DateUtilTest {
 		c.set(Calendar.HOUR_OF_DAY, 20);
 		c.set(Calendar.MINUTE, 15);
 		c.set(Calendar.SECOND, 59);
+		c.set(Calendar.MILLISECOND, 0);
 		return c.getTime();
 	}
 
@@ -51,5 +54,30 @@ public class DateUtilTest {
 	public void dateTimeString() {
 		final DateUtil dateUtil = new DateUtilImpl();
 		assertEquals("2011-12-24 20:15:59", dateUtil.dateTimeString(createDate()));
+	}
+
+	@Test
+	public void testParseDateTime() throws Exception {
+		final DateUtil dateUtil = new DateUtilImpl();
+		try {
+			dateUtil.parseDateTime(null);
+			fail("exception expected");
+		}
+		catch (final ParseException e) {
+		}
+		try {
+			dateUtil.parseDateTime("");
+			fail("exception expected");
+		}
+		catch (final ParseException e) {
+		}
+		try {
+			dateUtil.parseDateTime("asdf");
+			fail("exception expected");
+		}
+		catch (final ParseException e) {
+		}
+		assertEquals(createDate(), dateUtil.parseDateTime("2011-12-24 20:15:59"));
+		assertEquals(createDate().getTime(), dateUtil.parseDateTime("2011-12-24 20:15:59").getTime());
 	}
 }

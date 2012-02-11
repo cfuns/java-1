@@ -42,7 +42,7 @@ public class AuthenticationServiceTest {
 	}
 
 	@Test
-	public void testVerifyCredential() {
+	public void testVerifyCredential() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -65,7 +65,7 @@ public class AuthenticationServiceTest {
 	}
 
 	@Test
-	public void testGetCurrentUserExists() {
+	public void testGetCurrentUserExists() throws Exception {
 		final String sessionId = "abc";
 		final String username = "username";
 
@@ -98,7 +98,7 @@ public class AuthenticationServiceTest {
 	}
 
 	@Test
-	public void testGetCurrentUserExistsNot() {
+	public void testGetCurrentUserExistsNot() throws Exception {
 		final String sessionId = "abc";
 
 		final HttpSession session = EasyMock.createMock(HttpSession.class);

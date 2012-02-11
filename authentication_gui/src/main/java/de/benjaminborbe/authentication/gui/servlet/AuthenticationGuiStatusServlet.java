@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -23,6 +24,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.br.BrWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -54,20 +56,26 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final SessionIdentifier sessionId = new SessionIdentifier(request);
-		if (authenticationService.isLoggedIn(sessionId)) {
-			widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
-			widgets.add(new BrWidget());
-			widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionId = new SessionIdentifier(request);
+			if (authenticationService.isLoggedIn(sessionId)) {
+				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
+				widgets.add(new BrWidget());
+				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
+			}
+			else {
+				widgets.add("not logged in");
+				widgets.add(new BrWidget());
+				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
+			}
+			widgets.render(request, response, context);
 		}
-		else {
-			widgets.add("not logged in");
-			widgets.add(new BrWidget());
-			widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
 		}
-		widgets.render(request, response, context);
 	}
 }

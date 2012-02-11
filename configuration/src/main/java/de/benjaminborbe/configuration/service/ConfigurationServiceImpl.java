@@ -9,9 +9,11 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.util.ConfigurationBean;
 import de.benjaminborbe.configuration.util.ConfigurationDao;
 import de.benjaminborbe.configuration.util.ConfigurationRegistry;
+import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public class ConfigurationServiceImpl implements ConfigurationService {
@@ -44,14 +46,19 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public <T> void setConfigurationValue(final Configuration<T> configuration, final T value) {
-		logger.trace("setConfigurationValue");
-		ConfigurationBean configurationBean = configurationDao.findByConfiguration(configuration);
-		if (configurationBean == null) {
-			configurationBean = configurationDao.create();
-			configurationBean.setKey(configuration.getName());
+	public <T> void setConfigurationValue(final Configuration<T> configuration, final T value) throws ConfigurationServiceException {
+		try {
+			logger.trace("setConfigurationValue");
+			ConfigurationBean configurationBean = configurationDao.findByConfiguration(configuration);
+			if (configurationBean == null) {
+				configurationBean = configurationDao.create();
+				configurationBean.setKey(configuration.getName());
+			}
+			configurationBean.setValue(String.valueOf(value));
+			configurationDao.save(configurationBean);
 		}
-		configurationBean.setValue(String.valueOf(value));
-		configurationDao.save(configurationBean);
+		catch (final StorageException e) {
+			throw new ConfigurationServiceException("StorageException", e);
+		}
 	}
 }

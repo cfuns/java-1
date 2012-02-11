@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.configuration.api.ConfigurationInteger;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.api.ConfigurationString;
 
 public class StorageConfigImpl implements StorageConfig {
@@ -23,8 +26,11 @@ public class StorageConfigImpl implements StorageConfig {
 
 	private final ConfigurationService configurationService;
 
+	private final Logger logger;
+
 	@Inject
-	public StorageConfigImpl(final ConfigurationService configurationService) {
+	public StorageConfigImpl(final Logger logger, final ConfigurationService configurationService) {
+		this.logger = logger;
 		this.configurationService = configurationService;
 	}
 
@@ -49,8 +55,13 @@ public class StorageConfigImpl implements StorageConfig {
 	}
 
 	private <T> T getValue(final Configuration<T> configuration) {
-		// return configuration.getDefaultValue();
-		return configurationService.getConfigurationValue(configuration);
+		try {
+			return configurationService.getConfigurationValue(configuration);
+		}
+		catch (final ConfigurationServiceException e) {
+			logger.debug("ConfigurationServiceException", e);
+			return configuration.getDefaultValue();
+		}
 	}
 
 	@Override

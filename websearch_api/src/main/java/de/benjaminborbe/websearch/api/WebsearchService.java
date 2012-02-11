@@ -4,8 +4,10 @@ import java.util.Collection;
 
 public interface WebsearchService {
 
-	Collection<Page> getPages();
+	Collection<Page> getPages() throws WebsearchServiceException;
 
-	void refreshPages();
+	void refreshPages() throws WebsearchServiceException;
+
+	void expirePage(PageIdentifier page) throws WebsearchServiceException;
 
 }

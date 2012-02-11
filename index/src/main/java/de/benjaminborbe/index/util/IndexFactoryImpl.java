@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 
@@ -17,7 +16,7 @@ public class IndexFactoryImpl implements IndexFactory {
 
 	private final Logger logger;
 
-	private final Map<String, Directory> indexes = new HashMap<String, Directory>();
+	private final Map<String, FSDirectory> indexes = new HashMap<String, FSDirectory>();
 
 	@Inject
 	public IndexFactoryImpl(final Logger logger) {
@@ -25,11 +24,12 @@ public class IndexFactoryImpl implements IndexFactory {
 	}
 
 	@Override
-	public synchronized Directory getIndex(final String indexName) throws IOException {
+	public synchronized FSDirectory getIndex(final String indexName) throws IOException {
 		logger.debug("get Index for " + indexName);
 		if (!indexes.containsKey(indexName)) {
 			logger.debug("create new index for " + indexName);
-			indexes.put(indexName, FSDirectory.getDirectory(getIndexDirectory(indexName)));
+			final FSDirectory fs = FSDirectory.open(getIndexDirectory(indexName));
+			indexes.put(indexName, fs);
 		}
 		return indexes.get(indexName);
 	}

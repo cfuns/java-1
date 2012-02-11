@@ -137,16 +137,16 @@ public class EventbusGuiServletTest {
 
 		EasyMock.replay(authenticationService);
 
-		final EventbusService eventBusService = EasyMock.createMock(EventbusService.class);
-		EasyMock.expect(eventBusService.getHandlers()).andReturn(new HashMap<Type<EventHandler>, List<EventHandler>>());
-		EasyMock.replay(eventBusService);
+		final EventbusService EventbusService = EasyMock.createMock(EventbusService.class);
+		EasyMock.expect(EventbusService.getHandlers()).andReturn(new HashMap<Type<EventHandler>, List<EventHandler>>());
+		EasyMock.replay(EventbusService);
 
-		final EventbusGuiServlet eventbusServlet = new EventbusGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				eventBusService, navigationWidget, httpContextProvider);
+		final EventbusGuiServlet EventbusServlet = new EventbusGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				EventbusService, navigationWidget, httpContextProvider);
 
-		eventbusServlet.service(request, response);
+		EventbusServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>EventBus</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Eventbus</h1>") != -1);
 	}
 }

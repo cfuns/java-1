@@ -48,9 +48,9 @@ public class MailTest extends OSGiTestCase {
 	}
 
 	public void testMailService() {
-		final MailService eventBusService = (MailService) getServiceObject(MailService.class.getName(), null);
-		assertNotNull(eventBusService);
-		assertEquals("de.benjaminborbe.mail.service.MailServiceUTF8", eventBusService.getClass().getName());
+		final MailService EventbusService = (MailService) getServiceObject(MailService.class.getName(), null);
+		assertNotNull(EventbusService);
+		assertEquals("de.benjaminborbe.mail.service.MailServiceUTF8", EventbusService.getClass().getName());
 	}
 
 }

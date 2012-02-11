@@ -63,32 +63,53 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 		final long timestamp = calendarUtil.getTime();
 		for (final Entry<String, String> e : data.entrySet()) {
-			final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
-			final ColumnParent column_parent = new ColumnParent(columnFamily);
-			final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(config.getEncoding())), ByteBuffer.wrap(e.getValue().getBytes(config.getEncoding())), timestamp);
-			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
-			// schreiben eines datensatzes
-			client.insert(key, column_parent, column, consistency_level);
+			if (e.getValue() != null) {
+
+				final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
+				final ColumnParent column_parent = new ColumnParent(columnFamily);
+				final String encoding = config.getEncoding();
+				logger.trace("storage " + encoding);
+
+				final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(encoding)), ByteBuffer.wrap(e.getValue().getBytes(encoding)), timestamp);
+				final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
+
+				// schreiben eines datensatzes
+				client.insert(key, column_parent, column, consistency_level);
+			}
+			else {
+				try {
+					delete(keySpace, columnFamily, id, e.getKey());
+				}
+				catch (final NotFoundException e1) {
+					// do nothing
+				}
+			}
 		}
 	}
 
 	@Override
-	public String read(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
-			TException, UnsupportedEncodingException {
+	public String read(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("read keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
-
-		final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
+		final String encoding = config.getEncoding();
+		logger.trace("encoding = " + encoding);
+		final ByteBuffer key = ByteBuffer.wrap(id.getBytes(encoding));
 		final ColumnPath column_path = new ColumnPath(columnFamily);
 		column_path.setColumn(field.getBytes(config.getEncoding()));
 		final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
 		// lesen eines datensatzes
-		final ColumnOrSuperColumn column = client.get(key, column_path, consistency_level);
-
-		return new String(column.getColumn().getValue(), config.getEncoding());
+		try {
+			ColumnOrSuperColumn column;
+			column = client.get(key, column_path, consistency_level);
+			return new String(column.getColumn().getValue(), config.getEncoding());
+		}
+		catch (final NotFoundException e) {
+			return null;
+		}
 	}
 
 	protected Iface getClient(final String keySpace) throws InvalidRequestException, TException {

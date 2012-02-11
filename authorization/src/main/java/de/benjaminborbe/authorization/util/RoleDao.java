@@ -1,6 +1,6 @@
 package de.benjaminborbe.authorization.util;
 
-import de.benjaminborbe.tools.dao.Dao;
+import de.benjaminborbe.storage.tools.Dao;
 
 public interface RoleDao extends Dao<RoleBean, String> {
 

@@ -2,6 +2,8 @@ package de.benjaminborbe.websearch.gui.servlet;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,8 +31,11 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.WebsearchService;
+import de.benjaminborbe.websearch.api.WebsearchServiceException;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.LiWidget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -80,15 +85,21 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final UlWidget ul = new UlWidget();
-		for (final Page page : sortPages(websearchService.getPages())) {
-			ul.add(new LiWidget(buildPageWidget(page)));
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final UlWidget ul = new UlWidget();
+			for (final Page page : sortPages(websearchService.getPages())) {
+				ul.add(new LiWidget(buildPageWidget(page, request)));
+			}
+			widgets.add(ul);
+			widgets.render(request, response, context);
 		}
-		widgets.add(ul);
-		widgets.render(request, response, context);
+		catch (final WebsearchServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		}
 	}
 
 	protected List<Page> sortPages(final Collection<Page> pages) {
@@ -97,9 +108,10 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		return result;
 	}
 
-	protected Widget buildPageWidget(final Page page) {
+	protected Widget buildPageWidget(final Page page, final HttpServletRequest request) throws MalformedURLException {
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new LinkWidget(page.getUrl(), page.getUrl().toExternalForm()));
+		final URL url = page.getUrl();
+		widgets.add(new LinkWidget(url, url.toExternalForm()));
 		final StringWriter sw = new StringWriter();
 		sw.append(" ");
 		if (page.getLastVisit() != null) {
@@ -109,6 +121,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			sw.append("-");
 		}
 		widgets.add(sw.toString());
+		widgets.add(new LinkRelativWidget(request, "/websearch/expire?url=url.toExternalForm()", "expire "));
 		return widgets;
 	}
 }

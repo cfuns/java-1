@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -30,7 +31,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean hasRole(final SessionIdentifier sessionIdentifier, final String roleName) {
+	public boolean hasRole(final SessionIdentifier sessionIdentifier, final String roleName) throws AuthenticationServiceException {
 		logger.debug("hasRole " + roleName);
 		final RoleBean role = roleDao.findByRolename(roleName);
 		if (role == null) {
@@ -45,7 +46,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) {
+	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthenticationServiceException {
 		return roleIdentifier != null && hasRole(sessionIdentifier, roleIdentifier.getId());
 	}
 }

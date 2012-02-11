@@ -100,6 +100,6 @@ public class FilestorageGuiUploadServlet extends WebsiteHtmlServlet {
 	}
 
 	protected void handleUpload(final FileItem item) {
-		// TODO
+		// TODO bborbe file store
 	}
 }

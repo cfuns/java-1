@@ -12,6 +12,7 @@ import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.websearch.page.PageBean;
 import de.benjaminborbe.websearch.util.UpdateDeterminer;
 
@@ -42,16 +43,21 @@ public class RefreshPagesCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.debug("execute");
-		for (final PageBean page : updateDeterminer.determineExpiredPages()) {
-			try {
-				final URL url = page.getUrl();
-				logger.debug("trigger refresh of url " + url.toExternalForm());
-				final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url);
-				crawlerService.processCrawlerInstruction(crawlerInstruction);
+		try {
+			for (final PageBean page : updateDeterminer.determineExpiredPages()) {
+				try {
+					final URL url = page.getUrl();
+					logger.debug("trigger refresh of url " + url.toExternalForm());
+					final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url);
+					crawlerService.processCrawlerInstruction(crawlerInstruction);
+				}
+				catch (final CrawlerException e) {
+					logger.error("CrawlerException", e);
+				}
 			}
-			catch (final CrawlerException e) {
-				logger.error("CrawlerException", e);
-			}
+		}
+		catch (final StorageException e) {
+			logger.error("StorageException", e);
 		}
 	}
 }

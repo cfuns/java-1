@@ -7,7 +7,11 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -39,20 +43,47 @@ public class IndexerServiceImpl implements IndexerService {
 
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final StandardAnalyzer analyzer = new StandardAnalyzer();
-			final IndexWriter indexWriter = new IndexWriter(index, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
+			final StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);
+			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, analyzer);
+			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
+			final IndexWriter indexWriter = new IndexWriter(index, indexWriterConfig);
 
+			final Term term = new Term(IndexField.ID.getFieldName(), url.toExternalForm());
 			final Document doc = new Document();
 			doc.add(new Field(IndexField.URL.getFieldName(), url.toExternalForm(), Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field(IndexField.TITLE.getFieldName(), title, Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field(IndexField.CONTENT.getFieldName(), content, Field.Store.YES, Field.Index.ANALYZED));
-			indexWriter.addDocument(doc);
-			indexWriter.commit();
+			indexWriter.updateDocument(term, doc, analyzer);
 
+			// indexWriter.deleteDocuments(term);
+			// indexWriter.addDocument(doc);
+
+			indexWriter.commit();
 			indexWriter.close();
 		}
 		catch (final IOException e) {
 			logger.error("IOException", e);
 		}
+	}
+
+	@Override
+	public void clear(final String indexName) {
+
+		try {
+			final Directory index = indexFactory.getIndex(indexName);
+			final StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);
+			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, analyzer);
+			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
+			final IndexWriter indexWriter = new IndexWriter(index, indexWriterConfig);
+
+			indexWriter.deleteAll();
+
+			indexWriter.commit();
+			indexWriter.close();
+		}
+		catch (final IOException e) {
+			logger.error("IOException", e);
+		}
+
 	}
 }

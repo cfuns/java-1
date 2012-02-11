@@ -24,9 +24,10 @@ public interface StorageDaoUtil {
 	 * @throws TimedOutException
 	 * @throws TException
 	 * @throws UnsupportedEncodingException
+	 * @throws NotFoundException
 	 */
 	void insert(String keySpace, String columnFamily, final String id, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
-			UnsupportedEncodingException;
+			UnsupportedEncodingException, NotFoundException;
 
 	/**
 	 * Liest einen Wert mit der uebergeben ID und Key aus der Datenbank

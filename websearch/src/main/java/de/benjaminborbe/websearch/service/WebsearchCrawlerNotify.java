@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchActivator;
@@ -50,29 +51,37 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	@Override
 	public void notifiy(final CrawlerResult result) {
-		logger.debug("notify");
-		addToIndex(result);
-		updateLastVisit(result);
-		parseLinks(result);
+		logger.trace("notify");
+		try {
+			addToIndex(result);
+			updateLastVisit(result);
+			parseLinks(result);
+		}
+		catch (final StorageException e) {
+			logger.trace("StorageException", e);
+		}
 	}
 
 	protected void parseLinks(final CrawlerResult result) {
 		final Set<String> links = htmlUtil.parseLinks(result.getContent());
-		logger.debug("found " + links.size() + " links");
+		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
 			try {
 				final URL url = buildUrl(result.getUrl(), link);
-				logger.debug("found page: " + url.toExternalForm());
+				logger.trace("found page: " + url.toExternalForm());
 				pageDao.findOrCreate(url);
 			}
 			catch (final MalformedURLException e) {
-				logger.debug("MalformedURLException", e);
+				logger.trace("MalformedURLException", e);
+			}
+			catch (final StorageException e) {
+				logger.trace("StorageException", e);
 			}
 		}
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
-		logger.debug("buildUrl url: " + (baseUrl != null ? baseUrl.toExternalForm() : "null") + " link: " + link);
+		logger.trace("buildUrl url: " + (baseUrl != null ? baseUrl.toExternalForm() : "null") + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
 			url = link;
@@ -109,7 +118,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			url = sw.toString();
 		}
 		final String result = cleanUpUrl(url);
-		logger.debug("result = " + result);
+		logger.trace("result = " + result);
 		return new URL(result);
 	}
 
@@ -125,10 +134,26 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected void addToIndex(final CrawlerResult result) {
+		final Document document = Jsoup.parse(result.getContent());
+		for (final Element head : document.getElementsByTag("head")) {
+			for (final Element meta : head.getElementsByTag("meta")) {
+				// <meta name="robots" content="noindex,nofollow">
+				if ("robots".equalsIgnoreCase(meta.attr("name"))) {
+					final String content = meta.attr("content");
+					final String[] parts = content.split(",");
+					for (final String part : parts) {
+						if ("noindex".equalsIgnoreCase(part) || "noarchive".equalsIgnoreCase(part)) {
+							return;
+						}
+					}
+				}
+			}
+		}
+		logger.debug("add url " + result.getUrl() + " to index");
 		indexerService.addToIndex(WebsearchActivator.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
 	}
 
-	protected void updateLastVisit(final CrawlerResult result) {
+	protected void updateLastVisit(final CrawlerResult result) throws StorageException {
 		final PageBean page = pageDao.findOrCreate(result.getUrl());
 		page.setLastVisit(new Date());
 		pageDao.save(page);

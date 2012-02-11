@@ -10,7 +10,7 @@
 	<description>Benjamin Borbe - Index</description>
 	<packaging>bundle</packaging>
 	<properties>
-		<lucene.version>2.4.1</lucene.version>
+		<lucene.version>3.5.0</lucene.version>
 	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>

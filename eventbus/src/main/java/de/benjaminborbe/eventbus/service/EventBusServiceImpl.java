@@ -17,21 +17,21 @@ import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
 
 @Singleton
-public class EventBusServiceImpl implements EventbusService {
+public class EventbusServiceImpl implements EventbusService {
 
 	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
 
 	private final Logger logger;
 
 	@Inject
-	public EventBusServiceImpl(final Logger logger) {
+	public EventbusServiceImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <H extends EventHandler> HandlerRegistration addHandler(final Type<H> type, final H handler) {
-		logger.debug("CoreEventBus - register handler: " + handler.toString() + " for type: " + type.toString());
+		logger.debug("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
 		List<EventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers == null) {
 			eventHandlers = new ArrayList<EventHandler>();
@@ -65,7 +65,7 @@ public class EventBusServiceImpl implements EventbusService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <H extends EventHandler> void fireEvent(final Event<H> event) {
-		logger.debug("CoreEventBus - event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
+		logger.debug("CoreEventbus - event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
 		final List<EventHandler> eventHandlers = handlers.get(event.getAssociatedType());
 		if (eventHandlers != null) {
 			for (final EventHandler eventHandler : eventHandlers) {

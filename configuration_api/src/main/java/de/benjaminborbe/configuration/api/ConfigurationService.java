@@ -7,15 +7,15 @@ public interface ConfigurationService {
 	/**
 	 * Returns all required Configurations
 	 */
-	Collection<Configuration<?>> listConfigurations();
+	Collection<Configuration<?>> listConfigurations() throws ConfigurationServiceException;
 
 	/**
 	 * Return the value
 	 */
-	<T> T getConfigurationValue(Configuration<T> configuration);
+	<T> T getConfigurationValue(Configuration<T> configuration) throws ConfigurationServiceException;
 
 	/**
 	 * Define new value for configuration
 	 */
-	<T> void setConfigurationValue(Configuration<T> configuration, T value);
+	<T> void setConfigurationValue(Configuration<T> configuration, T value) throws ConfigurationServiceException;
 }

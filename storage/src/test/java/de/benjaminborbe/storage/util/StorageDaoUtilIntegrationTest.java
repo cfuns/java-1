@@ -1,9 +1,7 @@
 package de.benjaminborbe.storage.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
+import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
-import org.apache.cassandra.thrift.NotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -128,13 +125,7 @@ public class StorageDaoUtilIntegrationTest {
 			daoUtil.delete(config.getKeySpace(), COLUMNFAMILY, id, key);
 
 			// schauen das geloeschter eintrag nicht mehr gelesen werden kann
-			try {
-				daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key);
-				fail("NotFoundException expected");
-			}
-			catch (final NotFoundException e) {
-				assertNotNull(e);
-			}
+			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
 			// nach dem loeschen wieder leer
 			assertEquals(0, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
@@ -224,5 +215,42 @@ public class StorageDaoUtilIntegrationTest {
 			result.append('x');
 		}
 		return result.toString();
+	}
+
+	@Test
+	public void testNullValue() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConnection connection = injector.getInstance(StorageConnection.class);
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		try {
+			// Connection zur Datenbank oeffnen
+			connection.open();
+
+			final Map<String, String> data = new HashMap<String, String>();
+			final String id = "1";
+			final String key = FIELD_NAME;
+
+			// insert null
+			data.put(FIELD_NAME, null);
+			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+
+			// insert a
+			data.put(FIELD_NAME, "a");
+			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+			assertEquals("a", daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+
+			// insert null
+			data.put(FIELD_NAME, null);
+			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+		}
+		finally {
+			// Connection zur Datenbank wieder schliessen
+			connection.close();
+		}
 	}
 }

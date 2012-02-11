@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.dao;
+package de.benjaminborbe.storage.tools;
 
 import java.util.Collection;
 import java.util.HashMap;

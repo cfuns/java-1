@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.configuration;
 
-import de.benjaminborbe.tools.dao.Dao;
+import de.benjaminborbe.storage.tools.Dao;
 
 public interface ConfigurationDao extends Dao<ConfigurationBean, Long> {
 

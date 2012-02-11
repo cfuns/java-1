@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.util;
 
-import de.benjaminborbe.tools.dao.Dao;
+import de.benjaminborbe.storage.tools.Dao;
 
 public interface UserDao extends Dao<UserBean, String> {
 

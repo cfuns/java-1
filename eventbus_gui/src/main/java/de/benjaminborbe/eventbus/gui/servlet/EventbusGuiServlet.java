@@ -32,9 +32,9 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "EventBus";
+	private static final String TITLE = "Eventbus";
 
-	private final EventbusService eventBusService;
+	private final EventbusService EventbusService;
 
 	@Inject
 	public EventbusGuiServlet(
@@ -45,11 +45,11 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final AuthenticationService authenticationService,
-			final EventbusService eventBusService,
+			final EventbusService EventbusService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider) {
 		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
-		this.eventBusService = eventBusService;
+		this.EventbusService = EventbusService;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 		out.println("<h1>" + getTitle() + "</h1>");
 		out.println("EventHandlers:");
 		out.println("<ul>");
-		for (final Entry<Type<EventHandler>, List<EventHandler>> e : eventBusService.getHandlers().entrySet()) {
+		for (final Entry<Type<EventHandler>, List<EventHandler>> e : EventbusService.getHandlers().entrySet()) {
 			out.println("<li>");
 			final Type<EventHandler> type = e.getKey();
 			final List<EventHandler> eventHandlers = e.getValue();

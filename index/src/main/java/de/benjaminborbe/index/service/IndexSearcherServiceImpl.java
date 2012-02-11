@@ -8,13 +8,15 @@ import java.util.List;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocCollector;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -43,14 +45,18 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final StandardAnalyzer analyzer = new StandardAnalyzer();
+			final Version version = Version.LUCENE_35;
+			final StandardAnalyzer analyzer = new StandardAnalyzer(version);
 			// parse query over multiple fields
-			final Query q = new MultiFieldQueryParser(buildFields(), analyzer).parse(searchQuery);
+			final Query q = new MultiFieldQueryParser(Version.LUCENE_35, buildFields(), analyzer).parse(searchQuery);
 
 			// searching ...
 			final int hitsPerPage = 10;
-			final IndexSearcher searcher = new IndexSearcher(index);
-			final TopDocCollector collector = new TopDocCollector(hitsPerPage);
+			final boolean readOnly = true;
+			final IndexReader indexReader = IndexReader.open(index, readOnly);
+			final IndexSearcher searcher = new IndexSearcher(indexReader);
+			final boolean docsScoredInOrder = true;
+			final TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, docsScoredInOrder);
 			searcher.search(q, collector);
 			final ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
@@ -61,6 +67,8 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 				final Document document = searcher.doc(docId);
 				result.add(buildSearchResult(indexName, document));
 			}
+
+			searcher.close();
 		}
 		catch (final IOException e) {
 			logger.error("IOException", e);

@@ -46,12 +46,30 @@ public class HtmlUtilImpl implements HtmlUtil {
 			return result;
 		}
 		final Document document = Jsoup.parse(htmlContent);
+
+		for (final Element head : document.getElementsByTag("head")) {
+			for (final Element meta : head.getElementsByTag("meta")) {
+				// <meta name="robots" content="noindex,nofollow">
+				if ("robots".equalsIgnoreCase(meta.attr("name"))) {
+					final String content = meta.attr("content");
+					final String[] parts = content.split(",");
+					for (final String part : parts) {
+						if ("nofollow".equalsIgnoreCase(part)) {
+							return result;
+						}
+					}
+				}
+			}
+		}
+
 		final Elements elements = document.getElementsByTag("a");
 		logger.trace("found " + elements.size() + " a elements");
 		for (final Element element : elements) {
-			final String href = element.attr("href");
-			logger.trace("add link to result " + href);
-			result.add(href);
+			if (!"nofollow".equalsIgnoreCase(element.attr("rel"))) {
+				final String href = element.attr("href");
+				logger.trace("add link to result " + href);
+				result.add(href);
+			}
 		}
 		return result;
 	}

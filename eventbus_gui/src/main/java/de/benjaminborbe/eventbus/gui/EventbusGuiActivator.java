@@ -17,10 +17,10 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class EventbusGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private EventbusGuiServlet eventbusGuiServlet;
+	private EventbusGuiServlet EventbusGuiServlet;
 
 	public EventbusGuiActivator() {
-		super("eventbus");
+		super("Eventbus");
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class EventbusGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(eventbusGuiServlet, "/"));
+		result.add(new ServletInfo(EventbusGuiServlet, "/"));
 		return result;
 	}
 

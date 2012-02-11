@@ -1,6 +1,6 @@
-package de.benjaminborbe.storage.api;
+package de.benjaminborbe.storage.tools;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.storage.tools.Entity;
 
 public class TestBean implements Entity<String> {
 

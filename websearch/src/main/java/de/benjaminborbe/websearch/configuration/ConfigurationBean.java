@@ -2,7 +2,7 @@ package de.benjaminborbe.websearch.configuration;
 
 import java.net.URL;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.storage.tools.Entity;
 
 public class ConfigurationBean implements Entity<Long>, Configuration {
 

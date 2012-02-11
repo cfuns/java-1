@@ -7,7 +7,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.Configuration;
-import de.benjaminborbe.tools.dao.DaoCacheAutoIncrement;
+import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
 
 @Singleton

@@ -9,7 +9,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.dao.DaoCacheAutoIncrement;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
 import de.benjaminborbe.websearch.page.PageDao;
 
@@ -39,6 +40,9 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 		}
 		catch (final MalformedURLException e) {
 			logger.error("MalformedURLException", e);
+		}
+		catch (final StorageException e) {
+			logger.error("StorageException", e);
 		}
 	}
 

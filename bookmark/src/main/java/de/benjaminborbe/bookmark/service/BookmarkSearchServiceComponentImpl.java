@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
@@ -37,17 +38,22 @@ public class BookmarkSearchServiceComponentImpl implements SearchServiceComponen
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
 		logger.debug("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
-		final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, words);
-		final int max = Math.min(maxResults, bookmarks.size());
-		for (int i = 0; i < max; ++i) {
-			try {
-				results.add(mapBookmark(bookmarks.get(i)));
+		try {
+			final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, words);
+			final int max = Math.min(maxResults, bookmarks.size());
+			for (int i = 0; i < max; ++i) {
+				try {
+					results.add(mapBookmark(bookmarks.get(i)));
+				}
+				catch (final MalformedURLException e) {
+					logger.error("MalformedURLException", e);
+				}
 			}
-			catch (final MalformedURLException e) {
-				logger.error("MalformedURLException", e);
-			}
+			logger.debug("search found " + results.size() + " bookmarks");
 		}
-		logger.debug("search found " + results.size() + " bookmarks");
+		catch (final BookmarkServiceException e) {
+			logger.debug("BookmarkServiceException", e);
+		}
 		return results;
 	}
 

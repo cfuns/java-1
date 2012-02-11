@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.dao.DaoCache;
+import de.benjaminborbe.storage.tools.DaoCache;
 
 @Singleton
 public class UserDaoImpl extends DaoCache<UserBean, String> implements UserDao {

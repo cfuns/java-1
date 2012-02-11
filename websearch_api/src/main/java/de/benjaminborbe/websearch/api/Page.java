@@ -1,12 +1,9 @@
 package de.benjaminborbe.websearch.api;
 
-import java.net.URL;
 import java.util.Date;
 
-public interface Page {
+public interface Page extends PageIdentifier {
 
 	Date getLastVisit();
-
-	URL getUrl();
 
 }

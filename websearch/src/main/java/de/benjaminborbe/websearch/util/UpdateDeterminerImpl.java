@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.configuration.ConfigurationBean;
 import de.benjaminborbe.websearch.configuration.ConfigurationDao;
@@ -38,28 +39,28 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 	}
 
 	@Override
-	public Collection<PageBean> determineExpiredPages() {
-		logger.debug("determineExpiredPages");
+	public Collection<PageBean> determineExpiredPages() throws StorageException {
+		logger.trace("determineExpiredPages");
 		final long time = calendarUtil.getTime();
 		final Collection<ConfigurationBean> configurations = configurationDao.getAll();
 		final Set<PageBean> result = new HashSet<PageBean>();
 		final Collection<PageBean> pages = pageDao.getAll();
-		logger.debug("found " + pages.size() + " pages to analyse");
+		logger.trace("found " + pages.size() + " pages to analyse");
 		for (final PageBean page : pages) {
 			// handle only pages configuration exists for
 			if (isSubPage(page, configurations)) {
-				logger.debug("url " + page.getId() + " is subpage");
+				logger.trace("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
 				if (isExpired(time, page)) {
-					logger.debug("url " + page.getId() + " is expired");
+					logger.trace("url " + page.getId() + " is expired");
 					result.add(page);
 				}
 				else {
-					logger.debug("url " + page.getId() + " is not expired");
+					logger.trace("url " + page.getId() + " is not expired");
 				}
 			}
 			else {
-				logger.debug("url " + page.getId() + " is not subpage");
+				logger.trace("url " + page.getId() + " is not subpage");
 			}
 		}
 		return result;

@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
-import de.benjaminborbe.tools.dao.Entity;
+import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.websearch.api.Page;
 
 public class PageBean implements Entity<String>, Page {
@@ -38,6 +38,7 @@ public class PageBean implements Entity<String>, Page {
 		}
 	}
 
+	@Override
 	public URL getUrl() {
 		return url;
 	}

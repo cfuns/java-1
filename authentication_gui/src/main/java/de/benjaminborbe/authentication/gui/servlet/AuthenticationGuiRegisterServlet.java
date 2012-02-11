@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
@@ -26,6 +27,7 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -63,29 +65,35 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final String username = request.getParameter(PARAMETER_USERNAME);
-		final String password = request.getParameter(PARAMETER_PASSWORD);
-		if (username != null && password != null) {
-			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-			if (authenticationService.register(sessionIdentifier, username, password)) {
-				final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
-				response.sendRedirect(referer);
-				logger.debug("send redirect to: " + referer);
-				return;
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final String username = request.getParameter(PARAMETER_USERNAME);
+			final String password = request.getParameter(PARAMETER_PASSWORD);
+			if (username != null && password != null) {
+				final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+				if (authenticationService.register(sessionIdentifier, username, password)) {
+					final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
+					response.sendRedirect(referer);
+					logger.debug("send redirect to: " + referer);
+					return;
+				}
+				else {
+					widgets.add("login => failed");
+				}
 			}
-			else {
-				widgets.add("login => failed");
-			}
+			final String action = request.getContextPath() + "/authentication/register";
+			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
+			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
+			form.addFormInputWidget(new FormInputSubmitWidget("register"));
+			widgets.add(form);
+			widgets.render(request, response, context);
 		}
-		final String action = request.getContextPath() + "/authentication/register";
-		final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
-		form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
-		form.addFormInputWidget(new FormInputSubmitWidget("register"));
-		widgets.add(form);
-		widgets.render(request, response, context);
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		}
 	}
 }

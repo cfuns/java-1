@@ -14,11 +14,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
+import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
@@ -61,24 +64,35 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) {
-		logger.trace("getBookmarks");
-		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getAll());
-		Collections.sort(bookmarks, bookmarkComparator);
-		return bookmarks;
+	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
+		try {
+			logger.trace("getBookmarks");
+			final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getAll());
+			Collections.sort(bookmarks, bookmarkComparator);
+			return bookmarks;
+		}
+		catch (final StorageException e) {
+			throw new BookmarkServiceException("StorageException", e);
+		}
 	}
 
 	@Override
-	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) {
-		logger.trace("getBookmarkFavorite");
-		final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-		final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites(userIdentifier));
-		Collections.sort(bookmarks, bookmarkComparator);
-		return bookmarks;
+	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
+		try {
+			logger.trace("getBookmarkFavorite");
+			UserIdentifier userIdentifier;
+			userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites(userIdentifier));
+			Collections.sort(bookmarks, bookmarkComparator);
+			return bookmarks;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException("AuthenticationServiceException", e);
+		}
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) {
+	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) throws BookmarkServiceException {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final Bookmark bookmark : getBookmarks(sessionIdentifier)) {
 			final int counter = match(bookmark, parts);

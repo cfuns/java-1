@@ -6,10 +6,10 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 
 public interface BookmarkService {
 
-	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier);
+	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException;
 
-	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, String[] words);
+	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, String[] words) throws BookmarkServiceException;
 
-	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier);
+	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier) throws BookmarkServiceException;
 
 }

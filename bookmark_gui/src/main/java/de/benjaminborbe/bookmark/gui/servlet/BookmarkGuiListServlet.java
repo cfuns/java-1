@@ -2,6 +2,7 @@ package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +23,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResourceRenderer;
@@ -31,7 +33,13 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H2Widget;
+import de.benjaminborbe.website.util.LiWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
@@ -64,19 +72,28 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<h1>" + getTitle() + "</h1>");
-		printLinks(request, response);
+		printLinks(request, response, context);
 	}
 
-	protected void printLinks(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<h2>Links</h2>");
-		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-		for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
-			out.println("<li>");
-			out.println("<a href=\"" + bookmark.getUrl() + "\" target=\"" + target + "\">" + bookmark.getName() + "</a>");
-			out.println(" ");
-			out.println("[" + keywordsToString(bookmark) + "]");
-			out.println("</li>");
+	protected void printLinks(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		try {
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H2Widget("Links"));
+			final UlWidget ul = new UlWidget();
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
+				final ListWidget b = new ListWidget();
+				b.add(new LinkWidget(new URL(bookmark.getUrl()), bookmark.getName()).addTarget(target));
+				b.add(" ");
+				b.add("[" + keywordsToString(bookmark) + "]");
+				ul.add(new LiWidget(b));
+			}
+			widgets.add(ul);
+			widgets.render(request, response, context);
+		}
+		catch (final BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
 		}
 	}
 

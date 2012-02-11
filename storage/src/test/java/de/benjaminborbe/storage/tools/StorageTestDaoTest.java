@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.api;
+package de.benjaminborbe.storage.tools;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,19 +7,21 @@ import static org.junit.Assert.assertNull;
 import java.util.Collections;
 import java.util.List;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.tools.mapper.Mapper;
 
 public class StorageTestDaoTest {
 
 	@Test
-	public void testFields() {
+	public void testFields() throws Exception {
 		final StorageTestDao dao = getDao();
 		final TestBean entity = dao.create();
 		final List<String> fieldNames = dao.getFieldNames(entity);
@@ -31,10 +33,9 @@ public class StorageTestDaoTest {
 	}
 
 	protected StorageTestDao getDao() {
-		// final Logger logger = EasyMock.createNiceMock(Logger.class);
-		// EasyMock.replay(logger);
-
-		final Logger logger = LoggerFactory.getLogger(getClass());
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		// final Logger logger = LoggerFactory.getLogger(getClass());
 
 		final StorageService storageService = new StorageServiceMock();
 		final Provider<TestBean> beanProvider = new Provider<TestBean>() {
@@ -45,12 +46,12 @@ public class StorageTestDaoTest {
 			}
 		};
 
-		final StorageTestDao dao = new StorageTestDao(logger, storageService, beanProvider);
-		return dao;
+		final Mapper<TestBean> mapper = new TestBeanMapper(beanProvider);
+		return new StorageTestDao(logger, storageService, beanProvider, mapper);
 	}
 
 	@Test
-	public void testCrud() {
+	public void testCrud() throws Exception {
 		final StorageTestDao dao = getDao();
 
 		final String id = "1";
@@ -85,9 +86,16 @@ public class StorageTestDaoTest {
 
 	private final class StorageTestDao extends StorageDao<TestBean> {
 
+		private static final String COLUMNFAMILY = "test";
+
 		@Inject
-		public StorageTestDao(final Logger logger, final StorageService storageService, final Provider<TestBean> beanProvider) {
-			super(logger, storageService, beanProvider);
+		public StorageTestDao(final Logger logger, final StorageService storageService, final Provider<TestBean> beanProvider, final Mapper<TestBean> mapper) {
+			super(logger, storageService, beanProvider, mapper);
+		}
+
+		@Override
+		protected String getColumnFamily() {
+			return COLUMNFAMILY;
 		}
 
 	}

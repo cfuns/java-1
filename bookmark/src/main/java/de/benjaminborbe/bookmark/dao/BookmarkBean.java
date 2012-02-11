@@ -3,7 +3,7 @@ package de.benjaminborbe.bookmark.dao;
 import java.util.List;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
-import de.benjaminborbe.tools.dao.EntityLong;
+import de.benjaminborbe.storage.tools.EntityLong;
 
 public class BookmarkBean implements EntityLong, Bookmark {
 

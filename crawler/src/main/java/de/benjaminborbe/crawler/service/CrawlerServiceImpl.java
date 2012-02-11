@@ -49,10 +49,10 @@ public class CrawlerServiceImpl implements CrawlerService {
 			crawlerNotifier.notifiy(crawleResult);
 		}
 		catch (final HttpDownloaderException e) {
-			throw new CrawlerException("MalformedURLException", e);
+			throw new CrawlerException("MalformedURLException url: " + domainUrl, e);
 		}
 		catch (final UnsupportedEncodingException e) {
-			throw new CrawlerException("MalformedURLException", e);
+			throw new CrawlerException("MalformedURLException url: " + domainUrl, e);
 		}
 	}
 
