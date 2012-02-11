@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
+import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
 
@@ -23,7 +25,8 @@ public class GoogleSearchServiceComponentTest {
 		EasyMock.replay(logger);
 
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil);
+		final UrlUtil urlUtil = new UrlUtilImpl();
+		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil, urlUtil);
 		final ResourceUtil resourceUtil = new ResourceUtilImpl();
 		final String content = resourceUtil.getResourceContentString("sample-result.txt");
 		assertNotNull(content);
@@ -63,12 +66,13 @@ public class GoogleSearchServiceComponentTest {
 	}
 
 	@Test
-	public void buildQueryUrl() throws Exception {
+	public void testBuildQueryUrl() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil);
+		final UrlUtil urlUtil = new UrlUtilImpl();
+		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil, urlUtil);
 		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(new String[] { "crawler", "java" }).toExternalForm());
 
 	}

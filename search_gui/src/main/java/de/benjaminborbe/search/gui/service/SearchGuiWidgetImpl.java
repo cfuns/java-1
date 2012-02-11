@@ -2,6 +2,7 @@ package de.benjaminborbe.search.gui.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.util.SearchGuiUtil;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
 public class SearchGuiWidgetImpl implements SearchWidget {
@@ -40,18 +42,30 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final SearchGuiDashboardWidget searchDashboardWidget;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public SearchGuiWidgetImpl(final Logger logger, final SearchGuiUtil searchUtil, final SearchService searchService, final SearchGuiDashboardWidget searchDashboardWidget) {
+	public SearchGuiWidgetImpl(final Logger logger, final SearchGuiUtil searchUtil, final SearchService searchService, final SearchGuiDashboardWidget searchDashboardWidget, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
 		this.searchDashboardWidget = searchDashboardWidget;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
+
+		if (searchQuery != null && searchQuery.startsWith("g: ")) {
+			final StringWriter sw = new StringWriter();
+			sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
+			sw.append(urlUtil.encode(searchQuery.replaceFirst("g: ", "")));
+			response.sendRedirect(sw.toString());
+			return;
+		}
+
 		printSearchForm(request, response, context);
 		final String[] words = searchUtil.buildSearchParts(searchQuery);
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);

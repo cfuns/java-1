@@ -3,7 +3,6 @@ package de.benjaminborbe.googlesearch.service;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
 public class GoogleSearchServiceComponent implements SearchServiceComponent {
@@ -44,12 +44,15 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	private final HttpDownloadUtil httpDownloadUtil;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public GoogleSearchServiceComponent(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final HtmlUtil htmlUtil) {
+	public GoogleSearchServiceComponent(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final HtmlUtil htmlUtil, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.htmlUtil = htmlUtil;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -102,7 +105,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected URL buildQueryUrl(final String[] words) throws MalformedURLException, UnsupportedEncodingException {
-		final String url = PREFIX + URLEncoder.encode(StringUtils.join(words, ' '), "UTF8");
+		final String url = PREFIX + urlUtil.encode(StringUtils.join(words, ' '));
 		return new URL(url);
 	}
 }

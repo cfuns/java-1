@@ -18,6 +18,8 @@ import de.benjaminborbe.tools.http.HttpDownloaderImpl;
 import de.benjaminborbe.tools.jndi.JndiContext;
 import de.benjaminborbe.tools.jndi.JndiContextImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
@@ -35,6 +37,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(UrlUtil.class).to(UrlUtilImpl.class).in(Singleton.class);
 		bind(HtmlUtil.class).to(HtmlUtilImpl.class).in(Singleton.class);
 		bind(ResourceUtil.class).to(ResourceUtilImpl.class).in(Singleton.class);
 		bind(StringUtil.class).to(StringUtilImpl.class).in(Singleton.class);
