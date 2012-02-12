@@ -8,5 +8,5 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface JavascriptResourceRenderer extends Renderer {
 
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final Collection<JavascriptResource> javascriptResources) throws IOException;
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final Collection<JavascriptResource> javascriptResources) throws IOException;
 }

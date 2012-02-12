@@ -51,7 +51,7 @@ public class FormWidget implements Widget {
 		if (encType != null) {
 			out.print(" enctype=\"" + encType + "\"");
 		}
-		out.print(">");
+		out.println(">");
 		out.println("<fieldset>");
 		for (final FormInputWidget formInputWidget : formInputWidgets) {
 			formInputWidget.render(request, response, context);

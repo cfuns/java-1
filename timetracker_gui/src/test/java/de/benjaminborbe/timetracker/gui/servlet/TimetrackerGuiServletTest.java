@@ -76,14 +76,18 @@ public class TimetrackerGuiServletTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.replay(request);
 
+		final HttpContext context = EasyMock.createMock(HttpContext.class);
+		EasyMock.replay(context);
+
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(Collection.class));
+		cssResourceRenderer
+				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final Collection<JavascriptResource> javascriptResources = new HashSet<JavascriptResource>();
 
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
-		javascriptResourceRenderer.render(request, response, javascriptResources);
+		javascriptResourceRenderer.render(request, response, context, javascriptResources);
 		EasyMock.replay(javascriptResourceRenderer);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);

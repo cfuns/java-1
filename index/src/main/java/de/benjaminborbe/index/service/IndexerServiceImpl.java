@@ -50,6 +50,7 @@ public class IndexerServiceImpl implements IndexerService {
 
 			final Term term = new Term(IndexField.ID.getFieldName(), url.toExternalForm());
 			final Document doc = new Document();
+			doc.add(new Field(IndexField.ID.getFieldName(), url.toExternalForm(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			doc.add(new Field(IndexField.URL.getFieldName(), url.toExternalForm(), Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field(IndexField.TITLE.getFieldName(), title, Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field(IndexField.CONTENT.getFieldName(), content, Field.Store.YES, Field.Index.ANALYZED));
@@ -57,7 +58,7 @@ public class IndexerServiceImpl implements IndexerService {
 
 			// indexWriter.deleteDocuments(term);
 			// indexWriter.addDocument(doc);
-
+			indexWriter.forceMergeDeletes();
 			indexWriter.commit();
 			indexWriter.close();
 		}

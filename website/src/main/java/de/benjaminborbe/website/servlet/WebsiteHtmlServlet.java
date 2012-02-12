@@ -2,9 +2,11 @@ package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServlet;
@@ -174,14 +176,19 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		out.println("<head>");
 		out.println("<title>" + getTitle() + "</title>");
-		javascriptResourceRenderer.render(request, response, getJavascriptResources(request, response));
-		cssResourceRenderer.render(request, response, getCssResources(request, response));
+		out.println("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />");
+		out.println("<meta http-equiv=\"content-language\" content=\"en\" />");
+		out.println("<meta name=\"description\" content=\"BB\" />");
+		out.println("<meta name=\"keywords\" content=\"BB\" />");
+		out.println("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.gif\" />");
+		javascriptResourceRenderer.render(request, response, context, getJavascriptResources(request, response));
+		cssResourceRenderer.render(request, response, context, getCssResources(request, response));
 		out.println("</head>");
 	}
 
-	protected Collection<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		logger.trace("getJavascriptResources");
-		final Set<JavascriptResource> result = new HashSet<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		final Collection<Widget> widgets = getWidgets();
 		logger.trace("found " + widgets.size() + " widgets");
 		for (final Widget widget : widgets) {

@@ -1,10 +1,10 @@
 package de.benjaminborbe.index.service;
 
 public enum IndexField {
+	ID("id"),
 	TITLE("title"),
 	URL("url"),
-	CONTENT("content"),
-	ID("id");
+	CONTENT("content");
 
 	private final String fieldName;
 

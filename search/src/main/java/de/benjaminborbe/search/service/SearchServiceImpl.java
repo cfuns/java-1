@@ -34,7 +34,12 @@ public class SearchServiceImpl implements SearchService {
 
 		private final int maxResults;
 
-		private SearchThreadRunner(final SearchServiceComponent searchServiceComponent, final ThreadResult<List<SearchResult>> threadResult, final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
+		private SearchThreadRunner(
+				final SearchServiceComponent searchServiceComponent,
+				final ThreadResult<List<SearchResult>> threadResult,
+				final SessionIdentifier sessionIdentifier,
+				final String[] words,
+				final int maxResults) {
 			this.searchServiceComponent = searchServiceComponent;
 			this.threadResult = threadResult;
 			this.sessionIdentifier = sessionIdentifier;
@@ -45,8 +50,7 @@ public class SearchServiceImpl implements SearchService {
 		@Override
 		public void run() {
 			try {
-				final List<SearchResult> list = threadResult.get();
-				list.addAll(searchServiceComponent.search(sessionIdentifier, words, maxResults));
+				threadResult.set(searchServiceComponent.search(sessionIdentifier, words, maxResults));
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -95,7 +99,10 @@ public class SearchServiceImpl implements SearchService {
 
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		for (final ThreadResult<List<SearchResult>> threadResult : threadResults) {
-			result.addAll(threadResult.get());
+			final List<SearchResult> list = threadResult.get();
+			if (list != null) {
+				result.addAll(list);
+			}
 		}
 
 		logger.debug("found " + result.size() + " results");

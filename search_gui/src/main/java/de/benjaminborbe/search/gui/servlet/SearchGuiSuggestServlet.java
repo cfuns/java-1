@@ -2,6 +2,7 @@ package de.benjaminborbe.search.gui.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,8 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 
 	private static final int MAX_RESULTS = 20;
 
+	private static final int MIN_LENGTH = 2;
+
 	private final Logger logger;
 
 	private final SearchService searchService;
@@ -44,13 +47,20 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.debug("service");
+		response.setCharacterEncoding("UTF8");
 		response.setContentType("application/json");
-		final PrintWriter out = response.getWriter();
 		final String queryString = request.getParameter(PARAMETER_SEARCH);
-		final String[] words = searchUtil.buildSearchParts(queryString);
-		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-		final List<SearchResult> searchResults = searchService.search(sessionIdentifier, words, MAX_RESULTS);
-		logger.debug("found " + searchResults.size() + " searchResults");
+		final PrintWriter out = response.getWriter();
+		final List<SearchResult> searchResults;
+		if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
+			final String[] words = searchUtil.buildSearchParts(queryString);
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			searchResults = searchService.search(sessionIdentifier, words, MAX_RESULTS);
+			logger.debug("found " + searchResults.size() + " searchResults");
+		}
+		else {
+			searchResults = new ArrayList<SearchResult>();
+		}
 		final JSONArray obj = buildJson(searchResults);
 		obj.writeJSONString(out);
 	}

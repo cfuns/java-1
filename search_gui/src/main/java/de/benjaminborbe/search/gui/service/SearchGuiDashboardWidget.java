@@ -1,7 +1,7 @@
 package de.benjaminborbe.search.gui.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +25,8 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
+import de.benjaminborbe.website.util.JavascriptWidget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class SearchGuiDashboardWidget implements DashboardContentWidget, RequireCssResource, RequireJavascriptResource {
@@ -43,24 +45,26 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
-		final PrintWriter out = response.getWriter();
 		final String contextPath = request.getContextPath();
 		final String searchSuggestUrl = contextPath + "/search/suggest";
 		final String action = contextPath + "/search";
+
+		final ListWidget widgets = new ListWidget();
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
 		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext ...").addId("searchBox"));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
-		formWidget.render(request, response, context);
+		widgets.add(formWidget);
 
-		out.println("<script language=\"javascript\">");
-		out.println("$(document).ready(function() {");
-		out.println("$('input#searchBox').autocomplete({");
-		out.println("source: '" + searchSuggestUrl + "',");
-		out.println("method: 'POST',");
-		out.println("minLength: 1,");
-		out.println("});");
-		out.println("});");
-		out.println("</script>");
+		final StringWriter sw = new StringWriter();
+		sw.append("$(document).ready(function() {");
+		sw.append("$('input#searchBox').autocomplete({");
+		sw.append("source: '" + searchSuggestUrl + "',");
+		sw.append("method: 'POST',");
+		sw.append("minLength: 1,");
+		sw.append("});");
+		sw.append("});");
+		widgets.add(new JavascriptWidget(sw.toString()));
+		widgets.render(request, response, context);
 	}
 
 	@Override

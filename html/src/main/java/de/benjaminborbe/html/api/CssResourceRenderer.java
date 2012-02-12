@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface CssResourceRenderer extends Renderer {
 
-	void render(HttpServletRequest request, HttpServletResponse response, Collection<CssResource> cssResources) throws IOException;
+	void render(HttpServletRequest request, HttpServletResponse response, final HttpContext context, Collection<CssResource> cssResources) throws IOException;
 
 }

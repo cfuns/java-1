@@ -1,7 +1,6 @@
 package de.benjaminborbe.search.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +25,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class SearchGuiServlet extends WebsiteHtmlServlet {
@@ -54,9 +55,10 @@ public class SearchGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<h1>" + getTitle() + "</h1>");
-		searchWidget.render(request, response, context);
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(getTitle()));
+		widgets.add(searchWidget);
+		widgets.render(request, response, context);
 	}
 
 	@Override
