@@ -55,28 +55,43 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean isLoggedIn(final SessionIdentifier sessionIdentifier) {
-		final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
-		return session != null && session.getCurrentUser() != null;
+	public boolean isLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		try {
+			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
+			return session != null && session.getCurrentUser() != null;
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException("StorageException", e);
+		}
 	}
 
 	@Override
-	public boolean logout(final SessionIdentifier sessionIdentifier) {
-		final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
-		if (session != null && session.getCurrentUser() != null) {
-			session.setCurrentUser(null);
-			return true;
+	public boolean logout(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		try {
+			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
+			if (session != null && session.getCurrentUser() != null) {
+				session.setCurrentUser(null);
+				return true;
+			}
+			return false;
 		}
-		return false;
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException("StorageException", e);
+		}
 	}
 
 	@Override
-	public UserIdentifier getCurrentUser(final SessionIdentifier sessionIdentifier) {
-		final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
-		if (session != null) {
-			return new UserIdentifier(session.getCurrentUser());
+	public UserIdentifier getCurrentUser(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		try {
+			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
+			if (session != null) {
+				return new UserIdentifier(session.getCurrentUser());
+			}
+			return null;
 		}
-		return null;
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException("StorageException", e);
+		}
 	}
 
 	@Override

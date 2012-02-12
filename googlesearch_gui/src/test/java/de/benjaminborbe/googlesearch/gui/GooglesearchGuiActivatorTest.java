@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.googlesearch.gui.GooglesearchGuiActivator;
 import de.benjaminborbe.googlesearch.gui.guice.GooglesearchGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

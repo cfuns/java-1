@@ -8,13 +8,12 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.vaadin.gui.guice.VaadinGuiModules;
-import de.benjaminborbe.vaadin.gui.servlet.MyApplicationServlet;
-
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.vaadin.gui.guice.VaadinGuiModules;
+import de.benjaminborbe.vaadin.gui.servlet.MyApplicationServlet;
 
 public class VaadinGuiActivator extends HttpBundleActivator {
 

@@ -37,7 +37,6 @@ import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.LiWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
@@ -91,7 +90,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			for (final Page page : sortPages(websearchService.getPages())) {
-				ul.add(new LiWidget(buildPageWidget(page, request)));
+				ul.add(buildPageWidget(page, request));
 			}
 			widgets.add(ul);
 			widgets.render(request, response, context);

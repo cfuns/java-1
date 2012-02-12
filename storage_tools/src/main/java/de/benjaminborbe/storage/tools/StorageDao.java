@@ -98,17 +98,12 @@ public abstract class StorageDao<T extends Entity<String>> implements Dao<T, Str
 	}
 
 	@Override
-	public Collection<T> getAll() {
+	public Collection<T> getAll() throws StorageException {
 		logger.trace("getAll");
 		final Set<T> result = new HashSet<T>();
 		final String c = getColumnFamily();
-		try {
-			for (final String id : storageService.list(c)) {
-				result.add(load(id));
-			}
-		}
-		catch (final StorageException e) {
-			logger.trace("StorageException while listing columnfamily " + c, e);
+		for (final String id : storageService.list(c)) {
+			result.add(load(id));
 		}
 		return result;
 	}

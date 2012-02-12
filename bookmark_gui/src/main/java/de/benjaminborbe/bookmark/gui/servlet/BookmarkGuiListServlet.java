@@ -37,7 +37,6 @@ import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H2Widget;
-import de.benjaminborbe.website.util.LiWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
@@ -86,7 +85,7 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 				b.add(new LinkWidget(new URL(bookmark.getUrl()), bookmark.getName()).addTarget(target));
 				b.add(" ");
 				b.add("[" + keywordsToString(bookmark) + "]");
-				ul.add(new LiWidget(b));
+				ul.add(b);
 			}
 			widgets.add(ul);
 			widgets.render(request, response, context);

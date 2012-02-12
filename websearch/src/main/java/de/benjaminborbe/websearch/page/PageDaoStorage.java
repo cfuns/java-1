@@ -53,7 +53,7 @@ public class PageDaoStorage extends StorageDao<PageBean> implements PageDao {
 	}
 
 	@Override
-	public Collection<PageBean> findSubPages(final URL url) {
+	public Collection<PageBean> findSubPages(final URL url) throws StorageException {
 		return pageDaoSubPagesAction.findSubPages(url, getAll());
 	}
 

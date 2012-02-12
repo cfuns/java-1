@@ -22,7 +22,6 @@ import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.LiWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
@@ -49,7 +48,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite(sessionIdentifier)) {
-				ul.add(new LiWidget(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target)));
+				ul.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
 			}
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));

@@ -128,3 +128,7 @@ googlesearch/target
 googlesearch_api/target
 googlesearch_gui/target
 googlesearch_test/target
+systemstatus/target
+systemstatus_api/target
+systemstatus_gui/target
+systemstatus_test/target

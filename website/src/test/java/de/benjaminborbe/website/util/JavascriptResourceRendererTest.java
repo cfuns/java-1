@@ -54,9 +54,6 @@ public class JavascriptResourceRendererTest {
 		EasyMock.expect(response.getWriter()).andReturn(writer).anyTimes();
 		EasyMock.replay(response);
 
-		final HttpContext context = EasyMock.createMock(HttpContext.class);
-		EasyMock.replay(context);
-
 		final List<JavascriptResource> resources = new ArrayList<JavascriptResource>();
 		{
 			final JavascriptResource resource = EasyMock.createMock(JavascriptResource.class);
@@ -70,6 +67,10 @@ public class JavascriptResourceRendererTest {
 			EasyMock.replay(resource);
 			resources.add(resource);
 		}
+
+		final HttpContext context = EasyMock.createMock(HttpContext.class);
+		EasyMock.replay(context);
+
 		final JavascriptResourceRenderer link = new JavascriptResourceRendererImpl();
 		link.render(request, response, context, resources);
 		assertEquals(

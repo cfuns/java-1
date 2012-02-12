@@ -7,11 +7,10 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.vaadin.VaadinActivator;
-import de.benjaminborbe.vaadin.guice.VaadinModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import de.benjaminborbe.vaadin.guice.VaadinModulesMock;
 
 public class VaadinActivatorTest {
 

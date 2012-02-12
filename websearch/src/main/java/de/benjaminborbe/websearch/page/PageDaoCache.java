@@ -2,6 +2,7 @@ package de.benjaminborbe.websearch.page;
 
 import java.net.URL;
 import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;

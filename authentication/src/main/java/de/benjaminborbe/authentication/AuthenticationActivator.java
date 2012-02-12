@@ -35,7 +35,8 @@ public class AuthenticationActivator extends BaseBundleActivator {
 	@Override
 	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new AuthenticationServiceTracker(authenticationRegistry, context,
+		// serviceTrackers.add(new AuthenticationServiceTracker(authenticationRegistry,
+		// context,
 		// AuthenticationService.class));
 		return serviceTrackers;
 	}

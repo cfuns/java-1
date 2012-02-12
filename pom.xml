@@ -163,6 +163,10 @@
 		<module>googlesearch_api</module>
 		<module>googlesearch_gui</module>
 		<module>googlesearch_test</module>
+		<module>systemstatus</module>
+		<module>systemstatus_api</module>
+		<module>systemstatus_gui</module>
+		<module>systemstatus_test</module>
 	</modules>
 	<build>
 		<resources>

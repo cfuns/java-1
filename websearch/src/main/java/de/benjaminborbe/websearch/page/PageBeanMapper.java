@@ -64,7 +64,6 @@ public class PageBeanMapper extends BaseMapper<PageBean> {
 		try {
 			return datetime != null ? dateUtil.parseDateTime(datetime) : null;
 		}
-
 		catch (final ParseException e) {
 			throw new MapException("ParseException - datetime: " + datetime, e);
 		}

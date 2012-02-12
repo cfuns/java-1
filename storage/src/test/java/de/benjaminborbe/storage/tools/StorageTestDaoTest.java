@@ -10,12 +10,12 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
-import de.benjaminborbe.storage.tools.StorageDao;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 public class StorageTestDaoTest {

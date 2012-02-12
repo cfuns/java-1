@@ -10,10 +10,10 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.storage.tools.DaoCache;
 
 @Singleton
-public class SessionDaoImpl extends DaoCache<SessionBean, String> implements SessionDao {
+public class SessionDaoCache extends DaoCache<SessionBean, String> implements SessionDao {
 
 	@Inject
-	public SessionDaoImpl(final Logger logger, final Provider<SessionBean> provider) {
+	public SessionDaoCache(final Logger logger, final Provider<SessionBean> provider) {
 		super(logger, provider);
 	}
 

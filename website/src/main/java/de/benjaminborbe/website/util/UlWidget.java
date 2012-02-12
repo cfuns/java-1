@@ -20,6 +20,14 @@ public class UlWidget implements Widget {
 		return this;
 	}
 
+	public UlWidget add(final String content) {
+		return add(new LiWidget(content));
+	}
+
+	public UlWidget add(final Widget widget) {
+		return add(new LiWidget(widget));
+	}
+
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();

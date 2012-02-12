@@ -1,7 +1,5 @@
 package de.benjaminborbe.storage.tools;
 
-import de.benjaminborbe.storage.tools.Entity;
-
 public class TestBean implements Entity<String> {
 
 	private static final long serialVersionUID = -4849861781774372129L;
