@@ -6,6 +6,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 
@@ -62,13 +63,16 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 
 		{
 			widgets.add(new H2Widget("Session-Data"));
+			final HttpSession session = request.getSession();
+			widgets.add("session-id: " + session.getId());
+			widgets.add(new BrWidget());
 			@SuppressWarnings("unchecked")
-			final Enumeration<String> e = request.getSession().getAttributeNames();
+			final Enumeration<String> e = session.getAttributeNames();
 			if (e.hasMoreElements()) {
 				final UlWidget ul = new UlWidget();
 				while (e.hasMoreElements()) {
 					final String name = e.nextElement();
-					ul.add(name + " = " + request.getSession().getAttribute(name));
+					ul.add(name + " = " + session.getAttribute(name));
 				}
 				widgets.add(ul);
 			}

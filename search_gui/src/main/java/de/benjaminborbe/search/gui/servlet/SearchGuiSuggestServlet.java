@@ -18,7 +18,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
-import de.benjaminborbe.search.gui.util.SearchGuiUtil;
+import de.benjaminborbe.tools.util.SearchUtil;
 
 @Singleton
 public class SearchGuiSuggestServlet extends HttpServlet {
@@ -35,10 +35,10 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 
 	private final SearchService searchService;
 
-	private final SearchGuiUtil searchUtil;
+	private final SearchUtil searchUtil;
 
 	@Inject
-	public SearchGuiSuggestServlet(final Logger logger, final SearchService searchService, final SearchGuiUtil searchUtil) {
+	public SearchGuiSuggestServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.searchService = searchService;
 		this.searchUtil = searchUtil;

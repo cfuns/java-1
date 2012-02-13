@@ -1,11 +1,11 @@
-package de.benjaminborbe.search.gui.util;
+package de.benjaminborbe.tools.util;
 
 import com.google.inject.Inject;
 
-public class SearchGuiUtil {
+public class SearchUtil {
 
 	@Inject
-	public SearchGuiUtil() {
+	public SearchUtil() {
 	}
 
 	public String[] buildSearchParts(final String searchQuery) {

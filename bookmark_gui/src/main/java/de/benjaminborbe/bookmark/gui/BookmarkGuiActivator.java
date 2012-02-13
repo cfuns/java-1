@@ -10,12 +10,14 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModules;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiFavoriteDashboardWidget;
+import de.benjaminborbe.bookmark.gui.service.BookmarkGuiSpecialSearch;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiCreateServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiDeleteServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiListServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiUpdateServlet;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -41,6 +43,9 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	@Inject
 	private BookmarkGuiUpdateServlet bookmarkGuiUpdateServlet;
 
+	@Inject
+	private BookmarkGuiSpecialSearch searchGuiSpecialSearchBookmark;
+
 	public BookmarkGuiActivator() {
 		super("bookmark");
 	}
@@ -54,6 +59,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	protected Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkGuiFavoriteDashboardWidget, bookmarkGuiFavoriteDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchBookmark, searchGuiSpecialSearchBookmark.getClass().getName()));
 		return result;
 	}
 

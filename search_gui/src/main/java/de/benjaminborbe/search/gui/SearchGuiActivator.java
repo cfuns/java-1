@@ -5,13 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.guice.SearchGuiModules;
 import de.benjaminborbe.search.gui.service.SearchGuiDashboardWidget;
+import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchRegistry;
+import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchServiceTracker;
 import de.benjaminborbe.search.gui.servlet.SearchGuiOsdServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiServiceComponentsServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiServlet;
@@ -38,6 +42,9 @@ public class SearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private SearchGuiDashboardWidget searchDashboardWidget;
+
+	@Inject
+	private SearchGuiSpecialSearchRegistry searchGuiSpecialSearchRegistry;
 
 	@Inject
 	private SearchWidget searchWidget;
@@ -74,5 +81,12 @@ public class SearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchWidget.class, searchWidget));
 		return result;
+	}
+
+	@Override
+	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		serviceTrackers.add(new SearchGuiSpecialSearchServiceTracker(searchGuiSpecialSearchRegistry, context, SearchSpecial.class));
+		return serviceTrackers;
 	}
 }

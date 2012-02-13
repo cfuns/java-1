@@ -71,6 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
 			if (session != null && session.getCurrentUser() != null) {
 				session.setCurrentUser(null);
+				sessionDao.save(session);
 				return true;
 			}
 			return false;

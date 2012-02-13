@@ -9,15 +9,21 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.googlesearch.gui.guice.GooglesearchGuiModules;
+import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiSpecialSearch;
 import de.benjaminborbe.googlesearch.gui.servlet.GooglesearchGuiServlet;
+import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class GooglesearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private GooglesearchGuiServlet googlesearchGuiServlet;
+
+	@Inject
+	private GooglesearchGuiSpecialSearch searchGuiSpecialSearchGoogle;
 
 	public GooglesearchGuiActivator() {
 		super("googlesearch");
@@ -35,18 +41,11 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(googlesearchFilter, ".*", 998));
-	// return result;
-	// }
+	@Override
+	protected Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchGoogle, searchGuiSpecialSearchGoogle.getClass().getName()));
+		return result;
+	}
 
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// return result;
-	// }
 }

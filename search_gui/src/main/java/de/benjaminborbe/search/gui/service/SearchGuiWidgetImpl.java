@@ -2,7 +2,6 @@ package de.benjaminborbe.search.gui.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +17,12 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
+import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchWidget;
-import de.benjaminborbe.search.gui.util.SearchGuiUtil;
 import de.benjaminborbe.tools.html.Target;
-import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.SearchUtil;
 
 @Singleton
 public class SearchGuiWidgetImpl implements SearchWidget {
@@ -38,32 +37,39 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private static final Target target = Target.BLANK;
 
-	private final SearchGuiUtil searchUtil;
+	private final SearchUtil searchUtil;
 
 	private final SearchGuiDashboardWidget searchDashboardWidget;
 
-	private final UrlUtil urlUtil;
+	private final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory;
 
 	@Inject
-	public SearchGuiWidgetImpl(final Logger logger, final SearchGuiUtil searchUtil, final SearchService searchService, final SearchGuiDashboardWidget searchDashboardWidget, final UrlUtil urlUtil) {
+	public SearchGuiWidgetImpl(
+			final Logger logger,
+			final SearchUtil searchUtil,
+			final SearchService searchService,
+			final SearchGuiDashboardWidget searchDashboardWidget,
+			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
 		this.searchDashboardWidget = searchDashboardWidget;
-		this.urlUtil = urlUtil;
+		this.searchGuiSpecialSearchFactory = searchGuiSpecialSearchFactory;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.debug("render");
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-
-		if (searchQuery != null && searchQuery.startsWith("g: ")) {
-			final StringWriter sw = new StringWriter();
-			sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
-			sw.append(urlUtil.encode(searchQuery.replaceFirst("g: ", "")));
-			response.sendRedirect(sw.toString());
+		logger.debug("searchQuery: " + searchQuery);
+		final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
+		if (searchGuiSpecialSearch != null) {
+			logger.debug("found special search");
+			searchGuiSpecialSearch.render(request, response, context);
 			return;
+		}
+		else {
+			logger.debug("found no special search");
 		}
 
 		printSearchForm(request, response, context);

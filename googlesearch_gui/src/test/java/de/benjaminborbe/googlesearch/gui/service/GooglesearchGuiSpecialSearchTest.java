@@ -1,4 +1,4 @@
-package de.benjaminborbe.search.gui.service;
+package de.benjaminborbe.googlesearch.gui.service;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
-public class SearchGuiWidgetTest {
+public class GooglesearchGuiSpecialSearchTest {
 
 	@Test
 	public void testGoogleSearch() throws Exception {
@@ -27,7 +27,7 @@ public class SearchGuiWidgetTest {
 		EasyMock.replay(logger);
 
 		final UrlUtil urlUtil = new UrlUtilImpl();
-		final Widget widget = new SearchGuiWidgetImpl(logger, null, null, null, urlUtil);
+		final Widget widget = new GooglesearchGuiSpecialSearch(urlUtil);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter("q")).andReturn(searchTerm);
