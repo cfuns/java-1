@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 public class WebsiteRedirectServletTest {
 
 	@Test
-	public void buildRedirectTargetPath() {
+	public void testbuildRedirectTargetPath() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

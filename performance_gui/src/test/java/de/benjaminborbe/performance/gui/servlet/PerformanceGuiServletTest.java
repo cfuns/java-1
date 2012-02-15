@@ -52,7 +52,7 @@ public class PerformanceGuiServletTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void service() throws Exception {
+	public void testService() throws Exception {
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);

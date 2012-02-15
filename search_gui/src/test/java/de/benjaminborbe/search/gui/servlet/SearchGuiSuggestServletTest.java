@@ -31,7 +31,7 @@ public class SearchGuiSuggestServletTest {
 	}
 
 	@Test
-	public void BuildJson() throws Exception {
+	public void testBuildJson() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchGuiModulesMock());
 		final SearchGuiSuggestServlet searchServlet = injector.getInstance(SearchGuiSuggestServlet.class);
 		final List<SearchResult> bookmarks = new ArrayList<SearchResult>();

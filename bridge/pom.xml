@@ -50,7 +50,7 @@
 								de.benjaminborbe.sample.api, de.benjaminborbe.sample.gui, de.benjaminborbe.weather, de.benjaminborbe.weather.api, de.benjaminborbe.weather.gui, de.benjaminborbe.translate,
 								de.benjaminborbe.translate.api, de.benjaminborbe.translate.gui, de.benjaminborbe.util, de.benjaminborbe.util.api, de.benjaminborbe.util.gui, de.benjaminborbe.bookmark,
 								de.benjaminborbe.bookmark.api, de.benjaminborbe.bookmark.gui, de.benjaminborbe.navigation, de.benjaminborbe.navigation.api, de.benjaminborbe.navigation.gui, de.benjaminborbe.microblog,
-								de.benjaminborbe.microblog.api, de.benjaminborbe.microblog_gui, de.benjaminborbe.performance, de.benjaminborbe.performance.api, de.benjaminborbe.performance.gui, de.benjaminborbe.crawler,
+								de.benjaminborbe.microblog.api, de.benjaminborbe.microblog.gui, de.benjaminborbe.performance, de.benjaminborbe.performance.api, de.benjaminborbe.performance.gui, de.benjaminborbe.crawler,
 								de.benjaminborbe.crawler.api, de.benjaminborbe.crawler.gui, de.benjaminborbe.websearch, de.benjaminborbe.websearch.api, de.benjaminborbe.websearch.gui, de.benjaminborbe.authentication,
 								de.benjaminborbe.authentication.api, de.benjaminborbe.authentication.gui, de.benjaminborbe.authorization, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization.gui,
 								de.benjaminborbe.configuration, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration.gui, de.benjaminborbe.googlesearch, de.benjaminborbe.googlesearch.api,

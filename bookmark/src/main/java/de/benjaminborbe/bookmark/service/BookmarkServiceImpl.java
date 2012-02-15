@@ -80,8 +80,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
 		try {
 			logger.trace("getBookmarkFavorite");
-			UserIdentifier userIdentifier;
-			userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites(userIdentifier));
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;

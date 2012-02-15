@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class StorageConfigTest {
 
 	@Test
-	public void KeySpace() {
+	public void testKeySpace() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		assertNotNull(config);

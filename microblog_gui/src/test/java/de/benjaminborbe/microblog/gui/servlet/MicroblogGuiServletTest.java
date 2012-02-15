@@ -50,7 +50,7 @@ public class MicroblogGuiServletTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void service() throws Exception {
+	public void testService() throws Exception {
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
@@ -76,12 +76,6 @@ public class MicroblogGuiServletTest {
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
-		EasyMock.replay(cssResourceRenderer);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
-		EasyMock.replay(cssResourceRenderer);
 		cssResourceRenderer
 				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);

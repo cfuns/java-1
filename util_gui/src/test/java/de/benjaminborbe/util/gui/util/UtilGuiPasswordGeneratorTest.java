@@ -15,7 +15,7 @@ import de.benjaminborbe.util.gui.guice.UtilGuiModulesMock;
 public class UtilGuiPasswordGeneratorTest {
 
 	@Test
-	public void inject() {
+	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new UtilGuiModulesMock());
 		final UtilGuiPasswordGenerator utilPasswordGenerator = injector.getInstance(UtilGuiPasswordGenerator.class);
 		assertNotNull(utilPasswordGenerator);
@@ -32,7 +32,7 @@ public class UtilGuiPasswordGeneratorTest {
 	}
 
 	@Test
-	public void generatePassword() {
+	public void testgeneratePassword() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final UtilGuiPasswordGenerator utilPasswordGenerator = new UtilGuiPasswordGeneratorImpl(logger);

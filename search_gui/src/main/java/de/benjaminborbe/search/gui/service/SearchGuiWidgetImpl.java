@@ -59,17 +59,17 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-		logger.debug("searchQuery: " + searchQuery);
+		logger.trace("searchQuery: " + searchQuery);
 		final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
 		if (searchGuiSpecialSearch != null) {
-			logger.debug("found special search");
+			logger.trace("found special search");
 			searchGuiSpecialSearch.render(request, response, context);
 			return;
 		}
 		else {
-			logger.debug("found no special search");
+			logger.trace("found no special search");
 		}
 
 		printSearchForm(request, response, context);

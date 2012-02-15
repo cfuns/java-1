@@ -18,7 +18,7 @@ import de.benjaminborbe.storage.util.StorageDaoUtil;
 public class StorageServiceUnitTest {
 
 	@Test
-	public void findByIdPrefix() throws Exception {
+	public void testfindByIdPrefix() throws Exception {
 		final String keySpace = "keySpace";
 		final String columnFamily = "columnFamily";
 		final String prefix = "2011";

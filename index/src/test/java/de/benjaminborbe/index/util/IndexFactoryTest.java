@@ -25,7 +25,7 @@ public class IndexFactoryTest {
 	}
 
 	@Test
-	public void GetIndex() throws Exception {
+	public void testGetIndex() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
 		final IndexFactory indexFactory = injector.getInstance(IndexFactory.class);
 		final Directory a1 = indexFactory.getIndex("indexA");

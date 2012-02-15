@@ -71,7 +71,7 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 		// extern
 		save(createBookmark("https://console.aws.amazon.com/ec2/home", "Amazon EC2"));
 		save(createBookmark("http://kleinanzeigen.ebay.de/", "Ebay Kleinanzeigen"));
-		save(createBookmark("http://confluence.rocketnews.de", "Rocketnews - Confluence - Wiki", Arrays.asList("wiki", "confluence")));
+		save(createBookmark("http://confluence.benjamin-borbe.de", "Benjamin Borbe - Confluence - Wiki", Arrays.asList("wiki", "confluence", "rocketnews")));
 		save(createBookmark("http://www.harteslicht.com", "Harteslicht", Arrays.asList("foto", "photo", "photography", "fotografie")));
 		save(createBookmark("http://www.benjamin-borbe.de", "Benjamin Borbe", Arrays.asList("foto", "photo", "photography", "fotografie", "portfolio")));
 		save(createBookmark("http://tomtom.de/gettingstarted", "TomTom"));

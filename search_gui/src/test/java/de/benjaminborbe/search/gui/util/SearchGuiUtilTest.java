@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.util.SearchUtil;
 public class SearchGuiUtilTest {
 
 	@Test
-	public void BookmarkServiceImpl() {
+	public void testBookmarkServiceImpl() {
 		final SearchUtil bookmarkService = new SearchUtil();
 		assertEquals(StringUtils.join(Arrays.asList("a").toArray(), ","), StringUtils.join(bookmarkService.buildSearchParts("a"), ","));
 		assertEquals(StringUtils.join(Arrays.asList("a", "b").toArray(), ","), StringUtils.join(bookmarkService.buildSearchParts("a b"), ","));

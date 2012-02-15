@@ -56,7 +56,7 @@ public class HttpBundleActivatorTest {
 	}
 
 	@Test
-	public void startStop() throws Exception {
+	public void testStartStop() throws Exception {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("startStop");
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
@@ -71,7 +71,7 @@ public class HttpBundleActivatorTest {
 	}
 
 	@Test
-	public void cleanupAlias() throws Exception {
+	public void testcleanupAlias() throws Exception {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("cleanupAlias");
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
@@ -100,7 +100,7 @@ public class HttpBundleActivatorTest {
 	}
 
 	@Test
-	public void serviceAdded() throws Exception {
+	public void testServiceAdded() throws Exception {
 		final Class<?> name = TestService.class;
 		final Object service = new TestService();
 		final Properties properties = new Properties();

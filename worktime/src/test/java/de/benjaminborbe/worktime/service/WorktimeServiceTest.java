@@ -32,7 +32,7 @@ public class WorktimeServiceTest {
 	}
 
 	@Test
-	public void getLastDays() {
+	public void testgetLastDays() {
 		final TimeZone utcTimeZone = EasyMock.createMock(TimeZone.class);
 		EasyMock.replay(utcTimeZone);
 

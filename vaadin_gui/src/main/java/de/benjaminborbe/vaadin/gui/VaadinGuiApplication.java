@@ -4,7 +4,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
-public class MyApplication extends com.vaadin.Application {
+public class VaadinGuiApplication extends com.vaadin.Application {
 
 	@Override
 	public void init() {

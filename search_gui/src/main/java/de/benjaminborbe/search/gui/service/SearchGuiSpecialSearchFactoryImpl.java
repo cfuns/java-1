@@ -24,16 +24,16 @@ public class SearchGuiSpecialSearchFactoryImpl implements SearchGuiSpecialSearch
 
 	@Override
 	public SearchSpecial findSpecial(final String searchQuery) {
-		logger.debug("searchQuery: " + searchQuery);
+		logger.trace("searchQuery: " + searchQuery);
 		if (searchQuery != null && searchQuery.matches("^[a-zA-Z]+:.*?")) {
 			final String name = searchQuery.substring(0, searchQuery.indexOf(":"));
-			logger.debug("searchQuery request name: " + name);
+			logger.trace("searchQuery request name: " + name);
 			final Collection<SearchSpecial> list = searchGuiSpecialSearchRegistry.getAll();
-			logger.debug("found " + list.size() + " special search");
+			logger.trace("found " + list.size() + " special search");
 			for (final SearchSpecial searchGuiSpecialSearch : list) {
-				logger.debug("try " + searchGuiSpecialSearch.getName());
+				logger.trace("try " + searchGuiSpecialSearch.getName());
 				if (name.equalsIgnoreCase(searchGuiSpecialSearch.getName())) {
-					logger.debug("found special search");
+					logger.trace("found special search");
 					return searchGuiSpecialSearch;
 				}
 			}

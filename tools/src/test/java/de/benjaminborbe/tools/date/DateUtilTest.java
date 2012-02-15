@@ -27,7 +27,7 @@ public class DateUtilTest {
 	}
 
 	@Test
-	public void dateString() {
+	public void testdateString() {
 		final DateUtil dateUtil = new DateUtilImpl();
 		assertEquals("2011-12-24", dateUtil.dateString(createDate()));
 	}
@@ -45,13 +45,13 @@ public class DateUtilTest {
 	}
 
 	@Test
-	public void timeString() {
+	public void testtimeString() {
 		final DateUtil dateUtil = new DateUtilImpl();
 		assertEquals("20:15:59", dateUtil.timeString(createDate()));
 	}
 
 	@Test
-	public void dateTimeString() {
+	public void testdateTimeString() {
 		final DateUtil dateUtil = new DateUtilImpl();
 		assertEquals("2011-12-24 20:15:59", dateUtil.dateTimeString(createDate()));
 	}

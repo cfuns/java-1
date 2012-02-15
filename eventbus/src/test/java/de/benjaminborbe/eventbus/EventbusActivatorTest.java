@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class EventbusActivatorTest {
 
 	@Test
-	public void inject() {
+	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventbusActivator o = injector.getInstance(EventbusActivator.class);
 		assertNotNull(o);

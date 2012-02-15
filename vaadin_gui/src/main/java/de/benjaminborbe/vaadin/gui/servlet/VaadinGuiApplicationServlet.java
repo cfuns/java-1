@@ -6,48 +6,38 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.AbstractApplicationServlet;
 
-import de.benjaminborbe.vaadin.gui.MyApplication;
+import de.benjaminborbe.vaadin.gui.VaadinGuiApplication;
 
 @Singleton
-public class MyApplicationServlet extends AbstractApplicationServlet {
+public class VaadinGuiApplicationServlet extends AbstractApplicationServlet {
 
 	private static final long serialVersionUID = 3196753149929364590L;
 
 	private final Logger logger;
 
+	private final Provider<VaadinGuiApplication> vaadinGuiApplicationProvider;
+
 	@Inject
-	public MyApplicationServlet(final Logger logger) {
+	public VaadinGuiApplicationServlet(final Logger logger, final Provider<VaadinGuiApplication> myApplicationProvider) {
 		this.logger = logger;
+		this.vaadinGuiApplicationProvider = myApplicationProvider;
 	}
 
 	@Override
 	protected Application getNewApplication(final HttpServletRequest request) throws ServletException {
 		logger.debug("getNewApplication");
-		// Creates a new application instance
-		try {
-			final Application application = getApplicationClass().newInstance();
-
-			return application;
-		}
-		catch (final IllegalAccessException e) {
-			throw new ServletException("getNewApplication failed", e);
-		}
-		catch (final InstantiationException e) {
-			throw new ServletException("getNewApplication failed", e);
-		}
-		catch (final ClassNotFoundException e) {
-			throw new ServletException("getNewApplication failed", e);
-		}
+		return vaadinGuiApplicationProvider.get();
 	}
 
 	@Override
 	protected Class<? extends Application> getApplicationClass() throws ClassNotFoundException {
 		logger.debug("getApplicationClass");
-		return MyApplication.class;
+		return VaadinGuiApplication.class;
 	}
 
 }

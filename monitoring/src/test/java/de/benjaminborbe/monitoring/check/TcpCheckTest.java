@@ -13,7 +13,7 @@ import de.benjaminborbe.monitoring.api.CheckResult;
 public class TcpCheckTest {
 
 	@Test
-	public void check() {
+	public void testcheck() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		// success

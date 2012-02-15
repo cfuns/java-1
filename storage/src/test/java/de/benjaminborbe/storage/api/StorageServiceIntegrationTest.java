@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class StorageServiceIntegrationTest {
 
 	@Test
-	public void IsSingleton() {
+	public void testIsSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageService o1 = injector.getInstance(StorageService.class);
 		final StorageService o2 = injector.getInstance(StorageService.class);

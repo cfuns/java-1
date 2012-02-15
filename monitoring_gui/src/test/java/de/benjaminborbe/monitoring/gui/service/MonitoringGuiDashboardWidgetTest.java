@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class MonitoringGuiDashboardWidgetTest {
 
 	@Test
-	public void inject() {
+	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringGuiModulesMock());
 		final MonitoringGuiDashboardWidget o = injector.getInstance(MonitoringGuiDashboardWidget.class);
 		assertNotNull(o);

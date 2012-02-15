@@ -21,7 +21,7 @@ public class HttpDownloaderTest {
 	private static final int TIMEOUT = 3000;
 
 	@Test
-	public void downloadUrl() throws Exception {
+	public void testdownloadUrl() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -52,7 +52,7 @@ public class HttpDownloaderTest {
 	}
 
 	@Test
-	public void downloadUrlAuth() throws Exception {
+	public void testdownloadUrlAuth() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -104,7 +104,7 @@ public class HttpDownloaderTest {
 	}
 
 	@Test
-	public void downloadUrlAuthUrl() throws Exception {
+	public void testdownloadUrlAuthUrl() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

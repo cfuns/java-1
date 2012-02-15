@@ -9,7 +9,7 @@ import org.junit.Test;
 public class ServiceInfoTest {
 
 	@Test
-	public void newByClassObjectString() {
+	public void testnewByClassObjectString() {
 		final Class<?> clazz = TestService.class;
 		final Object service = new TestServiceImpl();
 		final String name = "test";
@@ -21,7 +21,7 @@ public class ServiceInfoTest {
 	}
 
 	@Test
-	public void newByClassObjectProperties() {
+	public void testnewByClassObjectProperties() {
 		final Class<?> clazz = TestService.class;
 		final Object service = new TestServiceImpl();
 		final Properties properties = new Properties();
@@ -34,7 +34,7 @@ public class ServiceInfoTest {
 	}
 
 	@Test
-	public void newByClassObject() {
+	public void testnewByClassObject() {
 		final Class<?> clazz = TestService.class;
 		final Object service = new TestServiceImpl();
 		final ServiceInfo serviceInfo = new ServiceInfo(clazz, service);

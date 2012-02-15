@@ -22,7 +22,7 @@ public class IdGeneratorTest {
 	}
 
 	@Test
-	public void NextId() {
+	public void testNextId() {
 		final IdGeneratorLong idGenerator = new IdGeneratorLongImpl();
 		assertEquals(new Long(1), idGenerator.nextId());
 		assertEquals(new Long(2), idGenerator.nextId());

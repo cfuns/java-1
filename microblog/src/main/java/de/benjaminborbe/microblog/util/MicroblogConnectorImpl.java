@@ -86,8 +86,14 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(postUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
 			final String content = extractContent(pageContent);
+			if (logger.isTraceEnabled())
+				logger.trace("content=" + content);
 			final String author = extractAuhor(pageContent);
+			if (logger.isTraceEnabled())
+				logger.trace("author=" + author);
 			final String conversationUrl = extractConversationUrl(pageContent);
+			if (logger.isTraceEnabled())
+				logger.trace("conversationUrl=" + conversationUrl);
 			return new MicroblogPostResult(content, author, postUrl, conversationUrl);
 		}
 		catch (final MalformedURLException e) {

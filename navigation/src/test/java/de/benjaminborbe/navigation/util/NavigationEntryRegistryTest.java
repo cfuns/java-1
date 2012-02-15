@@ -11,7 +11,7 @@ import de.benjaminborbe.navigation.api.NavigationEntry;
 public class NavigationEntryRegistryTest {
 
 	@Test
-	public void simple() {
+	public void testSimple() {
 		final NavigationEntry e = EasyMock.createMock(NavigationEntry.class);
 		EasyMock.replay(e);
 

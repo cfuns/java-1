@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class MailActivatorTest {
 
 	@Test
-	public void inject() {
+	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MailModulesMock());
 		final MailActivator o = injector.getInstance(MailActivator.class);
 		assertNotNull(o);

@@ -19,7 +19,7 @@ import de.benjaminborbe.weather.guice.WeatherModulesMock;
 public class WeatherActivatorTest {
 
 	@Test
-	public void inject() {
+	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WeatherModulesMock());
 		final WeatherActivator o = injector.getInstance(WeatherActivator.class);
 		assertNotNull(o);

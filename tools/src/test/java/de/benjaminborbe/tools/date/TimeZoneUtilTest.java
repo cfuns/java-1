@@ -23,7 +23,7 @@ public class TimeZoneUtilTest {
 	}
 
 	@Test
-	public void getUTCTimeZone() {
+	public void testgetUTCTimeZone() {
 		final TimeZoneUtil t = new TimeZoneUtilImpl();
 		assertNotNull(t.getUTCTimeZone());
 		assertEquals("GMT", t.getUTCTimeZone().getID());

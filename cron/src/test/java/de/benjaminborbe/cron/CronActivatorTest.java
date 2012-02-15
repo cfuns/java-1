@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class CronActivatorTest {
 
 	@Test
-	public void inject() {
+	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CronModulesMock());
 		final CronActivator o = injector.getInstance(CronActivator.class);
 		assertNotNull(o);

@@ -26,21 +26,21 @@ public class CalendarUtilTest {
 	}
 
 	@Test
-	public void toDateString() {
+	public void testtoDateString() {
 		final CalendarUtil u = new CalendarUtilImpl(null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals("2011-12-24", u.toDateString(calendar));
 	}
 
 	@Test
-	public void toHourString() {
+	public void testtoHourString() {
 		final CalendarUtil u = new CalendarUtilImpl(null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals("20:15:13", u.toTimeString(calendar));
 	}
 
 	@Test
-	public void getCalendar() {
+	public void testgetCalendar() {
 		final CalendarUtil u = new CalendarUtilImpl(null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals(TimeZone.getTimeZone("UTF8"), calendar.getTimeZone());
@@ -63,7 +63,7 @@ public class CalendarUtilTest {
 	}
 
 	@Test
-	public void addDays() {
+	public void testaddDays() {
 		final CalendarUtil u = new CalendarUtilImpl(null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		final Calendar clone = u.addDays(calendar, 1);
@@ -71,7 +71,7 @@ public class CalendarUtilTest {
 	}
 
 	@Test
-	public void subDays() {
+	public void testSubDays() {
 		final CalendarUtil u = new CalendarUtilImpl(null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		final Calendar clone = u.subDays(calendar, 1);

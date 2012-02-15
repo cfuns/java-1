@@ -14,7 +14,7 @@ public class MailServiceUTF8Test {
 
 	@Ignore("mailserver")
 	@Test
-	public void sendTestMail() throws Exception {
+	public void testSendTestMail() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final MailSessionFactory mailSessionFactory = new MailSessionFactoryMock();

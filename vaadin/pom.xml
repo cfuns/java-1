@@ -9,9 +9,6 @@
 	<name>Benjamin Borbe - Vaadin</name>
 	<description>Benjamin Borbe - Vaadin</description>
 	<packaging>bundle</packaging>
-	<properties>
-		<vaadin.version>6.6.6</vaadin.version>
-	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<resources>
@@ -58,41 +55,9 @@
 					</instructions>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>1.0.2</version>
-			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
-		<!-- Vaadin -->
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-		<!-- GWT This is also used by gwt-maven-plugin to deduce GWT version number. -->
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Validation -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.ops4j</groupId>
 			<artifactId>peaberry</artifactId>
