@@ -18,4 +18,8 @@ public class MonitoringServiceMock implements MonitoringService {
 		return new HashSet<CheckResult>();
 	}
 
+	@Override
+	public void silentCheck(final String checkName) {
+	}
+
 }

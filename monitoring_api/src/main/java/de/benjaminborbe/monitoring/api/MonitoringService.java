@@ -7,4 +7,6 @@ public interface MonitoringService {
 	Collection<CheckResult> checkRootNode();
 
 	Collection<CheckResult> checkRootNodeWithCache();
+
+	void silentCheck(String checkName);
 }

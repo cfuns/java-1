@@ -12,6 +12,7 @@ import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiDashboardWidget;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSilentCheckServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -25,6 +26,9 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private MonitoringGuiDashboardWidget monitoringDashboardWidget;
+
+	@Inject
+	private MonitoringGuiSilentCheckServlet monitoringGuiSilentCheckServlet;
 
 	public MonitoringGuiActivator() {
 		super("monitoring");
@@ -46,6 +50,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(monitoringServlet, "/"));
+		result.add(new ServletInfo(monitoringGuiSilentCheckServlet, "/silent"));
 		return result;
 	}
 

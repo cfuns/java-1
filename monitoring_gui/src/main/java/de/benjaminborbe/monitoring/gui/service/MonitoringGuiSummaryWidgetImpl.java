@@ -22,6 +22,7 @@ import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
@@ -39,10 +40,13 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 
 	private final MonitoringService monitoringService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public MonitoringGuiSummaryWidgetImpl(final Logger logger, final MonitoringService monitoringService) {
+	public MonitoringGuiSummaryWidgetImpl(final Logger logger, final MonitoringService monitoringService, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.monitoringService = monitoringService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 		for (final CheckResult checkResult : failCheckResults) {
 			logger.debug(checkResult.toString());
 			out.println("<li>");
-			final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult);
+			final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult, urlUtil);
 			renderer.render(request, response, context);
 			out.println("</li>");
 		}

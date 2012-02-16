@@ -22,6 +22,7 @@ import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.CssResourceImpl;
 
 @Singleton
@@ -39,10 +40,13 @@ public class MonitoringGuiWidgetImpl implements MonitoringWidget, RequireCssReso
 
 	private final MonitoringService monitoringService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public MonitoringGuiWidgetImpl(final Logger logger, final MonitoringService monitoringService) {
+	public MonitoringGuiWidgetImpl(final Logger logger, final MonitoringService monitoringService, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.monitoringService = monitoringService;
+		this.urlUtil = urlUtil;
 	}
 
 	protected void printCheckWithRootNode(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
@@ -53,7 +57,7 @@ public class MonitoringGuiWidgetImpl implements MonitoringWidget, RequireCssReso
 		for (final CheckResult checkResult : checkResults) {
 			logger.debug(checkResult.toString());
 			out.println("<li>");
-			final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult);
+			final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult, urlUtil);
 			renderer.render(request, response, context);
 			out.println("</li>");
 		}

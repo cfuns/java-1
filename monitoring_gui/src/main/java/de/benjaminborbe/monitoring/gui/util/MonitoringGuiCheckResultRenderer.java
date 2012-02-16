@@ -10,13 +10,17 @@ import de.benjaminborbe.html.api.HTML;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.url.UrlUtil;
 
 public class MonitoringGuiCheckResultRenderer implements HTML {
 
 	private final CheckResult checkResult;
 
-	public MonitoringGuiCheckResultRenderer(final CheckResult checkResult) {
+	private final UrlUtil urlUtil;
+
+	public MonitoringGuiCheckResultRenderer(final CheckResult checkResult, final UrlUtil urlUtil) {
 		this.checkResult = checkResult;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -38,6 +42,6 @@ public class MonitoringGuiCheckResultRenderer implements HTML {
 		if (checkResult.getUrl() != null) {
 			out.println("</a>");
 		}
+		out.println(" <a href=\"" + request.getContextPath() + "/monitoring/silent?check=" + urlUtil.encode(checkResult.getCheck().getName()) + "\">silent</a>");
 	}
-
 }

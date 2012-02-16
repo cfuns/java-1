@@ -17,9 +17,12 @@ public class NodeCheckerImpl implements NodeChecker {
 
 	private final Logger logger;
 
+	private final SilentNodeRegistry silentNodeRegistry;
+
 	@Inject
-	public NodeCheckerImpl(final Logger logger) {
+	public NodeCheckerImpl(final Logger logger, final SilentNodeRegistry silentNodeRegistry) {
 		this.logger = logger;
+		this.silentNodeRegistry = silentNodeRegistry;
 	}
 
 	@Override
@@ -40,6 +43,13 @@ public class NodeCheckerImpl implements NodeChecker {
 		if (node instanceof HasCheckNode) {
 			final HasCheckNode hasCheck = (HasCheckNode) node;
 			final Check check = hasCheck.getCheck();
+			// skip if found in silentNodes
+			for (final String nodeName : silentNodeRegistry.getAll()) {
+				logger.debug("compare " + check.getName() + " with " + nodeName);
+				if (check.getName().equalsIgnoreCase(nodeName)) {
+					return result;
+				}
+			}
 			final RetryCheck retryCheck = new RetryCheck(check, RETRY_LIMIT);
 			final CheckResult checkResult = retryCheck.check();
 			result.add(checkResult);

@@ -99,6 +99,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 	}
 
 	protected Workday getWorkday(final Calendar calendar) throws StorageException {
+		// TODO add cache
 		final Collection<WorktimeValue> workTimeValues = worktimeStorageService.findByDate(calendar);
 		Calendar first = null;
 		Calendar last = null;
