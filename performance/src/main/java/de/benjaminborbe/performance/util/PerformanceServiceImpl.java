@@ -22,8 +22,8 @@ public class PerformanceServiceImpl implements PerformanceService {
 	private final class PerformanceEntryComparator implements Comparator<PerformanceEntry> {
 
 		@Override
-		public int compare(final PerformanceEntry arg0, final PerformanceEntry arg1) {
-			return new Long(arg1.getDuration()).compareTo(new Long(arg0.getDuration()));
+		public int compare(final PerformanceEntry p1, final PerformanceEntry p2) {
+			return new Long(p2.getDuration()).compareTo(new Long(p1.getDuration()));
 		}
 	}
 
