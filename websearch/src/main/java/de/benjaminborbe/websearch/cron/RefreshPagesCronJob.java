@@ -14,6 +14,7 @@ import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.websearch.page.PageBean;
 import de.benjaminborbe.websearch.util.UpdateDeterminer;
 
@@ -56,12 +57,15 @@ public class RefreshPagesCronJob implements CronJob {
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
-	public RefreshPagesCronJob(final Logger logger, final UpdateDeterminer updateDeterminer, final CrawlerService crawlerService, final RunOnlyOnceATime runOnlyOnceATime) {
+	public RefreshPagesCronJob(final Logger logger, final UpdateDeterminer updateDeterminer, final CrawlerService crawlerService, final RunOnlyOnceATime runOnlyOnceATime, final ThreadRunner threadRunner) {
 		this.logger = logger;
 		this.updateDeterminer = updateDeterminer;
 		this.crawlerService = crawlerService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
+		this.threadRunner = threadRunner;
 	}
 
 	@Override
@@ -71,8 +75,14 @@ public class RefreshPagesCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("execute finished");
-		runOnlyOnceATime.run(new RefreshPages());
+		logger.debug("execute started");
+		threadRunner.run("refreshpages", new Runnable() {
+
+			@Override
+			public void run() {
+				runOnlyOnceATime.run(new RefreshPages());
+			}
+		});
 		logger.debug("execute finished");
 	}
 }
