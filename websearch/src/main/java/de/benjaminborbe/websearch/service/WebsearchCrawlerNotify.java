@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -55,14 +56,17 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		try {
 			updateLastVisit(result);
 			if (result.isAvailable()) {
-				addToIndex(result);
 				parseLinks(result);
+				addToIndex(result);
 			}
 			else {
 				logger.warn("result not available for url: " + result.getUrl().toExternalForm());
 			}
 		}
 		catch (final StorageException e) {
+			logger.trace("StorageException", e);
+		}
+		catch (final IndexerServiceException e) {
 			logger.trace("StorageException", e);
 		}
 	}
@@ -138,7 +142,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		}
 	}
 
-	protected void addToIndex(final CrawlerResult result) {
+	protected void addToIndex(final CrawlerResult result) throws IndexerServiceException {
 		final Document document = Jsoup.parse(result.getContent());
 		for (final Element head : document.getElementsByTag("head")) {
 			for (final Element meta : head.getElementsByTag("meta")) {

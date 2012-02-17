@@ -18,6 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.index.util.IndexFactory;
 import de.benjaminborbe.tools.util.StringUtil;
 
@@ -38,8 +39,13 @@ public class IndexerServiceImpl implements IndexerService {
 	}
 
 	@Override
-	public void addToIndex(final String indexName, final URL url, final String title, final String content) {
+	public void addToIndex(final String indexName, final URL url, final String title, final String content) throws IndexerServiceException {
 		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 20));
+
+		if (!validateInput(indexName, url, title, content)) {
+			logger.warn("input not valid, skipping add to index");
+			return;
+		}
 
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
@@ -64,11 +70,12 @@ public class IndexerServiceImpl implements IndexerService {
 		}
 		catch (final IOException e) {
 			logger.error("IOException", e);
+			throw new IndexerServiceException("IOException", e);
 		}
 	}
 
 	@Override
-	public void clear(final String indexName) {
+	public void clear(final String indexName) throws IndexerServiceException {
 
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
@@ -84,7 +91,28 @@ public class IndexerServiceImpl implements IndexerService {
 		}
 		catch (final IOException e) {
 			logger.error("IOException", e);
+			throw new IndexerServiceException("IOException", e);
 		}
+	}
 
+	protected boolean validateInput(final String indexName, final URL url, final String title, final String content) {
+		if (indexName == null || indexName.length() < 1) {
+			logger.warn("indexName not valid: " + indexName);
+			return false;
+		}
+		if (url == null) {
+			logger.warn("url not valid: " + url);
+			return false;
+		}
+		if (title == null || title.length() < 1) {
+			logger.warn("title not valid: " + title);
+			return false;
+		}
+		if (content == null || content.length() < 1) {
+			logger.warn("content not valid: " + content);
+			return false;
+		}
+		logger.debug("input valid");
+		return true;
 	}
 }
