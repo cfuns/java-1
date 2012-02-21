@@ -34,7 +34,7 @@ public class MonitoringGuiDashboardWidget implements DashboardContentWidget, Req
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		monitoringSummaryWidget.render(request, response, context);
 	}
 

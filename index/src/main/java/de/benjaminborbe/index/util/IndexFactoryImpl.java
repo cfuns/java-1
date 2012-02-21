@@ -25,9 +25,9 @@ public class IndexFactoryImpl implements IndexFactory {
 
 	@Override
 	public synchronized FSDirectory getIndex(final String indexName) throws IOException {
-		logger.debug("get Index for " + indexName);
+		logger.trace("get Index for " + indexName);
 		if (!indexes.containsKey(indexName)) {
-			logger.debug("create new index for " + indexName);
+			logger.trace("create new index for " + indexName);
 			final FSDirectory fs = FSDirectory.open(getIndexDirectory(indexName));
 			indexes.put(indexName, fs);
 		}
@@ -47,7 +47,7 @@ public class IndexFactoryImpl implements IndexFactory {
 
 	protected File getIndexDirectory(final String indexName) throws IOException {
 		final String dirName = getTempDir().getAbsolutePath() + "/lucene_index_" + indexName;
-		logger.debug("getIndexDirectory => " + dirName);
+		logger.trace("getIndexDirectory => " + dirName);
 		final File dir = new File(dirName);
 		if (dir.exists()) {
 			return dir;

@@ -1,5 +1,8 @@
 package de.benjaminborbe.bookmark.test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
@@ -58,10 +61,20 @@ public class BookmarkTest extends OSGiTestCase {
 	}
 
 	public void testSearchServiceComponent() {
-		final Object serviceObject = getServiceObject(SearchServiceComponent.class.getName(), null);
-		final SearchServiceComponent service = (SearchServiceComponent) serviceObject;
-		assertNotNull(service);
-		assertEquals("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponentImpl", service.getClass().getName());
+		final Object[] serviceObjects = getServiceObjects(SearchServiceComponent.class.getName(), null);
+		final List<String> list = Arrays.asList("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent", "de.benjaminborbe.bookmark.service.RegisteredServletSearchServiceComponent");
+		assertTrue(serviceObjects.length >= list.size());
+		for (final String name : list) {
+			boolean match = false;
+			for (final Object serviceObject : serviceObjects) {
+				final SearchServiceComponent service = (SearchServiceComponent) serviceObject;
+				assertNotNull(service);
+				if (name.equals(service.getClass().getName())) {
+					match = true;
+				}
+			}
+			assertTrue(match);
+		}
 	}
 
 	public void testDashboardContentWidget() {

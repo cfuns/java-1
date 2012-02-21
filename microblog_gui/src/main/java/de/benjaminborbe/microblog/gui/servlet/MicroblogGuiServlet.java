@@ -64,7 +64,7 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 			out.println(microblogService.getLastRevision());
 		}
 		catch (final MicroblogRevisionStorageException e) {
-			logger.debug("MicroblogRevisionStorageException", e);
+			logger.trace("MicroblogRevisionStorageException", e);
 			out.println("-");
 		}
 	}

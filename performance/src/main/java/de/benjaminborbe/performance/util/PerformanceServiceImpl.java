@@ -38,7 +38,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 	@Override
 	public void track(final String url, final long duration) {
-		logger.debug("track url: " + url + " duration: " + duration);
+		logger.trace("track url: " + url + " duration: " + duration);
 		data.put(url, duration);
 	}
 

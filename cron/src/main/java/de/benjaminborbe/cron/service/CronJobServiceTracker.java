@@ -25,14 +25,14 @@ public class CronJobServiceTracker extends RegistryServiceTracker<CronJob> {
 
 	@Override
 	protected void serviceRemoved(final CronJob cronJob) {
-		logger.debug("CronActivator.serviceRemoved() - CronJob removed " + cronJob.getClass().getName());
+		logger.trace("CronActivator.serviceRemoved() - CronJob removed " + cronJob.getClass().getName());
 		super.serviceRemoved(cronJob);
 		quartz.removeCronJob(cronJob);
 	}
 
 	@Override
 	protected void serviceAdded(final CronJob cronJob) {
-		logger.debug("CronActivator.serviceAdded() - CronJob added " + cronJob.getClass().getName());
+		logger.trace("CronActivator.serviceAdded() - CronJob added " + cronJob.getClass().getName());
 		super.serviceAdded(cronJob);
 		quartz.addCronJob(cronJob);
 	}

@@ -26,7 +26,7 @@ public class MailGuiDashboardWidget implements DashboardContentWidget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		final PrintWriter out = response.getWriter();
 		out.println("0 new mails");
 	}

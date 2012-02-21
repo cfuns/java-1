@@ -14,7 +14,8 @@ public class HttpDownloadResultTest {
 		final long duration = 1337l;
 		final byte[] content = new byte[42];
 		final Encoding contentEncoding = new Encoding("foo/bar");
-		final HttpDownloadResult result = new HttpDownloadResult(duration, content, contentEncoding);
+		final String contentType = "text/html";
+		final HttpDownloadResult result = new HttpDownloadResult(duration, content, contentType, contentEncoding);
 		assertEquals(duration, result.getDuration());
 		assertEquals(contentEncoding, result.getContentEncoding());
 		assertEquals(contentEncoding.getEncoding(), result.getContentEncoding().getEncoding());

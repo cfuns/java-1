@@ -49,7 +49,7 @@ public abstract class BaseBundleActivator implements BundleActivator {
 				final Object service = serviceInfo.getService();
 				final Properties properties = serviceInfo.getProperties();
 				serviceRegistrations.add(context.registerService(name, service, properties));
-				logger.debug("register service with name: " + name + " service: " + service);
+				logger.trace("register service with name: " + name + " service: " + service);
 			}
 
 			onStarted();

@@ -10,11 +10,14 @@ public class CrawlerResultImpl implements CrawlerResult {
 
 	private final String content;
 
+	private final String contentType;
+
 	private final boolean available;
 
-	public CrawlerResultImpl(final URL url, final String content, final boolean available) {
+	public CrawlerResultImpl(final URL url, final String content, final String contentType, final boolean available) {
 		this.url = url;
 		this.content = content;
+		this.contentType = contentType;
 		this.available = available;
 	}
 
@@ -31,6 +34,11 @@ public class CrawlerResultImpl implements CrawlerResult {
 	@Override
 	public boolean isAvailable() {
 		return available;
+	}
+
+	@Override
+	public String getContentType() {
+		return contentType;
 	}
 
 }

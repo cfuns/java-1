@@ -59,7 +59,7 @@ public class StorageConfigImpl implements StorageConfig {
 			return configurationService.getConfigurationValue(configuration);
 		}
 		catch (final ConfigurationServiceException e) {
-			logger.debug("ConfigurationServiceException", e);
+			logger.trace("ConfigurationServiceException", e);
 			return configuration.getDefaultValue();
 		}
 	}

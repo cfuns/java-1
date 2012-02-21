@@ -79,7 +79,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 					// necessary ?
 					request.getSession().setAttribute("login", "true");
 					response.sendRedirect(referer);
-					logger.debug("send redirect to: " + referer);
+					logger.trace("send redirect to: " + referer);
 					return;
 				}
 				else {

@@ -76,7 +76,7 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 				if (authenticationService.register(sessionIdentifier, username, password)) {
 					final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
 					response.sendRedirect(referer);
-					logger.debug("send redirect to: " + referer);
+					logger.trace("send redirect to: " + referer);
 					return;
 				}
 				else {

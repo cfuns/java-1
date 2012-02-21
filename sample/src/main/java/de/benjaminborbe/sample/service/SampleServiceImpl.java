@@ -19,7 +19,7 @@ public class SampleServiceImpl implements SampleService {
 
 	@Override
 	public void execute() {
-		logger.debug("execute");
+		logger.trace("execute");
 	}
 
 }

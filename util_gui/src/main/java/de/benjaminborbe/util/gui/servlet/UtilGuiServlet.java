@@ -26,7 +26,7 @@ public class UtilGuiServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		final PrintWriter out = response.getWriter();

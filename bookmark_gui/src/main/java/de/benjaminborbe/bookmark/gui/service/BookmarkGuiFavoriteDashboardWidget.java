@@ -43,7 +43,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			logger.debug("render");
+			logger.trace("render");
 			final ListWidget widgets = new ListWidget();
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);

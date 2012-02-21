@@ -31,7 +31,7 @@ public class MailServiceDefault implements MailService {
 	@Override
 	public void send(final Mail mail) throws MailSendException {
 		try {
-			logger.debug("send mail to " + mail.getTo());
+			logger.trace("send mail to " + mail.getTo());
 			final String from = mail.getFrom();
 			final String to = mail.getTo();
 			final String subject = mail.getSubject();

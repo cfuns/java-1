@@ -25,7 +25,7 @@ public abstract class WebsiteTextServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/plain");
 		printContent(request, response);

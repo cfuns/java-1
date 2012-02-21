@@ -78,31 +78,31 @@ public class HudsonCheck implements Check {
 			// hudson not valid
 			if (row == null) {
 				final String msg = "Parse Hudson-Content failed";
-				logger.debug(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, false, msg, url);
 			}
 			// found unstable => false
 			else if (row.indexOf(" alt=\"Unstable\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is unstable";
-				logger.debug(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, false, msg, url);
 			}
 			// found failed => false
 			else if (row.indexOf(" alt=\"Failed\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is failed";
-				logger.debug(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, false, msg, url);
 			}
 			// found failed => false
 			else if (row.indexOf(" alt=\"In progress\" ") != -1) {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is in progress";
-				logger.debug(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, true, msg, url);
 			}
 			// found no unstable => true
 			else {
 				final String msg = "Job: " + job + " on Hudson: " + hudsonUrl + " is stable";
-				logger.debug(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, true, msg, url);
 			}
 		}

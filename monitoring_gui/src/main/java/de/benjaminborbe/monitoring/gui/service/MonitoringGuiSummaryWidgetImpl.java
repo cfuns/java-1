@@ -51,7 +51,7 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		final List<CheckResult> checkResults = new ArrayList<CheckResult>(monitoringService.checkRootNodeWithCache());
 		Collections.sort(checkResults, new CheckResultComparator());
@@ -65,7 +65,7 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 		out.println("<a href=\"" + request.getContextPath() + "/monitoring\">Details</a>");
 		out.println("<ul>");
 		for (final CheckResult checkResult : failCheckResults) {
-			logger.debug(checkResult.toString());
+			logger.trace(checkResult.toString());
 			out.println("<li>");
 			final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult, urlUtil);
 			renderer.render(request, response, context);

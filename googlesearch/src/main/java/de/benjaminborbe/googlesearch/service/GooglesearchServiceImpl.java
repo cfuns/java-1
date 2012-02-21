@@ -21,7 +21,7 @@ public class GooglesearchServiceImpl implements GooglesearchService {
 
 	@Override
 	public void execute() {
-		logger.debug("execute");
+		logger.trace("execute");
 	}
 
 	public List<String> getSuggestions() {

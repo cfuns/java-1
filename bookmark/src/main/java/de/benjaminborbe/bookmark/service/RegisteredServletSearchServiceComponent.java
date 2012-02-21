@@ -33,7 +33,7 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
-		logger.debug("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
+		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 
 		for (final String path : servletPathRegistry.getAll()) {
@@ -62,5 +62,10 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 
 	private URL buildUrl(final String url) throws MalformedURLException {
 		return new URL("http://bb/bb" + url);
+	}
+
+	@Override
+	public String getName() {
+		return SEARCH_TYPE;
 	}
 }

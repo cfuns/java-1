@@ -19,7 +19,7 @@ public class SystemstatusServiceImpl implements SystemstatusService {
 
 	@Override
 	public void execute() {
-		logger.debug("execute");
+		logger.trace("execute");
 	}
 
 }

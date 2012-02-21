@@ -19,4 +19,9 @@ public class SearchServiceMock implements SearchService {
 		return new ArrayList<String>();
 	}
 
+	@Override
+	public String getName() {
+		return null;
+	}
+
 }

@@ -31,7 +31,7 @@ public class EventbusServiceImpl implements EventbusService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <H extends EventHandler> HandlerRegistration addHandler(final Type<H> type, final H handler) {
-		logger.debug("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
+		logger.trace("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
 		List<EventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers == null) {
 			eventHandlers = new ArrayList<EventHandler>();
@@ -65,7 +65,7 @@ public class EventbusServiceImpl implements EventbusService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <H extends EventHandler> void fireEvent(final Event<H> event) {
-		logger.debug("CoreEventbus - event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
+		logger.trace("CoreEventbus - event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
 		final List<EventHandler> eventHandlers = handlers.get(event.getAssociatedType());
 		if (eventHandlers != null) {
 			for (final EventHandler eventHandler : eventHandlers) {

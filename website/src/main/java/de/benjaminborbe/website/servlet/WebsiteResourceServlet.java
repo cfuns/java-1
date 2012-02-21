@@ -32,7 +32,7 @@ public abstract class WebsiteResourceServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		response.setContentType(contentType());
 		final InputStream input = getClass().getClassLoader().getResourceAsStream(getPath());
 		final ServletOutputStream output = response.getOutputStream();

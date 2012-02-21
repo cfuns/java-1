@@ -42,11 +42,11 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 			return result;
 		}
 		catch (final ParseException e) {
-			logger.debug("ParseException", e);
+			logger.trace("ParseException", e);
 			return null;
 		}
 		catch (final StorageException e) {
-			logger.debug("StorageException", e);
+			logger.trace("StorageException", e);
 			throw new MicroblogRevisionStorageException("StorageException", e);
 		}
 	}
@@ -58,7 +58,7 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 			storageService.set(COLUMNFAMILY, ID, KEY, String.valueOf(revision));
 		}
 		catch (final StorageException e) {
-			logger.debug("StorageException", e);
+			logger.trace("StorageException", e);
 			throw new MicroblogRevisionStorageException("StorageException", e);
 		}
 	}

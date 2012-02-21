@@ -26,7 +26,7 @@ public class MailSessionFactoryImpl implements MailSessionFactory {
 
 	@Override
 	public Session getInstance() throws NamingException {
-		logger.debug("getInstance()");
+		logger.trace("getInstance()");
 		final Context envCtx = (Context) initialContextCache.lookup("java:comp/env");
 		final Session session = (Session) envCtx.lookup("mail/Session");
 		return session;

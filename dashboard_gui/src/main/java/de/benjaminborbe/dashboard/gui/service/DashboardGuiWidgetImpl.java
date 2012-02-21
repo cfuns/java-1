@@ -143,7 +143,7 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 				out.println(content);
 			}
 			else {
-				logger.debug("no content found");
+				logger.trace("no content found");
 			}
 		}
 		out.println("<br class=\"clear\">");
@@ -167,7 +167,7 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 				result.addAll(((RequireCssResource) dashboardWidget).getCssResource(request, response));
 			}
 		}
-		logger.debug("found " + result + " required css resources");
+		logger.trace("found " + result + " required css resources");
 		return result;
 	}
 
@@ -185,7 +185,7 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 				result.addAll(((RequireJavascriptResource) dashboardWidget).getJavascriptResource(request, response));
 			}
 		}
-		logger.debug("found " + result + " required javascript resources");
+		logger.trace("found " + result + " required javascript resources");
 		return result;
 	}
 

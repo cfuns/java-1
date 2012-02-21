@@ -36,7 +36,7 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
-		logger.debug("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
+		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 		try {
 			final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, words);
@@ -49,10 +49,10 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 					logger.error("MalformedURLException", e);
 				}
 			}
-			logger.debug("search found " + results.size() + " bookmarks");
+			logger.trace("search found " + results.size() + " bookmarks");
 		}
 		catch (final BookmarkServiceException e) {
-			logger.debug("BookmarkServiceException", e);
+			logger.trace("BookmarkServiceException", e);
 		}
 		return results;
 	}
@@ -69,5 +69,10 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 		else {
 			return new URL(url);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return SEARCH_TYPE;
 	}
 }

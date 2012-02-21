@@ -20,7 +20,7 @@ public class ConfigurationRegistry extends RegistryImpl<Configuration<?>> {
 
 	@Override
 	public void add(final Configuration<?> configuration) {
-		logger.debug("add configuration to registry: " + configuration.getName());
+		logger.trace("add configuration to registry: " + configuration.getName());
 		super.add(configuration);
 	}
 }

@@ -57,7 +57,7 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		final PrintWriter out = response.getWriter();
 		out.println("<h1>" + getTitle() + "</h1>");
 		final String action = request.getParameter(PARAMETER_ACTION);

@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.configuration;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.slf4j.Logger;
@@ -9,7 +8,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
 import de.benjaminborbe.websearch.page.PageDao;
@@ -36,13 +34,9 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 			configuration.setUrl(url);
 			configuration.setOwnerUsername("bborbe");
 			save(configuration);
-
 		}
-		catch (final MalformedURLException e) {
-			logger.error("MalformedURLException", e);
-		}
-		catch (final StorageException e) {
-			logger.error("StorageException", e);
+		catch (final Exception e) {
+			logger.error(e.getClass().getSimpleName(), e);
 		}
 	}
 

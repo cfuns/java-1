@@ -30,13 +30,13 @@ public class VaadinGuiApplicationServlet extends AbstractApplicationServlet {
 
 	@Override
 	protected Application getNewApplication(final HttpServletRequest request) throws ServletException {
-		logger.debug("getNewApplication");
+		logger.trace("getNewApplication");
 		return vaadinGuiApplicationProvider.get();
 	}
 
 	@Override
 	protected Class<? extends Application> getApplicationClass() throws ClassNotFoundException {
-		logger.debug("getApplicationClass");
+		logger.trace("getApplicationClass");
 		return VaadinGuiApplication.class;
 	}
 

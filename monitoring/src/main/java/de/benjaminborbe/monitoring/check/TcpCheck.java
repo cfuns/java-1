@@ -40,7 +40,7 @@ public class TcpCheck implements Check {
 			socket.connect(endpoint, TIMEOUT);
 			if (socket.isConnected()) {
 				final String msg = "connected successful to " + hostname + ":" + port;
-				logger.debug(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, true, msg, null);
 			}
 			else {
@@ -70,7 +70,7 @@ public class TcpCheck implements Check {
 					socket.close();
 			}
 			catch (final IOException e) {
-				logger.debug("IOException while close socket", e);
+				logger.trace("IOException while close socket", e);
 			}
 		}
 	}

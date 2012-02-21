@@ -32,7 +32,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean hasRole(final SessionIdentifier sessionIdentifier, final String roleName) throws AuthenticationServiceException {
-		logger.debug("hasRole " + roleName);
+		logger.trace("hasRole " + roleName);
 		final RoleBean role = roleDao.findByRolename(roleName);
 		if (role == null) {
 			return false;

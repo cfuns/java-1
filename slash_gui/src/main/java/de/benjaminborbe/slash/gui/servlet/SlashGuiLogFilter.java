@@ -32,7 +32,7 @@ public class SlashGuiLogFilter implements Filter {
 			if (servletRequest instanceof HttpServletRequest) {
 				final HttpServletRequest request = (HttpServletRequest) servletRequest;
 				final String requestUrl = request.getRequestURL().toString();
-				logger.debug("requestUrl: " + requestUrl);
+				logger.trace("requestUrl: " + requestUrl);
 			}
 		}
 		finally {

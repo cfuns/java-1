@@ -18,8 +18,11 @@ public class HttpDownloadResult implements Serializable {
 	// encoding des contents
 	private final Encoding contentEncoding;
 
-	public HttpDownloadResult(final long duration, final byte[] content, final Encoding contentEncoding) {
+	private final String contentType;
+
+	public HttpDownloadResult(final long duration, final byte[] content, final String contentType, final Encoding contentEncoding) {
 		this.duration = duration;
+		this.contentType = contentType;
 		this.content = Arrays.copyOf(content, content.length);
 		this.contentEncoding = contentEncoding;
 	}
@@ -34,6 +37,10 @@ public class HttpDownloadResult implements Serializable {
 
 	public Encoding getContentEncoding() {
 		return contentEncoding;
+	}
+
+	public String getContentType() {
+		return contentType;
 	}
 
 }

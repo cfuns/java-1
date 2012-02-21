@@ -55,7 +55,7 @@ public class MonitoringGuiWidgetImpl implements MonitoringWidget, RequireCssReso
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("<ul>");
 		for (final CheckResult checkResult : checkResults) {
-			logger.debug(checkResult.toString());
+			logger.trace(checkResult.toString());
 			out.println("<li>");
 			final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult, urlUtil);
 			renderer.render(request, response, context);
@@ -66,7 +66,7 @@ public class MonitoringGuiWidgetImpl implements MonitoringWidget, RequireCssReso
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("monitoring checks started");
 		printCheckWithRootNode(request, response, context);

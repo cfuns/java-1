@@ -55,7 +55,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 	@Override
 	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		logger.debug("printContent");
+		logger.trace("printContent");
 		out.println("<h1>" + getTitle() + "</h1>");
 		final String action = request.getContextPath() + "/save";
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET);

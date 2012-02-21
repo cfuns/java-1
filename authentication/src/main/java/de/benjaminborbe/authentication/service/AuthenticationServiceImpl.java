@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public boolean verifyCredential(final String username, final String password) {
-		logger.debug("execute");
+		logger.trace("execute");
 		final UserBean user = userDao.findByUsername(username);
 		return user != null && user.getPassword().equals(password);
 	}
@@ -49,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 		}
 		catch (final StorageException e) {
-			logger.debug("StorageException", e);
+			logger.trace("StorageException", e);
 		}
 		return false;
 	}

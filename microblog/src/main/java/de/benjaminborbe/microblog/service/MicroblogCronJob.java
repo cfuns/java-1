@@ -47,20 +47,20 @@ public class MicroblogCronJob implements CronJob {
 
 		try {
 			final long latestRevision = microblogConnector.getLatestRevision();
-			logger.debug("latestRevision in microblog: " + latestRevision);
+			logger.trace("latestRevision in microblog: " + latestRevision);
 			final Long lastestRevisionSend = microblogRevisionStorage.getLastRevision();
 			if (lastestRevisionSend == null) {
 				// no revision found in storage
 				microblogRevisionStorage.setLastRevision(latestRevision);
 			}
 			else {
-				logger.debug("latestRevision send: " + latestRevision);
+				logger.trace("latestRevision send: " + latestRevision);
 				for (long rev = lastestRevisionSend + 1; rev <= latestRevision; ++rev) {
 					microblogRevisionStorage.setLastRevision(rev);
 					microblogPostMailer.mailPost(rev);
 				}
 			}
-			logger.debug("done");
+			logger.trace("done");
 		}
 		catch (final MicroblogConnectorException e) {
 			logger.trace("MicroblogConnectorException", e);

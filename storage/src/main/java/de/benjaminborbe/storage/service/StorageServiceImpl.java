@@ -48,7 +48,7 @@ public class StorageServiceImpl implements StorageService {
 			return null;
 		}
 		catch (final Exception e) {
-			logger.debug("Exception", e);
+			logger.trace("Exception", e);
 			return null;
 		}
 		finally {
@@ -64,7 +64,7 @@ public class StorageServiceImpl implements StorageService {
 			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
 		}
 		catch (final Exception e) {
-			logger.debug("Exception", e);
+			logger.trace("Exception", e);
 		}
 		finally {
 			storageConnection.close();
@@ -103,7 +103,7 @@ public class StorageServiceImpl implements StorageService {
 			storageDaoUtil.insert(config.getKeySpace(), columnFamily, id, data);
 		}
 		catch (final Exception e) {
-			logger.debug("Exception", e);
+			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -125,7 +125,7 @@ public class StorageServiceImpl implements StorageService {
 			}
 		}
 		catch (final Exception e) {
-			logger.debug("Exception", e);
+			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -144,7 +144,7 @@ public class StorageServiceImpl implements StorageService {
 
 		}
 		catch (final Exception e) {
-			logger.debug("Exception", e);
+			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {

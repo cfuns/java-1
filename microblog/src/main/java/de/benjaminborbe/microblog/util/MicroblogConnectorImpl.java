@@ -50,7 +50,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	@Override
 	public long getLatestRevision() throws MicroblogConnectorException {
-		logger.debug("getLatestRevision");
+		logger.trace("getLatestRevision");
 		try {
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(MICROBLOG_URL), TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);

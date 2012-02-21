@@ -45,7 +45,7 @@ public class NodeCheckerImpl implements NodeChecker {
 			final Check check = hasCheck.getCheck();
 			// skip if found in silentNodes
 			for (final String nodeName : silentNodeRegistry.getAll()) {
-				logger.debug("compare " + check.getName() + " with " + nodeName);
+				logger.trace("compare " + check.getName() + " with " + nodeName);
 				if (check.getName().equalsIgnoreCase(nodeName)) {
 					return result;
 				}

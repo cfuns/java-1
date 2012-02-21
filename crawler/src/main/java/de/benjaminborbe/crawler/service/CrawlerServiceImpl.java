@@ -41,18 +41,19 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 	protected void crawleDomain(final URL domainUrl) throws CrawlerException {
 		try {
-			logger.debug("crawle domain: " + domainUrl);
+			logger.trace("crawle domain: " + domainUrl);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(domainUrl, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
-			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, content, true));
+			final String contentType = result.getContentType();
+			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, content, contentType, true));
 		}
 		catch (final HttpDownloaderException e) {
 			logger.warn("HttpDownloaderException url: " + domainUrl, e);
-			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, false));
+			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, null, false));
 		}
 		catch (final UnsupportedEncodingException e) {
 			logger.warn("UnsupportedEncodingException url: " + domainUrl, e);
-			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, false));
+			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, null, false));
 		}
 	}
 

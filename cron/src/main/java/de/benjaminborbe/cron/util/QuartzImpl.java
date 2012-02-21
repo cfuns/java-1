@@ -41,7 +41,7 @@ public class QuartzImpl implements Quartz {
 	}
 
 	protected synchronized Scheduler getScheduler() throws SchedulerException {
-		logger.debug("QuartzImpl.getScheduler()");
+		logger.trace("QuartzImpl.getScheduler()");
 		if (sched == null) {
 			sched = schedFact.getScheduler();
 			sched.setJobFactory(guiceJobFactory);
@@ -50,13 +50,13 @@ public class QuartzImpl implements Quartz {
 	}
 
 	protected synchronized void removeScheduler() throws SchedulerException {
-		logger.debug("QuartzImpl.removeScheduler()");
+		logger.trace("QuartzImpl.removeScheduler()");
 		sched = null;
 	}
 
 	@Override
 	public synchronized void start() throws SchedulerException {
-		logger.debug("QuartzImpl.start()");
+		logger.trace("QuartzImpl.start()");
 		final Scheduler scheduler = getScheduler();
 		scheduler.start();
 	}
@@ -68,7 +68,7 @@ public class QuartzImpl implements Quartz {
 	 */
 	@Override
 	public synchronized void stop() throws SchedulerException {
-		logger.debug("QuartzImpl.stop()");
+		logger.trace("QuartzImpl.stop()");
 		final Scheduler scheduler = getScheduler();
 		scheduler.shutdown();
 		scheduler.clear();
@@ -77,9 +77,9 @@ public class QuartzImpl implements Quartz {
 
 	@Override
 	public void addCronJob(final CronJob cronJob) {
-		logger.debug("QuartzImpl.addCronJob()");
+		logger.trace("QuartzImpl.addCronJob()");
 		if (jobDetails.containsKey(cronJob.getClass())) {
-			logger.debug("skip add cronJob, allready added");
+			logger.trace("skip add cronJob, allready added");
 		}
 		else {
 			try {
@@ -91,7 +91,7 @@ public class QuartzImpl implements Quartz {
 
 				// add job to scheduler
 				getScheduler().scheduleJob(jobDetail, trigger);
-				logger.debug("job scheduled");
+				logger.trace("job scheduled");
 			}
 			catch (final SchedulerException e) {
 				logger.error("SchedulerException", e);
@@ -101,19 +101,19 @@ public class QuartzImpl implements Quartz {
 
 	@Override
 	public void removeCronJob(final CronJob cronJob) {
-		logger.debug("QuartzImpl.removeCronJob()");
+		logger.trace("QuartzImpl.removeCronJob()");
 		if (jobDetails.containsKey(cronJob.getClass())) {
 			try {
 				getScheduler().deleteJob(jobDetails.get(cronJob.getClass()));
 				jobDetails.remove(cronJob.getClass());
-				logger.debug("job deleted");
+				logger.trace("job deleted");
 			}
 			catch (final SchedulerException e) {
 				logger.error("SchedulerException", e);
 			}
 		}
 		else {
-			logger.debug("skip remove cronJob, not added");
+			logger.trace("skip remove cronJob, not added");
 		}
 	}
 

@@ -1,6 +1,8 @@
 package de.benjaminborbe.websearch.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
@@ -8,6 +10,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -65,5 +68,45 @@ public class WebsearchCrawlerNotifyTest {
 		assertEquals("http://www.heise.de/index.html", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de//index.html"));
 		assertEquals("http://www.heise.de/index.html", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de//index.html#foo"));
 		assertEquals("http://www.heise.de/index.html?a=b", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de//index.html?a=b#foo"));
+	}
+
+	@Test
+	public void testIsIndexAble() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, null);
+
+		assertTrue(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, "text/html")));
+		assertTrue(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, "text/html;charset=UTF-8")));
+		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, "text/plain")));
+		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(false, "text/html")));
+		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(false, "text/plain")));
+		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, null)));
+	}
+
+	protected CrawlerResult createCrawlerResult(final boolean avaible, final String contentType) {
+		return new CrawlerResult() {
+
+			@Override
+			public boolean isAvailable() {
+				return avaible;
+			}
+
+			@Override
+			public URL getUrl() {
+				return null;
+			}
+
+			@Override
+			public String getContentType() {
+				return contentType;
+			}
+
+			@Override
+			public String getContent() {
+				return null;
+			}
+		};
 	}
 }

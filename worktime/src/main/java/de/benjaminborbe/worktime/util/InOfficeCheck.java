@@ -36,7 +36,7 @@ public class InOfficeCheck {
 			socket.connect(endpoint, TIMEOUT);
 			if (socket.isConnected()) {
 				final String msg = "connected successful to " + hostname + ":" + port;
-				logger.debug(msg);
+				logger.trace(msg);
 				return true;
 			}
 			else {
@@ -55,7 +55,7 @@ public class InOfficeCheck {
 					socket.close();
 			}
 			catch (final IOException e) {
-				logger.debug("IOException while close socket", e);
+				logger.trace("IOException while close socket", e);
 			}
 		}
 	}

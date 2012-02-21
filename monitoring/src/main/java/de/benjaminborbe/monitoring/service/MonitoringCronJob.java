@@ -51,7 +51,7 @@ public class MonitoringCronJob implements CronJob {
 
 		// send mail
 		if (failedChecks.size() > 0) {
-			logger.debug(failedChecks.size() + " checks failed, try sending mail");
+			logger.trace(failedChecks.size() + " checks failed, try sending mail");
 			final Mail mail = buildMail(failedChecks);
 			try {
 				mailService.send(mail);
@@ -74,7 +74,7 @@ public class MonitoringCronJob implements CronJob {
 		for (final CheckResult checkResult : results) {
 			try {
 				if (checkResult.isSuccess()) {
-					logger.debug(checkResult.toString());
+					logger.trace(checkResult.toString());
 				}
 				else {
 					logger.warn(checkResult.toString());

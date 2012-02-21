@@ -53,7 +53,7 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final int dayAmount = parseUtil.parseInt(request.getParameter(PARAMETER_LIMIT), DEFAULT_DAY_AMOUNT);
-		logger.debug("dayAmount = " + dayAmount);
+		logger.trace("dayAmount = " + dayAmount);
 		final ListWidget widgets = new ListWidget();
 		try {
 			final List<Workday> worktimes = worktimeService.getTimes(dayAmount);

@@ -22,7 +22,7 @@ public class EchoJob implements Job {
 
 	@Override
 	public void execute(final JobExecutionContext context) throws JobExecutionException {
-		logger.debug("EchoJob.execute");
+		logger.trace("EchoJob.execute");
 	}
 
 }

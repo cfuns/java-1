@@ -22,7 +22,7 @@ public class SearchGuiOsdServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("osd.xml");
+		logger.trace("osd.xml");
 		response.setContentType("text/xml");
 		response.setCharacterEncoding("utf-8");
 		final PrintWriter out = response.getWriter();

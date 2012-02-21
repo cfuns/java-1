@@ -16,14 +16,14 @@ public class RunOnlyOnceATime {
 	}
 
 	public void run(final Runnable runnable) {
-		logger.debug("started");
+		logger.trace("started");
 		if (isNotRunning()) {
 			runnable.run();
 			finished();
-			logger.debug("finished");
+			logger.trace("finished");
 		}
 		else {
-			logger.debug("skipped");
+			logger.trace("skipped");
 		}
 	}
 

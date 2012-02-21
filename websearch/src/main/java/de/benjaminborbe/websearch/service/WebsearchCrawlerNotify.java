@@ -39,6 +39,8 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final PageDao pageDao;
 
+	private final static String CONTENT_TYPE = "text/html";
+
 	private final HtmlUtil htmlUtil;
 
 	@Inject
@@ -55,12 +57,9 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		logger.trace("notify");
 		try {
 			updateLastVisit(result);
-			if (result.isAvailable()) {
+			if (isIndexAble(result)) {
 				parseLinks(result);
 				addToIndex(result);
-			}
-			else {
-				logger.warn("result not available for url: " + result.getUrl().toExternalForm());
 			}
 		}
 		catch (final StorageException e) {
@@ -69,6 +68,19 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		catch (final IndexerServiceException e) {
 			logger.trace("StorageException", e);
 		}
+	}
+
+	protected boolean isIndexAble(final CrawlerResult result) {
+		if (!result.isAvailable()) {
+			logger.warn("result not available for url: " + result.getUrl());
+			return false;
+		}
+		final String contentType = result.getContentType();
+		if (contentType == null || contentType.indexOf(CONTENT_TYPE) != 0) {
+			logger.warn("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + contentType);
+			return false;
+		}
+		return true;
 	}
 
 	protected void parseLinks(final CrawlerResult result) {
@@ -90,7 +102,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
-		logger.trace("buildUrl url: " + (baseUrl != null ? baseUrl.toExternalForm() : "null") + " link: " + link);
+		logger.trace("buildUrl url: " + baseUrl + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
 			url = link;
@@ -158,7 +170,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 				}
 			}
 		}
-		logger.debug("add url " + result.getUrl() + " to index");
+		logger.trace("add url " + result.getUrl() + " to index");
 		indexerService.addToIndex(WebsearchActivator.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
 	}
 

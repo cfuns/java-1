@@ -46,7 +46,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		final PrintWriter out = response.getWriter();
 		out.println("<ul>");
 		for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {

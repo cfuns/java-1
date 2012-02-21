@@ -46,7 +46,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	@Override
 	public void silentCheck(final String checkName) {
-		logger.debug("silentCheck");
+		logger.trace("silentCheck");
 		silentNodeRegistry.add(checkName);
 	}
 

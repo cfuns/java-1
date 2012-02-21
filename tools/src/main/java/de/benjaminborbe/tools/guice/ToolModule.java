@@ -30,6 +30,8 @@ import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.tools.util.StringUtilImpl;
+import de.benjaminborbe.tools.util.ThreadPoolExecuter;
+import de.benjaminborbe.tools.util.ThreadPoolExecuterImpl;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerImpl;
 
@@ -37,6 +39,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ThreadPoolExecuter.class).to(ThreadPoolExecuterImpl.class);
 		bind(UrlUtil.class).to(UrlUtilImpl.class).in(Singleton.class);
 		bind(HtmlUtil.class).to(HtmlUtilImpl.class).in(Singleton.class);
 		bind(ResourceUtil.class).to(ResourceUtilImpl.class).in(Singleton.class);

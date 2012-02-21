@@ -117,7 +117,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			outputStream = new ByteArrayOutputStream();
 			streamUtil.copy(inputStream, outputStream);
 			final byte[] content = outputStream.toByteArray();
-			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentEncoding);
+			final String contentType = connection.getContentType();
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		}

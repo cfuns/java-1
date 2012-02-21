@@ -46,7 +46,7 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		response.setCharacterEncoding("UTF8");
 		response.setContentType("application/json");
 		final String queryString = request.getParameter(PARAMETER_SEARCH);
@@ -56,7 +56,7 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 			final String[] words = searchUtil.buildSearchParts(queryString);
 			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
 			searchResults = searchService.search(sessionIdentifier, words, MAX_RESULTS);
-			logger.debug("found " + searchResults.size() + " searchResults");
+			logger.trace("found " + searchResults.size() + " searchResults");
 		}
 		else {
 			searchResults = new ArrayList<SearchResult>();

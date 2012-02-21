@@ -1,8 +1,8 @@
 package de.benjaminborbe.search.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,16 +73,23 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
-		logger.debug("search words: " + StringUtils.join(words, ","));
+		logger.trace("search words: " + StringUtils.join(words, ","));
 
-		final Collection<SearchServiceComponent> searchServiceComponents = searchServiceComponentRegistry.getAll();
-		logger.debug("searchServiceComponents " + searchServiceComponents.size());
+		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());
+		Collections.sort(searchServiceComponents, new Comparator<SearchServiceComponent>() {
 
-		final Collection<Thread> threads = new HashSet<Thread>();
-		final Collection<ThreadResult<List<SearchResult>>> threadResults = new HashSet<ThreadResult<List<SearchResult>>>();
+			@Override
+			public int compare(final SearchServiceComponent o1, final SearchServiceComponent o2) {
+				return o1.getName().compareToIgnoreCase(o2.getName());
+			}
+		});
+		logger.trace("searchServiceComponents " + searchServiceComponents.size());
+
+		final List<Thread> threads = new ArrayList<Thread>();
+		final List<ThreadResult<List<SearchResult>>> threadResults = new ArrayList<ThreadResult<List<SearchResult>>>();
 
 		for (final SearchServiceComponent searchServiceComponent : searchServiceComponents) {
-			logger.debug("search in searchServiceComponent: " + searchServiceComponent.getClass().getSimpleName());
+			logger.trace("search in searchServiceComponent: " + searchServiceComponent.getClass().getSimpleName());
 
 			final ThreadResult<List<SearchResult>> threadResult = new ThreadResult<List<SearchResult>>();
 			threadResults.add(threadResult);
@@ -105,7 +112,7 @@ public class SearchServiceImpl implements SearchService {
 			}
 		}
 
-		logger.debug("found " + result.size() + " results");
+		logger.trace("found " + result.size() + " results");
 		return result;
 	}
 
@@ -116,6 +123,11 @@ public class SearchServiceImpl implements SearchService {
 			result.add(cs.getClass().getName());
 		}
 		return result;
+	}
+
+	@Override
+	public String getName() {
+		return "Core";
 	}
 
 }

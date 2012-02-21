@@ -44,7 +44,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final Dictionary initParams = filterInfo.getInitParams();
 			final int ranking = filterInfo.getRanking();
 			try {
-				logger.debug("registerFilter for pattern: \"" + pattern + "\"");
+				logger.trace("registerFilter for pattern: \"" + pattern + "\"");
 				service.registerFilter(filter, pattern, initParams, ranking, context);
 			}
 			catch (final ServletException e) {
@@ -64,7 +64,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final Dictionary initparams = servletInfo.getInitParams();
 			final HttpContext context = servletInfo.getContext();
 			try {
-				logger.debug("registerServlet for alias: \"" + alias + "\"");
+				logger.trace("registerServlet for alias: \"" + alias + "\"");
 				service.registerServlet(alias, servlet, initparams, context);
 			}
 			catch (final ServletException e) {
@@ -85,7 +85,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final String name = resourceInfo.getName();
 			final HttpContext context = resourceInfo.getContext();
 			try {
-				logger.debug("registerResource for alias: \"" + alias + "\"");
+				logger.trace("registerResource for alias: \"" + alias + "\"");
 				service.registerResources(alias, name, context);
 			}
 			catch (final NamespaceException e) {

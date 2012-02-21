@@ -32,7 +32,7 @@ public class TranslateGuiDashboardWidget implements DashboardContentWidget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.debug("render");
+		logger.trace("render");
 		final String action = "http://dict.leo.org/ende";
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET).addTarget(target);
 		formWidget.addFormInputWidget(new FormInputTextWidget("search").addPlaceholder("translate ..."));

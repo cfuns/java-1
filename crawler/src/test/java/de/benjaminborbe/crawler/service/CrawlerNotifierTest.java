@@ -21,7 +21,8 @@ public class CrawlerNotifierTest {
 
 		final URL url = new URL("http://test.de/index.html");
 		final String content = "Foo Bar";
-		final CrawlerResult result = new CrawlerResultImpl(url, content, true);
+		final String contentType = "text/html";
+		final CrawlerResult result = new CrawlerResultImpl(url, content, contentType, true);
 
 		final CrawlerNotifier clientCrawlerNotifier = EasyMock.createMock(CrawlerNotifier.class);
 		clientCrawlerNotifier.notifiy(result);

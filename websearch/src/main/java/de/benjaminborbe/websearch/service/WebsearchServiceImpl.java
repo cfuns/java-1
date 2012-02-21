@@ -38,7 +38,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 		try {
 			logger.trace("getPages");
 			final Collection<Page> result = new ArrayList<Page>(pageDao.getAll());
-			logger.debug("found " + result.size() + " pages");
+			logger.trace("found " + result.size() + " pages");
 			return result;
 		}
 		catch (final StorageException e) {
@@ -48,7 +48,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public void refreshPages() {
-		logger.debug("refreshPages");
+		logger.trace("refreshPages");
 		refreshPagesCronJob.execute();
 	}
 

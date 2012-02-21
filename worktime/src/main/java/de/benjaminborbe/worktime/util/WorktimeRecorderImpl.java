@@ -44,7 +44,7 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 	public void recordWorktime() throws WorktimeRecorderException {
 		try {
 			final boolean inOffice = inOfficeCheck.check();
-			logger.debug("inOffice = " + inOffice);
+			logger.trace("inOffice = " + inOffice);
 			final Calendar calendar = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
 			worktimeStorageService.save(new WorktimeValueImpl(calendar, inOffice));
 		}

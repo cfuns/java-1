@@ -24,7 +24,7 @@ public class UtilGuiPasswordGeneratorImpl implements UtilGuiPasswordGenerator {
 
 	@Override
 	public String generatePassword(final int length, final UtilGuiPasswordCharacter... characters) {
-		logger.debug("generatePassword with lenght: " + length);
+		logger.trace("generatePassword with lenght: " + length);
 		final List<Character> cs = combine(characters);
 		final StringBuffer result = new StringBuffer();
 		final Random r = new Random();

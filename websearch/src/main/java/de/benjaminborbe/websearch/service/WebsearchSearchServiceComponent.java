@@ -21,6 +21,8 @@ import de.benjaminborbe.websearch.WebsearchActivator;
 @Singleton
 public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 
+	private static final String SEARCH_TYPE = "Web";
+
 	private final Logger logger;
 
 	private final IndexSearcherService indexSearcherService;
@@ -43,14 +45,18 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected SearchResult map(final IndexSearchResult indexResult) {
-		final String type = "web";
 		final String title = indexResult.getTitle();
 		final URL url = indexResult.getURL();
 		final String description = buildDescription(indexResult.getContent());
-		return new SearchResultImpl(type, title, url, description);
+		return new SearchResultImpl(SEARCH_TYPE, title, url, description);
 	}
 
 	protected String buildDescription(final String content) {
 		return "-";
+	}
+
+	@Override
+	public String getName() {
+		return SEARCH_TYPE;
 	}
 }

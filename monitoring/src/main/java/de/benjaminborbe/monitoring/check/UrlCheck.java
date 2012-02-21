@@ -80,7 +80,7 @@ public class UrlCheck implements Check {
 			else {
 				result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
 			}
-			logger.debug("downloaded " + url + " in " + result.getDuration() + " ms");
+			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;
 				logger.warn(msg);

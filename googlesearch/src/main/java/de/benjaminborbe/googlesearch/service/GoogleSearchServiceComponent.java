@@ -57,7 +57,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
-		logger.debug("search");
+		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		// https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=foo
 		try {
@@ -107,5 +107,10 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	protected URL buildQueryUrl(final String[] words) throws MalformedURLException, UnsupportedEncodingException {
 		final String url = PREFIX + urlUtil.encode(StringUtils.join(words, ' '));
 		return new URL(url);
+	}
+
+	@Override
+	public String getName() {
+		return SEARCH_TYPE;
 	}
 }

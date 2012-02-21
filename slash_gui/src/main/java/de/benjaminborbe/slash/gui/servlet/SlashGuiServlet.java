@@ -27,7 +27,7 @@ public class SlashGuiServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.debug("service");
+		logger.trace("service");
 		response.sendRedirect(buildRedirectTargetPath(request));
 	}
 
