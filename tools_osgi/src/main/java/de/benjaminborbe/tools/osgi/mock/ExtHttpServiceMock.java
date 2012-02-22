@@ -49,8 +49,8 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	}
 
 	@Override
-	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context) throws ServletException,
-			NamespaceException {
+	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context)
+			throws ServletException, NamespaceException {
 		servletAlias.put(servlet, alias);
 		registerServletCallCounter++;
 	}

@@ -30,7 +30,7 @@ public class GooglesearchActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(GooglesearchService.class, googlesearchService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, googleSearchServiceComponent, googleSearchServiceComponent.getClass().getName()));

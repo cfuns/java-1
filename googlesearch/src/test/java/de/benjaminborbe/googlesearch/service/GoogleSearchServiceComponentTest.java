@@ -37,24 +37,26 @@ public class GoogleSearchServiceComponentTest {
 			assertEquals("Google", result.get(pos).getType());
 			assertEquals("http://en.wikipedia.org/wiki/Foobar", result.get(pos).getUrl().toExternalForm());
 			assertEquals("Foobar - Wikipedia, the free encyclopedia", result.get(pos).getTitle());
-			assertEquals("The terms foobar /ˈfʊːbɑː/, fubar, or foo , bar, baz and qux (alternatively quux) are sometimes used as placeholder names (also referred to as metasyntactic ...", result.get(pos)
-					.getDescription());
+			assertEquals(
+					"The terms foobar /ˈfʊːbɑː/, fubar, or foo , bar, baz and qux (alternatively quux) are sometimes used as placeholder names (also referred to as metasyntactic ...",
+					result.get(pos).getDescription());
 		}
 		{
 			final int pos = 1;
 			assertEquals("Google", result.get(pos).getType());
 			assertEquals("http://www.foofighters.com/", result.get(pos).getUrl().toExternalForm());
 			assertEquals("FooFighters.com", result.get(pos).getTitle());
-			assertEquals("Official site. News, touring information, store, multimedia, concert chronology, articles, interviews, discography, image gallery, and a discussion board.", result.get(pos)
-					.getDescription());
+			assertEquals("Official site. News, touring information, store, multimedia, concert chronology, articles, interviews, discography, image gallery, and a discussion board.",
+					result.get(pos).getDescription());
 		}
 		{
 			final int pos = 2;
 			assertEquals("Google", result.get(pos).getType());
 			assertEquals("http://catb.org/jargon/html/F/foo.html", result.get(pos).getUrl().toExternalForm());
 			assertEquals("foo", result.get(pos).getTitle());
-			assertEquals("When ' foo ' is used in connection with 'bar' it has generally traced to the WWII-era Army slang acronym FUBAR ('Fucked Up Beyond All Repair' or 'Fucked Up ...", result.get(pos)
-					.getDescription());
+			assertEquals(
+					"When ' foo ' is used in connection with 'bar' it has generally traced to the WWII-era Army slang acronym FUBAR ('Fucked Up Beyond All Repair' or 'Fucked Up ...", result
+							.get(pos).getDescription());
 		}
 		{
 			final int pos = 3;
@@ -73,7 +75,8 @@ public class GoogleSearchServiceComponentTest {
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil, urlUtil);
-		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(new String[] { "crawler", "java" }).toExternalForm());
+		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(new String[] { "crawler", "java" })
+				.toExternalForm());
 
 	}
 }

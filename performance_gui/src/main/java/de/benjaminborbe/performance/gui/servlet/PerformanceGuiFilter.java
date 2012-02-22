@@ -32,7 +32,8 @@ public class PerformanceGuiFilter extends HttpFilter {
 	}
 
 	@Override
-	public void doFilter(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final FilterChain filterChain) throws IOException,
+			ServletException {
 		final Duration duration = durationUtil.getDuration();
 		final String uri = httpServletRequest.getRequestURI();
 		try {

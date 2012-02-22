@@ -37,7 +37,12 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
-	public WorktimeStorageServiceImpl(final Logger logger, final StorageService storageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ParseUtil parseUtil) {
+	public WorktimeStorageServiceImpl(
+			final Logger logger,
+			final StorageService storageService,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.calendarUtil = calendarUtil;

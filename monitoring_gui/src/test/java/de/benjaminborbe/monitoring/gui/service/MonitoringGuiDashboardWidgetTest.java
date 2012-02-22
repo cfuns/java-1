@@ -14,7 +14,7 @@ public class MonitoringGuiDashboardWidgetTest {
 	@Test
 	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringGuiModulesMock());
-		final MonitoringGuiDashboardWidget o = injector.getInstance(MonitoringGuiDashboardWidget.class);
-		assertNotNull(o);
+		final MonitoringGuiDashboardWidget monitoringGuiDashboardWidget = injector.getInstance(MonitoringGuiDashboardWidget.class);
+		assertNotNull(monitoringGuiDashboardWidget);
 	}
 }

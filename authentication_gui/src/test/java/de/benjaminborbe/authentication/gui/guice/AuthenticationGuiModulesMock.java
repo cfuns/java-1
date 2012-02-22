@@ -15,6 +15,7 @@ public class AuthenticationGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new AuthenticationGuiOsgiModuleMock(), new AuthenticationGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new AuthenticationGuiOsgiModuleMock(), new AuthenticationGuiModule(), new ToolModule(),
+				new WebsiteModule());
 	}
 }

@@ -40,7 +40,12 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	private final HtmlUtil htmlUtil;
 
 	@Inject
-	public MicroblogConnectorImpl(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final ParseUtil parseUtil, final HtmlUtil htmlUtil) {
+	public MicroblogConnectorImpl(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final ParseUtil parseUtil,
+			final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;

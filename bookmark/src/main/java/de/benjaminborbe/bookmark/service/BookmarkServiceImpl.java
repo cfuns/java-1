@@ -154,6 +154,5 @@ public class BookmarkServiceImpl implements BookmarkService {
 		public int getCounter() {
 			return counter;
 		}
-
 	}
 }

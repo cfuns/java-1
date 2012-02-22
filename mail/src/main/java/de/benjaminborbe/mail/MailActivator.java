@@ -25,7 +25,7 @@ public class MailActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(MailService.class, mailService));
 		return result;

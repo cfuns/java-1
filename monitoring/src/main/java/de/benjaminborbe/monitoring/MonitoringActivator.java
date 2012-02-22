@@ -30,7 +30,7 @@ public class MonitoringActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, monitoringCronJob, monitoringCronJob.getClass().getName()));
 		result.add(new ServiceInfo(MonitoringService.class, monitoringService));

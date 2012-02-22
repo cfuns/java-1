@@ -55,8 +55,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	 * java.util.Map)
 	 */
 	@Override
-	public void insert(final String keySpace, final String columnFamily, final String id, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException,
-			TException, UnsupportedEncodingException {
+	public void insert(final String keySpace, final String columnFamily, final String id, final Map<String, String> data) throws InvalidRequestException, UnavailableException,
+			TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("insert keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " data: " + data);
@@ -89,8 +89,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public String read(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
-			UnsupportedEncodingException {
+	public String read(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, UnavailableException,
+			TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("read keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
@@ -119,8 +119,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public void delete(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
-			TException, UnsupportedEncodingException {
+	public void delete(final String keySpace, final String columnFamily, final String id, final String field) throws InvalidRequestException, NotFoundException,
+			UnavailableException, TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
 		logger.trace("delete keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
@@ -136,8 +136,8 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public List<String> list(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException,
-			NotFoundException {
+	public List<String> list(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException, NotFoundException {
 		final Iface client = getClient(keySpace);
 		logger.trace("list keyspace: " + keySpace + " columnfamily: " + columnFamily);
 

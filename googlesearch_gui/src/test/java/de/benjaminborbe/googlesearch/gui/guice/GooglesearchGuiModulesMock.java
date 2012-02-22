@@ -15,6 +15,7 @@ public class GooglesearchGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new GooglesearchGuiOsgiModuleMock(), new GooglesearchGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays
+				.asList(new PeaberryModuleMock(), new ServletModuleMock(), new GooglesearchGuiOsgiModuleMock(), new GooglesearchGuiModule(), new ToolModule(), new WebsiteModule());
 	}
 }

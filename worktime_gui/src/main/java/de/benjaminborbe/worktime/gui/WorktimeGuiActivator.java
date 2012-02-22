@@ -42,7 +42,7 @@ public class WorktimeGuiActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass().getName()));
 		return result;

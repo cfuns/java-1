@@ -78,8 +78,8 @@ public class ConfigurationGuiListServletTest {
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
+				EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
@@ -137,8 +137,8 @@ public class ConfigurationGuiListServletTest {
 
 		EasyMock.replay(authenticationService);
 
-		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,
-				navigationWidget, authenticationService, httpContextProvider, configurationService);
+		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil,
+				parseUtil, navigationWidget, authenticationService, httpContextProvider, configurationService);
 
 		configurationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

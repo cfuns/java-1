@@ -29,7 +29,7 @@ public class IndexActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(IndexerService.class, indexerService));
 		result.add(new ServiceInfo(IndexSearcherService.class, indexSearcherService));

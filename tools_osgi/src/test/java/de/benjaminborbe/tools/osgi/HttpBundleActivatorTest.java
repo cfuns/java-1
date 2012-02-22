@@ -107,7 +107,7 @@ public class HttpBundleActivatorTest {
 		final HttpBundleActivator httpBundleActivator = new HttpBundleActivatorMock("prefix") {
 
 			@Override
-			protected Collection<ServiceInfo> getServiceInfos() {
+			public Collection<ServiceInfo> getServiceInfos() {
 				final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 				result.add(new ServiceInfo(name, service, properties));
 				return result;

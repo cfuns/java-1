@@ -75,8 +75,8 @@ public class WebsearchGuiServletTest {
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
+				EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
@@ -131,8 +131,8 @@ public class WebsearchGuiServletTest {
 
 		EasyMock.replay(authenticationService);
 
-		final WebsearchGuiServlet websearchServlet = new WebsearchGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider);
+		final WebsearchGuiServlet websearchServlet = new WebsearchGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,
+				authenticationService, navigationWidget, httpContextProvider);
 
 		websearchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

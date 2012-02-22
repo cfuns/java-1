@@ -26,14 +26,14 @@ public class AuthorizationActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(AuthorizationService.class, authorizationService));
 		return result;
 	}
 
 	@Override
-	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		// serviceTrackers.add(new AuthorizationServiceTracker(authorizationRegistry, context,
 		// AuthorizationService.class));

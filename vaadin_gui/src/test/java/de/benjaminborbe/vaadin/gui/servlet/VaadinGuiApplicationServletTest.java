@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import com.google.inject.Injector;
+
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.vaadin.gui.guice.VaadinGuiModulesMock;
 

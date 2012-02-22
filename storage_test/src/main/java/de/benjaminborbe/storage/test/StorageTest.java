@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -20,6 +21,7 @@ public class StorageTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();
@@ -54,6 +56,7 @@ public class StorageTest extends OSGiTestCase {
 		return storageService;
 	}
 
+	@Test
 	public void testGetStorageService() {
 		final StorageService storageService = getStorageService();
 		assertNotNull(storageService);

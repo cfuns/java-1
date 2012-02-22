@@ -14,7 +14,7 @@ public class MailGuiDashboardWidgetTest {
 	@Test
 	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MailGuiModulesMock());
-		final MailGuiDashboardWidget o = injector.getInstance(MailGuiDashboardWidget.class);
-		assertNotNull(o);
+		final MailGuiDashboardWidget mailGuiDashboardWidget = injector.getInstance(MailGuiDashboardWidget.class);
+		assertNotNull(mailGuiDashboardWidget);
 	}
 }

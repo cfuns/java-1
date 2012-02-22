@@ -2,6 +2,7 @@ package de.benjaminborbe.systemstatus.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -20,6 +21,7 @@ public class SystemstatusTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();
@@ -47,7 +49,7 @@ public class SystemstatusTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// public void testServices() throws Exception {
+	// @Test public void testServices() throws Exception {
 	// final BundleContext bundleContext = getContext();
 	// assertNotNull(bundleContext);
 	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
@@ -57,6 +59,7 @@ public class SystemstatusTest extends OSGiTestCase {
 	// }
 	// }
 
+	@Test
 	public void testSystemstatusService() {
 		final Object serviceObject = getServiceObject(SystemstatusService.class.getName(), null);
 		final SystemstatusService service = (SystemstatusService) serviceObject;

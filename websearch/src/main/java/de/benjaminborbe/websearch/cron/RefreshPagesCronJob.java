@@ -1,6 +1,7 @@
 package de.benjaminborbe.websearch.cron;
 
 import java.net.URL;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;

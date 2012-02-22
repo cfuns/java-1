@@ -23,6 +23,7 @@ public class AuthenticationGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new AuthenticationGuiOsgiModule(), new AuthenticationGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays
+				.asList(Peaberry.osgiModule(context), new ServletModule(), new AuthenticationGuiOsgiModule(), new AuthenticationGuiModule(), new ToolModule(), new WebsiteModule());
 	}
 }

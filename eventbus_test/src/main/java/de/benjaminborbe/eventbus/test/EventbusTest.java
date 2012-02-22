@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -25,6 +26,7 @@ public class EventbusTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();
@@ -53,12 +55,14 @@ public class EventbusTest extends OSGiTestCase {
 
 	}
 
+	@Test
 	public void testGetService() {
 		final EventbusService EventbusService = (EventbusService) getServiceObject(EventbusService.class.getName(), null);
 		assertNotNull(EventbusService);
 		assertEquals("de.benjaminborbe.eventbus.service.EventbusServiceImpl", EventbusService.getClass().getName());
 	}
 
+	@Test
 	public void testEventbus() {
 		final EventbusService Eventbus = (EventbusService) getServiceObject(EventbusService.class.getName(), null);
 		assertNotNull(Eventbus);

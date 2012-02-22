@@ -2,6 +2,7 @@ package de.benjaminborbe.html.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -19,6 +20,7 @@ public class HtmlTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();

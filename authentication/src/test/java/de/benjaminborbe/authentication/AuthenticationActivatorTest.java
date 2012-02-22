@@ -14,6 +14,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.guice.AuthenticationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -25,14 +26,14 @@ public class AuthenticationActivatorTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new AuthenticationModulesMock());
-		final AuthenticationActivator o = injector.getInstance(AuthenticationActivator.class);
-		assertNotNull(o);
+		final AuthenticationActivator activator = injector.getInstance(AuthenticationActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new AuthenticationModulesMock());
-		final AuthenticationActivator o = new AuthenticationActivator() {
+		final AuthenticationActivator activator = new AuthenticationActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -41,7 +42,7 @@ public class AuthenticationActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
@@ -50,17 +51,37 @@ public class AuthenticationActivatorTest {
 	}
 
 	@Test
-	public void testServices() {
-		final AuthenticationActivator authenticationActivator = new AuthenticationActivator();
-		final Collection<ServiceInfo> serviceInfos = authenticationActivator.getServiceInfos();
-		assertEquals(1, serviceInfos.size());
-	}
-
-	@Test
 	public void testGetModules() {
 		final AuthenticationActivator authenticationActivator = new AuthenticationActivator();
 		final BundleContext context = EasyMock.createMock(BundleContext.class);
 		EasyMock.replay(context);
 		assertNotNull(authenticationActivator.getModules(context));
+	}
+
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new AuthenticationModulesMock());
+		final AuthenticationActivator activator = new AuthenticationActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(AuthenticationService.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
 	}
 }

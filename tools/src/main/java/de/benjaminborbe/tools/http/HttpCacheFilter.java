@@ -40,7 +40,8 @@ public class HttpCacheFilter extends HttpFilter {
 			logger.trace("cache miss for " + identifier);
 			final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 			filterChain.doFilter(request, httpServletResponseAdapter);
-			cache.put(identifier, new CacheEntry(httpServletResponseAdapter.getContentType(), httpServletResponseAdapter.getWriterContent(), httpServletResponseAdapter.getOutputStreamContent()));
+			cache.put(identifier,
+					new CacheEntry(httpServletResponseAdapter.getContentType(), httpServletResponseAdapter.getWriterContent(), httpServletResponseAdapter.getOutputStreamContent()));
 		}
 		else {
 			logger.trace("cache hit for " + identifier);

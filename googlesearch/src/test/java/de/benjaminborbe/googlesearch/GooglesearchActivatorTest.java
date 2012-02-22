@@ -12,7 +12,9 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.googlesearch.api.GooglesearchService;
 import de.benjaminborbe.googlesearch.guice.GooglesearchModulesMock;
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -23,14 +25,14 @@ public class GooglesearchActivatorTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new GooglesearchModulesMock());
-		final GooglesearchActivator o = injector.getInstance(GooglesearchActivator.class);
-		assertNotNull(o);
+		final GooglesearchActivator activator = injector.getInstance(GooglesearchActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new GooglesearchModulesMock());
-		final GooglesearchActivator o = new GooglesearchActivator() {
+		final GooglesearchActivator activator = new GooglesearchActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -39,19 +41,41 @@ public class GooglesearchActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
 		}
-
 	}
 
-	public void testServices() {
-		final GooglesearchActivator googlesearchActivator = new GooglesearchActivator();
-		final Collection<ServiceInfo> serviceInfos = googlesearchActivator.getServiceInfos();
-		assertEquals(0, serviceInfos.size());
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new GooglesearchModulesMock());
+		final GooglesearchActivator activator = new GooglesearchActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(GooglesearchService.class.getName(), SearchServiceComponent.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
 	}
 
 }

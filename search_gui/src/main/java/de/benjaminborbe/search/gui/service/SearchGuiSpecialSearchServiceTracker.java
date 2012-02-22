@@ -1,6 +1,7 @@
 package de.benjaminborbe.search.gui.service;
 
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.search.api.SearchSpecial;

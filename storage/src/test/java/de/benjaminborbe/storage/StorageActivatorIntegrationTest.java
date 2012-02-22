@@ -8,12 +8,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.Modules;
@@ -26,8 +27,8 @@ public class StorageActivatorIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageActivator o = injector.getInstance(StorageActivator.class);
-		assertNotNull(o);
+		final StorageActivator activator = injector.getInstance(StorageActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
@@ -45,25 +46,9 @@ public class StorageActivatorIntegrationTest {
 	}
 
 	@Test
-	public void testServices() throws Exception {
-		final StorageActivator storageActivator = new StorageActivator() {
-
-			@Override
-			protected Modules getModules(final BundleContext context) {
-				return new StorageModulesMock();
-			}
-		};
-		final BundleContext context = EasyMock.createNiceMock(BundleContext.class);
-		EasyMock.replay(context);
-		storageActivator.start(context);
-		final Collection<ServiceInfo> serviceInfos = storageActivator.getServiceInfos();
-		assertEquals(5, serviceInfos.size());
-	}
-
-	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageActivator o = new StorageActivator() {
+		final StorageActivator activator = new StorageActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -72,12 +57,41 @@ public class StorageActivatorIntegrationTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
 		}
+	}
 
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+		final StorageActivator activator = new StorageActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(Configuration.class.getName(), Configuration.class.getName(), Configuration.class.getName(), Configuration.class.getName(),
+				StorageService.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
 	}
 }

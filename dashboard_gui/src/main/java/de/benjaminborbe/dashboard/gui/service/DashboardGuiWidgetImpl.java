@@ -149,7 +149,8 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 		out.println("<br class=\"clear\">");
 	}
 
-	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final DashboardContentWidget dashboardWidget) throws IOException {
+	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final DashboardContentWidget dashboardWidget)
+			throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<div class=\"dashboardWidget\">");
 		out.println("<h2>" + dashboardWidget.getTitle() + "</h2>");

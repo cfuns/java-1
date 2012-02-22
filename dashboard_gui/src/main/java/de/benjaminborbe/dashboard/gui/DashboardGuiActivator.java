@@ -58,7 +58,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardWidget.class, dashboardWidget));
 		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Dashboard", "/bb/dashboard")));
@@ -66,7 +66,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new DashboardGuiWidgetServiceTracker(dashboardWidgetRegistry, context, DashboardContentWidget.class));
 		return serviceTrackers;

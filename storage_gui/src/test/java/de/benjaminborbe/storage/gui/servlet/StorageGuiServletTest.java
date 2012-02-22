@@ -75,8 +75,8 @@ public class StorageGuiServletTest {
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
+				EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
@@ -131,8 +131,8 @@ public class StorageGuiServletTest {
 
 		EasyMock.replay(authenticationService);
 
-		final StorageGuiServlet storageServlet = new StorageGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider);
+		final StorageGuiServlet storageServlet = new StorageGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,
+				authenticationService, navigationWidget, httpContextProvider);
 
 		storageServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

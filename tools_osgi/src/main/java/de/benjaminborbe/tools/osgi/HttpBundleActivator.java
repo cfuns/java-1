@@ -110,7 +110,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		// create serviceTracker for ExtHttpService
 		{

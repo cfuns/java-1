@@ -79,8 +79,8 @@ public class EventbusGuiServletTest {
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
+				EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
@@ -139,8 +139,8 @@ public class EventbusGuiServletTest {
 		EasyMock.expect(EventbusService.getHandlers()).andReturn(new HashMap<Type<EventHandler>, List<EventHandler>>());
 		EasyMock.replay(EventbusService);
 
-		final EventbusGuiServlet EventbusServlet = new EventbusGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				EventbusService, navigationWidget, httpContextProvider);
+		final EventbusGuiServlet EventbusServlet = new EventbusGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,
+				authenticationService, EventbusService, navigationWidget, httpContextProvider);
 
 		EventbusServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

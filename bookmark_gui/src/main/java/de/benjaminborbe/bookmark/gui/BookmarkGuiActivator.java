@@ -56,7 +56,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkGuiFavoriteDashboardWidget, bookmarkGuiFavoriteDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchBookmark, searchGuiSpecialSearchBookmark.getClass().getName()));

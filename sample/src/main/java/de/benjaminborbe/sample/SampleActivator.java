@@ -26,14 +26,14 @@ public class SampleActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SampleService.class, sampleService));
 		return result;
 	}
 
 	@Override
-	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		// serviceTrackers.add(new SampleServiceTracker(sampleRegistry, context,
 		// SampleService.class));

@@ -48,6 +48,7 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 	public BookmarkDaoImpl(final Logger logger, final IdGeneratorLong idGenerator, final Provider<BookmarkBean> provider) {
 		super(logger, idGenerator, provider);
 
+		// TODO remove init
 		init();
 	}
 
@@ -94,9 +95,13 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 		save(createBookmark("http://www.doodle.com/", "Doodle", Arrays.asList("Abstimmen")));
 		save(createBookmark("http://tomcat.apache.org/tomcat-6.0-doc/config/manager.html", "Tomcat-6.0 Config Manager"));
 		save(createBookmark("http://www.google.com/analytics/", "Google Analytics"));
+		save(createBookmark("http://www.rmv.de/", "RMV", Arrays.asList("Bus")));
 
 		// az
-		save(createBookmark("https://code.allianz24.de/hudson/", "Allianz24 - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "Allianz24", "Allsecur"), true));
+		save(createBookmark("https://code.allianz24.de/hudson/", "Allianz24 - Hudson / Jenkins", Arrays.asList("Hudson", "Jenkins", "Seibert-Media", "Allianz24", "Allsecur", "AZ24"),
+				true));
+		save(createBookmark("https://wiki.allianz24.de/cgi-bin/twiki/view/AZ24/AnsprechPartner", "Allianz24 - AnsprechPartner",
+				Arrays.asList("Seibert-Media", "Allianz24", "Allsecur", "AZ24")));
 
 		// local
 		save(createBookmark("http://127.0.0.1:8180/sonar", "Local - Sonar"));

@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.guice.ConfigurationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -23,14 +24,14 @@ public class ConfigurationActivatorTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfigurationModulesMock());
-		final ConfigurationActivator o = injector.getInstance(ConfigurationActivator.class);
-		assertNotNull(o);
+		final ConfigurationActivator activator = injector.getInstance(ConfigurationActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfigurationModulesMock());
-		final ConfigurationActivator o = new ConfigurationActivator() {
+		final ConfigurationActivator activator = new ConfigurationActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -39,7 +40,7 @@ public class ConfigurationActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
@@ -47,10 +48,32 @@ public class ConfigurationActivatorTest {
 		}
 	}
 
-	public void testServices() {
-		final ConfigurationActivator configurationActivator = new ConfigurationActivator();
-		final Collection<ServiceInfo> serviceInfos = configurationActivator.getServiceInfos();
-		assertEquals(0, serviceInfos.size());
-	}
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfigurationModulesMock());
+		final ConfigurationActivator activator = new ConfigurationActivator() {
 
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(ConfigurationService.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
+	}
 }

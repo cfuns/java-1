@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -14,8 +15,10 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.calendar.gui.guice.CalendarGuiModulesMock;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
@@ -24,14 +27,14 @@ public class CalendarGuiActivatorTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarGuiModulesMock());
-		final CalendarGuiActivator o = injector.getInstance(CalendarGuiActivator.class);
-		assertNotNull(o);
+		final CalendarGuiActivator activator = injector.getInstance(CalendarGuiActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
 	public void testServlets() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarGuiModulesMock());
-		final CalendarGuiActivator o = new CalendarGuiActivator() {
+		final CalendarGuiActivator activator = new CalendarGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -40,7 +43,7 @@ public class CalendarGuiActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList("/calendar");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
@@ -51,7 +54,7 @@ public class CalendarGuiActivatorTest {
 	@Test
 	public void testFilters() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarGuiModulesMock());
-		final CalendarGuiActivator o = new CalendarGuiActivator() {
+		final CalendarGuiActivator activator = new CalendarGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -61,7 +64,7 @@ public class CalendarGuiActivatorTest {
 		};
 
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList("/calendar.*");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterFilterCallCounter());
 		for (final String path : paths) {
@@ -77,7 +80,7 @@ public class CalendarGuiActivatorTest {
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarGuiModulesMock());
-		final CalendarGuiActivator o = new CalendarGuiActivator() {
+		final CalendarGuiActivator activator = new CalendarGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -86,7 +89,7 @@ public class CalendarGuiActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
@@ -94,4 +97,32 @@ public class CalendarGuiActivatorTest {
 		}
 	}
 
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarGuiModulesMock());
+		final CalendarGuiActivator activator = new CalendarGuiActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(DashboardContentWidget.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
+	}
 }

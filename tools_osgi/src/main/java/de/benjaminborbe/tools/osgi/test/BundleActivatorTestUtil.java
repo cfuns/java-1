@@ -53,7 +53,8 @@ public class BundleActivatorTestUtil {
 		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.search.api.SearchSpecial", null)).andReturn(emptyServiceReferences).anyTimes();
 		EasyMock.expect(context.getService(extServiceReference)).andReturn(extBundle);
 
-		EasyMock.expect(context.registerService(EasyMock.anyObject(String.class), EasyMock.anyObject(Object.class), EasyMock.anyObject(Dictionary.class))).andReturn(serviceRegistration).anyTimes();
+		EasyMock.expect(context.registerService(EasyMock.anyObject(String.class), EasyMock.anyObject(Object.class), EasyMock.anyObject(Dictionary.class)))
+				.andReturn(serviceRegistration).anyTimes();
 		EasyMock.replay(context);
 
 		bundleActivator.start(context);

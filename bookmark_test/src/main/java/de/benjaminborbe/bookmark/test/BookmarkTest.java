@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -25,6 +26,7 @@ public class BookmarkTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
@@ -53,6 +55,7 @@ public class BookmarkTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
+	@Test
 	public void testBookmarkService() {
 		final Object serviceObject = getServiceObject(BookmarkService.class.getName(), null);
 		final BookmarkService service = (BookmarkService) serviceObject;
@@ -60,9 +63,11 @@ public class BookmarkTest extends OSGiTestCase {
 		assertEquals("de.benjaminborbe.bookmark.service.BookmarkServiceImpl", service.getClass().getName());
 	}
 
+	@Test
 	public void testSearchServiceComponent() {
 		final Object[] serviceObjects = getServiceObjects(SearchServiceComponent.class.getName(), null);
-		final List<String> list = Arrays.asList("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent", "de.benjaminborbe.bookmark.service.RegisteredServletSearchServiceComponent");
+		final List<String> list = Arrays.asList("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent",
+				"de.benjaminborbe.bookmark.service.RegisteredServletSearchServiceComponent");
 		assertTrue(serviceObjects.length >= list.size());
 		for (final String name : list) {
 			boolean match = false;
@@ -77,6 +82,7 @@ public class BookmarkTest extends OSGiTestCase {
 		}
 	}
 
+	@Test
 	public void testDashboardContentWidget() {
 		final Object serviceObject = getServiceObject(DashboardContentWidget.class.getName(), null);
 		final DashboardContentWidget service = (DashboardContentWidget) serviceObject;

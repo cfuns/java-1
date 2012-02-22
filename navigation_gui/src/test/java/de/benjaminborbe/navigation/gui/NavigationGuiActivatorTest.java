@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -13,9 +14,11 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.gui.guice.NavigationGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
@@ -24,14 +27,14 @@ public class NavigationGuiActivatorTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationGuiModulesMock());
-		final NavigationGuiActivator o = injector.getInstance(NavigationGuiActivator.class);
-		assertNotNull(o);
+		final NavigationGuiActivator activator = injector.getInstance(NavigationGuiActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
 	public void testServlets() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationGuiModulesMock());
-		final NavigationGuiActivator o = new NavigationGuiActivator() {
+		final NavigationGuiActivator activator = new NavigationGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -40,7 +43,7 @@ public class NavigationGuiActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList("/navigation");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
@@ -51,7 +54,7 @@ public class NavigationGuiActivatorTest {
 	@Test
 	public void testFilters() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationGuiModulesMock());
-		final NavigationGuiActivator o = new NavigationGuiActivator() {
+		final NavigationGuiActivator activator = new NavigationGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -61,7 +64,7 @@ public class NavigationGuiActivatorTest {
 		};
 
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList("/navigation.*");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterFilterCallCounter());
 
@@ -78,7 +81,7 @@ public class NavigationGuiActivatorTest {
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationGuiModulesMock());
-		final NavigationGuiActivator o = new NavigationGuiActivator() {
+		final NavigationGuiActivator activator = new NavigationGuiActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -87,13 +90,40 @@ public class NavigationGuiActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
 		}
-
 	}
 
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationGuiModulesMock());
+		final NavigationGuiActivator activator = new NavigationGuiActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(NavigationWidget.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
+	}
 }

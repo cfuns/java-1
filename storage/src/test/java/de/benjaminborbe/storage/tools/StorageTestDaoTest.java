@@ -97,7 +97,6 @@ public class StorageTestDaoTest {
 		protected String getColumnFamily() {
 			return COLUMNFAMILY;
 		}
-
 	}
 
 }

@@ -28,7 +28,11 @@ public class MicroblogCronJob implements CronJob {
 	private final MicroblogPostMailer microblogPostMailer;
 
 	@Inject
-	public MicroblogCronJob(final Logger logger, final MicroblogConnector microblogConnector, final MicroblogRevisionStorage microblogRevisionStorage, final MicroblogPostMailer microblogPostMailer) {
+	public MicroblogCronJob(
+			final Logger logger,
+			final MicroblogConnector microblogConnector,
+			final MicroblogRevisionStorage microblogRevisionStorage,
+			final MicroblogPostMailer microblogPostMailer) {
 		this.logger = logger;
 		this.microblogConnector = microblogConnector;
 		this.microblogRevisionStorage = microblogRevisionStorage;

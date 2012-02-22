@@ -14,8 +14,8 @@ public class ConfigurationDaoTest {
 	@Test
 	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsearchModulesMock());
-		final ConfigurationDao o = injector.getInstance(ConfigurationDao.class);
-		assertNotNull(o);
+		final ConfigurationDao configurationDao = injector.getInstance(ConfigurationDao.class);
+		assertNotNull(configurationDao);
 	}
 
 }

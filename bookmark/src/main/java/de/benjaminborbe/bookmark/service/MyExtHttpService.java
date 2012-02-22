@@ -28,8 +28,8 @@ public class MyExtHttpService implements ExtHttpService {
 	}
 
 	@Override
-	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context) throws ServletException,
-			NamespaceException {
+	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context)
+			throws ServletException, NamespaceException {
 		registry.add(alias);
 		servletAlias.put(servlet, alias);
 	}

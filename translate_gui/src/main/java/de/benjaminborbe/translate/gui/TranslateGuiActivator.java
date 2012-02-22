@@ -9,12 +9,14 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.translate.gui.guice.TranslateGuiModules;
 import de.benjaminborbe.translate.gui.service.TranslateGuiDashboardWidget;
+import de.benjaminborbe.translate.gui.service.TranslateGuiSpecialSearch;
 import de.benjaminborbe.translate.gui.servlet.TranslateGuiServlet;
 
 public class TranslateGuiActivator extends HttpBundleActivator {
@@ -24,6 +26,9 @@ public class TranslateGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private TranslateGuiDashboardWidget translateDashboardWidget;
+
+	@Inject
+	private TranslateGuiSpecialSearch translateGuiSpecialSearch;
 
 	public TranslateGuiActivator() {
 		super("translate");
@@ -42,9 +47,10 @@ public class TranslateGuiActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, translateDashboardWidget, translateDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(SearchSpecial.class, translateGuiSpecialSearch, translateGuiSpecialSearch.getClass().getName()));
 		return result;
 	}
 

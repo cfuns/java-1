@@ -91,6 +91,7 @@ public class ParseUtilTest {
 		assertEquals(TestEnum.A, parseUtil.parseEnum(TestEnum.class, null, TestEnum.A));
 	}
 
+	@Test
 	public void testParseUrl() throws Exception {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		assertEquals("http://www.google.de", parseUtil.parseURL("http://www.google.de").toExternalForm());
@@ -114,6 +115,7 @@ public class ParseUtilTest {
 		}
 	}
 
+	@Test
 	public void testParseUrlDefault() throws MalformedURLException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final URL defaultUrl = new URL("http://www.yahoo.de");

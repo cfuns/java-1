@@ -76,6 +76,5 @@ public class MicroblogGuiSendServlet extends WebsiteHtmlServlet {
 			e.printStackTrace(out);
 			out.println("</span>");
 		}
-
 	}
 }

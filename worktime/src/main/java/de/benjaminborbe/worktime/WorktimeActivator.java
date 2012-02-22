@@ -7,7 +7,6 @@ import java.util.Set;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
-
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -30,7 +29,7 @@ public class WorktimeActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, worktimeCronJob, worktimeCronJob.getClass().getName()));
 		result.add(new ServiceInfo(WorktimeService.class, worktimeService));

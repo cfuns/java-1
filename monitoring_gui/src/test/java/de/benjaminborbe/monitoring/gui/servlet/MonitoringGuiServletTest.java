@@ -76,8 +76,8 @@ public class MonitoringGuiServletTest {
 		EasyMock.replay(request);
 
 		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer
-				.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class), EasyMock.anyObject(Collection.class));
+		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
+				EasyMock.anyObject(Collection.class));
 		EasyMock.replay(cssResourceRenderer);
 
 		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
@@ -136,8 +136,8 @@ public class MonitoringGuiServletTest {
 
 		EasyMock.replay(authenticationService);
 
-		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, monitoringWidget, httpContextProvider);
+		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil,
+				authenticationService, navigationWidget, monitoringWidget, httpContextProvider);
 
 		monitoringServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -2,6 +2,7 @@ package de.benjaminborbe.authentication.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -21,6 +22,7 @@ public class AuthenticationTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
@@ -47,6 +49,7 @@ public class AuthenticationTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
+	@Test
 	public void testGetAuthenticationService() {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
@@ -54,6 +57,7 @@ public class AuthenticationTest extends OSGiTestCase {
 		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
 	}
 
+	@Test
 	public void testRegister() throws Exception {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
@@ -70,6 +74,7 @@ public class AuthenticationTest extends OSGiTestCase {
 		assertFalse("must fail, because already registered", service.register(sessionIdentifier, username, password));
 	}
 
+	@Test
 	public void testVerifyCredentials() throws Exception {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;

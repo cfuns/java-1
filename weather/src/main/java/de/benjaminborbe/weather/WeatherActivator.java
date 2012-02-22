@@ -19,7 +19,7 @@ public class WeatherActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		// serviceTrackers.add(new WeatherServiceTracker(weatherRegistry, context,
 		// WeatherService.class));

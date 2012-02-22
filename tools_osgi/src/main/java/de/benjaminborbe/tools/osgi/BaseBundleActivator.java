@@ -101,14 +101,14 @@ public abstract class BaseBundleActivator implements BundleActivator {
 		}
 	}
 
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>();
 		return result;
 	}
 
 	protected abstract Modules getModules(BundleContext context);
 
-	protected Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> result = new HashSet<ServiceTracker>();
 		return result;
 	}

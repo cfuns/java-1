@@ -2,6 +2,7 @@ package de.benjaminborbe.mail.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -20,6 +21,7 @@ public class MailTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();
@@ -47,6 +49,7 @@ public class MailTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
+	@Test
 	public void testMailService() {
 		final MailService EventbusService = (MailService) getServiceObject(MailService.class.getName(), null);
 		assertNotNull(EventbusService);

@@ -21,7 +21,8 @@ public class JavascriptResourceRendererImpl implements JavascriptResourceRendere
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final Collection<JavascriptResource> javascriptResources) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final Collection<JavascriptResource> javascriptResources)
+			throws IOException {
 		final HtmlListWidget widgets = new HtmlListWidget();
 		for (final JavascriptResource javascriptResource : javascriptResources) {
 			widgets.add("<script type=\"text/javascript\" src=\"" + javascriptResource.getUrl() + "\"></script>\n");

@@ -46,7 +46,7 @@ public class StorageActivator extends HttpBundleActivator {
 	private StorageWriteServlet storageWriteServlet;
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(StorageService.class, persistentStorageService));
 		for (final Configuration<?> configuration : storageConfig.getConfigurations()) {

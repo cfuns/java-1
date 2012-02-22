@@ -47,7 +47,12 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	private final UrlUtil urlUtil;
 
 	@Inject
-	public GoogleSearchServiceComponent(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final HtmlUtil htmlUtil, final UrlUtil urlUtil) {
+	public GoogleSearchServiceComponent(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final HtmlUtil htmlUtil,
+			final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;

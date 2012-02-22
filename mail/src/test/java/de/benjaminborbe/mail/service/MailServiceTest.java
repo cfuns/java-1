@@ -17,7 +17,7 @@ public class MailServiceTest {
 	@Test
 	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MailModulesMock());
-		final MailService o = injector.getInstance(MailService.class);
-		assertNotNull(o);
+		final MailService mailService = injector.getInstance(MailService.class);
+		assertNotNull(mailService);
 	}
 }

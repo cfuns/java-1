@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.sample.api.SampleService;
 import de.benjaminborbe.sample.guice.SampleModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -23,14 +24,14 @@ public class SampleActivatorTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
-		final SampleActivator o = injector.getInstance(SampleActivator.class);
-		assertNotNull(o);
+		final SampleActivator activator = injector.getInstance(SampleActivator.class);
+		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
-		final SampleActivator o = new SampleActivator() {
+		final SampleActivator activator = new SampleActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -39,19 +40,41 @@ public class SampleActivatorTest {
 
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(o);
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
 		}
-
 	}
 
-	public void testServices() {
-		final SampleActivator sampleActivator = new SampleActivator();
-		final Collection<ServiceInfo> serviceInfos = sampleActivator.getServiceInfos();
-		assertEquals(0, serviceInfos.size());
+	@Test
+	public void testServices() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
+		final SampleActivator activator = new SampleActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		bundleActivatorTestUtil.startBundle(activator);
+
+		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
+		final List<String> names = Arrays.asList(SampleService.class.getName());
+		assertEquals(names.size(), serviceInfos.size());
+		for (final String name : names) {
+			boolean match = false;
+			for (final ServiceInfo serviceInfo : serviceInfos) {
+				if (name.equals(serviceInfo.getName())) {
+					match = true;
+				}
+			}
+			assertTrue("no service with name: " + name + " found", match);
+		}
 	}
 
 }

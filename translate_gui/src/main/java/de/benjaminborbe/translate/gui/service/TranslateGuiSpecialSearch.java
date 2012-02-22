@@ -1,4 +1,4 @@
-package de.benjaminborbe.googlesearch.gui.service;
+package de.benjaminborbe.translate.gui.service;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -14,16 +14,16 @@ import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
-public class GooglesearchGuiSpecialSearch implements SearchSpecial {
+public class TranslateGuiSpecialSearch implements SearchSpecial {
 
-	private static final String NAME = "g";
+	private static final String NAME = "leo";
 
 	private final static String PARAMETER_SEARCH = "q";
 
 	private final UrlUtil urlUtil;
 
 	@Inject
-	public GooglesearchGuiSpecialSearch(final UrlUtil urlUtil) {
+	public TranslateGuiSpecialSearch(final UrlUtil urlUtil) {
 		this.urlUtil = urlUtil;
 	}
 
@@ -36,7 +36,7 @@ public class GooglesearchGuiSpecialSearch implements SearchSpecial {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		final StringWriter sw = new StringWriter();
-		sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
+		sw.append("http://dict.leo.org/ende?search=");
 		sw.append(urlUtil.encode(searchQuery.replaceFirst(NAME + ": ", "")));
 		response.sendRedirect(sw.toString());
 	}

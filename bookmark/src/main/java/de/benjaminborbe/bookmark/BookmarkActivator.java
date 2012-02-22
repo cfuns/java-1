@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.bookmark.api.BookmarkService;
@@ -38,7 +39,7 @@ public class BookmarkActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected Collection<ServiceInfo> getServiceInfos() {
+	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(BookmarkService.class, bookmarkService));
 		result.add(new ServiceInfo(ExtHttpService.class, myExtHttpService));

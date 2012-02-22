@@ -14,8 +14,8 @@ public class StorageReadServletIntegrationTest {
 	@Test
 	public void testinject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageReadServlet o = injector.getInstance(StorageReadServlet.class);
-		assertNotNull(o);
+		final StorageReadServlet storageReadServlet = injector.getInstance(StorageReadServlet.class);
+		assertNotNull(storageReadServlet);
 	}
 
 }

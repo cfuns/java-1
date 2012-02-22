@@ -68,7 +68,12 @@ public class WorktimeServiceImpl implements WorktimeService {
 	private final ThreadRunner threadRunner;
 
 	@Inject
-	public WorktimeServiceImpl(final Logger logger, final WorktimeStorageService worktimeStorageService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ThreadRunner threadRunner) {
+	public WorktimeServiceImpl(
+			final Logger logger,
+			final WorktimeStorageService worktimeStorageService,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ThreadRunner threadRunner) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;

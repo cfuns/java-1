@@ -15,6 +15,7 @@ public class SystemstatusGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SystemstatusGuiOsgiModuleMock(), new SystemstatusGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays
+				.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SystemstatusGuiOsgiModuleMock(), new SystemstatusGuiModule(), new ToolModule(), new WebsiteModule());
 	}
 }
