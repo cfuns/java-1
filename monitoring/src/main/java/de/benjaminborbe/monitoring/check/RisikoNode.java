@@ -22,7 +22,7 @@ public class RisikoNode extends HasChildNodesImpl implements HasChildNodes {
 				addNode(new HasCheckNodeImpl(hudsonCheckBuilder.buildCheck(name, url, job, (String) jndiContext.lookup("az_username"), (String) jndiContext.lookup("az_password"))));
 			}
 			catch (final NamingException e) {
-				logger.error("NamingException", e);
+				logger.info("skip add node: " + name);
 			}
 		}
 	}

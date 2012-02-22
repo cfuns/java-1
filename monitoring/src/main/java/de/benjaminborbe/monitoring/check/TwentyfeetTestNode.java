@@ -65,7 +65,7 @@ public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPr
 						(String) jndiContext.lookup("twentyfeet_admin_password"))));
 			}
 			catch (final NamingException e) {
-				logger.error("NamingException", e);
+				logger.info("skip add node: " + name);
 			}
 		}
 		{
@@ -78,7 +78,7 @@ public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPr
 						(String) jndiContext.lookup("twentyfeet_admin_password"))));
 			}
 			catch (final NamingException e) {
-				logger.error("NamingException", e);
+				logger.info("skip add node: " + name);
 			}
 		}
 	}

@@ -52,6 +52,20 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 
+		{
+			final String name = "TCP-Check on iredmail.mailfolder.org:465";
+			final String hostname = "iredmail.mailfolder.org";
+			final int port = 465;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+
+		{
+			final String name = "TCP-Check on iredmail.mailfolder.org:993";
+			final String hostname = "iredmail.mailfolder.org";
+			final int port = 993;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
+		}
+
 		// url-checks
 		{
 			final String name = "URL-Check on www.benjamin-borbe.de";

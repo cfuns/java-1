@@ -51,7 +51,7 @@ public class TwentyfeetLiveNode extends HasChildNodesImpl implements HasChildNod
 						(String) jndiContext.lookup("twentyfeet_admin_password"))));
 			}
 			catch (final NamingException e) {
-				logger.error("NamingException", e);
+				logger.info("skip add node: " + name);
 			}
 		}
 		{
@@ -64,7 +64,7 @@ public class TwentyfeetLiveNode extends HasChildNodesImpl implements HasChildNod
 						(String) jndiContext.lookup("twentyfeet_admin_password"))));
 			}
 			catch (final NamingException e) {
-				logger.error("NamingException", e);
+				logger.info("skip add node: " + name);
 			}
 		}
 	}
