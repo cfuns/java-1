@@ -13,6 +13,7 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
 public class PageBeanMapper extends BaseMapper<PageBean> {
@@ -34,17 +35,22 @@ public class PageBeanMapper extends BaseMapper<PageBean> {
 
 	@Override
 	public void map(final Map<String, String> data, final PageBean object) throws MapException {
-		object.setId(data.get("id"));
+		// todo null safe machen
+		object.setId(toPageIdentifier(data.get("id")));
 		object.setLastVisit(toDate(data.get("lastvisit")));
 		object.setUrl(toUrl(data.get("url")));
+	}
+
+	private PageIdentifier toPageIdentifier(final String url) throws MapException {
+		return new PageIdentifier(toUrl(url));
 	}
 
 	private String toString(final Date date) {
 		return date != null ? dateUtil.dateTimeString(date) : null;
 	}
 
-	private String toString(final String string) {
-		return string;
+	private String toString(final PageIdentifier pageIdentifier) {
+		return pageIdentifier != null ? pageIdentifier.getId() : null;
 	}
 
 	private String toString(final URL url) {

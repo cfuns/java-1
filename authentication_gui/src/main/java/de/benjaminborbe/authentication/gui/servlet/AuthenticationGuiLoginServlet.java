@@ -14,9 +14,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -27,6 +28,7 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -48,15 +50,13 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 	@Inject
 	public AuthenticationGuiLoginServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 	}
 
 	@Override
@@ -65,7 +65,8 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, RedirectException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -73,17 +74,18 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			final String username = request.getParameter(PARAMETER_USERNAME);
 			final String password = request.getParameter(PARAMETER_PASSWORD);
 			if (username != null && password != null) {
-				final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-				if (authenticationService.login(sessionIdentifier, username, password)) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+				if (authenticationService.login(sessionIdentifier, userIdentifier, password)) {
 					final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
 					// necessary ?
 					request.getSession().setAttribute("login", "true");
-					response.sendRedirect(referer);
-					logger.trace("send redirect to: " + referer);
-					return;
+					logger.info("send redirect to: " + referer);
+					throw new RedirectException(referer);
 				}
 				else {
 					widgets.add("login => failed");
+					logger.info("login failed for user " + username);
 				}
 			}
 			final String action = request.getContextPath() + "/authentication/login";
@@ -93,11 +95,11 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputSubmitWidget("login"));
 			widgets.add(form);
 			widgets.add(new LinkRelativWidget(request, "/authentication/register", "no user? register here!"));
-			widgets.render(request, response, context);
+			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
+			return widget;
 		}
 	}
 }

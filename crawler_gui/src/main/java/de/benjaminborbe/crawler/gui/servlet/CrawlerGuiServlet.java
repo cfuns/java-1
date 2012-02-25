@@ -13,13 +13,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
-import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -47,8 +47,6 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	@Inject
 	public CrawlerGuiServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -56,7 +54,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
 			final CrawlerService crawlerService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.crawlerService = crawlerService;
 	}
 
@@ -66,7 +64,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
@@ -88,6 +87,6 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
 			widgets.add(formWidget);
 		}
-		widgets.render(request, response, context);
+		return widgets;
 	}
 }

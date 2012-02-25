@@ -14,9 +14,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -26,6 +27,7 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -47,15 +49,13 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 	@Inject
 	public AuthenticationGuiRegisterServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 	}
 
 	@Override
@@ -64,7 +64,8 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, RedirectException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -72,12 +73,12 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			final String username = request.getParameter(PARAMETER_USERNAME);
 			final String password = request.getParameter(PARAMETER_PASSWORD);
 			if (username != null && password != null) {
-				final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-				if (authenticationService.register(sessionIdentifier, username, password)) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+				if (authenticationService.register(sessionIdentifier, userIdentifier, password)) {
 					final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
-					response.sendRedirect(referer);
 					logger.trace("send redirect to: " + referer);
-					return;
+					throw new RedirectException(referer);
 				}
 				else {
 					widgets.add("login => failed");
@@ -89,11 +90,11 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("register"));
 			widgets.add(form);
-			widgets.render(request, response, context);
+			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
+			return widget;
 		}
 	}
 }

@@ -5,6 +5,10 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.session.SessionBean;
+
 public class SessionBeanTest {
 
 	@Test
@@ -12,8 +16,8 @@ public class SessionBeanTest {
 		final String sessionId = "abc";
 		final SessionBean session = new SessionBean();
 		assertNull(session.getId());
-		session.setId(sessionId);
-		assertEquals(sessionId, session.getId());
+		session.setId(new SessionIdentifier(sessionId));
+		assertEquals(sessionId, session.getId().getId());
 	}
 
 	@Test
@@ -21,8 +25,8 @@ public class SessionBeanTest {
 		final String currentUser = "abc";
 		final SessionBean session = new SessionBean();
 		assertNull(session.getCurrentUser());
-		session.setCurrentUser(currentUser);
-		assertEquals(currentUser, session.getCurrentUser());
+		session.setCurrentUser(new UserIdentifier(currentUser));
+		assertEquals(currentUser, session.getCurrentUser().getId());
 	}
 
 }

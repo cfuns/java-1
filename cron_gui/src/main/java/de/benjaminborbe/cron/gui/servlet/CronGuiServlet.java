@@ -1,8 +1,6 @@
 package de.benjaminborbe.cron.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,14 +13,17 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronControllerException;
-import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.HtmlWidget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class CronGuiServlet extends WebsiteHtmlServlet {
@@ -42,8 +43,6 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 	@Inject
 	public CronGuiServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -51,40 +50,38 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.cronController = cronController;
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("service");
-		final PrintWriter out = response.getWriter();
-		out.println("<h1>" + getTitle() + "</h1>");
-		final String action = request.getParameter(PARAMETER_ACTION);
-
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
+			logger.trace("service");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final String action = request.getParameter(PARAMETER_ACTION);
 			if (ACTION_START.equals(action)) {
 				cronController.start();
-				out.println("started");
+				widgets.add("started");
 			}
 			else if (ACTION_STOP.equals(action)) {
 				cronController.stop();
-				out.println("stopped");
+				widgets.add("stopped");
 			}
 			else {
-				printUsage(request, response);
+				widgets.add(createUsageWidget(request, response));
 			}
+			return widgets;
 		}
 		catch (final CronControllerException e) {
-			out.println("<pre>");
-			e.printStackTrace(out);
-			out.println("</pre>");
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
 	}
 
-	protected void printUsage(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("parameter " + PARAMETER_ACTION + " missing or value != " + ACTION_START + " or " + ACTION_STOP);
+	protected Widget createUsageWidget(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		return new HtmlWidget("parameter " + PARAMETER_ACTION + " missing or value != " + ACTION_START + " or " + ACTION_STOP);
 	}
 
 	@Override

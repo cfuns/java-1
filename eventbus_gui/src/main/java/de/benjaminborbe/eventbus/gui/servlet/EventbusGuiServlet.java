@@ -1,7 +1,7 @@
 package de.benjaminborbe.eventbus.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -18,14 +18,17 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
-import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.LiWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class EventbusGuiServlet extends WebsiteHtmlServlet {
@@ -39,8 +42,6 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 	@Inject
 	public EventbusGuiServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -48,28 +49,29 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 			final EventbusService EventbusService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.EventbusService = EventbusService;
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final ListWidget widgets = new ListWidget();
 		logger.trace("service");
-		final PrintWriter out = response.getWriter();
-		out.println("<h1>" + getTitle() + "</h1>");
-		out.println("EventHandlers:");
-		out.println("<ul>");
+		widgets.add(new H1Widget(getTitle()));
+		widgets.add("EventHandlers:");
+		final UlWidget ul = new UlWidget();
 		for (final Entry<Type<EventHandler>, List<EventHandler>> e : EventbusService.getHandlers().entrySet()) {
-			out.println("<li>");
+			final StringWriter content = new StringWriter();
 			final Type<EventHandler> type = e.getKey();
 			final List<EventHandler> eventHandlers = e.getValue();
-			out.println("Type: " + type.getClass().getName());
+			content.append("Type: " + type.getClass().getName());
 			for (final EventHandler eventHandler : eventHandlers) {
-				out.println(" - " + eventHandler.getClass().getName());
+				content.append(" - " + eventHandler.getClass().getName());
 			}
-			out.println("</li>");
+			ul.add(new LiWidget(content.toString()));
 		}
-		out.println("</ul>");
+		widgets.add(ul);
+		return widgets;
 	}
 
 	@Override

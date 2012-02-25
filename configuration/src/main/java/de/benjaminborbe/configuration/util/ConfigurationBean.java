@@ -1,24 +1,25 @@
 package de.benjaminborbe.configuration.util;
 
-import de.benjaminborbe.storage.tools.EntityLong;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
+import de.benjaminborbe.storage.tools.Entity;
 
-public class ConfigurationBean implements EntityLong {
+public class ConfigurationBean implements Entity<ConfigurationIdentifier> {
 
 	private static final long serialVersionUID = 8032652320006340164L;
 
-	private Long id;
+	private ConfigurationIdentifier id;
 
 	private String key;
 
 	private String value;
 
 	@Override
-	public Long getId() {
+	public ConfigurationIdentifier getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final Long id) {
+	public void setId(final ConfigurationIdentifier id) {
 		this.id = id;
 	}
 

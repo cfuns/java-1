@@ -1,8 +1,6 @@
 package de.benjaminborbe.util.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,9 +11,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -23,6 +20,9 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.util.gui.util.UtilGuiPasswordCharacter;
 import de.benjaminborbe.util.gui.util.UtilGuiPasswordGenerator;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
@@ -45,8 +45,6 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 	@Inject
 	public UtilGuiPasswordGeneratorServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -54,7 +52,7 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final UtilGuiPasswordGenerator utilPasswordGenerator) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.utilPasswordGenerator = utilPasswordGenerator;
 	}
 
@@ -64,17 +62,16 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<h1>PasswordGenerator</h1>");
-		out.println("<ul>");
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(getTitle()));
+		final UlWidget ul = new UlWidget();
 		for (int i = 0; i < PASSWORD_AMOUNT; ++i) {
-			out.println("<li>");
 			final int length = parseUtil.parseInt(request.getParameter(PARAMETER_LENGTH), DEFAULT_LENGHT);
-			out.println(utilPasswordGenerator.generatePassword(length, DEFAULT_CHARACTERS));
-			out.println("</li>");
+			ul.add(utilPasswordGenerator.generatePassword(length, DEFAULT_CHARACTERS));
 		}
-		out.println("</ul>");
+		widgets.add(ul);
+		return widgets;
 	}
 
 }

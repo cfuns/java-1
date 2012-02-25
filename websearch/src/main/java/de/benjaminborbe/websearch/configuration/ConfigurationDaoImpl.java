@@ -8,20 +8,19 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
-import de.benjaminborbe.tools.util.IdGeneratorLong;
 import de.benjaminborbe.websearch.page.PageDao;
 
 @Singleton
-public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBean> implements ConfigurationDao {
+public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBean, ConfigurationIdentifier> implements ConfigurationDao {
 
 	private final PageDao pageDao;
 
 	@Inject
-	public ConfigurationDaoImpl(final Logger logger, final IdGeneratorLong idGenerator, final Provider<ConfigurationBean> provider, final PageDao pageDao) {
+	public ConfigurationDaoImpl(final Logger logger, final ConfigurationIdGenerator idGenerator, final Provider<ConfigurationBean> provider, final PageDao pageDao) {
 		super(logger, idGenerator, provider);
 		this.pageDao = pageDao;
-
 		init();
 	}
 

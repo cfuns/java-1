@@ -1,5 +1,7 @@
 package de.benjaminborbe.authentication.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -9,10 +11,10 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.authentication.util.SessionBean;
-import de.benjaminborbe.authentication.util.SessionDao;
-import de.benjaminborbe.authentication.util.UserBean;
-import de.benjaminborbe.authentication.util.UserDao;
+import de.benjaminborbe.authentication.session.SessionBean;
+import de.benjaminborbe.authentication.session.SessionDao;
+import de.benjaminborbe.authentication.user.UserBean;
+import de.benjaminborbe.authentication.user.UserDao;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
@@ -32,32 +34,53 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyCredential(final String username, final String password) {
-		logger.trace("execute");
-		final UserBean user = userDao.findByUsername(username);
-		return user != null && user.getPassword().equals(password);
-	}
-
-	@Override
-	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) {
+	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		try {
-			if (verifyCredential(username, password)) {
-				final SessionBean session = sessionDao.findOrCreateBySessionId(sessionIdentifier);
-				session.setCurrentUser(username);
-				sessionDao.save(session);
+			logger.info("verifyCredential");
+			final UserBean user = userDao.load(userIdentifier);
+			if (user == null) {
+				logger.info("verifyCredential failed no user found with name " + userIdentifier);
+				return false;
+			}
+
+			if (user.getPassword().equals(password)) {
+				logger.info("verifyCredential password match");
 				return true;
+			}
+			else {
+				logger.info("verifyCredential password missmatch");
+				return false;
 			}
 		}
 		catch (final StorageException e) {
-			logger.trace("StorageException", e);
+			throw new AuthenticationServiceException("StorageException", e);
 		}
-		return false;
+	}
+
+	@Override
+	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+		try {
+			if (verifyCredential(userIdentifier, password)) {
+				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
+				session.setCurrentUser(userIdentifier);
+				sessionDao.save(session);
+				logger.info("login success");
+				return true;
+			}
+			else {
+				logger.info("login failed");
+				return false;
+			}
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException("StorageException", e);
+		}
 	}
 
 	@Override
 	public boolean isLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
 		try {
-			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
+			final SessionBean session = sessionDao.load(sessionIdentifier);
 			return session != null && session.getCurrentUser() != null;
 		}
 		catch (final StorageException e) {
@@ -68,7 +91,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean logout(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
 		try {
-			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
+			final SessionBean session = sessionDao.load(sessionIdentifier);
 			if (session != null && session.getCurrentUser() != null) {
 				session.setCurrentUser(null);
 				sessionDao.save(session);
@@ -84,9 +107,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public UserIdentifier getCurrentUser(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
 		try {
-			final SessionBean session = sessionDao.findBySessionId(sessionIdentifier);
+			final SessionBean session = sessionDao.load(sessionIdentifier);
 			if (session != null) {
-				return new UserIdentifier(session.getCurrentUser());
+				return session.getCurrentUser();
 			}
 			return null;
 		}
@@ -96,15 +119,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final String username, final String password) throws AuthenticationServiceException {
+	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		try {
-			if (userDao.findByUsername(username) != null) {
+			if (userDao.load(userIdentifier) != null) {
 				return false;
 			}
-			final UserBean user = userDao.findOrCreateByUsername(username);
+			final UserBean user = userDao.create();
+			user.setId(userIdentifier);
 			user.setPassword(password);
 			userDao.save(user);
-			return login(sessionIdentifier, username, password);
+			logger.info("registerd user " + userIdentifier);
+			return login(sessionIdentifier, userIdentifier, password);
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException("StorageException", e);
@@ -118,11 +143,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (userIdentifier == null) {
 				return false;
 			}
-			final String username = userIdentifier.getId();
-			if (username == null) {
-				return false;
-			}
-			final UserBean user = userDao.findByUsername(username);
+			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
 				return false;
 			}
@@ -141,11 +162,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (userIdentifier == null) {
 				return false;
 			}
-			final String username = userIdentifier.getId();
-			if (username == null) {
-				return false;
-			}
-			final UserBean user = userDao.findByUsername(username);
+			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
 				return false;
 			}
@@ -159,6 +176,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException("StorageException", e);
 		}
+	}
+
+	@Override
+	public UserIdentifier createUserIdentifier(final String username) throws AuthenticationServiceException {
+		return new UserIdentifier(username);
+	}
+
+	@Override
+	public SessionIdentifier createSessionIdentifier(final HttpServletRequest request) throws AuthenticationServiceException {
+		return new SessionIdentifier(request.getSession().getId());
 	}
 
 }

@@ -11,6 +11,8 @@ import java.util.Set;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import de.benjaminborbe.websearch.api.PageIdentifier;
+
 public class PageDaoSubPagesActionTest {
 
 	@Test
@@ -19,25 +21,26 @@ public class PageDaoSubPagesActionTest {
 		final URL url1 = new URL("http://www.test.de/");
 		final PageBean page1 = EasyMock.createMock(PageBean.class);
 		EasyMock.expect(page1.getUrl()).andReturn(url1).anyTimes();
-		EasyMock.expect(page1.getId()).andReturn(url1.toExternalForm()).anyTimes();
+		EasyMock.expect(page1.getId()).andReturn(new PageIdentifier(url1)).anyTimes();
 		EasyMock.replay(page1);
 
 		final URL url2 = new URL("http://www.test.de/admin/");
 		final PageBean page2 = EasyMock.createMock(PageBean.class);
 		EasyMock.expect(page2.getUrl()).andReturn(url2).anyTimes();
-		EasyMock.expect(page2.getId()).andReturn(url2.toExternalForm()).anyTimes();
+		EasyMock.expect(page2.getId()).andReturn(new PageIdentifier(url2)).anyTimes();
 		EasyMock.replay(page2);
 
 		final URL url3 = new URL("http://www.test.de/admin/list");
 		final PageBean page3 = EasyMock.createMock(PageBean.class);
 		EasyMock.expect(page3.getUrl()).andReturn(url3).anyTimes();
-		EasyMock.expect(page3.getId()).andReturn(url3.toExternalForm()).anyTimes();
+		EasyMock.expect(page3.getId()).andReturn(new PageIdentifier(url3)).anyTimes();
 		EasyMock.replay(page3);
 
 		final Set<PageBean> allPages = new HashSet<PageBean>();
 		allPages.add(page1);
 		allPages.add(page2);
 		allPages.add(page3);
+		assertEquals(3, allPages.size());
 
 		{
 			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url1, allPages));
@@ -64,7 +67,7 @@ public class PageDaoSubPagesActionTest {
 
 	protected boolean containsUrl(final Set<PageBean> pages, final URL url) {
 		for (final PageBean page : pages) {
-			if (url.toExternalForm().equals(page.getId())) {
+			if (url.equals(page.getUrl())) {
 				return true;
 			}
 		}

@@ -1,14 +1,10 @@
 package de.benjaminborbe.authorization.api;
 
-public class RoleIdentifier {
+import de.benjaminborbe.api.IdentifierBase;
 
-	private final String id;
+public class RoleIdentifier extends IdentifierBase<String> {
 
 	public RoleIdentifier(final String id) {
-		this.id = id;
-	}
-
-	public String getId() {
-		return id;
+		super(id);
 	}
 }

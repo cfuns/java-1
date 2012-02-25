@@ -7,10 +7,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.service.AuthenticationServiceImpl;
-import de.benjaminborbe.authentication.util.SessionDao;
-import de.benjaminborbe.authentication.util.SessionDaoStorage;
-import de.benjaminborbe.authentication.util.UserDao;
-import de.benjaminborbe.authentication.util.UserDaoImpl;
+import de.benjaminborbe.authentication.session.SessionDao;
+import de.benjaminborbe.authentication.session.SessionDaoStorage;
+import de.benjaminborbe.authentication.user.UserDao;
+import de.benjaminborbe.authentication.user.UserDaoImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class AuthenticationModule extends AbstractModule {

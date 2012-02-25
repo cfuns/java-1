@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 
 public class JavascriptResourceRendererTest {
 
@@ -36,9 +35,9 @@ public class JavascriptResourceRendererTest {
 		final HttpContext context = EasyMock.createMock(HttpContext.class);
 		EasyMock.replay(context);
 
-		final JavascriptResourceRenderer link = new JavascriptResourceRendererImpl();
 		final Set<JavascriptResource> resources = new HashSet<JavascriptResource>();
-		link.render(request, response, context, resources);
+		final JavascriptResourceWidget link = new JavascriptResourceWidget(resources);
+		link.render(request, response, context);
 		assertEquals("", sw.toString());
 	}
 
@@ -71,8 +70,8 @@ public class JavascriptResourceRendererTest {
 		final HttpContext context = EasyMock.createMock(HttpContext.class);
 		EasyMock.replay(context);
 
-		final JavascriptResourceRenderer link = new JavascriptResourceRendererImpl();
-		link.render(request, response, context, resources);
+		final JavascriptResourceWidget link = new JavascriptResourceWidget(resources);
+		link.render(request, response, context);
 		assertEquals(
 				"<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js\"></script>\n<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js\"></script>\n",
 				sw.toString());

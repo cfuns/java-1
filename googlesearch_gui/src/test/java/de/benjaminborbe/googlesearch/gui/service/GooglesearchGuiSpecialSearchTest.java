@@ -1,7 +1,5 @@
 package de.benjaminborbe.googlesearch.gui.service;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +20,7 @@ public class GooglesearchGuiSpecialSearchTest {
 		testRedirect("g: hello world", "http://www.google.de/search?sourceid=bb&ie=UTF-8&q=hello+world");
 	}
 
-	protected void testRedirect(final String searchTerm, final String redirectLocation) throws IOException {
+	protected void testRedirect(final String searchTerm, final String redirectLocation) throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

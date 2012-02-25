@@ -2,8 +2,19 @@ package de.benjaminborbe.websearch.api;
 
 import java.net.URL;
 
-public interface PageIdentifier {
+import de.benjaminborbe.api.IdentifierBase;
 
-	URL getUrl();
+public class PageIdentifier extends IdentifierBase<String> {
+
+	private final URL url;
+
+	public PageIdentifier(final URL url) {
+		super(url.toExternalForm());
+		this.url = url;
+	}
+
+	public URL getUrl() {
+		return url;
+	}
 
 }

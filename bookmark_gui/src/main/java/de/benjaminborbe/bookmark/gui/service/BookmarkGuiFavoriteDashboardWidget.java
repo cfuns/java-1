@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
@@ -32,27 +35,34 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 
 	private final BookmarkService bookmarkService;
 
+	private final AuthenticationService authenticationService;
+
 	private static final Target target = Target.BLANK;
 
 	@Inject
-	public BookmarkGuiFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService) {
+	public BookmarkGuiFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService, final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.bookmarkService = bookmarkService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		try {
 			logger.trace("render");
 			final ListWidget widgets = new ListWidget();
 			final UlWidget ul = new UlWidget();
-			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite(sessionIdentifier)) {
 				ul.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
 			}
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
 			widgets.render(request, response, context);
+		}
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
 		}
 		catch (final BookmarkServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);

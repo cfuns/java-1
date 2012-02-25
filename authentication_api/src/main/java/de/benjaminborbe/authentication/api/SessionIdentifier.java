@@ -1,21 +1,10 @@
 package de.benjaminborbe.authentication.api;
 
-import javax.servlet.http.HttpServletRequest;
+import de.benjaminborbe.api.IdentifierBase;
 
-public class SessionIdentifier {
-
-	private final String id;
-
-	public SessionIdentifier(final HttpServletRequest request) {
-		this.id = request.getSession().getId();
-	}
+public class SessionIdentifier extends IdentifierBase<String> {
 
 	public SessionIdentifier(final String id) {
-		this.id = id;
+		super(id);
 	}
-
-	public String getId() {
-		return id;
-	}
-
 }

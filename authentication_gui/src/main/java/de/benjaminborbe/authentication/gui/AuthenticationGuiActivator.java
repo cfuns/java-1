@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiChangePasswordServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServlet;
@@ -39,6 +40,9 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AuthenticationGuiRegisterServlet authenticationGuiRegisterServlet;
 
+	@Inject
+	private AuthenticationGuiChangePasswordServlet authenticationGuiChangePasswordServlet;
+
 	public AuthenticationGuiActivator() {
 		super("authentication");
 	}
@@ -57,6 +61,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiLogoutServlet, "/logout"));
 		result.add(new ServletInfo(authenticationGuiRegisterServlet, "/register"));
 		result.add(new ServletInfo(authenticationGuiUnregisterServlet, "/unregister"));
+		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, "/changePassword"));
 		return result;
 	}
 

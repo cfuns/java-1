@@ -10,9 +10,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.tools.DaoCache;
+import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
-public class PageDaoCache extends DaoCache<PageBean, String> implements PageDao {
+public class PageDaoCache extends DaoCache<PageBean, PageIdentifier> implements PageDao {
 
 	private final PageDaoSubPagesAction pageDaoSubPagesAction;
 
@@ -40,7 +41,7 @@ public class PageDaoCache extends DaoCache<PageBean, String> implements PageDao 
 
 	@Override
 	public PageBean load(final URL url) {
-		return load(url.toExternalForm());
+		return load(new PageIdentifier(url));
 	}
 
 	@Override

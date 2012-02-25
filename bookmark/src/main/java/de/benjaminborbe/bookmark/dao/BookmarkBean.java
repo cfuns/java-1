@@ -3,13 +3,14 @@ package de.benjaminborbe.bookmark.dao;
 import java.util.List;
 
 import de.benjaminborbe.bookmark.api.Bookmark;
-import de.benjaminborbe.storage.tools.EntityLong;
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
+import de.benjaminborbe.storage.tools.Entity;
 
-public class BookmarkBean implements EntityLong, Bookmark {
+public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
-	private Long id;
+	private BookmarkIdentifier id;
 
 	private String name;
 
@@ -42,12 +43,12 @@ public class BookmarkBean implements EntityLong, Bookmark {
 	}
 
 	@Override
-	public void setId(final Long id) {
+	public void setId(final BookmarkIdentifier id) {
 		this.id = id;
 	}
 
 	@Override
-	public Long getId() {
+	public BookmarkIdentifier getId() {
 		return id;
 	}
 

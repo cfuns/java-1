@@ -1,20 +1,10 @@
 package de.benjaminborbe.authentication.api;
 
-public class UserIdentifier {
+import de.benjaminborbe.api.IdentifierBase;
 
-	private final String id;
+public class UserIdentifier extends IdentifierBase<String> {
 
 	public UserIdentifier(final String id) {
-		this.id = id;
+		super(id);
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public String toString() {
-		return id;
-	}
-
 }

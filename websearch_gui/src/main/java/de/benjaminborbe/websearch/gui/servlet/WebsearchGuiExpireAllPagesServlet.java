@@ -13,15 +13,15 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.Page;
-import de.benjaminborbe.websearch.api.PageIdentifierImpl;
+import de.benjaminborbe.websearch.api.PageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -42,8 +42,6 @@ public class WebsearchGuiExpireAllPagesServlet extends WebsiteHtmlServlet {
 	@Inject
 	public WebsearchGuiExpireAllPagesServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -51,7 +49,7 @@ public class WebsearchGuiExpireAllPagesServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final WebsearchService websearchService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.websearchService = websearchService;
 	}
 
@@ -61,7 +59,8 @@ public class WebsearchGuiExpireAllPagesServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -71,16 +70,16 @@ public class WebsearchGuiExpireAllPagesServlet extends WebsiteHtmlServlet {
 			final Collection<Page> pages = websearchService.getPages();
 			final UlWidget ul = new UlWidget();
 			for (final Page page : pages) {
-				websearchService.expirePage(new PageIdentifierImpl(page.getUrl()));
+				websearchService.expirePage(new PageIdentifier(page.getUrl()));
 				ul.add("expire page " + page.getUrl().toExternalForm());
 			}
 			widgets.add(ul);
 			widgets.add("expire all pages finished");
-			widgets.render(request, response, context);
+			return widgets;
 		}
 		catch (final WebsearchServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
+			return widget;
 		}
 	}
 }

@@ -2,9 +2,11 @@ package de.benjaminborbe.storage.tools;
 
 import java.io.Serializable;
 
-public interface Entity<T> extends Serializable {
+import de.benjaminborbe.api.Identifier;
 
-	T getId();
+public interface Entity<I extends Identifier<?>> extends Serializable {
 
-	void setId(final T id);
+	I getId();
+
+	void setId(I id);
 }

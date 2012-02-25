@@ -2,25 +2,26 @@ package de.benjaminborbe.websearch.configuration;
 
 import java.net.URL;
 
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 
-public class ConfigurationBean implements Entity<Long>, Configuration {
+public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Configuration {
 
 	private static final long serialVersionUID = -8884906884511991833L;
 
-	private Long id;
+	private ConfigurationIdentifier id;
 
 	private URL url;
 
 	private String ownerUsername;
 
 	@Override
-	public Long getId() {
+	public ConfigurationIdentifier getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final Long id) {
+	public void setId(final ConfigurationIdentifier id) {
 		this.id = id;
 	}
 

@@ -13,7 +13,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -23,6 +26,7 @@ import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.website.util.ExceptionWidget;
 
 @Singleton
 public class SearchGuiWidgetImpl implements SearchWidget {
@@ -43,40 +47,51 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public SearchGuiWidgetImpl(
 			final Logger logger,
 			final SearchUtil searchUtil,
 			final SearchService searchService,
 			final SearchGuiDashboardWidget searchDashboardWidget,
-			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory) {
+			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
+			final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
 		this.searchDashboardWidget = searchDashboardWidget;
 		this.searchGuiSpecialSearchFactory = searchGuiSpecialSearchFactory;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("render");
-		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-		logger.trace("searchQuery: " + searchQuery);
-		final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
-		if (searchGuiSpecialSearch != null) {
-			logger.trace("found special search");
-			searchGuiSpecialSearch.render(request, response, context);
-			return;
-		}
-		else {
-			logger.trace("found no special search");
-		}
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+		try {
+			logger.trace("render");
+			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
+			logger.trace("searchQuery: " + searchQuery);
+			final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
+			if (searchGuiSpecialSearch != null) {
+				logger.trace("found special search");
+				searchGuiSpecialSearch.render(request, response, context);
+				return;
+			}
+			else {
+				logger.trace("found no special search");
+			}
 
-		printSearchForm(request, response, context);
-		final String[] words = searchUtil.buildSearchParts(searchQuery);
-		final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-		final List<SearchResult> results = searchService.search(sessionIdentifier, words, MAX_RESULTS);
-		printSearchResults(request, response, results);
+			printSearchForm(request, response, context);
+			final String[] words = searchUtil.buildSearchParts(searchQuery);
+			SessionIdentifier sessionIdentifier;
+			sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final List<SearchResult> results = searchService.search(sessionIdentifier, words, MAX_RESULTS);
+			printSearchResults(request, response, results);
+		}
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
 	}
 
 	@Override
@@ -99,7 +114,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		}
 	}
 
-	protected void printSearchForm(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected void printSearchForm(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		searchDashboardWidget.render(request, response, context);
 	}
 

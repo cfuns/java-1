@@ -1,19 +1,29 @@
 package de.benjaminborbe.websearch.page;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.websearch.api.Page;
+import de.benjaminborbe.websearch.api.PageIdentifier;
 
-public class PageBean implements Entity<String>, Page {
+public class PageBean implements Entity<PageIdentifier>, Page {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
-	private URL url;
-
 	private Date lastVisit;
+
+	private PageIdentifier id;
+
+	@Override
+	public PageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final PageIdentifier id) {
+		this.id = id;
+	}
 
 	@Override
 	public Date getLastVisit() {
@@ -25,26 +35,12 @@ public class PageBean implements Entity<String>, Page {
 	}
 
 	@Override
-	public String getId() {
-		return url != null ? url.toExternalForm() : null;
-	}
-
-	@Override
-	public void setId(final String id) {
-		try {
-			this.url = new URL(id);
-		}
-		catch (final MalformedURLException e) {
-		}
-	}
-
-	@Override
 	public URL getUrl() {
-		return url;
+		return id != null ? id.getUrl() : null;
 	}
 
 	public void setUrl(final URL url) {
-		this.url = url;
+		id = new PageIdentifier(url);
 	}
 
 }

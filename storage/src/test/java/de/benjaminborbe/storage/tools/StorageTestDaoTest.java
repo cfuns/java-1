@@ -60,31 +60,31 @@ public class StorageTestDaoTest {
 		// create
 		{
 			final TestBean bean = dao.create();
-			bean.setId(id);
+			bean.setId(new TestIdentifier(id));
 			bean.setName(name);
 			dao.save(bean);
 		}
 
 		// load
 		{
-			final TestBean bean = dao.load(id);
-			assertEquals(id, bean.getId());
+			final TestBean bean = dao.load(new TestIdentifier(id));
+			assertEquals(id, bean.getId().getId());
 			assertEquals(name, bean.getName());
 		}
 
 		// delete
 		{
-			final TestBean bean = dao.load(id);
+			final TestBean bean = dao.load(new TestIdentifier(id));
 			dao.delete(bean);
 		}
 
 		// load
 		{
-			assertNull(dao.load(id));
+			assertNull(dao.load(new TestIdentifier(id)));
 		}
 	}
 
-	private final class StorageTestDao extends StorageDao<TestBean> {
+	private final class StorageTestDao extends StorageDao<TestBean, TestIdentifier> {
 
 		private static final String COLUMNFAMILY = "test";
 
@@ -97,6 +97,7 @@ public class StorageTestDaoTest {
 		protected String getColumnFamily() {
 			return COLUMNFAMILY;
 		}
+
 	}
 
 }

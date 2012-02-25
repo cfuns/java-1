@@ -1,10 +1,12 @@
 package de.benjaminborbe.authentication.api;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface AuthenticationService {
 
-	boolean verifyCredential(String username, String password) throws AuthenticationServiceException;
+	boolean verifyCredential(UserIdentifier userIdentifier, String password) throws AuthenticationServiceException;
 
-	boolean login(SessionIdentifier sessionIdentifier, String username, String password) throws AuthenticationServiceException;
+	boolean login(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String password) throws AuthenticationServiceException;
 
 	boolean isLoggedIn(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
@@ -12,9 +14,13 @@ public interface AuthenticationService {
 
 	UserIdentifier getCurrentUser(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	boolean register(SessionIdentifier sessionIdentifier, String username, String password) throws AuthenticationServiceException;
+	boolean register(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String password) throws AuthenticationServiceException;
 
 	boolean unregister(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
 	boolean changePassword(SessionIdentifier sessionIdentifier, String currentPassword, String newPassword) throws AuthenticationServiceException;
+
+	UserIdentifier createUserIdentifier(String username) throws AuthenticationServiceException;
+
+	SessionIdentifier createSessionIdentifier(HttpServletRequest request) throws AuthenticationServiceException;
 }

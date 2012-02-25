@@ -6,13 +6,13 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.benjaminborbe.html.api.HTML;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.UrlUtil;
 
-public class MonitoringGuiCheckResultRenderer implements HTML {
+public class MonitoringGuiCheckResultRenderer implements Widget {
 
 	private final CheckResult checkResult;
 

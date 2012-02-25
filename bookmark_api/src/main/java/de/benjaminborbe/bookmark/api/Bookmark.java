@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface Bookmark {
 
+	BookmarkIdentifier getId();
+
 	String getName();
 
 	String getUrl();

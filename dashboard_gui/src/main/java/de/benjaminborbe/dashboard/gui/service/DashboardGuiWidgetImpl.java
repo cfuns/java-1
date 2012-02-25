@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.html.api.CssResource;
@@ -150,7 +151,7 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 	}
 
 	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final DashboardContentWidget dashboardWidget)
-			throws IOException {
+			throws IOException, PermissionDeniedException {
 		final PrintWriter out = response.getWriter();
 		out.println("<div class=\"dashboardWidget\">");
 		out.println("<h2>" + dashboardWidget.getTitle() + "</h2>");

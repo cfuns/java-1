@@ -15,10 +15,14 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.website.util.ExceptionWidget;
 
 @Singleton
 public class SearchGuiSuggestServlet extends HttpServlet {
@@ -37,32 +41,43 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 
 	private final SearchUtil searchUtil;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public SearchGuiSuggestServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil) {
+	public SearchGuiSuggestServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil, final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.searchService = searchService;
 		this.searchUtil = searchUtil;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.trace("service");
 		response.setCharacterEncoding("UTF8");
-		response.setContentType("application/json");
-		final String queryString = request.getParameter(PARAMETER_SEARCH);
-		final PrintWriter out = response.getWriter();
-		final List<SearchResult> searchResults;
-		if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
-			final String[] words = searchUtil.buildSearchParts(queryString);
-			final SessionIdentifier sessionIdentifier = new SessionIdentifier(request);
-			searchResults = searchService.search(sessionIdentifier, words, MAX_RESULTS);
-			logger.trace("found " + searchResults.size() + " searchResults");
+		try {
+			response.setContentType("application/json");
+			final String queryString = request.getParameter(PARAMETER_SEARCH);
+			final PrintWriter out = response.getWriter();
+			final List<SearchResult> searchResults;
+			if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
+				final String[] words = searchUtil.buildSearchParts(queryString);
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				searchResults = searchService.search(sessionIdentifier, words, MAX_RESULTS);
+				logger.trace("found " + searchResults.size() + " searchResults");
+			}
+			else {
+				searchResults = new ArrayList<SearchResult>();
+			}
+			final JSONArray obj = buildJson(searchResults);
+			obj.writeJSONString(out);
 		}
-		else {
-			searchResults = new ArrayList<SearchResult>();
+		catch (final AuthenticationServiceException e) {
+			response.setContentType("text/plain");
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			final HttpContext context = new HttpContext();
+			exceptionWidget.render(request, response, context);
 		}
-		final JSONArray obj = buildJson(searchResults);
-		obj.writeJSONString(out);
 	}
 
 	@SuppressWarnings("unchecked")

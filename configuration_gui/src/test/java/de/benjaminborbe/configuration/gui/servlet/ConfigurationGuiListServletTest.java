@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,9 +28,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModulesMock;
-import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -50,7 +47,6 @@ public class ConfigurationGuiListServletTest {
 		assertEquals(a, b);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testService() throws Exception {
 
@@ -76,16 +72,6 @@ public class ConfigurationGuiListServletTest {
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.replay(request);
-
-		final CssResourceRenderer cssResourceRenderer = EasyMock.createMock(CssResourceRenderer.class);
-		cssResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
-				EasyMock.anyObject(Collection.class));
-		EasyMock.replay(cssResourceRenderer);
-
-		final JavascriptResourceRenderer javascriptResourceRenderer = EasyMock.createMock(JavascriptResourceRenderer.class);
-		javascriptResourceRenderer.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class),
-				EasyMock.anyObject(Collection.class));
-		EasyMock.replay(javascriptResourceRenderer);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
 		EasyMock.replay(timeZone);
@@ -131,14 +117,16 @@ public class ConfigurationGuiListServletTest {
 		EasyMock.expect(configurationService.listConfigurations()).andReturn(new HashSet<Configuration<?>>());
 		EasyMock.replay(configurationService);
 
+		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
+		EasyMock.replay(sessionIdentifier);
+
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
 		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
-		EasyMock.expect(authenticationService);
-
+		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
-		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil,
-				parseUtil, navigationWidget, authenticationService, httpContextProvider, configurationService);
+		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				authenticationService, httpContextProvider, configurationService);
 
 		configurationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

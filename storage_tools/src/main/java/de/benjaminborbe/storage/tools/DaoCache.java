@@ -10,12 +10,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.Identifier;
+
 @Singleton
-public abstract class DaoCache<E extends Entity<T>, T> implements Dao<E, T> {
+public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifier<?>> implements Dao<E, I> {
 
 	protected final Logger logger;
 
-	private final Map<T, E> data = new HashMap<T, E>();
+	private final Map<I, E> data = new HashMap<I, E>();
 
 	private final Provider<E> provider;
 
@@ -41,7 +43,7 @@ public abstract class DaoCache<E extends Entity<T>, T> implements Dao<E, T> {
 	}
 
 	@Override
-	public E load(final T id) {
+	public E load(final I id) {
 		logger.trace("load");
 		return data.get(id);
 	}

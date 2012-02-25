@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
@@ -31,7 +32,7 @@ public class TranslateGuiDashboardWidget implements DashboardContentWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		logger.trace("render");
 		final String action = "http://dict.leo.org/ende";
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET).addTarget(target);

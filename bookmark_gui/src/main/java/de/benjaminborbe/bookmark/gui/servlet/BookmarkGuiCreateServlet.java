@@ -1,8 +1,6 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,9 +11,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -25,6 +23,8 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
@@ -36,15 +36,13 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 	@Inject
 	public BookmarkGuiCreateServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 	}
 
 	@Override
@@ -53,10 +51,11 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException {
 		logger.trace("printContent");
-		out.println("<h1>" + getTitle() + "</h1>");
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(getTitle()));
 		final String action = request.getContextPath() + "/save";
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET);
 		formWidget.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("url ..."));
@@ -64,6 +63,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 		formWidget.addFormInputWidget(new FormInputTextWidget("description").addLabel("Description").addPlaceholder("description ..."));
 		formWidget.addFormInputWidget(new FormInputTextWidget("keywords").addLabel("Keywords").addPlaceholder("keywords ..."));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
-		formWidget.render(request, response, context);
+		widgets.add(formWidget);
+		return widgets;
 	}
 }

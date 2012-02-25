@@ -1,8 +1,8 @@
 package de.benjaminborbe.dashboard.api;
 
-import de.benjaminborbe.html.api.HTML;
+import de.benjaminborbe.html.api.Widget;
 
-public interface DashboardContentWidget extends HTML {
+public interface DashboardContentWidget extends Widget {
 
 	String getTitle();
 

@@ -20,9 +20,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.html.api.CssResourceRenderer;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -62,8 +61,6 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 	@Inject
 	public WebsearchGuiListPagesServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -72,7 +69,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final WebsearchService websearchService,
 			final DateUtil dateUtil) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.websearchService = websearchService;
 		this.dateUtil = dateUtil;
 	}
@@ -83,7 +80,8 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -93,11 +91,11 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 				ul.add(buildPageWidget(page, request));
 			}
 			widgets.add(ul);
-			widgets.render(request, response, context);
+			return widgets;
 		}
 		catch (final WebsearchServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
+			return widget;
 		}
 	}
 

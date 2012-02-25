@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 
 import org.easymock.EasyMock;
+import org.easymock.IAnswer;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -14,10 +15,11 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
-import de.benjaminborbe.tools.util.IdGeneratorLongImpl;
+import de.benjaminborbe.tools.util.ThreadResult;
 
 public class BookmarkDaoTest {
 
@@ -42,8 +44,6 @@ public class BookmarkDaoTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final IdGeneratorLong idGeneratorLong = new IdGeneratorLongImpl();
-
 		final Provider<BookmarkBean> bookmarkBeanProvider = new Provider<BookmarkBean>() {
 
 			@Override
@@ -57,7 +57,21 @@ public class BookmarkDaoTest {
 		EasyMock.expect(userIdentifier.getId()).andReturn(username).anyTimes();
 		EasyMock.replay(userIdentifier);
 
-		final BookmarkDao bookmarkDao = new BookmarkDaoImpl(logger, idGeneratorLong, bookmarkBeanProvider);
+		final ThreadResult<Long> counter = new ThreadResult<Long>();
+		counter.set(1337l);
+		final BookmarkIdGenerator bookmarkIdGenerator = EasyMock.createMock(BookmarkIdGenerator.class);
+		final IAnswer<BookmarkIdentifier> answer = new IAnswer<BookmarkIdentifier>() {
+
+			@Override
+			public BookmarkIdentifier answer() throws Throwable {
+				counter.set(counter.get() + 1);
+				return new BookmarkIdentifier(counter.get());
+			}
+		};
+		EasyMock.expect(bookmarkIdGenerator.nextId()).andStubAnswer(answer);
+		EasyMock.replay(bookmarkIdGenerator);
+
+		final BookmarkDao bookmarkDao = new BookmarkDaoImpl(logger, bookmarkIdGenerator, bookmarkBeanProvider);
 		final Collection<BookmarkBean> bookmarks = bookmarkDao.getFavorites(userIdentifier);
 		assertTrue(bookmarks.size() > 0);
 		for (final BookmarkBean bookmark : bookmarks) {

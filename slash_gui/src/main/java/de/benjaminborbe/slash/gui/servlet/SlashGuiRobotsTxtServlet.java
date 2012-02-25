@@ -1,8 +1,6 @@
 package de.benjaminborbe.slash.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +9,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.servlet.WebsiteTextServlet;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
@@ -24,10 +25,11 @@ public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("User-agent: *");
-		out.println("Disallow: /css/");
-		out.println("Disallow: /images/");
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final ListWidget widgets = new ListWidget();
+		widgets.add("User-agent: *");
+		widgets.add("Disallow: /css/");
+		widgets.add("Disallow: /images/");
+		return widgets;
 	}
 }

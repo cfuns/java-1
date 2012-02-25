@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -25,7 +26,7 @@ public class BookmarkBeanTest {
 		final Long id = 1337l;
 		final BookmarkBean bookmarkBean = new BookmarkBean();
 		assertNull(bookmarkBean.getId());
-		bookmarkBean.setId(id);
-		assertEquals(id, bookmarkBean.getId());
+		bookmarkBean.setId(new BookmarkIdentifier(id));
+		assertEquals(id, bookmarkBean.getId().getId());
 	}
 }

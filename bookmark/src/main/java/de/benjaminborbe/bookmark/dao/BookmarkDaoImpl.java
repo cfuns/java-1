@@ -14,11 +14,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
-import de.benjaminborbe.tools.util.IdGeneratorLong;
 
+// TODO change from cache to storagedao
 @Singleton
-public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> implements BookmarkDao {
+public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean, BookmarkIdentifier> implements BookmarkDao {
 
 	private final class BookmarkFavoritePredicate implements Predicate<BookmarkBean> {
 
@@ -45,7 +46,7 @@ public class BookmarkDaoImpl extends DaoCacheAutoIncrement<BookmarkBean> impleme
 	private static final String DEFAULT_DESCRIPTION = "-";
 
 	@Inject
-	public BookmarkDaoImpl(final Logger logger, final IdGeneratorLong idGenerator, final Provider<BookmarkBean> provider) {
+	public BookmarkDaoImpl(final Logger logger, final BookmarkIdGenerator idGenerator, final Provider<BookmarkBean> provider) {
 		super(logger, idGenerator, provider);
 
 		// TODO remove init

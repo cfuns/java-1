@@ -1,8 +1,6 @@
 package de.benjaminborbe.configuration.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,15 +14,16 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
-import de.benjaminborbe.html.api.CssResourceRenderer;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.JavascriptResourceRenderer;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.HtmlListWidget;
 
 @Singleton
 public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
@@ -38,8 +37,6 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 	@Inject
 	public ConfigurationGuiListServlet(
 			final Logger logger,
-			final CssResourceRenderer cssResourceRenderer,
-			final JavascriptResourceRenderer javascriptResourceRenderer,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -47,7 +44,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
 			final ConfigurationService configurationService) {
-		super(logger, cssResourceRenderer, javascriptResourceRenderer, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.configurationService = configurationService;
 	}
 
@@ -57,44 +54,44 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void printContent(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			final PrintWriter out = response.getWriter();
 			logger.trace("printContent");
-			out.println("<h1>" + getTitle() + "</h1>");
-
-			out.println("<table>");
-			out.println("<tr>");
-			out.println("<th>Name</th>");
-			out.println("<th>Description</th>");
-			out.println("<th>Type</th>");
-			out.println("<th>DefaultValue</th>");
-			out.println("<th>CurrentValue</th>");
-			out.println("</tr>");
+			final HtmlListWidget widgets = new HtmlListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			widgets.add("<table>");
+			widgets.add("<tr>");
+			widgets.add("<th>Name</th>");
+			widgets.add("<th>Description</th>");
+			widgets.add("<th>Type</th>");
+			widgets.add("<th>DefaultValue</th>");
+			widgets.add("<th>CurrentValue</th>");
+			widgets.add("</tr>");
 			for (final Configuration<?> configuration : configurationService.listConfigurations()) {
-				out.println("<tr>");
-				out.println("<td>");
-				out.println(configuration.getName());
-				out.println("</td>");
-				out.println("<td>");
-				out.println(configuration.getDescription());
-				out.println("</td>");
-				out.println("<td>");
-				out.println(configuration.getDefaultValue());
-				out.println("</td>");
-				out.println("<td>");
-				out.println(configuration.getType().getSimpleName());
-				out.println("</td>");
-				out.println("<td>");
-				out.println(configurationService.getConfigurationValue(configuration));
-				out.println("</td>");
-				out.println("</tr>");
+				widgets.add("<tr>");
+				widgets.add("<td>");
+				widgets.add(configuration.getName());
+				widgets.add("</td>");
+				widgets.add("<td>");
+				widgets.add(configuration.getDescription());
+				widgets.add("</td>");
+				widgets.add("<td>");
+				widgets.add(String.valueOf(configuration.getDefaultValue()));
+				widgets.add("</td>");
+				widgets.add("<td>");
+				widgets.add(configuration.getType().getSimpleName());
+				widgets.add("</td>");
+				widgets.add("<td>");
+				widgets.add(String.valueOf(configurationService.getConfigurationValue(configuration)));
+				widgets.add("</td>");
+				widgets.add("</tr>");
 			}
-			out.println("</table>");
+			widgets.add("</table>");
+			return widgets;
 		}
 		catch (final ConfigurationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
+			return widget;
 		}
 	}
 }
