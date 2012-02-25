@@ -17,8 +17,6 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.Role;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
-import de.benjaminborbe.authorization.permission.PermissionBean;
-import de.benjaminborbe.authorization.permission.PermissionDao;
 import de.benjaminborbe.authorization.role.RoleBean;
 import de.benjaminborbe.authorization.role.RoleDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -34,14 +32,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	private final AuthenticationService authenticationService;
 
-	private final PermissionDao permissionDao;
-
 	@Inject
-	public AuthorizationServiceImpl(final Logger logger, final AuthenticationService authenticationService, final RoleDao roleDao, final PermissionDao permissionDao) {
+	public AuthorizationServiceImpl(final Logger logger, final AuthenticationService authenticationService, final RoleDao roleDao) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.roleDao = roleDao;
-		this.permissionDao = permissionDao;
 	}
 
 	@Override
@@ -66,21 +61,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean hasPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthenticationServiceException {
-		try {
-			final PermissionBean permission = permissionDao.load(permissionIdentifier);
-			if (permission == null) {
-				return false;
-			}
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			if (userIdentifier == null) {
-				return false;
-			}
-			final String username = userIdentifier.getId();
-			return ADMIN_USERNAME.equals(username);
+		final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+		if (userIdentifier == null) {
+			return false;
 		}
-		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
-		}
+		final String username = userIdentifier.getId();
+		return ADMIN_USERNAME.equals(username);
 	}
 
 	@Override
