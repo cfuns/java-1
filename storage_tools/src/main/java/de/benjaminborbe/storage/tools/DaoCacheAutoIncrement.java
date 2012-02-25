@@ -10,7 +10,7 @@ import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.tools.util.IdGenerator;
 
 @Singleton
-public abstract class DaoCacheAutoIncrement<E extends Entity<I>, I extends Identifier<Long>> extends DaoCache<E, I> {
+public abstract class DaoCacheAutoIncrement<E extends Entity<I>, I extends Identifier<?>> extends DaoCache<E, I> {
 
 	private final IdGenerator<I> idGenerator;
 

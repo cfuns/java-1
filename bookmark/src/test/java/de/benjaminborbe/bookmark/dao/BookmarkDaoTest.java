@@ -71,7 +71,7 @@ public class BookmarkDaoTest {
 		EasyMock.expect(bookmarkIdGenerator.nextId()).andStubAnswer(answer);
 		EasyMock.replay(bookmarkIdGenerator);
 
-		final BookmarkDao bookmarkDao = new BookmarkDaoImpl(logger, bookmarkIdGenerator, bookmarkBeanProvider);
+		final BookmarkDao bookmarkDao = new BookmarkDaoCache(logger, bookmarkIdGenerator, bookmarkBeanProvider);
 		final Collection<BookmarkBean> bookmarks = bookmarkDao.getFavorites(userIdentifier);
 		assertTrue(bookmarks.size() > 0);
 		for (final BookmarkBean bookmark : bookmarks) {

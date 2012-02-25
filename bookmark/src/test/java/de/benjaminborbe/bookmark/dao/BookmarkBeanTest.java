@@ -27,6 +27,6 @@ public class BookmarkBeanTest {
 		final BookmarkBean bookmarkBean = new BookmarkBean();
 		assertNull(bookmarkBean.getId());
 		bookmarkBean.setId(new BookmarkIdentifier(id));
-		assertEquals(id, bookmarkBean.getId().getId());
+		assertEquals(String.valueOf(id), bookmarkBean.getId().getId());
 	}
 }

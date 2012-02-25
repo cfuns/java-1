@@ -17,7 +17,7 @@ public class BookmarkIdGenerator implements IdGenerator<BookmarkIdentifier> {
 
 	@Override
 	public BookmarkIdentifier nextId() {
-		return new BookmarkIdentifier(idGeneratorLong.nextId());
+		return new BookmarkIdentifier(String.valueOf(idGeneratorLong.nextId()));
 	}
 
 }

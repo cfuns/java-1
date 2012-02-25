@@ -10,10 +10,10 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.DaoCache;
 
 @Singleton
-public class UserDaoImpl extends DaoCache<UserBean, UserIdentifier> implements UserDao {
+public class UserDaoCache extends DaoCache<UserBean, UserIdentifier> implements UserDao {
 
 	@Inject
-	public UserDaoImpl(final Logger logger, final Provider<UserBean> provider) {
+	public UserDaoCache(final Logger logger, final Provider<UserBean> provider) {
 		super(logger, provider);
 	}
 

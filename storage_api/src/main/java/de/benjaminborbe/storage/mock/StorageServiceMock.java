@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.mock;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -90,7 +91,10 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public List<String> list(final String columnFamily) {
-
-		return null;
+		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
+		if (cfData == null) {
+			return new ArrayList<String>();
+		}
+		return new ArrayList<String>(cfData.keySet());
 	}
 }
