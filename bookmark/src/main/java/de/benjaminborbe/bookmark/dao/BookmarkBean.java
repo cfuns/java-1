@@ -2,6 +2,7 @@ package de.benjaminborbe.bookmark.dao;
 
 import java.util.List;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
@@ -22,7 +23,7 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 
 	private boolean favorite;
 
-	private String ownerUsername;
+	private UserIdentifier ownerUsername;
 
 	@Override
 	public String getName() {
@@ -78,11 +79,11 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 		this.favorite = favorite;
 	}
 
-	public String getOwnerUsername() {
+	public UserIdentifier getOwnerUsername() {
 		return ownerUsername;
 	}
 
-	public void setOwnerUsername(final String ownerUsername) {
+	public void setOwnerUsername(final UserIdentifier ownerUsername) {
 		this.ownerUsername = ownerUsername;
 	}
 }

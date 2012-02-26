@@ -68,12 +68,13 @@ public class AuthenticationTest extends OSGiTestCase {
 		final String sessionId = "asdf";
 		final String username = "testuser";
 		final String password = "testpassword";
+		final String email = "test@test.de";
 
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
 		final UserIdentifier userIdentifier = new UserIdentifier(username);
 
-		assertTrue(service.register(sessionIdentifier, userIdentifier, password));
-		assertFalse("must fail, because already registered", service.register(sessionIdentifier, userIdentifier, password));
+		assertTrue(service.register(sessionIdentifier, userIdentifier, email, password));
+		assertFalse("must fail, because already registered", service.register(sessionIdentifier, userIdentifier, email, password));
 	}
 
 	@Test
@@ -86,10 +87,11 @@ public class AuthenticationTest extends OSGiTestCase {
 		final String sessionId = "asdf";
 		final String username = "testuser";
 		final String password = "testpassword";
+		final String email = "test@test.de";
 
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
 
-		service.register(sessionIdentifier, new UserIdentifier(username), password);
+		service.register(sessionIdentifier, new UserIdentifier(username), email, password);
 		assertTrue(service.verifyCredential(new UserIdentifier(username), password));
 		assertFalse(service.verifyCredential(new UserIdentifier("wrong"), password));
 		assertFalse(service.verifyCredential(new UserIdentifier(username), "wrong"));

@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				return false;
 			}
 
-			if (user.getPassword().equals(password)) {
+			if (user.getPassword() != null && user.getPassword().equals(password)) {
 				logger.info("verifyCredential password match");
 				return true;
 			}
@@ -119,13 +119,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password)
+			throws AuthenticationServiceException {
 		try {
 			if (userDao.load(userIdentifier) != null) {
+				logger.info("user " + userIdentifier + " allready exists");
 				return false;
 			}
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
+			user.setEmail(email);
 			user.setPassword(password);
 			userDao.save(user);
 			logger.info("registerd user " + userIdentifier);

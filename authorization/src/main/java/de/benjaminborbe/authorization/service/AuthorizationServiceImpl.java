@@ -13,6 +13,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.Role;
@@ -40,7 +41,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthenticationServiceException {
+	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			logger.trace("hasRole " + roleIdentifier);
 			final RoleBean role = roleDao.findByRolename(roleIdentifier);
@@ -55,29 +56,37 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return ADMIN_USERNAME.equals(username);
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthorizationServiceException("StorageException", e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new AuthorizationServiceException("StorageException", e);
 		}
 	}
 
 	@Override
-	public boolean hasPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthenticationServiceException {
-		final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-		if (userIdentifier == null) {
-			return false;
+	public boolean hasPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
+		try {
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			if (userIdentifier == null) {
+				return false;
+			}
+			final String username = userIdentifier.getId();
+			return ADMIN_USERNAME.equals(username);
 		}
-		final String username = userIdentifier.getId();
-		return ADMIN_USERNAME.equals(username);
+		catch (final AuthenticationServiceException e) {
+			throw new AuthorizationServiceException("AuthenticationServiceException", e);
+		}
 	}
 
 	@Override
-	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthenticationServiceException, PermissionDeniedException {
+	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
 		if (!hasRole(sessionIdentifier, roleIdentifier)) {
 			throw new PermissionDeniedException("no role " + roleIdentifier);
 		}
 	}
 
 	@Override
-	public void expectPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthenticationServiceException,
+	public void expectPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
 			PermissionDeniedException {
 		if (!hasPermission(sessionIdentifier, permissionIdentifier)) {
 			throw new PermissionDeniedException("no permission " + permissionIdentifier);
@@ -85,12 +94,28 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<Role> getRoles() throws AuthenticationServiceException {
+	public Collection<Role> getRoles() throws AuthorizationServiceException {
 		try {
 			return new HashSet<Role>(roleDao.getAll());
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthorizationServiceException("StorageException", e);
+		}
+	}
+
+	@Override
+	public boolean createRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException {
+		try {
+			expectPermission(sessionIdentifier, new PermissionIdentifier("createRole"));
+			if (roleDao.findByRolename(roleIdentifier) != null) {
+				return false;
+			}
+			final RoleBean role = roleDao.findOrCreateByRolename(roleIdentifier);
+			roleDao.save(role);
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException("StorageException", e);
 		}
 	}
 

@@ -14,7 +14,7 @@ public interface AuthenticationService {
 
 	UserIdentifier getCurrentUser(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	boolean register(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String password) throws AuthenticationServiceException;
+	boolean register(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String email, String password) throws AuthenticationServiceException;
 
 	boolean unregister(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 

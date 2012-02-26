@@ -18,6 +18,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringService;
+import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -77,6 +78,10 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 			}
 
 			return widgets;
+		}
+		catch (final MonitoringServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
 		}
 		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);

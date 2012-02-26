@@ -11,6 +11,8 @@ public class UserBean implements Entity<UserIdentifier> {
 
 	private String password;
 
+	private String email;
+
 	@Override
 	public UserIdentifier getId() {
 		return id;
@@ -27,6 +29,14 @@ public class UserBean implements Entity<UserIdentifier> {
 
 	public void setPassword(final String password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
 	}
 
 }

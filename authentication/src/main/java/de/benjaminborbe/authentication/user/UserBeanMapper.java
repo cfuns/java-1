@@ -13,6 +13,12 @@ import de.benjaminborbe.tools.mapper.MapException;
 @Singleton
 public class UserBeanMapper extends BaseMapper<UserBean> {
 
+	private static final String ID = "id";
+
+	private static final String PASSWORD = "password";
+
+	private static final String EMAIL = "email";
+
 	@Inject
 	public UserBeanMapper(final Provider<UserBean> provider) {
 		super(provider);
@@ -20,12 +26,16 @@ public class UserBeanMapper extends BaseMapper<UserBean> {
 
 	@Override
 	public void map(final UserBean object, final Map<String, String> data) {
-		data.put("id", toString(object.getId()));
+		data.put(ID, toString(object.getId()));
+		data.put(PASSWORD, object.getPassword());
+		data.put(EMAIL, object.getEmail());
 	}
 
 	@Override
 	public void map(final Map<String, String> data, final UserBean object) throws MapException {
-		object.setId(toUserIdentifier(data.get("id")));
+		object.setId(toUserIdentifier(data.get(ID)));
+		object.setPassword(data.get(PASSWORD));
+		object.setEmail(data.get(EMAIL));
 	}
 
 	private UserIdentifier toUserIdentifier(final String id) {

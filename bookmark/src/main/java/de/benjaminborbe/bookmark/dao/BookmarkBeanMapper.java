@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -48,7 +49,7 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 		data.put(URL, object.getUrl());
 		data.put(DESCRIPTION, object.getDescription());
 		data.put(FAVORITE, toString(object.isFavorite()));
-		data.put(OWNER_USERNAME, object.getOwnerUsername());
+		data.put(OWNER_USERNAME, object.getOwnerUsername() != null ? object.getOwnerUsername().getId() : null);
 		data.put(KEYWORDS, toString(object.getKeywords()));
 	}
 
@@ -59,7 +60,7 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 		object.setUrl(data.get(URL));
 		object.setDescription(data.get(DESCRIPTION));
 		object.setFavorite(toBoolean(data.get(FAVORITE)));
-		object.setOwnerUsername(data.get(OWNER_USERNAME));
+		object.setOwnerUsername(data.get(OWNER_USERNAME) != null ? new UserIdentifier(data.get(OWNER_USERNAME)) : null);
 		object.setKeywords(toList(data.get(KEYWORDS)));
 	}
 

@@ -23,6 +23,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.monitoring.api.MonitoringService;
+import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
@@ -84,6 +85,10 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 			out.println("</ul>");
 		}
 		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
+		catch (final MonitoringServiceException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
 		}

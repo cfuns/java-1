@@ -1,6 +1,7 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,7 +83,7 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
 				final ListWidget b = new ListWidget();
-				b.add(new LinkWidget(new URL(bookmark.getUrl()), bookmark.getName()).addTarget(target));
+				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
 				b.add(" ");
 				b.add("[" + keywordsToString(bookmark) + "]");
 				ul.add(b);
@@ -114,5 +115,14 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Collection<Widget> getWidgets() {
 		return new HashSet<Widget>();
+	}
+
+	protected URL buildUrl(final String url) throws MalformedURLException {
+		if (url != null && url.indexOf("/") == 0) {
+			return new URL("http://bb" + url);
+		}
+		else {
+			return new URL(url);
+		}
 	}
 }

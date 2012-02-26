@@ -18,8 +18,10 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
 
@@ -88,6 +90,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 		catch (final AuthenticationServiceException e) {
 			throw new BookmarkServiceException("AuthenticationServiceException", e);
 		}
+		catch (final StorageException e) {
+			throw new BookmarkServiceException("StorageException", e);
+		}
 	}
 
 	@Override
@@ -153,6 +158,46 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		public int getCounter() {
 			return counter;
+		}
+	}
+
+	@Override
+	public boolean createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
+			final boolean favorite) throws BookmarkServiceException {
+		try {
+			if (!authenticationService.isLoggedIn(sessionIdentifier)) {
+				logger.info("not logged in");
+				return false;
+			}
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+
+			final BookmarkBean bookmark = bookmarkDao.create();
+			bookmark.setId(createBookmarkIdentifier(sessionIdentifier, url));
+			bookmark.setUrl(url);
+			bookmark.setName(name);
+			bookmark.setDescription(description);
+			bookmark.setKeywords(keywords);
+			bookmark.setOwnerUsername(userIdentifier);
+			bookmarkDao.save(bookmark);
+
+			return true;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException("AuthenticationServiceException", e);
+		}
+		catch (final StorageException e) {
+			throw new BookmarkServiceException("StorageException", e);
+		}
+	}
+
+	@Override
+	public BookmarkIdentifier createBookmarkIdentifier(final SessionIdentifier sessionIdentifier, final String url) throws BookmarkServiceException {
+		try {
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			return new BookmarkIdentifier(userIdentifier.getId() + "-" + url);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException("BookmarkServiceException", e);
 		}
 	}
 }

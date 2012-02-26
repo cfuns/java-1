@@ -1,7 +1,6 @@
-package de.benjaminborbe.authorization.gui.servlet;
+package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,44 +11,43 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.Role;
+import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.util.BookmarkInit;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
+public class BookmarkGuiInitServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private static final long serialVersionUID = 4468520728605522219L;
 
-	private static final String TITLE = "Authorization - Roles";
+	private static final String TITLE = "BookmarkGui - Init";
 
-	private final AuthorizationService authorizationService;
+	private final BookmarkInit bookmarkInit;
 
 	@Inject
-	public AuthorizationGuiRoleListServlet(
+	public BookmarkGuiInitServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
+			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+			final BookmarkInit bookmarkInit) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
-		this.authorizationService = authorizationService;
+		this.bookmarkInit = bookmarkInit;
 	}
 
 	@Override
@@ -60,21 +58,21 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException {
+		logger.trace("printContent");
 		try {
-			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final UlWidget ul = new UlWidget();
-			for (final Role role : authorizationService.getRoles()) {
-				ul.add(role.getName());
-			}
-			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(request, "/authorization/role/create", "add role"));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			bookmarkInit.init(sessionIdentifier);
 			return widgets;
 		}
-		catch (final AuthorizationServiceException e) {
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
 	}
 }

@@ -7,7 +7,9 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 
 @Singleton
 public class BookmarkServiceMock implements BookmarkService {
@@ -28,6 +30,17 @@ public class BookmarkServiceMock implements BookmarkService {
 
 	@Override
 	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) {
+		return null;
+	}
+
+	@Override
+	public boolean createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
+			final boolean favorite) throws BookmarkServiceException {
+		return false;
+	}
+
+	@Override
+	public BookmarkIdentifier createBookmarkIdentifier(final SessionIdentifier sessionIdentifier, final String url) throws BookmarkServiceException {
 		return null;
 	}
 

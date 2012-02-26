@@ -43,11 +43,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
-		return false;
-	}
-
-	@Override
 	public boolean unregister(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
 		return false;
 	}
@@ -65,5 +60,10 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	@Override
 	public SessionIdentifier createSessionIdentifier(final HttpServletRequest request) throws AuthenticationServiceException {
 		return null;
+	}
+
+	@Override
+	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password) throws AuthenticationServiceException {
+		return false;
 	}
 }
