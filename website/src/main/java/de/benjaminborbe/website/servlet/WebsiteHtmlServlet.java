@@ -161,7 +161,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			else {
 				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
 			}
-			return widgets;
+			return new TagWidget("div", widgets);
 		}
 		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
