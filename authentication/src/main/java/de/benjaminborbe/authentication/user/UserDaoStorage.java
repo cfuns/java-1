@@ -9,10 +9,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.storage.tools.DaoStorage;
 
 @Singleton
-public class UserDaoStorage extends StorageDao<UserBean, UserIdentifier> implements UserDao {
+public class UserDaoStorage extends DaoStorage<UserBean, UserIdentifier> implements UserDao {
 
 	private static final String COLUMN_FAMILY = "user";
 

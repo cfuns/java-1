@@ -9,10 +9,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.storage.tools.DaoStorage;
 
 @Singleton
-public class SessionDaoStorage extends StorageDao<SessionBean, SessionIdentifier> implements SessionDao {
+public class SessionDaoStorage extends DaoStorage<SessionBean, SessionIdentifier> implements SessionDao {
 
 	private static final String COLUMNFAMILY = "session";
 

@@ -11,11 +11,11 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
-public class PageDaoStorage extends StorageDao<PageBean, PageIdentifier> implements PageDao {
+public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> implements PageDao {
 
 	private static final String COLUMNFAMILY = "page";
 

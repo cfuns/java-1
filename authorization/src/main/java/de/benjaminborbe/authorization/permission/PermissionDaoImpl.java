@@ -8,10 +8,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.storage.tools.DaoStorage;
 
 @Singleton
-public class PermissionDaoImpl extends StorageDao<PermissionBean, PermissionIdentifier> implements PermissionDao {
+public class PermissionDaoImpl extends DaoStorage<PermissionBean, PermissionIdentifier> implements PermissionDao {
 
 	private static final String COLUMN_FAMILY = "permission";
 

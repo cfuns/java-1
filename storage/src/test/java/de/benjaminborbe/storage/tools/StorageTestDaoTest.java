@@ -84,7 +84,7 @@ public class StorageTestDaoTest {
 		}
 	}
 
-	private final class StorageTestDao extends StorageDao<TestBean, TestIdentifier> {
+	private final class StorageTestDao extends DaoStorage<TestBean, TestIdentifier> {
 
 		private static final String COLUMNFAMILY = "test";
 

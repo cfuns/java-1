@@ -11,11 +11,14 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authorization.gui.guice.AuthorizationGuiModules;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleAddPermissionServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleCreateServlet;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleInfoServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleRemovePermissionServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleRemoveServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserAddRoleServlet;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserInfoServlet;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserRemoveRoleServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -47,6 +50,15 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AuthorizationGuiRoleRemovePermissionServlet authorizationGuiRoleRemovePermissionServlet;
 
+	@Inject
+	private AuthorizationGuiRoleInfoServlet authorizationGuiRoleInfoServlet;
+
+	@Inject
+	private AuthorizationGuiUserInfoServlet authorizationGuiUserInfoServlet;
+
+	@Inject
+	private AuthorizationGuiUserListServlet authorizationGuiUserListServlet;
+
 	public AuthorizationGuiActivator() {
 		super("authorization");
 	}
@@ -67,6 +79,9 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authorizationGuiUserRemoveRoleServlet, "/user/removeRole"));
 		result.add(new ServletInfo(authorizationGuiRoleAddPermissionServlet, "/role/addPermission"));
 		result.add(new ServletInfo(authorizationGuiRoleRemovePermissionServlet, "/role/removePermission"));
+		result.add(new ServletInfo(authorizationGuiUserListServlet, "/user"));
+		result.add(new ServletInfo(authorizationGuiUserInfoServlet, "/user/info"));
+		result.add(new ServletInfo(authorizationGuiRoleInfoServlet, "/role/info"));
 		return result;
 	}
 

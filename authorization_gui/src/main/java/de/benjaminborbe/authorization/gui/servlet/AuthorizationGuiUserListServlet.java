@@ -12,10 +12,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -30,26 +29,22 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
+public class AuthorizationGuiUserListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Authorization - Roles";
-
-	private final AuthorizationService authorizationService;
+	private static final String TITLE = "Authorization - Users";
 
 	@Inject
-	public AuthorizationGuiRoleListServlet(
+	public AuthorizationGuiUserListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+			final Provider<HttpContext> httpContextProvider) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
-		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -65,14 +60,13 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
-			for (final RoleIdentifier roleIdentifier : authorizationService.roleList()) {
-				ul.add(new LinkRelativWidget(request, "/authorization/role/info?role=" + roleIdentifier.getId(), roleIdentifier.getId()));
+			for (final UserIdentifier userIdentifier : authenticationService.userList()) {
+				ul.add(new LinkRelativWidget(request, "/authorization/user/info?user=" + userIdentifier.getId(), userIdentifier.getId()));
 			}
 			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(request, "/authorization/role/create", "add role"));
 			return widgets;
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

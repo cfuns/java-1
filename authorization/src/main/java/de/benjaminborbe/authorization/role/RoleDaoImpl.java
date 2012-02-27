@@ -9,10 +9,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.storage.tools.DaoStorage;
 
 @Singleton
-public class RoleDaoImpl extends StorageDao<RoleBean, RoleIdentifier> implements RoleDao {
+public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements RoleDao {
 
 	private static final String COLUMN_FAMILY = "role";
 

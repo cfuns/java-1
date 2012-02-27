@@ -13,10 +13,10 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.tools.StorageDao;
+import de.benjaminborbe.storage.tools.DaoStorage;
 
 @Singleton
-public class BookmarkDaoStorage extends StorageDao<BookmarkBean, BookmarkIdentifier> implements BookmarkDao {
+public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentifier> implements BookmarkDao {
 
 	private static final String COLUMN_FAMILY = "bookmark";
 

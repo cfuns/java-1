@@ -12,7 +12,6 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -24,30 +23,24 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormInputTextWidget;
-import de.benjaminborbe.website.form.FormMethod;
-import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
-public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
+public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Authorization - User add Role";
+	private static final String TITLE = "Authorization - Role info";
 
-	private static final String PARAMETER_USERNANE = "user";
+	private static final String PARAMETER_ROLE = "role";
 
-	private static final String PARAMETER_ROLENANE = "role";
-
-	private final AuthorizationService authorizationService;
+	private final AuthorizationService authorizationSerivce;
 
 	@Inject
-	public AuthorizationGuiUserAddRoleServlet(
+	public AuthorizationGuiRoleInfoServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -55,9 +48,9 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationSerivce) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
-		this.authorizationService = authorizationService;
+		this.authorizationSerivce = authorizationSerivce;
 	}
 
 	@Override
@@ -67,35 +60,29 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+			PermissionDeniedException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
+		final UlWidget ul = new UlWidget();
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String username = request.getParameter(PARAMETER_USERNANE);
-			final String rolename = request.getParameter(PARAMETER_ROLENANE);
-			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(rolename);
-			if (username != null && rolename != null && authorizationService.addUserRole(sessionIdentifier, userIdentifier, roleIdentifier)) {
-				throw new RedirectException("/authorization/role");
+			final String rolename = request.getParameter(PARAMETER_ROLE);
+			final RoleIdentifier roleIdentifier = authorizationSerivce.createRoleIdentifier(rolename);
+			for (final UserIdentifier userIdentifier : authenticationService.userList()) {
+				if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
+					ul.add(userIdentifier.getId());
+				}
 			}
-			else {
-				final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNANE).addLabel("Username").addPlaceholder("Username ..."));
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ROLENANE).addLabel("Rolename").addPlaceholder("Rolename ..."));
-				formWidget.addFormInputWidget(new FormInputSubmitWidget("grant"));
-				widgets.add(formWidget);
-				return widgets;
-			}
+			widgets.add(ul);
+			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
 		}
 		catch (final AuthorizationServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
 		}
 	}
 }

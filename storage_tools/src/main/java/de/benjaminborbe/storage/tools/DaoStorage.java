@@ -22,7 +22,7 @@ import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 @Singleton
-public abstract class StorageDao<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
+public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
 
 	private final Logger logger;
 
@@ -33,7 +33,7 @@ public abstract class StorageDao<E extends Entity<I>, I extends Identifier<Strin
 	private final Mapper<E> mapper;
 
 	@Inject
-	public StorageDao(final Logger logger, final StorageService storageService, final Provider<E> beanProvider, final Mapper<E> mapper) {
+	public DaoStorage(final Logger logger, final StorageService storageService, final Provider<E> beanProvider, final Mapper<E> mapper) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.beanProvider = beanProvider;
