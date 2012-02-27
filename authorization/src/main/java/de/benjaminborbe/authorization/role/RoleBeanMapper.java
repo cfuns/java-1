@@ -21,12 +21,20 @@ public class RoleBeanMapper extends BaseMapper<RoleBean> {
 
 	@Override
 	public void map(final RoleBean object, final Map<String, String> data) throws MapException {
-		data.put("id", object.getId().getId());
+		data.put("id", toString(object.getId()));
+	}
+
+	private String toString(final RoleIdentifier id) {
+		return id != null ? id.getId() : null;
 	}
 
 	@Override
 	public void map(final Map<String, String> data, final RoleBean object) throws MapException {
-		object.setId(new RoleIdentifier(data.get("id")));
+		object.setId(toRoleIdentifier(data.get("id")));
+	}
+
+	private RoleIdentifier toRoleIdentifier(final String id) {
+		return id != null ? new RoleIdentifier(id) : null;
 	}
 
 }

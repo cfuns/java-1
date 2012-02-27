@@ -1,5 +1,9 @@
 package de.benjaminborbe.authentication.service;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -191,4 +195,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return new SessionIdentifier(request.getSession().getId());
 	}
 
+	@Override
+	public Collection<UserIdentifier> userList() throws AuthenticationServiceException {
+		try {
+			final Set<UserIdentifier> result = new HashSet<UserIdentifier>();
+			for (final UserBean user : userDao.getAll()) {
+				result.add(user.getId());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException("StorageException", e);
+		}
+	}
 }

@@ -51,17 +51,17 @@ public class TcpCheck implements Check {
 		}
 		catch (final SocketTimeoutException e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because SocketTimeoutException";
-			logger.warn(msg);
+			logger.trace(msg);
 			return new CheckResultImpl(this, false, msg, null);
 		}
 		catch (final UnknownHostException e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because UnknownHostException";
-			logger.warn(msg);
+			logger.trace(msg);
 			return new CheckResultImpl(this, false, msg, null);
 		}
 		catch (final Exception e) {
 			final String msg = "connecting failed to " + hostname + ":" + port + " because " + e.getClass().getSimpleName();
-			logger.warn(msg, e);
+			logger.trace(msg, e);
 			return new CheckResultImpl(this, false, msg, null);
 		}
 		finally {

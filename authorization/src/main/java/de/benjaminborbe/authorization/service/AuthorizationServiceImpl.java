@@ -108,6 +108,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		try {
 			expectPermission(sessionIdentifier, new PermissionIdentifier("createRole"));
 			if (roleDao.findByRolename(roleIdentifier) != null) {
+				logger.info("role " + roleIdentifier + " allready exists");
 				return false;
 			}
 			final RoleBean role = roleDao.findOrCreateByRolename(roleIdentifier);
@@ -118,5 +119,4 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException("StorageException", e);
 		}
 	}
-
 }

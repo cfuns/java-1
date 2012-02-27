@@ -41,12 +41,12 @@ public class InOfficeCheck {
 			}
 			else {
 				final String msg = "connecting failed to " + hostname + ":" + port;
-				logger.warn(msg);
+				logger.trace(msg);
 				return false;
 			}
 		}
 		catch (final Exception e) {
-			logger.warn("check tcp-connect to " + hostname + ":" + port + " failed");
+			logger.trace("check tcp-connect to " + hostname + ":" + port + " failed");
 			return false;
 		}
 		finally {

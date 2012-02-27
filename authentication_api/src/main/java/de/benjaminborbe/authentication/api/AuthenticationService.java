@@ -1,5 +1,7 @@
 package de.benjaminborbe.authentication.api;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 
 public interface AuthenticationService {
@@ -23,4 +25,6 @@ public interface AuthenticationService {
 	UserIdentifier createUserIdentifier(String username) throws AuthenticationServiceException;
 
 	SessionIdentifier createSessionIdentifier(HttpServletRequest request) throws AuthenticationServiceException;
+
+	Collection<UserIdentifier> userList() throws AuthenticationServiceException;
 }

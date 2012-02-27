@@ -73,6 +73,13 @@ public class AuthenticationTest extends OSGiTestCase {
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
 		final UserIdentifier userIdentifier = new UserIdentifier(username);
 
+		// if user allready exists unregister first
+		if (service.verifyCredential(userIdentifier, password)) {
+			service.login(sessionIdentifier, userIdentifier, password);
+			service.unregister(sessionIdentifier);
+		}
+
+		assertFalse(service.verifyCredential(userIdentifier, password));
 		assertTrue(service.register(sessionIdentifier, userIdentifier, email, password));
 		assertFalse("must fail, because already registered", service.register(sessionIdentifier, userIdentifier, email, password));
 	}

@@ -119,7 +119,13 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			out.println("</body></html>");
 		}
 		catch (final RedirectException e) {
-			response.sendRedirect(e.getTarget());
+			final String target = e.getTarget();
+			if (target.indexOf("/") == 0) {
+				response.sendRedirect(request.getContextPath() + target);
+			}
+			else {
+				response.sendRedirect(target);
+			}
 		}
 	}
 
