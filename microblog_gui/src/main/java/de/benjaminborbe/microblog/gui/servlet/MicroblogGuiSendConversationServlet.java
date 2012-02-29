@@ -13,8 +13,8 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.microblog.api.MicroblogPostMailerException;
 import de.benjaminborbe.microblog.api.MicroblogService;
+import de.benjaminborbe.microblog.api.MicroblogServiceException;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -26,18 +26,18 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class MicroblogGuiSendServlet extends WebsiteHtmlServlet {
+public class MicroblogGuiSendConversationServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Microblog";
+	private static final String TITLE = "Microblog - Send Conversation";
 
 	private static final String PARAMTER_REVISION = "rev";
 
 	private final MicroblogService microblogService;
 
 	@Inject
-	public MicroblogGuiSendServlet(
+	public MicroblogGuiSendConversationServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -62,13 +62,13 @@ public class MicroblogGuiSendServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		try {
 			final long rev = parseUtil.parseLong(request.getParameter(PARAMTER_REVISION));
-			microblogService.mailPost(rev);
+			microblogService.mailConversation(microblogService.createMicroblogConversationIdentifier(rev));
 			widgets.add("send post with revision " + rev + " done");
 		}
 		catch (final ParseException e) {
 			widgets.add("parameter " + PARAMTER_REVISION + " missing");
 		}
-		catch (final MicroblogPostMailerException e) {
+		catch (final MicroblogServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

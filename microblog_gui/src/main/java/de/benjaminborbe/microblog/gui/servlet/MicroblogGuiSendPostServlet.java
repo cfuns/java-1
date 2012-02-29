@@ -18,22 +18,26 @@ import de.benjaminborbe.microblog.api.MicroblogServiceException;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class MicroblogGuiServlet extends WebsiteHtmlServlet {
+public class MicroblogGuiSendPostServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Microblog";
+	private static final String TITLE = "Microblog - Send Post";
+
+	private static final String PARAMTER_REVISION = "rev";
 
 	private final MicroblogService microblogService;
 
 	@Inject
-	public MicroblogGuiServlet(
+	public MicroblogGuiSendPostServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -56,15 +60,18 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-		widgets.add("latest revision: ");
 		try {
-			widgets.add(String.valueOf(microblogService.getLastRevision()));
+			final long rev = parseUtil.parseLong(request.getParameter(PARAMTER_REVISION));
+			microblogService.mailPost(microblogService.createMicroblogPostIdentifier(rev));
+			widgets.add("send post with revision " + rev + " done");
+		}
+		catch (final ParseException e) {
+			widgets.add("parameter " + PARAMTER_REVISION + " missing");
 		}
 		catch (final MicroblogServiceException e) {
-			logger.trace("MicroblogRevisionStorageException", e);
-			widgets.add("-");
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
 		return widgets;
 	}
-
 }

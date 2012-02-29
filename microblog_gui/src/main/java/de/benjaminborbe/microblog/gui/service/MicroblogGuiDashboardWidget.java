@@ -17,8 +17,8 @@ import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
-import de.benjaminborbe.microblog.api.MicroblogRevisionStorageException;
 import de.benjaminborbe.microblog.api.MicroblogService;
+import de.benjaminborbe.microblog.api.MicroblogServiceException;
 import de.benjaminborbe.tools.html.Target;
 
 @Singleton
@@ -44,7 +44,7 @@ public class MicroblogGuiDashboardWidget implements DashboardContentWidget, Requ
 		try {
 			lastestRevision = String.valueOf(microblogService.getLastRevision());
 		}
-		catch (final MicroblogRevisionStorageException e) {
+		catch (final MicroblogServiceException e) {
 			lastestRevision = "-";
 		}
 		out.println("latest revision: " + lastestRevision + "<br/>");

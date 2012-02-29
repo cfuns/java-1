@@ -32,7 +32,9 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -52,6 +54,8 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 
 	private final BookmarkService bookmarkService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public BookmarkGuiListServlet(
 			final Logger logger,
@@ -61,9 +65,11 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			final ParseUtil parseUtil,
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider) {
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
 		this.bookmarkService = bookmarkService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -86,9 +92,12 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
 				b.add(" ");
 				b.add("[" + keywordsToString(bookmark) + "]");
+				b.add(" ");
+				b.add(new LinkRelativWidget(request, "/bookmark/delete?url=" + urlUtil.encode(bookmark.getUrl()), "delete"));
 				ul.add(b);
 			}
 			widgets.add(ul);
+			widgets.add(new LinkRelativWidget(request, "/bookmark/create", "add bookmark"));
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

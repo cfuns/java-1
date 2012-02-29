@@ -44,4 +44,9 @@ public class BookmarkServiceMock implements BookmarkService {
 		return null;
 	}
 
+	@Override
+	public boolean deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException {
+		return false;
+	}
+
 }

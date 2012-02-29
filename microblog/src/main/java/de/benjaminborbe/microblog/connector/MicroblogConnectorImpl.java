@@ -1,4 +1,4 @@
-package de.benjaminborbe.microblog.util;
+package de.benjaminborbe.microblog.connector;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,7 +12,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.microblog.api.MicroblogConnectorException;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
@@ -54,7 +55,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	@Override
-	public long getLatestRevision() throws MicroblogConnectorException {
+	public MicroblogPostIdentifier getLatestRevision() throws MicroblogConnectorException {
 		logger.trace("getLatestRevision");
 		try {
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(MICROBLOG_URL), TIMEOUT);
@@ -64,7 +65,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			if (matcher.find()) {
 				final MatchResult matchResult = matcher.toMatchResult();
 				final String number = matchResult.group(1);
-				return parseUtil.parseLong(number);
+				return new MicroblogPostIdentifier(parseUtil.parseLong(number));
 			}
 			else {
 				throw new MicroblogConnectorException("can't find latest revision");
@@ -85,7 +86,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	@Override
-	public MicroblogPostResult getPost(final long revision) throws MicroblogConnectorException {
+	public MicroblogPostResult getPost(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
 		try {
 			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + revision;
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(postUrl), TIMEOUT);

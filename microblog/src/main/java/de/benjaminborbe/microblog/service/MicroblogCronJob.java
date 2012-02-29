@@ -6,12 +6,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.microblog.api.MicroblogConnectorException;
-import de.benjaminborbe.microblog.api.MicroblogPostMailerException;
-import de.benjaminborbe.microblog.api.MicroblogRevisionStorageException;
-import de.benjaminborbe.microblog.util.MicroblogConnector;
-import de.benjaminborbe.microblog.util.MicroblogPostMailer;
-import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.connector.MicroblogConnector;
+import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
+import de.benjaminborbe.microblog.post.MicroblogPostMailer;
+import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
+import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
 
 @Singleton
 public class MicroblogCronJob implements CronJob {
@@ -50,18 +51,18 @@ public class MicroblogCronJob implements CronJob {
 		logger.trace("MonitoringCronJob.execute()");
 
 		try {
-			final long latestRevision = microblogConnector.getLatestRevision();
+			final MicroblogPostIdentifier latestRevision = microblogConnector.getLatestRevision();
 			logger.trace("latestRevision in microblog: " + latestRevision);
-			final Long lastestRevisionSend = microblogRevisionStorage.getLastRevision();
+			final MicroblogPostIdentifier lastestRevisionSend = microblogRevisionStorage.getLastRevision();
 			if (lastestRevisionSend == null) {
 				// no revision found in storage
 				microblogRevisionStorage.setLastRevision(latestRevision);
 			}
 			else {
 				logger.trace("latestRevision send: " + latestRevision);
-				for (long rev = lastestRevisionSend + 1; rev <= latestRevision; ++rev) {
-					microblogRevisionStorage.setLastRevision(rev);
-					microblogPostMailer.mailPost(rev);
+				for (long rev = lastestRevisionSend.getId() + 1; rev <= latestRevision.getId(); ++rev) {
+					microblogRevisionStorage.setLastRevision(new MicroblogPostIdentifier(rev));
+					microblogPostMailer.mailPost(new MicroblogPostIdentifier(rev));
 				}
 			}
 			logger.trace("done");

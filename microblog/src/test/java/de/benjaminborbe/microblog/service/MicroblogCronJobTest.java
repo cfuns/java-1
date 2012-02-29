@@ -10,10 +10,11 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
-import de.benjaminborbe.microblog.util.MicroblogConnector;
-import de.benjaminborbe.microblog.util.MicroblogPostMailer;
-import de.benjaminborbe.microblog.util.MicroblogRevisionStorage;
+import de.benjaminborbe.microblog.post.MicroblogPostMailer;
+import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -36,13 +37,13 @@ public class MicroblogCronJobTest {
 		EasyMock.replay(logger);
 
 		final MicroblogConnector microblogConnector = EasyMock.createMock(MicroblogConnector.class);
-		EasyMock.expect(microblogConnector.getLatestRevision()).andReturn(1337l);
+		EasyMock.expect(microblogConnector.getLatestRevision()).andReturn(new MicroblogPostIdentifier(1337l));
 		EasyMock.replay(microblogConnector);
 
 		final MicroblogRevisionStorage microblogRevisionStorage = EasyMock.createMock(MicroblogRevisionStorage.class);
-		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(1335l);
-		microblogRevisionStorage.setLastRevision(1336l);
-		microblogRevisionStorage.setLastRevision(1337l);
+		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(new MicroblogPostIdentifier(1335l));
+		microblogRevisionStorage.setLastRevision(new MicroblogPostIdentifier(1336l));
+		microblogRevisionStorage.setLastRevision(new MicroblogPostIdentifier(1337l));
 		EasyMock.replay(microblogRevisionStorage);
 
 		final MailService mailService = EasyMock.createMock(MailService.class);
@@ -70,11 +71,11 @@ public class MicroblogCronJobTest {
 		EasyMock.replay(logger);
 
 		final MicroblogConnector microblogConnector = EasyMock.createMock(MicroblogConnector.class);
-		EasyMock.expect(microblogConnector.getLatestRevision()).andReturn(1337l);
+		EasyMock.expect(microblogConnector.getLatestRevision()).andReturn(new MicroblogPostIdentifier(1337l));
 		EasyMock.replay(microblogConnector);
 
 		final MicroblogRevisionStorage microblogRevisionStorage = EasyMock.createMock(MicroblogRevisionStorage.class);
-		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(1337l);
+		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(new MicroblogPostIdentifier(1337l));
 		EasyMock.replay(microblogRevisionStorage);
 
 		final MailService mailService = EasyMock.createMock(MailService.class);

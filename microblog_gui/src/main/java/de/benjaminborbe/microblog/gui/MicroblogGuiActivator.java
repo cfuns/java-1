@@ -11,7 +11,8 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModules;
 import de.benjaminborbe.microblog.gui.service.MicroblogGuiDashboardWidget;
-import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendConversationServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendPostServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -27,7 +28,10 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	private MicroblogGuiDashboardWidget microblogDashboardWidget;
 
 	@Inject
-	private MicroblogGuiSendServlet microblogSendServlet;
+	private MicroblogGuiSendPostServlet microblogGuiSendPostServlet;
+
+	@Inject
+	private MicroblogGuiSendConversationServlet microblogGuiSendConversationServlet;
 
 	public MicroblogGuiActivator() {
 		super("microblog");
@@ -42,7 +46,8 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(microblogServlet, "/"));
-		result.add(new ServletInfo(microblogSendServlet, "/send"));
+		result.add(new ServletInfo(microblogGuiSendPostServlet, "/post/send"));
+		result.add(new ServletInfo(microblogGuiSendConversationServlet, "/conversation/send"));
 		return result;
 	}
 

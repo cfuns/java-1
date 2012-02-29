@@ -1,4 +1,4 @@
-package de.benjaminborbe.microblog.util;
+package de.benjaminborbe.microblog.post;
 
 import org.slf4j.Logger;
 
@@ -8,8 +8,9 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.microblog.api.MicroblogConnectorException;
-import de.benjaminborbe.microblog.api.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.connector.MicroblogConnector;
+import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
@@ -34,7 +35,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 	}
 
 	@Override
-	public void mailPost(final long rev) throws MicroblogPostMailerException {
+	public void mailPost(final MicroblogPostIdentifier rev) throws MicroblogPostMailerException {
 		logger.trace("send rev = " + rev);
 		try {
 			final Mail mail = buildMail(rev);
@@ -50,7 +51,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		}
 	}
 
-	protected Mail buildMail(final long revision) throws MicroblogConnectorException {
+	protected Mail buildMail(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
 		final MicroblogPostResult post = microblogConnector.getPost(revision);
 		final StringBuffer mailContent = new StringBuffer();
 		mailContent.append(post.getContent());

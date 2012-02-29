@@ -1,4 +1,4 @@
-package de.benjaminborbe.microblog.util;
+package de.benjaminborbe.microblog.connector;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,6 +10,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.connector.MicroblogConnector;
+import de.benjaminborbe.microblog.connector.MicroblogConnectorImpl;
+import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
@@ -31,7 +35,7 @@ public class MicroblogConnectorTest {
 		EasyMock.expect(httpDownloader.downloadUrlUnsecure(new URL("https://micro.rp.seibert-media.net/api/statuses/friends_timeline/bborbe.rss"), 5000)).andReturn(httpDownloadResult);
 		EasyMock.replay(httpDownloader);
 
-		final long rev = 1337l;
+		final MicroblogPostIdentifier rev = new MicroblogPostIdentifier(1337l);
 		final String content = "bla <guid>https://micro.rp.seibert-media.net/notice/" + rev + "</guid> bla";
 
 		final HttpDownloadUtil httpDownloadUtil = EasyMock.createMock(HttpDownloadUtil.class);
@@ -39,7 +43,7 @@ public class MicroblogConnectorTest {
 		EasyMock.replay(httpDownloadUtil);
 
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
-		EasyMock.expect(parseUtil.parseLong(String.valueOf(rev))).andReturn(rev);
+		EasyMock.expect(parseUtil.parseLong(String.valueOf(rev))).andReturn(rev.getId());
 		EasyMock.replay(parseUtil);
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);

@@ -51,6 +51,7 @@ public class FormInputBaseWidget implements FormInputWidget {
 			out.print(" placeholder=\"" + placeholder + "\"");
 		}
 		out.println("/>");
+		out.println("<br/>");
 	}
 
 	public FormInputBaseWidget addName(final String name) {

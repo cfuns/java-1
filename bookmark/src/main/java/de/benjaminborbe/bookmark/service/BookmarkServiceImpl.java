@@ -200,4 +200,20 @@ public class BookmarkServiceImpl implements BookmarkService {
 			throw new BookmarkServiceException("BookmarkServiceException", e);
 		}
 	}
+
+	@Override
+	public boolean deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException {
+		try {
+			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
+			if (bookmark == null) {
+				logger.info("delete bookmark failed, not found");
+				return false;
+			}
+			bookmarkDao.delete(bookmark);
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new BookmarkServiceException("StorageException", e);
+		}
+	}
 }

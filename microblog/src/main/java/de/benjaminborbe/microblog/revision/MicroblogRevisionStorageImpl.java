@@ -1,11 +1,11 @@
-package de.benjaminborbe.microblog.util;
+package de.benjaminborbe.microblog.revision;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.microblog.api.MicroblogRevisionStorageException;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.util.ParseException;
@@ -34,12 +34,12 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 	}
 
 	@Override
-	public Long getLastRevision() throws MicroblogRevisionStorageException {
+	public MicroblogPostIdentifier getLastRevision() throws MicroblogRevisionStorageException {
 		logger.trace("getLastRevision");
 		try {
 			final long result = parseUtil.parseLong(storageService.get(COLUMNFAMILY, ID, KEY));
 			logger.trace("getLastRevision - found " + result);
-			return result;
+			return new MicroblogPostIdentifier(result);
 		}
 		catch (final ParseException e) {
 			logger.trace("ParseException", e);
@@ -52,7 +52,7 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 	}
 
 	@Override
-	public void setLastRevision(final long revision) throws MicroblogRevisionStorageException {
+	public void setLastRevision(final MicroblogPostIdentifier revision) throws MicroblogRevisionStorageException {
 		logger.trace("setLastRevision to " + revision);
 		try {
 			storageService.set(COLUMNFAMILY, ID, KEY, String.valueOf(revision));

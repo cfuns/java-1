@@ -1,4 +1,4 @@
-package de.benjaminborbe.microblog.api;
+package de.benjaminborbe.microblog.post;
 
 public class MicroblogPostMailerException extends Exception {
 
