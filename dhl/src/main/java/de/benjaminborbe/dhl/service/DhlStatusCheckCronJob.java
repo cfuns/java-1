@@ -56,10 +56,16 @@ public class DhlStatusCheckCronJob implements CronJob {
 		for (final DhlIdentifier dhlIdentifier : dhlIdentifierRegistry.getAll()) {
 			try {
 				final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhlIdentifier);
+				logger.debug("newStatus: " + newStatus);
 				final DhlStatus oldStatus = dhlStatusStorage.get(dhlIdentifier);
+				logger.debug("oldStatus: " + oldStatus);
+				dhlStatusStorage.store(newStatus);
 				if (oldStatus == null || !oldStatus.equals(newStatus)) {
 					dhlStatusNotifier.mailUpdate(newStatus);
 					logger.info("status mailed");
+				}
+				else {
+					logger.info("status not change, skip mail");
 				}
 			}
 			catch (final DhlStatusFetcherException e) {

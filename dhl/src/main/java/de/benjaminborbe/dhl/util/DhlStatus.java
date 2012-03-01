@@ -48,4 +48,16 @@ public class DhlStatus implements HasBk {
 	public String getBk() {
 		return dhlIdentifier + "-" + calendar.getTimeInMillis() + "-" + place + "-" + message;
 	}
+
+	@Override
+	public int hashCode() {
+		final String bk = getBk();
+		return bk != null ? bk.hashCode() : super.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return getBk();
+	}
+
 }
