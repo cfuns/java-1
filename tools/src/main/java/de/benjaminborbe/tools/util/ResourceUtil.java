@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface ResourceUtil {
 
-	String getResourceContentString(String string) throws IOException;
+	String getResourceContentString(String path) throws IOException;
 
 }

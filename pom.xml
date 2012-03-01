@@ -164,6 +164,10 @@
 		<module>systemstatus_api</module>
 		<module>systemstatus_gui</module>
 		<module>systemstatus_test</module>
+		<module>dhl</module>
+		<module>dhl_api</module>
+		<module>dhl_gui</module>
+		<module>dhl_test</module>
 	</modules>
 	<build>
 		<resources>

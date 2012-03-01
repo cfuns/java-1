@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RegistryImpl<T> implements Registry<T> {
+public class RegistryBase<T> implements Registry<T> {
 
 	private final Set<T> objects = new HashSet<T>();
 

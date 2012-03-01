@@ -4,10 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.tools.util.RegistryImpl;
+import de.benjaminborbe.tools.util.RegistryBase;
 
 @Singleton
-public class CrawlerNotifierRegistry extends RegistryImpl<CrawlerNotifier> {
+public class CrawlerNotifierRegistry extends RegistryBase<CrawlerNotifier> {
 
 	@Inject
 	public CrawlerNotifierRegistry() {

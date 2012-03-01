@@ -35,7 +35,7 @@ public class MailServiceUTF8 implements MailService {
 	@Override
 	public void send(final Mail mail) throws MailSendException {
 		try {
-			logger.trace("send mail to " + mail.getTo());
+			logger.trace("send mail to " + (mail != null ? mail.getTo() : "null"));
 			final String charset = "utf-8";
 			final MimeMessage message = new MimeMessage(mailSessionFactory.getInstance());
 			message.setFrom(new InternetAddress(mail.getFrom()));

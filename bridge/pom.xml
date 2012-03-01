@@ -55,7 +55,7 @@
 								de.benjaminborbe.authentication.api, de.benjaminborbe.authentication.gui, de.benjaminborbe.authorization, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization.gui,
 								de.benjaminborbe.configuration, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration.gui, de.benjaminborbe.googlesearch, de.benjaminborbe.googlesearch.api,
 								de.benjaminborbe.googlesearch.gui, de.benjaminborbe.systemstatus, de.benjaminborbe.systemstatus.api, de.benjaminborbe.systemstatus.gui, de.benjaminborbe.gwt, de.benjaminborbe.gwt.api,
-								de.benjaminborbe.gwt.gui, de.benjaminborbe.vaadin, de.benjaminborbe.vaadin.api, de.benjaminborbe.vaadin.gui 
+								de.benjaminborbe.gwt.gui, de.benjaminborbe.vaadin, de.benjaminborbe.vaadin.api, de.benjaminborbe.vaadin.gui, de.benjaminborbe.dhl, de.benjaminborbe.dhl.api, de.benjaminborbe.dhl.gui 
 							</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
@@ -734,6 +734,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.vaadin.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.dhl</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.dhl.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.dhl.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

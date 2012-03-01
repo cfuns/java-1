@@ -6,10 +6,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.Configuration;
-import de.benjaminborbe.tools.util.RegistryImpl;
+import de.benjaminborbe.tools.util.RegistryBase;
 
 @Singleton
-public class ConfigurationRegistry extends RegistryImpl<Configuration<?>> {
+public class ConfigurationRegistry extends RegistryBase<Configuration<?>> {
 
 	private final Logger logger;
 
