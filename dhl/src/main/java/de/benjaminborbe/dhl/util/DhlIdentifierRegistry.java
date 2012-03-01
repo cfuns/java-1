@@ -11,7 +11,7 @@ public class DhlIdentifierRegistry extends RegistryBase<DhlIdentifier> {
 
 	@Inject
 	public DhlIdentifierRegistry() {
-		add(new DhlIdentifier(286476016780l, 65185l));
+		// add(new DhlIdentifier(286476016780l, 65185l));
 	}
 
 }
