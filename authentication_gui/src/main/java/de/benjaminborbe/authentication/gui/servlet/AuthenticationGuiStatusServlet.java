@@ -20,9 +20,11 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.br.BrWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -43,8 +45,10 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+			final AuthenticationService authenticationService,
+			final RedirectUtil redirectUtil,
+			final UrlUtil urlUtil) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 	}
 
 	@Override
@@ -76,5 +80,10 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
 	}
 }

@@ -1,13 +1,17 @@
 package de.benjaminborbe.dhl.service;
 
+import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
+import de.benjaminborbe.dhl.util.DhlIdentifierRegistry;
 import de.benjaminborbe.dhl.util.DhlStatus;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
@@ -23,15 +27,18 @@ public class DhlServiceImpl implements DhlService {
 
 	private final DhlStatusNotifier dhlStatusNotifier;
 
+	private final DhlIdentifierRegistry dhlIdentifierRegistry;
+
 	@Inject
-	public DhlServiceImpl(final Logger logger, final DhlStatusFetcher dhlStatusFetcher, final DhlStatusNotifier dhlStatusNotifier) {
+	public DhlServiceImpl(final Logger logger, final DhlStatusFetcher dhlStatusFetcher, final DhlStatusNotifier dhlStatusNotifier, final DhlIdentifierRegistry dhlIdentifierRegistry) {
 		this.logger = logger;
 		this.dhlStatusFetcher = dhlStatusFetcher;
 		this.dhlStatusNotifier = dhlStatusNotifier;
+		this.dhlIdentifierRegistry = dhlIdentifierRegistry;
 	}
 
 	@Override
-	public void mailStatus(final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+	public void mailStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
 		try {
 			logger.trace("mailStatus - dhlIdentifier: " + dhlIdentifier);
 			final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhlIdentifier);
@@ -43,6 +50,32 @@ public class DhlServiceImpl implements DhlService {
 		catch (final MailSendException e) {
 			throw new DhlServiceException("MailSendException", e);
 		}
+	}
+
+	@Override
+	public Collection<DhlIdentifier> getRegisteredDhlIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException {
+		logger.debug("getRegisteredDhlIdentifiers");
+		return dhlIdentifierRegistry.getAll();
+	}
+
+	@Override
+	public DhlIdentifier createDhlIdentifier(final SessionIdentifier sessionIdentifier, final long id, final long zip) throws DhlServiceException {
+		logger.debug("createDhlIdentifier");
+		return new DhlIdentifier(id, zip);
+	}
+
+	@Override
+	public boolean removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+		logger.debug("removeTracking");
+		dhlIdentifierRegistry.remove(dhlIdentifier);
+		return true;
+	}
+
+	@Override
+	public boolean addTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+		logger.debug("addTracking");
+		dhlIdentifierRegistry.add(dhlIdentifier);
+		return true;
 	}
 
 }

@@ -26,6 +26,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.widget.BookmarkCreateLink;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -36,6 +37,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -66,8 +68,9 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
+			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.bookmarkService = bookmarkService;
 		this.urlUtil = urlUtil;
 	}
@@ -97,7 +100,7 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 				ul.add(b);
 			}
 			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(request, "/bookmark/create", "add bookmark"));
+			widgets.add(new BookmarkCreateLink(request));
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

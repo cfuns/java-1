@@ -22,7 +22,9 @@ import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -45,8 +47,10 @@ public class MonitoringGuiServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final MonitoringWidget monitoringWidget,
-			final Provider<HttpContext> httpContextProvider) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+			final Provider<HttpContext> httpContextProvider,
+			final RedirectUtil redirectUtil,
+			final UrlUtil urlUtil) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.monitoringWidget = monitoringWidget;
 	}
 

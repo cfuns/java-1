@@ -31,7 +31,10 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 
 public class MicroblogGuiServletTest {
 
@@ -104,13 +107,7 @@ public class MicroblogGuiServletTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new Provider<HttpContext>() {
-
-			@Override
-			public HttpContext get() {
-				return httpContext;
-			}
-		};
+		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
 		final MicroblogService microblogRevisionStorage = EasyMock.createMock(MicroblogService.class);
 		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(null);
 		EasyMock.replay(microblogRevisionStorage);
@@ -123,8 +120,14 @@ public class MicroblogGuiServletTest {
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
+		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
+		EasyMock.replay(redirectUtil);
+
+		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.replay(urlUtil);
+
 		final MicroblogGuiServlet microblogServlet = new MicroblogGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, microblogRevisionStorage);
+				httpContextProvider, microblogRevisionStorage, redirectUtil, urlUtil);
 
 		microblogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -30,7 +30,10 @@ import de.benjaminborbe.sample.gui.guice.SampleGuiModulesMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 
 public class SampleGuiServletTest {
 
@@ -103,13 +106,7 @@ public class SampleGuiServletTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new Provider<HttpContext>() {
-
-			@Override
-			public HttpContext get() {
-				return httpContext;
-			}
-		};
+		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -119,7 +116,14 @@ public class SampleGuiServletTest {
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
-		final SampleGuiServlet sampleServlet = new SampleGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider);
+		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
+		EasyMock.replay(redirectUtil);
+
+		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.replay(urlUtil);
+
+		final SampleGuiServlet sampleServlet = new SampleGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+				redirectUtil, urlUtil);
 
 		sampleServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

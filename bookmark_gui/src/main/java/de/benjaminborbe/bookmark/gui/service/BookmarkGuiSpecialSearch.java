@@ -16,6 +16,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.widget.BookmarkCreateLink;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.util.SearchUtil;
@@ -60,6 +61,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 				final ListWidget widgets = new ListWidget();
 				widgets.add(new H2Widget("Bookmarksearch"));
 				widgets.add("no match");
+				widgets.add(new BookmarkCreateLink(request));
 				widgets.render(request, response, context);
 			}
 		}

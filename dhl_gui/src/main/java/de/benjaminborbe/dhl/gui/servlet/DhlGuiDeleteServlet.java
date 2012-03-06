@@ -24,6 +24,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -33,22 +34,26 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
+public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private static final long serialVersionUID = 4956434804365230995L;
 
-	private static final String TITLE = "Dhl";
+	private static final String TITLE = "Dhl - Remove Tracking";
+
+	private static final String PARAMETER_ID = "id";
+
+	private static final String PARAMETER_ZIP = "zip";
 
 	private final DhlService dhlService;
 
 	@Inject
-	public DhlGuiSendStatusServlet(
+	public DhlGuiDeleteServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
 			final DhlService dhlService,
 			final RedirectUtil redirectUtil,
@@ -68,10 +73,19 @@ public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
+			try {
+				final long id = parseUtil.parseLong(request.getParameter(PARAMETER_ID));
+				final long zip = parseUtil.parseLong(request.getParameter(PARAMETER_ZIP));
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(sessionIdentifier, id, zip);
+				if (dhlService.removeTracking(sessionIdentifier, dhlIdentifier)) {
+					throw new RedirectException("/dhl/list");
+				}
+			}
+			catch (final ParseException e) {
+			}
 			widgets.add(new H1Widget(getTitle()));
-			final DhlIdentifier dhlIdentifier = new DhlIdentifier(286476016780l, 65185l);
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			dhlService.mailStatus(sessionIdentifier, dhlIdentifier);
+			widgets.add("delete tracking failed");
 			return widgets;
 		}
 		catch (final DhlServiceException e) {

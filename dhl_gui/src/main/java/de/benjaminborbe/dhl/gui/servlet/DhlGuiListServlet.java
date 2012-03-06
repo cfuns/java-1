@@ -18,6 +18,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
+import de.benjaminborbe.dhl.gui.widget.DhlGuiCreateDhlIdentifierLink;
+import de.benjaminborbe.dhl.gui.widget.DhlGuiDeleteDhlIdentifierLink;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -25,24 +27,24 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
+public class DhlGuiListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Dhl";
+	private static final String TITLE = "Dhl - List Tracking";
 
 	private final DhlService dhlService;
 
 	@Inject
-	public DhlGuiSendStatusServlet(
+	public DhlGuiListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -50,9 +52,9 @@ public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final DhlService dhlService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final DhlService dhlService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.dhlService = dhlService;
 	}
@@ -64,23 +66,31 @@ public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+			PermissionDeniedException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final DhlIdentifier dhlIdentifier = new DhlIdentifier(286476016780l, 65185l);
+			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			dhlService.mailStatus(sessionIdentifier, dhlIdentifier);
+			for (final DhlIdentifier dhlIdentifier : dhlService.getRegisteredDhlIdentifiers(sessionIdentifier)) {
+				final ListWidget row = new ListWidget();
+				row.add(String.valueOf(dhlIdentifier.getId()));
+				row.add(" ");
+				row.add(new DhlGuiDeleteDhlIdentifierLink(request, dhlIdentifier));
+				ul.add(row);
+			}
+			widgets.add(ul);
+			widgets.add(new DhlGuiCreateDhlIdentifierLink(request));
 			return widgets;
 		}
-		catch (final DhlServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		}
 		catch (final AuthenticationServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
+		}
+		catch (final DhlServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
 		}
 	}
 }

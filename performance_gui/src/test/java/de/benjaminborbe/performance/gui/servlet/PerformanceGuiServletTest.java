@@ -33,7 +33,10 @@ import de.benjaminborbe.performance.gui.guice.PerformanceGuiModulesMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 
 public class PerformanceGuiServletTest {
 
@@ -106,13 +109,7 @@ public class PerformanceGuiServletTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new Provider<HttpContext>() {
-
-			@Override
-			public HttpContext get() {
-				return httpContext;
-			}
-		};
+		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
 
 		final PerformanceService performanceTracker = EasyMock.createMock(PerformanceService.class);
 		EasyMock.expect(performanceTracker.getSlowestEntries(20)).andReturn(new ArrayList<PerformanceEntry>());
@@ -126,8 +123,14 @@ public class PerformanceGuiServletTest {
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
+		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
+		EasyMock.replay(redirectUtil);
+
+		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.replay(urlUtil);
+
 		final PerformanceGuiServlet performanceServlet = new PerformanceGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, performanceTracker);
+				httpContextProvider, performanceTracker, redirectUtil, urlUtil);
 
 		performanceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

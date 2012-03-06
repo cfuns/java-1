@@ -2,9 +2,12 @@ package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -32,6 +36,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
@@ -64,6 +69,10 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	protected final AuthenticationService authenticationService;
 
+	private final RedirectUtil redirectUtil;
+
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public WebsiteHtmlServlet(
 			final Logger logger,
@@ -72,7 +81,9 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider) {
+			final Provider<HttpContext> httpContextProvider,
+			final RedirectUtil redirectUtil,
+			final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
@@ -80,6 +91,8 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		this.navigationWidget = navigationWidget;
 		this.authenticationService = authenticationService;
 		this.httpContextProvider = httpContextProvider;
+		this.redirectUtil = redirectUtil;
+		this.urlUtil = urlUtil;
 	}
 
 	protected abstract String getTitle();
@@ -102,6 +115,23 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		logger.trace("service");
+
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			if (isLoginRequired() && !authenticationService.isLoggedIn(sessionIdentifier)) {
+				response.sendRedirect(buildLoginUrl(request));
+				return;
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			final PrintWriter out = response.getWriter();
+			out.println("<html><head></head><body>");
+			out.println("<pre>");
+			e.printStackTrace(out);
+			out.println("</pre>");
+			out.println("</body></html>");
+		}
+
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		final HttpContext context = httpContextProvider.get();
@@ -119,14 +149,44 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			out.println("</body></html>");
 		}
 		catch (final RedirectException e) {
-			final String target = e.getTarget();
-			if (target.indexOf("/") == 0) {
-				response.sendRedirect(request.getContextPath() + target);
-			}
-			else {
-				response.sendRedirect(target);
+			redirectUtil.sendRedirect(request, response, e.getTarget());
+			return;
+		}
+	}
+
+	protected String buildLoginUrl(final HttpServletRequest request) {
+		final StringWriter result = new StringWriter();
+		result.append(request.getContextPath());
+		result.append("/authentication/login?referer=");
+		try {
+			result.append(buildReferer(request));
+		}
+		catch (final UnsupportedEncodingException e) {
+			logger.info("buildReferer failed");
+		}
+		return result.toString();
+	}
+
+	protected String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
+		final StringWriter referer = new StringWriter();
+		final String requestUri = request.getRequestURI().replaceFirst("//", "/");
+		logger.debug("requestUri=" + requestUri);
+		referer.append(requestUri);
+		referer.append("?");
+		@SuppressWarnings("unchecked")
+		final Enumeration<String> e = request.getParameterNames();
+		final List<String> pairs = new ArrayList<String>();
+		while (e.hasMoreElements()) {
+			final String name = e.nextElement();
+			final String[] values = request.getParameterValues(name);
+			for (final String value : values) {
+				pairs.add(urlUtil.encode(name) + "=" + urlUtil.encode(value));
 			}
 		}
+		referer.append(StringUtils.join(pairs, "&"));
+		final String result = referer.toString();
+		logger.info("buildReferer => " + result);
+		return urlUtil.encode(result);
 	}
 
 	protected Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
@@ -237,4 +297,10 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return result;
 	}
 
+	/**
+	 * default login is required for each html-servlet
+	 */
+	protected boolean isLoginRequired() {
+		return true;
+	}
 }

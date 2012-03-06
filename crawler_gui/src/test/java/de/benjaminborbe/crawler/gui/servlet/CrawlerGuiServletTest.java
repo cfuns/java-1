@@ -31,7 +31,10 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 
 public class CrawlerGuiServletTest {
 
@@ -105,13 +108,7 @@ public class CrawlerGuiServletTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new Provider<HttpContext>() {
-
-			@Override
-			public HttpContext get() {
-				return httpContext;
-			}
-		};
+		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -124,8 +121,14 @@ public class CrawlerGuiServletTest {
 		final CrawlerService crawlerService = EasyMock.createMock(CrawlerService.class);
 		EasyMock.replay(crawlerService);
 
+		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
+		EasyMock.replay(redirectUtil);
+
+		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.replay(urlUtil);
+
 		final CrawlerGuiServlet crawlerServlet = new CrawlerGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider,
-				crawlerService);
+				crawlerService, redirectUtil, urlUtil);
 
 		crawlerServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

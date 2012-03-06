@@ -21,7 +21,9 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -29,6 +31,7 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -55,8 +58,10 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider);
+			final AuthenticationService authenticationService,
+			final RedirectUtil redirectUtil,
+			final UrlUtil urlUtil) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 	}
 
 	@Override
@@ -92,6 +97,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
 			form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
+			form.addFormInputWidget(new FormInputHiddenWidget(PARAMETER_REFERER));
 			form.addFormInputWidget(new FormInputSubmitWidget("login"));
 			widgets.add(form);
 			widgets.add(new LinkRelativWidget(request, "/authentication/register", "no user? register here!"));
@@ -102,4 +108,10 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
+	}
+
 }
