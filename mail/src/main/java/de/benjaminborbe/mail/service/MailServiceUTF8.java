@@ -34,8 +34,11 @@ public class MailServiceUTF8 implements MailService {
 
 	@Override
 	public void send(final Mail mail) throws MailSendException {
+		if (mail == null) {
+			throw new MailSendException("parameter mail missing");
+		}
 		try {
-			logger.trace("send mail to " + (mail != null ? mail.getTo() : "null"));
+			logger.trace("send mail to " + mail.getTo());
 			final String charset = "utf-8";
 			final MimeMessage message = new MimeMessage(mailSessionFactory.getInstance());
 			message.setFrom(new InternetAddress(mail.getFrom()));

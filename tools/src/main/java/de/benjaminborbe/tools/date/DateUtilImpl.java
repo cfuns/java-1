@@ -11,33 +11,31 @@ import de.benjaminborbe.tools.util.ParseException;
 @Singleton
 public class DateUtilImpl implements DateUtil {
 
-	private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-
-	private static final SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
-
-	private static final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 	@Inject
 	public DateUtilImpl() {
 	}
 
 	@Override
 	public String dateString(final Date date) {
+		final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateformat.format(date);
 	}
 
 	@Override
 	public String timeString(final Date date) {
+		final SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 		return timeformat.format(date);
 	}
 
 	@Override
 	public String dateTimeString(final Date date) {
+		final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return datetimeformat.format(date);
 	}
 
 	@Override
 	public Date parseDateTime(final String datetime) throws ParseException {
+		final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			return datetimeformat.parse(datetime);
 		}

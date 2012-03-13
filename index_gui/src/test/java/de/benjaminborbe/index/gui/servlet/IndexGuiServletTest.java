@@ -1,11 +1,6 @@
 package de.benjaminborbe.index.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +19,7 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.index.gui.guice.IndexGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -31,6 +27,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -54,11 +51,7 @@ public class IndexGuiServletTest {
 		EasyMock.replay(logger);
 
 		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		final StringWriter sw = new StringWriter();
-		final PrintWriter printWriter = new PrintWriter(sw);
-		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
+		response.sendRedirect("/path/authentication/login?referer=/search?");
 		EasyMock.replay(response);
 
 		final String sessionId = "324908234890";
@@ -71,6 +64,8 @@ public class IndexGuiServletTest {
 		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
+		EasyMock.expect(request.getRequestURI()).andReturn("/search").anyTimes();
+		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -111,23 +106,26 @@ public class IndexGuiServletTest {
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
+		final UserIdentifier userIdentifier = EasyMock.createMock(UserIdentifier.class);
+		EasyMock.replay(userIdentifier);
+
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
 		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
+		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
 		EasyMock.replay(redirectUtil);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.expect(urlUtil.encode("/search?")).andReturn("/search?").anyTimes();
 		EasyMock.replay(urlUtil);
 
 		final IndexGuiServlet indexServlet = new IndexGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
 				redirectUtil, urlUtil);
 
 		indexServlet.service(request, response);
-		final String content = sw.getBuffer().toString();
-		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Index</h1>") != -1);
+		EasyMock.verify(response);
 	}
 }

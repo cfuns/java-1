@@ -25,6 +25,7 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.performance.api.PerformanceEntry;
@@ -118,9 +119,13 @@ public class PerformanceGuiServletTest {
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
+		final UserIdentifier userIdentifier = EasyMock.createMock(UserIdentifier.class);
+		EasyMock.replay(userIdentifier);
+
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
+		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);

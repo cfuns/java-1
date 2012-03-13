@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.gui.guice.StorageGuiModulesMock;
@@ -31,6 +32,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -71,6 +73,8 @@ public class StorageGuiServletTest {
 		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
+		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
+		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -111,9 +115,13 @@ public class StorageGuiServletTest {
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
+		final UserIdentifier userIdentifier = EasyMock.createMock(UserIdentifier.class);
+		EasyMock.replay(userIdentifier);
+
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
+		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);

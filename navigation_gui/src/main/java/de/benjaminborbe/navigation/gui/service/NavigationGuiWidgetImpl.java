@@ -64,7 +64,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 	}
 
 	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
-		if (url != null && url.indexOf("/") == 0) {
+		if (url.indexOf("/") == 0) {
 			return new URL("http://bb" + url);
 		}
 		else {

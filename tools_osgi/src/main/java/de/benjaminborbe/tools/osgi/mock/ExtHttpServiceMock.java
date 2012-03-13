@@ -81,7 +81,7 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	@Override
 	public void unregisterFilter(final Filter filter) {
-		servletAlias.remove(filter);
+		filterAlias.remove(filter);
 		unregisterFilterCallCounter++;
 	}
 

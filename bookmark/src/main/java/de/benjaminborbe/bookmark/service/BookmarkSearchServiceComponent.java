@@ -63,7 +63,7 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected URL buildUrl(final String url) throws MalformedURLException {
-		if (url != null && url.indexOf("/") == 0) {
+		if (url.indexOf("/") == 0) {
 			return new URL("http://bb" + url);
 		}
 		else {

@@ -22,7 +22,6 @@ public class IndexTest extends OSGiTestCase {
 
 	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
