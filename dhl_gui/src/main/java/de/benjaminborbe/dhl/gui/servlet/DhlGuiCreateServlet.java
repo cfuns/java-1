@@ -85,7 +85,7 @@ public class DhlGuiCreateServlet extends WebsiteHtmlServlet {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(sessionIdentifier, id, zip);
 				if (dhlService.addTracking(sessionIdentifier, dhlIdentifier)) {
-					throw new RedirectException("/dhl/list");
+					throw new RedirectException(request.getContextPath() + "/dhl/list");
 				}
 			}
 			catch (final ParseException e) {

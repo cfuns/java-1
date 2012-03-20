@@ -73,7 +73,7 @@ public class BookmarkGuiDeleteServlet extends WebsiteHtmlServlet {
 			final String url = request.getParameter(PARAMETER_URL);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (url != null && bookmarkService.deleteBookmark(sessionIdentifier, bookmarkService.createBookmarkIdentifier(sessionIdentifier, url))) {
-				throw new RedirectException("/bookmark/list");
+				throw new RedirectException(request.getContextPath() + "/bookmark/list");
 			}
 			else {
 				widgets.add("delete bookmark failed");

@@ -168,6 +168,10 @@
 		<module>dhl_api</module>
 		<module>dhl_gui</module>
 		<module>dhl_test</module>
+		<module>wow</module>
+		<module>wow_api</module>
+		<module>wow_gui</module>
+		<module>wow_test</module>
 	</modules>
 	<build>
 		<resources>

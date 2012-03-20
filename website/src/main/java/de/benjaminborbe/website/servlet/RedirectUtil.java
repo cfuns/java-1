@@ -22,11 +22,6 @@ public class RedirectUtil {
 
 	public void sendRedirect(final HttpServletRequest request, final HttpServletResponse response, final String target) throws IOException {
 		logger.debug("send redirect to " + target);
-		if (target.indexOf("/") == 0) {
-			response.sendRedirect(request.getContextPath() + target);
-		}
-		else {
-			response.sendRedirect(target);
-		}
+		response.sendRedirect(target);
 	}
 }

@@ -42,4 +42,9 @@ public class ServiceInfo {
 		return properties;
 	}
 
+	@Override
+	public String toString() {
+		return "ServiceInfo for " + getName();
+	}
+
 }

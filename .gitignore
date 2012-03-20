@@ -137,3 +137,7 @@ dhl/target
 dhl_api/target
 dhl_gui/target
 dhl_test/target
+wow/target
+wow_api/target
+wow_gui/target
+wow_test/target

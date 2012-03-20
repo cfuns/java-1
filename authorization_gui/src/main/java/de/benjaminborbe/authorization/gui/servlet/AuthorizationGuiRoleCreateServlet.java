@@ -73,7 +73,7 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String name = request.getParameter("name");
 			if (name != null && authorizationService.createRole(sessionIdentifier, new RoleIdentifier(name))) {
-				throw new RedirectException("/authorization/role");
+				throw new RedirectException(request.getContextPath() + "/authorization/role");
 			}
 			else {
 				final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);

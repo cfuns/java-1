@@ -89,7 +89,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			if (url != null && name != null && description != null && keywords != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				if (bookmarkService.createBookmark(sessionIdentifier, url, name, description, buildKeywords(keywords), false)) {
-					throw new RedirectException("/bookmark/list");
+					throw new RedirectException(request.getContextPath() + "/bookmark/list");
 				}
 				else {
 					widgets.add("add bookmark failed!");
