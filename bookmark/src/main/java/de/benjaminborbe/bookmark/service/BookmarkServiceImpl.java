@@ -24,6 +24,8 @@ import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
+import de.benjaminborbe.tools.validation.ValidationResult;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
@@ -58,11 +60,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	private final AuthenticationService authenticationService;
 
+	private final ValidationExecutor validationExecutor;
+
 	@Inject
-	public BookmarkServiceImpl(final Logger logger, final AuthenticationService authenticationService, final BookmarkDao bookmarkDao) {
+	public BookmarkServiceImpl(final Logger logger, final AuthenticationService authenticationService, final BookmarkDao bookmarkDao, final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.bookmarkDao = bookmarkDao;
+		this.validationExecutor = validationExecutor;
 	}
 
 	@Override
@@ -178,9 +183,16 @@ public class BookmarkServiceImpl implements BookmarkService {
 			bookmark.setDescription(description);
 			bookmark.setKeywords(keywords);
 			bookmark.setOwnerUsername(userIdentifier);
-			bookmarkDao.save(bookmark);
 
-			return true;
+			final ValidationResult errors = validationExecutor.validate(bookmark);
+			if (errors.isEmpty()) {
+				bookmarkDao.save(bookmark);
+				return true;
+			}
+			else {
+				logger.warn("Bookmark " + errors.toString());
+				return false;
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new BookmarkServiceException("AuthenticationServiceException", e);

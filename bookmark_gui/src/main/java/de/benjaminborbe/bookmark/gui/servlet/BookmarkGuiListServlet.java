@@ -1,6 +1,7 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 		return widgets;
 	}
 
-	protected Widget createLinksWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	protected Widget createLinksWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PermissionDeniedException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H2Widget("Links"));
@@ -108,6 +109,14 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 		catch (final BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final MalformedURLException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final UnsupportedEncodingException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

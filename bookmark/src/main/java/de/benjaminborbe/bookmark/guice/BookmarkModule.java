@@ -20,5 +20,7 @@ public class BookmarkModule extends AbstractModule {
 		bind(BookmarkDao.class).to(BookmarkDaoStorage.class).in(Singleton.class);
 		bind(BookmarkService.class).to(BookmarkServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(BookmarkValidatorLinker.class);
 	}
 }

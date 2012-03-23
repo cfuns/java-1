@@ -34,11 +34,14 @@ import de.benjaminborbe.tools.util.ThreadPoolExecuter;
 import de.benjaminborbe.tools.util.ThreadPoolExecuterImpl;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerImpl;
+import de.benjaminborbe.tools.validation.ValidatorRegistry;
+import de.benjaminborbe.tools.validation.ValidatorRegistryImpl;
 
 public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ValidatorRegistry.class).to(ValidatorRegistryImpl.class).in(Singleton.class);
 		bind(ThreadPoolExecuter.class).to(ThreadPoolExecuterImpl.class);
 		bind(UrlUtil.class).to(UrlUtilImpl.class).in(Singleton.class);
 		bind(HtmlUtil.class).to(HtmlUtilImpl.class).in(Singleton.class);
