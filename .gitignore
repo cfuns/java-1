@@ -141,3 +141,7 @@ wow/target
 wow_api/target
 wow_gui/target
 wow_test/target
+streamcache/target
+streamcache_api/target
+streamcache_gui/target
+streamcache_test/target

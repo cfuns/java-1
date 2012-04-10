@@ -1,5 +1,6 @@
 package de.benjaminborbe.tools.util;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,6 +25,27 @@ public class MathUtil {
 			}
 		}
 		return result;
+	}
+
+	public Integer minInteger(final Integer... numbers) {
+		return minInteger(Arrays.asList(numbers));
+	}
+
+	public Integer minInteger(final Collection<Integer> numbers) {
+		Integer result = null;
+		for (final Integer n : numbers) {
+			if (result == null) {
+				result = n;
+			}
+			else {
+				result = Math.min(result, n);
+			}
+		}
+		return result;
+	}
+
+	public Integer maxInteger(final Integer... numbers) {
+		return maxInteger(Arrays.asList(numbers));
 	}
 
 	public Integer maxInteger(final Collection<Integer> numbers) {

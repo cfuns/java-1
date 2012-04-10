@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.guice.CronModules;
 import de.benjaminborbe.cron.service.CronJobServiceTracker;
 import de.benjaminborbe.cron.util.CronJobRegistry;
@@ -30,6 +31,9 @@ public class CronActivator extends BaseBundleActivator {
 
 	@Inject
 	private CronController cronController;
+
+	@Inject
+	private CronService cronService;
 
 	@Override
 	protected void onStarted() {
@@ -69,6 +73,7 @@ public class CronActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronController.class, cronController));
+		result.add(new ServiceInfo(CronService.class, cronService));
 		return result;
 	}
 

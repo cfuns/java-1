@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.cron.util.CronExecutionHistory;
 import de.benjaminborbe.cron.util.CronJobRegistry;
 
 @Singleton
@@ -20,10 +21,13 @@ public class CronJobOsgi implements Job {
 
 	private final CronJobRegistry cronJobRegistry;
 
+	private final CronExecutionHistory cronExecutionHistory;
+
 	@Inject
-	public CronJobOsgi(final Logger logger, final CronJobRegistry cronJobRegistry) {
+	public CronJobOsgi(final Logger logger, final CronJobRegistry cronJobRegistry, final CronExecutionHistory cronExecutionHistory) {
 		this.logger = logger;
 		this.cronJobRegistry = cronJobRegistry;
+		this.cronExecutionHistory = cronExecutionHistory;
 	}
 
 	@Override
@@ -34,6 +38,7 @@ public class CronJobOsgi implements Job {
 			final CronJob cronJob = cronJobRegistry.getByName(name);
 			if (cronJob != null) {
 				cronJob.execute();
+				cronExecutionHistory.add(name);
 				logger.trace("CronJobOsgi.execute - finished job: " + name);
 			}
 			else {

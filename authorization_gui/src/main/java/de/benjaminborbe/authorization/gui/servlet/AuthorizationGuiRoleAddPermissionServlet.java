@@ -19,12 +19,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet {
 
@@ -56,11 +53,7 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 			PermissionDeniedException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final UlWidget ul = new UlWidget();
-		ul.add(new LinkRelativWidget(request, "/authorization/role", "Roles"));
-		ul.add(new LinkRelativWidget(request, "/authorization/role", "User"));
-		widgets.add(ul);
+
 		return widgets;
 	}
 }

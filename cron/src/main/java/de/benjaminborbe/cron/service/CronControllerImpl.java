@@ -45,4 +45,15 @@ public class CronControllerImpl implements CronController {
 		}
 	}
 
+	@Override
+	public boolean isRunning() throws CronControllerException {
+		try {
+			logger.trace("isRunning");
+			return quartz.isRunning();
+		}
+		catch (final SchedulerException e) {
+			throw new CronControllerException("SchedulerException", e);
+		}
+	}
+
 }

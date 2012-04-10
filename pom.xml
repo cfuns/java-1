@@ -172,6 +172,10 @@
 		<module>wow_api</module>
 		<module>wow_gui</module>
 		<module>wow_test</module>
+		<module>streamcache</module>
+		<module>streamcache_api</module>
+		<module>streamcache_gui</module>
+		<module>streamcache_test</module>
 	</modules>
 	<build>
 		<resources>

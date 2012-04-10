@@ -22,6 +22,14 @@ import de.benjaminborbe.websearch.util.UpdateDeterminer;
 @Singleton
 public class RefreshPagesCronJob implements CronJob {
 
+	private final class RefreshRunnable implements Runnable {
+
+		@Override
+		public void run() {
+			runOnlyOnceATime.run(new RefreshPages());
+		}
+	}
+
 	private final class RefreshPage implements Runnable {
 
 		private final PageBean page;
@@ -100,13 +108,7 @@ public class RefreshPagesCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.trace("execute started");
-		threadRunner.run("refreshpages", new Runnable() {
-
-			@Override
-			public void run() {
-				runOnlyOnceATime.run(new RefreshPages());
-			}
-		});
+		threadRunner.run("refreshpages", new RefreshRunnable());
 		logger.trace("execute finished");
 	}
 }

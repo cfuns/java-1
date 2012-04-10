@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.gui.guice.CronGuiModules;
+import de.benjaminborbe.cron.gui.servlet.CronGuiLatestExecutedServlet;
 import de.benjaminborbe.cron.gui.servlet.CronGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -18,6 +19,9 @@ public class CronGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private CronGuiServlet cronGuiServlet;
+
+	@Inject
+	private CronGuiLatestExecutedServlet cronGuiLatestExecutedServlet;
 
 	public CronGuiActivator() {
 		super("cron");
@@ -32,6 +36,7 @@ public class CronGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(cronGuiServlet, "/"));
+		result.add(new ServletInfo(cronGuiLatestExecutedServlet, "/latest"));
 		return result;
 	}
 

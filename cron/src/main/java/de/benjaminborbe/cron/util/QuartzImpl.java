@@ -117,4 +117,9 @@ public class QuartzImpl implements Quartz {
 		}
 	}
 
+	@Override
+	public boolean isRunning() throws SchedulerException {
+		return getScheduler().isStarted();
+	}
+
 }

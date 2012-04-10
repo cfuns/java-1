@@ -24,6 +24,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -78,6 +79,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 				}
 			}
 			widgets.add(ul);
+			widgets.add(new LinkRelativWidget(request, "/role/addPermission?role=" + roleIdentifier.getId(), "add permission"));
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

@@ -16,4 +16,9 @@ public class CronControllerMock implements CronController {
 	public void stop() throws CronControllerException {
 	}
 
+	@Override
+	public boolean isRunning() throws CronControllerException {
+		return false;
+	}
+
 }

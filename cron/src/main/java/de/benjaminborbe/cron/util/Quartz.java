@@ -6,6 +6,8 @@ import de.benjaminborbe.cron.api.CronJob;
 
 public interface Quartz {
 
+	boolean isRunning() throws SchedulerException;
+
 	void start() throws SchedulerException;
 
 	void stop() throws SchedulerException;

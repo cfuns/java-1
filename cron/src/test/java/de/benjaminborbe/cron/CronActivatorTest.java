@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.cron.api.CronController;
+import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.guice.CronModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -64,7 +65,7 @@ public class CronActivatorTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(CronController.class.getName());
+		final List<String> names = Arrays.asList(CronController.class.getName(), CronService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
