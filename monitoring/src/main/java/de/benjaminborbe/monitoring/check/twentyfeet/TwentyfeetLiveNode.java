@@ -1,4 +1,4 @@
-package de.benjaminborbe.monitoring.check;
+package de.benjaminborbe.monitoring.check.twentyfeet;
 
 import javax.naming.NamingException;
 
@@ -6,12 +6,25 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.monitoring.check.HasCheckNodeImpl;
+import de.benjaminborbe.monitoring.check.HasChildNodes;
+import de.benjaminborbe.monitoring.check.HasChildNodesImpl;
+import de.benjaminborbe.monitoring.check.TcpCheckBuilder;
+import de.benjaminborbe.monitoring.check.UrlCheckBuilder;
 import de.benjaminborbe.tools.jndi.JndiContext;
 
 public class TwentyfeetLiveNode extends HasChildNodesImpl implements HasChildNodes {
 
 	@Inject
-	public TwentyfeetLiveNode(final Logger logger, final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder, final JndiContext jndiContext) {
+	public TwentyfeetLiveNode(
+			final Logger logger,
+			final TcpCheckBuilder tcpCheckBuilder,
+			final UrlCheckBuilder urlCheckBuilder,
+			final JndiContext jndiContext,
+			final TwentyfeetQueueNode twentyfeetQueueNode) {
+
+		addNode(twentyfeetQueueNode);
+
 		// tcp-checks
 		{
 			final String name = "TCP-Check on www.twentyfeet.com:80";

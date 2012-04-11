@@ -176,6 +176,10 @@
 		<module>streamcache_api</module>
 		<module>streamcache_gui</module>
 		<module>streamcache_test</module>
+		<module>messageservice</module>
+		<module>messageservice_api</module>
+		<module>messageservice_gui</module>
+		<module>messageservice_test</module>
 	</modules>
 	<build>
 		<resources>

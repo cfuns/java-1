@@ -93,7 +93,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			return doDownloadUrl(url, timeout, username, password);
 		}
 		catch (final IOException e) {
-			throw new HttpDownloaderException("IOException", e);
+			throw new HttpDownloaderException("IOException for url " + url, e);
 		}
 	}
 

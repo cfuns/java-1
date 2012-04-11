@@ -102,15 +102,15 @@ public class UrlCheck implements Check {
 		}
 		catch (final MalformedURLException e) {
 			logger.warn("MalformedURLException", e);
-			return new CheckResultImpl(this, false, "MalformedURLException", url);
+			return new CheckResultException(this, e, url);
 		}
 		catch (final IOException e) {
 			logger.warn("IOException", e);
-			return new CheckResultImpl(this, false, "IOException", url);
+			return new CheckResultException(this, e, url);
 		}
 		catch (final HttpDownloaderException e) {
 			logger.warn("HttpDownloaderException", e);
-			return new CheckResultImpl(this, false, "HttpDownloaderException", url);
+			return new CheckResultException(this, e, url);
 		}
 	}
 

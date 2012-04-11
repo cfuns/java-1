@@ -34,19 +34,19 @@ public class CronJobOsgi implements Job {
 	public void execute(final JobExecutionContext context) throws JobExecutionException {
 		final String name = (String) context.getJobDetail().getJobDataMap().get("name");
 		try {
-			logger.trace("CronJobOsgi.execute - starting job: " + name);
+			logger.debug("CronJobOsgi.execute - starting job: " + name);
 			final CronJob cronJob = cronJobRegistry.getByName(name);
 			if (cronJob != null) {
 				cronJob.execute();
 				cronExecutionHistory.add(name);
-				logger.trace("CronJobOsgi.execute - finished job: " + name);
+				logger.debug("CronJobOsgi.execute - finished job: " + name);
 			}
 			else {
 				logger.error("CronJobOsgi.execute - found no cronJob for name: " + name);
 			}
 		}
 		catch (final Exception e) {
-			logger.trace("CronJobOsgi.execute - failed job: " + name + " exception: " + e.getClass().getSimpleName(), e);
+			logger.debug("CronJobOsgi.execute - failed job: " + name + " exception: " + e.getClass().getSimpleName(), e);
 		}
 	}
 }

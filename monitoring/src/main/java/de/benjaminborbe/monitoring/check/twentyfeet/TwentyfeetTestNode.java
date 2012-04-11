@@ -1,4 +1,4 @@
-package de.benjaminborbe.monitoring.check;
+package de.benjaminborbe.monitoring.check.twentyfeet;
 
 import javax.naming.NamingException;
 
@@ -6,6 +6,12 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.monitoring.check.HasCheckNodeImpl;
+import de.benjaminborbe.monitoring.check.HasChildNodes;
+import de.benjaminborbe.monitoring.check.HasPreconditionCheckNode;
+import de.benjaminborbe.monitoring.check.TcpCheckBuilder;
+import de.benjaminborbe.monitoring.check.TreeNode;
+import de.benjaminborbe.monitoring.check.UrlCheckBuilder;
 import de.benjaminborbe.tools.jndi.JndiContext;
 
 public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPreconditionCheckNode {

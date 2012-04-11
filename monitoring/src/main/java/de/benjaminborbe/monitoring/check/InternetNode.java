@@ -2,6 +2,9 @@ package de.benjaminborbe.monitoring.check;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.monitoring.check.twentyfeet.TwentyfeetLiveNode;
+import de.benjaminborbe.monitoring.check.twentyfeet.TwentyfeetTestNode;
+
 public class InternetNode extends TreeNode implements HasChildNodes, HasPreconditionCheckNode {
 
 	@Inject

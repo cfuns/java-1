@@ -56,7 +56,8 @@
 								de.benjaminborbe.configuration, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration.gui, de.benjaminborbe.googlesearch, de.benjaminborbe.googlesearch.api,
 								de.benjaminborbe.googlesearch.gui, de.benjaminborbe.systemstatus, de.benjaminborbe.systemstatus.api, de.benjaminborbe.systemstatus.gui, de.benjaminborbe.gwt, de.benjaminborbe.gwt.api,
 								de.benjaminborbe.gwt.gui, de.benjaminborbe.vaadin, de.benjaminborbe.vaadin.api, de.benjaminborbe.vaadin.gui, de.benjaminborbe.dhl, de.benjaminborbe.dhl.api, de.benjaminborbe.dhl.gui,
-								de.benjaminborbe.wow, de.benjaminborbe.wow.api, de.benjaminborbe.wow.gui, de.benjaminborbe.streamcache, de.benjaminborbe.streamcache.api, de.benjaminborbe.streamcache.gui 
+								de.benjaminborbe.wow, de.benjaminborbe.wow.api, de.benjaminborbe.wow.gui, de.benjaminborbe.streamcache, de.benjaminborbe.streamcache.api, de.benjaminborbe.streamcache.gui,
+								de.benjaminborbe.messageservice, de.benjaminborbe.messageservice.api, de.benjaminborbe.messageservice.gui 
 							</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
@@ -774,7 +775,7 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.streamcache</artifactId>
 			<version>${project.version}</version>
@@ -789,6 +790,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.streamcache.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.messageservice</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.messageservice.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.messageservice.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

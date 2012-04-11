@@ -47,7 +47,7 @@ public class WebsearchActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CrawlerNotifier.class, websearchCrawlerNotify));
 		result.add(new ServiceInfo(SearchServiceComponent.class, websearchSearchServiceComponent, websearchSearchServiceComponent.getClass().getName()));
-		result.add(new ServiceInfo(CronJob.class, refreshPagesCronJob));
+		result.add(new ServiceInfo(CronJob.class, refreshPagesCronJob, refreshPagesCronJob.getClass().getName()));
 		result.add(new ServiceInfo(WebsearchService.class, websearchService));
 		return result;
 	}

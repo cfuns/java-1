@@ -108,15 +108,15 @@ public class HudsonCheck implements Check {
 		}
 		catch (final MalformedURLException e) {
 			logger.warn("MalformedURLException", e);
-			return new CheckResultImpl(this, false, "MalformedURLException", url);
+			return new CheckResultException(this, e, url);
 		}
 		catch (final HttpDownloaderException e) {
 			logger.warn("download " + url + " failed");
-			return new CheckResultImpl(this, false, "HttpDownloaderException", url);
+			return new CheckResultException(this, e, url);
 		}
 		catch (final UnsupportedEncodingException e) {
 			logger.warn("UnsupportedEncodingException", e);
-			return new CheckResultImpl(this, false, "UnsupportedEncodingException", url);
+			return new CheckResultException(this, e, url);
 		}
 	}
 

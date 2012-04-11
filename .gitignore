@@ -145,3 +145,7 @@ streamcache/target
 streamcache_api/target
 streamcache_gui/target
 streamcache_test/target
+messageservice/target
+messageservice_api/target
+messageservice_gui/target
+messageservice_test/target
