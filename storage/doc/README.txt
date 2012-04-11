@@ -67,4 +67,10 @@ create column family user_role with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family permission_role;
+create column family permissio_role with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
   

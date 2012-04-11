@@ -18,6 +18,9 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.permission.PermissionBean;
+import de.benjaminborbe.authorization.permission.PermissionDao;
+import de.benjaminborbe.authorization.permissionrole.PermissionRoleManyToManyRelation;
 import de.benjaminborbe.authorization.role.RoleBean;
 import de.benjaminborbe.authorization.role.RoleDao;
 import de.benjaminborbe.authorization.userrole.UserRoleManyToManyRelation;
@@ -34,20 +37,28 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	private final RoleDao roleDao;
 
+	private final PermissionDao permissionDao;
+
 	private final AuthenticationService authenticationService;
 
 	private final UserRoleManyToManyRelation userRoleManyToManyRelation;
+
+	private final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation;
 
 	@Inject
 	public AuthorizationServiceImpl(
 			final Logger logger,
 			final AuthenticationService authenticationService,
 			final RoleDao roleDao,
-			final UserRoleManyToManyRelation userRoleManyToManyRelation) {
+			final PermissionDao permissionDao,
+			final UserRoleManyToManyRelation userRoleManyToManyRelation,
+			final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.roleDao = roleDao;
+		this.permissionDao = permissionDao;
 		this.userRoleManyToManyRelation = userRoleManyToManyRelation;
+		this.permissionRoleManyToManyRelation = permissionRoleManyToManyRelation;
 	}
 
 	@Override
@@ -72,11 +83,23 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			if (userIdentifier == null) {
 				return false;
 			}
+
+			for (final RoleIdentifier roleIdentifier : roleList()) {
+				if (hasRole(userIdentifier, roleIdentifier)) {
+					if (permissionRoleManyToManyRelation.exists(permissionIdentifier, roleIdentifier)) {
+						return true;
+					}
+				}
+			}
+
 			final String username = userIdentifier.getId();
 			return ADMIN_USERNAME.equals(username);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException("AuthenticationServiceException", e);
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException("StorageException", e);
 		}
 	}
 
@@ -181,4 +204,56 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException("StorageException", e);
 		}
 	}
+
+	@Override
+	public PermissionIdentifier createPermissionIdentifier(final String permissionName) {
+		return new PermissionIdentifier(permissionName);
+	}
+
+	@Override
+	public Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException {
+		try {
+			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
+			for (final PermissionBean permission : permissionDao.getAll()) {
+				result.add(permission.getId());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException("StorageException", e);
+		}
+	}
+
+	@Override
+	public boolean addPermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
+			throws PermissionDeniedException, AuthorizationServiceException {
+		try {
+			expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+
+			logger.info("addPermissionRole " + permissionIdentifier + " " + roleIdentifier);
+			permissionRoleManyToManyRelation.add(permissionIdentifier, roleIdentifier);
+
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException("StorageException", e);
+		}
+	}
+
+	@Override
+	public boolean removePermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
+			throws PermissionDeniedException, AuthorizationServiceException {
+		try {
+			expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+
+			logger.info("removePermissionRole " + permissionIdentifier + " " + roleIdentifier);
+			permissionRoleManyToManyRelation.remove(permissionIdentifier, roleIdentifier);
+
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException("StorageException", e);
+		}
+	}
+
 }

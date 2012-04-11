@@ -79,7 +79,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 				}
 			}
 			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(request, "/role/addPermission?role=" + roleIdentifier.getId(), "add permission"));
+			widgets.add(new LinkRelativWidget(request, "/authorization/role/addPermission?role=" + roleIdentifier.getId(), "add permission"));
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

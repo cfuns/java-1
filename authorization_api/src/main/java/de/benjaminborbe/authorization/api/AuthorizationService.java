@@ -25,7 +25,17 @@ public interface AuthorizationService {
 	boolean removeUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException;
 
-	RoleIdentifier createRoleIdentifier(String rolename);
+	RoleIdentifier createRoleIdentifier(String roleName);
 
 	Collection<RoleIdentifier> roleList() throws AuthorizationServiceException;
+
+	PermissionIdentifier createPermissionIdentifier(String permissionName);
+
+	Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException;
+
+	boolean removePermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
+			AuthorizationServiceException;
+
+	boolean addPermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
+			AuthorizationServiceException;
 }
