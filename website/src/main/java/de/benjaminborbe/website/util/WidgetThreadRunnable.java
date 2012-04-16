@@ -1,11 +1,8 @@
 package de.benjaminborbe.website.util;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.http.HttpServletResponseBuffer;
@@ -37,9 +34,7 @@ public class WidgetThreadRunnable implements Runnable {
 			widget.render(request, response, context);
 			threadResult.set(httpServletResponseAdapter.getStringWriter().toString());
 		}
-		catch (final IOException e) {
-		}
-		catch (final PermissionDeniedException e) {
+		catch (final Exception e) {
 		}
 	}
 

@@ -54,7 +54,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	@Override
 	public void notifiy(final CrawlerResult result) {
-		logger.trace("notify");
+		logger.debug("notify " + result.getUrl());
 		try {
 			updateLastVisit(result);
 			if (isIndexAble(result)) {
@@ -63,10 +63,10 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			}
 		}
 		catch (final StorageException e) {
-			logger.trace("StorageException", e);
+			logger.debug("StorageException", e);
 		}
 		catch (final IndexerServiceException e) {
-			logger.trace("StorageException", e);
+			logger.debug("StorageException", e);
 		}
 	}
 
@@ -85,24 +85,24 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	protected void parseLinks(final CrawlerResult result) {
 		final Set<String> links = htmlUtil.parseLinks(result.getContent());
-		logger.trace("found " + links.size() + " links");
+		logger.debug("found " + links.size() + " links");
 		for (final String link : links) {
 			try {
 				final URL url = buildUrl(result.getUrl(), link);
-				logger.trace("found page: " + url.toExternalForm());
+				logger.debug("found page: " + url.toExternalForm());
 				pageDao.findOrCreate(url);
 			}
 			catch (final MalformedURLException e) {
-				logger.trace("MalformedURLException", e);
+				logger.debug("MalformedURLException", e);
 			}
 			catch (final StorageException e) {
-				logger.trace("StorageException", e);
+				logger.debug("StorageException", e);
 			}
 		}
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
-		logger.trace("buildUrl url: " + baseUrl + " link: " + link);
+		logger.debug("buildUrl url: " + baseUrl + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
 			url = link;
@@ -139,7 +139,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			url = sw.toString();
 		}
 		final String result = cleanUpUrl(url);
-		logger.trace("result = " + result);
+		logger.debug("result = " + result);
 		return new URL(result);
 	}
 
@@ -170,7 +170,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 				}
 			}
 		}
-		logger.trace("add url " + result.getUrl() + " to index");
+		logger.debug("add url " + result.getUrl() + " to index");
 		indexerService.addToIndex(WebsearchActivator.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
 	}
 

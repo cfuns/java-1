@@ -1,8 +1,6 @@
 package de.benjaminborbe.tools.fifo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Test;
@@ -29,9 +27,17 @@ public class FifoTest {
 	@Test
 	public void testAddGet() throws Exception {
 		final Fifo<Object> fifo = new Fifo<Object>();
-		final Object o = new Object();
-		fifo.add(o);
-		assertEquals(o, fifo.get(0));
+		final Object o1 = "a";
+		fifo.add(o1);
+		assertEquals(o1, fifo.get(0));
+		assertEquals(o1, fifo.get());
+		final Object o2 = "b";
+		fifo.add(o2);
+		assertEquals(o1, fifo.get(0));
+		assertEquals(o1, fifo.get());
+		fifo.remove();
+		assertEquals(o2, fifo.get(0));
+		assertEquals(o2, fifo.get());
 	}
 
 	@Test
@@ -74,5 +80,25 @@ public class FifoTest {
 		assertEquals(1, fifo.last(1).size());
 		assertEquals(2, fifo.last(2).size());
 		assertEquals(3, fifo.last(3).size());
+	}
+
+	public void testRemove() throws Exception {
+		final Fifo<Object> fifo = new Fifo<Object>();
+		final Object o1 = "1";
+		fifo.add(o1);
+		final Object o2 = "2";
+		fifo.add(o2);
+		assertEquals(2, fifo.size());
+		fifo.remove();
+		assertEquals(1, fifo.size());
+		fifo.remove();
+		assertEquals(0, fifo.size());
+		try {
+			fifo.remove();
+			fail("execption expected");
+		}
+		catch (final FifoIndexOutOfBoundsException e) {
+			assertNotNull(e);
+		}
 	}
 }

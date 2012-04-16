@@ -34,7 +34,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class TwentyfeetQueueCheck implements Check {
 
-	class TwentyfeetApidataCheckResult {
+	private final class TwentyfeetApidataCheckResult {
 
 		private final Map<String, TwentyfeetApidataCheckResultEntry> data = new HashMap<String, TwentyfeetApidataCheckResultEntry>();
 
@@ -58,7 +58,7 @@ public class TwentyfeetQueueCheck implements Check {
 		}
 	}
 
-	class TwentyfeetApidataCheckResultEntry {
+	private final class TwentyfeetApidataCheckResultEntry {
 
 		private final int missing;
 

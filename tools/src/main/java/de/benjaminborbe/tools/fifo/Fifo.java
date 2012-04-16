@@ -15,6 +15,10 @@ public class Fifo<T> {
 		data.add(value);
 	}
 
+	public T get() throws FifoIndexOutOfBoundsException {
+		return get(0);
+	}
+
 	public T get(final int index) throws FifoIndexOutOfBoundsException {
 		if (index >= data.size() || index < 0)
 			throw new FifoIndexOutOfBoundsException("no such element");
@@ -28,7 +32,7 @@ public class Fifo<T> {
 	public void remove() throws FifoIndexOutOfBoundsException {
 		if (data.size() == 0)
 			throw new FifoIndexOutOfBoundsException("can't remove element of empty fifo");
-		data.remove(0);
+		data.removeFirst();
 	}
 
 	public List<T> first(final int amount) throws FifoIndexOutOfBoundsException {

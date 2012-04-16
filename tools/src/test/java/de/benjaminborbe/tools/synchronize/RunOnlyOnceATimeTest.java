@@ -31,7 +31,7 @@ public class RunOnlyOnceATimeTest {
 					threadResult.set(threadResult.get() + 1);
 				}
 			}
-			catch (final InterruptedException e) {
+			catch (final Exception e) {
 			}
 		}
 	}

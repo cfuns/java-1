@@ -6,6 +6,7 @@ import java.net.URL;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -40,19 +41,21 @@ public class IndexerServiceImpl implements IndexerService {
 
 	@Override
 	public void addToIndex(final String indexName, final URL url, final String title, final String content) throws IndexerServiceException {
-		logger.trace("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 20));
+		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 20));
 
 		if (!validateInput(indexName, url, title, content)) {
 			logger.warn("input not valid, skipping add to index");
 			return;
 		}
-
+		IndexWriter indexWriter = null;
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
 			final StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
-			final IndexWriter indexWriter = new IndexWriter(index, indexWriterConfig);
+
+			// TODO only one indexwriter
+			indexWriter = new IndexWriter(index, indexWriterConfig);
 
 			final Term term = new Term(IndexField.ID.getFieldName(), url.toExternalForm());
 			final Document doc = new Document();
@@ -67,31 +70,57 @@ public class IndexerServiceImpl implements IndexerService {
 			indexWriter.forceMergeDeletes();
 			indexWriter.commit();
 			indexWriter.close();
+			indexWriter = null;
 		}
 		catch (final IOException e) {
 			logger.error("IOException", e);
 			throw new IndexerServiceException("IOException", e);
+		}
+		finally {
+			if (indexWriter != null) {
+				try {
+					indexWriter.close();
+				}
+				catch (final CorruptIndexException e) {
+				}
+				catch (final IOException e) {
+				}
+			}
 		}
 	}
 
 	@Override
 	public void clear(final String indexName) throws IndexerServiceException {
-
+		IndexWriter indexWriter = null;
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
 			final StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
-			final IndexWriter indexWriter = new IndexWriter(index, indexWriterConfig);
+
+			// TODO only one indexwriter
+			indexWriter = new IndexWriter(index, indexWriterConfig);
 
 			indexWriter.deleteAll();
 
 			indexWriter.commit();
 			indexWriter.close();
+			indexWriter = null;
 		}
 		catch (final IOException e) {
 			logger.error("IOException", e);
 			throw new IndexerServiceException("IOException", e);
+		}
+		finally {
+			if (indexWriter != null) {
+				try {
+					indexWriter.close();
+				}
+				catch (final CorruptIndexException e) {
+				}
+				catch (final IOException e) {
+				}
+			}
 		}
 	}
 
@@ -112,7 +141,7 @@ public class IndexerServiceImpl implements IndexerService {
 			logger.warn("content not valid: " + content);
 			return false;
 		}
-		logger.trace("input valid");
+		logger.debug("input valid");
 		return true;
 	}
 }

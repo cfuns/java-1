@@ -13,7 +13,6 @@ import javax.servlet.ServletContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.BundleException;
 
 public final class ProvisionActivator implements BundleActivator {
 
@@ -31,7 +30,7 @@ public final class ProvisionActivator implements BundleActivator {
 				servletContext.log("Starting bundle [" + bundle.getSymbolicName() + "]");
 				bundle.start();
 			}
-			catch (final BundleException e) {
+			catch (final Exception e) {
 			}
 		}
 	}

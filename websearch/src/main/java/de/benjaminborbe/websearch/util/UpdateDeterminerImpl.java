@@ -40,12 +40,12 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 
 	@Override
 	public Collection<PageBean> determineExpiredPages() throws StorageException {
-		logger.trace("determineExpiredPages");
+		logger.debug("determineExpiredPages");
 		final long time = calendarUtil.getTime();
 		final Collection<ConfigurationBean> configurations = configurationDao.getAll();
 		final Set<PageBean> result = new HashSet<PageBean>();
 		final Collection<PageBean> pages = pageDao.getAll();
-		logger.trace("found " + pages.size() + " pages to analyse");
+		logger.debug("found " + pages.size() + " pages to analyse");
 		for (final PageBean page : pages) {
 			// handle only pages configuration exists for
 			if (isSubPage(page, configurations)) {
@@ -63,6 +63,7 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 				logger.trace("url " + page.getId() + " is not subpage");
 			}
 		}
+		logger.debug("determineExpiredPages total: " + pages.size() + " result: " + result.size());
 		return result;
 	}
 

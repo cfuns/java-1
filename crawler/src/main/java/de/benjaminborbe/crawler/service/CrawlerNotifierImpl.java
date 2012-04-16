@@ -24,7 +24,7 @@ public class CrawlerNotifierImpl implements CrawlerNotifier {
 
 	@Override
 	public void notifiy(final CrawlerResult result) {
-		logger.trace("notifiy");
+		logger.debug("notifiy");
 		for (final CrawlerNotifier n : crawlerNotifierRegistry.getAll()) {
 			try {
 				n.notifiy(result);

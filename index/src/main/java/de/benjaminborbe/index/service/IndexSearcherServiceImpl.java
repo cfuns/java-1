@@ -41,7 +41,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 
 	@Override
 	public List<IndexSearchResult> search(final String indexName, final String searchQuery) {
-		logger.trace("search in index: " + indexName + " for " + searchQuery);
+		logger.debug("search in index: " + indexName + " for " + searchQuery);
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
@@ -61,7 +61,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 			final ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
 			// output results
-			logger.trace("Found " + hits.length + " hits.");
+			logger.debug("Found " + hits.length + " hits.");
 			for (int i = 0; i < hits.length; ++i) {
 				final int docId = hits[i].doc;
 				final Document document = searcher.doc(docId);

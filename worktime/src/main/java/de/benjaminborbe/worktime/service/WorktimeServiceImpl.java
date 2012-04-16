@@ -43,8 +43,8 @@ public class WorktimeServiceImpl implements WorktimeService {
 			try {
 				workdays.add(getWorkday(calendar));
 			}
-			catch (final StorageException e) {
-				logger.error("StorageException", e);
+			catch (final Exception e) {
+				logger.error(e.getClass().getSimpleName(), e);
 			}
 		}
 	}

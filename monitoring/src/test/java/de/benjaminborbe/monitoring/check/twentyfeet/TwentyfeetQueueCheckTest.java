@@ -26,8 +26,8 @@ public class TwentyfeetQueueCheckTest {
 		assertNotNull(injector.getInstance(TwentyfeetQueueCheck.class));
 	}
 
-	@Ignore("slow")
 	@Test
+	@Ignore("slow")
 	public void testCheck() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
 		final Check check = injector.getInstance(TwentyfeetQueueCheck.class);

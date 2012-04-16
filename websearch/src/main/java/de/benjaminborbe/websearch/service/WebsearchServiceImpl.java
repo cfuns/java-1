@@ -36,9 +36,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Override
 	public Collection<Page> getPages() throws WebsearchServiceException {
 		try {
-			logger.trace("getPages");
+			logger.debug("getPages");
 			final Collection<Page> result = new ArrayList<Page>(pageDao.getAll());
-			logger.trace("found " + result.size() + " pages");
+			logger.debug("found " + result.size() + " pages");
 			return result;
 		}
 		catch (final StorageException e) {
@@ -48,14 +48,14 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public void refreshPages() {
-		logger.trace("refreshPages");
+		logger.debug("refreshPages");
 		refreshPagesCronJob.execute();
 	}
 
 	@Override
 	public void expirePage(final PageIdentifier pageIdentifier) throws WebsearchServiceException {
 		try {
-			logger.trace("expirePage");
+			logger.debug("expirePage");
 
 			final PageBean page = pageDao.load(pageIdentifier.getUrl());
 			if (page != null) {

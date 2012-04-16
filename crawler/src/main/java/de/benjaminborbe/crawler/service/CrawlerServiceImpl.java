@@ -41,7 +41,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 	protected void crawleDomain(final URL domainUrl) throws CrawlerException {
 		try {
-			logger.trace("crawle domain: " + domainUrl);
+			logger.debug("crawle domain: " + domainUrl);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(domainUrl, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();
@@ -59,6 +59,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 	@Override
 	public void processCrawlerInstruction(final CrawlerInstruction crawlerInstruction) throws CrawlerException {
+		logger.debug("processCrawlerInstruction");
 		crawleDomain(crawlerInstruction.getUrl());
 	}
 
