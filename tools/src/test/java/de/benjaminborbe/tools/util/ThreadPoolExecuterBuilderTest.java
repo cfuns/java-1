@@ -38,7 +38,7 @@ public class ThreadPoolExecuterBuilderTest {
 	}
 
 	@Test
-	public void testExecute() {
+	public void testExecute() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final ThreadPoolExecuterBuilder threadPoolExecuterBuilder = injector.getInstance(ThreadPoolExecuterBuilder.class);
 		final String threadName = "test";
@@ -52,7 +52,7 @@ public class ThreadPoolExecuterBuilderTest {
 			threadPoolExecuter.execute(new RunnableImplementation(counter));
 		}
 		threadPoolExecuter.shutDown();
-
+		Thread.sleep(100);
 		assertEquals(limit, counter.get());
 	}
 }
