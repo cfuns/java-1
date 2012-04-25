@@ -119,4 +119,32 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public long getTime() {
 		return System.currentTimeMillis();
 	}
+
+	@Override
+	public long getTime(final Calendar calendar) {
+		return calendar.getTimeInMillis();
+	}
+
+	@Override
+	public String getWeekday(final Calendar calendar) {
+		final int day = calendar.get(Calendar.DAY_OF_WEEK);
+		switch (day) {
+		case Calendar.MONDAY:
+			return "monday";
+		case Calendar.TUESDAY:
+			return "tuesday";
+		case Calendar.WEDNESDAY:
+			return "wednesday";
+		case Calendar.THURSDAY:
+			return "thursday";
+		case Calendar.FRIDAY:
+			return "friday";
+		case Calendar.SATURDAY:
+			return "saturday";
+		case Calendar.SUNDAY:
+			return "sunday";
+		default:
+			return null;
+		}
+	}
 }

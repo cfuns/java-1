@@ -1,7 +1,6 @@
 package de.benjaminborbe.calendar.gui.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +11,13 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.website.br.BrWidget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class CalendarGuiDashboardWidget implements DashboardContentWidget {
@@ -31,14 +33,17 @@ public class CalendarGuiDashboardWidget implements DashboardContentWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+		final ListWidget widgets = new ListWidget();
 		final Calendar now = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
-		out.println("today: " + calendarUtil.toDateString(now));
-		out.println("<br>");
-		out.println("now: " + calendarUtil.toDateTimeString(now));
-		out.println("<br>");
-		out.println("time: " + calendarUtil.getTime());
+		widgets.add("today: " + calendarUtil.toDateString(now));
+		widgets.add(new BrWidget());
+		widgets.add("now: " + calendarUtil.toDateTimeString(now));
+		widgets.add(new BrWidget());
+		widgets.add("time: " + calendarUtil.getTime(now));
+		widgets.add(new BrWidget());
+		widgets.add("weekday: " + calendarUtil.getWeekday(now));
+		widgets.render(request, response, context);
 	}
 
 	@Override

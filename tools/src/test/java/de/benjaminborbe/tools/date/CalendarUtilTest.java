@@ -78,4 +78,36 @@ public class CalendarUtilTest {
 		assertEquals("2011-12-23", u.toDateString(clone));
 	}
 
+	@Test
+	public void testGetWeekday() {
+		final CalendarUtil u = new CalendarUtilImpl(null);
+		{
+			final Calendar calendarMonday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 23, 20, 15, 13);
+			assertEquals("monday", u.getWeekday(calendarMonday));
+		}
+		{
+			final Calendar calendarTuesday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 24, 20, 15, 13);
+			assertEquals("tuesday", u.getWeekday(calendarTuesday));
+		}
+		{
+			final Calendar calendarWednesday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 25, 20, 15, 13);
+			assertEquals("wednesday", u.getWeekday(calendarWednesday));
+		}
+		{
+			final Calendar calendarThursday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 26, 20, 15, 13);
+			assertEquals("thursday", u.getWeekday(calendarThursday));
+		}
+		{
+			final Calendar calendarFriday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 27, 20, 15, 13);
+			assertEquals("friday", u.getWeekday(calendarFriday));
+		}
+		{
+			final Calendar calendarSaturday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 28, 20, 15, 13);
+			assertEquals("saturday", u.getWeekday(calendarSaturday));
+		}
+		{
+			final Calendar calendarSunday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 29, 20, 15, 13);
+			assertEquals("sunday", u.getWeekday(calendarSunday));
+		}
+	}
 }

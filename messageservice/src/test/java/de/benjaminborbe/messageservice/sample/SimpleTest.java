@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -17,6 +18,7 @@ import de.benjaminborbe.tools.util.DurationUtil;
 public class SimpleTest {
 
 	@Test
+	@Ignore("slow")
 	public void testSimple() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MessageserviceModulesMock());
 		final Logger logger = injector.getInstance(Logger.class);
