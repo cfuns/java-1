@@ -71,7 +71,9 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 				final String encoding = config.getEncoding();
 				logger.trace("storage " + encoding);
 
-				final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(encoding)), ByteBuffer.wrap(e.getValue().getBytes(encoding)), timestamp);
+				final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(encoding)));
+				column.setValue(ByteBuffer.wrap(e.getValue().getBytes(encoding)));
+				column.setTimestamp(timestamp);
 				final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
 				// schreiben eines datensatzes

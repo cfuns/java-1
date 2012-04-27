@@ -1,5 +1,6 @@
 package de.benjaminborbe.dhl.mock;
 
+import java.net.URL;
 import java.util.Collection;
 
 import com.google.inject.Inject;
@@ -39,6 +40,11 @@ public class DhlServiceMock implements DhlService {
 	@Override
 	public boolean addTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
 		return false;
+	}
+
+	@Override
+	public URL buildDhlUrl(final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+		return null;
 	}
 
 }

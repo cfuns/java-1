@@ -43,8 +43,11 @@ public class StorageDaoUtilIntegrationTest {
 			cfDefList.add(input);
 
 			// Erstellt einen neuen KeySpace
-			final int replication_factor = 1;
-			connection.getClient().system_add_keyspace(new KsDef(config.getKeySpace(), org.apache.cassandra.locator.SimpleStrategy.class.getName(), replication_factor, cfDefList));
+			final KsDef ksdef = new KsDef(config.getKeySpace(), org.apache.cassandra.locator.SimpleStrategy.class.getName(), cfDefList);
+			final Map<String, String> strategy_options = new HashMap<String, String>();
+			strategy_options.put("replication_factor", "1");
+			ksdef.setStrategy_options(strategy_options);
+			connection.getClient().system_add_keyspace(ksdef);
 			final int magnitude = connection.getClient().describe_ring(config.getKeySpace()).size();
 			try {
 				Thread.sleep(1000 * magnitude);
@@ -84,7 +87,7 @@ public class StorageDaoUtilIntegrationTest {
 			connection.getClient().system_drop_keyspace(config.getKeySpace());
 		}
 		catch (final Exception e) {
-
+			e.printStackTrace();
 		}
 		finally {
 			// Connection zur Datenbank wieder schliessen

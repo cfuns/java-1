@@ -1,5 +1,8 @@
 package de.benjaminborbe.dhl.util;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -24,12 +27,15 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 
 	private final StringUtil stringUtil;
 
+	private final DhlUrlBuilder dhlUrlBuilder;
+
 	@Inject
-	public DhlStatusNotifierImpl(final Logger logger, final MailService mailService, final CalendarUtil calendarUtil, final StringUtil stringUtil) {
+	public DhlStatusNotifierImpl(final Logger logger, final MailService mailService, final CalendarUtil calendarUtil, final StringUtil stringUtil, final DhlUrlBuilder dhlUrlBuilder) {
 		this.logger = logger;
 		this.mailService = mailService;
 		this.calendarUtil = calendarUtil;
 		this.stringUtil = stringUtil;
+		this.dhlUrlBuilder = dhlUrlBuilder;
 	}
 
 	@Override
@@ -42,15 +48,32 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 
 	protected Mail buildMail(final DhlStatus status) {
 		final StringBuffer mailContent = new StringBuffer();
-		mailContent.append("Date: ");
-		mailContent.append(calendarUtil.toDateTimeString(status.getCalendar()));
-		mailContent.append("\n");
-		mailContent.append("Place: ");
-		mailContent.append(status.getPlace());
-		mailContent.append("\n");
-		mailContent.append("Message: ");
-		mailContent.append(status.getMessage());
-		mailContent.append("\n");
+		{
+			mailContent.append("Date: ");
+			mailContent.append(calendarUtil.toDateTimeString(status.getCalendar()));
+			mailContent.append("\n");
+		}
+		{
+			mailContent.append("Place: ");
+			mailContent.append(status.getPlace());
+			mailContent.append("\n");
+		}
+		{
+			mailContent.append("Message: ");
+			mailContent.append(status.getMessage());
+			mailContent.append("\n");
+		}
+		{
+			try {
+				final URL url = dhlUrlBuilder.buildUrl(status.getDhlIdentifier());
+				mailContent.append("Link: ");
+				mailContent.append(url);
+				mailContent.append("\n");
+			}
+			catch (final MalformedURLException e) {
+				logger.debug("build dhl-link failed!", e);
+			}
+		}
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "DHL: " + stringUtil.shorten(calendarUtil.toDateTimeString(status.getCalendar()) + " - " + status.getMessage(), SUBJECT_MAX_LENGTH);

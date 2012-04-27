@@ -24,9 +24,11 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.br.BrWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -80,6 +82,8 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 				form.addFormInputWidget(new FormInputSubmitWidget("silent"));
 				widgets.add(form);
 			}
+			widgets.add(new BrWidget());
+			widgets.add(new LinkRelativWidget(request, "/monitoring", "back"));
 
 			return widgets;
 		}

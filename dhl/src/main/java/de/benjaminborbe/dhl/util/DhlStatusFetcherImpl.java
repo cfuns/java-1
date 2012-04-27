@@ -28,12 +28,20 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 
 	private final DhlStatusParser dhlStatusParser;
 
+	private final DhlUrlBuilder dhlUrlBuilder;
+
 	@Inject
-	public DhlStatusFetcherImpl(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final DhlStatusParser dhlStatusParser) {
+	public DhlStatusFetcherImpl(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final DhlStatusParser dhlStatusParser,
+			final DhlUrlBuilder dhlUrlBuilder) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.dhlStatusParser = dhlStatusParser;
+		this.dhlUrlBuilder = dhlUrlBuilder;
 	}
 
 	@Override
@@ -41,7 +49,7 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 		logger.debug("getStatus for " + dhlIdentifier);
 
 		try {
-			final URL url = buildUrl(dhlIdentifier);
+			final URL url = dhlUrlBuilder.buildUrl(dhlIdentifier);
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 			return dhlStatusParser.parseCurrentStatus(dhlIdentifier, content);
@@ -55,10 +63,6 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 		catch (final UnsupportedEncodingException e) {
 			throw new DhlStatusFetcherException("UnsupportedEncodingException", e);
 		}
-	}
-
-	private URL buildUrl(final DhlIdentifier dhlIdentifier) throws MalformedURLException {
-		return new URL("http://nolp.dhl.de/nextt-online-public/set_identcodes.do?lang=de&zip=" + dhlIdentifier.getZip() + "&idc=" + dhlIdentifier.getId());
 	}
 
 }

@@ -1,7 +1,6 @@
 package de.benjaminborbe.dhl.gui.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +26,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -75,7 +75,7 @@ public class DhlGuiListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final DhlIdentifier dhlIdentifier : dhlService.getRegisteredDhlIdentifiers(sessionIdentifier)) {
 				final ListWidget row = new ListWidget();
-				row.add(String.valueOf(dhlIdentifier.getId()));
+				row.add(new LinkWidget(dhlService.buildDhlUrl(dhlIdentifier), String.valueOf(dhlIdentifier.getId())));
 				row.add(" ");
 				row.add(new DhlGuiDeleteDhlIdentifierLink(request, dhlIdentifier));
 				ul.add(row);
@@ -93,4 +93,5 @@ public class DhlGuiListServlet extends WebsiteHtmlServlet {
 			return exceptionWidget;
 		}
 	}
+
 }
