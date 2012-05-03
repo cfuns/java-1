@@ -19,4 +19,5 @@ public class StorageConfigTest {
 		assertNotNull(config);
 		assertEquals("bb_test", config.getKeySpace());
 	}
+
 }

@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 
 public class InOfficeCheck {
 
+	// 5 seconds
 	private static final int TIMEOUT = 5 * 1000;
 
 	private static final String TIMETRACKER_HOSTNAME = "timetracker.rp.seibert-media.net";

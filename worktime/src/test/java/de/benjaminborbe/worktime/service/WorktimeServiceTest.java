@@ -61,7 +61,7 @@ public class WorktimeServiceTest {
 		EasyMock.replay(calendarUtil);
 
 		final ThreadRunner threadRunner = new ThreadRunnerMock();
-		final WorktimeServiceImpl worktimeService = new WorktimeServiceImpl(null, null, calendarUtil, timeZoneUtil, threadRunner);
+		final WorktimeServiceImpl worktimeService = new WorktimeServiceImpl(null, null, calendarUtil, timeZoneUtil, threadRunner, null);
 		for (int i = 0; i <= 5; ++i) {
 			assertNotNull(worktimeService.getLastDays(i));
 			assertEquals(i, worktimeService.getLastDays(i).size());

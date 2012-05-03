@@ -14,4 +14,9 @@ public class WorktimeServiceMock implements WorktimeService {
 		return new ArrayList<Workday>();
 	}
 
+	@Override
+	public boolean isOffice() throws WorktimeServiceException {
+		return false;
+	}
+
 }

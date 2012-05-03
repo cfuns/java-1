@@ -6,6 +6,8 @@ import de.benjaminborbe.configuration.api.Configuration;
 
 public interface StorageConfig {
 
+	int getReadLimit();
+
 	String getHost();
 
 	int getPort();

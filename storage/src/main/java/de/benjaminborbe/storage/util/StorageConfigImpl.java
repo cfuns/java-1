@@ -24,6 +24,8 @@ public class StorageConfigImpl implements StorageConfig {
 
 	private final ConfigurationString encoding = new ConfigurationString("UTF8", "CassandraEncoding", "Encoding of CassandraServer");
 
+	private final ConfigurationInteger readLimit = new ConfigurationInteger(10000, "CassandraReadLimit", "ReadLimit of CassandraServer");
+
 	private final ConfigurationService configurationService;
 
 	private final Logger logger;
@@ -72,6 +74,11 @@ public class StorageConfigImpl implements StorageConfig {
 		result.add(keyspace);
 		result.add(encoding);
 		return result;
+	}
+
+	@Override
+	public int getReadLimit() {
+		return getValue(readLimit);
 	}
 
 }

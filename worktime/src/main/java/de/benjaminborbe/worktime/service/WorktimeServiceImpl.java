@@ -20,6 +20,8 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
+import de.benjaminborbe.worktime.api.WorktimeServiceException;
+import de.benjaminborbe.worktime.util.InOfficeCheck;
 import de.benjaminborbe.worktime.util.WorkdayImpl;
 import de.benjaminborbe.worktime.util.WorktimeStorageService;
 import de.benjaminborbe.worktime.util.WorktimeValue;
@@ -67,18 +69,22 @@ public class WorktimeServiceImpl implements WorktimeService {
 
 	private final ThreadRunner threadRunner;
 
+	private final InOfficeCheck inOfficeCheck;
+
 	@Inject
 	public WorktimeServiceImpl(
 			final Logger logger,
 			final WorktimeStorageService worktimeStorageService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final ThreadRunner threadRunner) {
+			final ThreadRunner threadRunner,
+			final InOfficeCheck inOfficeCheck) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.threadRunner = threadRunner;
+		this.inOfficeCheck = inOfficeCheck;
 	}
 
 	@Override
@@ -124,5 +130,11 @@ public class WorktimeServiceImpl implements WorktimeService {
 			calendars.add(calendarUtil.subDays(now, i));
 		}
 		return calendars;
+	}
+
+	@Override
+	public boolean isOffice() throws WorktimeServiceException {
+		logger.trace("isOffice");
+		return inOfficeCheck.check();
 	}
 }

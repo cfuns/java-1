@@ -15,12 +15,16 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.worktime.gui.guice.WorktimeGuiModules;
 import de.benjaminborbe.worktime.gui.service.WorktimeGuiDashboardWidget;
+import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiInOfficeServlet;
 import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiServlet;
 
 public class WorktimeGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private WorktimeGuiDashboardWidget worktimeDashboardWidget;
+
+	@Inject
+	private WorktimeGuiInOfficeServlet worktimeGuiInOfficeServlet;
 
 	@Inject
 	private WorktimeGuiServlet worktimeServlet;
@@ -38,6 +42,7 @@ public class WorktimeGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(worktimeServlet, "/"));
+		result.add(new ServletInfo(worktimeGuiInOfficeServlet, "/inOffice"));
 		return result;
 	}
 

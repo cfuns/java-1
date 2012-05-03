@@ -82,7 +82,7 @@ public class TwentyfeetQueueCheck implements Check {
 
 	private final JndiContext jndiContext;
 
-	private final static String URL = "https://www.twentyfeet.com/app/admin/apidata_check";
+	private final static String CHECK_URL = "https://www.twentyfeet.com/app/admin/apidata_check";
 
 	private static final int TIMEOUT = 20000;
 
@@ -124,7 +124,7 @@ public class TwentyfeetQueueCheck implements Check {
 	@Override
 	public CheckResult check() {
 		logger.debug("check");
-		final java.net.URL url = buildURL(URL);
+		final URL url = buildURL(CHECK_URL);
 		try {
 			final HttpDownloadResult firstResult = downloadResult(url);
 			Thread.sleep(SLEEP);
@@ -138,8 +138,7 @@ public class TwentyfeetQueueCheck implements Check {
 		}
 	}
 
-	protected CheckResult buildResult(final HttpDownloadResult firstResult, final HttpDownloadResult secondResult, final java.net.URL url) throws UnsupportedEncodingException,
-			ParseException {
+	protected CheckResult buildResult(final HttpDownloadResult firstResult, final HttpDownloadResult secondResult, final URL url) throws UnsupportedEncodingException, ParseException {
 		final String firstContent = httpDownloadUtil.getContent(firstResult);
 		final String secondContent = httpDownloadUtil.getContent(secondResult);
 		if (firstContent == null || secondContent == null) {
@@ -148,7 +147,7 @@ public class TwentyfeetQueueCheck implements Check {
 		return buildResult(firstContent, secondContent, url);
 	}
 
-	protected CheckResult buildResult(final String firstContent, final String secondContent, final java.net.URL url) throws ParseException {
+	protected CheckResult buildResult(final String firstContent, final String secondContent, final URL url) throws ParseException {
 		final DecimalFormat df = new DecimalFormat("#####0.0");
 		try {
 			final TwentyfeetApidataCheckResult first = new TwentyfeetApidataCheckResult(firstContent);
@@ -198,7 +197,7 @@ public class TwentyfeetQueueCheck implements Check {
 		}
 	}
 
-	protected HttpDownloadResult downloadResult(final java.net.URL url) throws NamingException, HttpDownloaderException {
+	protected HttpDownloadResult downloadResult(final URL url) throws NamingException, HttpDownloaderException {
 		final HttpDownloadResult result;
 		final String username = (String) jndiContext.lookup("twentyfeet_admin_username");
 		final String password = (String) jndiContext.lookup("twentyfeet_admin_password");

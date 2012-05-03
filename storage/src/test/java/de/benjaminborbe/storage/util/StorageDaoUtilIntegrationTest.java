@@ -35,6 +35,12 @@ public class StorageDaoUtilIntegrationTest {
 			// Connection zur Datenbank oeffnen
 			connection.open();
 
+			try {
+				connection.getClient().system_drop_keyspace(config.getKeySpace());
+			}
+			catch (final Exception e) {
+			}
+
 			// Definition ders KeySpaces
 			final List<CfDef> cfDefList = new ArrayList<CfDef>();
 			final CfDef input = new CfDef(config.getKeySpace(), COLUMNFAMILY);
@@ -70,20 +76,9 @@ public class StorageDaoUtilIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
-		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 
 		try {
-			// Connection zur Datenbank oeffnen
 			connection.open();
-
-			for (final String key : daoUtil.list(config.getKeySpace(), COLUMNFAMILY)) {
-				daoUtil.delete(config.getKeySpace(), COLUMNFAMILY, key, FIELD_NAME);
-			}
-
-			// KeySpace loeschen
-			connection.getClient().system_drop_column_family(COLUMNFAMILY);
-
-			// KeySpace loeschen
 			connection.getClient().system_drop_keyspace(config.getKeySpace());
 		}
 		catch (final Exception e) {
@@ -175,6 +170,35 @@ public class StorageDaoUtilIntegrationTest {
 		}
 		finally {
 			// Connection zur Datenbank wieder schliessen
+			connection.close();
+		}
+	}
+
+	@Test
+	public void testListMultiColumns() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConnection connection = injector.getInstance(StorageConnection.class);
+		final StorageConfigMock config = injector.getInstance(StorageConfigMock.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final int limit = 10;
+		final int max = 100;
+		config.setReadLimit(limit);
+		assertEquals(limit, config.getReadLimit());
+
+		try {
+			connection.open();
+			assertEquals(0, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+			for (int id = 1; id <= max; ++id) {
+				final Map<String, String> data = new HashMap<String, String>();
+				final String key = FIELD_NAME;
+				data.put(key + "_a", String.valueOf(id));
+				data.put(key + "_b", String.valueOf(id));
+				daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, String.valueOf(id), data);
+				assertEquals(id, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+			}
+		}
+		finally {
 			connection.close();
 		}
 	}
