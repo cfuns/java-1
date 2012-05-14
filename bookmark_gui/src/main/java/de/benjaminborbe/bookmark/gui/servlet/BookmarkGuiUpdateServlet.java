@@ -1,5 +1,13 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -7,21 +15,49 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
+import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 2521414159463570586L;
+	private static final String PARAMETER_KEYWORDS = "keywords";
+
+	private static final String PARAMETER_DESCRIPTION = "description";
+
+	private static final String PARAMETER_NAME = "name";
+
+	private static final String PARAMETER_URL = "url";
+
+	private static final String PARAMETER_URL_NEW = "urlnew";
+
+	private static final long serialVersionUID = 4468520728605522219L;
 
 	private static final String TITLE = "BookmarkGui - Update";
+
+	private final BookmarkService bookmarkService;
 
 	@Inject
 	public BookmarkGuiUpdateServlet(
@@ -29,12 +65,14 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
+			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
+			final BookmarkService bookmarkService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		this.bookmarkService = bookmarkService;
 	}
 
 	@Override
@@ -42,4 +80,65 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 		return TITLE;
 	}
 
+	@Override
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, RedirectException {
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final BookmarkIdentifier bookmarkIdentifier = bookmarkService.createBookmarkIdentifier(sessionIdentifier, request.getParameter(PARAMETER_URL));
+			final Bookmark bookmark = bookmarkService.getBookmark(sessionIdentifier, bookmarkIdentifier);
+			if (bookmark == null) {
+				throw new RedirectException(request.getContextPath() + "/bookmark/list");
+			}
+
+			final String url = request.getParameter(PARAMETER_URL_NEW);
+			final String name = request.getParameter(PARAMETER_NAME);
+			final String description = request.getParameter(PARAMETER_DESCRIPTION);
+			final String keywords = request.getParameter(PARAMETER_KEYWORDS);
+
+			if (url != null && name != null && description != null && keywords != null) {
+				if (bookmarkService.updateBookmark(sessionIdentifier, bookmarkIdentifier, url, name, description, buildKeywords(keywords), false)) {
+					throw new RedirectException(request.getContextPath() + "/bookmark/list");
+				}
+				else {
+					widgets.add("update bookmark failed!");
+				}
+			}
+			final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL_NEW).addLabel("Url").addPlaceholder("url ...").addDefaultValue(bookmark.getUrl()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_NAME).addLabel("Name").addPlaceholder("name ...").addDefaultValue(bookmark.getName()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_DESCRIPTION).addLabel("Description").addPlaceholder("description ...")
+					.addDefaultValue(bookmark.getDescription()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_KEYWORDS).addLabel("Keywords").addPlaceholder("keywords ...")
+					.addDefaultValue(StringUtils.join(bookmark.getKeywords(), " ")));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
+			widgets.add(formWidget);
+			return widgets;
+		}
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+	}
+
+	protected List<String> buildKeywords(final String keywords) {
+		final List<String> result = new ArrayList<String>();
+		if (keywords != null) {
+			final String[] parts = keywords.split("[^a-z]");
+			for (final String keyword : parts) {
+				if (keyword != null && keyword.length() > 0) {
+					result.add(keyword);
+				}
+			}
+		}
+		return result;
+	}
 }

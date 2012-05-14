@@ -94,8 +94,12 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
 				final ListWidget b = new ListWidget();
 				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
-				b.add(" ");
-				b.add("[" + keywordsToString(bookmark) + "]");
+				b.add(" | ");
+				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getUrl()).addTarget(target));
+				b.add(" | [");
+				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), keywordsToString(bookmark)).addTarget(target));
+				b.add("] | ");
+				b.add(new LinkRelativWidget(request, "/bookmark/update?url=" + urlUtil.encode(bookmark.getUrl()), "edit"));
 				b.add(" ");
 				b.add(new LinkRelativWidget(request, "/bookmark/delete?url=" + urlUtil.encode(bookmark.getUrl()), "delete"));
 				ul.add(b);

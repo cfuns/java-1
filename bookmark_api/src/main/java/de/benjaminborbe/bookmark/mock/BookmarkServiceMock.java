@@ -49,4 +49,15 @@ public class BookmarkServiceMock implements BookmarkService {
 		return false;
 	}
 
+	@Override
+	public boolean updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name,
+			final String description, final List<String> keywords, final boolean favorite) throws BookmarkServiceException {
+		return false;
+	}
+
+	@Override
+	public Bookmark getBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException {
+		return null;
+	}
+
 }

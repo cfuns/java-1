@@ -20,6 +20,11 @@ cleanup:
 	find . -name '.DS_Store' -exec rm -rf "{}" \;
 	find . -name '.svn' -exec rm -rf "{}" \;
 	find . -name 'target' -exec rm -rf "{}" \;
+buildbookmark:
+	cd bookmark_api && make all
+	cd bookmark && make all
+	cd bookmark_gui && make all
+	cd bookmark_test && make all
 deploy:
 	cd bridge && make deploy
 dir:

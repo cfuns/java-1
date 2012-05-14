@@ -228,4 +228,53 @@ public class BookmarkServiceImpl implements BookmarkService {
 			throw new BookmarkServiceException("StorageException", e);
 		}
 	}
+
+	@Override
+	public boolean updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name,
+			final String description, final List<String> keywords, final boolean favorite) throws BookmarkServiceException {
+		logger.info("updateBookmark");
+		try {
+			if (!authenticationService.isLoggedIn(sessionIdentifier)) {
+				logger.info("not logged in");
+				return false;
+			}
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
+			if (!userIdentifier.equals(bookmark.getOwnerUsername())) {
+				return false;
+			}
+
+			if (deleteBookmark(sessionIdentifier, bookmarkIdentifier)) {
+				return createBookmark(sessionIdentifier, url, name, description, keywords, favorite);
+			}
+			else {
+				return false;
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException("AuthenticationServiceException", e);
+		}
+		catch (final StorageException e) {
+			throw new BookmarkServiceException("StorageException", e);
+		}
+	}
+
+	@Override
+	public Bookmark getBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException {
+		logger.info("updateBookmark");
+		try {
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
+			if (!userIdentifier.equals(bookmark.getOwnerUsername())) {
+				throw new BookmarkServiceException("owner missmatch");
+			}
+			return bookmark;
+		}
+		catch (final StorageException e) {
+			throw new BookmarkServiceException("StorageException", e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException("AuthenticationServiceException", e);
+		}
+	}
 }
