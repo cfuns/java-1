@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.api.WorktimeServiceException;
-import de.benjaminborbe.worktime.util.InOfficeCheck;
+import de.benjaminborbe.worktime.util.InOfficeCheckHttpContent;
 import de.benjaminborbe.worktime.util.WorkdayImpl;
 import de.benjaminborbe.worktime.util.WorktimeStorageService;
 import de.benjaminborbe.worktime.util.WorktimeValue;
@@ -69,7 +69,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 
 	private final ThreadRunner threadRunner;
 
-	private final InOfficeCheck inOfficeCheck;
+	private final InOfficeCheckHttpContent inOfficeCheck;
 
 	@Inject
 	public WorktimeServiceImpl(
@@ -78,7 +78,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ThreadRunner threadRunner,
-			final InOfficeCheck inOfficeCheck) {
+			final InOfficeCheckHttpContent inOfficeCheck) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;

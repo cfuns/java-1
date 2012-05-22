@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-public class InOfficeCheck {
+public class InOfficeCheckTcpConnect {
 
 	// 5 seconds
 	private static final int TIMEOUT = 5 * 1000;
@@ -25,7 +25,7 @@ public class InOfficeCheck {
 	private final Logger logger;
 
 	@Inject
-	public InOfficeCheck(final Logger logger) {
+	public InOfficeCheckTcpConnect(final Logger logger) {
 		this.logger = logger;
 	}
 

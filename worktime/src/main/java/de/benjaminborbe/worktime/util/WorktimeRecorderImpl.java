@@ -24,7 +24,7 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 
 	private final CalendarUtil calendarUtil;
 
-	private final InOfficeCheck inOfficeCheck;
+	private final InOfficeCheckHttpContent inOfficeCheck;
 
 	@Inject
 	public WorktimeRecorderImpl(
@@ -32,7 +32,7 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 			final WorktimeStorageService worktimeStorageService,
 			final TimeZoneUtil timeZoneUtil,
 			final CalendarUtil calendarUtil,
-			final InOfficeCheck inOfficeCheck) {
+			final InOfficeCheckHttpContent inOfficeCheck) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.timeZoneUtil = timeZoneUtil;
