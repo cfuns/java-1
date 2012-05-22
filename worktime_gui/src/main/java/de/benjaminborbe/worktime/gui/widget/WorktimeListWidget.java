@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.worktime.api.Workday;
 
@@ -18,8 +19,11 @@ public class WorktimeListWidget implements Widget {
 
 	private final DateUtil dateUtil;
 
-	public WorktimeListWidget(final DateUtil dateUtil, final List<Workday> worktimes) {
+	private final CalendarUtil calendarUtil;
+
+	public WorktimeListWidget(final DateUtil dateUtil, final CalendarUtil calendarUtil, final List<Workday> worktimes) {
 		this.dateUtil = dateUtil;
+		this.calendarUtil = calendarUtil;
 		this.worktimes = worktimes;
 	}
 
@@ -27,6 +31,15 @@ public class WorktimeListWidget implements Widget {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<table class=\"sortable\">");
+		printHead(out);
+		for (final Workday workday : worktimes) {
+			printWorktime(out, workday);
+		}
+		out.println("</table>");
+		out.println("<a href=\"" + request.getContextPath() + "/worktime?limit=20\">more</a>");
+	}
+
+	protected void printHead(final PrintWriter out) {
 		out.println("<tr>");
 		out.println("<th>");
 		out.println("Day");
@@ -38,27 +51,54 @@ public class WorktimeListWidget implements Widget {
 		out.println("EndTime");
 		out.println("</th>");
 		out.println("</tr>");
-		for (final Workday workday : worktimes) {
-			out.println("<tr>");
-			out.println("<td>");
-			out.println(dateUtil.dateString(workday.getDate().getTime()));
-			out.println("</td>");
-			out.println("<td>");
-			if (workday.getStart() != null)
-				out.println(dateUtil.timeString(workday.getStart().getTime()));
-			else
-				out.println("-");
-			out.println("</td>");
-			out.println("<td>");
-			if (workday.getEnd() != null)
-				out.println(dateUtil.timeString(workday.getEnd().getTime()));
-			else
-				out.println("-");
-			out.println("</td>");
-			out.println("</tr>");
-		}
-		out.println("</table>");
-		out.println("<a href=\"" + request.getContextPath() + "/worktime?limit=20\">more</a>");
 	}
 
+	protected void printWorktime(final PrintWriter out, final Workday workday) {
+
+		final boolean isToday = isToday(workday);
+
+		out.println("<tr>");
+		out.println("<td>");
+		if (isToday) {
+			out.println("<b>");
+		}
+		out.println(dateUtil.dateString(workday.getDate().getTime()));
+		if (isToday) {
+			out.println("</b>");
+		}
+		out.println("</td>");
+		out.println("<td>");
+		if (isToday) {
+			out.println("<b>");
+		}
+		if (workday.getStart() != null) {
+			out.println(dateUtil.timeString(workday.getStart().getTime()));
+		}
+		else {
+			out.println("-");
+		}
+		if (isToday) {
+			out.println("</b>");
+		}
+		out.println("</td>");
+		out.println("<td>");
+		if (isToday) {
+			out.println("<b>");
+		}
+		if (workday.getEnd() != null) {
+			out.println(dateUtil.timeString(workday.getEnd().getTime()));
+		}
+		else {
+			out.println("-");
+		}
+		if (isToday) {
+			out.println("</b>");
+		}
+		out.println("</td>");
+		out.println("</tr>");
+	}
+
+	protected boolean isToday(final Workday workday) {
+		return calendarUtil.dayEquals(workday.getDate(), calendarUtil.now());
+	}
 }

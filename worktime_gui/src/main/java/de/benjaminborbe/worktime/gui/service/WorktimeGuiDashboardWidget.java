@@ -18,6 +18,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -43,12 +44,15 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 
 	private final ParseUtil parseUtil;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public WorktimeGuiDashboardWidget(final Logger logger, final WorktimeService worktimeService, final DateUtil dateUtil, final ParseUtil parseUtil) {
+	public WorktimeGuiDashboardWidget(final Logger logger, final WorktimeService worktimeService, final DateUtil dateUtil, final ParseUtil parseUtil, final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.worktimeService = worktimeService;
 		this.dateUtil = dateUtil;
 		this.parseUtil = parseUtil;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 		final ListWidget widgets = new ListWidget();
 		try {
 			final List<Workday> worktimes = worktimeService.getTimes(dayAmount);
-			widgets.add(new WorktimeListWidget(dateUtil, worktimes));
+			widgets.add(new WorktimeListWidget(dateUtil, calendarUtil, worktimes));
 		}
 		catch (final WorktimeServiceException e) {
 			widgets.add(new ExceptionWidget(e));

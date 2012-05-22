@@ -17,9 +17,12 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	private final ParseUtil parseUtil;
 
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
-	public CalendarUtilImpl(final ParseUtil parseUtil) {
+	public CalendarUtilImpl(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil) {
 		this.parseUtil = parseUtil;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -146,5 +149,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 		default:
 			return null;
 		}
+	}
+
+	@Override
+	public boolean dayEquals(final Calendar calendar1, final Calendar calendar2) {
+		return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
+				&& calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+	}
+
+	@Override
+	public Calendar now() {
+		return now(timeZoneUtil.getUTCTimeZone());
 	}
 }

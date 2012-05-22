@@ -17,6 +17,8 @@ public interface CalendarUtil {
 
 	Calendar parseDateTime(final TimeZone timeZone, String dateTime) throws ParseException;
 
+	Calendar now();
+
 	Calendar now(TimeZone timeZone);
 
 	Calendar addDays(Calendar now, int amountOfDays);
@@ -30,5 +32,7 @@ public interface CalendarUtil {
 	long getTime();
 
 	String getWeekday(Calendar calendar);
+
+	boolean dayEquals(Calendar calendar1, Calendar calendar2);
 
 }

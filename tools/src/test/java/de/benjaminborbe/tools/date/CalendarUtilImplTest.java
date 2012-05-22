@@ -14,7 +14,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ToolModules;
 
-public class CalendarUtilTest {
+public class CalendarUtilImplTest {
 
 	@Test
 	public void testSingleton() {
@@ -27,21 +27,21 @@ public class CalendarUtilTest {
 
 	@Test
 	public void testtoDateString() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals("2011-12-24", u.toDateString(calendar));
 	}
 
 	@Test
 	public void testtoHourString() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals("20:15:13", u.toTimeString(calendar));
 	}
 
 	@Test
 	public void testgetCalendar() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals(TimeZone.getTimeZone("UTF8"), calendar.getTimeZone());
 		assertEquals(2011, calendar.get(Calendar.YEAR));
@@ -54,7 +54,7 @@ public class CalendarUtilTest {
 
 	@Test
 	public void testClone() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		final Calendar clone = u.clone(calendar);
 		assertTrue(calendar.getTimeInMillis() == clone.getTimeInMillis());
@@ -64,7 +64,7 @@ public class CalendarUtilTest {
 
 	@Test
 	public void testaddDays() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		final Calendar clone = u.addDays(calendar, 1);
 		assertEquals("2011-12-25", u.toDateString(clone));
@@ -72,7 +72,7 @@ public class CalendarUtilTest {
 
 	@Test
 	public void testSubDays() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		final Calendar clone = u.subDays(calendar, 1);
 		assertEquals("2011-12-23", u.toDateString(clone));
@@ -80,7 +80,7 @@ public class CalendarUtilTest {
 
 	@Test
 	public void testGetWeekday() {
-		final CalendarUtil u = new CalendarUtilImpl(null);
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		{
 			final Calendar calendarMonday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 23, 20, 15, 13);
 			assertEquals("monday", u.getWeekday(calendarMonday));
@@ -108,6 +108,46 @@ public class CalendarUtilTest {
 		{
 			final Calendar calendarSunday = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2012, 3, 29, 20, 15, 13);
 			assertEquals("sunday", u.getWeekday(calendarSunday));
+		}
+	}
+
+	@Test
+	public void testDayEquals() {
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			assertTrue(u.dayEquals(calendar1, calendar2));
+		}
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 19, 15, 13);
+			assertTrue(u.dayEquals(calendar1, calendar2));
+		}
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 14, 13);
+			assertTrue(u.dayEquals(calendar1, calendar2));
+		}
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 12);
+			assertTrue(u.dayEquals(calendar1, calendar2));
+		}
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 23, 20, 15, 13);
+			assertFalse(u.dayEquals(calendar1, calendar2));
+		}
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 10, 24, 20, 15, 13);
+			assertFalse(u.dayEquals(calendar1, calendar2));
+		}
+		{
+			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2010, 11, 24, 20, 15, 13);
+			assertFalse(u.dayEquals(calendar1, calendar2));
 		}
 	}
 }
