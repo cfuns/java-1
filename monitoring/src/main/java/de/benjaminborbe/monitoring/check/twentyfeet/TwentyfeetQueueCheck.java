@@ -164,10 +164,10 @@ public class TwentyfeetQueueCheck implements Check {
 					// skip if missing is not greater 0
 					if (firstEntry.getMissing() != 0 && secondEntry.getMissing() != 0) {
 						// add serviceType if no change happend
+						final double rate = 1d * firstEntry.getMissing() / firstEntry.getTotal();
+						logger.info(serviceType + " missing: " + firstEntry.getMissing() + " total: " + firstEntry.getTotal() + " => " + df.format(rate * 100) + "%");
 						if (firstEntry.getMissing() == secondEntry.getMissing()) {
 							// skip if not more than WARNING% missing
-							final double rate = 1d * firstEntry.getMissing() / firstEntry.getTotal();
-							logger.info(serviceType + " missing: " + firstEntry.getMissing() + " total: " + firstEntry.getTotal() + " => " + df.format(rate * 100) + "%");
 							if (rate > WARNING) {
 								// only facebook + twitter
 								if ("facebook".equalsIgnoreCase(serviceType) || "twitter".equalsIgnoreCase(serviceType)) {
