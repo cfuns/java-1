@@ -1,12 +1,13 @@
 package de.benjaminborbe.tools.html;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-public class HtmlUtilTest {
+public class HtmlUtilImplTest {
 
 	@Test
 	public void testEscapeHtml() {
@@ -44,4 +45,16 @@ public class HtmlUtilTest {
 				htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow,test\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
 	}
 
+	@Test
+	public void testFilterHtmlTages() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		assertNull(htmlUtil.filterHtmlTages(null));
+		assertEquals("", htmlUtil.filterHtmlTages(""));
+		assertEquals("", htmlUtil.filterHtmlTages(" "));
+		assertEquals("", htmlUtil.filterHtmlTages("<br/>"));
+		assertEquals("", htmlUtil.filterHtmlTages(" <br/> "));
+	}
 }

@@ -35,7 +35,10 @@ public class HtmlUtilImpl implements HtmlUtil {
 
 	@Override
 	public String filterHtmlTages(final String content) {
-		return unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
+		if (content == null)
+			return null;
+		else
+			return unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
 	}
 
 	@Override
