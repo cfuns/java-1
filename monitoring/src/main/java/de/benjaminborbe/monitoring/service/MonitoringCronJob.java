@@ -94,6 +94,8 @@ public class MonitoringCronJob implements CronJob {
 		content.append("\n");
 		for (final CheckResult checkResult : failedChecks) {
 			content.append(checkResult.toString());
+			content.append(" ");
+			content.append(checkResult.getUrl());
 			content.append("\n");
 		}
 		final String from = "bborbe@seibert-media.net";

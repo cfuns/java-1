@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.googlesearch.gui.guice.GooglesearchGuiModules;
+import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiMapSpecialSearch;
 import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiSpecialSearch;
 import de.benjaminborbe.googlesearch.gui.servlet.GooglesearchGuiServlet;
 import de.benjaminborbe.search.api.SearchSpecial;
@@ -24,6 +25,9 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private GooglesearchGuiSpecialSearch searchGuiSpecialSearchGoogle;
+
+	@Inject
+	private GooglesearchGuiMapSpecialSearch googlesearchGuiMapSpecialSearch;
 
 	public GooglesearchGuiActivator() {
 		super("googlesearch");
@@ -45,6 +49,7 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchGoogle, searchGuiSpecialSearchGoogle.getClass().getName()));
+		result.add(new ServiceInfo(SearchSpecial.class, googlesearchGuiMapSpecialSearch, googlesearchGuiMapSpecialSearch.getClass().getName()));
 		return result;
 	}
 
