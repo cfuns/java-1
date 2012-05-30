@@ -134,6 +134,10 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final String startPattern = "<p class=\"entry-content\">";
 		final String endPattern = "</p>";
 		final String content = extract(pageContent, startPattern, endPattern);
+		return filterContent(content);
+	}
+
+	protected String filterContent(final String content) {
 		return htmlUtil.unescapeHtml(htmlUtil.filterHtmlTages(content));
 	}
 
@@ -204,6 +208,6 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final int linkIndexOpen = itemContent.indexOf("<link>");
 		final int linkIndexClose = itemContent.indexOf("</link>");
 		final String postUrl = itemContent.substring(linkIndexOpen + 6, linkIndexClose);
-		return new MicroblogPostResult(content, author, postUrl, conversationUrl);
+		return new MicroblogPostResult(filterContent(content), author, postUrl, conversationUrl);
 	}
 }

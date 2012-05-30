@@ -221,6 +221,10 @@ public class MicroblogConnectorImplUnitTest {
 		EasyMock.replay(parseUtil);
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.expect(htmlUtil.filterHtmlTages("user1: text1")).andReturn("user1: text1").anyTimes();
+		EasyMock.expect(htmlUtil.filterHtmlTages("user2: text2")).andReturn("user2: text2").anyTimes();
+		EasyMock.expect(htmlUtil.unescapeHtml("user1: text1")).andReturn("user1: text1").anyTimes();
+		EasyMock.expect(htmlUtil.unescapeHtml("user2: text2")).andReturn("user2: text2").anyTimes();
 		EasyMock.replay(htmlUtil);
 
 		final ResourceUtil resourceUtil = new ResourceUtilImpl();
