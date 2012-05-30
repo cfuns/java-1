@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class SearchActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
 		final SearchActivator activator = injector.getInstance(SearchActivator.class);
 		assertNotNull(activator);

@@ -14,7 +14,7 @@ import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 public class InOfficeCheckTcpConnectIntegrationTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WorktimeModulesMock());
 		assertNotNull(injector.getInstance(InOfficeCheckTcpConnect.class));
 	}

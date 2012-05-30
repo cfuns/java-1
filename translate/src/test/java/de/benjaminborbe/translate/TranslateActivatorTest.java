@@ -21,7 +21,7 @@ import de.benjaminborbe.translate.guice.TranslateModulesMock;
 public class TranslateActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TranslateModulesMock());
 		final TranslateActivator activator = injector.getInstance(TranslateActivator.class);
 		assertNotNull(activator);

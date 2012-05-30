@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class GwtServerActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
 		final GwtServerActivator activator = injector.getInstance(GwtServerActivator.class);
 		assertNotNull(activator);

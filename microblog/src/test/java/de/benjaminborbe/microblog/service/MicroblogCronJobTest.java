@@ -12,6 +12,7 @@ import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
 import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
 import de.benjaminborbe.microblog.post.MicroblogPostMailer;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
@@ -60,7 +61,10 @@ public class MicroblogCronJobTest {
 		final MicroblogPostMailer microblogPostMailer = EasyMock.createNiceMock(MicroblogPostMailer.class);
 		EasyMock.replay(microblogPostMailer);
 
-		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogPostMailer);
+		final MicroblogConversationFinder microblogConversationFinder = EasyMock.createNiceMock(MicroblogConversationFinder.class);
+		EasyMock.replay(microblogConversationFinder);
+
+		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogConversationFinder, microblogPostMailer, null);
 
 		microblogCronJob.execute();
 	}
@@ -89,7 +93,10 @@ public class MicroblogCronJobTest {
 		final MicroblogPostMailer microblogPostMailer = EasyMock.createNiceMock(MicroblogPostMailer.class);
 		EasyMock.replay(microblogPostMailer);
 
-		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogPostMailer);
+		final MicroblogConversationFinder microblogConversationFinder = EasyMock.createNiceMock(MicroblogConversationFinder.class);
+		EasyMock.replay(microblogConversationFinder);
+
+		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogConversationFinder, microblogPostMailer, null);
 
 		microblogCronJob.execute();
 	}

@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class MailGuiDashboardWidgetTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MailGuiModulesMock());
 		final MailGuiDashboardWidget mailGuiDashboardWidget = injector.getInstance(MailGuiDashboardWidget.class);
 		assertNotNull(mailGuiDashboardWidget);

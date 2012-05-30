@@ -8,7 +8,10 @@ public class MicroblogConversationResult {
 
 	private final List<MicroblogPostResult> posts;
 
-	public MicroblogConversationResult(final List<MicroblogPostResult> posts) {
+	private final String conversationUrl;
+
+	public MicroblogConversationResult(final String conversationUrl, final List<MicroblogPostResult> posts) {
+		this.conversationUrl = conversationUrl;
 		this.posts = posts;
 	}
 
@@ -16,4 +19,7 @@ public class MicroblogConversationResult {
 		return posts;
 	}
 
+	public String getConversationUrl() {
+		return conversationUrl;
+	}
 }

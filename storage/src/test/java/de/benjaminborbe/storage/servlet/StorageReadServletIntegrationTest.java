@@ -12,7 +12,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class StorageReadServletIntegrationTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageReadServlet storageReadServlet = injector.getInstance(StorageReadServlet.class);
 		assertNotNull(storageReadServlet);

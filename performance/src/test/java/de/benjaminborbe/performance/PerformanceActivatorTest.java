@@ -22,7 +22,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class PerformanceActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PerformanceModulesMock());
 		final PerformanceActivator activator = injector.getInstance(PerformanceActivator.class);
 		assertNotNull(activator);

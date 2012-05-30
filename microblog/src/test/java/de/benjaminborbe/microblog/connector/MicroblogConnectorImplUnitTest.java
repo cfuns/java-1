@@ -1,8 +1,8 @@
 package de.benjaminborbe.microblog.connector;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
 import java.net.URL;
 
 import org.easymock.EasyMock;
@@ -13,18 +13,20 @@ import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorImpl;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationResult;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ResourceUtil;
+import de.benjaminborbe.tools.util.ResourceUtilImpl;
 
-public class MicroblogConnectorTest {
+public class MicroblogConnectorImplUnitTest {
 
 	@Test
-	public void testParseLatestRevision() throws Exception, IOException, ParseException {
+	public void testParseLatestRevision() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -196,5 +198,55 @@ public class MicroblogConnectorTest {
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
 		assertEquals("https://micro.rp.seibert-media.net/conversation/42#notice-1337", microblogConnectorImpl.extractConversationUrl(pageContent.toString()));
+	}
+
+	@Test
+	public void testBuildMicroblogConversationResult() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final MicroblogRevisionStorage microblogRevisionStorage = EasyMock.createMock(MicroblogRevisionStorage.class);
+		EasyMock.replay(microblogRevisionStorage);
+
+		final MailService mailService = EasyMock.createMock(MailService.class);
+		EasyMock.replay(mailService);
+
+		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);
+		EasyMock.replay(httpDownloader);
+
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createNiceMock(HttpDownloadUtil.class);
+		EasyMock.replay(httpDownloadUtil);
+
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.replay(parseUtil);
+
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.replay(htmlUtil);
+
+		final ResourceUtil resourceUtil = new ResourceUtilImpl();
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
+		final String pageContent = resourceUtil.getResourceContentString("sample_conversation.txt");
+		assertNotNull(pageContent);
+		final String conversationUrl = "http://testd.de";
+		final MicroblogConversationResult result = microblogConnectorImpl.buildMicroblogConversationResult(conversationUrl, pageContent);
+		assertNotNull(result);
+		assertNotNull(result.getConversationUrl());
+		assertEquals(conversationUrl, result.getConversationUrl());
+		assertNotNull(result.getPosts());
+		assertEquals(2, result.getPosts().size());
+
+		assertNotNull(result.getPosts().get(1));
+		assertEquals("user1: text1", result.getPosts().get(1).getContent());
+		assertEquals("user1", result.getPosts().get(1).getAuthor());
+		assertEquals("https://micro.rp.seibert-media.net/notice/13", result.getPosts().get(1).getPostUrl());
+		assertEquals(conversationUrl, result.getPosts().get(1).getConversationUrl());
+
+		assertNotNull(result.getPosts().get(0));
+		assertEquals("user2: text2", result.getPosts().get(0).getContent());
+		assertEquals("user2", result.getPosts().get(0).getAuthor());
+		assertEquals("https://micro.rp.seibert-media.net/notice/14", result.getPosts().get(0).getPostUrl());
+		assertEquals(conversationUrl, result.getPosts().get(0).getConversationUrl());
+
 	}
 }

@@ -12,7 +12,7 @@ import de.benjaminborbe.websearch.guice.WebsearchModulesMock;
 public class ConfigurationDaoTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsearchModulesMock());
 		final ConfigurationDao configurationDao = injector.getInstance(ConfigurationDao.class);
 		assertNotNull(configurationDao);

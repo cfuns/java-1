@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class TimetrackerActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TimetrackerModulesMock());
 		final TimetrackerActivator activator = injector.getInstance(TimetrackerActivator.class);
 		assertNotNull(activator);

@@ -30,4 +30,9 @@ public class MicroblogServiceMock implements MicroblogService {
 		return null;
 	}
 
+	@Override
+	public MicroblogConversationIdentifier getMicroblogConversationIdentifierForPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException {
+		return null;
+	}
+
 }

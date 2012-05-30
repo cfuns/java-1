@@ -21,7 +21,7 @@ import de.benjaminborbe.util.guice.UtilModulesMock;
 public class UtilActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new UtilModulesMock());
 		final UtilActivator activator = injector.getInstance(UtilActivator.class);
 		assertNotNull(activator);

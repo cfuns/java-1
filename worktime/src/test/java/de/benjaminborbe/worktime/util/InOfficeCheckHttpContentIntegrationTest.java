@@ -14,7 +14,7 @@ import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
 public class InOfficeCheckHttpContentIntegrationTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WorktimeModulesMock());
 		assertNotNull(injector.getInstance(InOfficeCheckHttpContent.class));
 	}

@@ -23,10 +23,9 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class MicroblogActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
-		final MicroblogActivator activator = injector.getInstance(MicroblogActivator.class);
-		assertNotNull(activator);
+		assertNotNull(injector.getInstance(MicroblogActivator.class));
 	}
 
 	@Test

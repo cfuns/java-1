@@ -1,8 +1,12 @@
 package de.benjaminborbe.microblog.connector;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +16,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationResult;
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
@@ -72,21 +78,22 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			}
 		}
 		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException("MalformedURLException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 		catch (final IOException e) {
-			throw new MicroblogConnectorException("IOException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 		catch (final ParseException e) {
-			throw new MicroblogConnectorException("ParseException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException("HttpDownloaderException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 	}
 
 	@Override
 	public MicroblogPostResult getPost(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
+		logger.trace("getPost");
 		try {
 			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + revision;
 			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(postUrl), TIMEOUT);
@@ -103,13 +110,13 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			return new MicroblogPostResult(content, author, postUrl, conversationUrl);
 		}
 		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException("MalformedURLException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 		catch (final IOException e) {
-			throw new MicroblogConnectorException("IOException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException("HttpDownloaderException", e);
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -142,4 +149,61 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		return pageContent.substring(startPos + startPattern.length(), endPos);
 	}
 
+	@Override
+	public MicroblogConversationResult getConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException {
+		logger.trace("getConversation");
+
+		final String conversationRssUrl = "https://micro.rp.seibert-media.net/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
+		try {
+			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(conversationRssUrl), TIMEOUT);
+			final String pageContent = httpDownloadUtil.getContent(result);
+			final int open = pageContent.indexOf("<link>");
+			final int close = pageContent.indexOf("</link>", open);
+			if (open == -1 || close == -1) {
+				throw new MicroblogConnectorException("parse content failed");
+			}
+			final String conversationUrl = pageContent.substring(open + 6, close);
+			return buildMicroblogConversationResult(conversationUrl, pageContent);
+		}
+		catch (final MalformedURLException e) {
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+		}
+		catch (final HttpDownloaderException e) {
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	protected MicroblogConversationResult buildMicroblogConversationResult(final String conversationUrl, final String pageContent) {
+		final List<MicroblogPostResult> list = new ArrayList<MicroblogPostResult>();
+		int itemIndexOpen = pageContent.indexOf("<item>");
+		int itemIndexClose = pageContent.indexOf("</item>", itemIndexOpen);
+		while (itemIndexOpen != -1 && itemIndexClose != -1) {
+			final String itemContent = pageContent.substring(itemIndexOpen + 6, itemIndexClose);
+			list.add(buildPost(conversationUrl, itemContent));
+
+			// search next
+			itemIndexOpen = pageContent.indexOf("<item>", itemIndexClose);
+			itemIndexClose = pageContent.indexOf("</item>", itemIndexOpen);
+		}
+		Collections.reverse(list);
+		return new MicroblogConversationResult(conversationUrl, list);
+
+	}
+
+	protected MicroblogPostResult buildPost(final String conversationUrl, final String itemContent) {
+		final int titleIndexOpen = itemContent.indexOf("<title>");
+		final int titleIndexClose = itemContent.indexOf("</title>");
+		final String content = itemContent.substring(titleIndexOpen + 7, titleIndexClose);
+
+		final int authorIndexClose = itemContent.indexOf(":", titleIndexOpen);
+		final String author = itemContent.substring(titleIndexOpen + 7, authorIndexClose);
+
+		final int linkIndexOpen = itemContent.indexOf("<link>");
+		final int linkIndexClose = itemContent.indexOf("</link>");
+		final String postUrl = itemContent.substring(linkIndexOpen + 6, linkIndexClose);
+		return new MicroblogPostResult(content, author, postUrl, conversationUrl);
+	}
 }

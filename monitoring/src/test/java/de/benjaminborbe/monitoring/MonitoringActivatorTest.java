@@ -22,7 +22,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class MonitoringActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
 		final MonitoringActivator activator = injector.getInstance(MonitoringActivator.class);
 		assertNotNull(activator);

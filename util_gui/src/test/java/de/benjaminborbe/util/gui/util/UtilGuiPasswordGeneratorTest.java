@@ -15,7 +15,7 @@ import de.benjaminborbe.util.gui.guice.UtilGuiModulesMock;
 public class UtilGuiPasswordGeneratorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new UtilGuiModulesMock());
 		final UtilGuiPasswordGenerator utilPasswordGenerator = injector.getInstance(UtilGuiPasswordGenerator.class);
 		assertNotNull(utilPasswordGenerator);

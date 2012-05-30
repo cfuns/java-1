@@ -25,7 +25,7 @@ import de.benjaminborbe.websearch.guice.WebsearchModulesMock;
 public class WebsearchActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsearchModulesMock());
 		final WebsearchActivator activator = injector.getInstance(WebsearchActivator.class);
 		assertNotNull(activator);

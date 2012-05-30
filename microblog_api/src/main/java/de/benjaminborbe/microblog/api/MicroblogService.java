@@ -11,4 +11,9 @@ public interface MicroblogService {
 	MicroblogConversationIdentifier createMicroblogConversationIdentifier(long conversationNumber);
 
 	MicroblogPostIdentifier createMicroblogPostIdentifier(long postNumber);
+
+	/**
+	 * Return null is no conversation exists
+	 */
+	MicroblogConversationIdentifier getMicroblogConversationIdentifierForPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException;
 }

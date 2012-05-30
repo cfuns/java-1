@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class EventbusServiceTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventbusService Eventbus = injector.getInstance(EventbusService.class);
 		assertNotNull(Eventbus);

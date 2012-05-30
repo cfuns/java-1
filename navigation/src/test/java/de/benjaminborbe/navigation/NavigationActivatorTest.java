@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class NavigationActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NavigationModulesMock());
 		final NavigationActivator activator = injector.getInstance(NavigationActivator.class);
 		assertNotNull(activator);

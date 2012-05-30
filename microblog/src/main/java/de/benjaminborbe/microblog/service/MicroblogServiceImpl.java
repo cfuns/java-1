@@ -7,12 +7,15 @@ import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
+import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationMailer;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationMailerException;
 import de.benjaminborbe.microblog.post.MicroblogPostMailer;
 import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
+import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class MicroblogServiceImpl implements MicroblogService {
@@ -23,13 +26,17 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	private final MicroblogConversationMailer microblogConversationMailer;
 
+	private final MicroblogConversationFinder microblogConversationFinder;
+
 	@Inject
 	public MicroblogServiceImpl(
 			final MicroblogRevisionStorage microblogRevisionStorage,
 			final MicroblogPostMailer microblogPostMailer,
+			final MicroblogConversationFinder microblogConversationFinder,
 			final MicroblogConversationMailer microblogConversationMailer) {
 		this.microblogRevisionStorage = microblogRevisionStorage;
 		this.microblogPostMailer = microblogPostMailer;
+		this.microblogConversationFinder = microblogConversationFinder;
 		this.microblogConversationMailer = microblogConversationMailer;
 	}
 
@@ -71,6 +78,19 @@ public class MicroblogServiceImpl implements MicroblogService {
 	@Override
 	public MicroblogPostIdentifier createMicroblogPostIdentifier(final long postNumber) {
 		return new MicroblogPostIdentifier(postNumber);
+	}
+
+	@Override
+	public MicroblogConversationIdentifier getMicroblogConversationIdentifierForPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException {
+		try {
+			return microblogConversationFinder.findIdentifier(microblogPostIdentifier);
+		}
+		catch (final MicroblogConnectorException e) {
+			throw new MicroblogServiceException("MicroblogConnectorException", e);
+		}
+		catch (final ParseException e) {
+			throw new MicroblogServiceException("ParseException", e);
+		}
 	}
 
 }

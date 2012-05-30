@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 public class CalendarActivatorTest {
 
 	@Test
-	public void testinject() {
+	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CalendarModulesMock());
 		final CalendarActivator activator = injector.getInstance(CalendarActivator.class);
 		assertNotNull(activator);
