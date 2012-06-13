@@ -1,6 +1,8 @@
 package de.benjaminborbe.websearch.configuration;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 
@@ -32,11 +34,13 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 			final ConfigurationBean configuration = create();
 			configuration.setUrl(url);
 			configuration.setOwnerUsername("bborbe");
+			final List<String> excludes = new ArrayList<String>();
+			excludes.add("?");
+			configuration.setExcludes(excludes);
 			save(configuration);
 		}
 		catch (final Exception e) {
 			logger.error(e.getClass().getSimpleName(), e);
 		}
 	}
-
 }

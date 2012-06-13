@@ -1,6 +1,8 @@
 package de.benjaminborbe.websearch.configuration;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
@@ -14,6 +16,8 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 	private URL url;
 
 	private String ownerUsername;
+
+	private List<String> excludes = new ArrayList<String>();
 
 	@Override
 	public ConfigurationIdentifier getId() {
@@ -40,6 +44,14 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 
 	public void setOwnerUsername(final String ownerUsername) {
 		this.ownerUsername = ownerUsername;
+	}
+
+	public List<String> getExcludes() {
+		return excludes;
+	}
+
+	public void setExcludes(final List<String> excludes) {
+		this.excludes = excludes;
 	}
 
 }

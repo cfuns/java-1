@@ -75,7 +75,15 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 		final String url = page.getUrl().toExternalForm();
 		for (final ConfigurationBean configuration : configurations) {
 			if (url.startsWith(configuration.getUrl().toExternalForm())) {
-				return true;
+				boolean isExcluded = false;
+				for (final String exclude : configuration.getExcludes()) {
+					if (url.contains(exclude)) {
+						isExcluded = true;
+					}
+				}
+				if (isExcluded == false) {
+					return true;
+				}
 			}
 		}
 		return false;
