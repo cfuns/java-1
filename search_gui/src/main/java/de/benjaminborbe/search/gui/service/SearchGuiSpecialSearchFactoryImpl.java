@@ -31,10 +31,12 @@ public class SearchGuiSpecialSearchFactoryImpl implements SearchGuiSpecialSearch
 			final Collection<SearchSpecial> list = searchGuiSpecialSearchRegistry.getAll();
 			logger.trace("found " + list.size() + " special search");
 			for (final SearchSpecial searchGuiSpecialSearch : list) {
-				logger.trace("try " + searchGuiSpecialSearch.getName());
-				if (name.equalsIgnoreCase(searchGuiSpecialSearch.getName())) {
-					logger.trace("found special search");
-					return searchGuiSpecialSearch;
+				for (final String searchName : searchGuiSpecialSearch.getNames()) {
+					logger.trace("try " + searchName);
+					if (name.equalsIgnoreCase(searchName)) {
+						logger.trace("found special search");
+						return searchGuiSpecialSearch;
+					}
 				}
 			}
 		}

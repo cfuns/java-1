@@ -2,6 +2,10 @@ package de.benjaminborbe.googlesearch.gui.service;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +20,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 @Singleton
 public class GooglesearchGuiSpecialSearch implements SearchSpecial {
 
-	private static final String NAME = "g";
+	private static final List<String> NAMES = Arrays.asList("g", "google");
 
 	private final static String PARAMETER_SEARCH = "q";
 
@@ -28,17 +32,22 @@ public class GooglesearchGuiSpecialSearch implements SearchSpecial {
 	}
 
 	@Override
-	public String getName() {
-		return NAME;
+	public Collection<String> getNames() {
+		return NAMES;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-		final StringWriter sw = new StringWriter();
-		sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
-		sw.append(urlUtil.encode(searchQuery.replaceFirst(NAME + ": ", "")));
-		response.sendRedirect(sw.toString());
+		response.sendRedirect(buildRedirect(searchQuery));
 	}
 
+	protected String buildRedirect(final String searchQuery) throws UnsupportedEncodingException {
+		final String term = searchQuery.substring(searchQuery.indexOf(":") + 1).trim();
+		System.err.println(term);
+		final StringWriter sw = new StringWriter();
+		sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
+		sw.append(urlUtil.encode(term));
+		return sw.toString();
+	}
 }

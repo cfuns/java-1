@@ -1,5 +1,7 @@
 package de.benjaminborbe.googlesearch.gui.service;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,5 +44,15 @@ public class GooglesearchGuiSpecialSearchTest {
 		widget.render(request, response, context);
 
 		EasyMock.verify(response);
+	}
+
+	@Test
+	public void testBuildRedirect() throws Exception {
+		final UrlUtil urlUtil = new UrlUtilImpl();
+		final GooglesearchGuiSpecialSearch googlesearchGuiSpecialSearch = new GooglesearchGuiSpecialSearch(urlUtil);
+		assertEquals("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=foo", googlesearchGuiSpecialSearch.buildRedirect("g: foo"));
+		assertEquals("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=foo", googlesearchGuiSpecialSearch.buildRedirect("g:  foo"));
+		assertEquals("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=foo", googlesearchGuiSpecialSearch.buildRedirect("g: foo "));
+		assertEquals("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=foo", googlesearchGuiSpecialSearch.buildRedirect("g:foo"));
 	}
 }

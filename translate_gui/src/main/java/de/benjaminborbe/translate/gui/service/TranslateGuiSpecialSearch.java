@@ -2,6 +2,9 @@ package de.benjaminborbe.translate.gui.service;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +19,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 @Singleton
 public class TranslateGuiSpecialSearch implements SearchSpecial {
 
-	private static final String NAME = "leo";
+	private static final List<String> NAMES = Arrays.asList("leo", "dict");
 
 	private final static String PARAMETER_SEARCH = "q";
 
@@ -28,8 +31,8 @@ public class TranslateGuiSpecialSearch implements SearchSpecial {
 	}
 
 	@Override
-	public String getName() {
-		return NAME;
+	public Collection<String> getNames() {
+		return NAMES;
 	}
 
 	@Override
@@ -37,7 +40,7 @@ public class TranslateGuiSpecialSearch implements SearchSpecial {
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		final StringWriter sw = new StringWriter();
 		sw.append("http://dict.leo.org/ende?search=");
-		sw.append(urlUtil.encode(searchQuery.replaceFirst(NAME + ": ", "")));
+		sw.append(urlUtil.encode(searchQuery.substring(searchQuery.indexOf(":") + 1).trim()));
 		response.sendRedirect(sw.toString());
 	}
 

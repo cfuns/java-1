@@ -51,6 +51,25 @@ import de.benjaminborbe.website.util.TagWidget;
 @Singleton
 public abstract class WebsiteHtmlServlet extends HttpServlet {
 
+	private final class RequestDurationWidget implements Widget {
+
+		private final long now;
+
+		private RequestDurationWidget(final long now) {
+			this.now = now;
+		}
+
+		@Override
+		public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PermissionDeniedException, IOException {
+			final PrintWriter out = response.getWriter();
+			final long startTime = parseUtil.parseLong(context.getData().get(START_TIME), now);
+			final long duration = (now - startTime);
+			final String msg = "request takes " + duration + " ms";
+			logger.trace(msg);
+			out.print(msg);
+		}
+	}
+
 	private static final long serialVersionUID = 1544940069187374367L;
 
 	private static final String START_TIME = "start_time";
@@ -170,7 +189,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	protected String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
 		final StringWriter referer = new StringWriter();
 		final String requestUri = request.getRequestURI().replaceFirst("//", "/");
-		logger.debug("requestUri=" + requestUri);
+		logger.trace("requestUri=" + requestUri);
 		referer.append(requestUri);
 		referer.append("?");
 		@SuppressWarnings("unchecked")
@@ -241,8 +260,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
 		final long now = getNowAsLong();
-		final long startTime = parseUtil.parseLong(context.getData().get(START_TIME), now);
-		widgets.add("request takes " + (now - startTime) + " ms");
+		widgets.add(new RequestDurationWidget(now));
 		return new TagWidget("div", widgets);
 	}
 

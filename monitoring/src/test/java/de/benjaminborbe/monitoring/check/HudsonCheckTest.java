@@ -51,7 +51,7 @@ public class HudsonCheckTest {
 		assertNotNull(result);
 		assertNotNull(result.getCheck());
 		assertTrue(result.isSuccess());
-		assertEquals("Job: TwentyFeet-UnitTests on Hudson: https://hudson.rp.seibert-media.net/ is stable", result.getMessage());
+		assertEquals("is stable", result.getMessage());
 		assertEquals("Hudson check on host https://hudson.rp.seibert-media.net/ for job TwentyFeet-UnitTests", result.getDescription());
 		assertEquals("Hudson-Check on TwentyFeet-UnitTests", result.getName());
 	}
@@ -87,7 +87,7 @@ public class HudsonCheckTest {
 		assertNotNull(result);
 		assertNotNull(result.getCheck());
 		assertFalse(result.isSuccess());
-		assertEquals("Job: TwentyFeet-UnitTests on Hudson: https://hudson.rp.seibert-media.net/ is unstable", result.getMessage());
+		assertEquals("is unstable", result.getMessage());
 		assertEquals("Hudson check on host https://hudson.rp.seibert-media.net/ for job TwentyFeet-UnitTests", result.getDescription());
 		assertEquals("Hudson-Check on TwentyFeet-UnitTests", result.getName());
 	}

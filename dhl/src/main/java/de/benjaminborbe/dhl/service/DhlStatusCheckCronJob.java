@@ -52,13 +52,13 @@ public class DhlStatusCheckCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("execute DhlCheckCronJob");
+		logger.trace("execute DhlCheckCronJob");
 		for (final DhlIdentifier dhlIdentifier : dhlIdentifierRegistry.getAll()) {
 			try {
 				final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhlIdentifier);
-				logger.debug("newStatus: " + newStatus);
+				logger.trace("newStatus: " + newStatus);
 				final DhlStatus oldStatus = dhlStatusStorage.get(dhlIdentifier);
-				logger.debug("oldStatus: " + oldStatus);
+				logger.trace("oldStatus: " + oldStatus);
 				dhlStatusStorage.store(newStatus);
 				if (oldStatus == null || !oldStatus.equals(newStatus)) {
 					dhlStatusNotifier.mailUpdate(newStatus);

@@ -1,5 +1,6 @@
 package de.benjaminborbe.monitoring.check.twentyfeet;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -10,6 +11,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 public class TwentyfeetChangeConnectorTest {
 
 	@Test
+	@Ignore
 	public void testRun() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());
 		final TwentyfeetChangeConnector twentyfeetChangeConnector = injector.getInstance(TwentyfeetChangeConnector.class);

@@ -123,7 +123,7 @@ public class TwentyfeetQueueCheck implements Check {
 
 	@Override
 	public CheckResult check() {
-		logger.debug("check");
+		logger.trace("check");
 		final URL url = buildURL(CHECK_URL);
 		try {
 			final HttpDownloadResult firstResult = downloadResult(url);

@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiDashboardWidget;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSendmailServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSilentCheckServlet;
 import de.benjaminborbe.tools.guice.Modules;
@@ -29,6 +30,9 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private MonitoringGuiSilentCheckServlet monitoringGuiSilentCheckServlet;
+
+	@Inject
+	private MonitoringGuiSendmailServlet monitoringGuiSendmailServlet;
 
 	public MonitoringGuiActivator() {
 		super("monitoring");
@@ -51,6 +55,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(monitoringServlet, "/"));
 		result.add(new ServletInfo(monitoringGuiSilentCheckServlet, "/silent"));
+		result.add(new ServletInfo(monitoringGuiSendmailServlet, "/sendmail"));
 		return result;
 	}
 

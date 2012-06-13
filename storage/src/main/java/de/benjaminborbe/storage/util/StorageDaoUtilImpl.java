@@ -202,4 +202,5 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		logger.trace("found " + result.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
 		return result;
 	}
+
 }

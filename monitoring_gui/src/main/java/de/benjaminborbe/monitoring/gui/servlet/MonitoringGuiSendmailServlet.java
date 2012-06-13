@@ -1,7 +1,6 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +8,6 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -24,30 +22,22 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.br.BrWidget;
-import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormInputTextWidget;
-import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
-@Singleton
-public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
+public class MonitoringGuiSendmailServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -3368317580182944276L;
 
-	private static final String TITLE = "Monitoring - Deactivate Check";
-
-	private static final String PARAMETER_CHECK = "check";
+	private static final String TITLE = "Monitoring - Sendmail";
 
 	private final MonitoringService monitoringService;
 
 	@Inject
-	public MonitoringGuiSilentCheckServlet(
+	public MonitoringGuiSendmailServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -55,9 +45,9 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final MonitoringService monitoringService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final MonitoringService monitoringService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.monitoringService = monitoringService;
 	}
@@ -69,20 +59,8 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String checkName = request.getParameter(PARAMETER_CHECK);
-			if (checkName != null) {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				monitoringService.silentCheck(sessionIdentifier, checkName);
-				widgets.add("check " + checkName + " silent");
-			}
-			else {
-				final FormWidget form = new FormWidget("");
-				form.addFormInputWidget(new FormInputTextWidget(PARAMETER_CHECK).addLabel("CheckName").addPlaceholder("CheckName ..."));
-				form.addFormInputWidget(new FormInputSubmitWidget("silent"));
-				widgets.add(form);
-			}
-			widgets.add(new BrWidget());
-			widgets.add(new LinkRelativWidget(request, "/monitoring", "back"));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			monitoringService.sendmail(sessionIdentifier);
 
 			return widgets;
 		}

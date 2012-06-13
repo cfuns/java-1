@@ -18,6 +18,7 @@ import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.check.NodeCheckerCache;
 import de.benjaminborbe.monitoring.check.RootNode;
 import de.benjaminborbe.monitoring.check.SilentNodeRegistry;
+import de.benjaminborbe.monitoring.util.MonitoringMailer;
 
 @Singleton
 public class MonitoringServiceImpl implements MonitoringService {
@@ -32,17 +33,21 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final AuthorizationService authorizationService;
 
+	private final MonitoringMailer monitoringMailer;
+
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
 			final RootNode rootNode,
 			final NodeCheckerCache nodeChecker,
 			final SilentNodeRegistry silentNodeRegistry,
+			final MonitoringMailer monitoringMailer,
 			final AuthorizationService authorizationService) {
 		this.logger = logger;
 		this.rootNode = rootNode;
 		this.nodeChecker = nodeChecker;
 		this.silentNodeRegistry = silentNodeRegistry;
+		this.monitoringMailer = monitoringMailer;
 		this.authorizationService = authorizationService;
 	}
 
@@ -76,6 +81,17 @@ public class MonitoringServiceImpl implements MonitoringService {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.silentCheck"));
 			logger.trace("silentCheck");
 			silentNodeRegistry.add(checkName);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MonitoringServiceException("AuthorizationServiceException", e);
+		}
+	}
+
+	@Override
+	public void sendmail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.sendmail"));
+			monitoringMailer.run();
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException("AuthorizationServiceException", e);

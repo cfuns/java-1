@@ -20,11 +20,11 @@ public class SearchGuiSpecialSearchFactoryTest {
 		EasyMock.replay(logger);
 
 		final SearchSpecial specialSearchG = EasyMock.createMock(SearchSpecial.class);
-		EasyMock.expect(specialSearchG.getName()).andReturn("g").anyTimes();
+		EasyMock.expect(specialSearchG.getNames()).andReturn(Arrays.asList("g")).anyTimes();
 		EasyMock.replay(specialSearchG);
 
 		final SearchSpecial specialSearchB = EasyMock.createMock(SearchSpecial.class);
-		EasyMock.expect(specialSearchB.getName()).andReturn("b").anyTimes();
+		EasyMock.expect(specialSearchB.getNames()).andReturn(Arrays.asList("b")).anyTimes();
 		EasyMock.replay(specialSearchB);
 
 		final Collection<SearchSpecial> list = Arrays.asList(specialSearchB, specialSearchG);

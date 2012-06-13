@@ -12,4 +12,6 @@ public interface MonitoringService {
 	Collection<CheckResult> checkRootNodeWithCache(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException;
 
 	void silentCheck(final SessionIdentifier sessionIdentifier, String checkName) throws MonitoringServiceException, PermissionDeniedException;
+
+	void sendmail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException;
 }

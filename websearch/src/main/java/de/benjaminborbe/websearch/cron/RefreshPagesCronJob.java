@@ -24,9 +24,9 @@ public class RefreshPagesCronJob implements CronJob {
 		@Override
 		public void run() {
 			try {
-				logger.debug("RefreshRunnable started");
+				logger.trace("RefreshRunnable started");
 				runOnlyOnceATime.run(new RefreshPages());
-				logger.debug("RefreshRunnable finished");
+				logger.trace("RefreshRunnable finished");
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -39,11 +39,11 @@ public class RefreshPagesCronJob implements CronJob {
 		@Override
 		public void run() {
 			try {
-				logger.debug("refresh pages started");
+				logger.trace("refresh pages started");
 				for (final PageBean page : updateDeterminer.determineExpiredPages()) {
 					try {
 						final URL url = page.getUrl();
-						logger.debug("trigger refresh of url " + url.toExternalForm());
+						logger.trace("trigger refresh of url " + url.toExternalForm());
 						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url);
 						crawlerService.processCrawlerInstruction(crawlerInstruction);
 					}
@@ -51,7 +51,7 @@ public class RefreshPagesCronJob implements CronJob {
 						logger.error(e.getClass().getSimpleName(), e);
 					}
 				}
-				logger.debug("refresh pages finished");
+				logger.trace("refresh pages finished");
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -93,8 +93,8 @@ public class RefreshPagesCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("execute started");
+		logger.trace("execute started");
 		threadRunner.run("refreshpages", new RefreshRunnable());
-		logger.debug("execute finished");
+		logger.trace("execute finished");
 	}
 }

@@ -29,7 +29,7 @@ public abstract class WowGuiSpecialSearchBase implements SearchSpecial {
 		final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 		final StringWriter sw = new StringWriter();
 		sw.append(getSearchUrl());
-		sw.append(urlUtil.encode(searchQuery.replaceFirst(getName() + ": ", "")));
+		sw.append(urlUtil.encode(searchQuery.substring(searchQuery.indexOf(":") + 1).trim()));
 		response.sendRedirect(sw.toString());
 	}
 
