@@ -76,13 +76,13 @@ public class MicroblogCronJob implements CronJob {
 					microblogRevisionStorage.setLastRevision(new MicroblogPostIdentifier(rev));
 					final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(rev);
 					final MicroblogConversationIdentifier microblogConversationIdentifier = microblogConversationFinder.findIdentifier(microblogPostIdentifier);
-					logger.debug("found microblogConversationIdentifier = " + microblogConversationIdentifier);
+					logger.trace("found microblogConversationIdentifier = " + microblogConversationIdentifier);
 					if (microblogConversationIdentifier != null) {
-						logger.debug("mailConversation: " + microblogConversationIdentifier);
+						logger.trace("mailConversation: " + microblogConversationIdentifier);
 						microblogConversationMailer.mailConversation(microblogConversationIdentifier);
 					}
 					else {
-						logger.debug("mailPost: " + microblogPostIdentifier);
+						logger.trace("mailPost: " + microblogPostIdentifier);
 						microblogPostMailer.mailPost(microblogPostIdentifier);
 					}
 				}

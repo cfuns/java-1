@@ -43,7 +43,7 @@ public class WebsearchGuiActivatorTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/websearch", "/websearch/list", "/websearch/refresh", "/websearch/expire", "/websearch/expireAll");
+		final List<String> paths = Arrays.asList("/websearch", "/websearch/list", "/websearch/refresh", "/websearch/expire", "/websearch/expireAll", "/websearch/clearIndex");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

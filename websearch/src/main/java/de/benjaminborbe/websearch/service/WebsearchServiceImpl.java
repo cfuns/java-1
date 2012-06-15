@@ -8,7 +8,15 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.websearch.WebsearchActivator;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
@@ -26,20 +34,36 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final RefreshPagesCronJob refreshPagesCronJob;
 
+	private final AuthorizationService authorizationService;
+
+	private final IndexerService indexerService;
+
 	@Inject
-	public WebsearchServiceImpl(final Logger logger, final PageDao pageDao, final RefreshPagesCronJob refreshPagesCronJob) {
+	public WebsearchServiceImpl(
+			final Logger logger,
+			final PageDao pageDao,
+			final RefreshPagesCronJob refreshPagesCronJob,
+			final AuthorizationService authorizationService,
+			final IndexerService indexerService) {
 		this.logger = logger;
 		this.pageDao = pageDao;
 		this.refreshPagesCronJob = refreshPagesCronJob;
+		this.authorizationService = authorizationService;
+		this.indexerService = indexerService;
 	}
 
 	@Override
-	public Collection<Page> getPages() throws WebsearchServiceException {
+	public Collection<Page> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.getPages"));
+
 			logger.debug("getPages");
 			final Collection<Page> result = new ArrayList<Page>(pageDao.getAll());
 			logger.debug("found " + result.size() + " pages");
 			return result;
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new WebsearchServiceException("AuthorizationServiceException", e);
 		}
 		catch (final StorageException e) {
 			throw new WebsearchServiceException("StorageException", e);
@@ -47,14 +71,23 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public void refreshPages() {
-		logger.debug("refreshPages");
-		refreshPagesCronJob.execute();
+	public void refreshPages(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPages"));
+
+			logger.debug("refreshPages");
+			refreshPagesCronJob.execute();
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new WebsearchServiceException("AuthorizationServiceException", e);
+		}
 	}
 
 	@Override
-	public void expirePage(final PageIdentifier pageIdentifier) throws WebsearchServiceException {
+	public void expirePage(final SessionIdentifier sessionIdentifier, final PageIdentifier pageIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.expirePage"));
+
 			logger.debug("expirePage");
 
 			final PageBean page = pageDao.load(pageIdentifier.getUrl());
@@ -65,6 +98,25 @@ public class WebsearchServiceImpl implements WebsearchService {
 		}
 		catch (final StorageException e) {
 			throw new WebsearchServiceException("StorageException", e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new WebsearchServiceException("AuthorizationServiceException", e);
+		}
+	}
+
+	@Override
+	public void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.clearIndex"));
+
+			final String indexName = WebsearchActivator.INDEX;
+			indexerService.clear(indexName);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new WebsearchServiceException("AuthorizationServiceException", e);
+		}
+		catch (final IndexerServiceException e) {
+			throw new WebsearchServiceException("IndexerServiceException", e);
 		}
 	}
 }

@@ -37,22 +37,22 @@ public class MicroblogConversationFinderImpl implements MicroblogConversationFin
 		}
 		final String conversationUrl = postResult.getConversationUrl();
 		if (conversationUrl == null) {
-			logger.debug("conversationUrl is null");
+			logger.trace("conversationUrl is null");
 			return null;
 		}
 		final int lastSlashIndex = conversationUrl.lastIndexOf("/");
 		if (lastSlashIndex == -1) {
-			logger.debug("no slash in conversationUrl found");
+			logger.trace("no slash in conversationUrl found");
 			return null;
 		}
 		final int lastHashtagIndex = conversationUrl.lastIndexOf("#");
 		if (lastHashtagIndex == -1) {
-			logger.debug("no hash in conversationUrl found");
+			logger.trace("no hash in conversationUrl found");
 			return null;
 		}
 		final String idString = conversationUrl.substring(lastSlashIndex + 1, lastHashtagIndex);
 		final long id = parseUtil.parseLong(idString);
-		logger.debug("return conversationIdentifier with id " + id);
+		logger.trace("return conversationIdentifier with id " + id);
 		return new MicroblogConversationIdentifier(id);
 	}
 }

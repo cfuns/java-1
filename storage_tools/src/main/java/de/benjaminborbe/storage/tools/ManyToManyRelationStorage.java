@@ -33,21 +33,21 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	@Override
 	public void add(final A identifierA, final B identifierB) throws StorageException {
-		logger.debug("add " + identifierA + " " + identifierB);
+		logger.trace("add " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
 		storageService.set(getColumnFamily(), id, KEY, VALUE);
 	}
 
 	@Override
 	public void remove(final A identifierA, final B identifierB) throws StorageException {
-		logger.debug("remove " + identifierA + " " + identifierB);
+		logger.trace("remove " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
 		storageService.delete(getColumnFamily(), id, KEY);
 	}
 
 	@Override
 	public boolean exists(final A identifierA, final B identifierB) throws StorageException {
-		logger.debug("exists " + identifierA + " " + identifierB);
+		logger.trace("exists " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
 		return VALUE.equals(storageService.get(getColumnFamily(), id, KEY));
 	}

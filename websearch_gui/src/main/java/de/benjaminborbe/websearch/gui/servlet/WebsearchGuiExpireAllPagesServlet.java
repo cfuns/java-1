@@ -13,6 +13,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -71,10 +73,11 @@ public class WebsearchGuiExpireAllPagesServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			widgets.add("expire all pages started");
 
-			final Collection<Page> pages = websearchService.getPages();
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final Collection<Page> pages = websearchService.getPages(sessionIdentifier);
 			final UlWidget ul = new UlWidget();
 			for (final Page page : pages) {
-				websearchService.expirePage(new PageIdentifier(page.getUrl()));
+				websearchService.expirePage(sessionIdentifier, new PageIdentifier(page.getUrl()));
 				ul.add("expire page " + page.getUrl().toExternalForm());
 			}
 			widgets.add(ul);
@@ -82,6 +85,10 @@ public class WebsearchGuiExpireAllPagesServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final WebsearchServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

@@ -6,6 +6,10 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.mock.CrawlerServiceMock;
 import de.benjaminborbe.index.api.IndexSearcherService;
@@ -21,6 +25,8 @@ public class WebsearchOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
+		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(CrawlerService.class).to(CrawlerServiceMock.class).in(Singleton.class);
 		bind(IndexSearcherService.class).to(IndexSearcherServiceMock.class).in(Singleton.class);

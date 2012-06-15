@@ -20,6 +20,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -91,13 +93,18 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
-			for (final Page page : sortPages(websearchService.getPages())) {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			for (final Page page : sortPages(websearchService.getPages(sessionIdentifier))) {
 				ul.add(buildPageWidget(page, request));
 			}
 			widgets.add(ul);
 			return widgets;
 		}
 		catch (final WebsearchServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

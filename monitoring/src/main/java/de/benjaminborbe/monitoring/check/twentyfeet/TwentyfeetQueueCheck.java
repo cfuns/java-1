@@ -133,7 +133,7 @@ public class TwentyfeetQueueCheck implements Check {
 			return buildResult(firstResult, secondResult, url);
 		}
 		catch (final Exception e) {
-			logger.warn(e.getClass().getSimpleName(), e);
+			logger.info(e.getClass().getSimpleName() + " for check url " + url);
 			return new CheckResultException(this, e, url);
 		}
 	}
