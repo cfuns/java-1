@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -27,9 +28,12 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.lunch.api.Lunch;
+import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModulesMock;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -131,8 +135,15 @@ public class LunchGuiServletTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final DateUtil dateUtil = EasyMock.createMock(DateUtil.class);
+		EasyMock.replay(dateUtil);
+
+		final LunchService lunchService = EasyMock.createMock(LunchService.class);
+		EasyMock.expect(lunchService.getLunchs(sessionIdentifier)).andReturn(new HashSet<Lunch>());
+		EasyMock.replay(lunchService);
+
 		final LunchGuiServlet lunchServlet = new LunchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil);
+				redirectUtil, urlUtil, lunchService, dateUtil);
 
 		lunchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

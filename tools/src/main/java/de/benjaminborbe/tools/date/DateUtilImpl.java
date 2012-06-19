@@ -47,4 +47,17 @@ public class DateUtilImpl implements DateUtil {
 		}
 	}
 
+	@Override
+	public Date parseDate(final String date) throws ParseException {
+		final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			return dateformat.parse(date);
+		}
+		catch (final NullPointerException e) {
+			throw new ParseException(e);
+		}
+		catch (final java.text.ParseException e) {
+			throw new ParseException(e);
+		}
+	}
 }

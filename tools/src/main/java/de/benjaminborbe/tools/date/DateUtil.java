@@ -14,4 +14,6 @@ public interface DateUtil {
 
 	Date parseDateTime(String datetime) throws ParseException;
 
+	Date parseDate(String date) throws ParseException;
+
 }

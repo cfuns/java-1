@@ -8,7 +8,13 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
+import com.google.inject.Inject;
+
 public class StreamUtil {
+
+	@Inject
+	public StreamUtil() {
+	}
 
 	public void copy(final InputStream input, final OutputStream output) throws IOException {
 		// get an channel from the stream

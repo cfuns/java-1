@@ -42,7 +42,7 @@
 					<instructions>
 						<Export-Package>de.benjaminborbe.lunch.api.*</Export-Package>
 						<Bundle-Activator>de.benjaminborbe.lunch.LunchActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.lunch.*</Private-Package>
+						<Private-Package>de.benjaminborbe.lunch.*,net.seibertmedia.kunden.*,org.apache.xml.xml_soap.*,com.atlassian.confluence.rpc.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
@@ -122,6 +122,30 @@
 			<artifactId>de.benjaminborbe.lunch.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.authentication.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.authorization.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- confluence -->
+		<dependency>
+			<groupId>com.dolby.confluence.net</groupId>
+			<artifactId>confluence-soap</artifactId>
+			<version>3.0.2</version>
 		</dependency>
 	</dependencies>
 </project>

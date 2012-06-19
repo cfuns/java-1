@@ -21,3 +21,5 @@ dir:
 	mkdir -p src/main/resources src/main/java src/test/resources src/test/java
 update:
 	make installwotest deploy
+genwsdl:
+	mvn axistools:wsdl2java
