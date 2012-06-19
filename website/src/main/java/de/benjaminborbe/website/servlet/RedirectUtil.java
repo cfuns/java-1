@@ -21,7 +21,7 @@ public class RedirectUtil {
 	}
 
 	public void sendRedirect(final HttpServletRequest request, final HttpServletResponse response, final String target) throws IOException {
-		logger.debug("send redirect to " + target);
+		logger.trace("send redirect to " + target);
 		response.sendRedirect(target);
 	}
 }

@@ -40,7 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		try {
-			logger.info("verifyCredential");
+			logger.trace("verifyCredential");
 			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
 				logger.info("verifyCredential failed no user found with name " + userIdentifier);
@@ -48,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 
 			if (user.getPassword() != null && user.getPassword().equals(password)) {
-				logger.info("verifyCredential password match");
+				logger.trace("verifyCredential password match");
 				return true;
 			}
 			else {
@@ -68,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
 				sessionDao.save(session);
-				logger.info("login success");
+				logger.debug("login success");
 				return true;
 			}
 			else {

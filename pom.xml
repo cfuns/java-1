@@ -84,6 +84,10 @@
 		<module>index_api</module>
 		<module>index_gui</module>
 		<module>index_test</module>
+		<module>lunch</module>
+		<module>lunch_api</module>
+		<module>lunch_gui</module>
+		<module>lunch_test</module>
 		<module>mail</module>
 		<module>mail_api</module>
 		<module>mail_gui</module>

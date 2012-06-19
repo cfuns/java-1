@@ -22,6 +22,7 @@ import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
+import de.benjaminborbe.tools.util.StreamUtil;
 
 public class MicroblogConnectorImplUnitTest {
 
@@ -227,7 +228,8 @@ public class MicroblogConnectorImplUnitTest {
 		EasyMock.expect(htmlUtil.unescapeHtml("user2: text2")).andReturn("user2: text2").anyTimes();
 		EasyMock.replay(htmlUtil);
 
-		final ResourceUtil resourceUtil = new ResourceUtilImpl();
+		final StreamUtil streamUtil = new StreamUtil();
+		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
 		final String pageContent = resourceUtil.getResourceContentString("sample_conversation.txt");

@@ -39,7 +39,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 
 	@Override
 	public void mailConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConversationMailerException {
-		logger.debug("mailConversation with rev " + microblogConversationIdentifier);
+		logger.trace("mailConversation with rev " + microblogConversationIdentifier);
 		try {
 			final Mail mail = buildMail(microblogConversationIdentifier);
 			mailService.send(mail);

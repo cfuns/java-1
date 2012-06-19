@@ -1,9 +1,12 @@
 package de.benjaminborbe.tools.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -11,8 +14,11 @@ import com.google.inject.Singleton;
 @Singleton
 public class ResourceUtilImpl implements ResourceUtil {
 
+	private final StreamUtil streamUtil;
+
 	@Inject
-	public ResourceUtilImpl() {
+	public ResourceUtilImpl(final StreamUtil streamUtil) {
+		this.streamUtil = streamUtil;
 	}
 
 	@Override
@@ -43,5 +49,13 @@ public class ResourceUtilImpl implements ResourceUtil {
 				br.close();
 			}
 		}
+	}
+
+	@Override
+	public byte[] getResourceContentByteArray(final String path) throws IOException {
+		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
+		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		streamUtil.copy(inputStream, outputStream);
+		return outputStream.toByteArray();
 	}
 }

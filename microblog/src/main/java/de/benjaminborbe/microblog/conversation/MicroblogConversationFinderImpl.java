@@ -29,10 +29,10 @@ public class MicroblogConversationFinderImpl implements MicroblogConversationFin
 
 	@Override
 	public MicroblogConversationIdentifier findIdentifier(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogConnectorException, ParseException {
-		logger.debug("findIdentifier");
+		logger.trace("findIdentifier");
 		final MicroblogPostResult postResult = microblogConnector.getPost(microblogPostIdentifier);
 		if (postResult == null) {
-			logger.debug("postResult is null");
+			logger.trace("postResult is null");
 			return null;
 		}
 		final String conversationUrl = postResult.getConversationUrl();

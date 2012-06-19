@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
+import de.benjaminborbe.tools.util.StreamUtil;
 
 public class GoogleSearchServiceComponentTest {
 
@@ -27,7 +28,8 @@ public class GoogleSearchServiceComponentTest {
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil, urlUtil);
-		final ResourceUtil resourceUtil = new ResourceUtilImpl();
+		final StreamUtil streamUtil = new StreamUtil();
+		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		final String content = resourceUtil.getResourceContentString("sample-result.txt");
 		assertNotNull(content);
 		final List<SearchResult> result = googleSearchServiceComponent.buildResults(content);

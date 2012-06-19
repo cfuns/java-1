@@ -6,4 +6,6 @@ public interface ResourceUtil {
 
 	String getResourceContentString(String path) throws IOException;
 
+	byte[] getResourceContentByteArray(String path) throws IOException;
+
 }
