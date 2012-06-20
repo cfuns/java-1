@@ -6,6 +6,8 @@ import de.benjaminborbe.tools.util.ParseException;
 
 public interface DateUtil {
 
+	boolean isToday(Date date);
+
 	String dateString(Date date);
 
 	String timeString(Date date);

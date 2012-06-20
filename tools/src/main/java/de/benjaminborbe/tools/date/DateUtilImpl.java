@@ -60,4 +60,10 @@ public class DateUtilImpl implements DateUtil {
 			throw new ParseException(e);
 		}
 	}
+
+	@Override
+	public boolean isToday(final Date date) {
+		final Date now = new Date();
+		return dateString(date).equals(dateString(now));
+	}
 }
