@@ -92,7 +92,7 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 			Collections.sort(lunchs, new SortLunchs());
 			final UlWidget ul = new UlWidget();
 			for (final Lunch lunch : lunchs) {
-				ul.add(dateUtil.dateString(lunch.getDate()) + "-" + lunch.getName());
+				ul.add(dateUtil.dateString(lunch.getDate()) + " " + lunch.getName() + " " + (lunch.isSubscribed() ? "subscribed" : "not subsciped"));
 			}
 			widgets.add(ul);
 			return widgets;
@@ -106,5 +106,4 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }
