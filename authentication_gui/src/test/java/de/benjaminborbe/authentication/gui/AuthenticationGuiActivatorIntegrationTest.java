@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
-public class AuthenticationGuiActivatorTest {
+public class AuthenticationGuiActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {

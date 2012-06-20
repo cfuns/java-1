@@ -7,4 +7,6 @@ public interface Lunch {
 	String getName();
 
 	Date getDate();
+
+	boolean isSubscribed();
 }

@@ -33,6 +33,11 @@ public class LunchServiceMock implements LunchService {
 			public Date getDate() {
 				return new Date();
 			}
+
+			@Override
+			public boolean isSubscribed() {
+				return true;
+			}
 		};
 		result.add(lunch);
 		return result;

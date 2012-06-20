@@ -1,6 +1,7 @@
 package de.benjaminborbe.lunch.service;
 
 import java.util.Collection;
+
 import javax.naming.NamingException;
 import javax.xml.rpc.ServiceException;
 

@@ -61,17 +61,30 @@ public class WikiConnector {
 	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary) throws ParseException, InvalidSessionException,
 			RemoteException, java.rmi.RemoteException {
 		final LunchBean lunch = new LunchBean();
-		lunch.setName(extractLunchName(service, token, remotePageSummary));
+		final RemotePage page = service.getPage(token, remotePageSummary.getId());
+		final String htmlContent = service.renderContent(token, page.getSpace(), page.getId(), page.getContent());
+		lunch.setName(extractLunchName(htmlContent));
+		lunch.setSubscribed(extractLunchSubscribed(htmlContent));
 		lunch.setDate(extractDate(remotePageSummary.getTitle()));
 		return lunch;
 	}
 
-	private String extractLunchName(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary) throws InvalidSessionException,
-			RemoteException, java.rmi.RemoteException {
-		final RemotePage page = service.getPage(token, remotePageSummary.getId());
-		final String htmlContent = service.renderContent(token, page.getSpace(), page.getId(), page.getContent());
+	protected boolean extractLunchSubscribed(final String htmlContent) {
 		final Document document = Jsoup.parse(htmlContent);
+		final Elements tables = document.getElementsByClass("confluenceTable");
+		for (final Element table : tables) {
+			final Elements tds = table.getElementsByTag("td");
+			for (final Element td : tds) {
+				if (td.html().indexOf("Benjamin Borbe") != -1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
+	private String extractLunchName(final String htmlContent) {
+		final Document document = Jsoup.parse(htmlContent);
 		final Elements elements = document.getElementsByClass("tipMacro");
 		for (final Element element : elements) {
 			final Elements tds = element.getElementsByTag("td");
@@ -94,4 +107,5 @@ public class WikiConnector {
 	protected boolean isLunchPage(final RemotePageSummary remotePageSummary) {
 		return remotePageSummary != null && remotePageSummary.getTitle() != null && remotePageSummary.getTitle().matches("\\d+-\\d+-\\d+ Bastians Mittagessen");
 	}
+
 }

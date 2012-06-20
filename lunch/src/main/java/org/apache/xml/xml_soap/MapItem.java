@@ -7,149 +7,139 @@
 
 package org.apache.xml.xml_soap;
 
-public class MapItem  implements java.io.Serializable {
-    private java.lang.Object key;
+@SuppressWarnings("serial")
+public class MapItem implements java.io.Serializable {
 
-    private java.lang.Object value;
+	private java.lang.Object key;
 
-    public MapItem() {
-    }
+	private java.lang.Object value;
 
-    public MapItem(
-           java.lang.Object key,
-           java.lang.Object value) {
-           this.key = key;
-           this.value = value;
-    }
+	public MapItem() {
+	}
 
+	public MapItem(final java.lang.Object key, final java.lang.Object value) {
+		this.key = key;
+		this.value = value;
+	}
 
-    /**
-     * Gets the key value for this MapItem.
-     * 
-     * @return key
-     */
-    public java.lang.Object getKey() {
-        return key;
-    }
+	/**
+	 * Gets the key value for this MapItem.
+	 * 
+	 * @return key
+	 */
+	public java.lang.Object getKey() {
+		return key;
+	}
 
+	/**
+	 * Sets the key value for this MapItem.
+	 * 
+	 * @param key
+	 */
+	public void setKey(final java.lang.Object key) {
+		this.key = key;
+	}
 
-    /**
-     * Sets the key value for this MapItem.
-     * 
-     * @param key
-     */
-    public void setKey(java.lang.Object key) {
-        this.key = key;
-    }
+	/**
+	 * Gets the value value for this MapItem.
+	 * 
+	 * @return value
+	 */
+	public java.lang.Object getValue() {
+		return value;
+	}
 
+	/**
+	 * Sets the value value for this MapItem.
+	 * 
+	 * @param value
+	 */
+	public void setValue(final java.lang.Object value) {
+		this.value = value;
+	}
 
-    /**
-     * Gets the value value for this MapItem.
-     * 
-     * @return value
-     */
-    public java.lang.Object getValue() {
-        return value;
-    }
+	private java.lang.Object __equalsCalc = null;
 
+	@SuppressWarnings("unused")
+	@Override
+	public synchronized boolean equals(final java.lang.Object obj) {
+		if (!(obj instanceof MapItem))
+			return false;
+		final MapItem other = (MapItem) obj;
+		if (obj == null)
+			return false;
+		if (this == obj)
+			return true;
+		if (__equalsCalc != null) {
+			return (__equalsCalc == obj);
+		}
+		__equalsCalc = obj;
+		boolean _equals;
+		_equals = true && ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
+				&& ((this.value == null && other.getValue() == null) || (this.value != null && this.value.equals(other.getValue())));
+		__equalsCalc = null;
+		return _equals;
+	}
 
-    /**
-     * Sets the value value for this MapItem.
-     * 
-     * @param value
-     */
-    public void setValue(java.lang.Object value) {
-        this.value = value;
-    }
+	private boolean __hashCodeCalc = false;
 
-    private java.lang.Object __equalsCalc = null;
-    public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof MapItem)) return false;
-        MapItem other = (MapItem) obj;
-        if (obj == null) return false;
-        if (this == obj) return true;
-        if (__equalsCalc != null) {
-            return (__equalsCalc == obj);
-        }
-        __equalsCalc = obj;
-        boolean _equals;
-        _equals = true && 
-            ((this.key==null && other.getKey()==null) || 
-             (this.key!=null &&
-              this.key.equals(other.getKey()))) &&
-            ((this.value==null && other.getValue()==null) || 
-             (this.value!=null &&
-              this.value.equals(other.getValue())));
-        __equalsCalc = null;
-        return _equals;
-    }
+	@Override
+	public synchronized int hashCode() {
+		if (__hashCodeCalc) {
+			return 0;
+		}
+		__hashCodeCalc = true;
+		int _hashCode = 1;
+		if (getKey() != null) {
+			_hashCode += getKey().hashCode();
+		}
+		if (getValue() != null) {
+			_hashCode += getValue().hashCode();
+		}
+		__hashCodeCalc = false;
+		return _hashCode;
+	}
 
-    private boolean __hashCodeCalc = false;
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = 1;
-        if (getKey() != null) {
-            _hashCode += getKey().hashCode();
-        }
-        if (getValue() != null) {
-            _hashCode += getValue().hashCode();
-        }
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
+	// Type metadata
+	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(MapItem.class, true);
 
-    // Type metadata
-    private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(MapItem.class, true);
+	static {
+		typeDesc.setXmlType(new javax.xml.namespace.QName("http://xml.apache.org/xml-soap", "mapItem"));
+		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+		elemField.setFieldName("key");
+		elemField.setXmlName(new javax.xml.namespace.QName("", "key"));
+		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "anyType"));
+		elemField.setNillable(true);
+		typeDesc.addFieldDesc(elemField);
+		elemField = new org.apache.axis.description.ElementDesc();
+		elemField.setFieldName("value");
+		elemField.setXmlName(new javax.xml.namespace.QName("", "value"));
+		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "anyType"));
+		elemField.setNillable(true);
+		typeDesc.addFieldDesc(elemField);
+	}
 
-    static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://xml.apache.org/xml-soap", "mapItem"));
-        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("key");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "key"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "anyType"));
-        elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("value");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "value"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "anyType"));
-        elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-    }
+	/**
+	 * Return type metadata object
+	 */
+	public static org.apache.axis.description.TypeDesc getTypeDesc() {
+		return typeDesc;
+	}
 
-    /**
-     * Return type metadata object
-     */
-    public static org.apache.axis.description.TypeDesc getTypeDesc() {
-        return typeDesc;
-    }
+	/**
+	 * Get Custom Serializer
+	 */
+	@SuppressWarnings("rawtypes")
+	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
+	}
 
-    /**
-     * Get Custom Serializer
-     */
-    public static org.apache.axis.encoding.Serializer getSerializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanSerializer(
-            _javaType, _xmlType, typeDesc);
-    }
-
-    /**
-     * Get Custom Deserializer
-     */
-    public static org.apache.axis.encoding.Deserializer getDeserializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanDeserializer(
-            _javaType, _xmlType, typeDesc);
-    }
+	/**
+	 * Get Custom Deserializer
+	 */
+	@SuppressWarnings("rawtypes")
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
+	}
 
 }
