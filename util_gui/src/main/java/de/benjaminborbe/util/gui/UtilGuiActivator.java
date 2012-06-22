@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.util.gui.guice.UtilGuiModules;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 
 public class UtilGuiActivator extends HttpBundleActivator {
 
@@ -24,6 +25,9 @@ public class UtilGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private UtilGuiPasswordGeneratorServlet utilPasswordGeneratorServlet;
+
+	@Inject
+	private UtilGuiTimeConvertServlet utilGuiTimeConvertServlet;
 
 	public UtilGuiActivator() {
 		super("util");
@@ -39,6 +43,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(utilServlet, "/"));
 		result.add(new ServletInfo(utilPasswordGeneratorServlet, "/passwordGenerator"));
+		result.add(new ServletInfo(utilGuiTimeConvertServlet, "/timeConvert"));
 		return result;
 	}
 

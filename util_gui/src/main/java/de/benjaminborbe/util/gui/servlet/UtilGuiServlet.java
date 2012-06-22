@@ -1,36 +1,45 @@
 package de.benjaminborbe.util.gui.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectUtil;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+
 @Singleton
-public class UtilGuiServlet extends HttpServlet {
+public class UtilGuiServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private static final long serialVersionUID = 3897185107545429460L;
 
-	private final Logger logger;
+	private static final String TITLE = "Util - Index";
 
 	@Inject
-	public UtilGuiServlet(final Logger logger) {
-		this.logger = logger;
+	public UtilGuiServlet(
+			final Logger logger,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil,
+			final AuthenticationService authenticationService,
+			final NavigationWidget navigationWidget,
+			final Provider<HttpContext> httpContextProvider,
+			final RedirectUtil redirectUtil,
+			final UrlUtil urlUtil) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.trace("service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
-		final PrintWriter out = response.getWriter();
-		out.println("<h2>Util</h2>");
+	protected String getTitle() {
+		return TITLE;
 	}
 
 }
