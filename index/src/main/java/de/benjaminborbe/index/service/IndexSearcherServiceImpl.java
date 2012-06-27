@@ -41,7 +41,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 
 	@Override
 	public List<IndexSearchResult> search(final String indexName, final String searchQuery) {
-		logger.debug("search in index: " + indexName + " for " + searchQuery);
+		logger.trace("search in index: " + indexName + " for " + searchQuery);
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
