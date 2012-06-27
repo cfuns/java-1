@@ -204,7 +204,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		}
 		referer.append(StringUtils.join(pairs, "&"));
 		final String result = referer.toString();
-		logger.info("buildReferer => " + result);
+		logger.trace("buildReferer => " + result);
 		return urlUtil.encode(result);
 	}
 

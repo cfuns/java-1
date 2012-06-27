@@ -68,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
 				sessionDao.save(session);
-				logger.debug("login success");
+				logger.trace("login success");
 				return true;
 			}
 			else {
