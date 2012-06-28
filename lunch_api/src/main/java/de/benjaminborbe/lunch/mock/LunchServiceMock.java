@@ -1,5 +1,7 @@
 package de.benjaminborbe.lunch.mock;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -37,6 +39,16 @@ public class LunchServiceMock implements LunchService {
 			@Override
 			public boolean isSubscribed() {
 				return true;
+			}
+
+			@Override
+			public URL getUrl() {
+				try {
+					return new URL("http://test.de");
+				}
+				catch (final MalformedURLException e) {
+					return null;
+				}
 			}
 		};
 		result.add(lunch);

@@ -33,6 +33,7 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -108,10 +109,10 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 
 				final LiWidget li;
 				if (dateUtil.isToday(lunch.getDate())) {
-					li = new LiWidget(new TagWidget("b", content.toString()));
+					li = new LiWidget(new LinkWidget(lunch.getUrl(), new TagWidget("b", content.toString())));
 				}
 				else {
-					li = new LiWidget(content.toString());
+					li = new LiWidget(new LinkWidget(lunch.getUrl(), content.toString()));
 				}
 
 				li.addAttribute("class", (lunch.isSubscribed() ? "subscribed" : "notsubscribed"));

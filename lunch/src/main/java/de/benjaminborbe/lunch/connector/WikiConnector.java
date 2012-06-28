@@ -1,5 +1,7 @@
 package de.benjaminborbe.lunch.connector;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -11,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
 
 import com.atlassian.confluence.rpc.AuthenticationFailedException;
 import com.atlassian.confluence.rpc.InvalidSessionException;
@@ -33,9 +36,12 @@ public class WikiConnector {
 
 	private final HtmlUtil htmlUtil;
 
+	private final Logger logger;
+
 	// https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs
 	@Inject
-	public WikiConnector(final DateUtil dateUtil, final HtmlUtil htmlUtil) {
+	public WikiConnector(final Logger logger, final DateUtil dateUtil, final HtmlUtil htmlUtil) {
+		this.logger = logger;
 		this.dateUtil = dateUtil;
 		this.htmlUtil = htmlUtil;
 	}
@@ -66,7 +72,18 @@ public class WikiConnector {
 		lunch.setName(extractLunchName(htmlContent));
 		lunch.setSubscribed(extractLunchSubscribed(htmlContent));
 		lunch.setDate(extractDate(remotePageSummary.getTitle()));
+		lunch.setUrl(buildUrl(remotePageSummary.getUrl()));
 		return lunch;
+	}
+
+	private URL buildUrl(final String url) {
+		try {
+			return new URL(url);
+		}
+		catch (final MalformedURLException e) {
+			logger.debug("build WikiPageUrl failed!", e);
+			return null;
+		}
 	}
 
 	protected boolean extractLunchSubscribed(final String htmlContent) {

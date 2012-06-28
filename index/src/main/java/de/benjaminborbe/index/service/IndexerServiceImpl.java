@@ -141,7 +141,7 @@ public class IndexerServiceImpl implements IndexerService {
 			logger.warn("content not valid: " + content);
 			return false;
 		}
-		logger.debug("input valid");
+		logger.trace("input valid");
 		return true;
 	}
 }

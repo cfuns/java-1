@@ -24,7 +24,7 @@ public class WikiConnectorTest {
 
 		final DateUtil dateUtil = new DateUtilImpl();
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final WikiConnector wikiConnector = new WikiConnector(dateUtil, htmlUtil);
+		final WikiConnector wikiConnector = new WikiConnector(logger, dateUtil, htmlUtil);
 		final Date date = wikiConnector.extractDate("2012-05-03 - Bastians Mittagessen");
 		assertNotNull(date);
 		final Calendar calendar = Calendar.getInstance();

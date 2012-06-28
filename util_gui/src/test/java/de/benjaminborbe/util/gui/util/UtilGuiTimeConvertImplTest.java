@@ -20,7 +20,7 @@ public class UtilGuiTimeConvertImplTest {
 			calendar.set(Calendar.YEAR, 2012);
 			calendar.set(Calendar.MONTH, 12);
 			calendar.set(Calendar.DAY_OF_MONTH, 24);
-			calendar.set(Calendar.HOUR, 10);
+			calendar.set(Calendar.HOUR_OF_DAY, 10);
 			calendar.set(Calendar.MINUTE, 15);
 			calendar.set(Calendar.SECOND, 30);
 			calendar.set(Calendar.MILLISECOND, 45);
@@ -35,7 +35,7 @@ public class UtilGuiTimeConvertImplTest {
 			calendar.set(Calendar.YEAR, 2012);
 			calendar.set(Calendar.MONTH, 6);
 			calendar.set(Calendar.DAY_OF_MONTH, 24);
-			calendar.set(Calendar.HOUR, 10);
+			calendar.set(Calendar.HOUR_OF_DAY, 10);
 			calendar.set(Calendar.MINUTE, 15);
 			calendar.set(Calendar.SECOND, 30);
 			calendar.set(Calendar.MILLISECOND, 45);

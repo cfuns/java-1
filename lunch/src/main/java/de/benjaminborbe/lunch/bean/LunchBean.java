@@ -1,10 +1,13 @@
 package de.benjaminborbe.lunch.bean;
 
+import java.net.URL;
 import java.util.Date;
 
 import de.benjaminborbe.lunch.api.Lunch;
 
 public class LunchBean implements Lunch {
+
+	private URL url;
 
 	private boolean subscribed;
 
@@ -38,4 +41,14 @@ public class LunchBean implements Lunch {
 	public void setName(final String name) {
 		this.name = name;
 	}
+
+	@Override
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(final URL url) {
+		this.url = url;
+	}
+
 }
