@@ -10,7 +10,7 @@ import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModulesMock;
 import de.benjaminborbe.microblog.gui.service.MicroblogGuiDashboardWidget;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class MicroblogGuiDashboardWidgetTest {
+public class MicroblogGuiDashboardWidgetIntegrationTest {
 
 	@Test
 	public void testSingleton() {

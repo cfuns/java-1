@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +18,6 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -27,28 +25,16 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
-import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class MonitoringGuiServletTest {
-
-	@Test
-	public void testSingleton() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringGuiModulesMock());
-		final MonitoringGuiServlet a = injector.getInstance(MonitoringGuiServlet.class);
-		final MonitoringGuiServlet b = injector.getInstance(MonitoringGuiServlet.class);
-		assertEquals(a, b);
-		assertEquals(a.hashCode(), b.hashCode());
-		assertEquals(a, b);
-	}
+public class MonitoringGuiServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
