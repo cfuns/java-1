@@ -272,7 +272,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		widgets.add(new HtmlWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
 		widgets.add(new HtmlWidget("<meta name=\"description\" content=\"BB\" />"));
 		widgets.add(new HtmlWidget("<meta name=\"keywords\" content=\"BB\" />"));
-		widgets.add(new HtmlWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.gif\" />"));
+		widgets.add(new HtmlWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
 		widgets.add(new JavascriptResourceWidget(getJavascriptResources(request, response)));
 		widgets.add(new CssResourceWidget(getCssResources(request, response)));
 		return new TagWidget("head", widgets);
