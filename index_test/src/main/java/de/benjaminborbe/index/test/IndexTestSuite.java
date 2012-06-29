@@ -9,7 +9,7 @@ public class IndexTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Index Test Suite", bc);
-		ots.addTestSuite(IndexTest.class);
+		ots.addTestSuite(IndexIntegrationTest.class);
 		return ots;
 	}
 }

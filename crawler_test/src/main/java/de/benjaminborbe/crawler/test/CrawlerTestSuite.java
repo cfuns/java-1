@@ -9,7 +9,7 @@ public class CrawlerTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Crawler Test Suite", bc);
-		ots.addTestSuite(CrawlerTest.class);
+		ots.addTestSuite(CrawlerIntegrationTest.class);
 		return ots;
 	}
 }

@@ -1,6 +1,7 @@
 package de.benjaminborbe.bookmark.dao;
 
 import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import com.google.common.collect.Collections2;

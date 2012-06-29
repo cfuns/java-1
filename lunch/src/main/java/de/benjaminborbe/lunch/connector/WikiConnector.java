@@ -9,6 +9,9 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
+import net.seibertmedia.kunden.ConfluenceSoapService;
+import net.seibertmedia.kunden.ConfluenceSoapServiceServiceLocator;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,8 +25,6 @@ import com.atlassian.confluence.rpc.soap.beans.RemotePage;
 import com.atlassian.confluence.rpc.soap.beans.RemotePageSummary;
 import com.google.inject.Inject;
 
-import net.seibertmedia.kunden.ConfluenceSoapService;
-import net.seibertmedia.kunden.ConfluenceSoapServiceServiceLocator;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.bean.LunchBean;
 import de.benjaminborbe.tools.date.DateUtil;

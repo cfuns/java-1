@@ -9,7 +9,7 @@ public class NavigationTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Navigation Test Suite", bc);
-		ots.addTestSuite(NavigationTest.class);
+		ots.addTestSuite(NavigationIntegrationTest.class);
 		return ots;
 	}
 }

@@ -9,7 +9,7 @@ public class DashboardTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Dashboard Test Suite", bc);
-		ots.addTestSuite(DashboardTest.class);
+		ots.addTestSuite(DashboardIntegrationTest.class);
 		return ots;
 	}
 }

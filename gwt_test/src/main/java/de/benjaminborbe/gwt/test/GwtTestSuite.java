@@ -9,7 +9,7 @@ public class GwtTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Gwt Test Suite", bc);
-		ots.addTestSuite(GwtTest.class);
+		ots.addTestSuite(GwtIntegrationTest.class);
 		return ots;
 	}
 }

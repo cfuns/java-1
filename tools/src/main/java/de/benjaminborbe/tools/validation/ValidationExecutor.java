@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.validation;
 
 import java.util.Collection;
+
 import com.google.inject.Inject;
 
 public class ValidationExecutor {

@@ -9,7 +9,7 @@ public class StreamcacheTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Streamcache Test Suite", bc);
-		ots.addTestSuite(StreamcacheTest.class);
+		ots.addTestSuite(StreamcacheIntegrationTest.class);
 		return ots;
 	}
 }

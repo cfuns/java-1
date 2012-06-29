@@ -9,7 +9,7 @@ public class CronTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Storage Test Suite", bc);
-		ots.addTestSuite(CronTest.class);
+		ots.addTestSuite(CronIntegrationTest.class);
 		return ots;
 	}
 }

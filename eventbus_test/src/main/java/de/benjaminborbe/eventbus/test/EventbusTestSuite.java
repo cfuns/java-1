@@ -9,7 +9,7 @@ public class EventbusTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Eventbus Test Suite", bc);
-		ots.addTestSuite(EventbusTest.class);
+		ots.addTestSuite(EventbusIntegrationTest.class);
 		return ots;
 	}
 }

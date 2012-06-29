@@ -9,11 +9,11 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.wow.api.WowService;
-import de.benjaminborbe.wow.guice.WowModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.wow.api.WowService;
+import de.benjaminborbe.wow.guice.WowModules;
 
 public class WowActivator extends BaseBundleActivator {
 

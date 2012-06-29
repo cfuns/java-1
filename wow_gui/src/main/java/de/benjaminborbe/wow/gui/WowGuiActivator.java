@@ -8,16 +8,16 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.wow.gui.guice.WowGuiModules;
-import de.benjaminborbe.wow.gui.service.WowGuiSpecialSearchBuffed;
-import de.benjaminborbe.wow.gui.service.WowGuiSpecialSearchThottbot;
-import de.benjaminborbe.wow.gui.service.WowGuiSpecialSearchWowhead;
-import de.benjaminborbe.wow.gui.servlet.WowGuiServlet;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.wow.gui.guice.WowGuiModules;
+import de.benjaminborbe.wow.gui.service.WowGuiSpecialSearchBuffed;
+import de.benjaminborbe.wow.gui.service.WowGuiSpecialSearchThottbot;
+import de.benjaminborbe.wow.gui.service.WowGuiSpecialSearchWowhead;
+import de.benjaminborbe.wow.gui.servlet.WowGuiServlet;
 
 public class WowGuiActivator extends HttpBundleActivator {
 

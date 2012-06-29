@@ -7,7 +7,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authorization.api.RoleIdentifier;
-import de.benjaminborbe.authorization.role.RoleBean;
 import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
 

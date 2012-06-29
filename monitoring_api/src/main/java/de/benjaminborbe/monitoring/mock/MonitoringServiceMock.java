@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.mock;
 
 import java.util.Collection;
+
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.monitoring.api.CheckResult;

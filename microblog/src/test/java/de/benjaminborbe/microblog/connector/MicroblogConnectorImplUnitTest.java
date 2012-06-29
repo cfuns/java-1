@@ -11,8 +11,6 @@ import org.slf4j.Logger;
 
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
-import de.benjaminborbe.microblog.connector.MicroblogConnector;
-import de.benjaminborbe.microblog.connector.MicroblogConnectorImpl;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationResult;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.tools.html.HtmlUtil;

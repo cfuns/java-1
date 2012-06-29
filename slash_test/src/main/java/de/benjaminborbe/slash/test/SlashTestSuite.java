@@ -9,7 +9,7 @@ public class SlashTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Slash Test Suite", bc);
-		ots.addTestSuite(SlashTest.class);
+		ots.addTestSuite(SlashIntegrationTest.class);
 		return ots;
 	}
 }

@@ -9,7 +9,7 @@ public class HtmlTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Html Test Suite", bc);
-		ots.addTestSuite(HtmlTest.class);
+		ots.addTestSuite(HtmlIntegrationTest.class);
 		return ots;
 	}
 }

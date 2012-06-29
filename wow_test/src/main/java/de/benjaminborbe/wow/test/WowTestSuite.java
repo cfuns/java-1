@@ -9,7 +9,7 @@ public class WowTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Wow Test Suite", bc);
-		ots.addTestSuite(WowTest.class);
+		ots.addTestSuite(WowIntegrationTest.class);
 		return ots;
 	}
 }

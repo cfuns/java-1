@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.lunch.LunchActivator;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.guice.LunchModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

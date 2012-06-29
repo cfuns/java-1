@@ -9,7 +9,7 @@ public class MessageserviceTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Messageservice Test Suite", bc);
-		ots.addTestSuite(MessageserviceTest.class);
+		ots.addTestSuite(MessageserviceIntegrationTest.class);
 		return ots;
 	}
 }

@@ -33,3 +33,5 @@ sonar:
 	mvn sonar:sonar
 help:
 	echo "help"
+findwrongnamedtests:
+	find . -name "*Test.java" | grep -v UnitTest | grep -v IntegrationTest

@@ -8,10 +8,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.mock.DhlServiceMock;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 

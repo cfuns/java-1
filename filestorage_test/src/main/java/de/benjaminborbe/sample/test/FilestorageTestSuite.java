@@ -9,7 +9,7 @@ public class FilestorageTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Filestorage Test Suite", bc);
-		ots.addTestSuite(FilestorageTest.class);
+		ots.addTestSuite(FilestorageIntegrationTest.class);
 		return ots;
 	}
 }

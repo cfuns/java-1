@@ -9,7 +9,7 @@ public class VaadinTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Vaadin Test Suite", bc);
-		ots.addTestSuite(VaadinTest.class);
+		ots.addTestSuite(VaadinIntegrationTest.class);
 		return ots;
 	}
 }

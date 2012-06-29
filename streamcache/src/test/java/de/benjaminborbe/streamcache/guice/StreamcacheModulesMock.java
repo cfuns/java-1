@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import com.google.inject.Module;
 
-import de.benjaminborbe.streamcache.guice.StreamcacheModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;

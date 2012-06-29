@@ -9,7 +9,7 @@ public class WeatherTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Weather Test Suite", bc);
-		ots.addTestSuite(WeatherTest.class);
+		ots.addTestSuite(WeatherIntegrationTest.class);
 		return ots;
 	}
 }

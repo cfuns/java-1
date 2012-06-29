@@ -9,7 +9,7 @@ public class BookmarkTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Bookmark Test Suite", bc);
-		ots.addTestSuite(BookmarkTest.class);
+		ots.addTestSuite(BookmarkIntegrationTest.class);
 		return ots;
 	}
 }

@@ -9,7 +9,7 @@ public class TimetrackerTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Storage Test Suite", bc);
-		ots.addTestSuite(TimetrackerTest.class);
+		ots.addTestSuite(TimetrackerIntegrationTest.class);
 		return ots;
 	}
 }

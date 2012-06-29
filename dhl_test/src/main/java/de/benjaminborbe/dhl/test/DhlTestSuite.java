@@ -9,7 +9,7 @@ public class DhlTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Dhl Test Suite", bc);
-		ots.addTestSuite(DhlTest.class);
+		ots.addTestSuite(DhlIntegrationTest.class);
 		return ots;
 	}
 }

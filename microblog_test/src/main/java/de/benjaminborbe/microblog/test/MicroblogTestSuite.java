@@ -9,7 +9,7 @@ public class MicroblogTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Microblog Test Suite", bc);
-		ots.addTestSuite(MicroblogTest.class);
+		ots.addTestSuite(MicroblogIntegrationTest.class);
 		return ots;
 	}
 }

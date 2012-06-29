@@ -9,7 +9,7 @@ public class LunchTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Lunch Test Suite", bc);
-		ots.addTestSuite(LunchTest.class);
+		ots.addTestSuite(LunchIntegrationTest.class);
 		return ots;
 	}
 }

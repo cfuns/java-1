@@ -9,7 +9,7 @@ public class WebsearchTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Websearch Test Suite", bc);
-		ots.addTestSuite(WebsearchTest.class);
+		ots.addTestSuite(WebsearchIntegrationTest.class);
 		return ots;
 	}
 }

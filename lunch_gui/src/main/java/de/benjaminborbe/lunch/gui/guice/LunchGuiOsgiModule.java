@@ -8,8 +8,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.lunch.api.LunchService;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class LunchGuiOsgiModule extends AbstractModule {
 

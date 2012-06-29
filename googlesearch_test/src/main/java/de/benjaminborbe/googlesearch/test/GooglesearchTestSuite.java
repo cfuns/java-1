@@ -9,7 +9,7 @@ public class GooglesearchTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Googlesearch Test Suite", bc);
-		ots.addTestSuite(GooglesearchTest.class);
+		ots.addTestSuite(GooglesearchIntegrationTest.class);
 		return ots;
 	}
 }

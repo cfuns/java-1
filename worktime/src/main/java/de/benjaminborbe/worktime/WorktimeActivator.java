@@ -7,6 +7,7 @@ import java.util.Set;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
+
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;

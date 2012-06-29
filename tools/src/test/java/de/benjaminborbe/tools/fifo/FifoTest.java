@@ -1,6 +1,9 @@
 package de.benjaminborbe.tools.fifo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.junit.Test;

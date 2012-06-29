@@ -12,6 +12,7 @@ import javax.naming.NamingException;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 public final class SimpleProducer {

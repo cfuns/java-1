@@ -9,7 +9,7 @@ public class SystemstatusTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Systemstatus Test Suite", bc);
-		ots.addTestSuite(SystemstatusTest.class);
+		ots.addTestSuite(SystemstatusIntegrationTest.class);
 		return ots;
 	}
 }

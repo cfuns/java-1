@@ -9,7 +9,7 @@ public class CalendarTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Calendar Test Suite", bc);
-		ots.addTestSuite(CalendarTest.class);
+		ots.addTestSuite(CalendarIntegrationTest.class);
 		return ots;
 	}
 }

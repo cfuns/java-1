@@ -9,7 +9,7 @@ public class WorktimeTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Worktime Test Suite", bc);
-		ots.addTestSuite(WorktimeTest.class);
+		ots.addTestSuite(WorktimeIntegrationTest.class);
 		return ots;
 	}
 }

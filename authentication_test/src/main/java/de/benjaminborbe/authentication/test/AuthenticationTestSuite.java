@@ -9,7 +9,7 @@ public class AuthenticationTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Authentication Test Suite", bc);
-		ots.addTestSuite(AuthenticationTest.class);
+		ots.addTestSuite(AuthenticationIntegrationTest.class);
 		return ots;
 	}
 }
