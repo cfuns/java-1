@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-	version="2.4">
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
 	<display-name>BB Osgi-Bridge</display-name>
 	<description>BB Osgi-Bridge</description>
 	<welcome-file-list>
@@ -21,8 +21,10 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 	<!-- The timeout value is specified in minutes. -->
-	<!-- 60 * 24 * 7 = 10080 -->
 	<session-config>
-		<session-timeout>10080</session-timeout>
+		<session-timeout>525600</session-timeout>
+		<cookie-config>
+			<max-age>31536000</max-age>
+		</cookie-config>
 	</session-config>
 </web-app>
