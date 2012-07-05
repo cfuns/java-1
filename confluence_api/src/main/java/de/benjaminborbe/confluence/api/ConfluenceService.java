@@ -1,6 +1,8 @@
 package de.benjaminborbe.confluence.api;
 
+import java.util.List;
+
 public interface ConfluenceService {
 
-	void execute();
+	List<String> getSpaceNames(String confluenceUrl, String username, String password) throws ConfluenceServiceException;
 }
