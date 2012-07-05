@@ -109,7 +109,7 @@ public class UrlCheck implements Check {
 			return new CheckResultException(this, e, url);
 		}
 		catch (final HttpDownloaderException e) {
-			logger.warn("HttpDownloaderException", e);
+			logger.warn("HttpDownloaderException: " + e.getMessage());
 			return new CheckResultException(this, e, url);
 		}
 	}

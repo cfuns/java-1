@@ -153,3 +153,7 @@ lunch/target
 lunch_api/target
 lunch_gui/target
 lunch_test/target
+confluence/target
+confluence_api/target
+confluence_gui/target
+confluence_test/target

@@ -40,7 +40,7 @@ public class LunchServiceImpl implements LunchService {
 
 	@Override
 	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) throws LunchServiceException {
-		logger.debug("getLunchs");
+		logger.trace("getLunchs");
 
 		try {
 			final String username = (String) jndiContext.lookup("mittag_username");

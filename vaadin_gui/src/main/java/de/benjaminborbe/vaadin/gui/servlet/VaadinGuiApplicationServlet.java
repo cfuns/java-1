@@ -40,4 +40,9 @@ public class VaadinGuiApplicationServlet extends AbstractApplicationServlet {
 		return VaadinGuiApplication.class;
 	}
 
+	@Override
+	public boolean isProductionMode() {
+		return true;
+	}
+
 }

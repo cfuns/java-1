@@ -54,6 +54,10 @@
 		<module>calendar_api</module>
 		<module>calendar_gui</module>
 		<module>calendar_test</module>
+		<module>confluence</module>
+		<module>confluence_api</module>
+		<module>confluence_gui</module>
+		<module>confluence_test</module>
 		<module>configuration</module>
 		<module>configuration_api</module>
 		<module>configuration_gui</module>

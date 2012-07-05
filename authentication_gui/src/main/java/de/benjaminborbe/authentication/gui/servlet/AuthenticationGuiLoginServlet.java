@@ -85,7 +85,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 					final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
 					// necessary ?
 					request.getSession().setAttribute("login", "true");
-					logger.debug("send redirect to: " + referer);
+					logger.trace("send redirect to: " + referer);
 					throw new RedirectException(referer);
 				}
 				else {
