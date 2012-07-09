@@ -21,6 +21,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public List<String> getSpaceNames(final String confluenceUrl, final String username, final String password) throws ConfluenceServiceException {
+		logger.debug("getSpaceNames");
 		return null;
 	}
 
