@@ -145,7 +145,7 @@ public class HudsonCheck implements Check {
 		}
 
 		final String result = content.substring(start + startString.length(), end);
-		logger.debug("found row content '" + result + "'");
+		logger.trace("found row content '" + result + "'");
 		return result;
 	}
 
