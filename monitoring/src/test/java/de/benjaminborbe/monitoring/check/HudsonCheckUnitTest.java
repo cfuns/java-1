@@ -27,7 +27,9 @@ public class HudsonCheckUnitTest {
 		final String job = "TwentyFeet-UnitTests";
 		final int timeOut = 3000;
 
-		final String content = "bla <tr><td data=\"5\"><a>TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
+		// final String content =
+		// "bla <tr><td data=\"5\"><a>TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
+		final String content = "bla <tr id=\"job_TwentyFeet-UnitTests\"><td data=\"5\"><a>TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
 		final Encoding encoding = new Encoding("UTF8");
 
 		final HttpDownloadResult httpDownloadResult = EasyMock.createMock(HttpDownloadResult.class);
@@ -63,7 +65,9 @@ public class HudsonCheckUnitTest {
 		final String job = "TwentyFeet-UnitTests";
 		final int timeOut = 3000;
 
-		final String content = "bla <tr><td data=\"5\"><img alt=\"Unstable\" src=\"foo.jpg\">TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
+		// final String content =
+		// "bla <tr><td data=\"5\"><img alt=\"Unstable\" src=\"foo.jpg\">TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
+		final String content = "bla <tr id=\"job_TwentyFeet-UnitTests\"><td data=\"5\"><img alt=\"Unstable\" src=\"foo.jpg\">TwentyFeet-UnitTests</a></td><td data=\"5\"></td></tr> bla";
 		final Encoding encoding = new Encoding("UTF8");
 
 		final HttpDownloadResult httpDownloadResult = EasyMock.createMock(HttpDownloadResult.class);

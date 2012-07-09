@@ -121,17 +121,32 @@ public class HudsonCheck implements Check {
 	}
 
 	private String getRow(final String content) {
-		final String startString = "<tr><td data=\"";
-		final String endString = "</tr>";
-		final int pos = content.indexOf(">" + job + "</a></td><td data=\"");
-		final int start = content.lastIndexOf(startString, pos);
-		final int end = content.indexOf(endString, pos);
-		if (start != -1 && end != -1) {
-			return content.substring(start + startString.length(), end);
-		}
-		else {
+		logger.trace("content '" + content + "'");
+
+		final String posString = ">" + job + "</a></td><td data=\"";
+		final int pos = content.indexOf(posString);
+		if (pos == -1) {
+			logger.warn("posString '" + posString + "' not found in content");
 			return null;
 		}
+
+		final String startString = job + "\"><td data=\"";
+		final int start = content.lastIndexOf(startString, pos);
+		if (start == -1) {
+			logger.warn("startString '" + startString + "' not found in content");
+			return null;
+		}
+
+		final String endString = "</tr>";
+		final int end = content.indexOf(endString, pos);
+		if (end == -1) {
+			logger.warn("endString '" + endString + "' not found in content");
+			return null;
+		}
+
+		final String result = content.substring(start + startString.length(), end);
+		logger.debug("found row content '" + result + "'");
+		return result;
 	}
 
 }

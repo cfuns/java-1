@@ -48,13 +48,13 @@ public class OfficeNode extends TreeNode implements HasChildNodes, HasPreconditi
 		{
 			final String name = "Hudson-Check on TwentyFeet-UnitTests";
 			final String url = "https://hudson.rp.seibert-media.net/";
-			final String job = "TwentyFeet-UnitTests";
+			final String job = "20ft UnitTests";
 			addNode(new HasCheckNodeImpl(hudsonCheckBuilder.buildCheck(name, url, job)));
 		}
 		{
 			final String name = "Hudson-Check on Twentyfeet-IntegrationTest";
 			final String url = "https://hudson.rp.seibert-media.net/";
-			final String job = "Twentyfeet-IntegrationTest";
+			final String job = "20ft IntegrationTest";
 			addNode(new HasCheckNodeImpl(hudsonCheckBuilder.buildCheck(name, url, job)));
 		}
 	}
