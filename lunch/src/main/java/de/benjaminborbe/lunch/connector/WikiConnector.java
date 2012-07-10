@@ -58,8 +58,12 @@ public class WikiConnector {
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary)) {
+				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
 				final Lunch lunch = createLunch(service, token, remotePageSummary);
 				result.add(lunch);
+			}
+			else {
+				logger.trace("'" + remotePageSummary.getTitle() + "' is not lunch page");
 			}
 		}
 		return result;
@@ -123,7 +127,7 @@ public class WikiConnector {
 	}
 
 	protected boolean isLunchPage(final RemotePageSummary remotePageSummary) {
-		return remotePageSummary != null && remotePageSummary.getTitle() != null && remotePageSummary.getTitle().matches("\\d+-\\d+-\\d+ Bastians Mittagessen");
+		return remotePageSummary != null && remotePageSummary.getTitle() != null && remotePageSummary.getTitle().matches("\\d+-\\d+-\\d+ Bastians (Mittagessen|Wiesbaden)");
 	}
 
 }

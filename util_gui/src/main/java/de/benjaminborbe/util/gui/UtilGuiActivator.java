@@ -14,11 +14,15 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.util.gui.guice.UtilGuiModules;
+import de.benjaminborbe.util.gui.servlet.UtilGuiDayDiffServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 
 public class UtilGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private UtilGuiDayDiffServlet utilGuiDayDiffServlet;
 
 	@Inject
 	private UtilGuiServlet utilServlet;
@@ -44,6 +48,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilServlet, "/"));
 		result.add(new ServletInfo(utilPasswordGeneratorServlet, "/passwordGenerator"));
 		result.add(new ServletInfo(utilGuiTimeConvertServlet, "/timeConvert"));
+		result.add(new ServletInfo(utilGuiDayDiffServlet, "/daydiff"));
 		return result;
 	}
 
