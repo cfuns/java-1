@@ -165,7 +165,7 @@ public class TwentyfeetQueueCheck implements Check {
 					if (firstEntry.getMissing() != 0 && secondEntry.getMissing() != 0) {
 						// add serviceType if no change happend
 						final double rate = 1d * firstEntry.getMissing() / firstEntry.getTotal();
-						logger.info(serviceType + " missing: " + firstEntry.getMissing() + " total: " + firstEntry.getTotal() + " => " + df.format(rate * 100) + "%");
+						logger.trace(serviceType + " missing: " + firstEntry.getMissing() + " total: " + firstEntry.getTotal() + " => " + df.format(rate * 100) + "%");
 						if (firstEntry.getMissing() == secondEntry.getMissing()) {
 							// skip if not more than WARNING% missing
 							if (rate > WARNING) {
@@ -176,7 +176,7 @@ public class TwentyfeetQueueCheck implements Check {
 							}
 						}
 						else {
-							logger.debug(serviceType + " " + Math.abs(firstEntry.getMissing() - secondEntry.getMissing()) + " changed");
+							logger.trace(serviceType + " " + Math.abs(firstEntry.getMissing() - secondEntry.getMissing()) + " changed");
 						}
 					}
 				}
@@ -187,7 +187,7 @@ public class TwentyfeetQueueCheck implements Check {
 			else {
 				Collections.sort(listOfFailedServiceTypes);
 				final String msg = "no change in queue for serviceTypes " + StringUtils.join(listOfFailedServiceTypes, ",");
-				logger.warn(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, false, msg, url);
 			}
 		}

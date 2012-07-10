@@ -66,7 +66,7 @@ public class MonitoringMailer implements Runnable {
 					logger.trace(checkResult.toString());
 				}
 				else {
-					logger.warn(checkResult.toString());
+					logger.trace(checkResult.toString());
 					failedChecks.add(checkResult);
 				}
 			}
