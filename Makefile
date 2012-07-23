@@ -1,5 +1,8 @@
 all:
 	mvn install
+clean:
+	mvn clean
+	find . -name target -type d -exec rm -rf "{}" \;
 package:
 	cd bridge && make installwotest
 installwotest:

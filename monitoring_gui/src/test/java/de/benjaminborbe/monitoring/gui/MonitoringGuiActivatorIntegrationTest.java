@@ -44,7 +44,7 @@ public class MonitoringGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/monitoring", "/monitoring/silent", "/monitoring/sendmail");
+		final List<String> paths = Arrays.asList("/monitoring", "/monitoring/live", "/monitoring/silent", "/monitoring/sendmail");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

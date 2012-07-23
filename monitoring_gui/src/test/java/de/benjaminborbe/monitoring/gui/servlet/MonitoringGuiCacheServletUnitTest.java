@@ -24,7 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.monitoring.api.MonitoringWidget;
+import de.benjaminborbe.monitoring.gui.service.MonitoringGuiWidgetCache;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -34,7 +34,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class MonitoringGuiServletUnitTest {
+public class MonitoringGuiCacheServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -99,7 +99,7 @@ public class MonitoringGuiServletUnitTest {
 
 		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
 
-		final MonitoringWidget monitoringWidget = EasyMock.createMock(MonitoringWidget.class);
+		final MonitoringGuiWidgetCache monitoringWidget = EasyMock.createMock(MonitoringGuiWidgetCache.class);
 		monitoringWidget.render(EasyMock.anyObject(HttpServletRequest.class), EasyMock.anyObject(HttpServletResponse.class), EasyMock.anyObject(HttpContext.class));
 		EasyMock.replay(monitoringWidget);
 
@@ -121,12 +121,12 @@ public class MonitoringGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final MonitoringGuiServlet monitoringServlet = new MonitoringGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+		final MonitoringGuiCacheServlet monitoringServlet = new MonitoringGuiCacheServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
 				monitoringWidget, httpContextProvider, redirectUtil, urlUtil);
 
 		monitoringServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Monitoring</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Monitoring - Cache</h1>") != -1);
 	}
 }

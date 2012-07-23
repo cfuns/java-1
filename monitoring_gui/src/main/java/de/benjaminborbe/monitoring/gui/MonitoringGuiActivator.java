@@ -11,8 +11,9 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiDashboardWidget;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiCacheServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSendmailServlet;
-import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiLiveServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSilentCheckServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -23,7 +24,10 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private MonitoringGuiServlet monitoringServlet;
+	private MonitoringGuiLiveServlet monitoringLiveServlet;
+
+	@Inject
+	private MonitoringGuiCacheServlet monitoringCacheServlet;
 
 	@Inject
 	private MonitoringGuiDashboardWidget monitoringDashboardWidget;
@@ -53,7 +57,8 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(monitoringServlet, "/"));
+		result.add(new ServletInfo(monitoringCacheServlet, "/"));
+		result.add(new ServletInfo(monitoringLiveServlet, "/live"));
 		result.add(new ServletInfo(monitoringGuiSilentCheckServlet, "/silent"));
 		result.add(new ServletInfo(monitoringGuiSendmailServlet, "/sendmail"));
 		return result;

@@ -19,6 +19,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
+import de.benjaminborbe.monitoring.gui.service.MonitoringGuiWidgetCache;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -30,23 +31,23 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class MonitoringGuiServlet extends WebsiteHtmlServlet {
+public class MonitoringGuiCacheServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -3368317580182944276L;
 
-	private static final String TITLE = "Monitoring";
+	private static final String TITLE = "Monitoring - Cache";
 
 	private final MonitoringWidget monitoringWidget;
 
 	@Inject
-	public MonitoringGuiServlet(
+	public MonitoringGuiCacheServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
-			final MonitoringWidget monitoringWidget,
+			final MonitoringGuiWidgetCache monitoringWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
