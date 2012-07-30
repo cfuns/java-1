@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.util.gui.guice.UtilGuiModules;
 import de.benjaminborbe.util.gui.servlet.UtilGuiDayDiffServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 
@@ -33,6 +34,9 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Inject
 	private UtilGuiTimeConvertServlet utilGuiTimeConvertServlet;
 
+	@Inject
+	private UtilGuiQUnitServlet utilGuiQUnitServlet;
+
 	public UtilGuiActivator() {
 		super("util");
 	}
@@ -49,6 +53,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilPasswordGeneratorServlet, "/passwordGenerator"));
 		result.add(new ServletInfo(utilGuiTimeConvertServlet, "/timeConvert"));
 		result.add(new ServletInfo(utilGuiDayDiffServlet, "/daydiff"));
+		result.add(new ServletInfo(utilGuiQUnitServlet, "/qunit"));
 		return result;
 	}
 
@@ -62,8 +67,8 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		// result.add(new ResourceInfo("/css", "css"));
-		// result.add(new ResourceInfo("/js", "js"));
+		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo("/js", "js"));
 		return result;
 	}
 }
