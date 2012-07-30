@@ -112,6 +112,10 @@
 		<module>performance_api</module>
 		<module>performance_gui</module>
 		<module>performance_test</module>
+		<module>projectile</module>
+		<module>projectile_api</module>
+		<module>projectile_gui</module>
+		<module>projectile_test</module>
 		<module>sample</module>
 		<module>sample_api</module>
 		<module>sample_gui</module>

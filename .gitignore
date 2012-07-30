@@ -157,3 +157,7 @@ confluence/target
 confluence_api/target
 confluence_gui/target
 confluence_test/target
+projectile/target
+projectile_api/target
+projectile_gui/target
+projectile_test/target
