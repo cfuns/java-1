@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app>
+    <head>
+        <script src="../js/angular-1.0.1.min.js">
+        </script>
+        <script src="../js/angular-controller.js">
+        </script>
+    </head>
+    <body>
+        <div>
+            <h2>Links</h2>
+            <a href="http://angularjs.org/">http://angularjs.org/</a>
+        </div>
+        <div>
+            <h2>Sample 1</h2>
+            <label>
+                Name:
+            </label>
+            <input type="text" ng-model="yourName" placeholder="Enter a name here"><hr><h1>Hello {{yourName}}!</h1>
+        </div>
+        <div ng-controller="PhoneListCtrl">
+            <h2>Sample 2</h2>
+            Search: <input ng-model="query">Sort by:
+            <select ng-model="orderProp">
+                <option value="name">Alphabetical</option>
+                <option value="age">Newest</option>
+            </select>
+            <ul class="phones">
+                <li ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+                    {{phone.name}}
+                    <p>
+                        {{phone.snippet}}
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
