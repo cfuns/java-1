@@ -22,6 +22,12 @@ public class DateUtilImpl implements DateUtil {
 	}
 
 	@Override
+	public String germanDateString(final Date date) {
+		final SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
+		return dateformat.format(date);
+	}
+
+	@Override
 	public String timeString(final Date date) {
 		final SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 		return timeformat.format(date);

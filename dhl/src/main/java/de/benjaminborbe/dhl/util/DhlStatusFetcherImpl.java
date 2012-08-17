@@ -50,7 +50,7 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 
 		try {
 			final URL url = dhlUrlBuilder.buildUrl(dhlIdentifier);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 			return dhlStatusParser.parseCurrentStatus(dhlIdentifier, content);
 		}

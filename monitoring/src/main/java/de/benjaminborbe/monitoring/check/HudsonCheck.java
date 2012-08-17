@@ -72,7 +72,7 @@ public class HudsonCheck implements Check {
 		URL url = null;
 		try {
 			url = new URL(hudsonUrl);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password);
 			final String content = httpDownloadUtil.getContent(result);
 			final String row = getRow(content);
 			// hudson not valid

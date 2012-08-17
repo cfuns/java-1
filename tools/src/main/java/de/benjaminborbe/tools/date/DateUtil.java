@@ -18,4 +18,6 @@ public interface DateUtil {
 
 	Date parseDate(String date) throws ParseException;
 
+	String germanDateString(Date date);
+
 }

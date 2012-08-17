@@ -33,7 +33,7 @@ public class MicroblogConnectorImplUnitTest {
 		EasyMock.replay(httpDownloadResult);
 
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
-		EasyMock.expect(httpDownloader.downloadUrlUnsecure(new URL("https://micro.rp.seibert-media.net/api/statuses/friends_timeline/bborbe.rss"), 5000)).andReturn(httpDownloadResult);
+		EasyMock.expect(httpDownloader.getUrlUnsecure(new URL("https://micro.rp.seibert-media.net/api/statuses/friends_timeline/bborbe.rss"), 5000)).andReturn(httpDownloadResult);
 		EasyMock.replay(httpDownloader);
 
 		final MicroblogPostIdentifier rev = new MicroblogPostIdentifier(1337l);

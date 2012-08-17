@@ -75,10 +75,10 @@ public class UrlCheck implements Check {
 			url = new URL(urlString);
 			final HttpDownloadResult result;
 			if (username != null && password != null) {
-				result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
+				result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password);
 			}
 			else {
-				result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+				result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			}
 			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {

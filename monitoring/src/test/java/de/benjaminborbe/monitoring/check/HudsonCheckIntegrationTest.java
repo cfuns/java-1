@@ -3,6 +3,7 @@ package de.benjaminborbe.monitoring.check;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -27,6 +28,7 @@ public class HudsonCheckIntegrationTest {
 		assertTrue(checkResult.isSuccess());
 	}
 
+	@Ignore
 	@Test
 	public void testIntegration() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());

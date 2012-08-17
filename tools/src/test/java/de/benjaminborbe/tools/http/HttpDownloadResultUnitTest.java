@@ -3,6 +3,9 @@ package de.benjaminborbe.tools.http;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.Test;
 
 import de.benjaminborbe.tools.util.Encoding;
@@ -15,7 +18,7 @@ public class HttpDownloadResultUnitTest {
 		final byte[] content = new byte[42];
 		final Encoding contentEncoding = new Encoding("foo/bar");
 		final String contentType = "text/html";
-		final HttpDownloadResult result = new HttpDownloadResult(duration, content, contentType, contentEncoding);
+		final HttpDownloadResult result = new HttpDownloadResult(duration, content, contentType, contentEncoding, new HashMap<String, List<String>>());
 		assertEquals(duration, result.getDuration());
 		assertEquals(contentEncoding, result.getContentEncoding());
 		assertEquals(contentEncoding.getEncoding(), result.getContentEncoding().getEncoding());

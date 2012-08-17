@@ -64,7 +64,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogPostIdentifier getLatestRevision() throws MicroblogConnectorException {
 		logger.trace("getLatestRevision");
 		try {
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(MICROBLOG_URL), TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(MICROBLOG_URL), TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 			final Pattern pattern = Pattern.compile("<guid>https://micro.rp.seibert-media.net/notice/(\\d+)</guid>");
 			final Matcher matcher = pattern.matcher(content);
@@ -96,7 +96,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		logger.trace("getPost");
 		try {
 			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + revision;
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(postUrl), TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(postUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
 			final String content = extractContent(pageContent);
 			if (logger.isTraceEnabled())
@@ -159,7 +159,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 		final String conversationRssUrl = "https://micro.rp.seibert-media.net/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
 		try {
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(new URL(conversationRssUrl), TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(conversationRssUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
 			final int open = pageContent.indexOf("<link>");
 			final int close = pageContent.indexOf("</link>", open);

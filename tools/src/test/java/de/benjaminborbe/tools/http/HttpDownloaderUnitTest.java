@@ -40,12 +40,12 @@ public class HttpDownloaderUnitTest {
 		final HttpDownloader httpDownloader = new HttpDownloaderImpl(logger, streamUtil, durationUtil, base64Util);
 		final URL url = new URL("http://www.google.de");
 		{
-			final HttpDownloadResult result = httpDownloader.downloadUrl(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrl(url, TIMEOUT);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
 		{
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
@@ -72,7 +72,7 @@ public class HttpDownloaderUnitTest {
 
 		{
 			try {
-				httpDownloader.downloadUrl(url, TIMEOUT);
+				httpDownloader.getUrl(url, TIMEOUT);
 				fail("exception expected");
 			}
 			catch (final HttpDownloaderException e) {
@@ -81,14 +81,14 @@ public class HttpDownloaderUnitTest {
 
 			final String username = "test";
 			final String password = "test";
-			final HttpDownloadResult result = httpDownloader.downloadUrl(url, TIMEOUT, username, password);
+			final HttpDownloadResult result = httpDownloader.getUrl(url, TIMEOUT, username, password);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
 
 		{
 			try {
-				httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+				httpDownloader.getUrlUnsecure(url, TIMEOUT);
 				fail("exception expected");
 			}
 			catch (final HttpDownloaderException e) {
@@ -97,7 +97,7 @@ public class HttpDownloaderUnitTest {
 
 			final String username = "test";
 			final String password = "test";
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
@@ -123,13 +123,13 @@ public class HttpDownloaderUnitTest {
 		final URL url = new URL("http://test:test@htaccesstest.benjamin-borbe.de/index.html");
 
 		{
-			final HttpDownloadResult result = httpDownloader.downloadUrl(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrl(url, TIMEOUT);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
 
 		{
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}

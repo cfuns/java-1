@@ -15,6 +15,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.confluence.ConfluenceActivator;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.guice.ConfluenceModulesMock;
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -65,7 +66,7 @@ public class ConfluenceActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(ConfluenceService.class.getName());
+		final List<String> names = Arrays.asList(ConfluenceService.class.getName(), SearchServiceComponent.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

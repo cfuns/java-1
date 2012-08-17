@@ -203,10 +203,10 @@ public class TwentyfeetQueueCheck implements Check {
 		final String password = (String) jndiContext.lookup("twentyfeet_admin_password");
 
 		if (username != null && password != null) {
-			result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, username, password);
+			result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password);
 		}
 		else {
-			result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 		}
 		return result;
 	}

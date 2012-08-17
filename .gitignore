@@ -161,3 +161,7 @@ projectile/target
 projectile_api/target
 projectile_gui/target
 projectile_test/target
+wiki/target
+wiki_api/target
+wiki_gui/target
+wiki_test/target

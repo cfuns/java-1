@@ -42,7 +42,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 	protected void crawleDomain(final URL domainUrl) throws CrawlerException {
 		try {
 			logger.debug("crawle domain: " + domainUrl);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(domainUrl, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(domainUrl, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();
 			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, content, contentType, true));

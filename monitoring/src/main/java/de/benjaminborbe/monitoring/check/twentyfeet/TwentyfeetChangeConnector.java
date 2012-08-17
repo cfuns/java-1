@@ -49,7 +49,7 @@ public class TwentyfeetChangeConnector {
 		try {
 			final String urlString = buildUrl(i);
 			final URL url = new URL(urlString);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT, "admin", "xxxx");
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, "admin", "xxxx");
 			final String html = httpDownloadUtil.getContent(result);
 			final Pattern pattern = Pattern.compile("MessagesConsumed: (\\d+)");
 			final Matcher matcher = pattern.matcher(html);

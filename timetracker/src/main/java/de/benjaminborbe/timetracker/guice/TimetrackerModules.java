@@ -10,6 +10,7 @@ import com.google.inject.Module;
 import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.guice.ToolModule;
 
 public class TimetrackerModules implements Modules {
 
@@ -21,7 +22,7 @@ public class TimetrackerModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new TimetrackerOsgiModule(), new TimetrackerModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new TimetrackerOsgiModule(), new TimetrackerModule(), new ToolModule());
 	}
 
 }

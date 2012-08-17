@@ -86,7 +86,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected String downloadContent(final URL url) throws HttpDownloaderException, UnsupportedEncodingException {
-		final HttpDownloadResult httpDownloadResult = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+		final HttpDownloadResult httpDownloadResult = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 		return httpDownloadUtil.getContent(httpDownloadResult);
 	}
 

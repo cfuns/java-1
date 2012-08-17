@@ -46,7 +46,7 @@ public class InOfficeCheckHttpContent {
 	private boolean check(final String urlString, final String matchString) {
 		try {
 			final URL url = new URL(urlString);
-			final HttpDownloadResult result = httpDownloader.downloadUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;

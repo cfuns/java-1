@@ -2,6 +2,8 @@ package de.benjaminborbe.tools.http;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import de.benjaminborbe.tools.util.Encoding;
 
@@ -20,11 +22,14 @@ public class HttpDownloadResult implements Serializable {
 
 	private final String contentType;
 
-	public HttpDownloadResult(final long duration, final byte[] content, final String contentType, final Encoding contentEncoding) {
+	private final Map<String, List<String>> headers;
+
+	public HttpDownloadResult(final long duration, final byte[] content, final String contentType, final Encoding contentEncoding, final Map<String, List<String>> headers) {
 		this.duration = duration;
 		this.contentType = contentType;
 		this.content = Arrays.copyOf(content, content.length);
 		this.contentEncoding = contentEncoding;
+		this.headers = headers;
 	}
 
 	public long getDuration() {
@@ -41,6 +46,10 @@ public class HttpDownloadResult implements Serializable {
 
 	public String getContentType() {
 		return contentType;
+	}
+
+	public Map<String, List<String>> getHeaders() {
+		return headers;
 	}
 
 }

@@ -58,7 +58,7 @@
 								de.benjaminborbe.gwt.gui, de.benjaminborbe.vaadin, de.benjaminborbe.vaadin.api, de.benjaminborbe.vaadin.gui, de.benjaminborbe.dhl, de.benjaminborbe.dhl.api, de.benjaminborbe.dhl.gui,
 								de.benjaminborbe.wow, de.benjaminborbe.wow.api, de.benjaminborbe.wow.gui, de.benjaminborbe.streamcache, de.benjaminborbe.streamcache.api, de.benjaminborbe.streamcache.gui,
 								de.benjaminborbe.messageservice, de.benjaminborbe.messageservice.api, de.benjaminborbe.messageservice.gui, de.benjaminborbe.lunch, de.benjaminborbe.lunch.api, de.benjaminborbe.lunch.gui,
-								de.benjaminborbe.projectile, de.benjaminborbe.projectile.api, de.benjaminborbe.projectile.gui 
+								de.benjaminborbe.projectile, de.benjaminborbe.projectile.api, de.benjaminborbe.projectile.gui, de.benjaminborbe.wiki, de.benjaminborbe.wiki.api, de.benjaminborbe.wiki.gui 
 							</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
@@ -845,6 +845,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.projectile.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.wiki</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.wiki.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.wiki.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

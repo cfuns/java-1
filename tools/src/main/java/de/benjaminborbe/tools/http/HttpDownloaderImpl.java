@@ -3,10 +3,20 @@ package de.benjaminborbe.tools.http;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -77,18 +87,18 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout) throws HttpDownloaderException {
-		return downloadUrlUnsecure(url, timeout, null, null);
+	public HttpDownloadResult getUrlUnsecure(final URL url, final int timeout) throws HttpDownloaderException {
+		return getUrlUnsecure(url, timeout, null, null);
 
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrl(final URL url, final int timeout) throws HttpDownloaderException {
-		return downloadUrl(url, timeout, null, null);
+	public HttpDownloadResult getUrl(final URL url, final int timeout) throws HttpDownloaderException {
+		return getUrl(url, timeout, null, null);
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrl(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
+	public HttpDownloadResult getUrl(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
 		try {
 			return doDownloadUrl(url, timeout, username, password);
 		}
@@ -118,7 +128,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			streamUtil.copy(inputStream, outputStream);
 			final byte[] content = outputStream.toByteArray();
 			final String contentType = connection.getContentType();
-			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding);
+			final Map<String, List<String>> headers = connection.getHeaderFields();
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		}
@@ -131,7 +142,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult downloadUrlUnsecure(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
+	public HttpDownloadResult getUrlUnsecure(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
 		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManagerAllowAll() };
 
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
@@ -143,7 +154,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			HttpsURLConnection.setDefaultHostnameVerifier(hv);
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-			return downloadUrl(url, timeout, username, password);
+			return getUrl(url, timeout, username, password);
 		}
 		catch (final NoSuchAlgorithmException e) {
 			logger.error("NoSuchAlgorithmException", e);
@@ -157,5 +168,80 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			HttpsURLConnection.setDefaultHostnameVerifier(orgHostnameVerifier);
 			HttpsURLConnection.setDefaultSSLSocketFactory(orgSSLSocketFactory);
 		}
+	}
+
+	@Override
+	public HttpDownloadResult postUrl(final URL url, final Map<String, String> parameter, final Map<String, String> cookies, final int timeOut) throws HttpDownloaderException {
+		try {
+			final Duration duration = durationUtil.getDuration();
+
+			// Construct data
+			final StringWriter data = new StringWriter();
+			boolean first = true;
+			for (final Entry<String, String> e : parameter.entrySet()) {
+				if (!first) {
+					data.append("&");
+				}
+				else {
+					first = false;
+				}
+				data.append(URLEncoder.encode(e.getKey(), "UTF-8"));
+				data.append("=");
+				data.append(URLEncoder.encode(e.getValue(), "UTF-8"));
+			}
+
+			// Send data
+			final URLConnection connection = url.openConnection();
+			connection.setRequestProperty("Cookie", buildCookieString(cookies));
+			connection.setDoOutput(true);
+			connection.connect();
+			final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+			wr.write(data.toString());
+			wr.flush();
+			final Encoding contentEncoding = new Encoding(connection.getContentEncoding());
+			final InputStream inputStream = connection.getInputStream();
+			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			streamUtil.copy(inputStream, outputStream);
+			final byte[] content = outputStream.toByteArray();
+			final String contentType = connection.getContentType();
+			final Map<String, List<String>> headers = connection.getHeaderFields();
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
+			logger.trace("downloadUrl finished");
+			return httpDownloadResult;
+		}
+		catch (final UnsupportedEncodingException e) {
+			logger.error(e.getClass().getSimpleName(), e);
+			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
+		}
+		catch (final IOException e) {
+			logger.error(e.getClass().getSimpleName(), e);
+			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
+		}
+
+	}
+
+	@Override
+	public HttpDownloadResult postUrl(final URL url, final Map<String, String> data, final int timeOut) throws HttpDownloaderException {
+		final Map<String, String> cookies = new HashMap<String, String>();
+		return postUrl(url, data, cookies, timeOut);
+	}
+
+	protected String buildCookieString(final Map<String, String> cookies) {
+		boolean first = true;
+		final StringWriter result = new StringWriter();
+		final List<String> keys = new ArrayList<String>(cookies.keySet());
+		Collections.sort(keys);
+		for (final String key : keys) {
+			if (first) {
+				first = false;
+			}
+			else {
+				result.append("; ");
+			}
+			result.append(key);
+			result.append("=");
+			result.append(cookies.get(key));
+		}
+		return result.toString();
 	}
 }
