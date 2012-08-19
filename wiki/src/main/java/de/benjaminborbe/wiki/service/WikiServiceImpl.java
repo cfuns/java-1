@@ -59,13 +59,25 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) {
+	public boolean updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) {
 		logger.trace("updatePage");
+		return false;
 	}
 
 	@Override
-	public void deletePage(final WikiPageIdentifier wikiPageIdentifier) {
+	public boolean deletePage(final WikiPageIdentifier wikiPageIdentifier) {
 		logger.trace("deletePage");
+		return false;
+	}
+
+	@Override
+	public WikiSpaceIdentifier createWikiSpaceIdentifier(final String spaceName) {
+		return new WikiSpaceIdentifier(spaceName);
+	}
+
+	@Override
+	public WikiPageIdentifier createWikiPageIdentifier(final String pageName) {
+		return new WikiPageIdentifier(pageName);
 	}
 
 }

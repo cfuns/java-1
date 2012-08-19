@@ -1,9 +1,17 @@
 package de.benjaminborbe.website.form;
 
-public class FormInputHiddenWidget extends FormInputBaseWidget {
+import de.benjaminborbe.website.util.SingleTagWidget;
 
-	public FormInputHiddenWidget(final String name) {
-		super("hidden", name);
+public class FormInputHiddenWidget extends SingleTagWidget implements FormElementWidget {
+
+	public FormInputHiddenWidget(final String value) {
+		super("input");
+		addAttribute("type", "hidden");
+		addAttribute("value", value);
+	}
+
+	public String getValue() {
+		return getAttribute("value");
 	}
 
 }

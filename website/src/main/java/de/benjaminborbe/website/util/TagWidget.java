@@ -2,8 +2,13 @@ package de.benjaminborbe.website.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +21,14 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 
 public class TagWidget implements Widget {
+
+	private final class EntrySetComparator implements Comparator<Entry<String, String>> {
+
+		@Override
+		public int compare(final Entry<String, String> o1, final Entry<String, String> o2) {
+			return o1.getKey().compareTo(o2.getKey());
+		}
+	}
 
 	private final Map<String, String> attributes = new HashMap<String, String>();
 
@@ -56,7 +69,7 @@ public class TagWidget implements Widget {
 		out.print("<");
 		out.print(tag);
 
-		for (final Entry<String, String> e : attributes.entrySet()) {
+		for (final Entry<String, String> e : sortEntrySet(attributes.entrySet())) {
 			out.print(" ");
 			out.print(StringEscapeUtils.escapeHtml(e.getKey()));
 			out.print("=\"");
@@ -71,5 +84,11 @@ public class TagWidget implements Widget {
 		out.print("</");
 		out.print(tag);
 		out.print(">");
+	}
+
+	private List<Entry<String, String>> sortEntrySet(final Set<Entry<String, String>> entrySet) {
+		final List<Entry<String, String>> result = new ArrayList<Entry<String, String>>(entrySet);
+		Collections.sort(result, new EntrySetComparator());
+		return result;
 	}
 }

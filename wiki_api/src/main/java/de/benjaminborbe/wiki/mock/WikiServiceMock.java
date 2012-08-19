@@ -43,15 +43,27 @@ public class WikiServiceMock implements WikiService {
 	}
 
 	@Override
-	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) {
+	public boolean updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) {
+		return false;
 	}
 
 	@Override
-	public void deletePage(final WikiPageIdentifier wikiPageIdentifier) {
+	public boolean deletePage(final WikiPageIdentifier wikiPageIdentifier) {
+		return false;
 	}
 
 	@Override
 	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) {
+		return null;
+	}
+
+	@Override
+	public WikiSpaceIdentifier createWikiSpaceIdentifier(final String spaceName) {
+		return null;
+	}
+
+	@Override
+	public WikiPageIdentifier createWikiPageIdentifier(final String pageName) {
 		return null;
 	}
 

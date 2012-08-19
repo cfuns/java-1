@@ -4,6 +4,10 @@ import java.util.Collection;
 
 public interface WikiService {
 
+	WikiSpaceIdentifier createWikiSpaceIdentifier(String spaceName);
+
+	WikiPageIdentifier createWikiPageIdentifier(String pageName);
+
 	Collection<WikiSpaceIdentifier> getSpaceIdentifiers();
 
 	Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier);
@@ -16,7 +20,7 @@ public interface WikiService {
 
 	WikiPageIdentifier createPage(WikiSpaceIdentifier wikiSpaceIdentifier, String pageTitle, String pageContent);
 
-	void updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent);
+	boolean updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent);
 
-	void deletePage(WikiPageIdentifier wikiPageIdentifier);
+	boolean deletePage(WikiPageIdentifier wikiPageIdentifier);
 }
