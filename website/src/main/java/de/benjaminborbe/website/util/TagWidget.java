@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -19,7 +21,11 @@ public class TagWidget implements Widget {
 
 	private final String tag;
 
-	private final Widget contentWidget;
+	private Widget contentWidget;
+
+	public TagWidget(final String tag) {
+		this.tag = tag;
+	}
 
 	public TagWidget(final String tag, final Widget contentWidget) {
 		this.tag = tag;
@@ -35,6 +41,15 @@ public class TagWidget implements Widget {
 		return this;
 	}
 
+	public String getAttribute(final String name) {
+		return attributes.get(name);
+	}
+
+	public TagWidget addContent(final Widget contentWidget) {
+		this.contentWidget = contentWidget;
+		return this;
+	}
+
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		final PrintWriter out = response.getWriter();
@@ -43,14 +58,16 @@ public class TagWidget implements Widget {
 
 		for (final Entry<String, String> e : attributes.entrySet()) {
 			out.print(" ");
-			out.print(e.getKey());
+			out.print(StringEscapeUtils.escapeHtml(e.getKey()));
 			out.print("=\"");
-			out.print(e.getValue());
+			out.print(StringEscapeUtils.escapeHtml(e.getValue()));
 			out.print("\"");
 		}
 
 		out.print(">");
-		contentWidget.render(request, response, context);
+		if (contentWidget != null) {
+			contentWidget.render(request, response, context);
+		}
 		out.print("</");
 		out.print(tag);
 		out.print(">");

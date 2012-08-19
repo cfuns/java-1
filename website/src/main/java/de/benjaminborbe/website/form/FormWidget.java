@@ -17,7 +17,7 @@ public class FormWidget implements Widget {
 
 	private final String action;
 
-	private final List<FormInputWidget> formInputWidgets = new ArrayList<FormInputWidget>();
+	private final List<FormElementWidget> formInputWidgets = new ArrayList<FormElementWidget>();
 
 	private FormMethod method;
 
@@ -29,7 +29,7 @@ public class FormWidget implements Widget {
 		this.action = action;
 	}
 
-	public FormWidget addFormInputWidget(final FormInputWidget formInputWidget) {
+	public FormWidget addFormInputWidget(final FormElementWidget formInputWidget) {
 		formInputWidgets.add(formInputWidget);
 		return this;
 	}
@@ -54,7 +54,7 @@ public class FormWidget implements Widget {
 		}
 		out.println(">");
 		out.println("<fieldset>");
-		for (final FormInputWidget formInputWidget : formInputWidgets) {
+		for (final FormElementWidget formInputWidget : formInputWidgets) {
 			formInputWidget.render(request, response, context);
 		}
 		out.println("</fieldset>");

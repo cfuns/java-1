@@ -17,14 +17,14 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class WikiGuiServlet extends WebsiteHtmlServlet {
+public class WikiGuiPageDeleteServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Wiki";
+	private static final String TITLE = "Wiki - Delete";
 
 	@Inject
-	public WikiGuiServlet(
+	public WikiGuiPageDeleteServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,

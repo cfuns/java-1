@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
 
-public class FormInputSubmitWidget implements FormInputWidget {
+public class FormInputSubmitWidget implements FormElementWidget {
 
 	private final String buttonName;
 

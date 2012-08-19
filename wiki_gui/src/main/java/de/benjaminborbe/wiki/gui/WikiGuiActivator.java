@@ -9,7 +9,11 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.wiki.gui.guice.WikiGuiModules;
-import de.benjaminborbe.wiki.gui.servlet.WikiGuiServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiDashboardServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageCreateServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageDeleteServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageEditServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageShowServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -17,7 +21,19 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class WikiGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private WikiGuiServlet wikiGuiServlet;
+	private WikiGuiDashboardServlet wikiGuiDashboardServlet;
+
+	@Inject
+	private WikiGuiPageEditServlet wikiGuiPageEditServlet;
+
+	@Inject
+	private WikiGuiPageCreateServlet wikiGuiPageCreateServlet;
+
+	@Inject
+	private WikiGuiPageShowServlet wikiGuiPageShowServlet;
+
+	@Inject
+	private WikiGuiPageDeleteServlet wikiGuiPageDeleteServlet;
 
 	public WikiGuiActivator() {
 		super("wiki");
@@ -31,7 +47,11 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(wikiGuiServlet, "/"));
+		result.add(new ServletInfo(wikiGuiDashboardServlet, "/"));
+		result.add(new ServletInfo(wikiGuiPageEditServlet, "/edit"));
+		result.add(new ServletInfo(wikiGuiPageCreateServlet, "/create"));
+		result.add(new ServletInfo(wikiGuiPageShowServlet, "/show"));
+		result.add(new ServletInfo(wikiGuiPageDeleteServlet, "/delete"));
 		return result;
 	}
 

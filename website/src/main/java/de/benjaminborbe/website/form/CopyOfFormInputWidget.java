@@ -1,6 +1,8 @@
 package de.benjaminborbe.website.form;
 
-public interface FormInputWidget extends FormElementWidget {
+import de.benjaminborbe.html.api.Widget;
+
+public interface CopyOfFormInputWidget extends Widget {
 
 	FormInputBaseWidget addLabel(final String label);
 
@@ -11,6 +13,4 @@ public interface FormInputWidget extends FormElementWidget {
 	FormInputBaseWidget addPlaceholder(final String placeholder);
 
 	FormInputBaseWidget addId(final String id);
-
-	String getName();
 }
