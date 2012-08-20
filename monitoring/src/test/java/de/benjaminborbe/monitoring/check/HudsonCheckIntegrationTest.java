@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class HudsonCheckIntegrationTest {
 
+	@Ignore
 	@Test
 	public void testUnit() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MonitoringModulesMock());

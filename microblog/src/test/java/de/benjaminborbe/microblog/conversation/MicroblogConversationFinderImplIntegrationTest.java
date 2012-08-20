@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -22,6 +23,7 @@ public class MicroblogConversationFinderImplIntegrationTest {
 		assertNotNull(injector.getInstance(MicroblogConversationFinder.class));
 	}
 
+	@Ignore
 	@Test
 	public void testExtract() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
@@ -32,6 +34,7 @@ public class MicroblogConversationFinderImplIntegrationTest {
 		assertEquals(new Long(15513l), microblogConversationIdentifier.getId());
 	}
 
+	@Ignore
 	@Test
 	public void testNoConversation() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
