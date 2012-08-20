@@ -80,4 +80,14 @@ public class WikiServiceImpl implements WikiService {
 		return new WikiPageIdentifier(pageName);
 	}
 
+	@Override
+	public WikiSpaceIdentifier createSpace(final String spaceName) {
+		return null;
+	}
+
+	@Override
+	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) {
+		return false;
+	}
+
 }

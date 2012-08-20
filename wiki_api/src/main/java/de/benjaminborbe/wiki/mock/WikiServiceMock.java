@@ -67,4 +67,14 @@ public class WikiServiceMock implements WikiService {
 		return null;
 	}
 
+	@Override
+	public WikiSpaceIdentifier createSpace(final String spaceName) {
+		return null;
+	}
+
+	@Override
+	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) {
+		return false;
+	}
+
 }

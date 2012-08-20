@@ -4,6 +4,10 @@ import java.util.Collection;
 
 public interface WikiService {
 
+	WikiSpaceIdentifier createSpace(String spaceName);
+
+	boolean deleteSpace(WikiSpaceIdentifier wikiSpaceIdentifier);
+
 	WikiSpaceIdentifier createWikiSpaceIdentifier(String spaceName);
 
 	WikiPageIdentifier createWikiPageIdentifier(String pageName);

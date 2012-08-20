@@ -1,8 +1,6 @@
 package de.benjaminborbe.wiki.gui.servlet;
 
 import java.io.IOException;
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +24,6 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.wiki.api.WikiPage;
 
 @Singleton
 public class WikiGuiDashboardServlet extends WebsiteHtmlServlet {
@@ -61,13 +58,7 @@ public class WikiGuiDashboardServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 
-		final Collection<WikiPage> summaries = getWikiPages();
-
 		return widgets;
-	}
-
-	private Collection<WikiPage> getWikiPages() {
-		return null;
 	}
 
 }
