@@ -4,27 +4,24 @@ import java.util.Collection;
 
 public interface WikiService {
 
-	WikiSpaceIdentifier createSpace(String spaceName);
+	WikiSpaceIdentifier createSpace(String spaceName) throws WikiServiceException;
 
-	boolean deleteSpace(WikiSpaceIdentifier wikiSpaceIdentifier);
+	boolean deleteSpace(WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException;
 
-	WikiSpaceIdentifier createWikiSpaceIdentifier(String spaceName);
+	Collection<WikiSpaceIdentifier> getSpaceIdentifiers() throws WikiServiceException;
 
-	WikiPageIdentifier createWikiPageIdentifier(String pageName);
+	Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException;
 
-	Collection<WikiSpaceIdentifier> getSpaceIdentifiers();
+	WikiPage getPage(WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException;
 
-	Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier);
+	WikiSpaceIdentifier getSpaceByName(String spaceName) throws WikiServiceException;
 
-	WikiPage getPage(WikiPageIdentifier wikiPageIdentifier);
+	WikiPage getPageByName(WikiSpaceIdentifier wikiSpaceIdentifier, String pageName) throws WikiServiceException;
 
-	WikiSpaceIdentifier getSpaceByName(String spaceName);
+	WikiPageIdentifier createPage(WikiSpaceIdentifier wikiSpaceIdentifier, String pageTitle, String pageContent) throws WikiServiceException;
 
-	WikiPage getPageByName(WikiSpaceIdentifier wikiSpaceIdentifier, String pageName);
+	boolean updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent) throws WikiServiceException;
 
-	WikiPageIdentifier createPage(WikiSpaceIdentifier wikiSpaceIdentifier, String pageTitle, String pageContent);
+	boolean deletePage(WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException;
 
-	boolean updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent);
-
-	boolean deletePage(WikiPageIdentifier wikiPageIdentifier);
 }

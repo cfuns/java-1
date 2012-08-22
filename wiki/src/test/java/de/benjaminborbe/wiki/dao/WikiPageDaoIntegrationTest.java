@@ -15,5 +15,6 @@ public class WikiPageDaoIntegrationTest {
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WikiModulesMock());
 		assertNotNull(injector.getInstance(WikiPageDao.class));
+		assertEquals(WikiPageDaoImpl.class, injector.getInstance(WikiPageDao.class).getClass());
 	}
 }

@@ -1,37 +1,58 @@
 package de.benjaminborbe.wiki.service;
 
 import java.util.Collection;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
+import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+import de.benjaminborbe.wiki.api.WikiSpaceNotFoundException;
+import de.benjaminborbe.wiki.dao.WikiPageDao;
+import de.benjaminborbe.wiki.dao.WikiSpaceBean;
+import de.benjaminborbe.wiki.dao.WikiSpaceDao;
 
 @Singleton
 public class WikiServiceImpl implements WikiService {
 
 	private final Logger logger;
 
+	private final WikiSpaceDao wikiSpaceDao;
+
+	private final WikiPageDao wikiPageDao;
+
 	@Inject
-	public WikiServiceImpl(final Logger logger) {
+	public WikiServiceImpl(final Logger logger, final WikiSpaceDao wikiSpaceDao, final WikiPageDao wikiPageDao) {
 		this.logger = logger;
+		this.wikiSpaceDao = wikiSpaceDao;
+		this.wikiPageDao = wikiPageDao;
 	}
 
 	@Override
-	public Collection<WikiSpaceIdentifier> getSpaceIdentifiers() {
+	public Collection<WikiSpaceIdentifier> getSpaceIdentifiers() throws WikiServiceException {
 		logger.trace("getSpaceIdentifiers");
-		return null;
+		try {
+			return wikiSpaceDao.getIdentifiers();
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
-	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) {
+	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
 		logger.trace("getPageIdentifiers");
-		return null;
+		try {
+			return wikiPageDao.getIdentifiers();
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
@@ -41,9 +62,19 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier getSpaceByName(final String spaceName) {
+	public WikiSpaceIdentifier getSpaceByName(final String spaceName) throws WikiServiceException {
 		logger.trace("getSpaceByName");
-		return null;
+		try {
+			if (wikiSpaceDao.existsSpaceWithName(spaceName)) {
+				return new WikiSpaceIdentifier(spaceName);
+			}
+			else {
+				throw new WikiSpaceNotFoundException("space with name " + spaceName + " does not exists");
+			}
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
@@ -71,23 +102,36 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier createWikiSpaceIdentifier(final String spaceName) {
-		return new WikiSpaceIdentifier(spaceName);
+	public WikiSpaceIdentifier createSpace(final String spaceName) throws WikiServiceException {
+		try {
+			logger.trace("createSpace");
+
+			if (wikiSpaceDao.existsSpaceWithName(spaceName)) {
+				throw new WikiServiceException("space " + spaceName + " already exists");
+			}
+
+			final WikiSpaceIdentifier id = new WikiSpaceIdentifier(spaceName);
+			final WikiSpaceBean wikiSpace = wikiSpaceDao.create();
+			wikiSpace.setId(id);
+			wikiSpace.setName(spaceName);
+			wikiSpaceDao.save(wikiSpace);
+
+			return id;
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
-	public WikiPageIdentifier createWikiPageIdentifier(final String pageName) {
-		return new WikiPageIdentifier(pageName);
+	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
+		try {
+			logger.trace("deleteSpace");
+			wikiSpaceDao.delete(wikiSpaceIdentifier);
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
-
-	@Override
-	public WikiSpaceIdentifier createSpace(final String spaceName) {
-		return null;
-	}
-
-	@Override
-	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) {
-		return false;
-	}
-
 }

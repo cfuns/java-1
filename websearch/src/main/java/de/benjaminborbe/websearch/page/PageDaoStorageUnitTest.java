@@ -34,7 +34,8 @@ public class PageDaoStorageUnitTest {
 		final PageDaoSubPagesAction d = new PageDaoSubPagesAction();
 		final DateUtil f = new DateUtilImpl();
 		final PageBeanMapper e = new PageBeanMapper(c, f);
-		final PageDaoStorage dao = new PageDaoStorage(logger, b, c, d, e);
+		final PageIdentifierBuilder g = null;
+		final PageDaoStorage dao = new PageDaoStorage(logger, b, c, d, e, g);
 
 		final Date date = f.parseDateTime("2012-12-24 20:15:59");
 		final URL url = new URL("http://www.heise.de");

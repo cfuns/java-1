@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.mapper.Mapper;
@@ -47,7 +48,8 @@ public class StorageTestDaoUnitTest {
 		};
 
 		final Mapper<TestBean> mapper = new TestBeanMapper(beanProvider);
-		return new StorageTestDao(logger, storageService, beanProvider, mapper);
+		final IdentifierBuilder<String, TestIdentifier> builder = new TestIdentifierBuilder();
+		return new StorageTestDao(logger, storageService, beanProvider, mapper, builder);
 	}
 
 	@Test
@@ -84,13 +86,26 @@ public class StorageTestDaoUnitTest {
 		}
 	}
 
+	private final class TestIdentifierBuilder implements IdentifierBuilder<String, TestIdentifier> {
+
+		@Override
+		public TestIdentifier buildIdentifier(final String value) {
+			return new TestIdentifier(value);
+		}
+	}
+
 	private final class StorageTestDao extends DaoStorage<TestBean, TestIdentifier> {
 
 		private static final String COLUMNFAMILY = "test";
 
 		@Inject
-		public StorageTestDao(final Logger logger, final StorageService storageService, final Provider<TestBean> beanProvider, final Mapper<TestBean> mapper) {
-			super(logger, storageService, beanProvider, mapper);
+		public StorageTestDao(
+				final Logger logger,
+				final StorageService storageService,
+				final Provider<TestBean> beanProvider,
+				final Mapper<TestBean> mapper,
+				final IdentifierBuilder<String, TestIdentifier> identifierBuilder) {
+			super(logger, storageService, beanProvider, mapper, identifierBuilder);
 		}
 
 		@Override

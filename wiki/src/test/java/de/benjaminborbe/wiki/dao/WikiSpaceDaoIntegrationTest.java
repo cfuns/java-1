@@ -15,5 +15,7 @@ public class WikiSpaceDaoIntegrationTest {
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WikiModulesMock());
 		assertNotNull(injector.getInstance(WikiSpaceDao.class));
+		assertEquals(WikiSpaceDaoImpl.class, injector.getInstance(WikiSpaceDao.class).getClass());
 	}
+
 }

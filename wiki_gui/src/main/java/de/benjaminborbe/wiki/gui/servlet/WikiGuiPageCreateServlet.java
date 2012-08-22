@@ -32,6 +32,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
+import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
 @Singleton
@@ -85,11 +86,16 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 		final String content = request.getParameter(PARAMETER_CONTENT);
 
 		if (spaceName != null && title != null && content != null) {
-			final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.createWikiSpaceIdentifier(spaceName);
-			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPage(wikiSpaceIdentifier, title, content);
-			if (wikiPageIdentifier != null) {
-				redirectUtil.sendRedirect(request, response, "/wiki/show?title" + title);
-				return null;
+			try {
+				WikiSpaceIdentifier wikiSpaceIdentifier;
+				wikiSpaceIdentifier = wikiService.getSpaceByName(spaceName);
+				final WikiPageIdentifier wikiPageIdentifier = wikiService.createPage(wikiSpaceIdentifier, title, content);
+				if (wikiPageIdentifier != null) {
+					redirectUtil.sendRedirect(request, response, "/wiki/show?title" + title);
+					return null;
+				}
+			}
+			catch (final WikiServiceException e) {
 			}
 		}
 

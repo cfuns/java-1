@@ -17,8 +17,13 @@ public class SessionDaoStorage extends DaoStorage<SessionBean, SessionIdentifier
 	private static final String COLUMNFAMILY = "session";
 
 	@Inject
-	public SessionDaoStorage(final Logger logger, final StorageService storageService, final Provider<SessionBean> beanProvider, final SessionBeanMapper mapper) {
-		super(logger, storageService, beanProvider, mapper);
+	public SessionDaoStorage(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<SessionBean> beanProvider,
+			final SessionBeanMapper mapper,
+			final SessionIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
 	@Override

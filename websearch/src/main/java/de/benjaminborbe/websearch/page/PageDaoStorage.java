@@ -27,8 +27,9 @@ public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> impleme
 			final StorageService storageService,
 			final Provider<PageBean> beanProvider,
 			final PageDaoSubPagesAction pageDaoSubPagesAction,
-			final PageBeanMapper pageBeanMapper) {
-		super(logger, storageService, beanProvider, pageBeanMapper);
+			final PageBeanMapper pageBeanMapper,
+			final PageIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 	}
 

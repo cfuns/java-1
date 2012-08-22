@@ -16,8 +16,13 @@ public class WikiPageDaoImpl extends DaoStorage<WikiPageBean, WikiPageIdentifier
 	private static final String COLUMN_FAMILY = "wiki_page";
 
 	@Inject
-	public WikiPageDaoImpl(final Logger logger, final StorageService storageService, final Provider<WikiPageBean> beanProvider, final WikiPageBeanMapper mapper) {
-		super(logger, storageService, beanProvider, mapper);
+	public WikiPageDaoImpl(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<WikiPageBean> beanProvider,
+			final WikiPageBeanMapper mapper,
+			final WikiPageIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
 	@Override

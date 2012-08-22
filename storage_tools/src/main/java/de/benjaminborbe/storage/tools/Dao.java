@@ -11,10 +11,18 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	void delete(E entity) throws StorageException;
 
+	void delete(I id) throws StorageException;
+
 	E create() throws StorageException;
 
 	E load(I id) throws StorageException;
 
 	Collection<E> getAll() throws StorageException;
+
+	Collection<I> getIdentifiers() throws StorageException;
+
+	boolean exists(I id) throws StorageException;
+
+	boolean exists(String id) throws StorageException;
 
 }

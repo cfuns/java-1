@@ -58,16 +58,6 @@ public class WikiServiceMock implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier createWikiSpaceIdentifier(final String spaceName) {
-		return null;
-	}
-
-	@Override
-	public WikiPageIdentifier createWikiPageIdentifier(final String pageName) {
-		return null;
-	}
-
-	@Override
 	public WikiSpaceIdentifier createSpace(final String spaceName) {
 		return null;
 	}

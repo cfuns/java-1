@@ -73,4 +73,16 @@ create column family permission_role with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family wiki_page;
+create column family wiki_page with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
+drop column family wiki_space;
+create column family wiki_space with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
   

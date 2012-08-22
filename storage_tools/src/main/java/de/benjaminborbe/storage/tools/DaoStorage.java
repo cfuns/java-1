@@ -16,6 +16,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.Identifier;
+import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -23,6 +24,8 @@ import de.benjaminborbe.tools.mapper.Mapper;
 
 @Singleton
 public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
+
+	private static final String ID_FIELD = "id";
 
 	private final Logger logger;
 
@@ -32,12 +35,20 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	private final Mapper<E> mapper;
 
+	private final IdentifierBuilder<String, I> identifierBuilder;
+
 	@Inject
-	public DaoStorage(final Logger logger, final StorageService storageService, final Provider<E> beanProvider, final Mapper<E> mapper) {
+	public DaoStorage(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<E> beanProvider,
+			final Mapper<E> mapper,
+			final IdentifierBuilder<String, I> identifierBuilder) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.beanProvider = beanProvider;
 		this.mapper = mapper;
+		this.identifierBuilder = identifierBuilder;
 	}
 
 	@Override
@@ -58,6 +69,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	protected abstract String getColumnFamily();
+
+	@Override
+	public void delete(final I id) throws StorageException {
+		delete(load(id));
+	}
 
 	@Override
 	public void delete(final E entity) throws StorageException {
@@ -83,7 +99,17 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		return load(id.getId());
 	}
 
-	public E load(final String id) throws StorageException {
+	@Override
+	public boolean exists(final I id) throws StorageException {
+		return exists(id.getId());
+	}
+
+	@Override
+	public boolean exists(final String id) throws StorageException {
+		return storageService.get(getColumnFamily(), id, ID_FIELD) != null;
+	}
+
+	protected E load(final String id) throws StorageException {
 		try {
 			logger.trace("load");
 			final Map<String, String> data = new HashMap<String, String>();
@@ -91,7 +117,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			for (final String fieldName : getFieldNames(entity)) {
 				logger.trace("load fieldName: " + fieldName);
 				final String value = storageService.get(getColumnFamily(), id, fieldName);
-				if ("id".equals(fieldName) && value == null) {
+				if (ID_FIELD.equals(fieldName) && value == null) {
 					return null;
 				}
 				logger.trace("found value " + fieldName + "=" + value);
@@ -106,11 +132,26 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
+	public Collection<I> getIdentifiers() throws StorageException {
+		final Set<I> result = new HashSet<I>();
+		for (final String id : storageService.list(getColumnFamily())) {
+			try {
+				if (exists(id)) {
+					result.add(identifierBuilder.buildIdentifier(id));
+				}
+			}
+			catch (final Exception e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+		}
+		return result;
+	}
+
+	@Override
 	public Collection<E> getAll() throws StorageException {
 		logger.trace("getAll");
 		final Set<E> result = new HashSet<E>();
-		final String c = getColumnFamily();
-		for (final String id : storageService.list(c)) {
+		for (final String id : storageService.list(getColumnFamily())) {
 			result.add(load(id));
 		}
 		return result;

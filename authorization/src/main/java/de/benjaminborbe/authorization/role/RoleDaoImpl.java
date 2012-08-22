@@ -17,8 +17,13 @@ public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements
 	private static final String COLUMN_FAMILY = "role";
 
 	@Inject
-	public RoleDaoImpl(final Logger logger, final StorageService storageService, final Provider<RoleBean> beanProvider, final RoleBeanMapper mapper) {
-		super(logger, storageService, beanProvider, mapper);
+	public RoleDaoImpl(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<RoleBean> beanProvider,
+			final RoleBeanMapper mapper,
+			final RoleIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
 	@Override

@@ -16,8 +16,13 @@ public class PermissionDaoImpl extends DaoStorage<PermissionBean, PermissionIden
 	private static final String COLUMN_FAMILY = "permission";
 
 	@Inject
-	public PermissionDaoImpl(final Logger logger, final StorageService storageService, final Provider<PermissionBean> beanProvider, final PermissionBeanMapper mapper) {
-		super(logger, storageService, beanProvider, mapper);
+	public PermissionDaoImpl(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<PermissionBean> beanProvider,
+			final PermissionBeanMapper mapper,
+			final PermissionIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
 	@Override

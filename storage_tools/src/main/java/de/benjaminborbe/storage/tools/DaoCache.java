@@ -11,6 +11,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.Identifier;
+import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifier<?>> implements Dao<E, I> {
@@ -38,8 +39,13 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 
 	@Override
 	public void delete(final E entity) {
+		delete(entity.getId());
+	}
+
+	@Override
+	public void delete(final I id) {
 		logger.trace("delete");
-		data.remove(entity.getId());
+		data.remove(id);
 	}
 
 	@Override
@@ -57,5 +63,15 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	@Override
 	public Collection<E> getAll() {
 		return data.values();
+	}
+
+	@Override
+	public Collection<I> getIdentifiers() throws StorageException {
+		return data.keySet();
+	}
+
+	@Override
+	public boolean exists(final I id) throws StorageException {
+		return data.containsKey(id);
 	}
 }

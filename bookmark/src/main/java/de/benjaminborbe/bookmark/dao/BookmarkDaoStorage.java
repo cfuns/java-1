@@ -21,8 +21,13 @@ public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentif
 	private static final String COLUMN_FAMILY = "bookmark";
 
 	@Inject
-	public BookmarkDaoStorage(final Logger logger, final StorageService storageService, final Provider<BookmarkBean> beanProvider, final BookmarkBeanMapper mapper) {
-		super(logger, storageService, beanProvider, mapper);
+	public BookmarkDaoStorage(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<BookmarkBean> beanProvider,
+			final BookmarkBeanMapper mapper,
+			final BookmarkIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
 	@Override

@@ -17,8 +17,13 @@ public class UserDaoStorage extends DaoStorage<UserBean, UserIdentifier> impleme
 	private static final String COLUMN_FAMILY = "user";
 
 	@Inject
-	public UserDaoStorage(final Logger logger, final StorageService storageService, final Provider<UserBean> beanProvider, final UserBeanMapper mapper) {
-		super(logger, storageService, beanProvider, mapper);
+	public UserDaoStorage(
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<UserBean> beanProvider,
+			final UserBeanMapper mapper,
+			final UserIdentifierBuilder identifierBuilder) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
 	@Override
