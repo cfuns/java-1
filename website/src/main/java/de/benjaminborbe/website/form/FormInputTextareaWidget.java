@@ -10,28 +10,23 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 	}
 
 	@Override
-	public FormInputBaseWidget addLabel(final String label) {
-		return null;
+	public FormInputTextareaWidget addLabel(final String label) {
+		return this;
 	}
 
 	@Override
-	public FormInputBaseWidget addDefaultValue(final String defaultValue) {
-		return null;
+	public FormInputTextareaWidget addDefaultValue(final String defaultValue) {
+		return this;
 	}
 
 	@Override
-	public FormInputBaseWidget addType(final String type) {
-		return null;
+	public FormInputTextareaWidget addPlaceholder(final String placeholder) {
+		return this;
 	}
 
 	@Override
-	public FormInputBaseWidget addPlaceholder(final String placeholder) {
-		return null;
-	}
-
-	@Override
-	public FormInputBaseWidget addId(final String id) {
-		return null;
+	public FormInputTextareaWidget addId(final String id) {
+		return this;
 	}
 
 	@Override

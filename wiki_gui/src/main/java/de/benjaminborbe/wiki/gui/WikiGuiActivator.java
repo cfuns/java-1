@@ -13,7 +13,12 @@ import de.benjaminborbe.wiki.gui.servlet.WikiGuiDashboardServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageCreateServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageDeleteServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageEditServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageListServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageShowServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceCreateServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceDeleteServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceEditServlet;
+import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceListServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -24,16 +29,31 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	private WikiGuiDashboardServlet wikiGuiDashboardServlet;
 
 	@Inject
+	private WikiGuiPageCreateServlet wikiGuiPageCreateServlet;
+
+	@Inject
+	private WikiGuiPageDeleteServlet wikiGuiPageDeleteServlet;
+
+	@Inject
 	private WikiGuiPageEditServlet wikiGuiPageEditServlet;
 
 	@Inject
-	private WikiGuiPageCreateServlet wikiGuiPageCreateServlet;
+	private WikiGuiPageListServlet wikiGuiPageListServlet;
 
 	@Inject
 	private WikiGuiPageShowServlet wikiGuiPageShowServlet;
 
 	@Inject
-	private WikiGuiPageDeleteServlet wikiGuiPageDeleteServlet;
+	private WikiGuiSpaceCreateServlet wikiGuiSpaceCreateServlet;
+
+	@Inject
+	private WikiGuiSpaceDeleteServlet wikiGuiSpaceDeleteServlet;
+
+	@Inject
+	private WikiGuiSpaceEditServlet wikiGuiSpaceEditServlet;
+
+	@Inject
+	private WikiGuiSpaceListServlet wikiGuiSpaceListServlet;
 
 	public WikiGuiActivator() {
 		super("wiki");
@@ -48,10 +68,15 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(wikiGuiDashboardServlet, "/"));
-		result.add(new ServletInfo(wikiGuiPageEditServlet, "/edit"));
-		result.add(new ServletInfo(wikiGuiPageCreateServlet, "/create"));
-		result.add(new ServletInfo(wikiGuiPageShowServlet, "/show"));
-		result.add(new ServletInfo(wikiGuiPageDeleteServlet, "/delete"));
+		result.add(new ServletInfo(wikiGuiPageEditServlet, "/page/edit"));
+		result.add(new ServletInfo(wikiGuiPageCreateServlet, "/page/create"));
+		result.add(new ServletInfo(wikiGuiPageShowServlet, "/page/show"));
+		result.add(new ServletInfo(wikiGuiPageDeleteServlet, "/page/delete"));
+		result.add(new ServletInfo(wikiGuiPageListServlet, "/page/list"));
+		result.add(new ServletInfo(wikiGuiSpaceEditServlet, "/space/edit"));
+		result.add(new ServletInfo(wikiGuiSpaceCreateServlet, "/space/create"));
+		result.add(new ServletInfo(wikiGuiSpaceDeleteServlet, "/space/delete"));
+		result.add(new ServletInfo(wikiGuiSpaceListServlet, "/space/list"));
 		return result;
 	}
 

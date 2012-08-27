@@ -16,7 +16,7 @@ public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
 
 	private String defaultValue;
 
-	private String type;
+	private final String type;
 
 	private String placeholder;
 
@@ -67,12 +67,6 @@ public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
 	}
 
 	@Override
-	public FormInputBaseWidget addType(final String type) {
-		this.type = type;
-		return this;
-	}
-
-	@Override
 	public FormInputBaseWidget addPlaceholder(final String placeholder) {
 		this.placeholder = placeholder;
 		return this;
@@ -84,6 +78,7 @@ public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
 		return this;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}

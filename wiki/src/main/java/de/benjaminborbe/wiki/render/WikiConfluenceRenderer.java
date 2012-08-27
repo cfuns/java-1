@@ -1,17 +1,17 @@
-package de.benjaminborbe.wiki.gui.converter;
+package de.benjaminborbe.wiki.render;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class WikiGuiMarkupConverterImpl implements WikiGuiMarkupConverter {
+public class WikiConfluenceRenderer implements WikiRenderer {
 
 	@Inject
-	public WikiGuiMarkupConverterImpl() {
+	public WikiConfluenceRenderer() {
 	}
 
 	@Override
-	public String convertMarkupToHtml(final String markup) {
+	public String render(final String markup) {
 		final StringBuffer result = new StringBuffer();
 		final String[] lines = markup.split("\n");
 		for (final String line : lines) {
@@ -38,4 +38,5 @@ public class WikiGuiMarkupConverterImpl implements WikiGuiMarkupConverter {
 		}
 		return result.toString();
 	}
+
 }

@@ -32,4 +32,5 @@ public class UserDaoCache extends DaoCache<UserBean, UserIdentifier> implements 
 			return user;
 		}
 	}
+
 }

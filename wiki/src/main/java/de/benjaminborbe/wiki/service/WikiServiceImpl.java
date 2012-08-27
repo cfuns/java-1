@@ -102,18 +102,18 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier createSpace(final String spaceName) throws WikiServiceException {
+	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException {
 		try {
 			logger.trace("createSpace");
 
-			if (wikiSpaceDao.existsSpaceWithName(spaceName)) {
-				throw new WikiServiceException("space " + spaceName + " already exists");
+			if (wikiSpaceDao.existsSpaceWithName(spaceIdentifier)) {
+				throw new WikiServiceException("space " + spaceIdentifier + " already exists");
 			}
 
-			final WikiSpaceIdentifier id = new WikiSpaceIdentifier(spaceName);
+			final WikiSpaceIdentifier id = new WikiSpaceIdentifier(spaceIdentifier);
 			final WikiSpaceBean wikiSpace = wikiSpaceDao.create();
 			wikiSpace.setId(id);
-			wikiSpace.setName(spaceName);
+			wikiSpace.setName(spaceTitle);
 			wikiSpaceDao.save(wikiSpace);
 
 			return id;
@@ -133,5 +133,10 @@ public class WikiServiceImpl implements WikiService {
 		catch (final StorageException e) {
 			throw new WikiServiceException(e.getClass().getName(), e);
 		}
+	}
+
+	@Override
+	public String renderPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
+		return null;
 	}
 }

@@ -23,6 +23,4 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	boolean exists(I id) throws StorageException;
 
-	boolean exists(String id) throws StorageException;
-
 }

@@ -44,7 +44,8 @@ public class WikiGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/wiki", "/wiki/edit", "/wiki/create", "/wiki/delete", "/wiki/show");
+		final List<String> paths = Arrays.asList("/wiki", "/wiki/page/edit", "/wiki/page/list", "/wiki/page/create", "/wiki/page/delete", "/wiki/page/show", "/wiki/space/edit",
+				"/wiki/space/create", "/wiki/space/delete", "/wiki/space/list");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

@@ -4,8 +4,6 @@ import java.util.Collection;
 
 public interface WikiService {
 
-	WikiSpaceIdentifier createSpace(String spaceName) throws WikiServiceException;
-
 	boolean deleteSpace(WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException;
 
 	Collection<WikiSpaceIdentifier> getSpaceIdentifiers() throws WikiServiceException;
@@ -23,5 +21,9 @@ public interface WikiService {
 	boolean updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent) throws WikiServiceException;
 
 	boolean deletePage(WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException;
+
+	WikiSpaceIdentifier createSpace(String spaceIdentifier, String spaceTitle) throws WikiServiceException;
+
+	String renderPage(WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException;
 
 }

@@ -26,7 +26,8 @@ public class WikiServiceImplIntegrationTest {
 
 	@Test
 	public void testSpaces() throws WikiServiceException {
-		final String spaceName = "testSpace";
+		final String spaceId = "testSpace";
+		final String spaceTitle = "Test Space";
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WikiModulesMock());
 		final WikiService wikiService = injector.getInstance(WikiService.class);
 
@@ -36,7 +37,7 @@ public class WikiServiceImplIntegrationTest {
 			assertEquals(0, spaces.size());
 		}
 
-		final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.createSpace(spaceName);
+		final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.createSpace(spaceId, spaceTitle);
 		assertNotNull(wikiSpaceIdentifier);
 
 		{

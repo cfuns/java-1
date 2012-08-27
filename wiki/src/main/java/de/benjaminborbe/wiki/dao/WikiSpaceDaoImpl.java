@@ -16,6 +16,8 @@ public class WikiSpaceDaoImpl extends DaoStorage<WikiSpaceBean, WikiSpaceIdentif
 
 	private static final String COLUMN_FAMILY = "wiki_space";
 
+	private final WikiSpaceIdentifierBuilder identifierBuilder;
+
 	@Inject
 	public WikiSpaceDaoImpl(
 			final Logger logger,
@@ -24,6 +26,7 @@ public class WikiSpaceDaoImpl extends DaoStorage<WikiSpaceBean, WikiSpaceIdentif
 			final WikiSpaceBeanMapper mapper,
 			final WikiSpaceIdentifierBuilder identifierBuilder) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+		this.identifierBuilder = identifierBuilder;
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class WikiSpaceDaoImpl extends DaoStorage<WikiSpaceBean, WikiSpaceIdentif
 
 	@Override
 	public boolean existsSpaceWithName(final String spaceName) throws StorageException {
-		return exists(spaceName);
+		return exists(identifierBuilder.buildIdentifier(spaceName));
 	}
 
 }

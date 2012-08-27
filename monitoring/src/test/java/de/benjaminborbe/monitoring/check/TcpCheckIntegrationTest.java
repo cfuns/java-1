@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 
 import de.benjaminborbe.monitoring.api.CheckResult;
 
-public class TcpCheckUnitTest {
+public class TcpCheckIntegrationTest {
 
 	@Test
 	public void testcheck() {

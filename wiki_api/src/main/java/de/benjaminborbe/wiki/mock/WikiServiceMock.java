@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
+import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
 @Singleton
@@ -58,13 +59,18 @@ public class WikiServiceMock implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier createSpace(final String spaceName) {
+	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) {
+		return false;
+	}
+
+	@Override
+	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException {
 		return null;
 	}
 
 	@Override
-	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) {
-		return false;
+	public String renderPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
+		return null;
 	}
 
 }

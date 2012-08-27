@@ -101,12 +101,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public boolean exists(final I id) throws StorageException {
-		return exists(id.getId());
-	}
-
-	@Override
-	public boolean exists(final String id) throws StorageException {
-		return storageService.get(getColumnFamily(), id, ID_FIELD) != null;
+		return storageService.get(getColumnFamily(), id.getId(), ID_FIELD) != null;
 	}
 
 	protected E load(final String id) throws StorageException {
@@ -136,8 +131,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		final Set<I> result = new HashSet<I>();
 		for (final String id : storageService.list(getColumnFamily())) {
 			try {
-				if (exists(id)) {
-					result.add(identifierBuilder.buildIdentifier(id));
+				final I ident = identifierBuilder.buildIdentifier(id);
+				if (exists(ident)) {
+					result.add(ident);
 				}
 			}
 			catch (final Exception e) {

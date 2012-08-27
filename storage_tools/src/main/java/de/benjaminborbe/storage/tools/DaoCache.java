@@ -74,4 +74,5 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	public boolean exists(final I id) throws StorageException {
 		return data.containsKey(id);
 	}
+
 }

@@ -78,6 +78,10 @@
 		<module>eventbus_api</module>
 		<module>eventbus_gui</module>
 		<module>eventbus_test</module>
+		<module>geocaching</module>
+		<module>geocaching_api</module>
+		<module>geocaching_gui</module>
+		<module>geocaching_test</module>
 		<module>gwt</module>
 		<module>gwt_api</module>
 		<module>gwt_gui</module>

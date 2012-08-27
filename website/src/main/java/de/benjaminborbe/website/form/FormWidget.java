@@ -30,6 +30,9 @@ public class FormWidget implements Widget {
 	}
 
 	public FormWidget addFormInputWidget(final FormElementWidget formInputWidget) {
+		if (formInputWidget == null) {
+			throw new NullPointerException("can't add null FormElementWidget");
+		}
 		formInputWidgets.add(formInputWidget);
 		return this;
 	}

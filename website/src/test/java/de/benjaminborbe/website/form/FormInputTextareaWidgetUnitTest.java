@@ -1,6 +1,7 @@
 package de.benjaminborbe.website.form;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,4 +44,37 @@ public class FormInputTextareaWidgetUnitTest {
 
 		assertEquals("<textarea name=\"" + name + "\"></textarea>", stringWriter.toString());
 	}
+
+	@Test
+	public void testAddLabel() {
+		final String name = "test123";
+		final FormInputTextareaWidget formInputTextareaWidget = new FormInputTextareaWidget(name);
+		final String label = "testLabel";
+		assertNotNull(formInputTextareaWidget.addLabel(label));
+	}
+
+	@Test
+	public void testAddDefaultValue() {
+		final String name = "test123";
+		final FormInputTextareaWidget formInputTextareaWidget = new FormInputTextareaWidget(name);
+		final String defaultValue = "defaultValue";
+		assertNotNull(formInputTextareaWidget.addDefaultValue(defaultValue));
+	}
+
+	@Test
+	public void testAddPlaceholder() {
+		final String name = "test123";
+		final FormInputTextareaWidget formInputTextareaWidget = new FormInputTextareaWidget(name);
+		final String placeholder = "placeholder";
+		assertNotNull(formInputTextareaWidget.addPlaceholder(placeholder));
+	}
+
+	@Test
+	public void testAddId() {
+		final String name = "test123";
+		final FormInputTextareaWidget formInputTextareaWidget = new FormInputTextareaWidget(name);
+		final String id = "id";
+		assertNotNull(formInputTextareaWidget.addId(id));
+	}
+
 }

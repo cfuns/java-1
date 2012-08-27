@@ -165,3 +165,7 @@ wiki/target
 wiki_api/target
 wiki_gui/target
 wiki_test/target
+geocaching/target
+geocaching_api/target
+geocaching_gui/target
+geocaching_test/target
