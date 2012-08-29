@@ -13,8 +13,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.util.BookmarkInit;
 import de.benjaminborbe.html.api.HttpContext;
@@ -76,6 +78,14 @@ public class BookmarkGuiInitServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 		catch (final BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final LoginRequiredException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final BookmarkCreationException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

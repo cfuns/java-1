@@ -2,17 +2,18 @@ package de.benjaminborbe.bookmark.api;
 
 import java.util.List;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 
 public interface BookmarkService {
 
-	boolean createBookmark(SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords, boolean favorite)
-			throws BookmarkServiceException;
+	void createBookmark(SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords, boolean favorite)
+			throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException;
 
-	boolean updateBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
-			final List<String> keywords, boolean favorite) throws BookmarkServiceException;
+	void updateBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
+			final List<String> keywords, boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkUpdateException;
 
-	boolean deleteBookmark(SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException;
+	void deleteBookmark(SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException;
 
 	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException;
 

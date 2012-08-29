@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -72,11 +73,14 @@ public class BookmarkGuiDeleteServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final String url = request.getParameter(PARAMETER_URL);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if (url != null && bookmarkService.deleteBookmark(sessionIdentifier, bookmarkService.createBookmarkIdentifier(sessionIdentifier, url))) {
-				throw new RedirectException(request.getContextPath() + "/bookmark/list");
-			}
-			else {
-				widgets.add("delete bookmark failed");
+			if (url != null) {
+				try {
+					bookmarkService.deleteBookmark(sessionIdentifier, bookmarkService.createBookmarkIdentifier(sessionIdentifier, url));
+					throw new RedirectException(request.getContextPath() + "/bookmark/list");
+				}
+				catch (final BookmarkDeletionException e) {
+					widgets.add("delete bookmark failed");
+				}
 			}
 			return widgets;
 		}

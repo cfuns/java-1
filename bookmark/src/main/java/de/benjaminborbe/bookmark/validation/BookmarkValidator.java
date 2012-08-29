@@ -6,8 +6,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
-import de.benjaminborbe.tools.validation.ValidationError;
 import de.benjaminborbe.tools.validation.Validator;
 
 public class BookmarkValidator implements Validator<BookmarkBean> {
@@ -26,7 +27,7 @@ public class BookmarkValidator implements Validator<BookmarkBean> {
 		final String name = bookmark.getName();
 		{
 			if (name == null || name.length() == 0) {
-				result.add(new ValidationError());
+				result.add(new ValidationErrorSimple("name missing"));
 			}
 		}
 
@@ -36,7 +37,7 @@ public class BookmarkValidator implements Validator<BookmarkBean> {
 				new URL(bookmark.getUrl());
 			}
 			catch (final MalformedURLException e) {
-				result.add(new ValidationError());
+				result.add(new ValidationErrorSimple("illegal url"));
 			}
 		}
 

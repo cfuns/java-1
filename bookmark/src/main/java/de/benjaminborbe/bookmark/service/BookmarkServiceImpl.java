@@ -13,19 +13,23 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkCreationException;
+import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.api.BookmarkUpdateException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
-import de.benjaminborbe.tools.validation.ValidationResult;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
@@ -167,13 +171,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public boolean createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
-			final boolean favorite) throws BookmarkServiceException {
+	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
+			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
 		try {
-			if (!authenticationService.isLoggedIn(sessionIdentifier)) {
-				logger.info("not logged in");
-				return false;
-			}
+			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			final BookmarkBean bookmark = bookmarkDao.create();
@@ -185,14 +186,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 			bookmark.setOwnerUsername(userIdentifier);
 
 			final ValidationResult errors = validationExecutor.validate(bookmark);
-			if (errors.isEmpty()) {
-				bookmarkDao.save(bookmark);
-				return true;
-			}
-			else {
+			if (errors.hasErrors()) {
 				logger.warn("Bookmark " + errors.toString());
-				return false;
+				throw new BookmarkCreationException(errors);
 			}
+			bookmarkDao.save(bookmark);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new BookmarkServiceException("AuthenticationServiceException", e);
@@ -214,15 +212,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public boolean deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException {
+	public void deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException {
 		try {
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			if (bookmark == null) {
 				logger.info("delete bookmark failed, not found");
-				return false;
+				throw new BookmarkDeletionException("bookmark not found");
 			}
 			bookmarkDao.delete(bookmark);
-			return true;
 		}
 		catch (final StorageException e) {
 			throw new BookmarkServiceException("StorageException", e);
@@ -230,32 +227,32 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public boolean updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name,
-			final String description, final List<String> keywords, final boolean favorite) throws BookmarkServiceException {
+	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
+			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, BookmarkUpdateException, LoginRequiredException {
 		logger.info("updateBookmark");
 		try {
-			if (!authenticationService.isLoggedIn(sessionIdentifier)) {
-				logger.info("not logged in");
-				return false;
-			}
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			if (!userIdentifier.equals(bookmark.getOwnerUsername())) {
-				return false;
+				throw new BookmarkUpdateException("owner missmatch");
 			}
 
-			if (deleteBookmark(sessionIdentifier, bookmarkIdentifier)) {
-				return createBookmark(sessionIdentifier, url, name, description, keywords, favorite);
-			}
-			else {
-				return false;
-			}
+			deleteBookmark(sessionIdentifier, bookmarkIdentifier);
+			createBookmark(sessionIdentifier, url, name, description, keywords, favorite);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException("AuthenticationServiceException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException("StorageException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final BookmarkDeletionException e) {
+			throw new BookmarkUpdateException(e.getClass().getSimpleName(), e);
+		}
+		catch (final BookmarkCreationException e) {
+			throw new BookmarkUpdateException(e.getClass().getSimpleName(), e);
 		}
 	}
 

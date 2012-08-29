@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
@@ -83,5 +84,9 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	@Override
 	public boolean existsSession(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
 		return false;
+	}
+
+	@Override
+	public void expectLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
 	}
 }

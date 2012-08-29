@@ -12,6 +12,8 @@ public interface AuthenticationService {
 
 	boolean isLoggedIn(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
+	void expectLoggedIn(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException;
+
 	boolean logout(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
 	UserIdentifier getCurrentUser(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;

@@ -13,10 +13,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -36,6 +39,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
@@ -50,7 +54,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 4468520728605522219L;
 
-	private static final String TITLE = "BookmarkGui - Create";
+	private static final String TITLE = "Bookmark - Create";
 
 	private final BookmarkService bookmarkService;
 
@@ -89,11 +93,17 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			final String keywords = request.getParameter(PARAMETER_KEYWORDS);
 			if (url != null && name != null && description != null && keywords != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				if (bookmarkService.createBookmark(sessionIdentifier, url, name, description, buildKeywords(keywords), false)) {
+				try {
+					bookmarkService.createBookmark(sessionIdentifier, url, name, description, buildKeywords(keywords), false);
 					throw new RedirectException(request.getContextPath() + "/bookmark/list");
 				}
-				else {
+				catch (final BookmarkCreationException e) {
 					widgets.add("add bookmark failed!");
+					final UlWidget ul = new UlWidget();
+					for (final ValidationError validationError : e.getErrors()) {
+						ul.add(validationError.getMessage());
+					}
+					widgets.add(ul);
 				}
 			}
 			final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
@@ -113,6 +123,11 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+		catch (final LoginRequiredException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+
 	}
 
 	protected List<String> buildKeywords(final String keywords) {

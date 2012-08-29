@@ -16,12 +16,14 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.api.BookmarkUpdateException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -101,10 +103,11 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 			final String keywords = request.getParameter(PARAMETER_KEYWORDS);
 
 			if (url != null && name != null && description != null && keywords != null) {
-				if (bookmarkService.updateBookmark(sessionIdentifier, bookmarkIdentifier, url, name, description, buildKeywords(keywords), false)) {
+				try {
+					bookmarkService.updateBookmark(sessionIdentifier, bookmarkIdentifier, url, name, description, buildKeywords(keywords), false);
 					throw new RedirectException(request.getContextPath() + "/bookmark/list");
 				}
-				else {
+				catch (final BookmarkUpdateException e) {
 					widgets.add("update bookmark failed!");
 				}
 			}
@@ -124,6 +127,10 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 		catch (final BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final LoginRequiredException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

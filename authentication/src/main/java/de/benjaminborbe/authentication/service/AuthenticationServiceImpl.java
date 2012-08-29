@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.session.SessionBean;
@@ -226,6 +227,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public void expectLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+		if (!isLoggedIn(sessionIdentifier)) {
+			throw new LoginRequiredException("user not logged in");
 		}
 	}
 }
