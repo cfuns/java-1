@@ -27,4 +27,8 @@ public interface AuthenticationService {
 	SessionIdentifier createSessionIdentifier(HttpServletRequest request) throws AuthenticationServiceException;
 
 	Collection<UserIdentifier> userList() throws AuthenticationServiceException;
+
+	boolean existsUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
+
+	boolean existsSession(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 }

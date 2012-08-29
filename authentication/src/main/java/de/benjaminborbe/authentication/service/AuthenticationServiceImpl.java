@@ -57,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return session != null && session.getCurrentUser() != null;
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return null;
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -139,7 +139,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return login(sessionIdentifier, userIdentifier, password);
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return logout(sessionIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -181,7 +181,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -205,7 +205,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthenticationServiceException("StorageException", e);
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		try {
+			return userDao.exists(userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public boolean existsSession(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		try {
+			return sessionDao.exists(sessionIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -20,6 +21,23 @@ public class ResourceUtilImpl implements ResourceUtil {
 	}
 
 	@Override
+	public void copyResourceToOutputStream(final String path, final OutputStream outputStream) throws IOException {
+		InputStream is = null;
+		try {
+			is = getClass().getClassLoader().getResourceAsStream(path);
+			if (is == null) {
+				throw new IOException("file " + path + " not found.");
+			}
+			streamUtil.copy(is, outputStream);
+		}
+		finally {
+			if (is != null) {
+				is.close();
+			}
+		}
+	}
+
+	@Override
 	public String getResourceContentString(final String path) throws IOException {
 		InputStream is = null;
 		BufferedReader br = null;
@@ -27,7 +45,7 @@ public class ResourceUtilImpl implements ResourceUtil {
 			final StringBuffer sb = new StringBuffer();
 			is = getClass().getClassLoader().getResourceAsStream(path);
 			if (is == null) {
-				throw new IOException("Util.getResourceContentString() - file " + path + " not found.");
+				throw new IOException("file " + path + " not found.");
 			}
 			br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			String line;

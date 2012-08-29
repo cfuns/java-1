@@ -10,9 +10,18 @@ public class GeoCoordinate implements Serializable {
 
 	private final double longitude;
 
+	private final double altitude;
+
 	public GeoCoordinate(final double latitude, final double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.altitude = 0d;
+	}
+
+	public GeoCoordinate(final double latitude, final double longitude, final double altitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.altitude = altitude;
 	}
 
 	public double getLatitude() {
@@ -21,6 +30,10 @@ public class GeoCoordinate implements Serializable {
 
 	public double getLongitude() {
 		return longitude;
+	}
+
+	public double getAltitude() {
+		return altitude;
 	}
 
 }

@@ -70,7 +70,7 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			for (final RoleIdentifier roleIdentifier : authorizationService.roleList()) {
-				ul.add(new LinkRelativWidget(request, "/authorization/role/info?role=" + roleIdentifier.getId(), roleIdentifier.getId()));
+				ul.add(new LinkRelativWidget(request, "/authorization/role/info?" + AuthorizationGuiParameter.PARAMETER_ROLE + "=" + roleIdentifier.getId(), roleIdentifier.getId()));
 			}
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/authorization/role/create", "add role"));

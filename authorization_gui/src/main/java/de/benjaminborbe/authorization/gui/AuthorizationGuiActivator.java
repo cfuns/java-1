@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authorization.gui.guice.AuthorizationGuiModules;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleAddPermissionServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleCreateServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleInfoServlet;
@@ -25,6 +26,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthorizationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthorizationGuiPermissionListServlet authorizationGuiPermissionListServlet;
 
 	@Inject
 	private AuthorizationGuiServlet authorizationGuiServlet;
@@ -82,6 +86,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authorizationGuiUserListServlet, "/user"));
 		result.add(new ServletInfo(authorizationGuiUserInfoServlet, "/user/info"));
 		result.add(new ServletInfo(authorizationGuiRoleInfoServlet, "/role/info"));
+		result.add(new ServletInfo(authorizationGuiPermissionListServlet, "/permission"));
 		return result;
 	}
 

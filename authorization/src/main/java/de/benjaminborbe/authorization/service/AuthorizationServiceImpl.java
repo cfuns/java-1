@@ -72,7 +72,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return hasRole(userIdentifier, roleIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException("AuthenticationServiceException", e);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -142,13 +142,23 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		try {
 			expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
 
+			if (!authenticationService.existsUser(userIdentifier)) {
+				throw new AuthorizationServiceException("user " + userIdentifier + " does not exists");
+			}
+			if (!existsRole(roleIdentifier)) {
+				throw new AuthorizationServiceException("role " + roleIdentifier + " does not exists");
+			}
+
 			logger.info("addUserRole " + userIdentifier + " " + roleIdentifier);
 			userRoleManyToManyRelation.add(userIdentifier, roleIdentifier);
 
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -164,7 +174,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -187,7 +197,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return ADMIN_USERNAME.equals(username);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -201,7 +211,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -220,7 +230,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -230,13 +240,20 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		try {
 			expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
 
+			if (!existsPermission(permissionIdentifier)) {
+				throw new AuthorizationServiceException("permission " + permissionIdentifier + " does not exists");
+			}
+			if (!existsRole(roleIdentifier)) {
+				throw new AuthorizationServiceException("role " + roleIdentifier + " does not exists");
+			}
+
 			logger.info("addPermissionRole " + permissionIdentifier + " " + roleIdentifier);
 			permissionRoleManyToManyRelation.add(permissionIdentifier, roleIdentifier);
 
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -252,8 +269,46 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException("StorageException", e);
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
+	@Override
+	public Collection<PermissionIdentifier> permissionList(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		try {
+			logger.info("permissionList for role: " + roleIdentifier);
+
+			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
+			for (final PermissionIdentifier permissionIdentifier : permissionList()) {
+				if (permissionRoleManyToManyRelation.exists(permissionIdentifier, roleIdentifier)) {
+					result.add(permissionIdentifier);
+				}
+			}
+
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		try {
+			return roleDao.exists(roleIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public boolean existsPermission(final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
+		try {
+			return permissionDao.exists(permissionIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
 }

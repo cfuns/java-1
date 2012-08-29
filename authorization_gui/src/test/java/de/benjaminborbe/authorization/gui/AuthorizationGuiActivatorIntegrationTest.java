@@ -45,7 +45,7 @@ public class AuthorizationGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList("/authorization", "/authorization/role", "/authorization/role/create", "/authorization/role/remove", "/authorization/user/addRole",
 				"/authorization/user/removeRole", "/authorization/role/addPermission", "/authorization/role/removePermission", "/authorization/role/info", "/authorization/user/info",
-				"/authorization/user");
+				"/authorization/user", "/authorization/permission");
 		assertEquals("servlet-count not match", paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

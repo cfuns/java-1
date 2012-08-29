@@ -32,6 +32,7 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -40,10 +41,6 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Authorization - Role add Permission";
-
-	private static final String PARAMETER_PERMISSION = "permisson";
-
-	private static final String PARAMETER_ROLE = "role";
 
 	private final AuthorizationService authorizationService;
 
@@ -72,11 +69,11 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException {
 		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
 		try {
-			final String roleName = request.getParameter(PARAMETER_ROLE);
-			final String permissionName = request.getParameter(PARAMETER_PERMISSION);
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final String roleName = request.getParameter(AuthorizationGuiParameter.PARAMETER_ROLE);
+			final String permissionName = request.getParameter(AuthorizationGuiParameter.PARAMETER_PERMISSION);
 			if (roleName != null && roleName.length() > 0 && permissionName != null && permissionName.length() > 0) {
 				final PermissionIdentifier permission = authorizationService.createPermissionIdentifier(permissionName);
 				final RoleIdentifier role = authorizationService.createRoleIdentifier(roleName);
@@ -91,16 +88,20 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 			else {
 				final FormWidget form = new FormWidget("");
 				form.addMethod(FormMethod.POST);
-				form.addFormInputWidget(new FormInputHiddenWidget(PARAMETER_ROLE));
-				form.addFormInputWidget(new FormInputTextWidget(PARAMETER_PERMISSION));
+				form.addFormInputWidget(new FormInputHiddenWidget(AuthorizationGuiParameter.PARAMETER_ROLE));
+				form.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiParameter.PARAMETER_PERMISSION));
 				form.addFormInputWidget(new FormInputSubmitWidget("add permission"));
 				widgets.add(form);
 			}
+			return widgets;
 		}
 		catch (final AuthorizationServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
 		}
 		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			return exceptionWidget;
 		}
-		return widgets;
 	}
 }

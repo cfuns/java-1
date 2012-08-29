@@ -88,8 +88,23 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public boolean addPermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException {
+	public boolean addPermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
+			throws PermissionDeniedException, AuthorizationServiceException {
+		return false;
+	}
+
+	@Override
+	public Collection<PermissionIdentifier> permissionList(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		return null;
+	}
+
+	@Override
+	public boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean existsPermission(final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
 		return false;
 	}
 

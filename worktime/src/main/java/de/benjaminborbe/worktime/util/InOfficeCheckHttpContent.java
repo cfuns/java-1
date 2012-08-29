@@ -57,15 +57,15 @@ public class InOfficeCheckHttpContent {
 			return content != null && content.indexOf(matchString) != -1;
 		}
 		catch (final MalformedURLException e) {
-			logger.warn("MalformedURLException", e);
+			logger.warn("MalformedURLException");
 			return false;
 		}
 		catch (final IOException e) {
-			logger.warn("IOException", e);
+			logger.warn("IOException");
 			return false;
 		}
 		catch (final HttpDownloaderException e) {
-			logger.warn("HttpDownloaderException", e);
+			logger.warn("HttpDownloaderException");
 			return false;
 		}
 	}

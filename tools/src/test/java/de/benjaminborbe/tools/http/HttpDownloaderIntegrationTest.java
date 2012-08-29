@@ -16,7 +16,7 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.StreamUtil;
 
-public class HttpDownloaderUnitTest {
+public class HttpDownloaderIntegrationTest {
 
 	private static final int TIMEOUT = 3000;
 

@@ -74,4 +74,14 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	public Collection<UserIdentifier> userList() throws AuthenticationServiceException {
 		return null;
 	}
+
+	@Override
+	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean existsSession(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		return false;
+	}
 }

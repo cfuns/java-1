@@ -33,9 +33,15 @@ public interface AuthorizationService {
 
 	Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException;
 
+	Collection<PermissionIdentifier> permissionList(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+
 	boolean removePermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException;
 
 	boolean addPermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException;
+
+	boolean existsRole(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+
+	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
 }
