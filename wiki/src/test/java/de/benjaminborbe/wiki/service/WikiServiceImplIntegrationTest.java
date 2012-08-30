@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
+import de.benjaminborbe.wiki.api.WikiSpaceCreateException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 import de.benjaminborbe.wiki.guice.WikiModulesMock;
 
@@ -25,7 +26,7 @@ public class WikiServiceImplIntegrationTest {
 	}
 
 	@Test
-	public void testSpaces() throws WikiServiceException {
+	public void testSpaces() throws WikiServiceException, WikiSpaceCreateException {
 		final String spaceId = "testSpace";
 		final String spaceTitle = "Test Space";
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WikiModulesMock());

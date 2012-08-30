@@ -128,7 +128,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			throws AuthenticationServiceException {
 		try {
 			if (userDao.load(userIdentifier) != null) {
-				logger.info("user " + userIdentifier + " allready exists");
+				logger.info("user " + userIdentifier + " already exists");
 				return false;
 			}
 			final UserBean user = userDao.create();

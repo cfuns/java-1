@@ -55,7 +55,7 @@ public class WikiGuiDashboardServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException {
-		logger.trace("printContent");
+		logger.debug("render " + getClass().getSimpleName());
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 

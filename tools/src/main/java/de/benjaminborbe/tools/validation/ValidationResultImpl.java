@@ -11,6 +11,15 @@ public class ValidationResultImpl implements ValidationResult {
 
 	private final Set<ValidationError> errors = new HashSet<ValidationError>();
 
+	public ValidationResultImpl() {
+	}
+
+	public ValidationResultImpl(final ValidationError... validationErrors) {
+		for (final ValidationError validationError : validationErrors) {
+			add(validationError);
+		}
+	}
+
 	@Override
 	public boolean hasErrors() {
 		return !errors.isEmpty();

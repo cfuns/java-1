@@ -34,6 +34,7 @@ import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+import de.benjaminborbe.wiki.gui.WikiGuiConstants;
 
 @Singleton
 public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
@@ -69,11 +70,11 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException {
 		try {
-			logger.trace("printContent");
+			logger.debug("render " + getClass().getSimpleName());
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String spaceName = request.getParameter(WikiGuiParameter.PARAMETER_SPACE_ID);
+			final String spaceName = request.getParameter(WikiGuiConstants.PARAMETER_SPACE_ID);
 			final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.getSpaceByName(spaceName);
 			final Collection<WikiPageIdentifier> wikiPageIdentifiers = wikiService.getPageIdentifiers(wikiSpaceIdentifier);
 			final UlWidget ul = new UlWidget();

@@ -73,4 +73,9 @@ public class WikiServiceMock implements WikiService {
 		return null;
 	}
 
+	@Override
+	public WikiPageIdentifier getPageIdentifierByName(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageName) {
+		return null;
+	}
+
 }

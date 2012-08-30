@@ -6,13 +6,18 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.wiki.api.WikiPage;
+import de.benjaminborbe.wiki.api.WikiPageCreateException;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
+import de.benjaminborbe.wiki.api.WikiSpaceCreateException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 import de.benjaminborbe.wiki.api.WikiSpaceNotFoundException;
+import de.benjaminborbe.wiki.dao.WikiPageBean;
 import de.benjaminborbe.wiki.dao.WikiPageDao;
 import de.benjaminborbe.wiki.dao.WikiSpaceBean;
 import de.benjaminborbe.wiki.dao.WikiSpaceDao;
@@ -56,9 +61,14 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiPage getPage(final WikiPageIdentifier wikiPageIdentifier) {
-		logger.trace("getPage");
-		return null;
+	public WikiPage getPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
+		try {
+			logger.trace("getPage");
+			return wikiPageDao.load(wikiPageIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
@@ -78,15 +88,48 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiPage getPageByName(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageName) {
+	public WikiPage getPageByName(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageName) throws WikiServiceException {
 		logger.trace("getPageByName");
-		return null;
+		final WikiPageIdentifier wikiPageIdentifier = getPageIdentifierByName(wikiSpaceIdentifier, pageName);
+		return getPage(wikiPageIdentifier);
 	}
 
 	@Override
-	public WikiPageIdentifier createPage(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageTitle, final String pageContent) {
-		logger.trace("createPage");
-		return null;
+	public WikiPageIdentifier getPageIdentifierByName(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageName) {
+		logger.trace("getPageIdentifierByName");
+		return new WikiPageIdentifier(wikiSpaceIdentifier.getId() + "-" + pageName);
+	}
+
+	@Override
+	public WikiPageIdentifier createPage(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageTitle, final String pageContent) throws WikiPageCreateException,
+			WikiServiceException {
+		try {
+			logger.debug("createPage");
+
+			if (!wikiSpaceDao.exists(wikiSpaceIdentifier)) {
+				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("space " + wikiSpaceIdentifier + " not found"));
+				throw new WikiPageCreateException(validationResult);
+			}
+
+			final WikiPageIdentifier wikiPageIdentifier = getPageIdentifierByName(wikiSpaceIdentifier, pageTitle);
+
+			if (wikiPageDao.exists(wikiPageIdentifier)) {
+				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("page " + wikiPageIdentifier + " already exists"));
+				throw new WikiPageCreateException(validationResult);
+			}
+
+			final WikiPageBean wikiPage = wikiPageDao.create();
+			wikiPage.setId(wikiPageIdentifier);
+			wikiPage.setTitle(pageTitle);
+			wikiPage.setContent(pageContent);
+			wikiPage.setSpace(wikiSpaceIdentifier);
+			wikiPageDao.save(wikiPage);
+
+			return wikiPageIdentifier;
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
@@ -102,12 +145,13 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException {
+	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException, WikiSpaceCreateException {
 		try {
-			logger.trace("createSpace");
+			logger.debug("createSpace");
 
 			if (wikiSpaceDao.existsSpaceWithName(spaceIdentifier)) {
-				throw new WikiServiceException("space " + spaceIdentifier + " already exists");
+				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("space " + spaceIdentifier + " already exists"));
+				throw new WikiSpaceCreateException(validationResult);
 			}
 
 			final WikiSpaceIdentifier id = new WikiSpaceIdentifier(spaceIdentifier);

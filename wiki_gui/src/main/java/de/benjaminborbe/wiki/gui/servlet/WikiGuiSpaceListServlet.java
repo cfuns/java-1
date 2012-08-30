@@ -33,6 +33,7 @@ import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+import de.benjaminborbe.wiki.gui.WikiGuiConstants;
 
 @Singleton
 public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
@@ -68,24 +69,26 @@ public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException {
 		try {
-			logger.trace("printContent");
+			logger.debug("render " + getClass().getSimpleName());
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final Collection<WikiSpaceIdentifier> spaces = wikiService.getSpaceIdentifiers();
-			if (spaces.size() > 0) {
-				final UlWidget ul = new UlWidget();
-				for (final WikiSpaceIdentifier space : spaces) {
-					ul.add(space.getId());
+
+			// space list
+			{
+				final Collection<WikiSpaceIdentifier> spaces = wikiService.getSpaceIdentifiers();
+				if (spaces.size() > 0) {
+					final UlWidget ul = new UlWidget();
+					for (final WikiSpaceIdentifier space : spaces) {
+						ul.add(new LinkRelativWidget(request, "/wiki/page/list?" + WikiGuiConstants.PARAMETER_SPACE_ID + "=" + space.getId(), space.getId()));
+					}
+					widgets.add(ul);
 				}
-				widgets.add(ul);
+				else {
+					widgets.add("no space exists");
+					widgets.add(new BrWidget());
+				}
+				widgets.add(new LinkRelativWidget(request, "/wiki/space/create", "add space"));
 			}
-			else {
-				widgets.add("no space exists");
-				widgets.add(new BrWidget());
-			}
-
-			widgets.add(new LinkRelativWidget(request, "/wiki/space/create", "add space"));
-
 			return widgets;
 		}
 		catch (final WikiServiceException e) {

@@ -79,7 +79,7 @@ public class QuartzImpl implements Quartz {
 	public void addCronJob(final CronJob cronJob) {
 		logger.trace("QuartzImpl.addCronJob()");
 		if (jobDetails.containsKey(cronJob.getClass())) {
-			logger.trace("skip add cronJob, allready added");
+			logger.trace("skip add cronJob, already added");
 		}
 		else {
 			try {

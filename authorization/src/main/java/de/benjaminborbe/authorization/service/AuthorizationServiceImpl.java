@@ -124,7 +124,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			expectPermission(sessionIdentifier, new PermissionIdentifier("createRole"));
 
 			if (roleDao.findByRolename(roleIdentifier) != null) {
-				logger.info("role " + roleIdentifier + " allready exists");
+				logger.info("role " + roleIdentifier + " already exists");
 				return false;
 			}
 			final RoleBean role = roleDao.findOrCreateByRolename(roleIdentifier);

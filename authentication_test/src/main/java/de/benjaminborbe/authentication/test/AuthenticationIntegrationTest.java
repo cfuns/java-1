@@ -73,7 +73,7 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
 		final UserIdentifier userIdentifier = new UserIdentifier(username);
 
-		// if user allready exists unregister first
+		// if user already exists unregister first
 		if (service.verifyCredential(userIdentifier, password)) {
 			service.login(sessionIdentifier, userIdentifier, password);
 			service.unregister(sessionIdentifier);

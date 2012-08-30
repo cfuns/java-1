@@ -56,7 +56,7 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	private WikiGuiSpaceListServlet wikiGuiSpaceListServlet;
 
 	public WikiGuiActivator() {
-		super("wiki");
+		super(WikiGuiConstants.NAME);
 	}
 
 	@Override
@@ -67,16 +67,16 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(wikiGuiDashboardServlet, "/"));
-		result.add(new ServletInfo(wikiGuiPageEditServlet, "/page/edit"));
-		result.add(new ServletInfo(wikiGuiPageCreateServlet, "/page/create"));
-		result.add(new ServletInfo(wikiGuiPageShowServlet, "/page/show"));
-		result.add(new ServletInfo(wikiGuiPageDeleteServlet, "/page/delete"));
-		result.add(new ServletInfo(wikiGuiPageListServlet, "/page/list"));
-		result.add(new ServletInfo(wikiGuiSpaceEditServlet, "/space/edit"));
-		result.add(new ServletInfo(wikiGuiSpaceCreateServlet, "/space/create"));
-		result.add(new ServletInfo(wikiGuiSpaceDeleteServlet, "/space/delete"));
-		result.add(new ServletInfo(wikiGuiSpaceListServlet, "/space/list"));
+		result.add(new ServletInfo(wikiGuiDashboardServlet, WikiGuiConstants.WIKI_GUI_DASHBOARD_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiPageEditServlet, WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiPageCreateServlet, WikiGuiConstants.WIKI_GUI_PAGE_CREATE_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiPageShowServlet, WikiGuiConstants.WIKI_GUI_PAGE_SHOW_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiPageDeleteServlet, WikiGuiConstants.WIKI_GUI_PAGE_DELETE_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiPageListServlet, WikiGuiConstants.WIKI_GUI_PAGE_LIST_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiSpaceEditServlet, WikiGuiConstants.WIKI_GUI_SPACE_EDIT_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiSpaceCreateServlet, WikiGuiConstants.WIKI_GUI_SPACE_CREATE_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiSpaceDeleteServlet, WikiGuiConstants.WIKI_GUI_SPACE_DELETE_SERVLET_URL));
+		result.add(new ServletInfo(wikiGuiSpaceListServlet, WikiGuiConstants.WIKI_GUI_SPACE_LIST_SERVLET_URL));
 		return result;
 	}
 
