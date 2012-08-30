@@ -15,7 +15,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -83,10 +82,8 @@ public class DhlGuiCreateServlet extends WebsiteHtmlServlet {
 				final long id = parseUtil.parseLong(request.getParameter(PARAMETER_ID));
 				final long zip = parseUtil.parseLong(request.getParameter(PARAMETER_ZIP));
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(sessionIdentifier, id, zip);
-				if (dhlService.addTracking(sessionIdentifier, dhlIdentifier)) {
-					throw new RedirectException(request.getContextPath() + "/dhl/list");
-				}
+				dhlService.addTracking(sessionIdentifier, id, zip);
+				throw new RedirectException(request.getContextPath() + "/dhl/list");
 			}
 			catch (final ParseException e) {
 			}

@@ -7,6 +7,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.service.DhlServiceImpl;
+import de.benjaminborbe.dhl.status.DhlDao;
+import de.benjaminborbe.dhl.status.DhlDaoStorage;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherImpl;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
@@ -19,6 +21,7 @@ public class DhlModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(DhlDao.class).to(DhlDaoStorage.class).in(Singleton.class);
 		bind(DhlStatusStorage.class).to(DhlStatusStorageImpl.class).in(Singleton.class);
 		bind(DhlStatusNotifier.class).to(DhlStatusNotifierImpl.class).in(Singleton.class);
 		bind(DhlStatusFetcher.class).to(DhlStatusFetcherImpl.class).in(Singleton.class);

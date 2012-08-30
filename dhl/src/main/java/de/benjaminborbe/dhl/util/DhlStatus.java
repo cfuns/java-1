@@ -2,7 +2,7 @@ package de.benjaminborbe.dhl.util;
 
 import java.util.Calendar;
 
-import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.tools.bk.BkUtil;
 import de.benjaminborbe.tools.bk.HasBk;
 
@@ -14,10 +14,10 @@ public class DhlStatus implements HasBk {
 
 	private final String message;
 
-	private final DhlIdentifier dhlIdentifier;
+	private final Dhl dhl;
 
-	public DhlStatus(final DhlIdentifier dhlIdentifier, final Calendar calendar, final String place, final String message) {
-		this.dhlIdentifier = dhlIdentifier;
+	public DhlStatus(final Dhl dhl, final Calendar calendar, final String place, final String message) {
+		this.dhl = dhl;
 		this.calendar = calendar;
 		this.place = place;
 		this.message = message;
@@ -35,8 +35,8 @@ public class DhlStatus implements HasBk {
 		return message;
 	}
 
-	public DhlIdentifier getDhlIdentifier() {
-		return dhlIdentifier;
+	public Dhl getDhl() {
+		return dhl;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class DhlStatus implements HasBk {
 
 	@Override
 	public String getBk() {
-		return dhlIdentifier + "-" + calendar.getTimeInMillis() + "-" + place + "-" + message;
+		return dhl.getTrackingNumber() + "-" + calendar.getTimeInMillis() + "-" + place + "-" + message;
 	}
 
 	@Override

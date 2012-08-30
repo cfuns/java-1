@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.api.Dhl;
 
 public class DhlUrlBuilder {
 
@@ -18,8 +18,8 @@ public class DhlUrlBuilder {
 		this.logger = logger;
 	}
 
-	public URL buildUrl(final DhlIdentifier dhlIdentifier) throws MalformedURLException {
+	public URL buildUrl(final Dhl dhl) throws MalformedURLException {
 		logger.debug("buildUrl");
-		return new URL("http://nolp.dhl.de/nextt-online-public/set_identcodes.do?lang=de&zip=" + dhlIdentifier.getZip() + "&idc=" + dhlIdentifier.getId());
+		return new URL("http://nolp.dhl.de/nextt-online-public/set_identcodes.do?lang=de&zip=" + dhl.getZip() + "&idc=" + dhl.getTrackingNumber());
 	}
 }

@@ -19,6 +19,16 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
+	public URL buildDhlUrl(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+		return null;
+	}
+
+	@Override
+	public DhlIdentifier createDhlIdentifier(final SessionIdentifier sessionIdentifier, final long id) throws DhlServiceException {
+		return null;
+	}
+
+	@Override
 	public void mailStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
 	}
 
@@ -28,22 +38,11 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
-	public DhlIdentifier createDhlIdentifier(final SessionIdentifier sessionIdentifier, final long id, final long zip) throws DhlServiceException {
-		return null;
+	public void removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
 	}
 
 	@Override
-	public boolean removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
-		return false;
-	}
-
-	@Override
-	public boolean addTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
-		return false;
-	}
-
-	@Override
-	public URL buildDhlUrl(final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+	public DhlIdentifier addTracking(final SessionIdentifier sessionIdentifier, final long trackingNumber, final long zip) throws DhlServiceException {
 		return null;
 	}
 

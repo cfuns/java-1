@@ -1,5 +1,6 @@
 package de.benjaminborbe.websearch.util;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -72,12 +73,19 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 	}
 
 	protected boolean isSubPage(final PageBean page, final Collection<ConfigurationBean> configurations) {
-		final String url = page.getUrl().toExternalForm();
+		if (page == null) {
+			throw new NullPointerException("parameter page is null");
+		}
+		final URL url = page.getUrl();
+		if (url == null) {
+			throw new NullPointerException("parameter url is null at page " + page.getId());
+		}
+		final String urlString = url.toExternalForm();
 		for (final ConfigurationBean configuration : configurations) {
-			if (url.startsWith(configuration.getUrl().toExternalForm())) {
+			if (urlString.startsWith(configuration.getUrl().toExternalForm())) {
 				boolean isExcluded = false;
 				for (final String exclude : configuration.getExcludes()) {
-					if (url.contains(exclude)) {
+					if (urlString.contains(exclude)) {
 						isExcluded = true;
 					}
 				}

@@ -20,13 +20,14 @@ public class FormInputHiddenWidgetUnitTest {
 	public void testGetName() {
 		final String value = "test123";
 		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(value);
-		assertEquals(value, formInputTextareaWidget.getValue());
+		assertEquals(value, formInputTextareaWidget.getName());
 	}
 
 	@Test
 	public void testRender() throws Exception, IOException {
-		final String value = "test123";
-		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(value);
+		final String name = "fieldName";
+		final String value = "fieldValue";
+		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(name);
 
 		final HttpContext context = EasyMock.createMock(HttpContext.class);
 		EasyMock.replay(context);
@@ -38,10 +39,11 @@ public class FormInputHiddenWidgetUnitTest {
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getParameter(name)).andReturn(value);
 		EasyMock.replay(request);
 
 		formInputTextareaWidget.render(request, response, context);
 
-		assertEquals("<input type=\"hidden\" value=\"" + value + "\"/>", stringWriter.toString());
+		assertEquals("<input name=\"" + name + "\" type=\"hidden\" value=\"" + value + "\"/>", stringWriter.toString());
 	}
 }

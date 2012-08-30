@@ -81,7 +81,7 @@ public class WikiGuiSpaceCreateServlet extends WebsiteHtmlServlet {
 			if (id != null && title != null) {
 				try {
 					final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.createSpace(id, title);
-					throw new RedirectException(request.getContextPath() + "/wiki/page/list?space=" + wikiSpaceIdentifier);
+					throw new RedirectException(request.getContextPath() + "/wiki/page/list?" + WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier.getId());
 				}
 				catch (final WikiSpaceCreateException e) {
 					widgets.add("add space failed!");

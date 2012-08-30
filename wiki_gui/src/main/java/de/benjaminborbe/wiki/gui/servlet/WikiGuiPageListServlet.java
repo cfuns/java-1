@@ -29,6 +29,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
+import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
@@ -72,22 +73,26 @@ public class WikiGuiPageListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String spaceName = request.getParameter(WikiGuiConstants.PARAMETER_SPACE_ID);
-			final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.getSpaceByName(spaceName);
+			final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.getSpaceByName(request.getParameter(WikiGuiConstants.PARAMETER_SPACE_ID));
 
 			// page list
 			{
 				final UlWidget ul = new UlWidget();
 				for (final WikiPageIdentifier wikiPageIdentifier : wikiService.getPageIdentifiers(wikiSpaceIdentifier)) {
 					final WikiPage page = wikiService.getPage(wikiPageIdentifier);
-					ul.add(new LinkRelativWidget(request, "/wiki/page/show?id=" + page.getId(), page.getTitle()));
+					ul.add(new LinkRelativWidget(request, "/wiki/page/show?" + WikiGuiConstants.PARAMETER_PAGE_ID + "=" + page.getId() + "&" + WikiGuiConstants.PARAMETER_SPACE_ID + "="
+							+ wikiSpaceIdentifier, page.getTitle()));
 				}
 				widgets.add(ul);
-				widgets.add(new LinkRelativWidget(request, "/wiki/page/create?space=" + spaceName, "add page"));
+				widgets.add(new LinkRelativWidget(request, "/wiki/page/create?" + WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier.getId(), "add page"));
 			}
 			return widgets;
 		}
 		catch (final WikiServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final WikiPageNotFoundException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

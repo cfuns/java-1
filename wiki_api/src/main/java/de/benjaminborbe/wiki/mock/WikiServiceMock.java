@@ -78,4 +78,14 @@ public class WikiServiceMock implements WikiService {
 		return null;
 	}
 
+	@Override
+	public WikiPageIdentifier createPageIdentifier(final String id) throws WikiServiceException {
+		return null;
+	}
+
+	@Override
+	public WikiSpaceIdentifier createSpaceIdentifier(final String id) throws WikiServiceException {
+		return null;
+	}
+
 }

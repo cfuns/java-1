@@ -40,6 +40,9 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 
 	@Override
 	public void mailUpdate(final DhlStatus status) throws MailSendException {
+		if (status == null) {
+			throw new NullPointerException("parameter DhlStatus is null");
+		}
 		logger.info("new status " + status);
 
 		final Mail mail = buildMail(status);
@@ -65,7 +68,7 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 		}
 		{
 			try {
-				final URL url = dhlUrlBuilder.buildUrl(status.getDhlIdentifier());
+				final URL url = dhlUrlBuilder.buildUrl(status.getDhl());
 				mailContent.append("Link: ");
 				mailContent.append(url);
 				mailContent.append("\n");

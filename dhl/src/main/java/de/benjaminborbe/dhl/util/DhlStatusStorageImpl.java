@@ -14,7 +14,10 @@ public class DhlStatusStorageImpl implements DhlStatusStorage {
 
 	@Override
 	public void store(final DhlStatus dhlStatus) {
-		data.put(dhlStatus.getDhlIdentifier(), dhlStatus);
+		if (dhlStatus == null) {
+			throw new NullPointerException("parameter DhlStatus missing");
+		}
+		data.put(dhlStatus.getDhl().getId(), dhlStatus);
 	}
 
 	@Override

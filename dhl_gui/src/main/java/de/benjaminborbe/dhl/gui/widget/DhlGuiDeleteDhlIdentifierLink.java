@@ -23,8 +23,6 @@ public class DhlGuiDeleteDhlIdentifierLink extends LinkRelativWidget {
 		sw.append(PATH);
 		sw.append("?id=");
 		sw.append(String.valueOf(dhlIdentifier.getId()));
-		sw.append("&zip=");
-		sw.append(String.valueOf(dhlIdentifier.getZip()));
 		return sw.toString();
 	}
 

@@ -6,14 +6,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.dhl.api.DhlIdentifier;
-import de.benjaminborbe.dhl.util.DhlIdentifierRegistry;
+import de.benjaminborbe.dhl.status.DhlBean;
+import de.benjaminborbe.dhl.status.DhlDao;
 import de.benjaminborbe.dhl.util.DhlStatus;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlStatusStorage;
 import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public class DhlStatusCheckCronJob implements CronJob {
@@ -23,26 +24,26 @@ public class DhlStatusCheckCronJob implements CronJob {
 
 	private final Logger logger;
 
-	private final DhlIdentifierRegistry dhlIdentifierRegistry;
-
 	private final DhlStatusFetcher dhlStatusFetcher;
 
 	private final DhlStatusStorage dhlStatusStorage;
 
 	private final DhlStatusNotifier dhlStatusNotifier;
 
+	private final DhlDao dhlDao;
+
 	@Inject
 	public DhlStatusCheckCronJob(
 			final Logger logger,
-			final DhlIdentifierRegistry dhlIdentifierRegistry,
 			final DhlStatusFetcher dhlStatusFetcher,
 			final DhlStatusStorage dhlStatusStorage,
-			final DhlStatusNotifier dhlStatusNotifier) {
+			final DhlStatusNotifier dhlStatusNotifier,
+			final DhlDao dhlDao) {
 		this.logger = logger;
-		this.dhlIdentifierRegistry = dhlIdentifierRegistry;
 		this.dhlStatusFetcher = dhlStatusFetcher;
 		this.dhlStatusStorage = dhlStatusStorage;
 		this.dhlStatusNotifier = dhlStatusNotifier;
+		this.dhlDao = dhlDao;
 	}
 
 	@Override
@@ -53,27 +54,39 @@ public class DhlStatusCheckCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.trace("execute DhlCheckCronJob");
-		for (final DhlIdentifier dhlIdentifier : dhlIdentifierRegistry.getAll()) {
-			try {
-				final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhlIdentifier);
-				logger.trace("newStatus: " + newStatus);
-				final DhlStatus oldStatus = dhlStatusStorage.get(dhlIdentifier);
-				logger.trace("oldStatus: " + oldStatus);
-				dhlStatusStorage.store(newStatus);
-				if (oldStatus == null || !oldStatus.equals(newStatus)) {
-					dhlStatusNotifier.mailUpdate(newStatus);
-					logger.info("status mailed");
+		try {
+			for (final DhlBean dhl : dhlDao.getAll()) {
+				try {
+					final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
+					logger.trace("newStatus: " + newStatus);
+
+					final DhlStatus oldStatus = dhlStatusStorage.get(dhl.getId());
+					logger.trace("oldStatus: " + oldStatus);
+
+					if (newStatus != null) {
+						dhlStatusStorage.store(newStatus);
+						if (oldStatus == null || !oldStatus.equals(newStatus)) {
+							dhlStatusNotifier.mailUpdate(newStatus);
+							logger.info("status mailed");
+						}
+						else {
+							logger.info("status not change, skip mail");
+						}
+					}
+					else {
+						logger.debug("can't find new status");
+					}
 				}
-				else {
-					logger.info("status not change, skip mail");
+				catch (final DhlStatusFetcherException e) {
+					logger.error(e.getClass().getSimpleName(), e);
+				}
+				catch (final MailSendException e) {
+					logger.error(e.getClass().getSimpleName(), e);
 				}
 			}
-			catch (final DhlStatusFetcherException e) {
-				logger.error("DhlStatusFetcherException", e);
-			}
-			catch (final MailSendException e) {
-				logger.error("MailSendException", e);
-			}
+		}
+		catch (final StorageException e) {
+			logger.error(e.getClass().getSimpleName(), e);
 		}
 	}
 }

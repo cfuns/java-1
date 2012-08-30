@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
@@ -43,16 +43,16 @@ public class DhlStatusParser {
 		this.htmlUtil = htmlUtil;
 	}
 
-	public DhlStatus parseCurrentStatus(final DhlIdentifier dhlIdentifier, final String htmlContent) {
-		logger.debug("parseHtml for " + dhlIdentifier);
-		final List<DhlStatus> all = parseAllStatus(dhlIdentifier, htmlContent);
+	public DhlStatus parseCurrentStatus(final Dhl dhl, final String htmlContent) {
+		logger.debug("parseHtml for " + dhl.getTrackingNumber());
+		final List<DhlStatus> all = parseAllStatus(dhl, htmlContent);
 		final int size = all.size();
 		logger.info("found " + size + " status");
 		return size != 0 ? all.get(size - 1) : null;
 	}
 
-	public List<DhlStatus> parseAllStatus(final DhlIdentifier dhlIdentifier, final String htmlContent) {
-		logger.debug("parseHtml for " + dhlIdentifier);
+	public List<DhlStatus> parseAllStatus(final Dhl dhl, final String htmlContent) {
+		logger.debug("parseHtml for " + dhl.getTrackingNumber());
 		final List<DhlStatus> result = new ArrayList<DhlStatus>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByAttributeValue("class", "full eventList");
@@ -70,7 +70,7 @@ public class DhlStatusParser {
 						final Calendar calendar = parseDate(tds.get(0).html());
 						final String place = parsePlace(tds.get(1).html());
 						final String message = htmlUtil.unescapeHtml(parseMessage(tds.get(2).html()));
-						result.add(new DhlStatus(dhlIdentifier, calendar, place, message));
+						result.add(new DhlStatus(dhl, calendar, place, message));
 					}
 				}
 			}

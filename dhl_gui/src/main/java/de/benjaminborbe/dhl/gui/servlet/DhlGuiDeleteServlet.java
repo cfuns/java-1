@@ -42,8 +42,6 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 
 	private static final String PARAMETER_ID = "id";
 
-	private static final String PARAMETER_ZIP = "zip";
-
 	private final DhlService dhlService;
 
 	@Inject
@@ -75,12 +73,10 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			try {
 				final long id = parseUtil.parseLong(request.getParameter(PARAMETER_ID));
-				final long zip = parseUtil.parseLong(request.getParameter(PARAMETER_ZIP));
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(sessionIdentifier, id, zip);
-				if (dhlService.removeTracking(sessionIdentifier, dhlIdentifier)) {
-					throw new RedirectException(request.getContextPath() + "/dhl/list");
-				}
+				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(sessionIdentifier, id);
+				dhlService.removeTracking(sessionIdentifier, dhlIdentifier);
+				throw new RedirectException(request.getContextPath() + "/dhl/list");
 			}
 			catch (final ParseException e) {
 			}

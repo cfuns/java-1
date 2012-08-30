@@ -10,8 +10,10 @@ import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.wiki.api.WikiPage;
+import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageCreateException;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
+import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceCreateException;
@@ -21,6 +23,9 @@ import de.benjaminborbe.wiki.dao.WikiPageBean;
 import de.benjaminborbe.wiki.dao.WikiPageDao;
 import de.benjaminborbe.wiki.dao.WikiSpaceBean;
 import de.benjaminborbe.wiki.dao.WikiSpaceDao;
+import de.benjaminborbe.wiki.render.WikiRenderer;
+import de.benjaminborbe.wiki.render.WikiRendererFactory;
+import de.benjaminborbe.wiki.render.WikiRendererNotFoundException;
 
 @Singleton
 public class WikiServiceImpl implements WikiService {
@@ -31,11 +36,14 @@ public class WikiServiceImpl implements WikiService {
 
 	private final WikiPageDao wikiPageDao;
 
+	private final WikiRendererFactory wikiRendererFactory;
+
 	@Inject
-	public WikiServiceImpl(final Logger logger, final WikiSpaceDao wikiSpaceDao, final WikiPageDao wikiPageDao) {
+	public WikiServiceImpl(final Logger logger, final WikiSpaceDao wikiSpaceDao, final WikiPageDao wikiPageDao, final WikiRendererFactory wikiRendererFactory) {
 		this.logger = logger;
 		this.wikiSpaceDao = wikiSpaceDao;
 		this.wikiPageDao = wikiPageDao;
+		this.wikiRendererFactory = wikiRendererFactory;
 	}
 
 	@Override
@@ -61,10 +69,14 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiPage getPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
+	public WikiPage getPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException, WikiPageNotFoundException {
 		try {
 			logger.trace("getPage");
-			return wikiPageDao.load(wikiPageIdentifier);
+			final WikiPageBean result = wikiPageDao.load(wikiPageIdentifier);
+			if (result == null) {
+				throw new WikiPageNotFoundException("wiki page " + wikiPageIdentifier + " not found");
+			}
+			return result;
 		}
 		catch (final StorageException e) {
 			throw new WikiServiceException(e.getClass().getName(), e);
@@ -88,7 +100,7 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiPage getPageByName(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageName) throws WikiServiceException {
+	public WikiPage getPageByName(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageName) throws WikiServiceException, WikiPageNotFoundException {
 		logger.trace("getPageByName");
 		final WikiPageIdentifier wikiPageIdentifier = getPageIdentifierByName(wikiSpaceIdentifier, pageName);
 		return getPage(wikiPageIdentifier);
@@ -122,6 +134,7 @@ public class WikiServiceImpl implements WikiService {
 			wikiPage.setId(wikiPageIdentifier);
 			wikiPage.setTitle(pageTitle);
 			wikiPage.setContent(pageContent);
+			wikiPage.setContentType(WikiPageContentType.CONFLUENCE);
 			wikiPage.setSpace(wikiSpaceIdentifier);
 			wikiPageDao.save(wikiPage);
 
@@ -180,7 +193,26 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public String renderPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
-		return null;
+	public String renderPage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException, WikiPageNotFoundException {
+		final WikiPage page = getPage(wikiPageIdentifier);
+		final String content = page.getContent();
+		final WikiPageContentType contentType = page.getContentType();
+		try {
+			final WikiRenderer renderer = wikiRendererFactory.getRenderer(contentType);
+			return renderer.render(content);
+		}
+		catch (final WikiRendererNotFoundException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public WikiPageIdentifier createPageIdentifier(final String id) throws WikiServiceException {
+		return new WikiPageIdentifier(id);
+	}
+
+	@Override
+	public WikiSpaceIdentifier createSpaceIdentifier(final String id) throws WikiServiceException {
+		return new WikiSpaceIdentifier(id);
 	}
 }

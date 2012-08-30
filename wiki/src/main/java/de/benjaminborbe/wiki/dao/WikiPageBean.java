@@ -2,6 +2,7 @@ package de.benjaminborbe.wiki.dao;
 
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.wiki.api.WikiPage;
+import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
@@ -16,6 +17,8 @@ public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage {
 	private String content;
 
 	private WikiSpaceIdentifier space;
+
+	private WikiPageContentType contentType;
 
 	@Override
 	public WikiPageIdentifier getId() {
@@ -51,6 +54,15 @@ public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage {
 
 	public void setSpace(final WikiSpaceIdentifier space) {
 		this.space = space;
+	}
+
+	@Override
+	public WikiPageContentType getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(final WikiPageContentType contentType) {
+		this.contentType = contentType;
 	}
 
 }

@@ -87,7 +87,8 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 				try {
 					final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.getSpaceByName(spaceId);
 					final WikiPageIdentifier wikiPageIdentifier = wikiService.createPage(wikiSpaceIdentifier, pageTitle, pageContent);
-					throw new RedirectException(request.getContextPath() + "/wiki/page/show?id=" + wikiPageIdentifier);
+					throw new RedirectException(request.getContextPath() + "/wiki/page/show?" + WikiGuiConstants.PARAMETER_PAGE_ID + "=" + wikiPageIdentifier + "&"
+							+ WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier);
 				}
 				catch (final WikiPageCreateException e) {
 					widgets.add("add page failed!");

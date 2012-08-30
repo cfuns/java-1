@@ -76,7 +76,7 @@ public class DhlGuiListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final DhlIdentifier dhlIdentifier : dhlService.getRegisteredDhlIdentifiers(sessionIdentifier)) {
 				final ListWidget row = new ListWidget();
-				row.add(new LinkWidget(dhlService.buildDhlUrl(dhlIdentifier), String.valueOf(dhlIdentifier.getId())));
+				row.add(new LinkWidget(dhlService.buildDhlUrl(sessionIdentifier, dhlIdentifier), String.valueOf(dhlIdentifier.getId())));
 				row.add(" ");
 				row.add(new DhlGuiDeleteDhlIdentifierLink(request, dhlIdentifier));
 				ul.add(row);

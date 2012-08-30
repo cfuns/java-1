@@ -91,4 +91,10 @@ create column family wiki_space with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
-  
+
+drop column family dhl;
+create column family dhl with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+    

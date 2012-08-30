@@ -2,17 +2,14 @@ package de.benjaminborbe.dhl.api;
 
 import de.benjaminborbe.api.IdentifierBase;
 
-public class DhlIdentifier extends IdentifierBase<Long> {
+public class DhlIdentifier extends IdentifierBase<String> {
 
-	private final Long zip;
-
-	public DhlIdentifier(final Long id, final Long zip) {
+	public DhlIdentifier(final String id) {
 		super(id);
-		this.zip = zip;
 	}
 
-	public Long getZip() {
-		return zip;
+	public DhlIdentifier(final long id) {
+		super(String.valueOf(id));
 	}
 
 }

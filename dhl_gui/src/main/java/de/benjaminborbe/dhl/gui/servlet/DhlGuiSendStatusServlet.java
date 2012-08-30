@@ -69,7 +69,7 @@ public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final DhlIdentifier dhlIdentifier = new DhlIdentifier(286476016780l, 65185l);
+			final DhlIdentifier dhlIdentifier = new DhlIdentifier(286476016780l);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			dhlService.mailStatus(sessionIdentifier, dhlIdentifier);
 			return widgets;

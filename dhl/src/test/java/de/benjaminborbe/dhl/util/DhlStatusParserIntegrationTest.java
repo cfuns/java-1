@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.guice.DhlModulesMock;
+import de.benjaminborbe.dhl.status.DhlBean;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.ResourceUtil;
@@ -31,12 +32,14 @@ public class DhlStatusParserIntegrationTest {
 		final CalendarUtil calendarUtil = injector.getInstance(CalendarUtil.class);
 		final ResourceUtil resourceUtil = injector.getInstance(ResourceUtil.class);
 		final String content = resourceUtil.getResourceContentString("status.html");
-		final DhlIdentifier dhlIdentifier = new DhlIdentifier(286476016780l, 65185l);
-		final DhlStatus dhlStatus = dhlStatusParser.parseCurrentStatus(dhlIdentifier, content);
+		final DhlBean dhl = new DhlBean();
+		dhl.setId(new DhlIdentifier("286476016780"));
+		dhl.setTrackingNumber(286476016780l);
+		dhl.setZip(65185l);
+		final DhlStatus dhlStatus = dhlStatusParser.parseCurrentStatus(dhl, content);
 		assertNotNull(dhlStatus);
-		assertNotNull(dhlStatus.getDhlIdentifier());
-		assertEquals(new Long(286476016780l), dhlStatus.getDhlIdentifier().getId());
-		assertEquals(new Long(65185l), dhlStatus.getDhlIdentifier().getZip());
+		assertEquals(286476016780l, dhlStatus.getDhl().getTrackingNumber());
+		assertEquals(65185l, dhlStatus.getDhl().getZip());
 		assertEquals("2012-02-29 17:16:00", calendarUtil.toDateTimeString(dhlStatus.getCalendar()));
 		assertEquals("--", dhlStatus.getPlace());
 		assertEquals("Die Auftragsdaten zu dieser Sendung wurden vom Absender elektronisch an DHL übermittelt.", dhlStatus.getMessage());

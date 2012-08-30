@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -45,14 +45,14 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 	}
 
 	@Override
-	public DhlStatus fetchStatus(final DhlIdentifier dhlIdentifier) throws DhlStatusFetcherException {
-		logger.debug("getStatus for " + dhlIdentifier);
+	public DhlStatus fetchStatus(final Dhl dhl) throws DhlStatusFetcherException {
+		logger.debug("getStatus for " + dhl.getTrackingNumber());
 
 		try {
-			final URL url = dhlUrlBuilder.buildUrl(dhlIdentifier);
+			final URL url = dhlUrlBuilder.buildUrl(dhl);
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
-			return dhlStatusParser.parseCurrentStatus(dhlIdentifier, content);
+			return dhlStatusParser.parseCurrentStatus(dhl, content);
 		}
 		catch (final MalformedURLException e) {
 			throw new DhlStatusFetcherException("MalformedURLException", e);

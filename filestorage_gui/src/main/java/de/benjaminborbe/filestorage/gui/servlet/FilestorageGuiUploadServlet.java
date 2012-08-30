@@ -11,6 +11,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -103,6 +104,6 @@ public class FilestorageGuiUploadServlet extends WebsiteHtmlServlet {
 	}
 
 	protected void handleUpload(final FileItem item) {
-		// TODO bborbe file store
+		throw new NotImplementedException("handleUpload is not implemented");
 	}
 }

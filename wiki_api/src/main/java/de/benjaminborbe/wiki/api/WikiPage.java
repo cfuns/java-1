@@ -8,4 +8,5 @@ public interface WikiPage {
 
 	String getContent();
 
+	WikiPageContentType getContentType();
 }
