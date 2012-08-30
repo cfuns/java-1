@@ -54,6 +54,10 @@
 		<module>calendar_api</module>
 		<module>calendar_gui</module>
 		<module>calendar_test</module>
+		<module>checklist</module>
+		<module>checklist_api</module>
+		<module>checklist_gui</module>
+		<module>checklist_test</module>
 		<module>confluence</module>
 		<module>confluence_api</module>
 		<module>confluence_gui</module>

@@ -169,3 +169,7 @@ geocaching/target
 geocaching_api/target
 geocaching_gui/target
 geocaching_test/target
+checklist/target
+checklist_api/target
+checklist_gui/target
+checklist_test/target
