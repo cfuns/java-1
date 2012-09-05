@@ -173,3 +173,7 @@ checklist/target
 checklist_api/target
 checklist_gui/target
 checklist_test/target
+blog/target
+blog_api/target
+blog_gui/target
+blog_test/target

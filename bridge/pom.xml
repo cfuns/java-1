@@ -59,7 +59,8 @@
 								de.benjaminborbe.wow, de.benjaminborbe.wow.api, de.benjaminborbe.wow.gui, de.benjaminborbe.streamcache, de.benjaminborbe.streamcache.api, de.benjaminborbe.streamcache.gui,
 								de.benjaminborbe.messageservice, de.benjaminborbe.messageservice.api, de.benjaminborbe.messageservice.gui, de.benjaminborbe.lunch, de.benjaminborbe.lunch.api, de.benjaminborbe.lunch.gui,
 								de.benjaminborbe.projectile, de.benjaminborbe.projectile.api, de.benjaminborbe.projectile.gui, de.benjaminborbe.wiki, de.benjaminborbe.wiki.api, de.benjaminborbe.wiki.gui,
-								de.benjaminborbe.geocaching, de.benjaminborbe.geocaching.api, de.benjaminborbe.geocaching.gui, de.benjaminborbe.checklist, de.benjaminborbe.checklist.api, de.benjaminborbe.checklist.gui 
+								de.benjaminborbe.geocaching, de.benjaminborbe.geocaching.api, de.benjaminborbe.geocaching.gui, de.benjaminborbe.checklist, de.benjaminborbe.checklist.api, de.benjaminborbe.checklist.gui,
+								de.benjaminborbe.blog, de.benjaminborbe.blog.api, de.benjaminborbe.blog.gui 
 							</includeArtifactIds>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/bundles</outputDirectory>
@@ -900,6 +901,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.checklist.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.blog</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.blog.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.blog.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

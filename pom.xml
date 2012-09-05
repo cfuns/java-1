@@ -46,6 +46,10 @@
 		<module>authorization_api</module>
 		<module>authorization_gui</module>
 		<module>authorization_test</module>
+		<module>blog</module>
+		<module>blog_api</module>
+		<module>blog_gui</module>
+		<module>blog_test</module>
 		<module>bookmark</module>
 		<module>bookmark_api</module>
 		<module>bookmark_gui</module>
