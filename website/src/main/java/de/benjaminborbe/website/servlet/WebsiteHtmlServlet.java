@@ -53,17 +53,18 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	private final class RequestDurationWidget implements Widget {
 
-		private final long now;
-
-		private RequestDurationWidget(final long now) {
-			this.now = now;
+		private RequestDurationWidget() {
 		}
 
 		@Override
 		public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PermissionDeniedException, IOException {
 			final PrintWriter out = response.getWriter();
+
+			final long now = getNowAsLong();
+			logger.trace("endTime = " + now);
 			final long startTime = parseUtil.parseLong(context.getData().get(START_TIME), now);
 			final long duration = (now - startTime);
+			logger.trace("duration = " + duration);
 			final String msg = "request takes " + duration + " ms";
 			logger.trace(msg);
 			out.print(msg);
@@ -133,7 +134,10 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 	@Override
 	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		logger.trace("service");
+		final String startTime = getNowAsString();
+		logger.trace("service startTime=" + startTime);
+		final HttpContext context = httpContextProvider.get();
+		context.getData().put(START_TIME, startTime);
 
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
@@ -153,8 +157,6 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		final HttpContext context = httpContextProvider.get();
-		context.getData().put(START_TIME, getNowAsString());
 		try {
 			final Widget widget = createHtmlWidget(request, response, context);
 			widget.render(request, response, context);
@@ -259,8 +261,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	protected Widget createFooterWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
-		final long now = getNowAsLong();
-		widgets.add(new RequestDurationWidget(now));
+		widgets.add(new RequestDurationWidget());
 		return new TagWidget("div", widgets);
 	}
 

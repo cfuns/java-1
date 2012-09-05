@@ -38,3 +38,5 @@ help:
 	echo "help"
 findwrongnamedtests:
 	find . -name "*Test.java" | grep -v UnitTest | grep -v IntegrationTest
+telnet:
+	telnet localhost 5555

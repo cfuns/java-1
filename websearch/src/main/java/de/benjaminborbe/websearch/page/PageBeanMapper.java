@@ -62,7 +62,7 @@ public class PageBeanMapper extends BaseMapper<PageBean> {
 			return new URL(url);
 		}
 		catch (final MalformedURLException e) {
-			throw new MapException("MalformedURLException - url: " + url, e);
+			throw new MapException("MalformedURLException - url: '" + url + "'", e);
 		}
 	}
 

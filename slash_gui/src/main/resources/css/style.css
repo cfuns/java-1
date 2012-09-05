@@ -1,24 +1,63 @@
 * {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 body {
-	font-family: arial, sans-serif;
+    font-family: arial, sans-serif;
 }
 
 fieldset {
-	border: none;
+    border: none;
 }
 
 a {
-	color: #1122CC;
+    color: #1122CC;
 }
 
 ul {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
-input {
-	font-size: 17px;
+.clear {
+    clear: both;
+}
+
+/**
+ * Form
+ */
+fieldset, br {
+    clear: both;
+}
+
+label {
+    width: 200px;
+}
+
+input[type="submit"] {
+	margin-left: 200px;
+}
+
+label, input, textarea {
+    float: left;
+    font-size: 17px;
+}
+
+textarea {
+	width: 800px;
+	height: 500px;
+}
+
+/**
+ * Navi
+ */
+ul#navi {
+    margin: 0px;
+    padding: 0px;
+}
+
+#navi li {
+    float: left;
+    margin-right: 5px;
+    list-style: none;
 }

@@ -1,7 +1,6 @@
 package de.benjaminborbe.navigation.gui.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,10 +17,14 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.website.link.LinkWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class NavigationGuiWidgetImpl implements NavigationWidget {
@@ -45,16 +48,16 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		logger.trace("render");
-		final PrintWriter out = response.getWriter();
-		out.println("<ul>");
+		final ListWidget widgets = new ListWidget();
+		final UlWidget ul = new UlWidget();
+		ul.addAttribute("id", "navi");
 		for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {
-			out.println("<li>");
-			out.println("<a href=\"" + buildUrl(request, navigationEntry.getURL()).toExternalForm() + "\">" + navigationEntry.getTitle() + "</a>");
-			out.println("</li>");
+			ul.add(new LinkWidget(buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
 		}
-		out.println("</ul>");
+		widgets.add(ul);
+		widgets.render(request, response, context);
 	}
 
 	protected List<NavigationEntry> sort(final Collection<NavigationEntry> all) {

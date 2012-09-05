@@ -19,11 +19,14 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.br.BrWidget;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.HtmlWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
@@ -70,8 +73,10 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier(request.getParameter(WikiGuiConstants.PARAMETER_PAGE_ID));
-
-			widgets.add(wikiService.renderPage(wikiPageIdentifier));
+			widgets.add(new HtmlWidget(wikiService.renderPage(wikiPageIdentifier)));
+			widgets.add(new BrWidget());
+			widgets.add(new LinkRelativWidget(request, "/" + WikiGuiConstants.NAME + "/" + WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL + "?" + WikiGuiConstants.PARAMETER_PAGE_ID
+					+ "=" + wikiPageIdentifier, "edit page"));
 
 			return widgets;
 		}

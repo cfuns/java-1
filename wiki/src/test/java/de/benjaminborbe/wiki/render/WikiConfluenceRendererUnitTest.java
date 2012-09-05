@@ -33,7 +33,17 @@ public class WikiConfluenceRendererUnitTest {
 			assertEquals("<" + tag.toLowerCase() + ">Headline</" + tag.toLowerCase() + ">", converter.render("" + tag + ". Headline  "));
 			assertEquals("<" + tag.toLowerCase() + ">Headline</" + tag.toLowerCase() + ">", converter.render("" + tag + ". Headline   "));
 		}
+	}
 
+	@Test
+	public void testLi() {
+		final WikiRenderer converter = new WikiConfluenceRenderer();
+		assertEquals("<ul><li>l1</li></ul>", converter.render("* l1"));
+		assertEquals("<ul><li>l1</li></ul>", converter.render("* l1\n"));
+		assertEquals("<ul><li>l1</li><li>l2</li></ul>", converter.render("* l1\n* l2"));
+		assertEquals("<ul><li>l1</li><li>l2</li></ul>", converter.render("* l1\n* l2\n"));
+		assertEquals("<ul><li>l1</li><li>l2</li><li>l3</li></ul>", converter.render("* l1\n* l2\n* l3"));
+		assertEquals("<ul><li>l1</li><li>l2</li><li>l3</li></ul>", converter.render("* l1\n* l2\n* l3\n"));
 	}
 
 }

@@ -44,26 +44,6 @@ public class WikiServiceMock implements WikiService {
 	}
 
 	@Override
-	public boolean updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) {
-		return false;
-	}
-
-	@Override
-	public boolean deletePage(final WikiPageIdentifier wikiPageIdentifier) {
-		return false;
-	}
-
-	@Override
-	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) {
-		return null;
-	}
-
-	@Override
-	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) {
-		return false;
-	}
-
-	@Override
 	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException {
 		return null;
 	}
@@ -85,6 +65,23 @@ public class WikiServiceMock implements WikiService {
 
 	@Override
 	public WikiSpaceIdentifier createSpaceIdentifier(final String id) throws WikiServiceException {
+		return null;
+	}
+
+	@Override
+	public void deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
+	}
+
+	@Override
+	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) throws WikiServiceException {
+	}
+
+	@Override
+	public void deletePage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
+	}
+
+	@Override
+	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
 		return null;
 	}
 

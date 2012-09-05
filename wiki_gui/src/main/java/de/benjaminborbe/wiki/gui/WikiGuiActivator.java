@@ -19,8 +19,12 @@ import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceCreateServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceDeleteServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceEditServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceListServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class WikiGuiActivator extends HttpBundleActivator {
@@ -80,6 +84,13 @@ public class WikiGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Wiki", "/bb/" + WikiGuiConstants.NAME)));
+		return result;
+	}
+
 	// @Override
 	// protected Collection<FilterInfo> getFilterInfos() {
 	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
@@ -88,10 +99,11 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	// }
 
 	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// return result;
-	// }
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo("/js", "js"));
+		return result;
+	}
 }

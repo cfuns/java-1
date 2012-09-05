@@ -18,7 +18,7 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 
 		// childs-checks
 		// addNode(risikoNode);
-		addNode(twentyfeetLiveNode);
+		// addNode(twentyfeetLiveNode);
 		// addNode(twentyfeetTestNode);
 
 		// tcp-checks

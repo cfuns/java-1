@@ -35,7 +35,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 	private DashboardGuiServlet dashboardServlet;
 
 	public DashboardGuiActivator() {
-		super("dashboard");
+		super(DashboardGuiConstants.NAME);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardWidget.class, dashboardWidget));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Dashboard", "/bb/dashboard")));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Dashboard", "/bb/" + DashboardGuiConstants.NAME)));
 		return result;
 	}
 

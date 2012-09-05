@@ -34,7 +34,7 @@ public class FormInputTextareaWidgetUnitTest {
 		final StringWriter stringWriter = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(stringWriter);
 		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
-		EasyMock.expect(response.getWriter()).andReturn(printWriter);
+		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
@@ -42,7 +42,7 @@ public class FormInputTextareaWidgetUnitTest {
 
 		formInputTextareaWidget.render(request, response, context);
 
-		assertEquals("<textarea name=\"" + name + "\"></textarea>", stringWriter.toString());
+		assertEquals("<textarea name=\"" + name + "\"></textarea><br/>", stringWriter.toString());
 	}
 
 	@Test

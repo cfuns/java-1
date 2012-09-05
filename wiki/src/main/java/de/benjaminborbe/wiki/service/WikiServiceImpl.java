@@ -14,6 +14,7 @@ import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageCreateException;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
+import de.benjaminborbe.wiki.api.WikiPageUpdateException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceCreateException;
@@ -146,15 +147,28 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public boolean updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) {
-		logger.trace("updatePage");
-		return false;
+	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) throws WikiServiceException, WikiPageUpdateException {
+		try {
+			logger.trace("updatePage");
+
+			if (!wikiPageDao.exists(wikiPageIdentifier)) {
+				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("page " + wikiPageIdentifier + " not found"));
+				throw new WikiPageUpdateException(validationResult);
+			}
+
+			final WikiPageBean wikiPage = wikiPageDao.load(wikiPageIdentifier);
+			wikiPage.setTitle(pageTitle);
+			wikiPage.setContent(pageContent);
+			wikiPageDao.save(wikiPage);
+		}
+		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
-	public boolean deletePage(final WikiPageIdentifier wikiPageIdentifier) {
+	public void deletePage(final WikiPageIdentifier wikiPageIdentifier) {
 		logger.trace("deletePage");
-		return false;
 	}
 
 	@Override
@@ -181,11 +195,10 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public boolean deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
+	public void deleteSpace(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
 		try {
 			logger.trace("deleteSpace");
 			wikiSpaceDao.delete(wikiSpaceIdentifier);
-			return true;
 		}
 		catch (final StorageException e) {
 			throw new WikiServiceException(e.getClass().getName(), e);

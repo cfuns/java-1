@@ -127,16 +127,33 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 		for (final DashboardContentWidget dashboardWidget : sortWidgets(dashboardWidgets)) {
 			final ThreadResult<String> result = new ThreadResult<String>();
 			results.add(result);
-			threads.add(threadRunner.run("dashboard-widget-render", new DashboardWidgetRenderRunnable(request, response, context, dashboardWidget, result, calendarUtil)));
+			threads.add(threadRunner.run("dashboard-widget-render " + dashboardWidget.getClass().getSimpleName(), new DashboardWidgetRenderRunnable(request, response, context,
+					dashboardWidget, result, calendarUtil)));
 		}
+		// wait 1 second
+		final long timeout = 1000;
+
 		// wait unitil rendering finished
 		for (final Thread thread : threads) {
 			try {
-				thread.join();
+				thread.join(timeout);
 			}
 			catch (final InterruptedException e) {
 			}
 		}
+
+		// warn not finished threads
+		for (final Thread thread : threads) {
+			if (thread.isAlive()) {
+				logger.warn("thread " + thread.getName() + " not finish in " + (timeout / 1000) + " seconds");
+				try {
+					thread.stop();
+				}
+				catch (final Exception e) {
+				}
+			}
+		}
+
 		// append output
 		for (final ThreadResult<String> result : results) {
 			final String content = result.get();

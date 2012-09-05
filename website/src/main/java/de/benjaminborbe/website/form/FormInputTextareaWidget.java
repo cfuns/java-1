@@ -1,8 +1,19 @@
 package de.benjaminborbe.website.form;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
 public class FormInputTextareaWidget extends TagWidget implements FormInputWidget {
+
+	private String label;
 
 	public FormInputTextareaWidget(final String name) {
 		super("textarea");
@@ -11,11 +22,13 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	@Override
 	public FormInputTextareaWidget addLabel(final String label) {
+		this.label = label;
 		return this;
 	}
 
 	@Override
 	public FormInputTextareaWidget addDefaultValue(final String defaultValue) {
+		addContent(new StringWidget(defaultValue));
 		return this;
 	}
 
@@ -26,6 +39,7 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	@Override
 	public FormInputTextareaWidget addId(final String id) {
+		addAttribute("id", id);
 		return this;
 	}
 
@@ -34,4 +48,13 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 		return getAttribute("name");
 	}
 
+	@Override
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+		final PrintWriter out = response.getWriter();
+		if (label != null) {
+			out.println("<label for=\"" + getName() + "\">" + label + "</label>");
+		}
+		super.render(request, response, context);
+		out.print("<br/>");
+	}
 }
