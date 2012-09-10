@@ -89,23 +89,53 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException {
-		return null;
+	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			return null;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override
-	public BlogPost getBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException {
-		return null;
+	public BlogPost getBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException,
+			LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			return null;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override
 	public void updateBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier, final String title, final String content)
 			throws BlogServiceException, BlogPostUpdateException, LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override
 	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostDeleteException,
 			LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			blogPostDao.delete(blogPostIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final StorageException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override

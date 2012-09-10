@@ -8,9 +8,9 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 
 public interface BlogService {
 
-	Collection<BlogPostIdentifier> getBlogPostIdentifiers(SessionIdentifier sessionIdentifier) throws BlogServiceException;
+	Collection<BlogPostIdentifier> getBlogPostIdentifiers(SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException;
 
-	BlogPost getBlogPost(SessionIdentifier sessionIdentifier, BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException;
+	BlogPost getBlogPost(SessionIdentifier sessionIdentifier, BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException, LoginRequiredException;
 
 	List<BlogPost> getLatestBlogPosts(SessionIdentifier sessionIdentifier) throws BlogServiceException;
 

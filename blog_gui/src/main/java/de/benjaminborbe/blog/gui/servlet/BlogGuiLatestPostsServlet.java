@@ -51,6 +51,8 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public BlogGuiLatestPostsServlet(
 			final Logger logger,
@@ -66,6 +68,7 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.authenticationService = authenticationService;
 		this.blogService = blogService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -83,7 +86,7 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<BlogPost> blogPosts = blogService.getLatestBlogPosts(sessionIdentifier);
 			for (final BlogPost blogPost : blogPosts) {
-				widgets.add(new BlogPostWidget(blogPost));
+				widgets.add(new BlogPostWidget(blogPost, urlUtil));
 			}
 			widgets.add(new BrWidget());
 			widgets.add(new LinkRelativWidget(request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_ADD_URL, "add post"));

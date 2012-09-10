@@ -38,7 +38,7 @@ public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Blog";
+	private static final String TITLE = "Blog - Delete";
 
 	private final BlogService blogService;
 
@@ -70,7 +70,7 @@ public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			logger.trace("printContent");
+			logger.debug("delete blog post");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final String title = request.getParameter(BlogGuiConstants.PARAMETER_BLOG_POST_TITLE);
@@ -83,6 +83,9 @@ public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
 				catch (final BlogPostDeleteException e) {
 					widgets.add("delete blogPost failed");
 				}
+			}
+			else {
+				widgets.add("parameter " + BlogGuiConstants.PARAMETER_BLOG_POST_TITLE + " missing");
 			}
 			return widgets;
 		}
