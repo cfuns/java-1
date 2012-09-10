@@ -9,6 +9,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -25,6 +26,9 @@ public class BlogPostWidget implements Widget {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H2Widget(blogPost.getTitle()));
 		widgets.add(blogPost.getContent());
-		widgets.render(request, response, context);
+
+		final DivWidget div = new DivWidget(widgets);
+		div.addAttribute("class", "blogpost");
+		div.render(request, response, context);
 	}
 }
