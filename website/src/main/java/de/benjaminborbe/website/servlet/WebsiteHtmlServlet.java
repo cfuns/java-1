@@ -25,6 +25,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
@@ -173,6 +174,10 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			redirectUtil.sendRedirect(request, response, e.getTarget());
 			return;
 		}
+		catch (final LoginRequiredException e) {
+			response.sendRedirect(buildLoginUrl(request));
+			return;
+		}
 	}
 
 	protected String buildLoginUrl(final HttpServletRequest request) {
@@ -211,7 +216,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
-			PermissionDeniedException {
+			PermissionDeniedException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
 		logger.trace("printHtml");
 		widgets.add(createHeadWidget(request, response, context));
@@ -220,7 +225,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected Widget createBodyWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException,
-			RedirectException {
+			RedirectException, LoginRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(createTopWidget(request, response, context));
@@ -251,7 +256,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 	}
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));

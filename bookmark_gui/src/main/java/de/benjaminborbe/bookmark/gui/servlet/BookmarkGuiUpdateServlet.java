@@ -84,7 +84,7 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -127,10 +127,6 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 		catch (final BookmarkServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		}
-		catch (final LoginRequiredException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

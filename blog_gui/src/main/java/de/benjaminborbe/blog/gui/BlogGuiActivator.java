@@ -10,21 +10,26 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
-import de.benjaminborbe.blog.gui.servlet.BlogGuiServlet;
+import de.benjaminborbe.blog.gui.servlet.BlogGuiDeletePostServlet;
+import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class BlogGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private BlogGuiServlet blogGuiServlet;
+	private BlogGuiLatestPostsServlet blogGuiLatestPostsServlet;
 
 	@Inject
 	private BlogGuiCreatePostServlet blogGuiAddPostServlet;
+
+	@Inject
+	private BlogGuiDeletePostServlet blogGuiDeletePostServlet;
 
 	public BlogGuiActivator() {
 		super(BlogGuiConstants.NAME);
@@ -38,8 +43,9 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(blogGuiServlet, BlogGuiConstants.HOME_URL));
+		result.add(new ServletInfo(blogGuiLatestPostsServlet, BlogGuiConstants.HOME_URL));
 		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
+		result.add(new ServletInfo(blogGuiDeletePostServlet, BlogGuiConstants.POST_DELETE_URL));
 		return result;
 	}
 
@@ -57,11 +63,12 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	// return result;
 	// }
 
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// return result;
-	// }
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/images", "images"));
+		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo("/js", "js"));
+		return result;
+	}
 }

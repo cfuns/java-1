@@ -26,7 +26,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogService;
-import de.benjaminborbe.blog.gui.servlet.BlogGuiServlet;
+import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -37,7 +37,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class BlogGuiServletUnitTest {
+public class BlogGuiLatestPostsServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -124,7 +124,7 @@ public class BlogGuiServletUnitTest {
 		EasyMock.expect(blogService.getLatestBlogPosts(sessionIdentifier)).andReturn(new ArrayList<BlogPost>());
 		EasyMock.replay(blogService);
 
-		final BlogGuiServlet blogServlet = new BlogGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+		final BlogGuiLatestPostsServlet blogServlet = new BlogGuiLatestPostsServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
 				redirectUtil, urlUtil, blogService);
 
 		blogServlet.service(request, response);
