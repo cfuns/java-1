@@ -177,3 +177,7 @@ blog/target
 blog_api/target
 blog_gui/target
 blog_test/target
+task/target
+task_api/target
+task_gui/target
+task_test/target
