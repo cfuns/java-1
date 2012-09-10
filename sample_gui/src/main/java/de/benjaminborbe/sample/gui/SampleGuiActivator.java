@@ -20,7 +20,7 @@ public class SampleGuiActivator extends HttpBundleActivator {
 	private SampleGuiServlet sampleGuiServlet;
 
 	public SampleGuiActivator() {
-		super("sample");
+		super(SampleGuiConstants.NAME);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class SampleGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(sampleGuiServlet, "/"));
+		result.add(new ServletInfo(sampleGuiServlet, SampleGuiConstants.HOME_URL));
 		return result;
 	}
 

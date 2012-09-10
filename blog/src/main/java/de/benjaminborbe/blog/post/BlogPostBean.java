@@ -1,0 +1,56 @@
+package de.benjaminborbe.blog.post;
+
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.blog.api.BlogPost;
+import de.benjaminborbe.blog.api.BlogPostIdentifier;
+import de.benjaminborbe.storage.tools.Entity;
+
+public class BlogPostBean implements Entity<BlogPostIdentifier>, BlogPost {
+
+	private static final long serialVersionUID = -1631188424667532085L;
+
+	private BlogPostIdentifier id;
+
+	private String content;
+
+	private String title;
+
+	private UserIdentifier creator;
+
+	@Override
+	public BlogPostIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final BlogPostIdentifier id) {
+		this.id = id;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(final String content) {
+		this.content = content;
+	}
+
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+
+	public void setCreator(final UserIdentifier creator) {
+		this.creator = creator;
+	}
+
+	public UserIdentifier getCreator() {
+		return creator;
+	}
+
+}

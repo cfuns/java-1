@@ -97,4 +97,9 @@ create column family dhl with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
-    
+
+drop column family blog_post;
+create column family blog_post with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;

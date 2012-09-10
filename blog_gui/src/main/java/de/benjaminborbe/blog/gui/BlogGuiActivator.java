@@ -9,9 +9,13 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
+import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class BlogGuiActivator extends HttpBundleActivator {
@@ -19,8 +23,11 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	@Inject
 	private BlogGuiServlet blogGuiServlet;
 
+	@Inject
+	private BlogGuiCreatePostServlet blogGuiAddPostServlet;
+
 	public BlogGuiActivator() {
-		super("blog");
+		super(BlogGuiConstants.NAME);
 	}
 
 	@Override
@@ -31,7 +38,15 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(blogGuiServlet, "/"));
+		result.add(new ServletInfo(blogGuiServlet, BlogGuiConstants.HOME_URL));
+		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Blog", "/bb/" + BlogGuiConstants.NAME)));
 		return result;
 	}
 

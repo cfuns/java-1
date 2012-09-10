@@ -62,7 +62,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public SessionIdentifier createSessionIdentifier(final HttpServletRequest request) throws AuthenticationServiceException {
-		return null;
+		return new SessionIdentifier("test");
 	}
 
 	@Override

@@ -83,7 +83,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return bookmarks;
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException("StorageException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -97,10 +97,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return bookmarks;
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException("AuthenticationServiceException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException("StorageException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -193,10 +193,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 			bookmarkDao.save(bookmark);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException("AuthenticationServiceException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException("StorageException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -207,7 +207,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return new BookmarkIdentifier(userIdentifier.getId() + "-" + url);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException("BookmarkServiceException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -222,7 +222,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			bookmarkDao.delete(bookmark);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException("StorageException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -268,10 +268,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return bookmark;
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException("StorageException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException("AuthenticationServiceException", e);
+			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 }

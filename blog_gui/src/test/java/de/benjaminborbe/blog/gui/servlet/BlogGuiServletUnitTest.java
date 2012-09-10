@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,8 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.blog.api.BlogPost;
+import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -117,8 +120,12 @@ public class BlogGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final BlogService blogService = EasyMock.createMock(BlogService.class);
+		EasyMock.expect(blogService.getLatestBlogPosts(sessionIdentifier)).andReturn(new ArrayList<BlogPost>());
+		EasyMock.replay(blogService);
+
 		final BlogGuiServlet blogServlet = new BlogGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil);
+				redirectUtil, urlUtil, blogService);
 
 		blogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
