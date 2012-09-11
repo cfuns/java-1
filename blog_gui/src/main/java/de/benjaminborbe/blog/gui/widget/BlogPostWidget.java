@@ -38,8 +38,11 @@ public class BlogPostWidget implements Widget {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PermissionDeniedException, IOException {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H2Widget(blogPost.getTitle()));
-		widgets.add("created: " + calendarUtil.toDateTimeString(blogPost.getCreated()));
-		widgets.add("modified: " + calendarUtil.toDateTimeString(blogPost.getModified()));
+		final UlWidget metaInfos = new UlWidget();
+		metaInfos.add("author: " + blogPost.getCreator());
+		metaInfos.add("created: " + (blogPost.getCreated() != null ? calendarUtil.toDateTimeString(blogPost.getCreated()) : "-"));
+		metaInfos.add("modified: " + (blogPost.getModified() != null ? calendarUtil.toDateTimeString(blogPost.getModified()) : "-"));
+		widgets.add(metaInfos);
 		final String content = blogPost.getContent();
 		final String[] parts = content.split("\n");
 		for (final String part : parts) {
@@ -59,5 +62,4 @@ public class BlogPostWidget implements Widget {
 		div.addAttribute("class", "blogpost");
 		div.render(request, response, context);
 	}
-
 }

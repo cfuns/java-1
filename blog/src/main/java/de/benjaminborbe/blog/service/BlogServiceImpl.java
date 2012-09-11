@@ -101,7 +101,13 @@ public class BlogServiceImpl implements BlogService {
 			blogPost.setTitle(title);
 			blogPost.setContent(content);
 			blogPost.setModified(calendarUtil.now());
-
+			if (blogPost.getCreated() == null) {
+				blogPost.setCreated(calendarUtil.now());
+			}
+			if (blogPost.getCreator() == null) {
+				final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+				blogPost.setCreator(userIdentifier);
+			}
 			final ValidationResult errors = validationExecutor.validate(blogPost);
 			if (errors.hasErrors()) {
 				logger.warn("BlogPost " + errors.toString());

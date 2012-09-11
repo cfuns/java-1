@@ -6,6 +6,10 @@ public class DivWidget extends TagWidget {
 
 	private static final String TAG = "div";
 
+	public DivWidget() {
+		super(TAG);
+	}
+
 	public DivWidget(final Widget contentWidget) {
 		super(TAG, contentWidget);
 	}
