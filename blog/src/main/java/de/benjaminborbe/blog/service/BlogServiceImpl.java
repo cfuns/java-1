@@ -66,8 +66,39 @@ public class BlogServiceImpl implements BlogService {
 				logger.warn("BlogPost " + errors.toString());
 				throw new BlogPostCreationException(errors);
 			}
-			blogPostDao.save(blogPost);
-			return id;
+			else {
+				blogPostDao.save(blogPost);
+				logger.debug("blogPost created");
+				return id;
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final StorageException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public void updateBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier, final String title, final String content)
+			throws BlogServiceException, BlogPostUpdateException, LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			final BlogPostBean blogPost = blogPostDao.load(blogPostIdentifier);
+			blogPost.setTitle(title);
+			blogPost.setContent(content);
+
+			final ValidationResult errors = validationExecutor.validate(blogPost);
+			if (errors.hasErrors()) {
+				logger.warn("BlogPost " + errors.toString());
+				throw new BlogPostUpdateException(errors);
+			}
+			else {
+				logger.debug("blogPost updated");
+				blogPostDao.save(blogPost);
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);
@@ -105,18 +136,6 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			return null;
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public void updateBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier, final String title, final String content)
-			throws BlogServiceException, BlogPostUpdateException, LoginRequiredException {
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);

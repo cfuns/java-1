@@ -12,6 +12,7 @@ import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiDeletePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
+import de.benjaminborbe.blog.gui.servlet.BlogGuiUpdatePostServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
@@ -21,6 +22,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class BlogGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private BlogGuiUpdatePostServlet blogGuiUpdatePostServlet;
 
 	@Inject
 	private BlogGuiLatestPostsServlet blogGuiLatestPostsServlet;
@@ -46,6 +50,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(blogGuiLatestPostsServlet, BlogGuiConstants.HOME_URL));
 		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
 		result.add(new ServletInfo(blogGuiDeletePostServlet, BlogGuiConstants.POST_DELETE_URL));
+		result.add(new ServletInfo(blogGuiUpdatePostServlet, BlogGuiConstants.POST_UPDATE_URL));
 		return result;
 	}
 

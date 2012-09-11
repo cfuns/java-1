@@ -37,10 +37,10 @@ public class BlogPostWidget implements Widget {
 
 		final UlWidget options = new UlWidget();
 		options.addAttribute("class", "options");
-		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_EDIT_URL, new MapChain<String, String>().add(
-				BlogGuiConstants.PARAMETER_BLOG_POST_TITLE, blogPost.getTitle()), "edit"));
+		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_UPDATE_URL, new MapChain<String, String>().add(
+				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "edit"));
 		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL, new MapChain<String, String>().add(
-				BlogGuiConstants.PARAMETER_BLOG_POST_TITLE, blogPost.getTitle()), "delete"));
+				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "delete"));
 		widgets.add(options);
 
 		final DivWidget div = new DivWidget(widgets);
