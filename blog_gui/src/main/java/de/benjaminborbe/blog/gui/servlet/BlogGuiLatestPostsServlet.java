@@ -86,7 +86,7 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<BlogPost> blogPosts = blogService.getLatestBlogPosts(sessionIdentifier);
 			for (final BlogPost blogPost : blogPosts) {
-				widgets.add(new BlogPostWidget(blogPost, urlUtil));
+				widgets.add(new BlogPostWidget(blogPost, urlUtil, calendarUtil));
 			}
 			widgets.add(new BrWidget());
 			widgets.add(new LinkRelativWidget(request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_ADD_URL, "add post"));

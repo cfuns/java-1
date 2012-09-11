@@ -185,4 +185,11 @@ public class CalendarUtilImpl implements CalendarUtil {
 		}
 	}
 
+	@Override
+	public Calendar getCalendar(final long timeInMillis) {
+		final Calendar result = now();
+		result.setTimeInMillis(timeInMillis);
+		return result;
+	}
+
 }

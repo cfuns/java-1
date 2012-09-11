@@ -1,5 +1,7 @@
 package de.benjaminborbe.blog.api;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface BlogPost {
@@ -11,4 +13,8 @@ public interface BlogPost {
 	String getContent();
 
 	UserIdentifier getCreator();
+
+	Calendar getCreated();
+
+	Calendar getModified();
 }

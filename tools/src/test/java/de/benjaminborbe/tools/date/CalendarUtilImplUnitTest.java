@@ -2,31 +2,33 @@ package de.benjaminborbe.tools.date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 public class CalendarUtilImplUnitTest {
 
 	@Test
-	public void testtoDateString() {
+	public void testToDateString() {
 		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals("2011-12-24", u.toDateString(calendar));
 	}
 
 	@Test
-	public void testtoHourString() {
+	public void testToHourString() {
 		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals("20:15:13", u.toTimeString(calendar));
 	}
 
 	@Test
-	public void testgetCalendar() {
+	public void testGetCalendar() {
 		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		assertEquals(TimeZone.getTimeZone("UTF8"), calendar.getTimeZone());
@@ -49,7 +51,7 @@ public class CalendarUtilImplUnitTest {
 	}
 
 	@Test
-	public void testaddDays() {
+	public void testAddDays() {
 		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 		final Calendar clone = u.addDays(calendar, 1);
@@ -134,6 +136,40 @@ public class CalendarUtilImplUnitTest {
 			final Calendar calendar1 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 			final Calendar calendar2 = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2010, 11, 24, 20, 15, 13);
 			assertFalse(u.dayEquals(calendar1, calendar2));
+		}
+	}
+
+	@Test
+	public void testGetCalendarByTimestamp() {
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(TimeZone.getTimeZone("UTF8"));
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(null, timeZoneUtil);
+		long time;
+		{
+			final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
+			assertNotNull(calendar);
+			assertEquals(TimeZone.getTimeZone("UTF8"), calendar.getTimeZone());
+			assertEquals(2011, calendar.get(Calendar.YEAR));
+			assertEquals(11, calendar.get(Calendar.MONTH));
+			assertEquals(24, calendar.get(Calendar.DAY_OF_MONTH));
+			assertEquals(20, calendar.get(Calendar.HOUR_OF_DAY));
+			assertEquals(15, calendar.get(Calendar.MINUTE));
+			assertEquals(13, calendar.get(Calendar.SECOND));
+			assertEquals(1324757713000l, calendar.getTimeInMillis());
+			time = calendar.getTimeInMillis();
+		}
+		{
+			final Calendar calendar = u.getCalendar(time);
+			assertNotNull(calendar);
+			assertEquals(TimeZone.getTimeZone("UTF8"), calendar.getTimeZone());
+			assertEquals(2011, calendar.get(Calendar.YEAR));
+			assertEquals(11, calendar.get(Calendar.MONTH));
+			assertEquals(24, calendar.get(Calendar.DAY_OF_MONTH));
+			assertEquals(20, calendar.get(Calendar.HOUR_OF_DAY));
+			assertEquals(15, calendar.get(Calendar.MINUTE));
+			assertEquals(13, calendar.get(Calendar.SECOND));
+			assertEquals(1324757713000l, calendar.getTimeInMillis());
 		}
 	}
 }

@@ -26,6 +26,7 @@ import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.post.BlogPostBean;
 import de.benjaminborbe.blog.post.BlogPostDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
@@ -39,12 +40,20 @@ public class BlogServiceImpl implements BlogService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public BlogServiceImpl(final Logger logger, final BlogPostDao blogPostDao, final AuthenticationService authenticationService, final ValidationExecutor validationExecutor) {
+	public BlogServiceImpl(
+			final Logger logger,
+			final BlogPostDao blogPostDao,
+			final AuthenticationService authenticationService,
+			final ValidationExecutor validationExecutor,
+			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.blogPostDao = blogPostDao;
 		this.authenticationService = authenticationService;
 		this.validationExecutor = validationExecutor;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -60,6 +69,8 @@ public class BlogServiceImpl implements BlogService {
 			blogPost.setTitle(title);
 			blogPost.setContent(content);
 			blogPost.setCreator(userIdentifier);
+			blogPost.setCreated(calendarUtil.now());
+			blogPost.setModified(calendarUtil.now());
 
 			final ValidationResult errors = validationExecutor.validate(blogPost);
 			if (errors.hasErrors()) {
@@ -89,6 +100,7 @@ public class BlogServiceImpl implements BlogService {
 			final BlogPostBean blogPost = blogPostDao.load(blogPostIdentifier);
 			blogPost.setTitle(title);
 			blogPost.setContent(content);
+			blogPost.setModified(calendarUtil.now());
 
 			final ValidationResult errors = validationExecutor.validate(blogPost);
 			if (errors.hasErrors()) {
@@ -123,9 +135,12 @@ public class BlogServiceImpl implements BlogService {
 	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
-			return null;
+			return blogPostDao.getIdentifiers();
 		}
 		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final StorageException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -135,9 +150,19 @@ public class BlogServiceImpl implements BlogService {
 			LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
-			return null;
+
+			final BlogPostBean result = blogPostDao.load(blogPostIdentifier);
+			if (result == null) {
+				throw new BlogPostNotFoundException("no blogpost with id " + blogPostIdentifier + " found");
+			}
+			else {
+				return result;
+			}
 		}
 		catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final StorageException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

@@ -1,5 +1,7 @@
 package de.benjaminborbe.blog.post;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
@@ -16,6 +18,10 @@ public class BlogPostBean implements Entity<BlogPostIdentifier>, BlogPost {
 	private String title;
 
 	private UserIdentifier creator;
+
+	private Calendar created;
+
+	private Calendar modified;
 
 	@Override
 	public BlogPostIdentifier getId() {
@@ -49,8 +55,25 @@ public class BlogPostBean implements Entity<BlogPostIdentifier>, BlogPost {
 		this.creator = creator;
 	}
 
+	@Override
 	public UserIdentifier getCreator() {
 		return creator;
+	}
+
+	public Calendar getCreated() {
+		return created;
+	}
+
+	public Calendar getModified() {
+		return modified;
+	}
+
+	public void setCreated(final Calendar created) {
+		this.created = created;
+	}
+
+	public void setModified(final Calendar modified) {
+		this.modified = modified;
 	}
 
 }
