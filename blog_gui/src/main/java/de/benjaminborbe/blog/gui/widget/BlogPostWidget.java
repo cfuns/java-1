@@ -10,6 +10,7 @@ import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.DivWidget;
@@ -36,9 +37,10 @@ public class BlogPostWidget implements Widget {
 
 		final UlWidget options = new UlWidget();
 		options.addAttribute("class", "options");
-		options.add(new LinkRelativWidget(request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_EDIT_URL, "edit"));
-		options.add(new LinkRelativWidget(request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL + "?" + BlogGuiConstants.PARAMETER_BLOG_POST_TITLE + "="
-				+ urlUtil.encode(blogPost.getTitle()), "delete"));
+		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_EDIT_URL, new MapChain<String, String>().add(
+				BlogGuiConstants.PARAMETER_BLOG_POST_TITLE, blogPost.getTitle()), "edit"));
+		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL, new MapChain<String, String>().add(
+				BlogGuiConstants.PARAMETER_BLOG_POST_TITLE, blogPost.getTitle()), "delete"));
 		widgets.add(options);
 
 		final DivWidget div = new DivWidget(widgets);

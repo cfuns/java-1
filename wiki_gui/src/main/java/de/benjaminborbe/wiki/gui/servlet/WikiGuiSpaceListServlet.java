@@ -19,6 +19,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.br.BrWidget;
@@ -44,6 +45,8 @@ public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
 
 	private final WikiService wikiService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public WikiGuiSpaceListServlet(
 			final Logger logger,
@@ -58,6 +61,7 @@ public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
 			final WikiService wikiService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.wikiService = wikiService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
 				if (spaces.size() > 0) {
 					final UlWidget ul = new UlWidget();
 					for (final WikiSpaceIdentifier space : spaces) {
-						ul.add(new LinkRelativWidget(request, "/wiki/page/list?" + WikiGuiConstants.PARAMETER_SPACE_ID + "=" + space.getId(), space.getId()));
+						ul.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/list", new MapChain<String, String>().add(WikiGuiConstants.PARAMETER_SPACE_ID, space.getId()), space.getId()));
 					}
 					widgets.add(ul);
 				}

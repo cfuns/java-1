@@ -34,6 +34,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -99,9 +100,9 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 				b.add(" | [");
 				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), keywordsToString(bookmark)).addTarget(target));
 				b.add("] | ");
-				b.add(new LinkRelativWidget(request, "/bookmark/update?url=" + urlUtil.encode(bookmark.getUrl()), "edit"));
+				b.add(new LinkRelativWidget(urlUtil, request, "/bookmark/update", new MapChain<String, String>().add("url", bookmark.getUrl()), "edit"));
 				b.add(" ");
-				b.add(new LinkRelativWidget(request, "/bookmark/delete?url=" + urlUtil.encode(bookmark.getUrl()), "delete"));
+				b.add(new LinkRelativWidget(urlUtil, request, "/bookmark/delete", new MapChain<String, String>().add("url", bookmark.getUrl()), "delete"));
 				ul.add(b);
 			}
 			widgets.add(ul);

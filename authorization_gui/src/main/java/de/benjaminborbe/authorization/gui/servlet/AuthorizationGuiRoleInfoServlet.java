@@ -22,6 +22,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -41,6 +42,8 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 
 	private final AuthorizationService authorizationSerivce;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public AuthorizationGuiRoleInfoServlet(
 			final Logger logger,
@@ -55,6 +58,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.authorizationSerivce = authorizationSerivce;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -78,7 +82,8 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 				final UlWidget ul = new UlWidget();
 				for (final UserIdentifier userIdentifier : authenticationService.userList()) {
 					if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
-						ul.add(new LinkRelativWidget(request, "/authorization/user/info?" + AuthorizationGuiParameter.PARAMETER_USER + "=" + userIdentifier.getId(), userIdentifier.getId()));
+						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapChain<String, String>().add(AuthorizationGuiParameter.PARAMETER_USER,
+								userIdentifier.getId()), userIdentifier.getId()));
 					}
 				}
 				widgets.add(ul);
@@ -91,8 +96,8 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 					ul.add(permissionIdentifier.getId());
 				}
 				widgets.add(ul);
-				widgets
-						.add(new LinkRelativWidget(request, "/authorization/role/addPermission?" + AuthorizationGuiParameter.PARAMETER_ROLE + "=" + roleIdentifier.getId(), "add permission"));
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/addPermission", new MapChain<String, String>().add(AuthorizationGuiParameter.PARAMETER_ROLE,
+						roleIdentifier.getId()), "add permission"));
 			}
 			return widgets;
 		}

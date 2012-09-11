@@ -17,6 +17,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -44,6 +45,8 @@ public class WikiGuiPageListServlet extends WebsiteHtmlServlet {
 
 	private final WikiService wikiService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public WikiGuiPageListServlet(
 			final Logger logger,
@@ -58,6 +61,7 @@ public class WikiGuiPageListServlet extends WebsiteHtmlServlet {
 			final WikiService wikiService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.wikiService = wikiService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -80,11 +84,12 @@ public class WikiGuiPageListServlet extends WebsiteHtmlServlet {
 				final UlWidget ul = new UlWidget();
 				for (final WikiPageIdentifier wikiPageIdentifier : wikiService.getPageIdentifiers(wikiSpaceIdentifier)) {
 					final WikiPage page = wikiService.getPage(wikiPageIdentifier);
-					ul.add(new LinkRelativWidget(request, "/wiki/page/show?" + WikiGuiConstants.PARAMETER_PAGE_ID + "=" + page.getId() + "&" + WikiGuiConstants.PARAMETER_SPACE_ID + "="
-							+ wikiSpaceIdentifier, page.getTitle()));
+					ul.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/show", new MapChain<String, String>().add(WikiGuiConstants.PARAMETER_PAGE_ID, page.getId().getId()).add(
+							WikiGuiConstants.PARAMETER_SPACE_ID, wikiSpaceIdentifier.getId()), page.getTitle()));
 				}
 				widgets.add(ul);
-				widgets.add(new LinkRelativWidget(request, "/wiki/page/create?" + WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier.getId(), "add page"));
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/create", new MapChain<String, String>().add(WikiGuiConstants.PARAMETER_SPACE_ID,
+						wikiSpaceIdentifier.getId()), "add page"));
 			}
 			return widgets;
 		}

@@ -20,6 +20,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -37,6 +38,8 @@ public class AuthorizationGuiUserListServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Authorization - Users";
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public AuthorizationGuiUserListServlet(
 			final Logger logger,
@@ -49,6 +52,7 @@ public class AuthorizationGuiUserListServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -65,7 +69,8 @@ public class AuthorizationGuiUserListServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			for (final UserIdentifier userIdentifier : authenticationService.userList()) {
-				ul.add(new LinkRelativWidget(request, "/authorization/user/info?" + AuthorizationGuiParameter.PARAMETER_USER + "=" + userIdentifier.getId(), userIdentifier.getId()));
+				ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapChain<String, String>().add(AuthorizationGuiParameter.PARAMETER_USER,
+						userIdentifier.getId()), userIdentifier.getId()));
 			}
 			widgets.add(ul);
 			return widgets;

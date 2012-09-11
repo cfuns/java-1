@@ -2,6 +2,7 @@ package de.benjaminborbe.websearch.gui.servlet;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.Page;
@@ -62,6 +64,8 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	private final DateUtil dateUtil;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public WebsearchGuiListPagesServlet(
 			final Logger logger,
@@ -78,6 +82,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
 		this.websearchService = websearchService;
 		this.dateUtil = dateUtil;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -116,7 +121,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		return result;
 	}
 
-	protected Widget buildPageWidget(final Page page, final HttpServletRequest request) throws MalformedURLException {
+	protected Widget buildPageWidget(final Page page, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		final ListWidget widgets = new ListWidget();
 		final URL url = page.getUrl();
 		widgets.add(new LinkWidget(url, url.toExternalForm()));
@@ -130,7 +135,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		}
 		sw.append(" ");
 		widgets.add(sw.toString());
-		widgets.add(new LinkRelativWidget(request, "/websearch/expire?url=" + url.toExternalForm(), "expire "));
+		widgets.add(new LinkRelativWidget(urlUtil, request, "/websearch/expire", new MapChain<String, String>().add("url", url.toExternalForm()), "expire "));
 		return widgets;
 	}
 }
