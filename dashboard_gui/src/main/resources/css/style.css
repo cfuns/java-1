@@ -1,6 +1,6 @@
 .dashboardWidget {
 	border: 1px solid;
-	margin: 10px;
+	margin: 5px 10px 5px 0px;
 	padding: 5px;
 	width: 400px;
 	height: 300px;
@@ -9,8 +9,4 @@
 
 .dashboardWidget h2 {
 	margin: 0px;
-}
-
-.clear {
-	clear: both;
 }

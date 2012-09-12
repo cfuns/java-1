@@ -42,11 +42,13 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.CssResourceWidget;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.HtmlWidget;
 import de.benjaminborbe.website.util.JavascriptResourceWidget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
 @Singleton
@@ -228,26 +230,33 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			RedirectException, LoginRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(createTopWidget(request, response, context));
-		widgets.add(createContentWidget(request, response, context));
-		widgets.add(createFooterWidget(request, response, context));
+		widgets.add(new DivWidget(createTopWidget(request, response, context)).addAttribute("id", "header"));
+		widgets.add(new DivWidget(createContentWidget(request, response, context)).addAttribute("id", "content"));
+		widgets.add(new DivWidget(createFooterWidget(request, response, context)).addAttribute("id", "footer"));
 		return new TagWidget("body", widgets);
 	}
 
 	protected Widget createTopWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+		logger.trace("printTop");
+		final ListWidget widgets = new ListWidget();
+		widgets.add(navigationWidget);
+		widgets.add(createLoginStatusWidget(request, response, context));
+		return widgets;
+	}
+
+	protected Widget createLoginStatusWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException {
 		try {
-			logger.trace("printTop");
 			final ListWidget widgets = new ListWidget();
-			widgets.add(navigationWidget);
 			final SessionIdentifier sessionId = authenticationService.createSessionIdentifier(request);
 			if (authenticationService.isLoggedIn(sessionId)) {
-				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
+				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId) + " ");
 				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
 			}
 			else {
 				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
 			}
-			return new TagWidget("div", widgets);
+			return new SpanWidget(widgets).addAttribute("id", "loginStatus");
 		}
 		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
@@ -267,7 +276,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new RequestDurationWidget());
-		return new TagWidget("div", widgets);
+		return widgets;
 	}
 
 	protected Widget createHeadWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {

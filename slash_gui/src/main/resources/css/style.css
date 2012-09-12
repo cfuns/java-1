@@ -1,46 +1,47 @@
 * {
-    margin: 0px;
-    padding: 0px;
+	margin: 0px;
+	padding: 0px;
 }
 
 body {
-    font-family: arial, sans-serif;
+	font-family: arial, sans-serif;
 }
 
 fieldset {
-    border: none;
+	border: none;
 }
 
 a {
-    color: #1122CC;
+	color: #1122CC;
 }
 
 ul {
-    margin-left: 20px;
+	margin-left: 20px;
 }
 
 .clear {
-    clear: both;
+	clear: both;
 }
 
 /**
  * Form
  */
 fieldset, br {
-    clear: both;
+	clear: both;
 }
 
 label {
-    width: 200px;
+	width: 200px;
 }
 
-input[type="submit"] {
+input[type =
+"submit"] {
 	margin-left: 200px;
 }
 
 label, input, textarea {
-    float: left;
-    font-size: 17px;
+	float: left;
+	font-size: 17px;
 }
 
 textarea {
@@ -52,12 +53,30 @@ textarea {
  * Navi
  */
 ul#navi {
-    margin: 0px;
-    padding: 0px;
+	display: inline;
+	margin: 0px;
+	padding: 0px;
 }
 
-#navi li {
-    float: left;
-    margin-right: 5px;
-    list-style: none;
+ul#navi li {
+	display: inline;
+	margin-right: 5px;
+	list-style: none;
 }
+
+#loginStatus {
+	float: right;
+}
+
+#content {
+	clear: both;
+}
+
+#header {
+	background-color: #CCCCCC;
+}
+
+#header, #footer, #content {
+	padding: 2px 10px 2px 10px;
+}
+

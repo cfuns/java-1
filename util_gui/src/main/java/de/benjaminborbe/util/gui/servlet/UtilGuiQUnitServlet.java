@@ -31,10 +31,10 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.TagWidget;
 
 @Singleton
 public class UtilGuiQUnitServlet extends WebsiteHtmlServlet {
@@ -86,7 +86,7 @@ public class UtilGuiQUnitServlet extends WebsiteHtmlServlet {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-		widgets.add(new TagWidget("div", "").addAttribute("id", "qunit"));
+		widgets.add(new DivWidget().addAttribute("id", "qunit"));
 		widgets.add(new LinkWidget(new URL("http://qunitjs.com/"), "QUnit-Homepage"));
 		return widgets;
 	}
