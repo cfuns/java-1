@@ -7,12 +7,18 @@ import java.util.Set;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.google.inject.Inject;
+
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.util.api.UtilService;
 import de.benjaminborbe.util.guice.UtilModules;
 
 public class UtilActivator extends BaseBundleActivator {
+
+	@Inject
+	private UtilService utilService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -22,7 +28,7 @@ public class UtilActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		// result.add(new ServiceInfo(UtilService.class, utilService));
+		result.add(new ServiceInfo(UtilService.class, utilService));
 		return result;
 	}
 

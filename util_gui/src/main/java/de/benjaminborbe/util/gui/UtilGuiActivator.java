@@ -14,6 +14,7 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.util.gui.guice.UtilGuiModules;
+import de.benjaminborbe.util.gui.servlet.UtilGuiCalcServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiDayDiffServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
@@ -21,6 +22,9 @@ import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 
 public class UtilGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private UtilGuiCalcServlet utilGuiCalcServlet;
 
 	@Inject
 	private UtilGuiDayDiffServlet utilGuiDayDiffServlet;
@@ -50,6 +54,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(utilServlet, "/"));
+		result.add(new ServletInfo(utilGuiCalcServlet, "/calc"));
 		result.add(new ServletInfo(utilPasswordGeneratorServlet, "/passwordGenerator"));
 		result.add(new ServletInfo(utilGuiTimeConvertServlet, "/timeConvert"));
 		result.add(new ServletInfo(utilGuiDayDiffServlet, "/daydiff"));
