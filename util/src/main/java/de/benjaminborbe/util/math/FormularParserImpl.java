@@ -1,10 +1,6 @@
 package de.benjaminborbe.util.math;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import com.google.inject.Inject;
 
 public class FormularParserImpl implements FormularParser {
@@ -13,22 +9,23 @@ public class FormularParserImpl implements FormularParser {
 
 	private final static String BRACKET_CLOSE = ")";
 
-	private final Set<String> operations = new HashSet<String>(Arrays.asList("+", "/", "*", "-"));
-
-	private final Set<String> functions = new HashSet<String>(Arrays.asList("add"));
-
-	private final Set<String> constants = new HashSet<String>(Arrays.asList("pi"));
-
-	private final Set<String> brackets = new HashSet<String>(Arrays.asList("(", ")"));
-
 	private final Tokenizer tokenizer;
 
 	private final CompareUtil compareUtil;
 
+	private final Functions functions;
+
+	private final Operations operations;
+
+	private final Constants constants;
+
 	@Inject
-	public FormularParserImpl(final Tokenizer tokenizer, final CompareUtil compareUtil) {
+	public FormularParserImpl(final Tokenizer tokenizer, final CompareUtil compareUtil, final Functions functions, final Operations operations, final Constants constants) {
 		this.tokenizer = tokenizer;
 		this.compareUtil = compareUtil;
+		this.functions = functions;
+		this.operations = operations;
+		this.constants = constants;
 	}
 
 	@Override
@@ -54,30 +51,42 @@ public class FormularParserImpl implements FormularParser {
 		if (posEnd < posStart) {
 			return null;
 		}
+		HasValue value = null;
+		boolean firstElement = true;
 		for (int i = posStart; i <= posEnd; ++i) {
 			final String token = tokens.get(i);
-			if (isBracketOpen(token)) {
+			if (isNumber(token)) {
+				value = new Number(token);
+			}
+			else if (isConstant(token)) {
+				value = getConstant(token);
+			}
+			else if (isBracketOpen(token)) {
 				return parse(tokens, i + 1, posEnd);
 			}
-			if (isBracketClose(token)) {
-				return parseExpression(tokens.subList(posStart, i));
+			else if (isBracketClose(token) && !firstElement) {
 			}
+			else if (isFunction(token)) {
+			}
+			else if (isOperation(token) && value != null) {
+				final HasValue valueA = value;
+				final HasValue valueB = parse(tokens, i + 1, posEnd);
+				value = getOperation(valueA, token, valueB);
+			}
+			else {
+				throw new FormularParseException("can't parse token: " + token);
+			}
+			firstElement = false;
 		}
-		if (posEnd == posStart) {
-			return null;
-		}
-		return parseExpression(tokens.subList(posStart, posEnd));
+		return value;
 	}
 
-	public HasValue parseExpression(final List<String> tokens) {
-		// System.err.println("parseExpression: " + StringUtils.join(tokens, " # "));
-		for (int i = 0; i <= tokens.size(); ++i) {
-			final String token = tokens.get(i);
-			if (isNumber(token)) {
-				return new Number(token);
-			}
-		}
-		throw null;
+	private HasValue getOperation(final HasValue valueA, final String token, final HasValue valueB) {
+		return operations.getByName(token, valueA, valueB);
+	}
+
+	private HasValue getConstant(final String token) {
+		return constants.getByName(token);
 	}
 
 	private boolean isNumber(final String token) {
@@ -85,11 +94,11 @@ public class FormularParserImpl implements FormularParser {
 	}
 
 	private boolean isOperation(final String token) {
-		return operations.contains(token);
+		return operations.existsByName(token);
 	}
 
 	private boolean isFunction(final String token) {
-		return functions.contains(token);
+		return functions.existsByName(token);
 	}
 
 	private boolean isBracketOpen(final String token) {
@@ -101,7 +110,7 @@ public class FormularParserImpl implements FormularParser {
 	}
 
 	private boolean isConstant(final String token) {
-		return constants.contains(token);
+		return constants.existsByName(token);
 	}
 
 }

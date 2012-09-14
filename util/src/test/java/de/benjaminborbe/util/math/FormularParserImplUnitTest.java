@@ -12,7 +12,10 @@ public class FormularParserImplUnitTest {
 	public void testParse() throws Exception {
 		final CompareUtil compareUtil = new CompareUtil();
 		final Tokenizer tokenizer = new TokenizerImpl(compareUtil);
-		final FormularParser parser = new FormularParserImpl(tokenizer, compareUtil);
+		final Functions functions = new Functions();
+		final Operations operations = new Operations();
+		final Constants constants = new Constants();
+		final FormularParser parser = new FormularParserImpl(tokenizer, compareUtil, functions, operations, constants);
 		try {
 			parser.parse(null);
 			fail("ExpressionParseException expected");

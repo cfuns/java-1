@@ -1,6 +1,8 @@
 package de.benjaminborbe.util.math;
 
-public interface Constant {
+public class Constant extends Number {
 
-	double getValue();
+	public Constant(final String value) {
+		super(value);
+	}
 }
