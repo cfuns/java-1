@@ -39,6 +39,12 @@ public class FormularParserImplUnitTest {
 		assertEquals(12d, parser.parse(" 12 ").getValue(), 0.1d);
 		assertEquals(123d, parser.parse(" 123 ").getValue(), 0.1d);
 		assertEquals(123d, parser.parse(" 123 ").getValue(), 0.1d);
+
+		assertEquals(1d, parser.parse("1").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("(1)").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("((1))").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("(((1)))").getValue(), 0.1d);
+
 		// assertEquals(3d, parser.parse("1+2").getValue(), 0.1d);
 		// assertEquals(6d, parser.parse("1+2+3").getValue(), 0.1d);
 		// assertEquals(3d, parser.parse(" 1 + 2 ").getValue(), 0.1d);

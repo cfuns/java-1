@@ -37,14 +37,47 @@ public class FormularParserImpl implements FormularParser {
 			throw new FormularParseException(formular);
 		}
 		final List<String> tokens = tokenizer.tokenize(formular);
+		final HasValue result = parse(tokens);
+		if (result == null) {
+			throw new FormularParseException(formular);
+		}
+		else {
+			return result;
+		}
+	}
 
-		for (final String token : tokens) {
-			if (isNumber(token)) {
-				return new Number(Double.parseDouble(token));
+	public HasValue parse(final List<String> tokens) throws FormularParseException {
+		return parse(tokens, 0, tokens.size() - 1);
+	}
+
+	public HasValue parse(final List<String> tokens, final int posStart, final int posEnd) throws FormularParseException {
+		if (posEnd < posStart) {
+			return null;
+		}
+		for (int i = posStart; i <= posEnd; ++i) {
+			final String token = tokens.get(i);
+			if (isBracketOpen(token)) {
+				return parse(tokens, i + 1, posEnd);
+			}
+			if (isBracketClose(token)) {
+				return parseExpression(tokens.subList(posStart, i));
 			}
 		}
+		if (posEnd == posStart) {
+			return null;
+		}
+		return parseExpression(tokens.subList(posStart, posEnd));
+	}
 
-		throw new FormularParseException(formular);
+	public HasValue parseExpression(final List<String> tokens) {
+		// System.err.println("parseExpression: " + StringUtils.join(tokens, " # "));
+		for (int i = 0; i <= tokens.size(); ++i) {
+			final String token = tokens.get(i);
+			if (isNumber(token)) {
+				return new Number(token);
+			}
+		}
+		throw null;
 	}
 
 	private boolean isNumber(final String token) {
