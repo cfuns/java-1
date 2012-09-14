@@ -9,8 +9,8 @@ import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.util.api.UtilService;
 import de.benjaminborbe.util.math.FormularParser;
 import de.benjaminborbe.util.math.FormularParserImpl;
-import de.benjaminborbe.util.math.Tokenizer;
-import de.benjaminborbe.util.math.TokenizerImpl;
+import de.benjaminborbe.util.math.tokenizer.Tokenizer;
+import de.benjaminborbe.util.math.tokenizer.TokenizerImpl;
 import de.benjaminborbe.util.service.UtilServiceImpl;
 
 public class UtilModule extends AbstractModule {

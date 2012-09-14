@@ -1,9 +1,11 @@
-package de.benjaminborbe.util.math;
+package de.benjaminborbe.util.math.tokenizer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+
+import de.benjaminborbe.util.math.CompareUtil;
 
 public class TokenizerImpl implements Tokenizer {
 
@@ -44,18 +46,17 @@ public class TokenizerImpl implements Tokenizer {
 					if (compareUtil.isLetter(currentChar)) {
 						wordStart = currentPos;
 					}
-					if (compareUtil.isOperationOrBracket(currentChar)) {
-						result.add(String.valueOf(currentChar));
-					}
 				}
-				if (numberStart != -1) {
-					if (!compareUtil.isDigestOrDot(currentChar)) {
-						numberEnd = currentPos;
+				else {
+					if (numberStart != -1) {
+						if (!compareUtil.isDigestOrDot(currentChar)) {
+							numberEnd = currentPos;
+						}
 					}
-				}
-				if (wordStart != -1) {
-					if (!compareUtil.isLetter(currentChar)) {
-						wordEnd = currentPos;
+					if (wordStart != -1) {
+						if (!compareUtil.isLetter(currentChar)) {
+							wordEnd = currentPos;
+						}
 					}
 				}
 			}
@@ -68,6 +69,12 @@ public class TokenizerImpl implements Tokenizer {
 				result.add(new String(chars, numberStart, numberEnd - numberStart));
 				numberStart = -1;
 				numberEnd = -1;
+			}
+			if (currentPos != chars.length) {
+				final char currentChar = chars[currentPos];
+				if (compareUtil.isOperationOrBracket(currentChar)) {
+					result.add(String.valueOf(currentChar));
+				}
 			}
 		}
 		return result;

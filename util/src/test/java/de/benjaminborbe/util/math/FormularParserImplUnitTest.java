@@ -6,16 +6,17 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import de.benjaminborbe.util.math.constant.Constants;
+import de.benjaminborbe.util.math.function.Functions;
+import de.benjaminborbe.util.math.operation.Operations;
+import de.benjaminborbe.util.math.tokenizer.Tokenizer;
+import de.benjaminborbe.util.math.tokenizer.TokenizerImpl;
+
 public class FormularParserImplUnitTest {
 
 	@Test
 	public void testParse() throws Exception {
-		final CompareUtil compareUtil = new CompareUtil();
-		final Tokenizer tokenizer = new TokenizerImpl(compareUtil);
-		final Functions functions = new Functions();
-		final Operations operations = new Operations();
-		final Constants constants = new Constants();
-		final FormularParser parser = new FormularParserImpl(tokenizer, compareUtil, functions, operations, constants);
+		final FormularParser parser = buildParser();
 		try {
 			parser.parse(null);
 			fail("ExpressionParseException expected");
@@ -48,9 +49,47 @@ public class FormularParserImplUnitTest {
 		assertEquals(1d, parser.parse("((1))").getValue(), 0.1d);
 		assertEquals(1d, parser.parse("(((1)))").getValue(), 0.1d);
 
-		// assertEquals(3d, parser.parse("1+2").getValue(), 0.1d);
-		// assertEquals(6d, parser.parse("1+2+3").getValue(), 0.1d);
-		// assertEquals(3d, parser.parse(" 1 + 2 ").getValue(), 0.1d);
-		// assertEquals(6d, parser.parse(" 1 + 2 + 3 ").getValue(), 0.1d);
+		assertEquals(5d, parser.parse("2+3").getValue(), 0.1d);
+		assertEquals(6d, parser.parse("2*3").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("3-2").getValue(), 0.1d);
+		assertEquals(2d, parser.parse("4/2").getValue(), 0.1d);
+
+		assertEquals(5d, parser.parse("(2+3)").getValue(), 0.1d);
+		assertEquals(5d, parser.parse("(2)+(3)").getValue(), 0.1d);
+		assertEquals(5d, parser.parse("((2)+(3))").getValue(), 0.1d);
+
+		assertEquals(3.14159d, parser.parse("pi").getValue(), 0.1d);
+		assertEquals(4.14159d, parser.parse("pi+1").getValue(), 0.1d);
+		assertEquals(4.14159d, parser.parse("1+pi").getValue(), 0.1d);
+
+		assertEquals(3d, parser.parse("1+2").getValue(), 0.1d);
+		assertEquals(6d, parser.parse("1+2+3").getValue(), 0.1d);
+		assertEquals(3d, parser.parse(" 1 + 2 ").getValue(), 0.1d);
+		assertEquals(6d, parser.parse(" 1 + 2 + 3 ").getValue(), 0.1d);
+
+		assertEquals(6d, parser.parse("2*3").getValue(), 0.1d);
+		assertEquals(24d, parser.parse("2*3*4").getValue(), 0.1d);
+		assertEquals(6d, parser.parse(" 2 * 3 ").getValue(), 0.1d);
+		assertEquals(24d, parser.parse(" 2 * 3 * 4 ").getValue(), 0.1d);
+
+		// assertEquals(1d, parser.parse("3-2").getValue(), 0.1d);
+		// assertEquals(1d, parser.parse("6-3-2").getValue(), 0.1d);
+		// assertEquals(1d, parser.parse(" 3 - 2 ").getValue(), 0.1d);
+		// assertEquals(24d, parser.parse(" 6 - 3 - 2 ").getValue(), 0.1d);
+		//
+		// assertEquals(2d, parser.parse("4/2").getValue(), 0.1d);
+		// assertEquals(1d, parser.parse("8/4/2").getValue(), 0.1d);
+		// assertEquals(2d, parser.parse(" 4 / 2 ").getValue(), 0.1d);
+		// assertEquals(1d, parser.parse(" 8 / 4 / 2 ").getValue(), 0.1d);
+	}
+
+	protected FormularParser buildParser() {
+		final CompareUtil compareUtil = new CompareUtil();
+		final Tokenizer tokenizer = new TokenizerImpl(compareUtil);
+		final Functions functions = new Functions();
+		final Operations operations = new Operations();
+		final Constants constants = new Constants();
+		final FormularParser parser = new FormularParserImpl(tokenizer, compareUtil, functions, operations, constants);
+		return parser;
 	}
 }

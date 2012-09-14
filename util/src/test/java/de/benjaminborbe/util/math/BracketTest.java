@@ -8,13 +8,13 @@ public class BracketTest {
 
 	@Test
 	public void testValue() throws Exception {
-		final Bracket addition = new Bracket(new Number("13.37"));
+		final Bracket addition = new Bracket(new NumberValue("13.37"));
 		assertEquals(13.37d, addition.getValue(), 0d);
 	}
 
 	@Test
 	public void testAsString() throws Exception {
-		final Bracket addition = new Bracket(new Number("13.37"));
+		final Bracket addition = new Bracket(new NumberValue("13.37"));
 		assertEquals("(13.37)", addition.asString());
 	}
 }

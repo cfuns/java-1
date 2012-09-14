@@ -1,12 +1,12 @@
 package de.benjaminborbe.util.math;
 
-public class Number implements HasValue {
+public class NumberValue implements HasValue {
 
 	private final long value;
 
 	private final long offset;
 
-	public Number(final String value) {
+	public NumberValue(final String value) {
 		final int pos = value.indexOf('.');
 		if (pos == -1) {
 			this.value = Long.parseLong(value);

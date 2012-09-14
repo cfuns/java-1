@@ -1,4 +1,4 @@
-package de.benjaminborbe.util.math;
+package de.benjaminborbe.util.math.function;
 
 import java.util.Arrays;
 import java.util.HashSet;

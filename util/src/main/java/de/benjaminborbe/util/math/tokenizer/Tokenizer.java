@@ -1,4 +1,4 @@
-package de.benjaminborbe.util.math;
+package de.benjaminborbe.util.math.tokenizer;
 
 import java.util.List;
 

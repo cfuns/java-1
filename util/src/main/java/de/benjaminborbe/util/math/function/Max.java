@@ -1,6 +1,8 @@
-package de.benjaminborbe.util.math;
+package de.benjaminborbe.util.math.function;
 
 import java.io.StringWriter;
+
+import de.benjaminborbe.util.math.HasValue;
 
 public class Max implements HasValue {
 

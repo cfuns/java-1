@@ -3,6 +3,11 @@ package de.benjaminborbe.util.math;
 import java.util.List;
 import com.google.inject.Inject;
 
+import de.benjaminborbe.util.math.constant.Constants;
+import de.benjaminborbe.util.math.function.Functions;
+import de.benjaminborbe.util.math.operation.Operations;
+import de.benjaminborbe.util.math.tokenizer.Tokenizer;
+
 public class FormularParserImpl implements FormularParser {
 
 	private final static String BRACKET_OPEN = "(";
@@ -34,13 +39,14 @@ public class FormularParserImpl implements FormularParser {
 			throw new FormularParseException(formular);
 		}
 		final List<String> tokens = tokenizer.tokenize(formular);
+		if (tokens.size() == 0) {
+			throw new FormularParseException(formular);
+		}
 		final HasValue result = parse(tokens);
 		if (result == null) {
 			throw new FormularParseException(formular);
 		}
-		else {
-			return result;
-		}
+		return result;
 	}
 
 	public HasValue parse(final List<String> tokens) throws FormularParseException {
@@ -48,15 +54,17 @@ public class FormularParserImpl implements FormularParser {
 	}
 
 	public HasValue parse(final List<String> tokens, final int posStart, final int posEnd) throws FormularParseException {
-		if (posEnd < posStart) {
-			return null;
-		}
 		HasValue value = null;
 		boolean firstElement = true;
 		for (int i = posStart; i <= posEnd; ++i) {
 			final String token = tokens.get(i);
 			if (isNumber(token)) {
-				value = new Number(token);
+				value = new NumberValue(token);
+			}
+			else if (isOperation(token) && value != null) {
+				final HasValue valueA = value;
+				final HasValue valueB = parse(tokens, i + 1, posEnd);
+				return getOperation(token, valueA, valueB);
 			}
 			else if (isConstant(token)) {
 				value = getConstant(token);
@@ -68,11 +76,6 @@ public class FormularParserImpl implements FormularParser {
 			}
 			else if (isFunction(token)) {
 			}
-			else if (isOperation(token) && value != null) {
-				final HasValue valueA = value;
-				final HasValue valueB = parse(tokens, i + 1, posEnd);
-				value = getOperation(valueA, token, valueB);
-			}
 			else {
 				throw new FormularParseException("can't parse token: " + token);
 			}
@@ -81,12 +84,12 @@ public class FormularParserImpl implements FormularParser {
 		return value;
 	}
 
-	private HasValue getOperation(final HasValue valueA, final String token, final HasValue valueB) {
-		return operations.getByName(token, valueA, valueB);
+	private HasValue getOperation(final String operation, final HasValue valueA, final HasValue valueB) {
+		return operations.get(operation, valueA, valueB);
 	}
 
-	private HasValue getConstant(final String token) {
-		return constants.getByName(token);
+	private HasValue getConstant(final String constant) {
+		return constants.get(constant);
 	}
 
 	private boolean isNumber(final String token) {
@@ -94,7 +97,7 @@ public class FormularParserImpl implements FormularParser {
 	}
 
 	private boolean isOperation(final String token) {
-		return operations.existsByName(token);
+		return operations.exists(token);
 	}
 
 	private boolean isFunction(final String token) {
@@ -110,7 +113,7 @@ public class FormularParserImpl implements FormularParser {
 	}
 
 	private boolean isConstant(final String token) {
-		return constants.existsByName(token);
+		return constants.exists(token);
 	}
 
 }
