@@ -4,16 +4,10 @@ import java.io.StringWriter;
 
 import de.benjaminborbe.util.math.HasValue;
 
-public class Max implements HasValue {
-
-	private final HasValue[] values;
-
-	public Max(final HasValue... values) {
-		this.values = values;
-	}
+public class Max implements Function {
 
 	@Override
-	public double getValue() {
+	public final double calucate(final HasValue... values) {
 		double result = values[0].getValue();
 		for (final HasValue value : values) {
 			result = Math.max(result, value.getValue());
@@ -22,7 +16,7 @@ public class Max implements HasValue {
 	}
 
 	@Override
-	public String asString() {
+	public String asString(final HasValue... values) {
 		final StringWriter sw = new StringWriter();
 		sw.append("max(");
 		boolean first = true;
