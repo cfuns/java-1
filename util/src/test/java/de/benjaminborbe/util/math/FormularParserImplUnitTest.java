@@ -72,15 +72,15 @@ public class FormularParserImplUnitTest {
 		assertEquals(6d, parser.parse(" 2 * 3 ").getValue(), 0.1d);
 		assertEquals(24d, parser.parse(" 2 * 3 * 4 ").getValue(), 0.1d);
 
-		// assertEquals(1d, parser.parse("3-2").getValue(), 0.1d);
-		// assertEquals(1d, parser.parse("6-3-2").getValue(), 0.1d);
-		// assertEquals(1d, parser.parse(" 3 - 2 ").getValue(), 0.1d);
-		// assertEquals(24d, parser.parse(" 6 - 3 - 2 ").getValue(), 0.1d);
-		//
-		// assertEquals(2d, parser.parse("4/2").getValue(), 0.1d);
-		// assertEquals(1d, parser.parse("8/4/2").getValue(), 0.1d);
-		// assertEquals(2d, parser.parse(" 4 / 2 ").getValue(), 0.1d);
-		// assertEquals(1d, parser.parse(" 8 / 4 / 2 ").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("3-2").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("6-3-2").getValue(), 0.1d);
+		assertEquals(1d, parser.parse(" 3 - 2 ").getValue(), 0.1d);
+		assertEquals(1d, parser.parse(" 6 - 3 - 2 ").getValue(), 0.1d);
+
+		assertEquals(2d, parser.parse("4/2").getValue(), 0.1d);
+		assertEquals(1d, parser.parse("8/4/2").getValue(), 0.1d);
+		assertEquals(2d, parser.parse(" 4 / 2 ").getValue(), 0.1d);
+		assertEquals(1d, parser.parse(" 8 / 4 / 2 ").getValue(), 0.1d);
 	}
 
 	protected FormularParser buildParser() {

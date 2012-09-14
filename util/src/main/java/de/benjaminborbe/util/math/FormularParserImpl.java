@@ -56,23 +56,23 @@ public class FormularParserImpl implements FormularParser {
 	public HasValue parse(final List<String> tokens, final int posStart, final int posEnd) throws FormularParseException {
 		HasValue value = null;
 		boolean firstElement = true;
-		for (int i = posStart; i <= posEnd; ++i) {
+		for (int i = posEnd; i >= posStart; --i) {
 			final String token = tokens.get(i);
 			if (isNumber(token)) {
 				value = new NumberValue(token);
 			}
 			else if (isOperation(token) && value != null) {
-				final HasValue valueA = value;
-				final HasValue valueB = parse(tokens, i + 1, posEnd);
+				final HasValue valueA = parse(tokens, posStart, i - 1);
+				final HasValue valueB = value;
 				return getOperation(token, valueA, valueB);
 			}
 			else if (isConstant(token)) {
 				value = getConstant(token);
 			}
-			else if (isBracketOpen(token)) {
-				return parse(tokens, i + 1, posEnd);
+			else if (isBracketOpen(token) && !firstElement) {
 			}
-			else if (isBracketClose(token) && !firstElement) {
+			else if (isBracketClose(token)) {
+				return parse(tokens, posStart, i - 1);
 			}
 			else if (isFunction(token)) {
 			}
