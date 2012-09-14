@@ -1,6 +1,6 @@
 package de.benjaminborbe.util.math;
 
-public interface HasValue {
+public interface Constant {
 
 	double getValue();
 }
