@@ -181,3 +181,7 @@ task/target
 task_api/target
 task_gui/target
 task_test/target
+forum/target
+forum_api/target
+forum_gui/target
+forum_test/target
