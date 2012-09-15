@@ -1,7 +1,14 @@
 package de.benjaminborbe.wiki.render;
 
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import de.benjaminborbe.wiki.render.part.Part;
+import de.benjaminborbe.wiki.render.part.StringPart;
 
 @Singleton
 public class WikiConfluenceRenderer implements WikiRenderer {
@@ -12,61 +19,59 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 
 	@Override
 	public String render(final String markup) {
-		final StringBuffer result = new StringBuffer();
+		final Headlines headlines = new Headlines();
+		final List<Part> parts = new ArrayList<Part>();
 		final String[] lines = markup.split("\n");
 		boolean multilineMode = false;
 		boolean ulOpen = false;
 		for (final String line : lines) {
+			final String lineLowerCase = line.toLowerCase();
 			if (line.indexOf("* ") == 0) {
 				multilineMode = true;
 				if (!ulOpen) {
-					result.append("<ul>");
+					parts.add(new StringPart("<ul>"));
 					ulOpen = true;
 				}
-				result.append("<li>");
-				result.append(line.substring(2));
-				result.append("</li>");
+				parts.add(new StringPart("<li>"));
+				parts.add(new StringPart(line.substring(2)));
+				parts.add(new StringPart("</li>"));
 			}
 			else {
 				multilineMode = false;
 				if (ulOpen) {
-					result.append("</ul>");
+					parts.add(new StringPart("</ul>"));
 					ulOpen = false;
 				}
 			}
 			if (!multilineMode) {
-				result.append(renderSingleLine(line));
+				int pos;
+				if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
+					final String title = line.substring(pos + 3).trim();
+					parts.add(headlines.createHead1Part(title));
+				}
+				else if ((pos = lineLowerCase.indexOf("h2.")) != -1) {
+					final String title = line.substring(pos + 3).trim();
+					parts.add(headlines.createHead2Part(title));
+				}
+				else if ((pos = lineLowerCase.indexOf("h3.")) != -1) {
+					final String title = line.substring(pos + 3).trim();
+					parts.add(headlines.createHead3Part(title));
+				}
+				else if ((pos = lineLowerCase.indexOf("{toc}")) != -1) {
+					parts.add(headlines.createTocPart());
+				}
+				else {
+					parts.add(new StringPart(line));
+				}
 			}
 		}
 		if (ulOpen) {
-			result.append("</ul>");
+			parts.add(new StringPart("</ul>"));
+		}
+		final StringWriter result = new StringWriter();
+		for (final Part part : parts) {
+			result.append(part.asString());
 		}
 		return result.toString();
 	}
-
-	private String renderSingleLine(final String line) {
-		final StringBuffer result = new StringBuffer();
-		final String lineLowerCase = line.toLowerCase();
-		int pos;
-		if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
-			result.append("<h1>");
-			result.append(line.substring(pos + 3).trim());
-			result.append("</h1>");
-		}
-		else if ((pos = lineLowerCase.indexOf("h2.")) != -1) {
-			result.append("<h2>");
-			result.append(line.substring(pos + 3).trim());
-			result.append("</h2>");
-		}
-		else if ((pos = lineLowerCase.indexOf("h3.")) != -1) {
-			result.append("<h3>");
-			result.append(line.substring(pos + 3).trim());
-			result.append("</h3>");
-		}
-		else {
-			result.append(line);
-		}
-		return result.toString();
-	}
-
 }
