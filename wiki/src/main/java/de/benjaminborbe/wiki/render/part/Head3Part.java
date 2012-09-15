@@ -18,4 +18,9 @@ public class Head3Part implements Part {
 	public String asString() {
 		return "<h3><a name=\"" + head1 + "-" + head2 + "-" + title + "\"></a>" + title + "</h3>";
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
 }
