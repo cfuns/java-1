@@ -30,8 +30,9 @@ public class WikiConfluenceRendererUnitTest {
 	public void testRenderToc() throws Exception {
 		final WikiRenderer converter = new WikiConfluenceRenderer();
 		assertEquals("", converter.render("{toc}"));
-		assertEquals("<ul><li>head1</li></ul><h1><a name=\"head1\"></a>head1</h1>", converter.render("{toc}\nh1. head1 "));
-		assertEquals("<ul><li>head1a</li><li>head1b</li></ul><h1><a name=\"head1a\"></a>head1a</h1><h1><a name=\"head1b\"></a>head1b</h1>",
+		assertEquals("<ul><li><a href=\"#head1\">head1</a></li></ul><h1><a name=\"head1\"></a>head1</h1>", converter.render("{toc}\nh1. head1 "));
+		assertEquals(
+				"<ul><li><a href=\"#head1a\">head1a</a></li><li><a href=\"#head1b\">head1b</a></li></ul><h1><a name=\"head1a\"></a>head1a</h1><h1><a name=\"head1b\"></a>head1b</h1>",
 				converter.render("{toc}\nh1. head1a\nh1. head1b"));
 	}
 

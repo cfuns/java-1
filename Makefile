@@ -28,6 +28,11 @@ buildblog:
 	cd blog && make all
 	cd blog_gui && make all
 	cd blog_test && make all
+buildwiki:
+	cd wiki_api && make all
+	cd wiki && make all
+	cd wiki_gui && make all
+	cd wiki_test && make all
 buildbookmark:
 	cd bookmark_api && make all
 	cd bookmark && make all
