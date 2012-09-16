@@ -46,10 +46,8 @@ public abstract class WebsiteWidgetServlet extends HttpServlet {
 		logger.trace("service startTime=" + startTime);
 		final HttpContext context = httpContextProvider.get();
 		context.getData().put(WebsiteConstants.START_TIME, startTime);
-
 		final Widget widget = createWidget(request, response, context);
 		widget.render(request, response, context);
-
 		logger.debug("serice end");
 	}
 

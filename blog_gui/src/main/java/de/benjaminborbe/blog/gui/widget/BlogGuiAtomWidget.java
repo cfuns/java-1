@@ -45,7 +45,7 @@ public class BlogGuiAtomWidget implements Widget {
 			out.println("<summary>" + entry.getSummary() + "</summary>");
 			out.println("<content type=\"xhtml\">");
 			out.println("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
-			out.println(entry.getTitle());
+			out.println(entry.getContent());
 			out.println("</div>");
 			out.println("</content>");
 			out.println("</entry>");

@@ -1,7 +1,8 @@
 package de.benjaminborbe.blog.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
+import de.benjaminborbe.blog.gui.atom.Entry;
+import de.benjaminborbe.blog.gui.atom.EntryBean;
 import de.benjaminborbe.blog.gui.atom.Feed;
 import de.benjaminborbe.blog.gui.atom.FeedBean;
 import de.benjaminborbe.blog.gui.widget.BlogGuiAtomWidget;
@@ -49,24 +52,26 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 		feed.setId(request.getRequestURL().toString());
 		feed.setUpdated("2012-09-16T11:50:09+02:00");
 		feed.setAuthor(author);
+		feed.setEntries(createEntries(request, response, context));
 		return feed;
 	}
 
-	void printEntry(final PrintWriter out) {
-		out.println("<entry>");
-		out.println("<title>Title</title>");
-		out.println("<link href=\"http://www.heise.de/newsticker/meldung/Studie-Mit-der-Bildung-steigt-die-Leidenschaft-fuer-Computerspiele-1708799.html/from/atom10\" />");
-		out.println("<id>http://heise.de/-1708799</id>");
-		out.println("<published>2012-09-16T11:50:00+02:00</published>");
-		out.println("<updated>2012-09-16T11:50:09+02:00</updated>");
-		out.println("<summary>Je höher der Bildungsabschluss, desto größer der Anteil von Spiele-Nutzern – diesen Zusammenhang will der IT-Branchenverband Bitkom durch eine von ihm beauftragte Umfrage belegen.</summary>");
-		out.println("<content type=\"xhtml\">");
-		out.println("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
-		out.println("<a href=\"http://www.heise.de/newsticker/meldung/Studie-Mit-der-Bildung-steigt-die-Leidenschaft-fuer-Computerspiele-1708799.html/from/atom10\" title=\"Studie: Mit der Bildung steigt die Leidenschaft für Computerspiele\"><img  src=\"http://www.heise.de/imgs/18/9/1/8/9/6/7/d271db08dea74ff1.jpeg\" width=\"100\" height=\"75\" alt=\"\" title=\"\" style=\"float: left; margin-right: 15px; margin-top: 3px;\"/></a>");
-		out.println("<p>Je höher der Bildungsabschluss, desto größer der Anteil von Spiele-Nutzern – diesen Zusammenhang will der IT-Branchenverband Bitkom durch eine von ihm beauftragte Umfrage belegen.</p>");
-		out.println("</div>");
-		out.println("</content>");
-		out.println("</entry>");
+	private List<Entry> createEntries(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) {
+		final List<Entry> entries = new ArrayList<Entry>();
+		entries.add(createEntry(request, response, context));
+		return entries;
+	}
+
+	private Entry createEntry(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) {
+		final EntryBean entry = new EntryBean();
+		entry.setTitle("Title");
+		entry.setId("123");
+		entry.setLink("http://bb/123");
+		entry.setPublished("2012-09-16T11:50:00+02:00");
+		entry.setUpdated("2012-09-16T11:50:09+02:00");
+		entry.setSummary("summary");
+		entry.setContent("<h1>Content</h1>");
+		return entry;
 	}
 
 }
