@@ -43,6 +43,8 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 
 	private final AuthorizationService authorizationService;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthorizationGuiRoleCreateServlet(
 			final Logger logger,
@@ -55,8 +57,9 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.authorizationService = authorizationService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

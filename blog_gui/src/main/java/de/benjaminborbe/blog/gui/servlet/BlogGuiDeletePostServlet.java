@@ -44,6 +44,8 @@ public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
 	public BlogGuiDeletePostServlet(
 			final Logger logger,
@@ -56,9 +58,10 @@ public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final BlogService blogService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.blogService = blogService;
+		this.logger = logger;
 	}
 
 	@Override

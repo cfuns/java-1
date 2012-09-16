@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
@@ -23,7 +22,7 @@ public class JavascriptResourceWidget implements Widget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final HtmlListWidget widgets = new HtmlListWidget();
 		for (final JavascriptResource javascriptResource : javascriptResources) {
 			widgets.add("<script type=\"text/javascript\" src=\"" + javascriptResource.getUrl() + "\"></script>\n");

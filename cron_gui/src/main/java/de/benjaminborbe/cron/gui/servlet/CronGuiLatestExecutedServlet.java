@@ -39,6 +39,8 @@ public class CronGuiLatestExecutedServlet extends WebsiteHtmlServlet {
 
 	private final int AMOUNT = 20;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public CronGuiLatestExecutedServlet(
 			final Logger logger,
@@ -51,8 +53,9 @@ public class CronGuiLatestExecutedServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final CronService cronService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.cronService = cronService;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override

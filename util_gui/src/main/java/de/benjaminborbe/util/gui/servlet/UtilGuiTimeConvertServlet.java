@@ -44,6 +44,8 @@ public class UtilGuiTimeConvertServlet extends WebsiteHtmlServlet {
 
 	private final UtilGuiTimeConvert utilGuiTimeConvert;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public UtilGuiTimeConvertServlet(
 			final Logger logger,
@@ -56,8 +58,9 @@ public class UtilGuiTimeConvertServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final UtilGuiTimeConvert utilGuiTimeConvert) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.utilGuiTimeConvert = utilGuiTimeConvert;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override

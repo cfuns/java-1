@@ -50,6 +50,8 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 
 	private final WikiService wikiService;
 
+	private final Logger logger;
+
 	@Inject
 	public WikiGuiPageEditServlet(
 			final Logger logger,
@@ -62,7 +64,8 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final WikiService wikiService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 		this.wikiService = wikiService;
 	}
 

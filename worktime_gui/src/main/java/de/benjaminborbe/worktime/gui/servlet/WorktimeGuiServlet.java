@@ -50,7 +50,7 @@ public class WorktimeGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.worktimeDashboardWidget = worktimeDashboardWidget;
 	}
 

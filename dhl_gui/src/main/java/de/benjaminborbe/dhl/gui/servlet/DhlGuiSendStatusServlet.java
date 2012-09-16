@@ -41,6 +41,10 @@ public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
 
 	private final DhlService dhlService;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public DhlGuiSendStatusServlet(
 			final Logger logger,
@@ -53,8 +57,10 @@ public class DhlGuiSendStatusServlet extends WebsiteHtmlServlet {
 			final DhlService dhlService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.dhlService = dhlService;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

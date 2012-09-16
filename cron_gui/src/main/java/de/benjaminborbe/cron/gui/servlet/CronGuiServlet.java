@@ -26,7 +26,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.HtmlWidget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
@@ -44,6 +44,8 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 
 	private final CronController cronController;
 
+	private final Logger logger;
+
 	@Inject
 	public CronGuiServlet(
 			final Logger logger,
@@ -56,7 +58,8 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 		this.cronController = cronController;
 	}
 
@@ -89,7 +92,7 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 	}
 
 	protected Widget createUsageWidget(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		return new HtmlWidget("parameter " + PARAMETER_ACTION + " missing or value != " + ACTION_START + " or " + ACTION_STOP);
+		return new HtmlContentWidget("parameter " + PARAMETER_ACTION + " missing or value != " + ACTION_START + " or " + ACTION_STOP);
 	}
 
 	@Override

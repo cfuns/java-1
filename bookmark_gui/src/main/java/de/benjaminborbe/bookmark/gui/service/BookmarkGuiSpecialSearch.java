@@ -14,7 +14,6 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
@@ -52,7 +51,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 			final String[] words = searchUtil.buildSearchParts(searchQuery.substring(searchQuery.indexOf(":") + 1).trim());

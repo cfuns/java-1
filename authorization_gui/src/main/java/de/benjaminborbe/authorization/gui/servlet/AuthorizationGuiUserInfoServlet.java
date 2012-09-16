@@ -46,6 +46,10 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthorizationGuiUserInfoServlet(
 			final Logger logger,
@@ -58,9 +62,11 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationSerivce,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
-		this.authorizationSerivce = authorizationSerivce;
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.urlUtil = urlUtil;
+		this.logger = logger;
+		this.authorizationSerivce = authorizationSerivce;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

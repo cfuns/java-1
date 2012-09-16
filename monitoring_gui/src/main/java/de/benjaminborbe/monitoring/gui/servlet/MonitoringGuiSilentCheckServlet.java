@@ -46,6 +46,8 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 
 	private final MonitoringService monitoringService;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public MonitoringGuiSilentCheckServlet(
 			final Logger logger,
@@ -58,8 +60,9 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 			final MonitoringService monitoringService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.monitoringService = monitoringService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

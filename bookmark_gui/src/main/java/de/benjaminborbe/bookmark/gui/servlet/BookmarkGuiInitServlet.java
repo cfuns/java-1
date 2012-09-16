@@ -41,6 +41,10 @@ public class BookmarkGuiInitServlet extends WebsiteHtmlServlet {
 
 	private final BookmarkInit bookmarkInit;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public BookmarkGuiInitServlet(
 			final Logger logger,
@@ -53,8 +57,10 @@ public class BookmarkGuiInitServlet extends WebsiteHtmlServlet {
 			final BookmarkInit bookmarkInit,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.bookmarkInit = bookmarkInit;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

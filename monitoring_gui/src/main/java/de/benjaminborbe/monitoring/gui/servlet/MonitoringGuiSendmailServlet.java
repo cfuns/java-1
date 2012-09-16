@@ -37,6 +37,8 @@ public class MonitoringGuiSendmailServlet extends WebsiteHtmlServlet {
 
 	private final MonitoringService monitoringService;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public MonitoringGuiSendmailServlet(
 			final Logger logger,
@@ -49,8 +51,9 @@ public class MonitoringGuiSendmailServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final MonitoringService monitoringService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.monitoringService = monitoringService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

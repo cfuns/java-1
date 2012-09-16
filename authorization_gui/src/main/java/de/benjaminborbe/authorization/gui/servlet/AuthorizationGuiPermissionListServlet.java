@@ -39,6 +39,8 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 
 	private final AuthorizationService authorizationService;
 
+	private final Logger logger;
+
 	@Inject
 	public AuthorizationGuiPermissionListServlet(
 			final Logger logger,
@@ -51,8 +53,9 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.authorizationService = authorizationService;
+		this.logger = logger;
 	}
 
 	@Override

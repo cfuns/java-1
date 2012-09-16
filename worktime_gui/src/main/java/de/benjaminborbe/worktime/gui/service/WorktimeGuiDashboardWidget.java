@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -56,7 +55,7 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final int dayAmount = parseUtil.parseInt(request.getParameter(PARAMETER_LIMIT), DEFAULT_DAY_AMOUNT);
 		logger.trace("dayAmount = " + dayAmount);
 		final ListWidget widgets = new ListWidget();

@@ -59,7 +59,7 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			logger.trace("render");
 			final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
@@ -89,6 +89,10 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 			exceptionWidget.render(request, response, context);
 		}
 		catch (final MonitoringServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
+		catch (final PermissionDeniedException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
 		}

@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
@@ -49,7 +48,7 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
 		if (label != null) {
 			out.println("<label for=\"" + getName() + "\">" + label + "</label>");

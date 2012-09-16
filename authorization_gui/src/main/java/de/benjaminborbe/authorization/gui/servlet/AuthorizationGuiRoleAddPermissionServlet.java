@@ -44,6 +44,10 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 
 	private final AuthorizationService authorizationService;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthorizationGuiRoleAddPermissionServlet(
 			final Logger logger,
@@ -56,8 +60,10 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 		this.authorizationService = authorizationService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

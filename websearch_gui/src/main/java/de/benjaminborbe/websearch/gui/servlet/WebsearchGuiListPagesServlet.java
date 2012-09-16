@@ -66,6 +66,10 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public WebsearchGuiListPagesServlet(
 			final Logger logger,
@@ -79,10 +83,12 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			final DateUtil dateUtil,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.websearchService = websearchService;
 		this.dateUtil = dateUtil;
 		this.urlUtil = urlUtil;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

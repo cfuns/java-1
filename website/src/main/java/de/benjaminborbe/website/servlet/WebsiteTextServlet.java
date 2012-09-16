@@ -1,8 +1,6 @@
 package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +10,6 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 
@@ -33,15 +30,9 @@ public abstract class WebsiteTextServlet extends HttpServlet {
 		logger.trace("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/plain");
-		try {
-			final HttpContext context = new HttpContext();
-			final Widget widget = createContentWidget(request, response, context);
-			widget.render(request, response, context);
-		}
-		catch (final PermissionDeniedException e) {
-			final PrintWriter out = response.getWriter();
-			e.printStackTrace(out);
-		}
+		final HttpContext context = new HttpContext();
+		final Widget widget = createContentWidget(request, response, context);
+		widget.render(request, response, context);
 	}
 
 	protected abstract Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException;

@@ -14,7 +14,6 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -45,6 +44,10 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 
 	private static final String PARAMETER_PASSWORD_NEW_REPEAT = "password_new_repeat";
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthenticationGuiChangePasswordServlet(
 			final Logger logger,
@@ -56,7 +59,9 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -65,8 +70,7 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();

@@ -1,18 +1,15 @@
 package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,56 +42,32 @@ import de.benjaminborbe.website.util.CssResourceWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.HtmlWidget;
 import de.benjaminborbe.website.util.JavascriptResourceWidget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
 @Singleton
-public abstract class WebsiteHtmlServlet extends HttpServlet {
-
-	private final class RequestDurationWidget implements Widget {
-
-		private RequestDurationWidget() {
-		}
-
-		@Override
-		public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PermissionDeniedException, IOException {
-			final PrintWriter out = response.getWriter();
-
-			final long now = getNowAsLong();
-			logger.trace("endTime = " + now);
-			final long startTime = parseUtil.parseLong(context.getData().get(START_TIME), now);
-			final long duration = (now - startTime);
-			logger.trace("duration = " + duration);
-			final String msg = "request takes " + duration + " ms";
-			logger.trace(msg);
-			out.print(msg);
-		}
-	}
+public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	private static final long serialVersionUID = 1544940069187374367L;
 
-	private static final String START_TIME = "start_time";
+	private final Logger logger;
 
-	protected final Logger logger;
+	private final NavigationWidget navigationWidget;
 
-	protected final CalendarUtil calendarUtil;
-
-	protected final TimeZoneUtil timeZoneUtil;
-
-	protected final ParseUtil parseUtil;
-
-	protected final NavigationWidget navigationWidget;
-
-	protected final Provider<HttpContext> httpContextProvider;
-
-	protected final AuthenticationService authenticationService;
-
-	private final RedirectUtil redirectUtil;
+	private final AuthenticationService authenticationService;
 
 	private final UrlUtil urlUtil;
+
+	private final ParseUtil parseUtil;
+
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
 	public WebsiteHtmlServlet(
@@ -105,17 +78,15 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
+		super(logger, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
-		this.parseUtil = parseUtil;
 		this.navigationWidget = navigationWidget;
 		this.authenticationService = authenticationService;
-		this.httpContextProvider = httpContextProvider;
-		this.redirectUtil = redirectUtil;
 		this.urlUtil = urlUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	protected abstract String getTitle();
@@ -126,63 +97,42 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return widgets;
 	}
 
-	protected long getNowAsLong() {
-		final Calendar now = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
-		return now.getTimeInMillis();
-	}
-
-	protected String getNowAsString() {
-		return String.valueOf(getNowAsLong());
+	@Override
+	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		super.service(request, response);
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		final String startTime = getNowAsString();
-		logger.trace("service startTime=" + startTime);
-		final HttpContext context = httpContextProvider.get();
-		context.getData().put(START_TIME, startTime);
+	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (isLoginRequired() && !authenticationService.isLoggedIn(sessionIdentifier)) {
-				response.sendRedirect(buildLoginUrl(request));
-				return;
+				return new RedirectWidget(buildLoginUrl(request));
 			}
 		}
 		catch (final AuthenticationServiceException e) {
-			final PrintWriter out = response.getWriter();
-			out.println("<html><head></head><body>");
-			out.println("<pre>");
-			e.printStackTrace(out);
-			out.println("</pre>");
-			out.println("</body></html>");
+			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+			return widget;
 		}
-
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
 		try {
-			final Widget widget = createHtmlWidget(request, response, context);
-			widget.render(request, response, context);
+			return createHtmlWidget(request, response, context);
 		}
 		catch (final PermissionDeniedException e) {
-			final PrintWriter out = response.getWriter();
-			out.println("<html><head></head><body>");
-			out.println("<pre>");
-			e.printStackTrace(out);
-			out.println("</pre>");
-			out.println("</body></html>");
+			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+			return widget;
 		}
 		catch (final RedirectException e) {
-			redirectUtil.sendRedirect(request, response, e.getTarget());
-			return;
+			return new RedirectWidget(e.getTarget());
 		}
 		catch (final LoginRequiredException e) {
-			response.sendRedirect(buildLoginUrl(request));
-			return;
+			return new RedirectWidget(buildLoginUrl(request));
 		}
 	}
 
-	protected String buildLoginUrl(final HttpServletRequest request) {
+	private String buildLoginUrl(final HttpServletRequest request) {
 		final StringWriter result = new StringWriter();
 		result.append(request.getContextPath());
 		result.append("/authentication/login?referer=");
@@ -195,7 +145,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return result.toString();
 	}
 
-	protected String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
+	private String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
 		final StringWriter referer = new StringWriter();
 		final String requestUri = request.getRequestURI().replaceFirst("//", "/");
 		logger.trace("requestUri=" + requestUri);
@@ -217,7 +167,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return urlUtil.encode(result);
 	}
 
-	protected Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
+	private Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
 			PermissionDeniedException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
 		logger.trace("printHtml");
@@ -226,7 +176,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return new TagWidget("html", widgets);
 	}
 
-	protected Widget createBodyWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException,
+	private Widget createBodyWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException,
 			RedirectException, LoginRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();
@@ -236,7 +186,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return new TagWidget("body", widgets);
 	}
 
-	protected Widget createTopWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	private Widget createTopWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		logger.trace("printTop");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(navigationWidget);
@@ -244,7 +194,7 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return widgets;
 	}
 
-	protected Widget createLoginStatusWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	private Widget createLoginStatusWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException {
 		try {
 			final ListWidget widgets = new ListWidget();
@@ -272,22 +222,22 @@ public abstract class WebsiteHtmlServlet extends HttpServlet {
 		return widgets;
 	}
 
-	protected Widget createFooterWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	private Widget createFooterWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new RequestDurationWidget());
+		widgets.add(new RequestDurationWidget(logger, parseUtil, calendarUtil, timeZoneUtil));
 		return widgets;
 	}
 
-	protected Widget createHeadWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	private Widget createHeadWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		logger.trace("printHead");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new TagWidget("title", getTitle()));
-		widgets.add(new HtmlWidget("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />"));
-		widgets.add(new HtmlWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
-		widgets.add(new HtmlWidget("<meta name=\"description\" content=\"BB\" />"));
-		widgets.add(new HtmlWidget("<meta name=\"keywords\" content=\"BB\" />"));
-		widgets.add(new HtmlWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
+		widgets.add(new HtmlContentWidget("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />"));
+		widgets.add(new HtmlContentWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
+		widgets.add(new HtmlContentWidget("<meta name=\"description\" content=\"BB\" />"));
+		widgets.add(new HtmlContentWidget("<meta name=\"keywords\" content=\"BB\" />"));
+		widgets.add(new HtmlContentWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
 		widgets.add(new JavascriptResourceWidget(getJavascriptResources(request, response)));
 		widgets.add(new CssResourceWidget(getCssResources(request, response)));
 		return new TagWidget("head", widgets);

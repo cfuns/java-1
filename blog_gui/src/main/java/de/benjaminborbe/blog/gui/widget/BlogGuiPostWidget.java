@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
@@ -20,7 +19,7 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
-public class BlogPostWidget implements Widget {
+public class BlogGuiPostWidget implements Widget {
 
 	private final BlogPost blogPost;
 
@@ -28,14 +27,14 @@ public class BlogPostWidget implements Widget {
 
 	private final CalendarUtil calendarUtil;
 
-	public BlogPostWidget(final BlogPost blogPost, final UrlUtil urlUtil, final CalendarUtil calendarUtil) {
+	public BlogGuiPostWidget(final BlogPost blogPost, final UrlUtil urlUtil, final CalendarUtil calendarUtil) {
 		this.blogPost = blogPost;
 		this.urlUtil = urlUtil;
 		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PermissionDeniedException, IOException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H2Widget(blogPost.getTitle()));
 		final UlWidget metaInfos = new UlWidget();

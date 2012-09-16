@@ -37,6 +37,8 @@ public class IndexGuiServletUnitTest {
 		EasyMock.replay(logger);
 
 		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
 		response.sendRedirect("/path/authentication/login?referer=/search?");
 		EasyMock.replay(response);
 

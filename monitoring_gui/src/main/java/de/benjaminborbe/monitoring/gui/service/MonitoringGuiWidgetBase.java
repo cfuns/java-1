@@ -59,7 +59,7 @@ public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, Requi
 	}
 
 	protected Widget getCheckWithRootNode(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, AuthenticationServiceException, MonitoringServiceException {
+			AuthenticationServiceException, MonitoringServiceException, PermissionDeniedException {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 		final List<CheckResult> checkResults = new ArrayList<CheckResult>(getResults(sessionIdentifier));
 		Collections.sort(checkResults, new CheckResultComparator());
@@ -74,7 +74,7 @@ public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, Requi
 	protected abstract Collection<CheckResult> getResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException;
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			logger.trace("render");
@@ -90,6 +90,10 @@ public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, Requi
 			exceptionWidget.render(request, response, context);
 		}
 		catch (final MonitoringServiceException e) {
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
+		catch (final PermissionDeniedException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
 		}

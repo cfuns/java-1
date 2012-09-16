@@ -64,6 +64,10 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 
 	private final DateUtil dateUtil;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public LunchGuiServlet(
 			final Logger logger,
@@ -77,9 +81,11 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final LunchService lunchService,
 			final DateUtil dateUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.dateUtil = dateUtil;
 		this.lunchService = lunchService;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

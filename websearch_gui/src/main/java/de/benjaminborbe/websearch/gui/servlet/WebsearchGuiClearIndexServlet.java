@@ -37,6 +37,10 @@ public class WebsearchGuiClearIndexServlet extends WebsiteHtmlServlet {
 
 	private final WebsearchService websearchService;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public WebsearchGuiClearIndexServlet(
 			final Logger logger,
@@ -49,8 +53,10 @@ public class WebsearchGuiClearIndexServlet extends WebsiteHtmlServlet {
 			final WebsearchService websearchService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.websearchService = websearchService;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

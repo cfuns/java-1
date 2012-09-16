@@ -35,6 +35,10 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Authentication - Logout";
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthenticationGuiLogoutServlet(
 			final Logger logger,
@@ -46,7 +50,9 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

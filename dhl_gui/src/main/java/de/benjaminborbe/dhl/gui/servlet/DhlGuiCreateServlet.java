@@ -49,6 +49,12 @@ public class DhlGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private final DhlService dhlService;
 
+	private final Logger logger;
+
+	private final ParseUtil parseUtil;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public DhlGuiCreateServlet(
 			final Logger logger,
@@ -61,8 +67,11 @@ public class DhlGuiCreateServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final DhlService dhlService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.dhlService = dhlService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

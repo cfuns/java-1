@@ -21,7 +21,7 @@ import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
-import de.benjaminborbe.blog.gui.widget.BlogPostWidget;
+import de.benjaminborbe.blog.gui.widget.BlogGuiPostWidget;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -53,6 +53,10 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final CalendarUtil calendarUtil;
+
+	private final Logger logger;
+
 	@Inject
 	public BlogGuiLatestPostsServlet(
 			final Logger logger,
@@ -65,10 +69,12 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final BlogService blogService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.blogService = blogService;
 		this.urlUtil = urlUtil;
+		this.calendarUtil = calendarUtil;
+		this.logger = logger;
 	}
 
 	@Override
@@ -86,7 +92,7 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<BlogPost> blogPosts = blogService.getLatestBlogPosts(sessionIdentifier);
 			for (final BlogPost blogPost : blogPosts) {
-				widgets.add(new BlogPostWidget(blogPost, urlUtil, calendarUtil));
+				widgets.add(new BlogGuiPostWidget(blogPost, urlUtil, calendarUtil));
 			}
 			widgets.add(new BrWidget());
 			widgets.add(new LinkRelativWidget(request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_ADD_URL, "add post"));

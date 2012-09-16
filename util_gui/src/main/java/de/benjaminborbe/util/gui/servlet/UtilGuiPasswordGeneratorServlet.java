@@ -45,6 +45,8 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 
 	private final UtilGuiPasswordGenerator utilPasswordGenerator;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public UtilGuiPasswordGeneratorServlet(
 			final Logger logger,
@@ -57,8 +59,9 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 			final UtilGuiPasswordGenerator utilPasswordGenerator,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.utilPasswordGenerator = utilPasswordGenerator;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override

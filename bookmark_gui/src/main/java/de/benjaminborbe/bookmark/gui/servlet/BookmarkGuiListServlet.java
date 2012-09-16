@@ -60,6 +60,8 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public BookmarkGuiListServlet(
 			final Logger logger,
@@ -72,9 +74,10 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.bookmarkService = bookmarkService;
 		this.urlUtil = urlUtil;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

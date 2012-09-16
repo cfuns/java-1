@@ -47,6 +47,8 @@ public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final Logger logger;
+
 	@Inject
 	public WikiGuiSpaceListServlet(
 			final Logger logger,
@@ -59,8 +61,9 @@ public class WikiGuiSpaceListServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final WikiService wikiService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.wikiService = wikiService;
+		this.logger = logger;
 		this.urlUtil = urlUtil;
 	}
 

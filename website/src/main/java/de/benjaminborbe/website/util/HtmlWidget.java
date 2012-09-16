@@ -1,7 +1,6 @@
 package de.benjaminborbe.website.util;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,15 +10,19 @@ import de.benjaminborbe.html.api.Widget;
 
 public class HtmlWidget implements Widget {
 
-	private final String content;
+	private final Widget widget;
 
-	public HtmlWidget(final String content) {
-		this.content = content;
+	public HtmlWidget(final Widget widget) {
+		this.widget = widget;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.print(content);
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new TagWidget("head"));
+		widgets.add(new TagWidget("body", widget));
+		final TagWidget html = new TagWidget("html", widgets);
+		html.render(request, response, context);
 	}
+
 }

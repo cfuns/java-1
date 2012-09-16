@@ -57,6 +57,10 @@ public class BlogGuiUpdatePostServlet extends WebsiteHtmlServlet {
 
 	private final BlogService blogService;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public BlogGuiUpdatePostServlet(
 			final Logger logger,
@@ -69,8 +73,10 @@ public class BlogGuiUpdatePostServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final BlogService blogService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.blogService = blogService;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

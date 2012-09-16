@@ -27,7 +27,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.HtmlWidget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
@@ -46,6 +46,8 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final Logger logger;
+
 	@Inject
 	public WikiGuiPageShowServlet(
 			final Logger logger,
@@ -58,9 +60,10 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final WikiService wikiService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.wikiService = wikiService;
 		this.urlUtil = urlUtil;
+		this.logger = logger;
 	}
 
 	@Override
@@ -77,7 +80,7 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier(request.getParameter(WikiGuiConstants.PARAMETER_PAGE_ID));
-			widgets.add(new HtmlWidget(wikiService.renderPage(wikiPageIdentifier)));
+			widgets.add(new HtmlContentWidget(wikiService.renderPage(wikiPageIdentifier)));
 			widgets.add(new BrWidget());
 			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + WikiGuiConstants.NAME + "/" + WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL, new MapChain<String, String>().add(
 					WikiGuiConstants.PARAMETER_PAGE_ID, wikiPageIdentifier.getId()), "edit page"));

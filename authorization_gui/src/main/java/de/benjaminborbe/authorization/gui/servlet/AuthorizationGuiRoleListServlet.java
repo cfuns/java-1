@@ -43,6 +43,8 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final Logger logger;
+
 	@Inject
 	public AuthorizationGuiRoleListServlet(
 			final Logger logger,
@@ -55,9 +57,10 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.authorizationService = authorizationService;
 		this.urlUtil = urlUtil;
+		this.logger = logger;
 	}
 
 	@Override

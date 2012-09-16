@@ -39,7 +39,9 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Eventbus";
 
-	private final EventbusService EventbusService;
+	private final EventbusService eventbusService;
+
+	private final Logger logger;
 
 	@Inject
 	public EventbusGuiServlet(
@@ -48,13 +50,14 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final AuthenticationService authenticationService,
-			final EventbusService EventbusService,
+			final EventbusService eventbusService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
-		this.EventbusService = EventbusService;
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
+		this.eventbusService = eventbusService;
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		widgets.add("EventHandlers:");
 		final UlWidget ul = new UlWidget();
-		for (final Entry<Type<EventHandler>, List<EventHandler>> e : EventbusService.getHandlers().entrySet()) {
+		for (final Entry<Type<EventHandler>, List<EventHandler>> e : eventbusService.getHandlers().entrySet()) {
 			final StringWriter content = new StringWriter();
 			final Type<EventHandler> type = e.getKey();
 			final List<EventHandler> eventHandlers = e.getValue();

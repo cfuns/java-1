@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
+import de.benjaminborbe.blog.gui.servlet.BlogGuiAtomServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiDeletePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
@@ -22,6 +23,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class BlogGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private BlogGuiAtomServlet blogGuiAtomServlet;
 
 	@Inject
 	private BlogGuiUpdatePostServlet blogGuiUpdatePostServlet;
@@ -51,6 +55,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
 		result.add(new ServletInfo(blogGuiDeletePostServlet, BlogGuiConstants.POST_DELETE_URL));
 		result.add(new ServletInfo(blogGuiUpdatePostServlet, BlogGuiConstants.POST_UPDATE_URL));
+		result.add(new ServletInfo(blogGuiAtomServlet, BlogGuiConstants.ATOM_URL));
 		return result;
 	}
 

@@ -3,7 +3,6 @@ package de.benjaminborbe.monitoring.mock;
 import java.util.Collection;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
@@ -25,7 +24,7 @@ public class MonitoringServiceMock implements MonitoringService {
 	}
 
 	@Override
-	public void sendmail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
+	public void sendmail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException {
 	}
 
 }

@@ -39,6 +39,10 @@ public class MicroblogGuiSendConversationServlet extends WebsiteHtmlServlet {
 
 	private final MicroblogService microblogService;
 
+	private final Logger logger;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public MicroblogGuiSendConversationServlet(
 			final Logger logger,
@@ -51,8 +55,10 @@ public class MicroblogGuiSendConversationServlet extends WebsiteHtmlServlet {
 			final MicroblogService microblogService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.microblogService = microblogService;
+		this.logger = logger;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override

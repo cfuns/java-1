@@ -32,6 +32,8 @@ public class AuthorizationGuiUserRemoveRoleServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Authorization - User remove Role";
 
+	private final Logger logger;
+
 	@Inject
 	public AuthorizationGuiUserRemoveRoleServlet(
 			final Logger logger,
@@ -43,7 +45,8 @@ public class AuthorizationGuiUserRemoveRoleServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 	}
 
 	@Override

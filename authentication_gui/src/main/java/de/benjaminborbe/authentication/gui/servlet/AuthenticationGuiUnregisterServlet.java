@@ -41,6 +41,10 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 
 	private static final String PARAMETER_CONFIRM = "confirm";
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthenticationGuiUnregisterServlet(
 			final Logger logger,
@@ -52,7 +56,9 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

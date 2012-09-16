@@ -35,6 +35,8 @@ public class UtilGuiServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Util - Index";
 
+	private final Logger logger;
+
 	@Inject
 	public UtilGuiServlet(
 			final Logger logger,
@@ -46,7 +48,8 @@ public class UtilGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 	}
 
 	@Override

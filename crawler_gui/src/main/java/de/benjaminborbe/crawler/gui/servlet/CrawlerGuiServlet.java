@@ -46,6 +46,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	private final CrawlerService crawlerService;
 
+	private final Logger logger;
+
 	@Inject
 	public CrawlerGuiServlet(
 			final Logger logger,
@@ -58,8 +60,9 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 			final CrawlerService crawlerService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.crawlerService = crawlerService;
+		this.logger = logger;
 	}
 
 	@Override

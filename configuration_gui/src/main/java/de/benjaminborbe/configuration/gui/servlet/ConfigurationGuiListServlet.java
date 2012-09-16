@@ -37,6 +37,8 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 
 	private final ConfigurationService configurationService;
 
+	private final Logger logger;
+
 	@Inject
 	public ConfigurationGuiListServlet(
 			final Logger logger,
@@ -49,8 +51,9 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			final ConfigurationService configurationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.configurationService = configurationService;
+		this.logger = logger;
 	}
 
 	@Override

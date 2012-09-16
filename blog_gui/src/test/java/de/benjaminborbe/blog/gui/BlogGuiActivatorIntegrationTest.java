@@ -45,7 +45,7 @@ public class BlogGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/blog", "/blog/create", "/blog/update", "/blog/delete");
+		final List<String> paths = Arrays.asList("/blog", "/blog/create", "/blog/update", "/blog/delete", "/blog/atom.xml");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

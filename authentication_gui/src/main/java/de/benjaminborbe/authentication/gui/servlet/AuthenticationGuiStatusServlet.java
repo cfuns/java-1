@@ -37,6 +37,10 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Authentication - Login";
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public AuthenticationGuiStatusServlet(
 			final Logger logger,
@@ -48,7 +52,9 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override

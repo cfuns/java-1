@@ -38,6 +38,10 @@ public class UtilGuiDayDiffServlet extends WebsiteHtmlServlet {
 
 	private static final String UNTIL_DATE = "until";
 
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public UtilGuiDayDiffServlet(
 			final Logger logger,
@@ -49,7 +53,9 @@ public class UtilGuiDayDiffServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override

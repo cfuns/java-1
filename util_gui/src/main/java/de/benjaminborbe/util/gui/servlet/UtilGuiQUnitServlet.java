@@ -43,6 +43,8 @@ public class UtilGuiQUnitServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Util - QUnit";
 
+	private final Logger logger;
+
 	@Inject
 	public UtilGuiQUnitServlet(
 			final Logger logger,
@@ -54,7 +56,8 @@ public class UtilGuiQUnitServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 	}
 
 	@Override

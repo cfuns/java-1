@@ -18,4 +18,10 @@ public interface BlogGuiConstants {
 
 	String POST_DELETE_URL = "/delete";
 
+	String ATOM_URL = "/atom.xml";
+
+	String ATOM_TITLE = "bb News";
+
+	String ATOM_CONTENT_TYPE = "application/atom+xml";
+
 }

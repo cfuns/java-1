@@ -44,6 +44,12 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 
 	private final DhlService dhlService;
 
+	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public DhlGuiDeleteServlet(
 			final Logger logger,
@@ -56,8 +62,11 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 			final DhlService dhlService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, redirectUtil, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.dhlService = dhlService;
+		this.logger = logger;
+		this.authenticationService = authenticationService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
