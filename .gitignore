@@ -185,3 +185,7 @@ forum/target
 forum_api/target
 forum_gui/target
 forum_test/target
+gallery/target
+gallery_api/target
+gallery_gui/target
+gallery_test/target

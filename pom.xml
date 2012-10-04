@@ -86,6 +86,10 @@
 		<module>eventbus_api</module>
 		<module>eventbus_gui</module>
 		<module>eventbus_test</module>
+		<module>gallery</module>
+		<module>gallery_api</module>
+		<module>gallery_gui</module>
+		<module>gallery_test</module>
 		<module>geocaching</module>
 		<module>geocaching_api</module>
 		<module>geocaching_gui</module>
