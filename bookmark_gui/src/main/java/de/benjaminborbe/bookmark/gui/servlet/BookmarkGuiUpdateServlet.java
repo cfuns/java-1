@@ -117,7 +117,7 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 					widgets.add("update bookmark failed!");
 				}
 			}
-			final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL_NEW).addLabel("Url").addPlaceholder("url ...").addDefaultValue(bookmark.getUrl()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_NAME).addLabel("Name").addPlaceholder("name ...").addDefaultValue(bookmark.getName()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_DESCRIPTION).addLabel("Description").addPlaceholder("description ...")

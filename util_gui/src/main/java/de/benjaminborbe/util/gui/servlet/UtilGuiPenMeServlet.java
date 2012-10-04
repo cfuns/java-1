@@ -1,10 +1,9 @@
-package de.benjaminborbe.wiki.gui.servlet;
+package de.benjaminborbe.util.gui.servlet;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -12,6 +11,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -20,38 +20,30 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormInputTextWidget;
-import de.benjaminborbe.website.form.FormInputTextareaWidget;
-import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class WikiGuiSpaceEditServlet extends WebsiteHtmlServlet {
+public class UtilGuiPenMeServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private static final long serialVersionUID = -2132280144466686623L;
 
-	private static final String TITLE = "Wiki - Edit";
-
-	private final Logger logger;
+	private static final String TITLE = "Util - PenMe";
 
 	@Inject
-	public WikiGuiSpaceEditServlet(
+	public UtilGuiPenMeServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
-		this.logger = logger;
 	}
 
 	@Override
@@ -61,18 +53,11 @@ public class WikiGuiSpaceEditServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
-		logger.debug("render " + getClass().getSimpleName());
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-
-		final FormWidget form = new FormWidget();
-		form.addFormInputWidget(new FormInputTextWidget("title").addPlaceholder("Title ..."));
-		form.addFormInputWidget(new FormInputTextareaWidget("content").addPlaceholder("Content ..."));
-		form.addFormInputWidget(new FormInputSubmitWidget("update"));
-		widgets.add(form);
-
+		widgets.add(new H1Widget(TITLE));
+		widgets.add(new HtmlContentWidget("<form action=\"\"><input type=\"text\" name=\"a\" value=\"" + (request.getParameter("a") != null ? request.getParameter("a") : "")
+				+ "\"><input type=\"submit\" value=\"go\"></form>"));
 		return widgets;
 	}
-
 }

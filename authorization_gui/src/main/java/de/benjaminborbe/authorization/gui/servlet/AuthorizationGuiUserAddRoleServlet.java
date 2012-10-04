@@ -91,7 +91,7 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 				throw new RedirectException(request.getContextPath() + "/authorization/role");
 			}
 			else {
-				final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNANE).addLabel("Username").addPlaceholder("Username ..."));
 				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ROLENANE).addLabel("Rolename").addPlaceholder("Rolename ..."));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("grant"));

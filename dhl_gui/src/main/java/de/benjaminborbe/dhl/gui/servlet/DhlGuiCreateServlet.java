@@ -97,7 +97,7 @@ public class DhlGuiCreateServlet extends WebsiteHtmlServlet {
 			catch (final ParseException e) {
 			}
 
-			final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ID).addLabel("Id").addPlaceholder("Id ..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ZIP).addLabel("Zip").addPlaceholder("Zip ..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("add tracking"));

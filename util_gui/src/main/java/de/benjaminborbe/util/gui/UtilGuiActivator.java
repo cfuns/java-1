@@ -17,6 +17,8 @@ import de.benjaminborbe.util.gui.guice.UtilGuiModules;
 import de.benjaminborbe.util.gui.servlet.UtilGuiCalcServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiDayDiffServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiPenMeServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiPentestServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
@@ -41,6 +43,12 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Inject
 	private UtilGuiQUnitServlet utilGuiQUnitServlet;
 
+	@Inject
+	private UtilGuiPentestServlet utilGuiPentestServlet;
+
+	@Inject
+	private UtilGuiPenMeServlet utilGuiPenMeServlet;
+
 	public UtilGuiActivator() {
 		super("util");
 	}
@@ -59,6 +67,8 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilGuiTimeConvertServlet, "/timeConvert"));
 		result.add(new ServletInfo(utilGuiDayDiffServlet, "/daydiff"));
 		result.add(new ServletInfo(utilGuiQUnitServlet, "/qunit"));
+		result.add(new ServletInfo(utilGuiPentestServlet, "/pentest"));
+		result.add(new ServletInfo(utilGuiPenMeServlet, "/penme"));
 		return result;
 	}
 

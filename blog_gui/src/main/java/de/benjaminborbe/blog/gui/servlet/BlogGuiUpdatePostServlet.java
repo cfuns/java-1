@@ -113,7 +113,7 @@ public class BlogGuiUpdatePostServlet extends WebsiteHtmlServlet {
 					widgets.add(ul);
 				}
 			}
-			final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(BlogGuiConstants.PARAMETER_BLOG_POST_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(BlogGuiConstants.PARAMETER_BLOG_POST_TITLE).addDefaultValue(blogPost.getTitle()).addLabel("Title")
 					.addPlaceholder("title ..."));

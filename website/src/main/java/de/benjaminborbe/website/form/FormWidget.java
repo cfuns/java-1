@@ -28,6 +28,10 @@ public class FormWidget implements Widget {
 		this.action = action;
 	}
 
+	public FormWidget() {
+		this("");
+	}
+
 	public FormWidget addFormInputWidget(final FormElementWidget formInputWidget) {
 		if (formInputWidget == null) {
 			throw new NullPointerException("can't add null FormElementWidget");

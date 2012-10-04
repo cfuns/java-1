@@ -106,7 +106,7 @@ public class BlogGuiCreatePostServlet extends WebsiteHtmlServlet {
 					widgets.add(ul);
 				}
 			}
-			final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputTextWidget(BlogGuiConstants.PARAMETER_BLOG_POST_TITLE).addLabel("Title").addPlaceholder("title ..."));
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(BlogGuiConstants.PARAMETER_BLOG_POST_CONTENT).addLabel("Content").addPlaceholder("content ..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -28,6 +29,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
+@Singleton
 public class UtilGuiCalcServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 3897185107545429460L;
@@ -74,7 +76,7 @@ public class UtilGuiCalcServlet extends WebsiteHtmlServlet {
 			}
 		}
 
-		final FormWidget formWidget = new FormWidget("").addMethod(FormMethod.POST);
+		final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_EXPRESSION).addLabel("Expression").addPlaceholder("1 + 3 ..."));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("calc"));
 		widgets.add(formWidget);

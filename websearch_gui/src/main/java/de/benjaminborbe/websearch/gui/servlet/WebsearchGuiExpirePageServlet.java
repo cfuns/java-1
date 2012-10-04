@@ -92,7 +92,7 @@ public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
 				widgets.add("url " + url.toExternalForm() + " expired");
 			}
 			catch (final ParseException e) {
-				final FormWidget form = new FormWidget("");
+				final FormWidget form = new FormWidget();
 				form.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("Url ..."));
 				form.addFormInputWidget(new FormInputSubmitWidget("expire"));
 				widgets.add(form);

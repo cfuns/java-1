@@ -96,7 +96,7 @@ public class WikiGuiSpaceCreateServlet extends WebsiteHtmlServlet {
 				}
 			}
 
-			final FormWidget form = new FormWidget("");
+			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputTextWidget(WikiGuiConstants.PARAMETER_SPACE_ID).addLabel("Code:").addPlaceholder("Code ..."));
 			form.addFormInputWidget(new FormInputTextWidget(WikiGuiConstants.PARAMETER_SPACE_TITLE).addLabel("Title:").addPlaceholder("Title ..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
