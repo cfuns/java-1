@@ -65,7 +65,7 @@ public class InOfficeCheckHttpContent {
 			return false;
 		}
 		catch (final HttpDownloaderException e) {
-			logger.warn("HttpDownloaderException");
+			logger.trace("HttpDownloaderException");
 			return false;
 		}
 	}

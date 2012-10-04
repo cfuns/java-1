@@ -1,4 +1,4 @@
-package de.benjaminborbe.authentication.gui.servlet;
+package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
 
@@ -12,9 +12,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.gallery.api.GalleryService;
+import de.benjaminborbe.gallery.api.GalleryServiceException;
+import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -22,39 +25,34 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.BrWidget;
-import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
+public class GalleryGuiDeleteServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Authentication - Login";
+	private static final String TITLE = "Gallery - Delete";
 
-	private final Logger logger;
-
-	private final AuthenticationService authenticationService;
+	private final GalleryService galleryService;
 
 	@Inject
-	public AuthenticationGuiStatusServlet(
+	public GalleryGuiDeleteServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
+			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final GalleryService galleryService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
-		this.logger = logger;
-		this.authenticationService = authenticationService;
+		this.galleryService = galleryService;
 	}
 
 	@Override
@@ -64,32 +62,16 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			logger.trace("printContent");
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
-			final SessionIdentifier sessionId = authenticationService.createSessionIdentifier(request);
-			if (authenticationService.isLoggedIn(sessionId)) {
-				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
-				widgets.add(new BrWidget());
-				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
-			}
-			else {
-				widgets.add("not logged in");
-				widgets.add(new BrWidget());
-				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
-			}
-			return widgets;
+			final String imageId = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_ID);
+			final GalleryImageIdentifier id = galleryService.createGalleryImageIdentifier(imageId);
+			galleryService.deleteImage(id);
+			throw new RedirectException(request.getContextPath() + "/" + GalleryGuiConstants.NAME);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final GalleryServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
-	}
-
-	@Override
-	protected boolean isLoginRequired() {
-		return false;
 	}
 }

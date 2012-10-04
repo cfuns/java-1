@@ -16,6 +16,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.gallery.gui.GalleryGuiActivator;
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModulesMock;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -44,7 +45,8 @@ public class GalleryGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/gallery");
+		final List<String> paths = Arrays.asList("/" + GalleryGuiConstants.NAME, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.UPLOAD_URL, "/" + GalleryGuiConstants.NAME
+				+ GalleryGuiConstants.IMAGE_URL, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.LIST_URL, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.DELETE_URL);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -108,7 +110,7 @@ public class GalleryGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList();
+		final List<String> names = Arrays.asList(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

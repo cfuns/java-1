@@ -1,6 +1,8 @@
-package de.benjaminborbe.authentication.gui.servlet;
+package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,9 +14,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.gallery.api.GalleryService;
+import de.benjaminborbe.gallery.api.GalleryServiceException;
+import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -22,39 +27,42 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.BrWidget;
+import de.benjaminborbe.website.ImageWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
+public class GalleryGuiListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Authentication - Login";
+	private static final String TITLE = "Gallery - Images";
 
-	private final Logger logger;
+	private final GalleryService galleryService;
 
-	private final AuthenticationService authenticationService;
+	private final UrlUtil urlUtil;
 
 	@Inject
-	public AuthenticationGuiStatusServlet(
+	public GalleryGuiListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
+			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final GalleryService galleryService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
-		this.logger = logger;
-		this.authenticationService = authenticationService;
+		this.galleryService = galleryService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -64,32 +72,25 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
-			final SessionIdentifier sessionId = authenticationService.createSessionIdentifier(request);
-			if (authenticationService.isLoggedIn(sessionId)) {
-				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId));
-				widgets.add(new BrWidget());
-				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
+			widgets.add(new H1Widget(TITLE));
+			final UlWidget ul = new UlWidget();
+			for (final GalleryImageIdentifier imageId : galleryService.getImages()) {
+				final ListWidget list = new ListWidget();
+				list.add(new ImageWidget(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.IMAGE_URL + "?" + GalleryGuiConstants.PARAMETER_IMAGE_ID + "="
+						+ imageId));
+				final Map<String, String> data = new HashMap<String, String>();
+				data.put(GalleryGuiConstants.PARAMETER_IMAGE_ID, String.valueOf(imageId));
+				list.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.DELETE_URL, data, "delete"));
+				ul.add(list);
 			}
-			else {
-				widgets.add("not logged in");
-				widgets.add(new BrWidget());
-				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
-			}
+			widgets.add(ul);
 			return widgets;
 		}
-		catch (final AuthenticationServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+		catch (final GalleryServiceException e) {
+			return new ExceptionWidget(e);
 		}
-	}
-
-	@Override
-	protected boolean isLoginRequired() {
-		return false;
 	}
 }

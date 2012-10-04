@@ -1,4 +1,4 @@
-package de.benjaminborbe.website.br;
+package de.benjaminborbe.website;
 
 import de.benjaminborbe.website.util.SingleTagWidget;
 
@@ -9,4 +9,5 @@ public class BrWidget extends SingleTagWidget {
 	public BrWidget() {
 		super(TAG);
 	}
+
 }

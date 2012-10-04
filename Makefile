@@ -23,6 +23,16 @@ cleanup:
 	find . -name '.DS_Store' -exec rm -rf "{}" \;
 	find . -name '.svn' -exec rm -rf "{}" \;
 	find . -name 'target' -exec rm -rf "{}" \;
+buildworktime:
+	cd worktime_api && make all
+	cd worktime && make all
+	cd worktime_gui && make all
+	cd worktime_test && make all
+buildgallery:
+	cd gallery_api && make all
+	cd gallery && make all
+	cd gallery_gui && make all
+	cd gallery_test && make all
 buildblog:
 	cd blog_api && make all
 	cd blog && make all
