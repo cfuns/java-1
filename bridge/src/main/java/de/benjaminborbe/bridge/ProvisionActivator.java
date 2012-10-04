@@ -31,6 +31,7 @@ public final class ProvisionActivator implements BundleActivator {
 				bundle.start();
 			}
 			catch (final Exception e) {
+				servletContext.log("Starting bundle [" + bundle.getSymbolicName() + "] failed!", e);
 			}
 		}
 	}
