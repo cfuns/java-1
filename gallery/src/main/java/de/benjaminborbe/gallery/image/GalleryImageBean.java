@@ -1,9 +1,12 @@
-package de.benjaminborbe.gallery.service;
+package de.benjaminborbe.gallery.image;
 
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.storage.tools.Entity;
 
-public class GalleryImageBean implements GalleryImage {
+public class GalleryImageBean implements Entity<GalleryImageIdentifier>, GalleryImage {
+
+	private static final long serialVersionUID = 6353074828349973344L;
 
 	private String name;
 
@@ -31,6 +34,7 @@ public class GalleryImageBean implements GalleryImage {
 		this.content = content;
 	}
 
+	@Override
 	public void setId(final GalleryImageIdentifier id) {
 		this.id = id;
 	}
