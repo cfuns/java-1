@@ -14,6 +14,8 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	private String label;
 
+	private String defaultValue;
+
 	public FormInputTextareaWidget(final String name) {
 		super("textarea");
 		addAttribute("name", name);
@@ -27,7 +29,7 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	@Override
 	public FormInputTextareaWidget addDefaultValue(final String defaultValue) {
-		addContent(new StringWidget(defaultValue));
+		this.defaultValue = defaultValue;
 		return this;
 	}
 
@@ -49,6 +51,10 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final String value = request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue;
+		if (value != null) {
+			addContent(new StringWidget(value));
+		}
 		final PrintWriter out = response.getWriter();
 		if (label != null) {
 			out.println("<label for=\"" + getName() + "\">" + label + "</label>");

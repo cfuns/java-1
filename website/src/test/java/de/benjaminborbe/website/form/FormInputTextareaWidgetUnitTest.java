@@ -38,6 +38,7 @@ public class FormInputTextareaWidgetUnitTest {
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getParameter(name)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		formInputTextareaWidget.render(request, response, context);
@@ -77,4 +78,27 @@ public class FormInputTextareaWidgetUnitTest {
 		assertNotNull(formInputTextareaWidget.addId(id));
 	}
 
+	@Test
+	public void testValue() throws Exception {
+		final String name = "test123";
+		final String value = "value123";
+		final FormInputTextareaWidget formInputTextareaWidget = new FormInputTextareaWidget(name);
+
+		final HttpContext context = EasyMock.createMock(HttpContext.class);
+		EasyMock.replay(context);
+
+		final StringWriter stringWriter = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(stringWriter);
+		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
+		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
+		EasyMock.replay(response);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getParameter(name)).andReturn(value).anyTimes();
+		EasyMock.replay(request);
+
+		formInputTextareaWidget.render(request, response, context);
+
+		assertEquals("<textarea name=\"" + name + "\">" + value + "</textarea><br/>", stringWriter.toString());
+	}
 }
