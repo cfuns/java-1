@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -21,11 +22,15 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 
 @Singleton
-public class SearchGuiSuggestServlet extends HttpServlet {
+public class SearchGuiSuggestServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 3708081580708674634L;
 
@@ -44,7 +49,16 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public SearchGuiSuggestServlet(final Logger logger, final SearchService searchService, final SearchUtil searchUtil, final AuthenticationService authenticationService) {
+	public SearchGuiSuggestServlet(
+			final Logger logger,
+			final SearchService searchService,
+			final SearchUtil searchUtil,
+			final AuthenticationService authenticationService,
+			final UrlUtil urlUtil,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.searchService = searchService;
 		this.searchUtil = searchUtil;
@@ -52,7 +66,7 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		logger.trace("service");
 		response.setCharacterEncoding("UTF8");
 		try {
@@ -75,7 +89,6 @@ public class SearchGuiSuggestServlet extends HttpServlet {
 		catch (final AuthenticationServiceException e) {
 			response.setContentType("text/plain");
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			final HttpContext context = new HttpContext();
 			exceptionWidget.render(request, response, context);
 		}
 	}

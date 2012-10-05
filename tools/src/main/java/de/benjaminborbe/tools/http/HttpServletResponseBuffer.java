@@ -7,7 +7,7 @@ import java.io.StringWriter;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-public class HttpServletResponseBuffer extends HttpServletResponseAdapter {
+public class HttpServletResponseBuffer extends HttpServletResponseAdapter implements HttpServletResponse {
 
 	private final StringWriter writer = new StringWriter();
 

@@ -1,5 +1,10 @@
 package de.benjaminborbe.index.gui.servlet;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,10 +41,13 @@ public class IndexGuiServletUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
+		final Writer stringWriter = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(stringWriter);
+
 		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		response.sendRedirect("/path/authentication/login?referer=/search?");
+		EasyMock.expect(response.getWriter()).andReturn(printWriter).anyTimes();
 		EasyMock.replay(response);
 
 		final String sessionId = "324908234890";
@@ -98,7 +106,7 @@ public class IndexGuiServletUnitTest {
 		EasyMock.replay(userIdentifier);
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(false).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
@@ -115,5 +123,8 @@ public class IndexGuiServletUnitTest {
 
 		indexServlet.service(request, response);
 		EasyMock.verify(response);
+
+		final String content = stringWriter.toString();
+		assertTrue(content.indexOf("<h1>Index</h1>") != -1);
 	}
 }

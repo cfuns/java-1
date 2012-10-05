@@ -3,25 +3,44 @@ package de.benjaminborbe.search.gui.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.website.servlet.WebsiteServlet;
+
 @Singleton
-public class SearchGuiOsdServlet extends HttpServlet {
+public class SearchGuiOsdServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 2841304297821086170L;
 
+	private final Logger logger;
+
 	@Inject
-	private Logger logger;
+	public SearchGuiOsdServlet(
+			final Logger logger,
+			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+		this.logger = logger;
+	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		logger.trace("osd.xml");
 		response.setContentType("text/xml");
 		response.setCharacterEncoding("utf-8");

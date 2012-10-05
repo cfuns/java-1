@@ -1,19 +1,16 @@
 package de.benjaminborbe.website.servlet;
 
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -61,8 +58,6 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final UrlUtil urlUtil;
-
 	private final ParseUtil parseUtil;
 
 	private final CalendarUtil calendarUtil;
@@ -79,13 +74,12 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, httpContextProvider);
+		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.navigationWidget = navigationWidget;
 		this.authenticationService = authenticationService;
-		this.urlUtil = urlUtil;
 		this.parseUtil = parseUtil;
 	}
 
@@ -98,10 +92,10 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	}
 
 	@Override
-	public void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, ServletException {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		super.service(request, response);
+		super.doService(request, response, context);
 	}
 
 	@Override
@@ -130,41 +124,6 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		catch (final LoginRequiredException e) {
 			return new RedirectWidget(buildLoginUrl(request));
 		}
-	}
-
-	private String buildLoginUrl(final HttpServletRequest request) {
-		final StringWriter result = new StringWriter();
-		result.append(request.getContextPath());
-		result.append("/authentication/login?referer=");
-		try {
-			result.append(buildReferer(request));
-		}
-		catch (final UnsupportedEncodingException e) {
-			logger.info("buildReferer failed");
-		}
-		return result.toString();
-	}
-
-	private String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
-		final StringWriter referer = new StringWriter();
-		final String requestUri = request.getRequestURI().replaceFirst("//", "/");
-		logger.trace("requestUri=" + requestUri);
-		referer.append(requestUri);
-		referer.append("?");
-		@SuppressWarnings("unchecked")
-		final Enumeration<String> e = request.getParameterNames();
-		final List<String> pairs = new ArrayList<String>();
-		while (e.hasMoreElements()) {
-			final String name = e.nextElement();
-			final String[] values = request.getParameterValues(name);
-			for (final String value : values) {
-				pairs.add(urlUtil.encode(name) + "=" + urlUtil.encode(value));
-			}
-		}
-		referer.append(StringUtils.join(pairs, "&"));
-		final String result = referer.toString();
-		logger.trace("buildReferer => " + result);
-		return urlUtil.encode(result);
 	}
 
 	private Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
@@ -283,6 +242,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	/**
 	 * default login is required for each html-servlet
 	 */
+	@Override
 	protected boolean isLoginRequired() {
 		return true;
 	}

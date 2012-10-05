@@ -11,7 +11,7 @@ public class SlashGuiServletUnitTest {
 
 	@Test
 	public void testbuildRedirectTargetPath() {
-		final SlashGuiServlet slashServlet = new SlashGuiServlet(null);
+		final SlashGuiServlet slashServlet = new SlashGuiServlet(null, null, null, null, null, null);
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getContextPath()).andReturn("/bb");
 		EasyMock.replay(request);

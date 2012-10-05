@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.blog.gui.atom.Entry;
 import de.benjaminborbe.blog.gui.atom.EntryBean;
@@ -23,6 +24,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 
 @Singleton
@@ -31,8 +33,14 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 	private static final long serialVersionUID = -9150646730186060728L;
 
 	@Inject
-	public BlogGuiAtomServlet(final Logger logger, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final Provider<HttpContext> httpContextProvider) {
-		super(logger, calendarUtil, timeZoneUtil, httpContextProvider);
+	public BlogGuiAtomServlet(
+			final Logger logger,
+			final CalendarUtil calendarUtil,
+			final AuthenticationService authenticationService,
+			final TimeZoneUtil timeZoneUtil,
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil) {
+		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 	}
 
 	@Override
