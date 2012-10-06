@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.gallery.api.GalleryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -28,11 +29,13 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.BrWidget;
 import de.benjaminborbe.website.form.FormEncType;
 import de.benjaminborbe.website.form.FormInputFileWidget;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
@@ -45,7 +48,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class GalleryGuiUploadServlet extends WebsiteHtmlServlet {
+public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -55,8 +58,10 @@ public class GalleryGuiUploadServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public GalleryGuiUploadServlet(
+	public GalleryGuiImageUploadServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -70,6 +75,7 @@ public class GalleryGuiUploadServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -80,46 +86,53 @@ public class GalleryGuiUploadServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
 
-		final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		if (isMultipart) {
-			// Create a factory for disk-based file items
-			final FileItemFactory factory = new DiskFileItemFactory();
+		try {
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final GalleryIdentifier galleryIdentifier = galleryService.createGalleryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_ID));
 
-			// Create a new file upload handler
-			final ServletFileUpload upload = new ServletFileUpload(factory);
+			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+			if (isMultipart) {
+				// Create a factory for disk-based file items
+				final FileItemFactory factory = new DiskFileItemFactory();
 
-			// Parse the request
-			try {
-				@SuppressWarnings("unchecked")
-				final List<FileItem> items = upload.parseRequest(request);
-				for (final FileItem item : items) {
-					final String imageName = item.getFieldName();
-					final byte[] imageContent = item.get();
-					final String imageContentType = extractContentType(item.getContentType(), imageName);
-					galleryService.saveImage(imageName, imageContentType, imageContent);
-					widgets.add("file " + item.getName() + " uploaded!");
-					widgets.add(new BrWidget());
-					widgets.add(new LinkRelativWidget(request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.LIST_URL, "list"));
+				// Create a new file upload handler
+				final ServletFileUpload upload = new ServletFileUpload(factory);
+
+				// Parse the request
+				try {
+					@SuppressWarnings("unchecked")
+					final List<FileItem> items = upload.parseRequest(request);
+					for (final FileItem item : items) {
+						final String imageName = item.getFieldName();
+						final byte[] imageContent = item.get();
+						final String imageContentType = extractContentType(item.getContentType(), imageName);
+						galleryService.saveImage(galleryIdentifier, imageName, imageContentType, imageContent);
+						widgets.add("file " + item.getName() + " uploaded!");
+						widgets.add(new BrWidget());
+						widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST, new MapChain<String, String>().add(
+								GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(galleryIdentifier)), "list"));
+					}
+				}
+				catch (final FileUploadException e) {
+					logger.warn(e.getClass().getSimpleName(), e);
+					widgets.add(new ExceptionWidget(e));
 				}
 			}
-			catch (final FileUploadException e) {
-				logger.warn(e.getClass().getSimpleName(), e);
-				widgets.add(new ExceptionWidget(e));
-			}
-			catch (final GalleryServiceException e) {
-				logger.warn(e.getClass().getSimpleName(), e);
-				widgets.add(new ExceptionWidget(e));
-			}
-		}
 
-		final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
-		form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_UPLOAD).addLabel("Image"));
-		form.addFormInputWidget(new FormInputSubmitWidget("upload"));
-		widgets.add(form);
-		return widgets;
+			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
+			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GALLERY_ID));
+			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_UPLOAD).addLabel("Image"));
+			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
+			widgets.add(form);
+
+			return widgets;
+		}
+		catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getSimpleName(), e);
+			return new ExceptionWidget(e);
+		}
 	}
 
 	private String extractContentType(final String contentType, final String imageName) {

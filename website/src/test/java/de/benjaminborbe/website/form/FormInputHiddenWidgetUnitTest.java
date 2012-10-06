@@ -24,7 +24,7 @@ public class FormInputHiddenWidgetUnitTest {
 	}
 
 	@Test
-	public void testRender() throws Exception, IOException {
+	public void testRenderValue() throws Exception, IOException {
 		final String name = "fieldName";
 		final String value = "fieldValue";
 		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(name);
@@ -45,5 +45,28 @@ public class FormInputHiddenWidgetUnitTest {
 		formInputTextareaWidget.render(request, response, context);
 
 		assertEquals("<input name=\"" + name + "\" type=\"hidden\" value=\"" + value + "\"/>", stringWriter.toString());
+	}
+
+	@Test
+	public void testRender() throws Exception, IOException {
+		final String name = "fieldName";
+		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(name);
+
+		final HttpContext context = EasyMock.createMock(HttpContext.class);
+		EasyMock.replay(context);
+
+		final StringWriter stringWriter = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(stringWriter);
+		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
+		EasyMock.expect(response.getWriter()).andReturn(printWriter);
+		EasyMock.replay(response);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getParameter(name)).andReturn(null);
+		EasyMock.replay(request);
+
+		formInputTextareaWidget.render(request, response, context);
+
+		assertEquals("<input name=\"" + name + "\" type=\"hidden\" value=\"\"/>", stringWriter.toString());
 	}
 }

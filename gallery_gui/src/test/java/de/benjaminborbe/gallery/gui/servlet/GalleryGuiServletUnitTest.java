@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -23,6 +24,8 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.gallery.api.GalleryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -117,8 +120,12 @@ public class GalleryGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
+		EasyMock.expect(galleryService.getGalleries()).andReturn(new HashSet<GalleryIdentifier>());
+		EasyMock.replay(galleryService);
+
 		final GalleryGuiServlet galleryServlet = new GalleryGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil);
+				redirectUtil, urlUtil, galleryService);
 
 		galleryServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

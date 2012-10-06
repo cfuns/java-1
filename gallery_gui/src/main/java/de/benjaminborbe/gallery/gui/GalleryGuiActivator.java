@@ -9,11 +9,12 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCreateServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiListServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageListServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiUploadServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageUploadServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
@@ -24,19 +25,22 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class GalleryGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private GalleryGuiCreateServlet galleryGuiCreateServlet;
+
+	@Inject
 	private GalleryGuiServlet galleryGuiServlet;
 
 	@Inject
-	private GalleryGuiUploadServlet galleryGuiUploadServlet;
+	private GalleryGuiImageUploadServlet galleryGuiUploadServlet;
 
 	@Inject
-	private GalleryGuiListServlet galleryGuiListServlet;
+	private GalleryGuiImageListServlet galleryGuiListServlet;
 
 	@Inject
 	private GalleryGuiImageServlet galleryGuiImageServlet;
 
 	@Inject
-	private GalleryGuiDeleteServlet galleryGuiDeleteServlet;
+	private GalleryGuiImageDeleteServlet galleryGuiDeleteServlet;
 
 	public GalleryGuiActivator() {
 		super(GalleryGuiConstants.NAME);
@@ -50,11 +54,12 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(galleryGuiServlet, GalleryGuiConstants.HOME_URL));
-		result.add(new ServletInfo(galleryGuiUploadServlet, GalleryGuiConstants.UPLOAD_URL));
-		result.add(new ServletInfo(galleryGuiListServlet, GalleryGuiConstants.LIST_URL));
-		result.add(new ServletInfo(galleryGuiImageServlet, GalleryGuiConstants.IMAGE_URL));
-		result.add(new ServletInfo(galleryGuiDeleteServlet, GalleryGuiConstants.DELETE_URL));
+		result.add(new ServletInfo(galleryGuiServlet, GalleryGuiConstants.URL_HOME));
+		result.add(new ServletInfo(galleryGuiUploadServlet, GalleryGuiConstants.URL_IMAGE_UPLOAD));
+		result.add(new ServletInfo(galleryGuiListServlet, GalleryGuiConstants.URL_IMAGE_LIST));
+		result.add(new ServletInfo(galleryGuiImageServlet, GalleryGuiConstants.URL_IMAGE));
+		result.add(new ServletInfo(galleryGuiDeleteServlet, GalleryGuiConstants.URL_DELETE));
+		result.add(new ServletInfo(galleryGuiCreateServlet, GalleryGuiConstants.URL_CREATE));
 		return result;
 	}
 

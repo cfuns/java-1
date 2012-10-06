@@ -8,7 +8,7 @@ public class BookmarkOwnerPredicate implements Predicate<BookmarkBean> {
 
 	private final UserIdentifier userIdentifier;
 
-	BookmarkOwnerPredicate(final UserIdentifier userIdentifier) {
+	public BookmarkOwnerPredicate(final UserIdentifier userIdentifier) {
 		this.userIdentifier = userIdentifier;
 	}
 

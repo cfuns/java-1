@@ -46,7 +46,7 @@ public class SingleTagWidget implements Widget {
 			out.print(" ");
 			out.print(StringEscapeUtils.escapeHtml(e.getKey()));
 			out.print("=\"");
-			out.print(StringEscapeUtils.escapeHtml(e.getValue()));
+			out.print(StringEscapeUtils.escapeHtml(e.getValue() != null ? e.getValue() : ""));
 			out.print("\"");
 		}
 		out.print("/>");

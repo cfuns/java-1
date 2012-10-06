@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.servlet;
+package de.benjaminborbe.storage.gui.servlet;
 
 import java.io.IOException;
 
@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -23,7 +22,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 
 @Singleton
-public class StorageReadServlet extends WebsiteServlet {
+public class StorageWriteServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 1048276599809672509L;
 
@@ -33,17 +32,19 @@ public class StorageReadServlet extends WebsiteServlet {
 
 	private static final String PARAMETER_KEY = "key";
 
+	private static final String PARAMETER_VALUE = "value";
+
 	private final Logger logger;
 
 	private final StorageService persistentStorageService;
 
 	@Inject
-	public StorageReadServlet(
+	public StorageWriteServlet(
 			final Logger logger,
 			final StorageService persistentStorageService,
 			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
 			final AuthenticationService authenticationService,
+			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider) {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
@@ -62,22 +63,28 @@ public class StorageReadServlet extends WebsiteServlet {
 		final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
 		final String id = request.getParameter(PARAMETER_ID);
 		final String key = request.getParameter(PARAMETER_KEY);
+		final String value = request.getParameter(PARAMETER_VALUE);
 
-		if (columnFamily != null && id != null && key != null) {
+		if (columnFamily == null) {
+			out.println("parameter " + PARAMETER_COLUMNFAMILY + " missing<br>");
+		}
+		if (id == null) {
+			out.println("parameter " + PARAMETER_ID + " missing<br>");
+		}
+		if (key == null) {
+			out.println("parameter " + PARAMETER_KEY + " missing<br>");
+		}
+		if (value == null) {
+			out.println("parameter " + PARAMETER_VALUE + " missing<br>");
+		}
+		if (columnFamily != null && id != null && key != null && value != null) {
 			try {
-				out.println("value=<br>");
-				out.println("<pre>");
-				out.println(StringEscapeUtils.escapeHtml(persistentStorageService.get(columnFamily, id, key)));
-				out.println("</pre>");
+				persistentStorageService.set(columnFamily, id, key, value);
+				out.println("write");
 			}
 			catch (final Exception e) {
 				out.printStackTrace(e);
 			}
-		}
-		else {
-			out.println("missing parameters.<br>usage: ");
-			out.println(PARAMETER_COLUMNFAMILY + "=[Column_family]&" + PARAMETER_ID + "=[ID]&" + PARAMETER_KEY + "=[colname]<br>");
-			out.println("example to read api-data: " + PARAMETER_COLUMNFAMILY + "=api_data&" + PARAMETER_ID + "=[content_key from database]&" + PARAMETER_KEY + "=content<br>");
 		}
 		out.println("</body></html>");
 	}

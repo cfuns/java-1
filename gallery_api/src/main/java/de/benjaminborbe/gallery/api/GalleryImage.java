@@ -4,10 +4,12 @@ public interface GalleryImage {
 
 	String getName();
 
-	byte[] getContent();
-
 	GalleryImageIdentifier getId();
 
+	byte[] getContent();
+
 	String getContentType();
+
+	GalleryIdentifier getGalleryIdentifier();
 
 }

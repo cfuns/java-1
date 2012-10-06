@@ -9,7 +9,11 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.gui.guice.StorageGuiModules;
+import de.benjaminborbe.storage.gui.servlet.StorageDeleteServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageGuiServlet;
+import de.benjaminborbe.storage.gui.servlet.StorageListServlet;
+import de.benjaminborbe.storage.gui.servlet.StorageReadServlet;
+import de.benjaminborbe.storage.gui.servlet.StorageWriteServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -18,6 +22,18 @@ public class StorageGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private StorageGuiServlet storageGuiServlet;
+
+	@Inject
+	private StorageReadServlet storageReadServlet;
+
+	@Inject
+	private StorageDeleteServlet storageDeleteServlet;
+
+	@Inject
+	private StorageListServlet storageListServlet;
+
+	@Inject
+	private StorageWriteServlet storageWriteServlet;
 
 	public StorageGuiActivator() {
 		super("storage");
@@ -32,6 +48,10 @@ public class StorageGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(storageGuiServlet, "/"));
+		result.add(new ServletInfo(storageReadServlet, "/read"));
+		result.add(new ServletInfo(storageWriteServlet, "/write"));
+		result.add(new ServletInfo(storageDeleteServlet, "/delete"));
+		result.add(new ServletInfo(storageListServlet, "/list"));
 		return result;
 	}
 

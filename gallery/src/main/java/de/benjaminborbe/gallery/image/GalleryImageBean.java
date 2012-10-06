@@ -1,5 +1,6 @@
 package de.benjaminborbe.gallery.image;
 
+import de.benjaminborbe.gallery.api.GalleryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
@@ -15,6 +16,8 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 	private GalleryImageIdentifier id;
 
 	private String contentType;
+
+	private GalleryIdentifier galleryIdentifier;
 
 	@Override
 	public String getName() {
@@ -51,6 +54,15 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 	@Override
 	public String getContentType() {
 		return contentType;
+	}
+
+	public void setGalleryIdentifier(final GalleryIdentifier galleryIdentifier) {
+		this.galleryIdentifier = galleryIdentifier;
+	}
+
+	@Override
+	public GalleryIdentifier getGalleryIdentifier() {
+		return galleryIdentifier;
 	}
 
 }

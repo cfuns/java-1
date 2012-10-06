@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.gallery.api.GalleryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -20,7 +21,9 @@ public class GalleryImageBeanMapper extends BaseMapper<GalleryImageBean> {
 
 	private static final String CONTENT = "content";
 
-	private static final String CONTENT_TYPE = "contentType";
+	private static final String CONTENT_TYPE = "content_type";
+
+	private static final String GALLERY_ID = "gallery_id";
 
 	private final Base64Util base64Util;
 
@@ -36,6 +39,7 @@ public class GalleryImageBeanMapper extends BaseMapper<GalleryImageBean> {
 		data.put(NAME, object.getName());
 		data.put(CONTENT_TYPE, object.getContentType());
 		data.put(CONTENT, toString(object.getContent()));
+		data.put(GALLERY_ID, toString(object.getGalleryIdentifier()));
 	}
 
 	@Override
@@ -44,6 +48,7 @@ public class GalleryImageBeanMapper extends BaseMapper<GalleryImageBean> {
 		object.setName(data.get(NAME));
 		object.setContentType(data.get(CONTENT_TYPE));
 		object.setContent(toByteArray(data.get(CONTENT)));
+		object.setGalleryIdentifier(toGalleryIdentifier(data.get(GALLERY_ID)));
 	}
 
 	private byte[] toByteArray(final String content) {
@@ -59,6 +64,14 @@ public class GalleryImageBeanMapper extends BaseMapper<GalleryImageBean> {
 	}
 
 	private String toString(final GalleryImageIdentifier id) {
+		return id != null ? id.getId() : null;
+	}
+
+	private GalleryIdentifier toGalleryIdentifier(final String id) {
+		return id != null ? new GalleryIdentifier(id) : null;
+	}
+
+	private String toString(final GalleryIdentifier id) {
 		return id != null ? id.getId() : null;
 	}
 }

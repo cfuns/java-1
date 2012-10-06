@@ -1,11 +1,15 @@
-package de.benjaminborbe.storage.servlet;
+package de.benjaminborbe.storage.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -22,22 +26,20 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 
 @Singleton
-public class StorageDeleteServlet extends WebsiteServlet {
+public class StorageListServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 1048276599809672509L;
 
 	private static final String PARAMETER_COLUMNFAMILY = "cf";
 
-	private static final String PARAMETER_ID = "id";
-
-	private static final String PARAMETER_KEY = "key";
+	private static final String PARAMETER_PREFIX = "prefix";
 
 	private final Logger logger;
 
 	private final StorageService persistentStorageService;
 
 	@Inject
-	public StorageDeleteServlet(
+	public StorageListServlet(
 			final Logger logger,
 			final StorageService persistentStorageService,
 			final UrlUtil urlUtil,
@@ -59,22 +61,24 @@ public class StorageDeleteServlet extends WebsiteServlet {
 		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 		out.println("<html><head></head><body>");
 		final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
-		final String id = request.getParameter(PARAMETER_ID);
-		final String key = request.getParameter(PARAMETER_KEY);
-
+		final String prefix = request.getParameter(PARAMETER_PREFIX);
 		if (columnFamily == null) {
 			out.println("parameter " + PARAMETER_COLUMNFAMILY + " missing<br>");
 		}
-		if (id == null) {
-			out.println("parameter " + PARAMETER_ID + " missing<br>");
-		}
-		if (key == null) {
-			out.println("parameter " + PARAMETER_KEY + " missing<br>");
-		}
-		if (columnFamily != null && id != null && key != null) {
+		if (columnFamily != null) {
 			try {
-				persistentStorageService.delete(columnFamily, id, key);
-				out.println("deleted");
+				out.println("value=<br>");
+				out.println("<pre>");
+				final List<String> keys;
+				if (prefix != null) {
+					keys = new ArrayList<String>(persistentStorageService.findByIdPrefix(columnFamily, prefix));
+				}
+				else {
+					keys = persistentStorageService.list(columnFamily);
+				}
+				Collections.sort(keys);
+				out.println(StringUtils.join(keys, "\n"));
+				out.println("</pre>");
 			}
 			catch (final Exception e) {
 				out.printStackTrace(e);

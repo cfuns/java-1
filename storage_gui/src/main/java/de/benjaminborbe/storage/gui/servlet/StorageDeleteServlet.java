@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.servlet;
+package de.benjaminborbe.storage.gui.servlet;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 
 @Singleton
-public class StorageWriteServlet extends WebsiteServlet {
+public class StorageDeleteServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 1048276599809672509L;
 
@@ -32,14 +32,12 @@ public class StorageWriteServlet extends WebsiteServlet {
 
 	private static final String PARAMETER_KEY = "key";
 
-	private static final String PARAMETER_VALUE = "value";
-
 	private final Logger logger;
 
 	private final StorageService persistentStorageService;
 
 	@Inject
-	public StorageWriteServlet(
+	public StorageDeleteServlet(
 			final Logger logger,
 			final StorageService persistentStorageService,
 			final UrlUtil urlUtil,
@@ -63,7 +61,6 @@ public class StorageWriteServlet extends WebsiteServlet {
 		final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
 		final String id = request.getParameter(PARAMETER_ID);
 		final String key = request.getParameter(PARAMETER_KEY);
-		final String value = request.getParameter(PARAMETER_VALUE);
 
 		if (columnFamily == null) {
 			out.println("parameter " + PARAMETER_COLUMNFAMILY + " missing<br>");
@@ -74,13 +71,10 @@ public class StorageWriteServlet extends WebsiteServlet {
 		if (key == null) {
 			out.println("parameter " + PARAMETER_KEY + " missing<br>");
 		}
-		if (value == null) {
-			out.println("parameter " + PARAMETER_VALUE + " missing<br>");
-		}
-		if (columnFamily != null && id != null && key != null && value != null) {
+		if (columnFamily != null && id != null && key != null) {
 			try {
-				persistentStorageService.set(columnFamily, id, key, value);
-				out.println("write");
+				persistentStorageService.delete(columnFamily, id, key);
+				out.println("deleted");
 			}
 			catch (final Exception e) {
 				out.printStackTrace(e);

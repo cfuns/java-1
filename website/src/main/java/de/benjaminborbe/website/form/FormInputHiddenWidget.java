@@ -22,7 +22,6 @@ public class FormInputHiddenWidget extends SingleTagWidget implements FormElemen
 			throw new NullPointerException("parameter valueName is null");
 		}
 		addAttribute(TYPE, "hidden");
-		addAttribute(VALUE, "");
 		addAttribute(NAME, valueName);
 	}
 
@@ -41,8 +40,10 @@ public class FormInputHiddenWidget extends SingleTagWidget implements FormElemen
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final String value = request.getParameter(getName());
-		addAttribute(VALUE, value != null ? value : getValue());
+		if (getValue() == null || getValue().length() == 0) {
+			final String value = request.getParameter(getName());
+			addAttribute(VALUE, value);
+		}
 		super.render(request, response, context);
 	}
 }

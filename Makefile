@@ -23,6 +23,12 @@ cleanup:
 	find . -name '.DS_Store' -exec rm -rf "{}" \;
 	find . -name '.svn' -exec rm -rf "{}" \;
 	find . -name 'target' -exec rm -rf "{}" \;
+buildstorage:
+	cd storage_api && make all
+	cd storage && make all
+	cd storage_tools && make all
+	cd storage_gui && make all
+	cd storage_test && make all
 buildworktime:
 	cd worktime_api && make all
 	cd worktime && make all
@@ -43,6 +49,11 @@ buildwiki:
 	cd wiki && make all
 	cd wiki_gui && make all
 	cd wiki_test && make all
+buildslash:
+	cd slash_api && make all
+	cd slash && make all
+	cd slash_gui && make all
+	cd slash_test && make all
 buildbookmark:
 	cd bookmark_api && make all
 	cd bookmark && make all

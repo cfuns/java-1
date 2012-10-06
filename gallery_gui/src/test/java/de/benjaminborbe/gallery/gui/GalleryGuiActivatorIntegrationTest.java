@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -45,8 +46,13 @@ public class GalleryGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + GalleryGuiConstants.NAME, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.UPLOAD_URL, "/" + GalleryGuiConstants.NAME
-				+ GalleryGuiConstants.IMAGE_URL, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.LIST_URL, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.DELETE_URL);
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + GalleryGuiConstants.NAME);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_UPLOAD);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_DELETE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_CREATE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
