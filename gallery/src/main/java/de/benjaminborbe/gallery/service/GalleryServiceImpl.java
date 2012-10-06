@@ -63,7 +63,9 @@ public class GalleryServiceImpl implements GalleryService {
 	public List<GalleryImageIdentifier> getImages(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier);
-			return new ArrayList<GalleryImageIdentifier>(galleryImageDao.getGalleryImageIdentifiers(galleryIdentifier));
+			final List<GalleryImageIdentifier> result = new ArrayList<GalleryImageIdentifier>(galleryImageDao.getGalleryImageIdentifiers(galleryIdentifier));
+			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier + " => " + result.size());
+			return result;
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);

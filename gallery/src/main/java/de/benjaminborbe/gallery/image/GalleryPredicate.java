@@ -14,7 +14,7 @@ public class GalleryPredicate implements Predicate<GalleryImageBean> {
 
 	@Override
 	public boolean apply(final GalleryImageBean galleryImage) {
-		return galleryImage.getId().equals(galleryIdentifier);
+		return galleryImage.getGalleryIdentifier().equals(galleryIdentifier);
 	}
 
 }

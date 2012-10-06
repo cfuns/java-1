@@ -1,6 +1,8 @@
 package de.benjaminborbe.gallery.image;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 
@@ -20,6 +22,8 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 
 	private static final String COLUMN_FAMILY = "gallery_image";
 
+	private final Logger logger;
+
 	@Inject
 	public GalleryImageDaoStorage(
 			final Logger logger,
@@ -28,6 +32,7 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 			final GalleryImageBeanMapper mapper,
 			final GalleryImageIdentifierBuilder identifierBuilder) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+		this.logger = logger;
 	}
 
 	@Override
@@ -43,8 +48,26 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 
 	@Override
 	public Collection<GalleryImageIdentifier> getGalleryImageIdentifiers(final GalleryIdentifier galleryIdentifier) throws StorageException {
-		final Collection<GalleryImageIdentifier> images = getIdentifiers();
-		return Collections2.filter(images, new GalleryIdentifierPredicate(galleryIdentifier));
+		final Collection<GalleryImageBean> images = getGalleryImages(galleryIdentifier);
+		final Set<GalleryImageIdentifier> result = new HashSet<GalleryImageIdentifier>();
+		for (final GalleryImageBean image : images) {
+			result.add(image.getId());
+		}
+		return result;
+	}
+
+	@Override
+	public Collection<GalleryImageIdentifier> getIdentifiers() throws StorageException {
+		final Collection<GalleryImageIdentifier> result = super.getIdentifiers();
+		logger.debug("getIdentifiers => " + result.size());
+		return result;
+	}
+
+	@Override
+	public Collection<GalleryImageBean> getAll() throws StorageException {
+		final Collection<GalleryImageBean> result = super.getAll();
+		logger.debug("getAll => " + result.size());
+		return result;
 	}
 
 }

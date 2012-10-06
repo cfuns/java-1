@@ -105,14 +105,16 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					@SuppressWarnings("unchecked")
 					final List<FileItem> items = upload.parseRequest(request);
 					for (final FileItem item : items) {
-						final String imageName = item.getFieldName();
-						final byte[] imageContent = item.get();
-						final String imageContentType = extractContentType(item.getContentType(), imageName);
-						galleryService.saveImage(galleryIdentifier, imageName, imageContentType, imageContent);
-						widgets.add("file " + item.getName() + " uploaded!");
-						widgets.add(new BrWidget());
-						widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST, new MapChain<String, String>().add(
-								GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(galleryIdentifier)), "list"));
+						if (!item.isFormField()) {
+							final String imageName = item.getFieldName();
+							final byte[] imageContent = item.get();
+							final String imageContentType = extractContentType(item.getContentType(), imageName);
+							galleryService.saveImage(galleryIdentifier, imageName, imageContentType, imageContent);
+							widgets.add("file " + item.getName() + " uploaded!");
+							widgets.add(new BrWidget());
+							widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST, new MapChain<String, String>().add(
+									GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(galleryIdentifier)), "list"));
+						}
 					}
 				}
 				catch (final FileUploadException e) {
