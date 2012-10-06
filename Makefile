@@ -44,6 +44,11 @@ buildweather:
 	cd weather && make all
 	cd weather_gui && make all
 	cd weather_test && make all
+buildgwt:
+	cd gwt_api && make all
+	cd gwt && make all
+	cd gwt_gui && make all
+	cd gwt_test && make all
 buildblog:
 	cd blog_api && make all
 	cd blog && make all
