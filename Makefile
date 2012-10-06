@@ -39,6 +39,11 @@ buildgallery:
 	cd gallery && make all
 	cd gallery_gui && make all
 	cd gallery_test && make all
+buildweather:
+	cd weather_api && make all
+	cd weather && make all
+	cd weather_gui && make all
+	cd weather_test && make all
 buildblog:
 	cd blog_api && make all
 	cd blog && make all
