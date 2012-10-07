@@ -13,13 +13,13 @@ import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
-public class GalleryLink implements Widget {
+public class GalleryLinkWidget implements Widget {
 
 	private final Gallery gallery;
 
 	private final UrlUtil urlUtil;
 
-	public GalleryLink(final Gallery gallery, final UrlUtil urlUtil) {
+	public GalleryLinkWidget(final Gallery gallery, final UrlUtil urlUtil) {
 		this.gallery = gallery;
 		this.urlUtil = urlUtil;
 	}

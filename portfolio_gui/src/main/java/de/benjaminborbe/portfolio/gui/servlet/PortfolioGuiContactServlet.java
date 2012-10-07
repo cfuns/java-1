@@ -116,6 +116,7 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		portfolioWidget.addTitle("Portfolio - Contact");
 		portfolioWidget.addContent(createContentWidget(request, response, context));
 		return portfolioWidget;
 	}

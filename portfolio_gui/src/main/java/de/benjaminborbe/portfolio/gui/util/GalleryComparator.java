@@ -1,4 +1,4 @@
-package de.benjaminborbe.portfolio.gui.widget;
+package de.benjaminborbe.portfolio.gui.util;
 
 import java.util.Comparator;
 

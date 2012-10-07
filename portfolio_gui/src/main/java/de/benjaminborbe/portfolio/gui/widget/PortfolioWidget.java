@@ -62,4 +62,9 @@ public class PortfolioWidget implements Widget {
 		this.content = content;
 		return this;
 	}
+
+	public PortfolioWidget addTitle(final String title) {
+		this.title = title;
+		return this;
+	}
 }

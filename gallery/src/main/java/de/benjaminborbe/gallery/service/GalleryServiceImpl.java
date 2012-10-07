@@ -99,7 +99,12 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("getImage");
 			final GalleryImageBean image = galleryImageDao.load(id);
-			logger.debug("getImageContent name: " + image.getName() + " length: " + image.getContent().length);
+			if (image != null) {
+				logger.debug("getImageContent name: " + image.getName() + " length: " + image.getContent().length);
+			}
+			else {
+				logger.debug("no image found for id: " + id);
+			}
 			return image;
 		}
 		catch (final StorageException e) {
