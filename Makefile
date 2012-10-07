@@ -23,6 +23,13 @@ cleanup:
 	find . -name '.DS_Store' -exec rm -rf "{}" \;
 	find . -name '.svn' -exec rm -rf "{}" \;
 	find . -name 'target' -exec rm -rf "{}" \;
+buildwebsite:
+	cd website && make all
+buildportfolio:
+	cd portfolio_api && make all
+	cd portfolio && make all
+	cd portfolio_gui && make all
+	cd portfolio_test && make all
 buildstorage:
 	cd storage_api && make all
 	cd storage && make all

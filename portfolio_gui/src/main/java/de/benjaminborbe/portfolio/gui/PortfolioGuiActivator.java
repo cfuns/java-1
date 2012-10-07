@@ -9,6 +9,8 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiLinksServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -18,6 +20,12 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private PortfolioGuiServlet portfolioGuiServlet;
+
+	@Inject
+	private PortfolioGuiContactServlet portfolioGuiContactServlet;
+
+	@Inject
+	private PortfolioGuiLinksServlet portfolioGuiLinksServlet;
 
 	public PortfolioGuiActivator() {
 		super(PortfolioGuiConstants.NAME);
@@ -31,7 +39,9 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(portfolioGuiServlet, PortfolioGuiConstants.HOME_URL));
+		result.add(new ServletInfo(portfolioGuiServlet, PortfolioGuiConstants.URL_HOME));
+		result.add(new ServletInfo(portfolioGuiContactServlet, PortfolioGuiConstants.URL_CONTACT));
+		result.add(new ServletInfo(portfolioGuiLinksServlet, PortfolioGuiConstants.URL_LINKS));
 		return result;
 	}
 

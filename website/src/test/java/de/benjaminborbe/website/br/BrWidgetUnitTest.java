@@ -12,7 +12,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.website.BrWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 public class BrWidgetUnitTest {
 

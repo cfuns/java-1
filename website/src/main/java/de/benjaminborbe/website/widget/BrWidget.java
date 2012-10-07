@@ -1,4 +1,4 @@
-package de.benjaminborbe.website;
+package de.benjaminborbe.website.widget;
 
 import de.benjaminborbe.website.util.SingleTagWidget;
 

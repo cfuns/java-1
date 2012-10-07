@@ -12,12 +12,12 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.BrWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 public class BlogGuiPostWidget implements Widget {
 

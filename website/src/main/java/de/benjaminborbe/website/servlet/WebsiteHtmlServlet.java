@@ -35,17 +35,15 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
-import de.benjaminborbe.website.util.CssResourceWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.HtmlWidget;
-import de.benjaminborbe.website.util.JavascriptResourceWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.widget.HeadWidget;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
@@ -190,16 +188,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	private Widget createHeadWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
 		logger.trace("printHead");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new TagWidget("title", getTitle()));
-		widgets.add(new HtmlContentWidget("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />"));
-		widgets.add(new HtmlContentWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
-		widgets.add(new HtmlContentWidget("<meta name=\"description\" content=\"BB\" />"));
-		widgets.add(new HtmlContentWidget("<meta name=\"keywords\" content=\"BB\" />"));
-		widgets.add(new HtmlContentWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
-		widgets.add(new JavascriptResourceWidget(getJavascriptResources(request, response)));
-		widgets.add(new CssResourceWidget(getCssResources(request, response)));
-		return new TagWidget("head", widgets);
+		return new HeadWidget(getTitle(), getJavascriptResources(request, response), getCssResources(request, response));
 	}
 
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
