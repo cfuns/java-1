@@ -6,15 +6,17 @@ public interface GalleryGuiConstants {
 
 	String URL_HOME = "/";
 
-	String URL_IMAGE = "/image";
+	String URL_IMAGE = "/image/content";
 
-	String URL_IMAGE_LIST = "/list";
+	String URL_IMAGE_LIST = "/image/list";
 
-	String URL_DELETE = "/delete";
+	String URL_IMAGE_DELETE = "/image/delete";
 
-	String URL_IMAGE_UPLOAD = "/upload";
+	String URL_IMAGE_UPLOAD = "/image/upload";
 
-	String URL_CREATE = "/create";
+	String URL_GALLERY_DELETE = "/gallery/delete";
+
+	String URL_GALLERY_CREATE = "/gallery/create";
 
 	String PARAMETER_UPLOAD = "image_file";
 

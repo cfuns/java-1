@@ -9,11 +9,12 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCreateServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryCreateServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageListServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryListServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageUploadServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
@@ -25,10 +26,13 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class GalleryGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private GalleryGuiCreateServlet galleryGuiCreateServlet;
+	private GalleryGuiGalleryDeleteServlet galleryGuiGalleryDeleteServlet;
 
 	@Inject
-	private GalleryGuiServlet galleryGuiServlet;
+	private GalleryGuiGalleryCreateServlet galleryGuiCreateServlet;
+
+	@Inject
+	private GalleryGuiGalleryListServlet galleryGuiServlet;
 
 	@Inject
 	private GalleryGuiImageUploadServlet galleryGuiUploadServlet;
@@ -58,8 +62,9 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(galleryGuiUploadServlet, GalleryGuiConstants.URL_IMAGE_UPLOAD));
 		result.add(new ServletInfo(galleryGuiListServlet, GalleryGuiConstants.URL_IMAGE_LIST));
 		result.add(new ServletInfo(galleryGuiImageServlet, GalleryGuiConstants.URL_IMAGE));
-		result.add(new ServletInfo(galleryGuiDeleteServlet, GalleryGuiConstants.URL_DELETE));
-		result.add(new ServletInfo(galleryGuiCreateServlet, GalleryGuiConstants.URL_CREATE));
+		result.add(new ServletInfo(galleryGuiDeleteServlet, GalleryGuiConstants.URL_IMAGE_DELETE));
+		result.add(new ServletInfo(galleryGuiCreateServlet, GalleryGuiConstants.URL_GALLERY_CREATE));
+		result.add(new ServletInfo(galleryGuiGalleryDeleteServlet, GalleryGuiConstants.URL_GALLERY_DELETE));
 		return result;
 	}
 

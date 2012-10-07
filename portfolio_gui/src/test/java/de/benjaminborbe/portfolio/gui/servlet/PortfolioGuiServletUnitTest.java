@@ -1,4 +1,4 @@
-package de.benjaminborbe.gallery.gui.servlet;
+package de.benjaminborbe.portfolio.gui.servlet;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -24,11 +23,9 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
-import de.benjaminborbe.gallery.api.GalleryService;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -37,7 +34,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class GalleryGuiServletUnitTest {
+public class PortfolioGuiServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -120,16 +117,12 @@ public class GalleryGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getGalleries()).andReturn(new HashSet<GalleryIdentifier>());
-		EasyMock.replay(galleryService);
+		final PortfolioGuiServlet portfolioServlet = new PortfolioGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+				redirectUtil, urlUtil);
 
-		final GalleryGuiServlet galleryServlet = new GalleryGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, galleryService);
-
-		galleryServlet.service(request, response);
+		portfolioServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Gallery</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Portfolio</h1>") != -1);
 	}
 }

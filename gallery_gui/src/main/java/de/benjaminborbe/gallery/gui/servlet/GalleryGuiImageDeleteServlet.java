@@ -35,7 +35,7 @@ public class GalleryGuiImageDeleteServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Gallery - Delete";
+	private static final String TITLE = "Gallery - Image Delete";
 
 	private final GalleryService galleryService;
 

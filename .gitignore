@@ -189,3 +189,7 @@ gallery/target
 gallery_api/target
 gallery_gui/target
 gallery_test/target
+portfolio/target
+portfolio_api/target
+portfolio_gui/target
+portfolio_test/target

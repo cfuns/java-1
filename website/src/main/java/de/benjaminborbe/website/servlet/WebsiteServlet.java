@@ -122,9 +122,11 @@ public abstract class WebsiteServlet extends HttpServlet {
 		final String requestUri = request.getRequestURI().replaceFirst("//", "/");
 		logger.trace("requestUri=" + requestUri);
 		referer.append(requestUri);
-		referer.append("?");
 		@SuppressWarnings("unchecked")
 		final Enumeration<String> e = request.getParameterNames();
+		if (e.hasMoreElements()) {
+			referer.append("?");
+		}
 		final List<String> pairs = new ArrayList<String>();
 		while (e.hasMoreElements()) {
 			final String name = e.nextElement();

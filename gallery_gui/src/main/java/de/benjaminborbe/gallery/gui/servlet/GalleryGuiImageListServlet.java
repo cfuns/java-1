@@ -89,7 +89,7 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 						+ imageId));
 				final Map<String, String> data = new HashMap<String, String>();
 				data.put(GalleryGuiConstants.PARAMETER_IMAGE_ID, String.valueOf(imageId));
-				list.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_DELETE, data, "delete"));
+				list.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_DELETE, data, "delete"));
 				ul.add(list);
 			}
 			widgets.add(ul);
