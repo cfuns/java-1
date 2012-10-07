@@ -110,13 +110,14 @@ public class GalleryServiceImpl implements GalleryService {
 	@Override
 	public GalleryIdentifier createGallery(final String name) throws GalleryServiceException {
 		try {
-			logger.debug("createGallery");
-			final GalleryIdentifier id = createGalleryIdentifier(name);
+			logger.debug("createGallery name: " + name);
+			final String id = String.valueOf(UUID.nameUUIDFromBytes(name.getBytes()));
+			final GalleryIdentifier galleryIdentifier = createGalleryIdentifier(id);
 			final GalleryBean gallery = galleryDao.create();
-			gallery.setId(id);
+			gallery.setId(galleryIdentifier);
 			gallery.setName(name);
 			galleryDao.save(gallery);
-			return id;
+			return galleryIdentifier;
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
@@ -133,6 +134,12 @@ public class GalleryServiceImpl implements GalleryService {
 	public void deleteGallery(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("deleteGallery");
+			// delete all images of gallery
+			final List<GalleryImageIdentifier> images = getImages(galleryIdentifier);
+			for (final GalleryImageIdentifier image : images) {
+				galleryImageDao.delete(image);
+			}
+			// delete gallery
 			galleryDao.delete(galleryIdentifier);
 		}
 		catch (final StorageException e) {
