@@ -14,42 +14,42 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
+import de.benjaminborbe.portfolio.gui.widget.PortfolioWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class PortfolioGuiServlet extends PortfolioGuiBaseServlet {
+public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Portfolio";
+	private final PortfolioWidget portfolioWidget;
 
 	@Inject
-	public PortfolioGuiServlet(
+	public PortfolioGuiGalleryServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService) {
+			final AuthenticationService authenticationService,
+			final PortfolioWidget portfolioWidget) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
+		this.portfolioWidget = portfolioWidget;
 	}
 
-	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new LinkRelativWidget(request, "/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_LINKS, "Links"));
-		widgets.add(new LinkRelativWidget(request, "/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_CONTACT, "Contact"));
+		widgets.add("image");
 		return widgets;
 	}
 
 	@Override
-	protected String getTitle() {
-		return TITLE;
+	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		portfolioWidget.addContent(createContentWidget(request, response, context));
+		return portfolioWidget;
 	}
-
 }

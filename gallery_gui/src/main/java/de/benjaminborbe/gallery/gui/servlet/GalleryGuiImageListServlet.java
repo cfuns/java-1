@@ -83,7 +83,7 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 			final GalleryIdentifier galleryIdentifier = galleryService.createGalleryIdentifier(galleryId);
 
 			final UlWidget ul = new UlWidget();
-			for (final GalleryImageIdentifier imageId : galleryService.getImages(galleryIdentifier)) {
+			for (final GalleryImageIdentifier imageId : galleryService.getImageIdentifiers(galleryIdentifier)) {
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE + "?" + GalleryGuiConstants.PARAMETER_IMAGE_ID + "="
 						+ imageId));

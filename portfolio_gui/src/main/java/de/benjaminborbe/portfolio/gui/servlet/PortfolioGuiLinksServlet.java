@@ -15,20 +15,22 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.portfolio.gui.widget.PortfolioWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkWidget;
+import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class PortfolioGuiLinksServlet extends PortfolioGuiBaseServlet {
+public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Links";
+	private final PortfolioWidget portfolioWidget;
 
 	@Inject
 	public PortfolioGuiLinksServlet(
@@ -37,14 +39,15 @@ public class PortfolioGuiLinksServlet extends PortfolioGuiBaseServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService) {
+			final AuthenticationService authenticationService,
+			final PortfolioWidget portfolioWidget) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
+		this.portfolioWidget = portfolioWidget;
 	}
 
-	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		widgets.add(new H1Widget("Links"));
 		final UlWidget links = new UlWidget();
 		links.add(new LinkWidget(new URL("http://www.facebook.com/benjamin.borbe"), "Facebook"));
 		links.add(new LinkWidget(new URL("http://twitter.com/bborbe"), "Twitter"));
@@ -61,7 +64,8 @@ public class PortfolioGuiLinksServlet extends PortfolioGuiBaseServlet {
 	}
 
 	@Override
-	protected String getTitle() {
-		return TITLE;
+	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		portfolioWidget.addContent(createContentWidget(request, response, context));
+		return portfolioWidget;
 	}
 }

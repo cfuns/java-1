@@ -47,6 +47,18 @@ public class SlashGuiServlet extends WebsiteServlet {
 	}
 
 	protected String buildRedirectTargetPath(final HttpServletRequest request) {
-		return request.getContextPath() + "/" + DEFAULT_TARGET;
+		final String serverName = request.getServerName();
+		if (serverName.indexOf("benjamin-borbe.de") != -1 || serverName.indexOf("benjaminborbe.de") != -1) {
+			return request.getContextPath() + "/portfolio";
+		}
+		else if (serverName.indexOf("harteslicht.de") != -1 || serverName.indexOf("harteslicht.com") != -1) {
+			return request.getContextPath() + "/blog";
+		}
+		else if (serverName.indexOf("rocketnews.de") != -1 || serverName.indexOf("rocketsource.de") != -1) {
+			return request.getContextPath() + "/wiki";
+		}
+		else {
+			return request.getContextPath() + "/" + DEFAULT_TARGET;
+		}
 	}
 }

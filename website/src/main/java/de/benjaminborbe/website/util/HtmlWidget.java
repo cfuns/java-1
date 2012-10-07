@@ -29,6 +29,9 @@ public class HtmlWidget implements Widget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+
 		final ListWidget widgets = new ListWidget();
 		widgets.add(headWidget);
 		widgets.add(bodyWidget);

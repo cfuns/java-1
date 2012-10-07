@@ -10,4 +10,6 @@ public interface PortfolioGuiConstants {
 
 	String URL_LINKS = "/links";
 
+	String PARAMETER_GALLERY_ID = "gallery_id";
+
 }

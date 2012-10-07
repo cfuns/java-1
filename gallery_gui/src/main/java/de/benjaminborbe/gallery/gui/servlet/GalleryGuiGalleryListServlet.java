@@ -78,7 +78,7 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			for (final GalleryIdentifier galleryIdentifier : galleryService.getGalleries()) {
+			for (final GalleryIdentifier galleryIdentifier : galleryService.getGalleryIdentifiers()) {
 				final Gallery gallery = galleryService.getGallery(galleryIdentifier);
 				final ListWidget list = new ListWidget();
 				list.add(linkFactory.imageList(request, gallery));

@@ -44,7 +44,7 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryIdentifier> getGalleries() throws GalleryServiceException {
+	public Collection<GalleryIdentifier> getGalleryIdentifiers() throws GalleryServiceException {
 		return null;
 	}
 
@@ -59,12 +59,18 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public List<GalleryImageIdentifier> getImages(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
+	public List<GalleryImageIdentifier> getImageIdentifiers(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public GalleryImageIdentifier saveImage(final GalleryIdentifier galleryIdentifier, final String imageName, final String imageContentType, final byte[] imageContent) throws GalleryServiceException {
+	public GalleryImageIdentifier saveImage(final GalleryIdentifier galleryIdentifier, final String imageName, final String imageContentType, final byte[] imageContent)
+			throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<Gallery> getGalleries() throws GalleryServiceException {
 		return null;
 	}
 

@@ -7,7 +7,7 @@ public interface GalleryService {
 
 	GalleryImageIdentifier saveImage(GalleryIdentifier galleryIdentifier, String imageName, String imageContentType, byte[] imageContent) throws GalleryServiceException;
 
-	List<GalleryImageIdentifier> getImages(GalleryIdentifier galleryIdentifier) throws GalleryServiceException;
+	List<GalleryImageIdentifier> getImageIdentifiers(GalleryIdentifier galleryIdentifier) throws GalleryServiceException;
 
 	GalleryImage getImage(GalleryImageIdentifier id) throws GalleryServiceException;
 
@@ -19,7 +19,9 @@ public interface GalleryService {
 
 	void deleteGallery(GalleryIdentifier galleryIdentifier) throws GalleryServiceException;
 
-	Collection<GalleryIdentifier> getGalleries() throws GalleryServiceException;
+	Collection<GalleryIdentifier> getGalleryIdentifiers() throws GalleryServiceException;
+
+	Collection<Gallery> getGalleries() throws GalleryServiceException;
 
 	GalleryIdentifier createGalleryIdentifier(String id) throws GalleryServiceException;
 

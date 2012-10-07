@@ -60,7 +60,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public List<GalleryImageIdentifier> getImages(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
+	public List<GalleryImageIdentifier> getImageIdentifiers(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier);
 			final List<GalleryImageIdentifier> result = new ArrayList<GalleryImageIdentifier>(galleryImageDao.getGalleryImageIdentifiers(galleryIdentifier));
@@ -135,7 +135,7 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("deleteGallery");
 			// delete all images of gallery
-			final List<GalleryImageIdentifier> images = getImages(galleryIdentifier);
+			final List<GalleryImageIdentifier> images = getImageIdentifiers(galleryIdentifier);
 			for (final GalleryImageIdentifier image : images) {
 				galleryImageDao.delete(image);
 			}
@@ -148,9 +148,9 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryIdentifier> getGalleries() throws GalleryServiceException {
+	public Collection<GalleryIdentifier> getGalleryIdentifiers() throws GalleryServiceException {
 		try {
-			logger.debug("getGalleries");
+			logger.debug("getGalleryIdentifiers");
 			return galleryDao.getIdentifiers();
 		}
 		catch (final StorageException e) {
@@ -163,6 +163,17 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("getGallery");
 			return galleryDao.load(galleryIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public Collection<Gallery> getGalleries() throws GalleryServiceException {
+		try {
+			logger.debug("getGalleries");
+			return new ArrayList<Gallery>(galleryDao.getAll());
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);

@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiLinksServlet;
-import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiServlet;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiGalleryServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private PortfolioGuiServlet portfolioGuiServlet;
+	private PortfolioGuiGalleryServlet portfolioGuiServlet;
 
 	@Inject
 	private PortfolioGuiContactServlet portfolioGuiContactServlet;

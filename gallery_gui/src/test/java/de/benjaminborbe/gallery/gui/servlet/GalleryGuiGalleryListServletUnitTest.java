@@ -123,7 +123,7 @@ public class GalleryGuiGalleryListServletUnitTest {
 		EasyMock.replay(urlUtil);
 
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getGalleries()).andReturn(new HashSet<GalleryIdentifier>());
+		EasyMock.expect(galleryService.getGalleryIdentifiers()).andReturn(new HashSet<GalleryIdentifier>());
 		EasyMock.replay(galleryService);
 
 		final LinkFactory linkFactory = EasyMock.createMock(LinkFactory.class);
