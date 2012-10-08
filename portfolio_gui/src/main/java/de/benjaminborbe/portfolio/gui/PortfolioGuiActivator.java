@@ -14,6 +14,7 @@ import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiLinksServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiGalleryServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PortfolioGuiActivator extends HttpBundleActivator {
@@ -52,12 +53,12 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 	// return result;
 	// }
 
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// // result.add(new ResourceInfo("/images", "images"));
-	// return result;
-	// }
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo("/js", "js"));
+		result.add(new ResourceInfo("/images", "images"));
+		return result;
+	}
 }

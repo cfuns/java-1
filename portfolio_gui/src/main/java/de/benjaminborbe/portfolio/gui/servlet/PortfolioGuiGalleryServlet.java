@@ -96,4 +96,10 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			}
 		}
 	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
+	}
+
 }

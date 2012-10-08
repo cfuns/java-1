@@ -1,0 +1,157 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	background-color: #202020;
+	font-family: Helvetica, Arial, sans-serif;
+	color: #FFFFFF;
+}
+
+table {
+	border: 0px;
+}
+
+a {
+	color: #FFFFFF;
+}
+
+.navi a,#languageSwitch a {
+	text-decoration: none;
+}
+
+#header li {
+	display: inline;
+}
+
+#footer li {
+	display: inline;
+}
+
+#images {
+	border-spacing: 5px;
+}
+
+#images .node {
+	background-color: #FFFFFF;
+	margin: 5px;
+	padding: 5px;
+}
+
+#images .start .content,#images .end .content,#images .text .content {
+	background-color: #202020;
+	height: 490px;
+	width: 490px;
+	padding: 5px;
+}
+
+#images images img {
+	height: 500px;
+}
+
+#content {
+	overflow: auto;
+	width: 99%;
+}
+
+#header,#content,#footer {
+	margin-left: 10px;
+}
+
+#logo {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#logo .name {
+	font-size: 48px;
+	line-height: 40px;
+}
+
+#logo .photography {
+	font-size: 14px;
+}
+
+#logo .name,#logo .photography {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+#copyright {
+	font-size: 9px;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	position: fixed;
+}
+
+#languageSwitch {
+	font-size: 14px;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	position: fixed;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+#modelsgesucht {
+	position: fixed;
+	top: 10px;
+	right: 200px;
+	position: fixed;
+}
+
+.imagebox {
+	margin: 5px;
+	padding: 5px;
+	background-color: #FFFFFF;
+	text-align: center;
+}
+
+.navi {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.navi li {
+	margin-right: 1px;
+}
+
+.navi a:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+}
+
+.clear {
+	clear: both;
+	line-height: 0;
+}
+
+.links ul,.textcontent ul {
+	padding-left: 20px;
+}
+
+.textcontent {
+	max-width: 800px;
+	margin-bottom: 10px;
+}
+
+.textcontent h1,.textcontent h2 {
+	margin-top: 10px;
+}
+
+td {
+	vertical-align: top;
+}
+
+.textcontent input[type="text"],.textcontent textarea {
+	width: 300px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.textcontent textarea {
+	height: 100px;
+}

@@ -120,4 +120,10 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 		portfolioWidget.addContent(createContentWidget(request, response, context));
 		return portfolioWidget;
 	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
+	}
+
 }

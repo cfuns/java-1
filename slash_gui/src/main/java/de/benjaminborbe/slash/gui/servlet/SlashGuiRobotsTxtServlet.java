@@ -39,9 +39,14 @@ public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final ListWidget widgets = new ListWidget();
-		widgets.add("User-agent: *");
-		widgets.add("Disallow: /css/");
-		widgets.add("Disallow: /images/");
+		widgets.add("User-agent: *\n");
+		widgets.add("Disallow: /css/\n");
+		widgets.add("Disallow: /images/\n");
 		return widgets;
+	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
 	}
 }

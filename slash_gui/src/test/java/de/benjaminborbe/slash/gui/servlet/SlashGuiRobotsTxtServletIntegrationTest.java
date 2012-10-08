@@ -20,4 +20,5 @@ public class SlashGuiRobotsTxtServletIntegrationTest {
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);
 	}
+
 }
