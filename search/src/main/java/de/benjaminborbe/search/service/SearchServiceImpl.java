@@ -2,9 +2,7 @@ package de.benjaminborbe.search.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -34,10 +32,13 @@ public class SearchServiceImpl implements SearchService {
 
 		private final int maxResults;
 
+		private final String query;
+
 		private SearchThreadRunner(
 				final SearchServiceComponent searchServiceComponent,
 				final ThreadResult<List<SearchResult>> threadResult,
 				final SessionIdentifier sessionIdentifier,
+				final String query,
 				final String[] words,
 				final int maxResults) {
 			this.searchServiceComponent = searchServiceComponent;
@@ -45,12 +46,13 @@ public class SearchServiceImpl implements SearchService {
 			this.sessionIdentifier = sessionIdentifier;
 			this.words = words;
 			this.maxResults = maxResults;
+			this.query = query;
 		}
 
 		@Override
 		public void run() {
 			try {
-				threadResult.set(searchServiceComponent.search(sessionIdentifier, words, maxResults));
+				threadResult.set(searchServiceComponent.search(sessionIdentifier, query, words, maxResults));
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -72,17 +74,11 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
 		logger.trace("search words: " + StringUtils.join(words, ","));
 
 		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());
-		Collections.sort(searchServiceComponents, new Comparator<SearchServiceComponent>() {
-
-			@Override
-			public int compare(final SearchServiceComponent o1, final SearchServiceComponent o2) {
-				return o1.getName().compareToIgnoreCase(o2.getName());
-			}
-		});
+		Collections.sort(searchServiceComponents, new SearchServiceComponentComparator());
 		logger.trace("searchServiceComponents " + searchServiceComponents.size());
 
 		final List<Thread> threads = new ArrayList<Thread>();
@@ -93,7 +89,7 @@ public class SearchServiceImpl implements SearchService {
 
 			final ThreadResult<List<SearchResult>> threadResult = new ThreadResult<List<SearchResult>>();
 			threadResults.add(threadResult);
-			threads.add(threadRunner.run("search", new SearchThreadRunner(searchServiceComponent, threadResult, sessionIdentifier, words, maxResults)));
+			threads.add(threadRunner.run("search", new SearchThreadRunner(searchServiceComponent, threadResult, sessionIdentifier, query, words, maxResults)));
 		}
 
 		for (final Thread thread : threads) {

@@ -14,6 +14,7 @@ import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModules;
 import de.benjaminborbe.search.service.SearchServiceComponentServiceTracker;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
+import de.benjaminborbe.search.util.UrlSearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -25,6 +26,9 @@ public class SearchActivator extends BaseBundleActivator {
 
 	@Inject
 	private SearchServiceComponentRegistry searchServiceComponentRegistry;
+
+	@Inject
+	private UrlSearchServiceComponent urlSearchServiceComponent;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -42,6 +46,7 @@ public class SearchActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchService.class, searchService));
+		result.add(new ServiceInfo(SearchServiceComponent.class, urlSearchServiceComponent, urlSearchServiceComponent.getClass().getName()));
 		return result;
 	}
 }

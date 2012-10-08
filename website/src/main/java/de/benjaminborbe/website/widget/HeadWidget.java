@@ -43,22 +43,22 @@ public class HeadWidget implements Widget {
 	}
 
 	public HeadWidget addJavascriptResource(final JavascriptResource javascriptResource) {
-		javascriptResources.add(javascriptResource);
+		this.javascriptResources.add(javascriptResource);
 		return this;
 	}
 
 	public HeadWidget addJavascriptResources(final Collection<JavascriptResource> javascriptResources) {
-		javascriptResources.addAll(javascriptResources);
+		this.javascriptResources.addAll(javascriptResources);
 		return this;
 	}
 
 	public HeadWidget addCssResource(final CssResource cssResource) {
-		cssResources.add(cssResource);
+		this.cssResources.add(cssResource);
 		return this;
 	}
 
 	public HeadWidget addCssResources(final Collection<CssResource> cssResources) {
-		cssResources.addAll(cssResources);
+		this.cssResources.addAll(cssResources);
 		return this;
 	}
 

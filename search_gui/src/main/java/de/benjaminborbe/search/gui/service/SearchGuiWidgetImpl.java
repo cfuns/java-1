@@ -84,7 +84,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final String[] words = searchUtil.buildSearchParts(searchQuery);
 			SessionIdentifier sessionIdentifier;
 			sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<SearchResult> results = searchService.search(sessionIdentifier, words, MAX_RESULTS);
+			final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, words, MAX_RESULTS);
 			printSearchResults(request, response, results);
 		}
 		catch (final AuthenticationServiceException e) {

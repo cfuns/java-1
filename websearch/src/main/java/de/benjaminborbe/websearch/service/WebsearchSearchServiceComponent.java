@@ -34,7 +34,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchActivator.INDEX, StringUtils.join(words, " "));
