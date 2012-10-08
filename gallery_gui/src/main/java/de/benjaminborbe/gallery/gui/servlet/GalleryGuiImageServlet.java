@@ -73,4 +73,10 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 			logger.debug(e.getClass().getSimpleName(), e);
 		}
 	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
+	}
+
 }

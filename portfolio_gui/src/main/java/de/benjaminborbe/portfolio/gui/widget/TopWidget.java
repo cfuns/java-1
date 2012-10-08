@@ -8,10 +8,10 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
-public class HeaderWidget extends DivWidget implements Widget {
+public class TopWidget extends DivWidget implements Widget {
 
 	@Inject
-	public HeaderWidget(final TopNaviWidget topNaviWidget) {
+	public TopWidget(final TopNaviWidget topNaviWidget) {
 		addAttribute("class", "header");
 		final ListWidget widgets = new ListWidget();
 

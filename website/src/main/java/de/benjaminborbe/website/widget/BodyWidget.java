@@ -1,4 +1,4 @@
-package de.benjaminborbe.website.util;
+package de.benjaminborbe.website.widget;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.TagWidget;
 
 public class BodyWidget implements Widget {
 

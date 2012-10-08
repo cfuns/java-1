@@ -1,9 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,45 +10,63 @@ import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.website.util.BodyWidget;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
+import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
-import de.benjaminborbe.website.util.HtmlWidget;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BodyWidget;
 import de.benjaminborbe.website.widget.HeadWidget;
+import de.benjaminborbe.website.widget.HtmlWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 
 public class PortfolioWidget implements Widget {
 
 	private String title;
 
-	private final List<JavascriptResource> javascriptResources = new ArrayList<JavascriptResource>();
+	private final TopWidget topWidget;
 
-	private final List<CssResource> cssResources = new ArrayList<CssResource>();
-
-	private final HeaderWidget headerWidget;
-
-	private final FooterWidget footerWidget;
+	private final BottomWidget footerWidget;
 
 	private Widget content;
 
 	@Inject
-	public PortfolioWidget(final HeaderWidget headerWidget, final FooterWidget footerWidget) {
-		this.headerWidget = headerWidget;
+	public PortfolioWidget(final TopWidget topWidget, final BottomWidget footerWidget) {
+		this.topWidget = topWidget;
 		this.footerWidget = footerWidget;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final HeadWidget headWidget = new HeadWidget(title, javascriptResources, cssResources);
+		final HeadWidget headWidget = new HeadWidget();
+		headWidget.addTitle(title);
+
+		headWidget.addJavascriptResource(buildJavascriptResource(request, "builder.js"));
+		headWidget.addJavascriptResource(buildJavascriptResource(request, "effects.js"));
+		headWidget.addJavascriptResource(buildJavascriptResource(request, "lightbox.js"));
+		headWidget.addJavascriptResource(buildJavascriptResource(request, "prototype.js"));
+		headWidget.addJavascriptResource(buildJavascriptResource(request, "scriptaculous.js"));
+		headWidget.addJavascriptResource(buildJavascriptResource(request, "script.js"));
+
+		headWidget.addCssResource(buildCssResource(request, "lightbox.css"));
+		headWidget.addCssResource(buildCssResource(request, "style.css"));
 
 		final ListWidget widgets = new ListWidget();
-		widgets.add(headerWidget);
+		widgets.add(topWidget);
 		widgets.add(new DivWidget(getContent()).addAttribute("class", "content"));
 		widgets.add(footerWidget);
 
 		final BodyWidget bodyWidget = new BodyWidget(widgets);
 		final HtmlWidget widget = new HtmlWidget(headWidget, bodyWidget);
 		widget.render(request, response, context);
+	}
+
+	private CssResource buildCssResource(final HttpServletRequest request, final String path) {
+		return new CssResourceImpl(request.getContextPath() + "/" + PortfolioGuiConstants.NAME + "/css/" + path);
+	}
+
+	private JavascriptResource buildJavascriptResource(final HttpServletRequest request, final String path) {
+		return new JavascriptResourceImpl(request.getContextPath() + "/" + PortfolioGuiConstants.NAME + "/js/" + path);
 	}
 
 	private Widget getContent() {

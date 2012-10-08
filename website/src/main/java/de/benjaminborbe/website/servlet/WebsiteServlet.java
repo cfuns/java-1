@@ -29,8 +29,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.HtmlWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
+import de.benjaminborbe.website.widget.HtmlWidget;
 
 @Singleton
 public abstract class WebsiteServlet extends HttpServlet {

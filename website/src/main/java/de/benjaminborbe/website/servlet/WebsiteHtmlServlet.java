@@ -38,12 +38,12 @@ import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.HtmlWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.HeadWidget;
+import de.benjaminborbe.website.widget.HtmlWidget;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {

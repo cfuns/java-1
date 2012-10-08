@@ -1,4 +1,4 @@
-package de.benjaminborbe.website.util;
+package de.benjaminborbe.website.widget;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -10,17 +10,32 @@ import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.website.widget.HeadWidget;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.TagWidget;
 
 public class HtmlWidget implements Widget {
 
-	private final HeadWidget headWidget;
+	private HeadWidget headWidget;
 
-	private final BodyWidget bodyWidget;
+	private BodyWidget bodyWidget;
+
+	public HtmlWidget() {
+	}
 
 	public HtmlWidget(final HeadWidget headWidget, final BodyWidget bodyWidget) {
-		this.headWidget = headWidget;
+		addHeadWidget(headWidget);
+		addBodyWidget(bodyWidget);
+	}
+
+	public HtmlWidget addBodyWidget(final BodyWidget bodyWidget) {
 		this.bodyWidget = bodyWidget;
+		return this;
+	}
+
+	public HtmlWidget addHeadWidget(final HeadWidget headWidget) {
+		this.headWidget = headWidget;
+		return this;
 	}
 
 	public HtmlWidget(final ExceptionWidget exceptionWidget) {
@@ -33,10 +48,22 @@ public class HtmlWidget implements Widget {
 		response.setContentType("text/html");
 
 		final ListWidget widgets = new ListWidget();
-		widgets.add(headWidget);
-		widgets.add(bodyWidget);
+		if (headWidget != null) {
+			widgets.add(headWidget);
+		}
+		if (bodyWidget != null) {
+			widgets.add(bodyWidget);
+		}
 		final TagWidget html = new TagWidget("html", widgets);
 		html.render(request, response, context);
+	}
+
+	public HeadWidget getHeadWidget() {
+		return headWidget;
+	}
+
+	public BodyWidget getBodyWidget() {
+		return bodyWidget;
 	}
 
 }
