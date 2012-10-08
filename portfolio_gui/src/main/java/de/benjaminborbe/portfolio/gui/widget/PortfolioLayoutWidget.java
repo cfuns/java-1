@@ -16,11 +16,12 @@ import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BodyWidget;
+import de.benjaminborbe.website.widget.GoogleAnalyticsScriptWidget;
 import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 
-public class PortfolioWidget implements Widget {
+public class PortfolioLayoutWidget implements Widget {
 
 	private String title;
 
@@ -31,7 +32,7 @@ public class PortfolioWidget implements Widget {
 	private Widget content;
 
 	@Inject
-	public PortfolioWidget(final TopWidget topWidget, final BottomWidget footerWidget) {
+	public PortfolioLayoutWidget(final TopWidget topWidget, final BottomWidget footerWidget) {
 		this.topWidget = topWidget;
 		this.footerWidget = footerWidget;
 	}
@@ -50,6 +51,8 @@ public class PortfolioWidget implements Widget {
 
 		headWidget.addCssResource(buildCssResource(request, "lightbox.css"));
 		headWidget.addCssResource(buildCssResource(request, "style.css"));
+
+		headWidget.add(new GoogleAnalyticsScriptWidget());
 
 		final ListWidget widgets = new ListWidget();
 		widgets.add(topWidget);
@@ -73,12 +76,12 @@ public class PortfolioWidget implements Widget {
 		return content != null ? content : new VoidWidget();
 	}
 
-	public PortfolioWidget addContent(final Widget content) {
+	public PortfolioLayoutWidget addContent(final Widget content) {
 		this.content = content;
 		return this;
 	}
 
-	public PortfolioWidget addTitle(final String title) {
+	public PortfolioLayoutWidget addTitle(final String title) {
 		this.title = title;
 		return this;
 	}

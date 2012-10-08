@@ -32,6 +32,6 @@ public class JavascriptWidgetUnitTest {
 
 		final JavascriptWidget link = new JavascriptWidget("alert('Hello World!');");
 		link.render(request, response, context);
-		assertEquals("<script language=\"javascript\">alert('Hello World!');</script>", sw.toString());
+		assertEquals("<script language=\"javascript\" type=\"text/javascript\">\nalert('Hello World!');</script>\n", sw.toString());
 	}
 }

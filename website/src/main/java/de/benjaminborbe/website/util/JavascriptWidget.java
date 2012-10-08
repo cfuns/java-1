@@ -23,9 +23,9 @@ public class JavascriptWidget implements Widget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final HtmlListWidget widgets = new HtmlListWidget();
-		widgets.add("<script language=\"javascript\">");
+		widgets.add("<script language=\"javascript\" type=\"text/javascript\">\n");
 		widgets.add(javascript);
-		widgets.add("</script>");
+		widgets.add("</script>\n");
 		widgets.render(request, response, context);
 	}
 }

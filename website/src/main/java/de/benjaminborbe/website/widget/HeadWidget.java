@@ -26,6 +26,8 @@ public class HeadWidget implements Widget {
 
 	private final List<CssResource> cssResources = new ArrayList<CssResource>();
 
+	private final ListWidget widgets = new ListWidget();
+
 	public HeadWidget() {
 	}
 
@@ -62,19 +64,24 @@ public class HeadWidget implements Widget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final ListWidget widgets = new ListWidget();
+		final ListWidget list = new ListWidget();
 		if (title != null) {
-			widgets.add(new TagWidget("title", title));
+			list.add(new TagWidget("title", title));
 		}
-		widgets.add(new HtmlContentWidget("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />"));
-		widgets.add(new HtmlContentWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
-		widgets.add(new HtmlContentWidget("<meta name=\"description\" content=\"BB\" />"));
-		widgets.add(new HtmlContentWidget("<meta name=\"keywords\" content=\"BB\" />"));
-		widgets.add(new HtmlContentWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
-		widgets.add(new JavascriptResourceWidget(javascriptResources));
-		widgets.add(new CssResourceWidget(cssResources));
-		final TagWidget widget = new TagWidget("head", widgets);
+		list.add(new HtmlContentWidget("<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />"));
+		list.add(new HtmlContentWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
+		list.add(new HtmlContentWidget("<meta name=\"description\" content=\"BB\" />"));
+		list.add(new HtmlContentWidget("<meta name=\"keywords\" content=\"BB\" />"));
+		list.add(new HtmlContentWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
+		list.add(new JavascriptResourceWidget(javascriptResources));
+		list.add(new CssResourceWidget(cssResources));
+		list.add(widgets);
+		final TagWidget widget = new TagWidget("head", list);
 		widget.render(request, response, context);
 	}
 
+	public HeadWidget add(final Widget widget) {
+		widgets.add(widget);
+		return this;
+	}
 }

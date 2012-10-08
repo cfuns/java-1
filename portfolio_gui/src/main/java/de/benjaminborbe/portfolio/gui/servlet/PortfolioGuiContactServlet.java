@@ -16,7 +16,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.portfolio.gui.widget.PortfolioWidget;
+import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -34,7 +34,7 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private final PortfolioWidget portfolioWidget;
+	private final PortfolioLayoutWidget portfolioWidget;
 
 	@Inject
 	public PortfolioGuiContactServlet(
@@ -44,7 +44,7 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService,
-			final PortfolioWidget portfolioWidget) {
+			final PortfolioLayoutWidget portfolioWidget) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.portfolioWidget = portfolioWidget;
 	}

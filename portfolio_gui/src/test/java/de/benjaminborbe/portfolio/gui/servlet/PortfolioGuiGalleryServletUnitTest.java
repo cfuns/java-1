@@ -26,7 +26,7 @@ import de.benjaminborbe.gallery.api.Gallery;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.portfolio.gui.widget.PortfolioWidget;
+import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -117,7 +117,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final PortfolioWidget portfolioWidget = EasyMock.createNiceMock(PortfolioWidget.class);
+		final PortfolioLayoutWidget portfolioWidget = EasyMock.createNiceMock(PortfolioLayoutWidget.class);
 		EasyMock.replay(portfolioWidget);
 
 		final GalleryService galleryService = EasyMock.createNiceMock(GalleryService.class);
