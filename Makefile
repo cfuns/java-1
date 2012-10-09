@@ -77,7 +77,7 @@ buildbookmark:
 	cd bookmark_gui && make all
 	cd bookmark_test && make all
 deploy:
-	cd bridge && make deploy
+	cd bridge/war/devel && make deploy
 dir:
 	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
 sonar:

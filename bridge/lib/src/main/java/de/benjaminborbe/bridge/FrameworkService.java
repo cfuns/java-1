@@ -63,7 +63,7 @@ public final class FrameworkService {
 		final Properties props = new Properties();
 		props.load(context.getResourceAsStream("/WEB-INF/framework.properties"));
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final Map<String, Object> map = new HashMap<String, Object>();
 		for (final Entry<Object, Object> entry : props.entrySet()) {
 			map.put(entry.getKey().toString(), entry.getValue());
 		}
