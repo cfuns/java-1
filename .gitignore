@@ -14,7 +14,6 @@ bridge/target
 bridge/lib/target
 bridge/war/target
 bridge/war/devel/target
-bridge/war/mobile/target
 bridge/war/office/target
 bridge/war/online/target
 doc/target
