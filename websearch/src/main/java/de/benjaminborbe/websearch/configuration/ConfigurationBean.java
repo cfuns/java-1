@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 
 public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Configuration {
@@ -38,6 +37,7 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 		this.url = url;
 	}
 
+	@Override
 	public String getOwnerUsername() {
 		return ownerUsername;
 	}
@@ -46,6 +46,7 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 		this.ownerUsername = ownerUsername;
 	}
 
+	@Override
 	public List<String> getExcludes() {
 		return excludes;
 	}

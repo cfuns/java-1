@@ -108,4 +108,8 @@ public class AuthorizationServiceMock implements AuthorizationService {
 		return false;
 	}
 
+	@Override
+	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+	}
+
 }

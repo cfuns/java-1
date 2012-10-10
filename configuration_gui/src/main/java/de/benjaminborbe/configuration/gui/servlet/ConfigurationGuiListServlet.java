@@ -12,16 +12,20 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
+import de.benjaminborbe.configuration.gui.ConfigurationGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -39,6 +43,8 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public ConfigurationGuiListServlet(
 			final Logger logger,
@@ -50,10 +56,12 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final ConfigurationService configurationService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final AuthorizationService authorizationService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.configurationService = configurationService;
 		this.logger = logger;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -74,8 +82,9 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			widgets.add("<th>Type</th>");
 			widgets.add("<th>DefaultValue</th>");
 			widgets.add("<th>CurrentValue</th>");
+			widgets.add("<th></th>");
 			widgets.add("</tr>");
-			for (final Configuration<?> configuration : configurationService.listConfigurations()) {
+			for (final ConfigurationDescription configuration : configurationService.listConfigurations()) {
 				widgets.add("<tr>");
 				widgets.add("<td>");
 				widgets.add(configuration.getName());
@@ -84,13 +93,17 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 				widgets.add(configuration.getDescription());
 				widgets.add("</td>");
 				widgets.add("<td>");
-				widgets.add(String.valueOf(configuration.getDefaultValue()));
+				widgets.add(configuration.getType());
 				widgets.add("</td>");
 				widgets.add("<td>");
-				widgets.add(configuration.getType().getSimpleName());
+				widgets.add(configuration.getDefaultValueAsString());
 				widgets.add("</td>");
 				widgets.add("<td>");
 				widgets.add(String.valueOf(configurationService.getConfigurationValue(configuration)));
+				widgets.add("</td>");
+				widgets.add("<td>");
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/" + ConfigurationGuiConstants.NAME + ConfigurationGuiConstants.URL_UPDATE, new MapChain<String, String>().add(
+						ConfigurationGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(configuration.getId())), "edit"));
 				widgets.add("</td>");
 				widgets.add("</tr>");
 			}

@@ -4,18 +4,14 @@ import java.util.Collection;
 
 public interface ConfigurationService {
 
-	/**
-	 * Returns all required Configurations
-	 */
-	Collection<Configuration<?>> listConfigurations() throws ConfigurationServiceException;
+	String getConfigurationValue(ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException;
 
-	/**
-	 * Return the value
-	 */
-	<T> T getConfigurationValue(Configuration<T> configuration) throws ConfigurationServiceException;
+	String getConfigurationValue(ConfigurationDescription configuration) throws ConfigurationServiceException;
 
-	/**
-	 * Define new value for configuration
-	 */
-	<T> void setConfigurationValue(Configuration<T> configuration, T value) throws ConfigurationServiceException;
+	void setConfigurationValue(ConfigurationIdentifier configurationIdentifier, String value) throws ConfigurationServiceException;
+
+	ConfigurationIdentifier createConfigurationIdentifier(String id) throws ConfigurationServiceException;
+
+	Collection<ConfigurationDescription> listConfigurations();
+
 }

@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -121,8 +122,12 @@ public class MicroblogGuiServletUnitTest {
 		EasyMock.expect(urlUtil.encode("/path?")).andReturn("/path?").anyTimes();
 		EasyMock.replay(urlUtil);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
 		final MicroblogGuiServlet microblogServlet = new MicroblogGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, microblogRevisionStorage, redirectUtil, urlUtil);
+				httpContextProvider, microblogRevisionStorage, redirectUtil, urlUtil, authorizationService);
 
 		microblogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

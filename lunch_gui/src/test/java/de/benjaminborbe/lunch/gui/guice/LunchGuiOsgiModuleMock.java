@@ -8,6 +8,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.mock.LunchServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -19,6 +21,7 @@ public class LunchGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(LunchService.class).to(LunchServiceMock.class).in(Singleton.class);
 		bind(NavigationWidget.class).to(NavigationWidgetMock.class).in(Singleton.class);

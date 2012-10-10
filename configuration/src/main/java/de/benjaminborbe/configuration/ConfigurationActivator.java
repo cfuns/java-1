@@ -9,7 +9,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.guice.ConfigurationModules;
 import de.benjaminborbe.configuration.service.ConfigurationServiceTracker;
@@ -41,7 +41,7 @@ public class ConfigurationActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		serviceTrackers.add(new ConfigurationServiceTracker(configurationRegistry, context, Configuration.class));
+		serviceTrackers.add(new ConfigurationServiceTracker(configurationRegistry, context, ConfigurationDescription.class));
 		return serviceTrackers;
 	}
 }

@@ -18,6 +18,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
@@ -73,8 +74,9 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final BookmarkService bookmarkService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final AuthorizationService authorizationService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.bookmarkService = bookmarkService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;

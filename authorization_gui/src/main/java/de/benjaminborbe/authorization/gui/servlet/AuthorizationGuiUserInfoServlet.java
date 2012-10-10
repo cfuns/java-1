@@ -61,8 +61,9 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final AuthorizationService authorizationSerivce,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final AuthorizationService authorizationService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.urlUtil = urlUtil;
 		this.logger = logger;
 		this.authorizationSerivce = authorizationSerivce;

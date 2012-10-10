@@ -13,6 +13,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cron.api.CronExecutionInfo;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -52,8 +53,9 @@ public class CronGuiLatestExecutedServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final CronService cronService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+			final CronService cronService,
+			final AuthorizationService authorizationService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.cronService = cronService;
 		this.calendarUtil = calendarUtil;
 	}

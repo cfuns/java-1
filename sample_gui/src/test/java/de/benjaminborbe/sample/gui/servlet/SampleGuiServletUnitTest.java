@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -113,11 +114,15 @@ public class SampleGuiServletUnitTest {
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
 		EasyMock.replay(redirectUtil);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
 		final SampleGuiServlet sampleServlet = new SampleGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil);
+				redirectUtil, urlUtil, authorizationService);
 
 		sampleServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

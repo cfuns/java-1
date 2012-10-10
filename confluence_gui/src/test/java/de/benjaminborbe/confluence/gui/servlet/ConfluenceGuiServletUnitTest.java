@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -117,8 +118,12 @@ public class ConfluenceGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final ConfluenceGuiServlet confluenceServlet = new ConfluenceGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil);
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
+		final ConfluenceGuiServlet confluenceServlet = new ConfluenceGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, authorizationService);
 
 		confluenceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

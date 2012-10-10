@@ -1,12 +1,6 @@
 package de.benjaminborbe.configuration.api;
 
-public interface Configuration<T> {
+public interface Configuration extends ConfigurationDescription {
 
-	String getName();
-
-	String getDescription();
-
-	Class<T> getType();
-
-	T getDefaultValue();
+	String getValue();
 }

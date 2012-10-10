@@ -9,8 +9,6 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier> {
 
 	private ConfigurationIdentifier id;
 
-	private String key;
-
 	private String value;
 
 	@Override
@@ -21,14 +19,6 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier> {
 	@Override
 	public void setId(final ConfigurationIdentifier id) {
 		this.id = id;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(final String key) {
-		this.key = key;
 	}
 
 	public String getValue() {

@@ -44,4 +44,6 @@ public interface AuthorizationService {
 	boolean existsRole(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
+
+	void expectAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
 }

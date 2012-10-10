@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModules;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
-import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiServlet;
+import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiUpdateServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -18,13 +18,13 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private ConfigurationGuiServlet configurationGuiServlet;
+	private ConfigurationGuiUpdateServlet configurationGuiUpdateServlet;
 
 	@Inject
 	private ConfigurationGuiListServlet configurationGuiListServlet;
 
 	public ConfigurationGuiActivator() {
-		super("configuration");
+		super(ConfigurationGuiConstants.NAME);
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(configurationGuiServlet, "/"));
-		result.add(new ServletInfo(configurationGuiListServlet, "/list"));
+		result.add(new ServletInfo(configurationGuiListServlet, ConfigurationGuiConstants.URL_LIST));
+		result.add(new ServletInfo(configurationGuiUpdateServlet, ConfigurationGuiConstants.URL_UPDATE));
 		return result;
 	}
 

@@ -3,8 +3,10 @@ all:
 clean:
 	mvn clean
 	find . -name target -type d -exec rm -rf "{}" \;
+deploy:
+	cd bridge/war/devel && make deploy
 package:
-	cd bridge && make installwotest
+	cd bridge/war/devel && make installwotest
 installwotest:
 	mvn -Dmaven.test.skip=true install
 update:
@@ -76,8 +78,6 @@ buildbookmark:
 	cd bookmark && make all
 	cd bookmark_gui && make all
 	cd bookmark_test && make all
-deploy:
-	cd bridge/war/devel && make deploy
 dir:
 	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
 sonar:
@@ -88,3 +88,5 @@ findwrongnamedtests:
 	find . -name "*Test.java" | grep -v UnitTest | grep -v IntegrationTest
 telnet:
 	telnet localhost 5555
+uploadoffice:
+	scp bridge/war/office/target/bridge_office.war bborbe@bborbe.devel.lf.seibert-media.net:~/

@@ -13,7 +13,6 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.configuration.api.Configuration;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -81,8 +80,7 @@ public class StorageActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(Configuration.class.getName(), Configuration.class.getName(), Configuration.class.getName(), Configuration.class.getName(),
-				StorageService.class.getName());
+		final List<String> names = Arrays.asList(StorageService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

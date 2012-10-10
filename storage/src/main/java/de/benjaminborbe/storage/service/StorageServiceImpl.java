@@ -103,7 +103,7 @@ public class StorageServiceImpl implements StorageService {
 			storageDaoUtil.insert(config.getKeySpace(), columnFamily, id, data);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
+			logger.trace(e.getClass().getSimpleName(), e);
 			throw new StorageException(e);
 		}
 		finally {

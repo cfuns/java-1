@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
@@ -124,8 +125,12 @@ public class BlogGuiLatestPostsServletUnitTest {
 		EasyMock.expect(blogService.getLatestBlogPosts(sessionIdentifier)).andReturn(new ArrayList<BlogPost>());
 		EasyMock.replay(blogService);
 
-		final BlogGuiLatestPostsServlet blogServlet = new BlogGuiLatestPostsServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, blogService);
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
+		final BlogGuiLatestPostsServlet blogServlet = new BlogGuiLatestPostsServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, blogService, authorizationService);
 
 		blogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

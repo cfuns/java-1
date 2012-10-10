@@ -58,6 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 		}
 		catch (final StorageException e) {
+			logger.debug(e.getClass().getSimpleName(), e);
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
 import de.benjaminborbe.websearch.page.PageDao;
 

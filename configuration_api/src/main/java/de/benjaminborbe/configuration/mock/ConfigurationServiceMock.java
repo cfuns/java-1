@@ -1,13 +1,14 @@
 package de.benjaminborbe.configuration.mock;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 
 @Singleton
 public class ConfigurationServiceMock implements ConfigurationService {
@@ -17,17 +18,27 @@ public class ConfigurationServiceMock implements ConfigurationService {
 	}
 
 	@Override
-	public Collection<Configuration<?>> listConfigurations() {
-		return new HashSet<Configuration<?>>();
+	public String getConfigurationValue(final ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException {
+		return null;
 	}
 
 	@Override
-	public <T> T getConfigurationValue(final Configuration<T> configuration) {
-		return configuration.getDefaultValue();
+	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final String value) throws ConfigurationServiceException {
 	}
 
 	@Override
-	public <T> void setConfigurationValue(final Configuration<T> configuration, final T value) {
+	public ConfigurationIdentifier createConfigurationIdentifier(final String id) {
+		return null;
+	}
+
+	@Override
+	public String getConfigurationValue(final ConfigurationDescription configuration) throws ConfigurationServiceException {
+		return null;
+	}
+
+	@Override
+	public List<ConfigurationDescription> listConfigurations() {
+		return null;
 	}
 
 }

@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryListServlet;
@@ -130,8 +131,12 @@ public class GalleryGuiGalleryListServletUnitTest {
 		EasyMock.expect(linkFactory.createGallery(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(linkFactory);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
 		final GalleryGuiGalleryListServlet galleryServlet = new GalleryGuiGalleryListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService);
+				httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService);
 
 		galleryServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

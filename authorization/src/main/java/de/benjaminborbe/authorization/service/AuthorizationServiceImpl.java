@@ -311,4 +311,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
+
+	@Override
+	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+		expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+	}
 }

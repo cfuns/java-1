@@ -24,7 +24,8 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -98,7 +99,7 @@ public class ConfigurationGuiListServletUnitTest {
 
 		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
 		final ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
-		EasyMock.expect(configurationService.listConfigurations()).andReturn(new HashSet<Configuration<?>>());
+		EasyMock.expect(configurationService.listConfigurations()).andReturn(new HashSet<ConfigurationDescription>());
 		EasyMock.replay(configurationService);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
@@ -119,8 +120,12 @@ public class ConfigurationGuiListServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
 		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				authenticationService, httpContextProvider, configurationService, redirectUtil, urlUtil);
+				authenticationService, httpContextProvider, configurationService, redirectUtil, urlUtil, authorizationService);
 
 		configurationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

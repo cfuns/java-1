@@ -3,7 +3,6 @@ package de.benjaminborbe.websearch.configuration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.tools.util.IdGenerator;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
 

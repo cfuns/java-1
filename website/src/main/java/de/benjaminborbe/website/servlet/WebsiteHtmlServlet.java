@@ -21,6 +21,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
@@ -62,6 +64,8 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public WebsiteHtmlServlet(
 			final Logger logger,
@@ -70,6 +74,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
@@ -79,13 +84,18 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		this.navigationWidget = navigationWidget;
 		this.authenticationService = authenticationService;
 		this.parseUtil = parseUtil;
+		this.authorizationService = authorizationService;
 	}
 
 	protected abstract String getTitle();
 
 	protected Collection<Widget> getWidgets() {
 		final Set<Widget> widgets = new HashSet<Widget>();
-		widgets.add(navigationWidget);
+		try {
+			widgets.add(navigationWidget);
+		}
+		catch (final Exception e) {
+		}
 		return widgets;
 	}
 
@@ -98,14 +108,26 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if (isLoginRequired() && !authenticationService.isLoggedIn(sessionIdentifier)) {
-				return new RedirectWidget(buildLoginUrl(request));
+			if (isLoginRequired()) {
+				if (!authenticationService.isLoggedIn(sessionIdentifier)) {
+					return new RedirectWidget(buildLoginUrl(request));
+				}
+				if (isAdminRequired()) {
+					authorizationService.expectAdminRole(sessionIdentifier);
+				}
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+			return widget;
+		}
+		catch (final AuthorizationServiceException e) {
+			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+			return widget;
+		}
+		catch (final PermissionDeniedException e) {
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			return widget;
 		}
@@ -233,6 +255,13 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	 */
 	@Override
 	protected boolean isLoginRequired() {
+		return true;
+	}
+
+	/**
+	 * default admin-role is required for each html-servlet
+	 */
+	protected boolean isAdminRequired() {
 		return true;
 	}
 }

@@ -64,7 +64,7 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;

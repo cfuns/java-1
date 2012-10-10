@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
@@ -121,11 +122,15 @@ public class EventbusGuiServletUnitTest {
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
 		EasyMock.replay(redirectUtil);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
 		final EventbusGuiServlet EventbusServlet = new EventbusGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, EventbusService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService);
 
 		EventbusServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

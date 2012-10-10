@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
@@ -127,8 +128,12 @@ public class LunchGuiServletUnitTest {
 		EasyMock.expect(lunchService.getLunchs(sessionIdentifier)).andReturn(new HashSet<Lunch>());
 		EasyMock.replay(lunchService);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+EasyMock.replay(authorizationService);
+
 		final LunchGuiServlet lunchServlet = new LunchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, lunchService, dateUtil);
+				redirectUtil, urlUtil, lunchService, dateUtil, authorizationService);
 
 		lunchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -1,11 +1,7 @@
 package de.benjaminborbe.storage.util;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import de.benjaminborbe.configuration.api.ConfigurationService;
 
 @Singleton
 public class StorageConfigMock extends StorageConfigImpl implements StorageConfig {
@@ -15,8 +11,8 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 	private static final String CASSANDRA_KEYSPACE = "bb_test2";
 
 	@Inject
-	public StorageConfigMock(final ConfigurationService configurationService, final Logger logger) {
-		super(logger, configurationService);
+	public StorageConfigMock() {
+		super();
 	}
 
 	@Override

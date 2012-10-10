@@ -54,6 +54,9 @@ public class SlashGuiServlet extends WebsiteServlet {
 		else if (serverName.indexOf("harteslicht.de") != -1 || serverName.indexOf("harteslicht.com") != -1) {
 			return request.getContextPath() + "/blog";
 		}
+		else if (serverName.indexOf("bborbe.devel") != -1) {
+			return request.getContextPath() + "/lunch";
+		}
 		else if (serverName.indexOf("rocketnews.de") != -1 || serverName.indexOf("rocketsource.de") != -1) {
 			return request.getContextPath() + "/wiki";
 		}

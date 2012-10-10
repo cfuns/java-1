@@ -8,6 +8,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.mock.CronControllerMock;
@@ -22,6 +24,7 @@ public class CronGuiOsgiModuleMock extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(CronService.class).to(CronServiceMock.class).in(Singleton.class);
+		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(CronController.class).to(CronControllerMock.class).in(Singleton.class);
 		bind(NavigationWidget.class).to(NavigationWidgetMock.class).in(Singleton.class);

@@ -2,7 +2,7 @@ package de.benjaminborbe.storage.util;
 
 import java.util.Collection;
 
-import de.benjaminborbe.configuration.api.Configuration;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface StorageConfig {
 
@@ -16,5 +16,5 @@ public interface StorageConfig {
 
 	String getEncoding();
 
-	Collection<Configuration<?>> getConfigurations();
+	Collection<ConfigurationDescription> getConfigurations();
 }
