@@ -1,7 +1,5 @@
 package de.benjaminborbe.monitoring.check.twentyfeet;
 
-import javax.naming.NamingException;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -12,12 +10,12 @@ import de.benjaminborbe.monitoring.check.HasPreconditionCheckNode;
 import de.benjaminborbe.monitoring.check.TcpCheckBuilder;
 import de.benjaminborbe.monitoring.check.TreeNode;
 import de.benjaminborbe.monitoring.check.UrlCheckBuilder;
-import de.benjaminborbe.tools.jndi.JndiContext;
+import de.benjaminborbe.monitoring.config.MonitoringConfig;
 
 public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPreconditionCheckNode {
 
 	@Inject
-	public TwentyfeetTestNode(final Logger logger, final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder, final JndiContext jndiContext) {
+	public TwentyfeetTestNode(final Logger logger, final TcpCheckBuilder tcpCheckBuilder, final UrlCheckBuilder urlCheckBuilder, final MonitoringConfig monitoringConfig) {
 		super(tcpCheckBuilder.buildCheck("TCP-Check on test.twentyfeet.com:80", "test.twentyfeet.com", 80));
 
 		// tcp-checks
@@ -66,26 +64,16 @@ public class TwentyfeetTestNode extends TreeNode implements HasChildNodes, HasPr
 			final String url = "https://test.twentyfeet.com/admin/queues.jsp";
 			final String titleMatch = "localhost : Queues";
 			final String contentMatch = "<h2>Queues</h2>";
-			try {
-				addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch, (String) jndiContext.lookup("twentyfeet_admin_username"),
-						(String) jndiContext.lookup("twentyfeet_admin_password"))));
-			}
-			catch (final NamingException e) {
-				logger.info("skip add node: " + name);
-			}
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch, monitoringConfig.getTwentyfeetAdminUsername(),
+					monitoringConfig.getTwentyfeetAdminPassword())));
 		}
 		{
 			final String name = "URL-Check on test.twentyfeet.com/app/admin/";
 			final String url = "https://test.twentyfeet.com/app/admin/";
 			final String titleMatch = null;
 			final String contentMatch = "<h1>Admin</h1>";
-			try {
-				addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch, (String) jndiContext.lookup("twentyfeet_admin_username"),
-						(String) jndiContext.lookup("twentyfeet_admin_password"))));
-			}
-			catch (final NamingException e) {
-				logger.info("skip add node: " + name);
-			}
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch, monitoringConfig.getTwentyfeetAdminUsername(),
+					monitoringConfig.getTwentyfeetAdminPassword())));
 		}
 	}
 }

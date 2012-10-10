@@ -4,9 +4,17 @@ clean:
 	mvn clean
 	find . -name target -type d -exec rm -rf "{}" \;
 deploy:
-	cd bridge/war/devel && make deploy
+	make deploydevel
 package:
+	make packagedevel
+deploydevel:
+	cd bridge/war/devel && make deploy
+packagedevel:
 	cd bridge/war/devel && make installwotest
+deployoffice:
+	cd bridge/war/office && make deploy
+packageoffice:
+	cd bridge/war/office && make installwotest
 installwotest:
 	mvn -Dmaven.test.skip=true install
 update:

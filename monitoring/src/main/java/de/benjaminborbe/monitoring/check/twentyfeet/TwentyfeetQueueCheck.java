@@ -24,11 +24,11 @@ import de.benjaminborbe.monitoring.api.Check;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.monitoring.check.CheckResultException;
 import de.benjaminborbe.monitoring.check.CheckResultImpl;
+import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
-import de.benjaminborbe.tools.jndi.JndiContext;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
@@ -80,8 +80,6 @@ public class TwentyfeetQueueCheck implements Check {
 
 	private final Logger logger;
 
-	private final JndiContext jndiContext;
-
 	private final static String CHECK_URL = "https://www.twentyfeet.com/app/admin/apidata_check";
 
 	private static final int TIMEOUT = 20000;
@@ -97,18 +95,20 @@ public class TwentyfeetQueueCheck implements Check {
 
 	private final ParseUtil parseUtil;
 
+	private final MonitoringConfig monitoringConfig;
+
 	@Inject
 	public TwentyfeetQueueCheck(
 			final Logger logger,
-			final JndiContext jndiContext,
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
-			final ParseUtil parseUtil) {
+			final ParseUtil parseUtil,
+			final MonitoringConfig monitoringConfig) {
 		this.logger = logger;
-		this.jndiContext = jndiContext;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.parseUtil = parseUtil;
+		this.monitoringConfig = monitoringConfig;
 	}
 
 	@Override
@@ -199,8 +199,8 @@ public class TwentyfeetQueueCheck implements Check {
 
 	protected HttpDownloadResult downloadResult(final URL url) throws NamingException, HttpDownloaderException {
 		final HttpDownloadResult result;
-		final String username = (String) jndiContext.lookup("twentyfeet_admin_username");
-		final String password = (String) jndiContext.lookup("twentyfeet_admin_password");
+		final String username = monitoringConfig.getTwentyfeetAdminUsername();
+		final String password = monitoringConfig.getTwentyfeetAdminPassword();
 
 		if (username != null && password != null) {
 			result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password);

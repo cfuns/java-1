@@ -8,45 +8,31 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationBase;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.api.ConfigurationDescriptionString;
+import de.benjaminborbe.tools.util.ParseUtil;
 
-public class LunchConfigImpl implements LunchConfig {
+public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 
 	private final ConfigurationDescriptionString confluenceUsername = new ConfigurationDescriptionString("username", "LunchConfluenceUsername", "Lunch Username for Confluence");
 
 	private final ConfigurationDescriptionString confluencePassword = new ConfigurationDescriptionString("password", "LunchConfluencePassword", "Lunch Password for Confluence");
 
-	private final ConfigurationService configurationService;
-
-	private final Logger logger;
-
 	@Inject
-	public LunchConfigImpl(final Logger logger, final ConfigurationService configurationService) {
-		this.logger = logger;
-		this.configurationService = configurationService;
+	public LunchConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
+		super(logger, configurationService, parseUtil);
 	}
 
 	@Override
 	public String getConfluenceUsername() {
-		return getValue(confluenceUsername);
+		return getValueString(confluenceUsername);
 	}
 
 	@Override
 	public String getConfluencePassword() {
-		return getValue(confluencePassword);
-	}
-
-	private String getValue(final ConfigurationDescription configuration) {
-		try {
-			return configurationService.getConfigurationValue(configuration);
-		}
-		catch (final ConfigurationServiceException e) {
-			logger.trace("ConfigurationServiceException", e);
-			return configuration.getDefaultValueAsString();
-		}
+		return getValueString(confluencePassword);
 	}
 
 	@Override
