@@ -42,14 +42,18 @@ public class LdapConnector {
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");
 		env.put(Context.SECURITY_PRINCIPAL, authenticationConfig.getDomain() + "\\" + username);
 		env.put(Context.SECURITY_CREDENTIALS, password);
+		if (authenticationConfig.isSSL()) {
+			// Specify SSL
+			env.put(Context.SECURITY_PROTOCOL, "ssl");
+		}
 		try {
 			new InitialDirContext(env);
 			logger.debug("login success for " + username);
 			return true;
 		}
 		catch (final NamingException e) {
-			logger.debug("login fail for " + username);
-			logger.trace(e.getClass().getName(), e);
+			logger.info("login fail for " + username);
+			logger.debug(e.getClass().getName(), e);
 			return false;
 		}
 	}

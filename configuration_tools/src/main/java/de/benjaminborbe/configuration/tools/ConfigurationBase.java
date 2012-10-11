@@ -23,7 +23,7 @@ public abstract class ConfigurationBase {
 		this.parseUtil = parseUtil;
 	}
 
-	protected String getValueString(final ConfigurationDescriptionString configuration) {
+	protected String getValueString(final ConfigurationDescription configuration) {
 		try {
 			return configurationService.getConfigurationValue(configuration);
 		}
@@ -36,6 +36,20 @@ public abstract class ConfigurationBase {
 	protected int getValueInt(final ConfigurationDescriptionInt configuration) {
 		try {
 			return parseUtil.parseInt(configurationService.getConfigurationValue(configuration));
+		}
+		catch (final ConfigurationServiceException e) {
+			logger.trace(e.getClass().getName(), e);
+			return configuration.getDefaultValue();
+		}
+		catch (final ParseException e) {
+			logger.trace(e.getClass().getName(), e);
+			return configuration.getDefaultValue();
+		}
+	}
+
+	protected boolean getValueBoolean(final ConfigurationDescriptionBoolean configuration) {
+		try {
+			return parseUtil.parseBoolean(configurationService.getConfigurationValue(configuration));
 		}
 		catch (final ConfigurationServiceException e) {
 			logger.trace(e.getClass().getName(), e);

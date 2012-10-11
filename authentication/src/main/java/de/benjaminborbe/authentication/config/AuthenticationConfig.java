@@ -12,6 +12,8 @@ public interface AuthenticationConfig {
 
 	String getCredentials();
 
+	boolean isSSL();
+
 	Collection<ConfigurationDescription> getConfigurations();
 
 }
