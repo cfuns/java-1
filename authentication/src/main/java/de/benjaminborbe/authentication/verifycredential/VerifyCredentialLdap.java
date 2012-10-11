@@ -2,6 +2,8 @@ package de.benjaminborbe.authentication.verifycredential;
 
 import javax.naming.NamingException;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -14,8 +16,11 @@ public class VerifyCredentialLdap implements VerifyCredential {
 
 	private final LdapConnector ldapConnector;
 
+	private final Logger logger;
+
 	@Inject
-	public VerifyCredentialLdap(final LdapConnector ldapConnector) {
+	public VerifyCredentialLdap(final Logger logger, final LdapConnector ldapConnector) {
+		this.logger = logger;
 		this.ldapConnector = ldapConnector;
 	}
 
@@ -30,6 +35,7 @@ public class VerifyCredentialLdap implements VerifyCredential {
 			return ldapConnector.getFullname(userIdentifier.getId());
 		}
 		catch (final NamingException e) {
+			logger.debug(e.getClass().getName(), e);
 			throw new AuthenticationServiceException(e.getClass().getName(), e);
 		}
 	}

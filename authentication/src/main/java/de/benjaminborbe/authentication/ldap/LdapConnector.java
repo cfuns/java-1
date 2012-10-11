@@ -36,16 +36,7 @@ public class LdapConnector {
 	}
 
 	public boolean verify(final String username, final String password) {
-		final Hashtable<String, String> env = new Hashtable<String, String>();
-		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
-		env.put(Context.SECURITY_AUTHENTICATION, "simple");
-		env.put(Context.SECURITY_PRINCIPAL, authenticationConfig.getDomain() + "\\" + username);
-		env.put(Context.SECURITY_CREDENTIALS, password);
-		if (authenticationConfig.isSSL()) {
-			// Specify SSL
-			env.put(Context.SECURITY_PROTOCOL, "ssl");
-		}
+		final Hashtable<String, String> env = getUserEnv(username, password);
 		try {
 			new InitialDirContext(env);
 			logger.debug("login success for " + username);
@@ -59,12 +50,8 @@ public class LdapConnector {
 	}
 
 	public String getFullname(final String username) throws NamingException {
-		final Hashtable<String, String> env = new Hashtable<String, String>();
-		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
-		env.put(Context.SECURITY_AUTHENTICATION, "simple");
-		env.put(Context.SECURITY_PRINCIPAL, "cn=ldaplookup,ou=Extern,ou=Mitarbeiter,dc=rp,dc=seibert-media,dc=net");
-		env.put(Context.SECURITY_CREDENTIALS, authenticationConfig.getCredentials());
+		final Hashtable<String, String> env = getReadEnv();
+
 		final DirContext ctx = new InitialDirContext(env);
 
 		final SearchControls searchControls = new SearchControls();
@@ -73,22 +60,22 @@ public class LdapConnector {
 		while (enumeration.hasMore()) {
 			final SearchResult searchResult = enumeration.next();
 			final Attributes attrs = searchResult.getAttributes();
-			final Attribute cn = attrs.get("cn");
-			if (String.valueOf(cn).equalsIgnoreCase(username)) {
-				return String.valueOf(attrs.get("displayName"));
+			final String cn = String.valueOf(attrs.get("cn").get());
+
+			logger.debug("compare " + username + " <=> " + cn);
+			if (cn.equalsIgnoreCase(username)) {
+				final String displayName = String.valueOf(attrs.get("displayName").get());
+				logger.debug("found user " + username + " => " + displayName);
+				return displayName;
 			}
 		}
+		logger.debug("no user found " + username);
 		return null;
 	}
 
 	public Collection<String> getUsernames() throws NamingException {
 		final Set<String> result = new HashSet<String>();
-		final Hashtable<String, String> env = new Hashtable<String, String>();
-		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
-		env.put(Context.SECURITY_AUTHENTICATION, "simple");
-		env.put(Context.SECURITY_PRINCIPAL, "cn=ldaplookup,ou=Extern,ou=Mitarbeiter,dc=rp,dc=seibert-media,dc=net");
-		env.put(Context.SECURITY_CREDENTIALS, authenticationConfig.getCredentials());
+		final Hashtable<String, String> env = getReadEnv();
 		final DirContext ctx = new InitialDirContext(env);
 
 		final SearchControls searchControls = new SearchControls();
@@ -101,5 +88,31 @@ public class LdapConnector {
 			result.add(String.valueOf(cn));
 		}
 		return result;
+	}
+
+	private Hashtable<String, String> getReadEnv() {
+		final Hashtable<String, String> env = new Hashtable<String, String>();
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
+		env.put(Context.SECURITY_AUTHENTICATION, "simple");
+		env.put(Context.SECURITY_PRINCIPAL, "cn=ldaplookup,ou=Extern,ou=Mitarbeiter,dc=rp,dc=seibert-media,dc=net");
+		env.put(Context.SECURITY_CREDENTIALS, authenticationConfig.getCredentials());
+		if (authenticationConfig.isSSL()) {
+			env.put(Context.SECURITY_PROTOCOL, "ssl");
+		}
+		return env;
+	}
+
+	private Hashtable<String, String> getUserEnv(final String username, final String password) {
+		final Hashtable<String, String> env = new Hashtable<String, String>();
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
+		env.put(Context.SECURITY_AUTHENTICATION, "simple");
+		env.put(Context.SECURITY_PRINCIPAL, authenticationConfig.getDomain() + "\\" + username);
+		env.put(Context.SECURITY_CREDENTIALS, password);
+		if (authenticationConfig.isSSL()) {
+			env.put(Context.SECURITY_PROTOCOL, "ssl");
+		}
+		return env;
 	}
 }
