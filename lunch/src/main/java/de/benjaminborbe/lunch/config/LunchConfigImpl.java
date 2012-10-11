@@ -16,6 +16,8 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 
+	private final ConfigurationDescriptionString confluenceSpaceKey = new ConfigurationDescriptionString("MITTAG", "LunchConfluenceSpaceKey", "Lunch SpaceKey for Confluence");
+
 	private final ConfigurationDescriptionString confluenceUsername = new ConfigurationDescriptionString("username", "LunchConfluenceUsername", "Lunch Username for Confluence");
 
 	private final ConfigurationDescriptionString confluencePassword = new ConfigurationDescriptionString("password", "LunchConfluencePassword", "Lunch Password for Confluence");
@@ -38,9 +40,15 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		result.add(confluenceSpaceKey);
 		result.add(confluenceUsername);
 		result.add(confluencePassword);
 		return result;
+	}
+
+	@Override
+	public String getConfluenceSpaceKey() {
+		return getValueString(confluenceSpaceKey);
 	}
 
 }

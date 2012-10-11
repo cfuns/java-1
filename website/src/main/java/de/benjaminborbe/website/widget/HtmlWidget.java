@@ -39,7 +39,7 @@ public class HtmlWidget implements Widget {
 	}
 
 	public HtmlWidget(final ExceptionWidget exceptionWidget) {
-		this(new HeadWidget("Exception", new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget());
+		this(new HeadWidget("Exception", new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget(exceptionWidget));
 	}
 
 	@Override

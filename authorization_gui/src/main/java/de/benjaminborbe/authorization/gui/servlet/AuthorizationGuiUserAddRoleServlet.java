@@ -100,10 +100,12 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final AuthorizationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

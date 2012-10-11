@@ -88,6 +88,7 @@ public class CronGuiServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final CronControllerException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

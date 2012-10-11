@@ -28,6 +28,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
+import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
@@ -66,6 +67,7 @@ public class LunchGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(LunchGuiConstants.PARAMETER_FULLNAME)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -124,13 +126,15 @@ public class LunchGuiServletUnitTest {
 		final DateUtil dateUtil = EasyMock.createMock(DateUtil.class);
 		EasyMock.replay(dateUtil);
 
+		final String fullname = "Foo Bar";
+
 		final LunchService lunchService = EasyMock.createMock(LunchService.class);
-		EasyMock.expect(lunchService.getLunchs(sessionIdentifier)).andReturn(new HashSet<Lunch>());
+		EasyMock.expect(lunchService.getLunchs(sessionIdentifier, fullname)).andReturn(new HashSet<Lunch>());
 		EasyMock.replay(lunchService);
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.replay(authorizationService);
 
 		final LunchGuiServlet lunchServlet = new LunchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
 				redirectUtil, urlUtil, lunchService, dateUtil, authorizationService);

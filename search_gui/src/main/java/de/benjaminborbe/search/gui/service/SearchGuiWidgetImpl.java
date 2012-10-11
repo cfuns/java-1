@@ -88,6 +88,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			printSearchResults(request, response, results);
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
 		}

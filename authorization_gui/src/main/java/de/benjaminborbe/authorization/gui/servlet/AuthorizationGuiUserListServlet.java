@@ -84,6 +84,7 @@ public class AuthorizationGuiUserListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

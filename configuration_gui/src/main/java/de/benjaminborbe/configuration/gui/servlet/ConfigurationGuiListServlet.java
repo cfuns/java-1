@@ -111,6 +111,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final ConfigurationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

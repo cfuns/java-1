@@ -84,6 +84,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			widget.render(request, response, context);
 		}

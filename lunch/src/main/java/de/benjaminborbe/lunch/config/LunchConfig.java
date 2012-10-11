@@ -11,4 +11,6 @@ public interface LunchConfig {
 	String getConfluenceUsername();
 
 	String getConfluencePassword();
+
+	String getConfluenceSpaceKey();
 }

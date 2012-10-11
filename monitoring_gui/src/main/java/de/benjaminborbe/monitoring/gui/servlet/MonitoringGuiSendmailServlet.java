@@ -40,6 +40,8 @@ public class MonitoringGuiSendmailServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
 	public MonitoringGuiSendmailServlet(
 			final Logger logger,
@@ -55,6 +57,7 @@ public class MonitoringGuiSendmailServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.monitoringService = monitoringService;
+		this.logger = logger;
 		this.authenticationService = authenticationService;
 	}
 
@@ -72,10 +75,12 @@ public class MonitoringGuiSendmailServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final MonitoringServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

@@ -20,7 +20,9 @@ public class ExceptionWidget implements Widget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<pre>");
+		out.println("<h1>Exception occurred: " + exception.getClass().getName() + "</h1>");
+		out.println("Message: " + exception.getMessage());
+		out.println("Stack: <pre>");
 		exception.printStackTrace(out);
 		out.println("</pre>");
 	}

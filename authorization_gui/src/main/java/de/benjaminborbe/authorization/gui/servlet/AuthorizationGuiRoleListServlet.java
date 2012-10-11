@@ -85,6 +85,7 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final AuthorizationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

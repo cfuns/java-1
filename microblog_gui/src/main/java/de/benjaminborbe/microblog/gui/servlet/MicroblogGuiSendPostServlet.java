@@ -82,6 +82,7 @@ public class MicroblogGuiSendPostServlet extends WebsiteHtmlServlet {
 			widgets.add("parameter " + PARAMTER_REVISION + " missing");
 		}
 		catch (final MicroblogServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

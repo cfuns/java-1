@@ -45,6 +45,8 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
 	public AuthorizationGuiRoleCreateServlet(
 			final Logger logger,
@@ -58,6 +60,7 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;
 	}
@@ -87,10 +90,12 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final AuthorizationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

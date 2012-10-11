@@ -42,6 +42,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final GalleryService galleryService;
 
+	private final Logger logger;
+
 	@Inject
 	public PortfolioGuiGalleryServlet(
 			final Logger logger,
@@ -54,6 +56,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final GalleryService galleryService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.portfolioWidget = portfolioWidget;
+		this.logger = logger;
 		this.galleryService = galleryService;
 	}
 
@@ -67,6 +70,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
 	}

@@ -76,6 +76,7 @@ public class GalleryGuiGalleryDeleteServlet extends WebsiteHtmlServlet {
 			throw new RedirectException(request.getContextPath() + "/" + GalleryGuiConstants.NAME);
 		}
 		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

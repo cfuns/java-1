@@ -60,10 +60,12 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			widgets.render(request, response, context);
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}
 		catch (final BookmarkServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

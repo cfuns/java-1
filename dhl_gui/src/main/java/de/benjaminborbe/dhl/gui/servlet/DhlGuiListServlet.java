@@ -94,10 +94,12 @@ public class DhlGuiListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}
 		catch (final DhlServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

@@ -47,8 +47,8 @@ public class WikiConnector {
 		this.htmlUtil = htmlUtil;
 	}
 
-	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password) throws ServiceException, AuthenticationFailedException,
-			RemoteException, java.rmi.RemoteException, ParseException {
+	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname) throws ServiceException,
+			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
 
 		final List<Lunch> result = new ArrayList<Lunch>();
 
@@ -59,7 +59,7 @@ public class WikiConnector {
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary)) {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
-				final Lunch lunch = createLunch(service, token, remotePageSummary);
+				final Lunch lunch = createLunch(service, token, remotePageSummary, fullname);
 				result.add(lunch);
 			}
 			else {
@@ -69,13 +69,13 @@ public class WikiConnector {
 		return result;
 	}
 
-	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary) throws ParseException, InvalidSessionException,
-			RemoteException, java.rmi.RemoteException {
+	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary, final String fullname) throws ParseException,
+			InvalidSessionException, RemoteException, java.rmi.RemoteException {
 		final LunchBean lunch = new LunchBean();
 		final RemotePage page = service.getPage(token, remotePageSummary.getId());
 		final String htmlContent = service.renderContent(token, page.getSpace(), page.getId(), page.getContent());
 		lunch.setName(extractLunchName(htmlContent));
-		lunch.setSubscribed(extractLunchSubscribed(htmlContent));
+		lunch.setSubscribed(extractLunchSubscribed(htmlContent, fullname));
 		lunch.setDate(extractDate(remotePageSummary.getTitle()));
 		lunch.setUrl(buildUrl(remotePageSummary.getUrl()));
 		return lunch;
@@ -91,13 +91,13 @@ public class WikiConnector {
 		}
 	}
 
-	protected boolean extractLunchSubscribed(final String htmlContent) {
+	protected boolean extractLunchSubscribed(final String htmlContent, final String fullname) {
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByClass("confluenceTable");
 		for (final Element table : tables) {
 			final Elements tds = table.getElementsByTag("td");
 			for (final Element td : tds) {
-				if (td.html().indexOf("Benjamin Borbe") != -1) {
+				if (td.html().indexOf(fullname) != -1) {
 					return true;
 				}
 			}

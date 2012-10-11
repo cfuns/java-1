@@ -87,6 +87,7 @@ public class SearchGuiSuggestServlet extends WebsiteServlet {
 			obj.writeJSONString(out);
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			response.setContentType("text/plain");
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);

@@ -11,10 +11,14 @@ deploydevel:
 	cd bridge/war/devel && make deploy
 packagedevel:
 	cd bridge/war/devel && make installwotest
+builddevel:
+	mak packagedevel
 deployoffice:
 	cd bridge/war/office && make deploy
 packageoffice:
 	cd bridge/war/office && make installwotest
+buildoffice:
+	make packageoffice
 installwotest:
 	mvn -Dmaven.test.skip=true install
 update:
@@ -35,6 +39,11 @@ cleanup:
 	find . -name 'target' -exec rm -rf "{}" \;
 buildwebsite:
 	cd website && make all
+buildlunch:
+	cd lunch_api && make all
+	cd lunch && make all
+	cd lunch_gui && make all
+	cd lunch_test && make all
 buildportfolio:
 	cd portfolio_api && make all
 	cd portfolio && make all
@@ -97,7 +106,16 @@ buildmonitoring:
 	cd monitoring && make all
 	cd monitoring_gui && make all
 	cd monitoring_test && make all
-dir:
+buildauth:
+	cd authentication && make all
+	cd authentication_api && make all
+	cd authentication_gui && make all
+	cd authentication_test && make all
+	cd authorization && make all
+	cd authorization_api && make all
+	cd authorization_gui && make all
+	cd authorization_test && make all
+dllir:
 	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
 sonar:
 	mvn sonar:sonar

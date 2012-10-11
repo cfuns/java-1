@@ -120,7 +120,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					}
 				}
 				catch (final FileUploadException e) {
-					logger.warn(e.getClass().getSimpleName(), e);
+					logger.debug(e.getClass().getName(), e);
 					widgets.add(new ExceptionWidget(e));
 				}
 			}

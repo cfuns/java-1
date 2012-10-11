@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -38,8 +40,11 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
-	public BookmarkGuiSpecialSearch(final BookmarkService bookmarkService, final SearchUtil searchUtil, final AuthenticationService authenticationService) {
+	public BookmarkGuiSpecialSearch(final Logger logger, final BookmarkService bookmarkService, final SearchUtil searchUtil, final AuthenticationService authenticationService) {
+		this.logger = logger;
 		this.bookmarkService = bookmarkService;
 		this.searchUtil = searchUtil;
 		this.authenticationService = authenticationService;
@@ -69,10 +74,12 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}
 		catch (final BookmarkServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

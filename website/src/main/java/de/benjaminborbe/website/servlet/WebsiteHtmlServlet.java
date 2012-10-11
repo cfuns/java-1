@@ -120,14 +120,17 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			return widget;
 		}
 		catch (final AuthorizationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			return widget;
 		}
 		catch (final PermissionDeniedException e) {
+			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			return widget;
 		}
@@ -135,13 +138,16 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			return createHtmlWidget(request, response, context);
 		}
 		catch (final PermissionDeniedException e) {
+			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			return widget;
 		}
 		catch (final RedirectException e) {
+			logger.trace(e.getClass().getName(), e);
 			return new RedirectWidget(e.getTarget());
 		}
 		catch (final LoginRequiredException e) {
+			logger.debug(e.getClass().getName(), e);
 			return new RedirectWidget(buildLoginUrl(request));
 		}
 	}
@@ -188,6 +194,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			return new SpanWidget(widgets).addAttribute("id", "loginStatus");
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

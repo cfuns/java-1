@@ -40,6 +40,8 @@ public class GalleryGuiImageDeleteServlet extends WebsiteHtmlServlet {
 
 	private final GalleryService galleryService;
 
+	private final Logger logger;
+
 	@Inject
 	public GalleryGuiImageDeleteServlet(
 			final Logger logger,
@@ -55,6 +57,7 @@ public class GalleryGuiImageDeleteServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -72,6 +75,7 @@ public class GalleryGuiImageDeleteServlet extends WebsiteHtmlServlet {
 			throw new RedirectException(request.getContextPath() + "/" + GalleryGuiConstants.NAME);
 		}
 		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

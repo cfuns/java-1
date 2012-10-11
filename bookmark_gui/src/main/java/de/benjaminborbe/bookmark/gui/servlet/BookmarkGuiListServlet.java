@@ -63,6 +63,8 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
 	public BookmarkGuiListServlet(
 			final Logger logger,
@@ -80,6 +82,7 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 		this.bookmarkService = bookmarkService;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -115,18 +118,22 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final BookmarkServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final MalformedURLException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final UnsupportedEncodingException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

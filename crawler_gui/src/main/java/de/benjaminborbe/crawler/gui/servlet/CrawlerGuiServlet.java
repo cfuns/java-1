@@ -32,7 +32,6 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -86,7 +85,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 				widgets.add("add url successful");
 			}
 			catch (final CrawlerException e) {
-				widgets.add(new ExceptionWidget(e));
+				logger.debug(e.getClass().getName(), e);
+				widgets.add("add url failed");
 			}
 		}
 		else {

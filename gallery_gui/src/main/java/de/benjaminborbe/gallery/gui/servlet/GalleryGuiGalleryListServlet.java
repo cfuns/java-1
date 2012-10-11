@@ -93,7 +93,7 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
-			logger.warn(e.getClass().getSimpleName(), e);
+			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
 	}

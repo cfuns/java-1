@@ -187,10 +187,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public boolean hasRole(final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			final RoleBean role = roleDao.findByRolename(roleIdentifier);
-			if (role == null) {
-				return false;
-			}
-			if (userRoleManyToManyRelation.exists(userIdentifier, roleIdentifier)) {
+			if (role != null && userRoleManyToManyRelation.exists(userIdentifier, roleIdentifier)) {
 				return true;
 			}
 			final String username = userIdentifier.getId();

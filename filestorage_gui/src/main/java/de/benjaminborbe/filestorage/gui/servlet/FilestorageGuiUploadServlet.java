@@ -35,7 +35,6 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -94,17 +93,17 @@ public class FilestorageGuiUploadServlet extends WebsiteHtmlServlet {
 				}
 			}
 			catch (final FileUploadException e) {
-				widgets.add(new ExceptionWidget(e));
+				logger.debug(e.getClass().getName(), e);
+				widgets.add("file upload failed");
 			}
 		}
-		else {
-			final FormWidget formWidget = new FormWidget(request.getContextPath() + "/filestorage/upload");
-			formWidget.addMethod(FormMethod.POST);
-			formWidget.addEncType(FormEncType.MULTIPART);
-			formWidget.addFormInputWidget(new FormInputFileWidget("file").addLabel("File"));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("upload"));
-			widgets.add(formWidget);
-		}
+		final FormWidget formWidget = new FormWidget(request.getContextPath() + "/filestorage/upload");
+		formWidget.addMethod(FormMethod.POST);
+		formWidget.addEncType(FormEncType.MULTIPART);
+		formWidget.addFormInputWidget(new FormInputFileWidget("file").addLabel("File"));
+		formWidget.addFormInputWidget(new FormInputSubmitWidget("upload"));
+		widgets.add(formWidget);
+
 		return widgets;
 	}
 

@@ -26,8 +26,6 @@ public class LunchServiceImpl implements LunchService {
 
 	private final WikiConnector wikiConnector;
 
-	private final String spaceKey = "MITTAG";
-
 	private final LunchConfig lunchConfig;
 
 	@Inject
@@ -38,12 +36,13 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) throws LunchServiceException {
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
 		logger.trace("getLunchs");
 		try {
+			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
 			final String username = lunchConfig.getConfluenceUsername();
 			final String password = lunchConfig.getConfluencePassword();
-			return wikiConnector.extractLunchs(spaceKey, username, password);
+			return wikiConnector.extractLunchs(spaceKey, username, password, fullname);
 		}
 		catch (final AuthenticationFailedException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);

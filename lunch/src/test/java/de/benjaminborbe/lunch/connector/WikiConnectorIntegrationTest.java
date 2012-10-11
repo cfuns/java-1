@@ -17,11 +17,13 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class WikiConnectorIntegrationTest {
 
-	final String spaceKey = "MITTAG";
+	private final String spaceKey = "MITTAG";
 
-	final String username = "bborbe";
+	private final String username = "bborbe";
 
-	final String password = "xxx";
+	private final String password = "xxx";
+
+	private final String fullname = "Benjamin Borbe";
 
 	@Ignore
 	@Test
@@ -29,7 +31,7 @@ public class WikiConnectorIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LunchModulesMock());
 		final DateUtil dateUtil = injector.getInstance(DateUtil.class);
 		final WikiConnector c = injector.getInstance(WikiConnector.class);
-		final Collection<Lunch> result = c.extractLunchs(spaceKey, username, password);
+		final Collection<Lunch> result = c.extractLunchs(spaceKey, username, password, fullname);
 		assertNotNull(result);
 		assertTrue(result.size() > 0);
 

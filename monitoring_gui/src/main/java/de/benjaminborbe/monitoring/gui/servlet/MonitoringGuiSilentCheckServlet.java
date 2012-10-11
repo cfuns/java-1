@@ -49,6 +49,8 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
 	public MonitoringGuiSilentCheckServlet(
 			final Logger logger,
@@ -65,6 +67,7 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.monitoringService = monitoringService;
 		this.authenticationService = authenticationService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -92,10 +95,12 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final MonitoringServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

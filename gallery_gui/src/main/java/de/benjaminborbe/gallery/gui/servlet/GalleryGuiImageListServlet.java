@@ -51,6 +51,8 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final Logger logger;
+
 	@Inject
 	public GalleryGuiImageListServlet(
 			final Logger logger,
@@ -66,6 +68,7 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
+		this.logger = logger;
 		this.urlUtil = urlUtil;
 	}
 
@@ -100,6 +103,7 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
 	}

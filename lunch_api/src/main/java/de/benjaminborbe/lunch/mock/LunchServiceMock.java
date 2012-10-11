@@ -22,7 +22,7 @@ public class LunchServiceMock implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) {
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) {
 		final List<Lunch> result = new ArrayList<Lunch>();
 		final Lunch lunch = new Lunch() {
 
