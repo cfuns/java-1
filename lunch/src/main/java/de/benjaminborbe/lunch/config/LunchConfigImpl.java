@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.configuration.api.ConfigurationBase;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.configuration.api.ConfigurationDescriptionString;
+import de.benjaminborbe.configuration.tools.ConfigurationBase;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {

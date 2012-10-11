@@ -69,6 +69,7 @@
 		<module>configuration</module>
 		<module>configuration_api</module>
 		<module>configuration_gui</module>
+		<module>configuration_tools</module>
 		<module>configuration_test</module>
 		<module>crawler</module>
 		<module>crawler_api</module>

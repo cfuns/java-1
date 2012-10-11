@@ -178,3 +178,8 @@ portfolio/target
 portfolio_api/target
 portfolio_gui/target
 portfolio_test/target
+configuration/target
+configuration_api/target
+configuration_gui/target
+configuration_tools/target
+configuration_test/target

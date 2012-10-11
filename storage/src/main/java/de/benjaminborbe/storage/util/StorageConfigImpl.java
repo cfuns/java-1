@@ -7,8 +7,8 @@ import java.util.Set;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.configuration.api.ConfigurationDescriptionInt;
-import de.benjaminborbe.configuration.api.ConfigurationDescriptionString;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInt;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 
 public class StorageConfigImpl implements StorageConfig {
 

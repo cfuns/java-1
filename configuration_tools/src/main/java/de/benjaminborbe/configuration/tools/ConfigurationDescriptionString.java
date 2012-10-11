@@ -1,4 +1,7 @@
-package de.benjaminborbe.configuration.api;
+package de.benjaminborbe.configuration.tools;
+
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 
 public class ConfigurationDescriptionString implements ConfigurationDescription {
 
