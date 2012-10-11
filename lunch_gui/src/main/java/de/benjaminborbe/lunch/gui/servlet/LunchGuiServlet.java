@@ -165,4 +165,9 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 		return result;
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }
