@@ -84,4 +84,10 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
+
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

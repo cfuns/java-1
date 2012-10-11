@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.benjaminborbe.html.api.HttpContext;
 
 public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
@@ -45,7 +47,7 @@ public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
 			out.print(" name=\"" + getName() + "\"");
 		}
 		if (value != null) {
-			out.print(" value=\"" + value + "\"");
+			out.print(" value=\"" + StringEscapeUtils.escapeHtml(value) + "\"");
 		}
 		if (placeholder != null) {
 			out.print(" placeholder=\"" + placeholder + "\"");
