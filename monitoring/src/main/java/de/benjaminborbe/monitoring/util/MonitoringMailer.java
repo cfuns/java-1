@@ -7,6 +7,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailSendException;
@@ -21,15 +22,15 @@ public class MonitoringMailer implements Runnable {
 
 	private final MailService mailService;
 
-	private final RootNode rootNode;
+	private final Provider<RootNode> rootNodeProvider;
 
 	private final NodeChecker nodeChecker;
 
 	@Inject
-	public MonitoringMailer(final Logger logger, final MailService mailService, final RootNode rootNode, final NodeChecker nodeChecker) {
+	public MonitoringMailer(final Logger logger, final MailService mailService, final Provider<RootNode> rootNodeProvider, final NodeChecker nodeChecker) {
 		this.logger = logger;
 		this.mailService = mailService;
-		this.rootNode = rootNode;
+		this.rootNodeProvider = rootNodeProvider;
 		this.nodeChecker = nodeChecker;
 	}
 
@@ -57,7 +58,7 @@ public class MonitoringMailer implements Runnable {
 	}
 
 	protected Collection<CheckResult> callChecks() {
-		final Collection<CheckResult> results = nodeChecker.checkNode(rootNode);
+		final Collection<CheckResult> results = nodeChecker.checkNode(rootNodeProvider.get());
 
 		final Set<CheckResult> failedChecks = new HashSet<CheckResult>();
 		for (final CheckResult checkResult : results) {

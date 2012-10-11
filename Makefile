@@ -40,6 +40,12 @@ buildportfolio:
 	cd portfolio && make all
 	cd portfolio_gui && make all
 	cd portfolio_test && make all
+buildconfiguration:
+	cd configuration_api && make all
+	cd configuration && make all
+	cd configuration_tools && make all
+	cd configuration_gui && make all
+	cd configuration_test && make all
 buildstorage:
 	cd storage_api && make all
 	cd storage && make all
@@ -86,6 +92,11 @@ buildbookmark:
 	cd bookmark && make all
 	cd bookmark_gui && make all
 	cd bookmark_test && make all
+buildmonitoring:
+	cd monitoring_api && make all
+	cd monitoring && make all
+	cd monitoring_gui && make all
+	cd monitoring_test && make all
 dir:
 	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
 sonar:

@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -25,7 +26,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final Logger logger;
 
-	private final RootNode rootNode;
+	private final Provider<RootNode> rootNodeProvider;
 
 	private final NodeCheckerCache nodeChecker;
 
@@ -38,13 +39,13 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
-			final RootNode rootNode,
+			final Provider<RootNode> rootNodeProvider,
 			final NodeCheckerCache nodeChecker,
 			final SilentNodeRegistry silentNodeRegistry,
 			final MonitoringMailer monitoringMailer,
 			final AuthorizationService authorizationService) {
 		this.logger = logger;
-		this.rootNode = rootNode;
+		this.rootNodeProvider = rootNodeProvider;
 		this.nodeChecker = nodeChecker;
 		this.silentNodeRegistry = silentNodeRegistry;
 		this.monitoringMailer = monitoringMailer;
@@ -56,7 +57,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.checkRootNode"));
 			logger.trace("checkRootNode");
-			return nodeChecker.checkNode(rootNode);
+			return nodeChecker.checkNode(rootNodeProvider.get());
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException("AuthorizationServiceException", e);
@@ -68,7 +69,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.checkRootNodeWithCache"));
 			logger.trace("checkRootNodeWithCache");
-			return nodeChecker.checkNodeWithCache(rootNode);
+			return nodeChecker.checkNodeWithCache(rootNodeProvider.get());
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException("AuthorizationServiceException", e);
