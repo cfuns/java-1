@@ -11,7 +11,10 @@ import com.atlassian.confluence.rpc.RemoteException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
@@ -28,11 +31,26 @@ public class LunchServiceImpl implements LunchService {
 
 	private final LunchConfig lunchConfig;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public LunchServiceImpl(final Logger logger, final WikiConnector wikiConnector, final LunchConfig lunchConfig) {
+	public LunchServiceImpl(final Logger logger, final WikiConnector wikiConnector, final LunchConfig lunchConfig, final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
+		this.authenticationService = authenticationService;
+	}
+
+	@Override
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) throws LunchServiceException {
+		try {
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final String username = authenticationService.getFullname(sessionIdentifier, userIdentifier);
+			return getLunchs(sessionIdentifier, username);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override

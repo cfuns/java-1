@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
@@ -108,10 +109,17 @@ public class LunchGuiServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String fullname = request.getParameter(LunchGuiConstants.PARAMETER_FULLNAME);
-			if (fullname != null) {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			String fullname = null;
+			if (fullname == null) {
+				fullname = request.getParameter(LunchGuiConstants.PARAMETER_FULLNAME);
+			}
+			if (fullname == null) {
+				fullname = authenticationService.getFullname(sessionIdentifier, userIdentifier);
+			}
+			if (fullname != null) {
 				final List<Lunch> lunchs = new ArrayList<Lunch>(lunchService.getLunchs(sessionIdentifier, fullname));
 				Collections.sort(lunchs, new SortLunchs());
 				final UlWidget ul = new UlWidget();

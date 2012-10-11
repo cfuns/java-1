@@ -66,12 +66,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password)
-			throws AuthenticationServiceException {
-		return false;
-	}
-
-	@Override
 	public Collection<UserIdentifier> userList() throws AuthenticationServiceException {
 		return null;
 	}
@@ -88,5 +82,16 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public void expectLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+	}
+
+	@Override
+	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password, final String fullname)
+			throws AuthenticationServiceException {
+		return false;
+	}
+
+	@Override
+	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		return null;
 	}
 }

@@ -1,9 +1,10 @@
 package de.benjaminborbe.authentication.user;
 
+import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 
-public class UserBean implements Entity<UserIdentifier> {
+public class UserBean implements Entity<UserIdentifier>, User {
 
 	private static final long serialVersionUID = -3922883715303844030L;
 
@@ -12,6 +13,8 @@ public class UserBean implements Entity<UserIdentifier> {
 	private String password;
 
 	private String email;
+
+	private String fullname;
 
 	@Override
 	public UserIdentifier getId() {
@@ -37,6 +40,14 @@ public class UserBean implements Entity<UserIdentifier> {
 
 	public void setEmail(final String email) {
 		this.email = email;
+	}
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(final String fullname) {
+		this.fullname = fullname;
 	}
 
 }

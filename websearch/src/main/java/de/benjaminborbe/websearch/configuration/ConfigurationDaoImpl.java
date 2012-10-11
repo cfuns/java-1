@@ -1,5 +1,6 @@
 package de.benjaminborbe.websearch.configuration;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
 import de.benjaminborbe.websearch.page.PageDao;
 
@@ -27,19 +29,24 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 
 	protected void init() {
 		try {
-			final URL url = new URL("http://confluence.benjamin-borbe.de/confluence");
-			pageDao.findOrCreate(url);
-
-			final ConfigurationBean configuration = create();
-			configuration.setUrl(url);
-			configuration.setOwnerUsername("bborbe");
-			final List<String> excludes = new ArrayList<String>();
-			excludes.add("?");
-			configuration.setExcludes(excludes);
-			save(configuration);
+			addUrl("http://confluence.benjamin-borbe.de/confluence", "bborbe");
+			addUrl("http://www.hascode.com", "bborbe");
 		}
 		catch (final Exception e) {
 			logger.error(e.getClass().getSimpleName(), e);
 		}
+	}
+
+	protected void addUrl(final String urlStirng, final String username) throws MalformedURLException, StorageException {
+		final URL url = new URL(urlStirng);
+		pageDao.findOrCreate(url);
+
+		final ConfigurationBean configuration = create();
+		configuration.setUrl(url);
+		configuration.setOwnerUsername(username);
+		final List<String> excludes = new ArrayList<String>();
+		excludes.add("?");
+		configuration.setExcludes(excludes);
+		save(configuration);
 	}
 }

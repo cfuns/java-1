@@ -20,6 +20,8 @@ import de.benjaminborbe.authentication.session.SessionBean;
 import de.benjaminborbe.authentication.session.SessionDao;
 import de.benjaminborbe.authentication.user.UserBean;
 import de.benjaminborbe.authentication.user.UserDao;
+import de.benjaminborbe.authentication.verifycredential.VerifyCredential;
+import de.benjaminborbe.authentication.verifycredential.VerifyCredentialRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
@@ -31,36 +33,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final UserDao userDao;
 
+	private final VerifyCredentialRegistry verifyCredentialRegistry;
+
 	@Inject
-	public AuthenticationServiceImpl(final Logger logger, final SessionDao sessionDao, final UserDao userDao) {
+	public AuthenticationServiceImpl(final Logger logger, final SessionDao sessionDao, final UserDao userDao, final VerifyCredentialRegistry verifyCredentialRegistry) {
 		this.logger = logger;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
+		this.verifyCredentialRegistry = verifyCredentialRegistry;
 	}
 
 	@Override
 	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
-		try {
-			logger.trace("verifyCredential");
-			final UserBean user = userDao.load(userIdentifier);
-			if (user == null) {
-				logger.info("verifyCredential failed no user found with name " + userIdentifier);
-				return false;
-			}
-
-			if (user.getPassword() != null && user.getPassword().equals(password)) {
-				logger.trace("verifyCredential password match");
+		for (final VerifyCredential a : verifyCredentialRegistry.getAll()) {
+			if (a.verifyCredential(userIdentifier, password)) {
 				return true;
 			}
-			else {
-				logger.info("verifyCredential password missmatch");
-				return false;
-			}
 		}
-		catch (final StorageException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
+		return false;
 	}
 
 	@Override
@@ -125,7 +115,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password)
+	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password, final String fullname)
 			throws AuthenticationServiceException {
 		try {
 			if (userDao.load(userIdentifier) != null) {
@@ -236,5 +226,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (!isLoggedIn(sessionIdentifier)) {
 			throw new LoginRequiredException("user not logged in");
 		}
+	}
+
+	@Override
+	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		for (final VerifyCredential a : verifyCredentialRegistry.getAll()) {
+			final String username = a.getFullname(userIdentifier);
+			if (username != null && username.length() > 0) {
+				return username;
+			}
+		}
+		return null;
 	}
 }

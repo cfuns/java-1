@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +20,9 @@ import de.benjaminborbe.authentication.session.SessionBean;
 import de.benjaminborbe.authentication.session.SessionDao;
 import de.benjaminborbe.authentication.user.UserBean;
 import de.benjaminborbe.authentication.user.UserDao;
+import de.benjaminborbe.authentication.verifycredential.VerifyCredential;
+import de.benjaminborbe.authentication.verifycredential.VerifyCredentialRegistry;
+import de.benjaminborbe.authentication.verifycredential.VerifyCredentialStorage;
 
 public class AuthenticationServiceUnitTest {
 
@@ -42,7 +46,12 @@ public class AuthenticationServiceUnitTest {
 		EasyMock.expect(userDao.load(userWrong)).andReturn(null).anyTimes();
 		EasyMock.replay(userDao);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
+		final VerifyCredential v = new VerifyCredentialStorage(logger, userDao);
+		final VerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(VerifyCredentialRegistry.class);
+		EasyMock.expect(verifyCredentialRegistry.getAll()).andReturn(Arrays.asList(v)).anyTimes();
+		EasyMock.replay(verifyCredentialRegistry);
+
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry);
 		assertFalse(authenticationService.verifyCredential(userWrong, "test123"));
 		assertFalse(authenticationService.verifyCredential(userRight, "wrong"));
 		assertTrue(authenticationService.verifyCredential(userRight, "test123"));
@@ -79,7 +88,10 @@ public class AuthenticationServiceUnitTest {
 		final UserDao userDao = EasyMock.createMock(UserDao.class);
 		EasyMock.replay(userDao);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
+		final VerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(VerifyCredentialRegistry.class);
+		EasyMock.replay(verifyCredentialRegistry);
+
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry);
 		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier).getId());
 	}
 
@@ -107,7 +119,10 @@ public class AuthenticationServiceUnitTest {
 		final UserDao userDao = EasyMock.createMock(UserDao.class);
 		EasyMock.replay(userDao);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao);
+		final VerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(VerifyCredentialRegistry.class);
+		EasyMock.replay(verifyCredentialRegistry);
+
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry);
 		assertNull(authenticationService.getCurrentUser(sessionIdentifier));
 	}
 }

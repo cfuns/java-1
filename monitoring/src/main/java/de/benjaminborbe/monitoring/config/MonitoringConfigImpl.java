@@ -36,6 +36,8 @@ public class MonitoringConfigImpl extends ConfigurationBase implements Monitorin
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(azUsername);
 		result.add(azPassword);
+		result.add(twentyfeetUsername);
+		result.add(twentyfeetPassword);
 		return result;
 	}
 

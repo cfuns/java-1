@@ -111,10 +111,12 @@ public class LunchGuiServletUnitTest {
 		final UserIdentifier userIdentifier = EasyMock.createMock(UserIdentifier.class);
 		EasyMock.replay(userIdentifier);
 
+		final String fullname = "Foo Bar";
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
 		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
+		EasyMock.expect(authenticationService.getFullname(sessionIdentifier, userIdentifier)).andReturn(fullname).anyTimes();
 		EasyMock.replay(authenticationService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
@@ -125,8 +127,6 @@ public class LunchGuiServletUnitTest {
 
 		final DateUtil dateUtil = EasyMock.createMock(DateUtil.class);
 		EasyMock.replay(dateUtil);
-
-		final String fullname = "Foo Bar";
 
 		final LunchService lunchService = EasyMock.createMock(LunchService.class);
 		EasyMock.expect(lunchService.getLunchs(sessionIdentifier, fullname)).andReturn(new HashSet<Lunch>());

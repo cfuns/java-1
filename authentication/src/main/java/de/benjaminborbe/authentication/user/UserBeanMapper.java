@@ -19,6 +19,8 @@ public class UserBeanMapper extends BaseMapper<UserBean> {
 
 	private static final String EMAIL = "email";
 
+	private static final String FULLNAME = "fullname";
+
 	@Inject
 	public UserBeanMapper(final Provider<UserBean> provider) {
 		super(provider);
@@ -29,6 +31,7 @@ public class UserBeanMapper extends BaseMapper<UserBean> {
 		data.put(ID, toString(object.getId()));
 		data.put(PASSWORD, object.getPassword());
 		data.put(EMAIL, object.getEmail());
+		data.put(FULLNAME, object.getFullname());
 	}
 
 	@Override
@@ -36,6 +39,7 @@ public class UserBeanMapper extends BaseMapper<UserBean> {
 		object.setId(toUserIdentifier(data.get(ID)));
 		object.setPassword(data.get(PASSWORD));
 		object.setEmail(data.get(EMAIL));
+		object.setFullname(data.get(FULLNAME));
 	}
 
 	private UserIdentifier toUserIdentifier(final String id) {
