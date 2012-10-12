@@ -186,29 +186,29 @@ public class LdapConnector {
 		}
 	}
 
-	private Hashtable<String, String> getReadEnv() {
+	private Hashtable<String, String> getBaseEnv() {
 		final Hashtable<String, String> env = new Hashtable<String, String>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");
-		env.put(Context.SECURITY_PRINCIPAL, "cn=ldaplookup,ou=Extern,ou=Mitarbeiter,dc=rp,dc=seibert-media,dc=net");
-		env.put(Context.SECURITY_CREDENTIALS, authenticationConfig.getCredentials());
 		if (authenticationConfig.isSSL()) {
 			env.put(Context.SECURITY_PROTOCOL, "ssl");
+			// env.put("java.naming.ldap.factory.socket", SSLSocketFactoryBase.class.getName());
 		}
 		return env;
 	}
 
+	private Hashtable<String, String> getReadEnv() {
+		final Hashtable<String, String> env = getBaseEnv();
+		env.put(Context.SECURITY_PRINCIPAL, "cn=ldaplookup,ou=Extern,ou=Mitarbeiter,dc=rp,dc=seibert-media,dc=net");
+		env.put(Context.SECURITY_CREDENTIALS, authenticationConfig.getCredentials());
+		return env;
+	}
+
 	private Hashtable<String, String> getUserEnv(final String username, final String password) {
-		final Hashtable<String, String> env = new Hashtable<String, String>();
-		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
-		env.put(Context.SECURITY_AUTHENTICATION, "simple");
+		final Hashtable<String, String> env = getBaseEnv();
 		env.put(Context.SECURITY_PRINCIPAL, authenticationConfig.getDomain() + "\\" + username);
 		env.put(Context.SECURITY_CREDENTIALS, password);
-		if (authenticationConfig.isSSL()) {
-			env.put(Context.SECURITY_PROTOCOL, "ssl");
-		}
 		return env;
 	}
 
