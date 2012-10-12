@@ -1,7 +1,8 @@
 package de.benjaminborbe.lunch.service;
 
-import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+
 import javax.xml.rpc.ServiceException;
 
 import org.slf4j.Logger;
@@ -19,8 +20,8 @@ import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.config.LunchConfig;
-import de.benjaminborbe.lunch.connector.WikiConnector;
-import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.lunch.connector.LunchWikiConnector;
+import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
@@ -28,26 +29,26 @@ public class LunchServiceImpl implements LunchService {
 
 	private final Logger logger;
 
-	private final WikiConnector wikiConnector;
+	private final LunchWikiConnector wikiConnector;
 
 	private final LunchConfig lunchConfig;
 
 	private final AuthenticationService authenticationService;
 
-	private final CalendarUtil calendarUtil;
+	private final DateUtil dateUtil;
 
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
-			final WikiConnector wikiConnector,
+			final LunchWikiConnector wikiConnector,
 			final LunchConfig lunchConfig,
 			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil) {
+			final DateUtil dateUtil) {
 		this.logger = logger;
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
 		this.authenticationService = authenticationService;
-		this.calendarUtil = calendarUtil;
+		this.dateUtil = dateUtil;
 	}
 
 	@Override
@@ -62,13 +63,13 @@ public class LunchServiceImpl implements LunchService {
 		}
 	}
 
-	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Calendar calendar) throws LunchServiceException {
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Date date) throws LunchServiceException {
 		logger.trace("getLunchs");
 		try {
 			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
 			final String username = lunchConfig.getConfluenceUsername();
 			final String password = lunchConfig.getConfluencePassword();
-			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, calendar);
+			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, date);
 		}
 		catch (final AuthenticationFailedException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
@@ -89,7 +90,7 @@ public class LunchServiceImpl implements LunchService {
 
 	@Override
 	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
-		return getLunchs(sessionIdentifier, fullname, calendarUtil.now());
+		return getLunchs(sessionIdentifier, fullname, dateUtil.today());
 	}
 
 	@Override

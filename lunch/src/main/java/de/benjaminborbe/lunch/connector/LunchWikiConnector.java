@@ -3,7 +3,6 @@ package de.benjaminborbe.lunch.connector;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +31,7 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 
-public class WikiConnector {
+public class LunchWikiConnector {
 
 	private final DateUtil dateUtil;
 
@@ -42,14 +41,14 @@ public class WikiConnector {
 
 	// https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs
 	@Inject
-	public WikiConnector(final Logger logger, final DateUtil dateUtil, final HtmlUtil htmlUtil) {
+	public LunchWikiConnector(final Logger logger, final DateUtil dateUtil, final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.dateUtil = dateUtil;
 		this.htmlUtil = htmlUtil;
 	}
 
-	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Calendar calendar)
-			throws ServiceException, AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
+	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Date date) throws ServiceException,
+			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
 
 		final List<Lunch> result = new ArrayList<Lunch>();
 
@@ -58,7 +57,7 @@ public class WikiConnector {
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
-			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, calendar)) {
+			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, date)) {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
 				final Lunch lunch = createLunch(service, token, remotePageSummary, fullname);
 				result.add(lunch);
@@ -70,12 +69,13 @@ public class WikiConnector {
 		return result;
 	}
 
-	private boolean isLunchDate(final RemotePageSummary remotePageSummary, final Calendar calendar) throws ParseException {
-		if (calendar == null) {
+	private boolean isLunchDate(final RemotePageSummary remotePageSummary, final Date date) throws ParseException {
+		if (date == null) {
 			return true;
 		}
 		final Date pageDate = extractDate(remotePageSummary.getTitle());
-		return calendar.getTime().compareTo(pageDate) != -1;
+		logger.debug("compare " + dateUtil.dateTimeString(date) + " <=> " + dateUtil.dateTimeString(pageDate));
+		return date.compareTo(pageDate) != 1;
 	}
 
 	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary, final String fullname) throws ParseException,

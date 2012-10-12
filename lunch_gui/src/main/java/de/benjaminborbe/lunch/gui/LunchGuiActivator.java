@@ -11,9 +11,12 @@ import com.google.inject.Inject;
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class LunchGuiActivator extends HttpBundleActivator {
@@ -52,6 +55,14 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen", "/bb/" + LunchGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen Archiv", "/bb/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV)));
 		return result;
 	}
 }

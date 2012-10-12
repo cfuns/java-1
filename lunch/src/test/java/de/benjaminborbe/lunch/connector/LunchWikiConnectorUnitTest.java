@@ -15,7 +15,7 @@ import de.benjaminborbe.tools.date.DateUtilImpl;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
 
-public class WikiConnectorUnitTest {
+public class LunchWikiConnectorUnitTest {
 
 	@Test
 	public void testExtractDate() throws Exception {
@@ -24,7 +24,7 @@ public class WikiConnectorUnitTest {
 
 		final DateUtil dateUtil = new DateUtilImpl();
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final WikiConnector wikiConnector = new WikiConnector(logger, dateUtil, htmlUtil);
+		final LunchWikiConnector wikiConnector = new LunchWikiConnector(logger, dateUtil, htmlUtil);
 		final Date date = wikiConnector.extractDate("2012-05-03 - Bastians Mittagessen");
 		assertNotNull(date);
 		final Calendar calendar = Calendar.getInstance();

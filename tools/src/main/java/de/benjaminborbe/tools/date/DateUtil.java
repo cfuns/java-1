@@ -20,4 +20,6 @@ public interface DateUtil {
 
 	String germanDateString(Date date);
 
+	Date today();
+
 }

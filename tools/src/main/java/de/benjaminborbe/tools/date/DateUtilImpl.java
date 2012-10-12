@@ -73,4 +73,15 @@ public class DateUtilImpl implements DateUtil {
 		return dateString(date).equals(dateString(now));
 	}
 
+	@Override
+	public Date today() {
+		final Date now = new Date();
+		try {
+			return parseDate(dateString(now));
+		}
+		catch (final ParseException e) {
+			return now;
+		}
+	}
+
 }

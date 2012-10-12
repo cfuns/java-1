@@ -192,4 +192,18 @@ public class CalendarUtilImpl implements CalendarUtil {
 		return result;
 	}
 
+	@Override
+	public Calendar today() {
+		return today(timeZoneUtil.getUTCTimeZone());
+	}
+
+	@Override
+	public Calendar today(final TimeZone timeZone) {
+		final Calendar calendar = now(timeZone);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar;
+	}
+
 }

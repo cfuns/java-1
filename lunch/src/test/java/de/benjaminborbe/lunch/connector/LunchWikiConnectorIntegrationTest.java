@@ -15,7 +15,7 @@ import de.benjaminborbe.lunch.guice.LunchModulesMock;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class WikiConnectorIntegrationTest {
+public class LunchWikiConnectorIntegrationTest {
 
 	private final String spaceKey = "MITTAG";
 
@@ -30,7 +30,7 @@ public class WikiConnectorIntegrationTest {
 	public void testname() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LunchModulesMock());
 		final DateUtil dateUtil = injector.getInstance(DateUtil.class);
-		final WikiConnector c = injector.getInstance(WikiConnector.class);
+		final LunchWikiConnector c = injector.getInstance(LunchWikiConnector.class);
 		final Collection<Lunch> result = c.extractLunchs(spaceKey, username, password, fullname, null);
 		assertNotNull(result);
 		assertTrue(result.size() > 0);
