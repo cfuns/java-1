@@ -71,10 +71,10 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (authenticationService.logout(sessionIdentifier)) {
-				widgets.add("logout => success");
+				widgets.add("Logout success");
 			}
 			else {
-				widgets.add("logout => failed");
+				widgets.add("Logout failed! Already logged out?");
 			}
 			return widgets;
 		}

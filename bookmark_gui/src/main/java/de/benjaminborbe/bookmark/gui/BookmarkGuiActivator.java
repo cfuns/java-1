@@ -51,7 +51,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	private BookmarkGuiInitServlet bookmarkGuiInitServlet;
 
 	public BookmarkGuiActivator() {
-		super("bookmark");
+		super(BookmarkGuiConstants.NAME);
 	}
 
 	@Override
@@ -70,12 +70,12 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(bookmarkGuiListServlet, "/list"));
-		result.add(new ServletInfo(bookmarkGuiCreateServlet, "/create"));
-		result.add(new ServletInfo(bookmarkGuiUpdateServlet, "/update"));
-		result.add(new ServletInfo(bookmarkGuiDeleteServlet, "/delete"));
 		result.add(new ServletInfo(bookmarkGuiServlet, "/"));
-		result.add(new ServletInfo(bookmarkGuiInitServlet, "/init"));
+		result.add(new ServletInfo(bookmarkGuiListServlet, BookmarkGuiConstants.URL_LIST));
+		result.add(new ServletInfo(bookmarkGuiCreateServlet, BookmarkGuiConstants.URL_CREATE));
+		result.add(new ServletInfo(bookmarkGuiUpdateServlet, BookmarkGuiConstants.URL_UPDATE));
+		result.add(new ServletInfo(bookmarkGuiDeleteServlet, BookmarkGuiConstants.URL_DELETE));
+		result.add(new ServletInfo(bookmarkGuiInitServlet, BookmarkGuiConstants.URL_INIT));
 		return result;
 	}
 

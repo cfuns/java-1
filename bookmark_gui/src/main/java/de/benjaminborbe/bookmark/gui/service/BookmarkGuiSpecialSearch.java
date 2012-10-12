@@ -20,12 +20,14 @@ import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.widget.BookmarkCreateLink;
+import de.benjaminborbe.bookmark.gui.widget.BookmarkListLink;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.util.SearchUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class BookmarkGuiSpecialSearch implements SearchSpecial {
@@ -69,7 +71,10 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 				final ListWidget widgets = new ListWidget();
 				widgets.add(new H2Widget("Bookmarksearch"));
 				widgets.add("no match");
+				widgets.add(new BrWidget());
 				widgets.add(new BookmarkCreateLink(request));
+				widgets.add(" ");
+				widgets.add(new BookmarkListLink(request));
 				widgets.render(request, response, context);
 			}
 		}
