@@ -25,14 +25,14 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
 @Singleton
-public class LunchGuiServlet extends LunchGuiBaseServlet {
+public class LunchGuiArchivServlet extends LunchGuiBaseServlet {
 
 	private static final long serialVersionUID = 6301316368714055246L;
 
 	private final LunchService lunchService;
 
 	@Inject
-	public LunchGuiServlet(
+	public LunchGuiArchivServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -51,7 +51,7 @@ public class LunchGuiServlet extends LunchGuiBaseServlet {
 
 	@Override
 	protected List<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
-		return new ArrayList<Lunch>(lunchService.getLunchs(sessionIdentifier, fullname));
+		return new ArrayList<Lunch>(lunchService.getLunchsArchiv(sessionIdentifier, fullname));
 	}
 
 }

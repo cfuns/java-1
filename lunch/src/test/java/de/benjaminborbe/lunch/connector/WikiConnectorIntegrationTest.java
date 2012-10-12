@@ -31,7 +31,7 @@ public class WikiConnectorIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LunchModulesMock());
 		final DateUtil dateUtil = injector.getInstance(DateUtil.class);
 		final WikiConnector c = injector.getInstance(WikiConnector.class);
-		final Collection<Lunch> result = c.extractLunchs(spaceKey, username, password, fullname);
+		final Collection<Lunch> result = c.extractLunchs(spaceKey, username, password, fullname, null);
 		assertNotNull(result);
 		assertTrue(result.size() > 0);
 

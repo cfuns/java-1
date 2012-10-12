@@ -3,6 +3,7 @@ package de.benjaminborbe.lunch.connector;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -47,8 +48,8 @@ public class WikiConnector {
 		this.htmlUtil = htmlUtil;
 	}
 
-	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname) throws ServiceException,
-			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
+	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Calendar calendar)
+			throws ServiceException, AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
 
 		final List<Lunch> result = new ArrayList<Lunch>();
 
@@ -57,7 +58,7 @@ public class WikiConnector {
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
-			if (isLunchPage(remotePageSummary)) {
+			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, calendar)) {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
 				final Lunch lunch = createLunch(service, token, remotePageSummary, fullname);
 				result.add(lunch);
@@ -69,10 +70,18 @@ public class WikiConnector {
 		return result;
 	}
 
+	private boolean isLunchDate(final RemotePageSummary remotePageSummary, final Calendar calendar) throws ParseException {
+		if (calendar == null) {
+			return true;
+		}
+		final Date pageDate = extractDate(remotePageSummary.getTitle());
+		return calendar.getTime().compareTo(pageDate) != -1;
+	}
+
 	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary, final String fullname) throws ParseException,
 			InvalidSessionException, RemoteException, java.rmi.RemoteException {
-		final LunchBean lunch = new LunchBean();
 		final RemotePage page = service.getPage(token, remotePageSummary.getId());
+		final LunchBean lunch = new LunchBean();
 		final String htmlContent = service.renderContent(token, page.getSpace(), page.getId(), page.getContent());
 		lunch.setName(extractLunchName(htmlContent));
 		lunch.setSubscribed(extractLunchSubscribed(htmlContent, fullname));

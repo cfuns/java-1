@@ -72,4 +72,5 @@ public class DateUtilImpl implements DateUtil {
 		final Date now = new Date();
 		return dateString(date).equals(dateString(now));
 	}
+
 }

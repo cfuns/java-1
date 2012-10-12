@@ -61,4 +61,9 @@ public class LunchServiceMock implements LunchService {
 		return null;
 	}
 
+	@Override
+	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
+		return null;
+	}
+
 }

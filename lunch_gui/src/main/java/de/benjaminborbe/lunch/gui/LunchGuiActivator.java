@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -20,8 +21,11 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Inject
 	private LunchGuiServlet lunchGuiServlet;
 
+	@Inject
+	private LunchGuiArchivServlet lunchGuiArchivServlet;
+
 	public LunchGuiActivator() {
-		super("lunch");
+		super(LunchGuiConstants.NAME);
 	}
 
 	@Override
@@ -32,7 +36,8 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(lunchGuiServlet, "/"));
+		result.add(new ServletInfo(lunchGuiServlet, LunchGuiConstants.URL_HOME));
+		result.add(new ServletInfo(lunchGuiArchivServlet, LunchGuiConstants.URL_ARCHIV));
 		return result;
 	}
 

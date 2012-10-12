@@ -1,7 +1,7 @@
 package de.benjaminborbe.lunch.service;
 
+import java.util.Calendar;
 import java.util.Collection;
-
 import javax.xml.rpc.ServiceException;
 
 import org.slf4j.Logger;
@@ -20,6 +20,7 @@ import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.connector.WikiConnector;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
@@ -33,12 +34,20 @@ public class LunchServiceImpl implements LunchService {
 
 	private final AuthenticationService authenticationService;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public LunchServiceImpl(final Logger logger, final WikiConnector wikiConnector, final LunchConfig lunchConfig, final AuthenticationService authenticationService) {
+	public LunchServiceImpl(
+			final Logger logger,
+			final WikiConnector wikiConnector,
+			final LunchConfig lunchConfig,
+			final AuthenticationService authenticationService,
+			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
 		this.authenticationService = authenticationService;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -53,14 +62,13 @@ public class LunchServiceImpl implements LunchService {
 		}
 	}
 
-	@Override
-	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Calendar calendar) throws LunchServiceException {
 		logger.trace("getLunchs");
 		try {
 			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
 			final String username = lunchConfig.getConfluenceUsername();
 			final String password = lunchConfig.getConfluencePassword();
-			return wikiConnector.extractLunchs(spaceKey, username, password, fullname);
+			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, calendar);
 		}
 		catch (final AuthenticationFailedException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
@@ -77,6 +85,16 @@ public class LunchServiceImpl implements LunchService {
 		catch (final ParseException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
+	}
+
+	@Override
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
+		return getLunchs(sessionIdentifier, fullname, calendarUtil.now());
+	}
+
+	@Override
+	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
+		return getLunchs(sessionIdentifier, fullname, null);
 	}
 
 }
