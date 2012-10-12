@@ -25,6 +25,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -78,6 +79,9 @@ public class LogglyConnectorImpl implements LogglyConnector {
 						retryQueue.offer(this);
 					}
 				}
+				else {
+					logger.debug("send loggy");
+				}
 			}
 			catch (final Exception e) {
 				if (allowRetry) {
@@ -108,8 +112,11 @@ public class LogglyConnectorImpl implements LogglyConnector {
 
 	private LinkedBlockingQueue<LogglyEntry> retryQueue;
 
+	private final Logger logger;
+
 	@Inject
-	public LogglyConnectorImpl(final LogglyConfig logglyConfig) {
+	public LogglyConnectorImpl(final Logger logger, final LogglyConfig logglyConfig) {
+		this.logger = logger;
 		this.logglyConfig = logglyConfig;
 
 		init();
@@ -277,6 +284,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 	public void log(final LogLevel logLevel, final String message, final Map<String, String> data) {
 		data.put("thread", Thread.currentThread().getName());
 		data.put("level", String.valueOf(logLevel));
+		data.put("message", message);
 		pool.submit(new LogglyEntry(data));
 	}
 

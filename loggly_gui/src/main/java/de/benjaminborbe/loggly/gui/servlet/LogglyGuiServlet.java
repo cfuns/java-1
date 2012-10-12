@@ -25,7 +25,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormInputTextareaWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -73,12 +73,13 @@ public class LogglyGuiServlet extends WebsiteHtmlServlet {
 		final String msg = request.getParameter(LogglyGuiConstants.PARAMETER_LOG_MSG);
 		if (msg != null && msg.length() > 0) {
 			logglyService.info(msg);
+			widgets.add("log msg forwarded");
 		}
 
 		final FormWidget form = new FormWidget();
-		form.addFormInputWidget(new FormInputTextareaWidget(LogglyGuiConstants.PARAMETER_LOG_MSG));
+		form.addFormInputWidget(new FormInputTextWidget(LogglyGuiConstants.PARAMETER_LOG_MSG));
 		form.addFormInputWidget(new FormInputSubmitWidget("log"));
-
+		widgets.add(form);
 		return widgets;
 	}
 
