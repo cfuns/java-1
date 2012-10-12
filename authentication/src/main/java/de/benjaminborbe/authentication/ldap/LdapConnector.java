@@ -66,8 +66,8 @@ public class LdapConnector {
 			return false;
 		}
 		catch (final NamingException e) {
-			logger.debug(e.getClass().getName(), e);
-			throw new LdapException(e);
+			logger.trace(e.getClass().getName(), e);
+			return false;
 		}
 		catch (final KeyManagementException e) {
 			logger.debug(e.getClass().getName(), e);
