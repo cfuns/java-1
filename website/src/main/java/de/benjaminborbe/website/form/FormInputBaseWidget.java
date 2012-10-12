@@ -27,12 +27,19 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormElementW
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		addAttribute("value", request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
-		final ListWidget widgets = new ListWidget();
-		if (label != null) {
-			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
+		{
+			final ListWidget widgets = new ListWidget();
+			if (label != null) {
+				widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
+			}
+			widgets.render(request, response, context);
 		}
-		widgets.add(new BrWidget());
-		widgets.render(request, response, context);
+		super.render(request, response, context);
+		{
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new BrWidget());
+			widgets.render(request, response, context);
+		}
 	}
 
 	@Override
