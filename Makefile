@@ -61,6 +61,11 @@ buildstorage:
 	cd storage_tools && make all
 	cd storage_gui && make all
 	cd storage_test && make all
+buildloggly:
+	cd loggly_api && make all
+	cd loggly && make all
+	cd loggly_gui && make all
+	cd loggly_test && make all
 buildworktime:
 	cd worktime_api && make all
 	cd worktime && make all

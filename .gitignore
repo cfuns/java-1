@@ -183,3 +183,7 @@ configuration_api/target
 configuration_gui/target
 configuration_tools/target
 configuration_test/target
+loggly/target
+loggly_api/target
+loggly_gui/target
+loggly_test/target

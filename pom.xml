@@ -105,6 +105,10 @@
 		<module>index_api</module>
 		<module>index_gui</module>
 		<module>index_test</module>
+		<module>loggly</module>
+		<module>loggly_api</module>
+		<module>loggly_gui</module>
+		<module>loggly_test</module>
 		<module>lunch</module>
 		<module>lunch_api</module>
 		<module>lunch_gui</module>
