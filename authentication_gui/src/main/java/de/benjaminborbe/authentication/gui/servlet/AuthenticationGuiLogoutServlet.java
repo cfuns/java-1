@@ -90,4 +90,9 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 		return false;
 	}
 
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
+	}
+
 }
