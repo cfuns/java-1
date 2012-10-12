@@ -105,7 +105,7 @@ public class LdapConnector {
 				final Attributes attrs = searchResult.getAttributes();
 				final String cn = String.valueOf(attrs.get("cn").get());
 
-				logger.debug("compare " + username + " <=> " + cn);
+				logger.trace("compare " + username + " <=> " + cn);
 				if (cn.equalsIgnoreCase(username)) {
 					final String displayName = String.valueOf(attrs.get("displayName").get());
 					logger.debug("found user " + username + " => " + displayName);
