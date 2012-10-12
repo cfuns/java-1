@@ -230,7 +230,7 @@ public class MicroblogConnectorImplUnitTest {
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
-		final String pageContent = resourceUtil.getResourceContentString("sample_conversation.txt");
+		final String pageContent = resourceUtil.getResourceContentAsString("sample_conversation.txt");
 		assertNotNull(pageContent);
 		final String conversationUrl = "http://testd.de";
 		final MicroblogConversationResult result = microblogConnectorImpl.buildMicroblogConversationResult(conversationUrl, pageContent);

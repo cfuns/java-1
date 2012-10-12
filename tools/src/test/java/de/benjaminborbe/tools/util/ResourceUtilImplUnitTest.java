@@ -11,16 +11,16 @@ public class ResourceUtilImplUnitTest {
 	private static final String TEST_CONTENT = "testContent";
 
 	@Test
-	public void testGetResourceContentString() throws Exception {
-		final StreamUtil streamUtil = new StreamUtil();
-		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
-		assertEquals(TEST_CONTENT + "\n", resourceUtil.getResourceContentString(TEST_FILENAME));
-	}
+		public void testGetResourceContentAsString() throws Exception {
+			final StreamUtil streamUtil = new StreamUtil();
+			final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
+			assertEquals(TEST_CONTENT + "\n", resourceUtil.getResourceContentAsString(TEST_FILENAME));
+		}
 
 	@Test
-	public void testGetResourceContentByteArray() throws Exception {
-		final StreamUtil streamUtil = new StreamUtil();
-		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
-		assertEquals(TEST_CONTENT, new String(resourceUtil.getResourceContentByteArray(TEST_FILENAME)));
-	}
+		public void testGetResourceContentAsByteArray() throws Exception {
+			final StreamUtil streamUtil = new StreamUtil();
+			final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
+			assertEquals(TEST_CONTENT, new String(resourceUtil.getResourceContentAsByteArray(TEST_FILENAME)));
+		}
 }

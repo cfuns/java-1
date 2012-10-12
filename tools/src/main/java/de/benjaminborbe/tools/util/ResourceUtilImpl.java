@@ -38,7 +38,7 @@ public class ResourceUtilImpl implements ResourceUtil {
 	}
 
 	@Override
-	public String getResourceContentString(final String path) throws IOException {
+	public String getResourceContentAsString(final String path) throws IOException {
 		InputStream is = null;
 		BufferedReader br = null;
 		try {
@@ -68,7 +68,12 @@ public class ResourceUtilImpl implements ResourceUtil {
 	}
 
 	@Override
-	public byte[] getResourceContentByteArray(final String path) throws IOException {
+	public InputStream getResourceContentAsInputStream(final String path) throws IOException {
+		return getClass().getClassLoader().getResourceAsStream(path);
+	}
+
+	@Override
+	public byte[] getResourceContentAsByteArray(final String path) throws IOException {
 		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
 		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		streamUtil.copy(inputStream, outputStream);

@@ -30,7 +30,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil, urlUtil);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
-		final String content = resourceUtil.getResourceContentString("sample-result.txt");
+		final String content = resourceUtil.getResourceContentAsString("sample-result.txt");
 		assertNotNull(content);
 		final List<SearchResult> result = googleSearchServiceComponent.buildResults(content);
 		assertEquals(4, result.size());

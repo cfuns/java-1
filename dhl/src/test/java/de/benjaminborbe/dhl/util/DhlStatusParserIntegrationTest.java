@@ -31,7 +31,7 @@ public class DhlStatusParserIntegrationTest {
 		final DhlStatusParser dhlStatusParser = injector.getInstance(DhlStatusParser.class);
 		final CalendarUtil calendarUtil = injector.getInstance(CalendarUtil.class);
 		final ResourceUtil resourceUtil = injector.getInstance(ResourceUtil.class);
-		final String content = resourceUtil.getResourceContentString("status.html");
+		final String content = resourceUtil.getResourceContentAsString("status.html");
 		final DhlBean dhl = new DhlBean();
 		dhl.setId(new DhlIdentifier("286476016780"));
 		dhl.setTrackingNumber(286476016780l);
