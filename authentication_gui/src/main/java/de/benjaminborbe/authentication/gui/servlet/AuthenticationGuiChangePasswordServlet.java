@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -38,12 +39,6 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Authentication - Change Password";
-
-	private static final String PARAMETER_PASSWORD_OLD = "password_old";
-
-	private static final String PARAMETER_PASSWORD_NEW = "password_new";
-
-	private static final String PARAMETER_PASSWORD_NEW_REPEAT = "password_new_repeat";
 
 	private final Logger logger;
 
@@ -78,9 +73,9 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String password_old = request.getParameter(PARAMETER_PASSWORD_OLD);
-			final String password_new = request.getParameter(PARAMETER_PASSWORD_NEW);
-			final String password_repeat = request.getParameter(PARAMETER_PASSWORD_NEW_REPEAT);
+			final String password_old = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD);
+			final String password_new = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW);
+			final String password_repeat = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW_REPEAT);
 
 			if (password_old != null && password_new != null && password_repeat != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
@@ -98,9 +93,10 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 			}
 			final String action = request.getContextPath() + "/authentication/changePassword";
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password ..."));
-			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password ..."));
-			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_PASSWORD_NEW_REPEAT).addLabel("New password repeat").addPlaceholder("New password repeat ..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password ..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password ..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW_REPEAT).addLabel("New password repeat").addPlaceholder(
+					"New password repeat ..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("change password"));
 			widgets.add(form);
 			return widgets;

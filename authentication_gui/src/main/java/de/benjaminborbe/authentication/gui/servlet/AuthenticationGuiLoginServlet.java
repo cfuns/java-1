@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -22,6 +23,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
@@ -45,15 +47,11 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Authentication - Login";
 
-	private static final String PARAMETER_PASSWORD = "password";
-
-	private static final String PARAMETER_USERNAME = "username";
-
-	private static final String PARAMETER_REFERER = "referer";
-
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
+
+	private final UrlUtil urlUtil;
 
 	@Inject
 	public AuthenticationGuiLoginServlet(
@@ -70,6 +68,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -84,13 +83,14 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final String username = request.getParameter(PARAMETER_USERNAME);
-			final String password = request.getParameter(PARAMETER_PASSWORD);
+			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME);
+			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
 			if (username != null && password != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 				if (authenticationService.login(sessionIdentifier, userIdentifier, password)) {
-					final String referer = request.getParameter(PARAMETER_REFERER) != null ? request.getParameter(PARAMETER_REFERER) : request.getContextPath() + "/dashboard";
+					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
+							: request.getContextPath();
 					// necessary ?
 					request.getSession().setAttribute("login", "true");
 					logger.trace("send redirect to: " + referer);
@@ -103,12 +103,13 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			}
 			final String action = request.getContextPath() + "/authentication/login";
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
-			form.addFormInputWidget(new FormInputPasswordWidget(PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
-			form.addFormInputWidget(new FormInputHiddenWidget(PARAMETER_REFERER));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
+			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER));
 			form.addFormInputWidget(new FormInputSubmitWidget("login"));
 			widgets.add(form);
-			widgets.add(new LinkRelativWidget(request, "/authentication/register", "no user? register here!"));
+			widgets.add(new LinkRelativWidget(urlUtil, request, "/authentication/register", new MapChain<String, String>().add(AuthenticationGuiConstants.PARAMETER_REFERER,
+					request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)), "no user? register here!"));
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

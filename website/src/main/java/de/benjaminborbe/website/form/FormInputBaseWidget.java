@@ -1,59 +1,38 @@
 package de.benjaminborbe.website.form;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SingleTagWidget;
+import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
+public class FormInputBaseWidget extends SingleTagWidget implements FormElementWidget, FormInputWidget {
 
-	private final String name;
+	private static final String TAG = "input";
 
 	private String label;
 
 	private String defaultValue;
 
-	private final String type;
-
-	private String placeholder;
-
-	private String id;
-
 	public FormInputBaseWidget(final String type, final String name) {
-		this.type = type;
-		this.name = name;
+		super(TAG);
+		addAttribute("name", name);
+		addAttribute("type", type);
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final String value = request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue;
-		final PrintWriter out = response.getWriter();
+		addAttribute("value", request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
+		final ListWidget widgets = new ListWidget();
 		if (label != null) {
-			out.println("<label for=\"" + getName() + "\">" + label + "</label>");
+			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
 		}
-		out.print("<input");
-		if (id != null) {
-			out.print(" id=\"" + id + "\"");
-		}
-		if (type != null) {
-			out.print(" type=\"" + type + "\"");
-		}
-		if (getName() != null) {
-			out.print(" name=\"" + getName() + "\"");
-		}
-		if (value != null) {
-			out.print(" value=\"" + StringEscapeUtils.escapeHtml(value) + "\"");
-		}
-		if (placeholder != null) {
-			out.print(" placeholder=\"" + placeholder + "\"");
-		}
-		out.println("/>");
-		out.println("<br/>");
+		widgets.add(new BrWidget());
+		widgets.render(request, response, context);
 	}
 
 	@Override
@@ -70,19 +49,19 @@ public class FormInputBaseWidget implements FormElementWidget, FormInputWidget {
 
 	@Override
 	public FormInputBaseWidget addPlaceholder(final String placeholder) {
-		this.placeholder = placeholder;
+		addAttribute("placeholder", placeholder);
 		return this;
 	}
 
 	@Override
 	public FormInputBaseWidget addId(final String id) {
-		this.id = id;
+		addAttribute("id", id);
 		return this;
 	}
 
 	@Override
 	public String getName() {
-		return name;
+		return getAttribute("name");
 	}
 
 }

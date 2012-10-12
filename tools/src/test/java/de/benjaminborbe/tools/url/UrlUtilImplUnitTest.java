@@ -32,4 +32,13 @@ public class UrlUtilImplUnitTest {
 		assertEquals("/path?a=b", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", "b")));
 		assertEquals("/path?a=b&b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", "b").add("b", "c")));
 	}
+
+	@Test
+	public void testBuildUrlNull() throws Exception {
+		final UrlUtil urlUtil = new UrlUtilImpl();
+		assertEquals("/path", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", null)));
+		assertEquals("/path", urlUtil.buildUrl("/path", new MapChain<String, String>().add(null, "b")));
+		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", null).add("b", "c")));
+		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add(null, "b").add("b", "c")));
+	}
 }

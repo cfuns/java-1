@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -39,8 +40,6 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Authentication - Unregister";
-
-	private static final String PARAMETER_CONFIRM = "confirm";
 
 	private final Logger logger;
 
@@ -76,7 +75,7 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String confirm = request.getParameter(PARAMETER_CONFIRM);
+			final String confirm = request.getParameter(AuthenticationGuiConstants.PARAMETER_CONFIRM);
 			if ("true".equals(confirm)) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				if (authenticationService.unregister(sessionIdentifier)) {
@@ -88,7 +87,7 @@ public class AuthenticationGuiUnregisterServlet extends WebsiteHtmlServlet {
 			}
 			final String action = request.getContextPath() + "/authentication/unregister";
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(PARAMETER_CONFIRM).addDefaultValue("true"));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_CONFIRM).addDefaultValue("true"));
 			form.addFormInputWidget(new FormInputSubmitWidget("unregister"));
 			widgets.add(form);
 			return widgets;

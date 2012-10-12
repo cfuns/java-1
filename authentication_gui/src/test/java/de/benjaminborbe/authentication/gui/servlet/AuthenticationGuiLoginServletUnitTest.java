@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -60,9 +61,9 @@ public class AuthenticationGuiLoginServletUnitTest {
 		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
-		EasyMock.expect(request.getParameter("username")).andReturn(null).anyTimes();
-		EasyMock.expect(request.getParameter("password")).andReturn(null).anyTimes();
-		EasyMock.expect(request.getParameter("referer")).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.replay(request);
 
@@ -116,12 +117,12 @@ public class AuthenticationGuiLoginServletUnitTest {
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
 		EasyMock.replay(redirectUtil);
 
-		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		final UrlUtil urlUtil = EasyMock.createNiceMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.replay(authorizationService);
 
 		final AuthenticationGuiLoginServlet authenticationServlet = new AuthenticationGuiLoginServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
 				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService);
