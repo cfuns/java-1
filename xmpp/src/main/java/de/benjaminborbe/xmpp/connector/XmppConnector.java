@@ -79,7 +79,7 @@ public class XmppConnector {
 		final ChatManager chatManager = connection.getChatManager();
 		final MessageListener messageListener = new MyMessageListener();
 		final Chat chat = chatManager.createChat(user.getUid(), messageListener);
-		chat.sendMessage("hello ben!");
+		chat.sendMessage(message);
 	}
 
 	public XmppUser getUserByName(final String name) {
