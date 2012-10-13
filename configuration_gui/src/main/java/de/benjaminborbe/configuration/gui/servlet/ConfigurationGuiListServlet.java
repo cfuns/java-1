@@ -1,6 +1,10 @@
 package de.benjaminborbe.configuration.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,7 +88,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			widgets.add("<th>CurrentValue</th>");
 			widgets.add("<th></th>");
 			widgets.add("</tr>");
-			for (final ConfigurationDescription configuration : configurationService.listConfigurations()) {
+			for (final ConfigurationDescription configuration : getConfigurationDescriptions()) {
 				widgets.add("<tr>");
 				widgets.add("<td>");
 				widgets.add(configuration.getName());
@@ -115,5 +119,17 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private List<ConfigurationDescription> getConfigurationDescriptions() {
+		final List<ConfigurationDescription> list = new ArrayList<ConfigurationDescription>(configurationService.listConfigurations());
+		Collections.sort(list, new Comparator<ConfigurationDescription>() {
+
+			@Override
+			public int compare(final ConfigurationDescription o1, final ConfigurationDescription o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return list;
 	}
 }

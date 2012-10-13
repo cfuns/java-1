@@ -23,14 +23,14 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 	// ldap://prolog.rp.seibert-media.net:636/
 	// ldaps://prolog.rp.seibert-media.net:636/
 
-	private final ConfigurationDescriptionString providerUrl = new ConfigurationDescriptionString("ldap://prolog.rp.seibert-media.net:636/", "AuthenticationProviderUrl",
-			"Authentication ProviderUrl");
+	private final ConfigurationDescriptionString providerUrl = new ConfigurationDescriptionString("ldap://prolog.rp.seibert-media.net:636/", "AuthenticationLdapProviderUrl",
+			"Authentication Ldap ProviderUrl");
 
-	private final ConfigurationDescriptionString domain = new ConfigurationDescriptionString("rp", "AuthenticationDomain", "Authentication Domain");
+	private final ConfigurationDescriptionString domain = new ConfigurationDescriptionString("rp", "AuthenticationLdapDomain", "Authentication Ldap Domain");
 
-	private final ConfigurationDescriptionString credentials = new ConfigurationDescriptionString("password", "AuthenticationCredentials", "Authentication Credentials");
+	private final ConfigurationDescriptionString credentials = new ConfigurationDescriptionString("password", "AuthenticationLdapCredentials", "Authentication Ldap Credentials");
 
-	private final ConfigurationDescriptionBoolean ssl = new ConfigurationDescriptionBoolean(true, "AuthenticationSSL", "Authentication SSL");
+	private final ConfigurationDescriptionBoolean ssl = new ConfigurationDescriptionBoolean(true, "AuthenticationLdapSSL", "Authentication Ldap SSL");
 
 	@Inject
 	public AuthenticationConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
