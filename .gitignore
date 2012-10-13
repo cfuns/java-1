@@ -187,3 +187,7 @@ loggly/target
 loggly_api/target
 loggly_gui/target
 loggly_test/target
+vnc/target
+vnc_api/target
+vnc_gui/target
+vnc_test/target

@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.wow</artifactId>
-	<name>Benjamin Borbe - Wow</name>
-	<description>Benjamin Borbe - Wow</description>
+	<artifactId>de.benjaminborbe.vnc.gui</artifactId>
+	<name>Benjamin Borbe - Vnc-Gui</name>
+	<description>Benjamin Borbe - Vnc-Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -40,14 +40,14 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.wow.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.wow.WowActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.wow.*</Private-Package>
+						<Export-Package></Export-Package>
+						<Bundle-Activator>de.benjaminborbe.vnc.gui.VncGuiActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.vnc.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Wow</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Wow</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Vnc-Gui</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Vnc-Gui</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
@@ -108,6 +108,16 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -119,25 +129,36 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.wow.api</artifactId>
+			<artifactId>de.benjaminborbe.website</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.vnc.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.api</artifactId>
+			<artifactId>de.benjaminborbe.search</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.api</artifactId>
+			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.tools</artifactId>
+			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.html</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -149,7 +170,13 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.vnc.api</artifactId>
+			<artifactId>de.benjaminborbe.authorization.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

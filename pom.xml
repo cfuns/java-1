@@ -229,6 +229,10 @@
 		<module>messageservice_api</module>
 		<module>messageservice_gui</module>
 		<module>messageservice_test</module>
+		<module>vnc</module>
+		<module>vnc_api</module>
+		<module>vnc_gui</module>
+		<module>vnc_test</module>
 	</modules>
 	<build>
 		<resources>

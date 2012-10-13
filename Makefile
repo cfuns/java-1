@@ -23,6 +23,18 @@ installwotest:
 	mvn -Dmaven.test.skip=true install
 update:
 	make all deploy
+dllir:
+	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
+sonar:
+	mvn sonar:sonar
+help:
+	echo "help"
+findwrongnamedtests:
+	find . -name "*Test.java" | grep -v UnitTest | grep -v IntegrationTest
+telnet:
+	telnet localhost 5555
+uploadoffice:
+	scp bridge/war/office/target/bridge_office.war bborbe@bborbe.devel.lf.seibert-media.net:~/
 test:
 	mvn test
 osgitest:
@@ -106,11 +118,6 @@ buildbookmark:
 	cd bookmark && make all
 	cd bookmark_gui && make all
 	cd bookmark_test && make all
-buildmonitoring:
-	cd monitoring_api && make all
-	cd monitoring && make all
-	cd monitoring_gui && make all
-	cd monitoring_test && make all
 buildauth:
 	cd authentication && make all
 	cd authentication_api && make all
@@ -120,15 +127,13 @@ buildauth:
 	cd authorization_api && make all
 	cd authorization_gui && make all
 	cd authorization_test && make all
-dllir:
-	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
-sonar:
-	mvn sonar:sonar
-help:
-	echo "help"
-findwrongnamedtests:
-	find . -name "*Test.java" | grep -v UnitTest | grep -v IntegrationTest
-telnet:
-	telnet localhost 5555
-uploadoffice:
-	scp bridge/war/office/target/bridge_office.war bborbe@bborbe.devel.lf.seibert-media.net:~/
+buildmonitoring:
+	cd monitoring_api && make all
+	cd monitoring && make all
+	cd monitoring_gui && make all
+	cd monitoring_test && make all
+buildvnc:
+	cd vnc_api && make all
+	cd vnc && make all
+	cd vnc_gui && make all
+	cd vnc_test && make all

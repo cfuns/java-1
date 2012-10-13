@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>de.benjaminborbe.wow</artifactId>
-	<name>Benjamin Borbe - Wow</name>
-	<description>Benjamin Borbe - Wow</description>
+	<artifactId>de.benjaminborbe.vnc</artifactId>
+	<name>Benjamin Borbe - Vnc</name>
+	<description>Benjamin Borbe - Vnc</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -40,14 +40,14 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.wow.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.wow.WowActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.wow.*</Private-Package>
+						<Export-Package>de.benjaminborbe.vnc.api.*</Export-Package>
+						<Bundle-Activator>de.benjaminborbe.vnc.VncActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.vnc.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Wow</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Wow</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Vnc</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Vnc</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
@@ -119,31 +119,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.wow.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.tools</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
