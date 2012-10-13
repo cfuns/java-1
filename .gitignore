@@ -191,3 +191,7 @@ vnc/target
 vnc_api/target
 vnc_gui/target
 vnc_test/target
+xmpp/target
+xmpp_api/target
+xmpp_gui/target
+xmpp_test/target

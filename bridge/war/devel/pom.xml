@@ -33,7 +33,9 @@
 			de.benjaminborbe.geocaching.gui, de.benjaminborbe.checklist, de.benjaminborbe.checklist.api, de.benjaminborbe.checklist.gui, de.benjaminborbe.blog, de.benjaminborbe.blog.api,
 			de.benjaminborbe.blog.gui, de.benjaminborbe.task, de.benjaminborbe.task.api, de.benjaminborbe.task.gui, de.benjaminborbe.forum, de.benjaminborbe.forum.api, de.benjaminborbe.forum.gui,
 			de.benjaminborbe.gallery, de.benjaminborbe.gallery.api, de.benjaminborbe.gallery.gui, de.benjaminborbe.portfolio, de.benjaminborbe.portfolio.api, de.benjaminborbe.portfolio.gui,
-			de.benjaminborbe.loggly, de.benjaminborbe.loggly.api, de.benjaminborbe.loggly.gui</includeArtifactIds>
+			de.benjaminborbe.loggly, de.benjaminborbe.loggly.api, de.benjaminborbe.loggly.gui, de.benjaminborbe.vnc, de.benjaminborbe.vnc.api, de.benjaminborbe.vnc.gui, de.benjaminborbe.xmpp,
+			de.benjaminborbe.xmpp.api, de.benjaminborbe.xmpp.gui 
+		</includeArtifactIds>
 	</properties>
 	<build>
 		<finalName>bridge_devel</finalName>

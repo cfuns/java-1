@@ -137,3 +137,8 @@ buildvnc:
 	cd vnc && make all
 	cd vnc_gui && make all
 	cd vnc_test && make all
+buildxmpp:
+	cd xmpp_api && make all
+	cd xmpp && make all
+	cd xmpp_gui && make all
+	cd xmpp_test && make all

@@ -2,6 +2,7 @@ package de.benjaminborbe.vnc.connector;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.glavsoft.rfb.client.ClientToServerMessage;
@@ -19,6 +20,7 @@ public class VncConnectorIntegrationTest {
 		assertNotNull(vncConnector);
 	}
 
+	@Ignore
 	@Test
 	public void testname() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());

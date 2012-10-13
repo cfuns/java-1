@@ -233,6 +233,10 @@
 		<module>vnc_api</module>
 		<module>vnc_gui</module>
 		<module>vnc_test</module>
+		<module>xmpp</module>
+		<module>xmpp_api</module>
+		<module>xmpp_gui</module>
+		<module>xmpp_test</module>
 	</modules>
 	<build>
 		<resources>
