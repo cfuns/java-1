@@ -47,6 +47,7 @@ public class XmppConnector {
 		final ConnectionConfiguration connectionConfiguration = new ConnectionConfiguration(xmppConfig.getServerHost(), xmppConfig.getServerPort(), "gmail.com");
 		// connectionConfiguration.setCompressionEnabled(false);
 		// connectionConfiguration.setSASLAuthenticationEnabled(true);
+		// connectionConfiguration.setSecurityMode(SecurityMode.disabled);
 
 		connection = new XMPPConnection(connectionConfiguration);
 		connection.connect();

@@ -15,17 +15,18 @@ import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInt;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.xmpp.XmppConstants;
 
 @Singleton
 public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 
-	private final ConfigurationDescriptionString username = new ConfigurationDescriptionString("username", "XmppUsername", "Xmpp Username");
+	private final ConfigurationDescriptionString username = new ConfigurationDescriptionString("username", XmppConstants.CONFIG_USERNAME, "Xmpp Username");
 
-	private final ConfigurationDescriptionString password = new ConfigurationDescriptionString("password", "XmppPassword", "Xmpp Password");
+	private final ConfigurationDescriptionString password = new ConfigurationDescriptionString("password", XmppConstants.CONFIG_PASSWORD, "Xmpp Password");
 
-	private final ConfigurationDescriptionString serverHost = new ConfigurationDescriptionString("talk.google.com", "XmppServerHost", "Xmpp Host for Server");
+	private final ConfigurationDescriptionString serverHost = new ConfigurationDescriptionString("talk.google.com", XmppConstants.CONFIG_SERVERHOST, "Xmpp Host for Server");
 
-	private final ConfigurationDescriptionInt serverPort = new ConfigurationDescriptionInt(5222, "XmppServerPort", "Xmpp Port for Server");
+	private final ConfigurationDescriptionInt serverPort = new ConfigurationDescriptionInt(5222, XmppConstants.CONFIG_SERVERPORT, "Xmpp Port for Server");
 
 	@Inject
 	public XmppConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -39,7 +40,7 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 
 	@Override
 	public String getPassword() {
-		return getValueString(serverHost);
+		return getValueString(password);
 	}
 
 	@Override
