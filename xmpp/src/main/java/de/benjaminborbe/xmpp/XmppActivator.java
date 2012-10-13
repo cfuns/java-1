@@ -6,11 +6,14 @@ import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
+import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.config.XmppConfig;
+import de.benjaminborbe.xmpp.connector.XmppConnector;
+import de.benjaminborbe.xmpp.connector.XmppConnectorException;
 import de.benjaminborbe.xmpp.guice.XmppModules;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.Modules;
@@ -20,10 +23,16 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class XmppActivator extends BaseBundleActivator {
 
 	@Inject
+	private XmppConnector xmppConnector;
+
+	@Inject
 	private XmppService xmppService;
 
 	@Inject
 	private XmppConfig xmppConfig;
+
+	@Inject
+	private Logger logger;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -47,4 +56,30 @@ public class XmppActivator extends BaseBundleActivator {
 		// XmppService.class));
 		return serviceTrackers;
 	}
+
+	@Override
+	protected void onStarted() {
+		super.onStarted();
+
+		try {
+			xmppConnector.connect();
+		}
+		catch (final XmppConnectorException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+
+	}
+
+	@Override
+	protected void onStopped() {
+		super.onStopped();
+
+		try {
+			xmppConnector.disconnect();
+		}
+		catch (final XmppConnectorException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+	}
+
 }

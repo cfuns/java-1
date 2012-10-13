@@ -120,7 +120,7 @@ public class KeyEventListener implements KeyListener {
 		}
 		if (keyChar < 0x20) {
 			if (e.isControlDown()) {
-				keyChar += 0x60; // TODO: From legacy code. What's this?
+				keyChar += 0x60;
 			}
 			else {
 				switch (keyChar) {

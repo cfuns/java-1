@@ -42,23 +42,9 @@ public class XmppConnectorIntegrationTest {
 		assertEquals("5VCrQO5jMHOE", xmppConfig.getPassword());
 		try {
 			xmppConnector.connect();
-			{
-				final List<XmppUser> users = xmppConnector.getUsers();
-				assertNotNull(users);
-			}
-			{
-				final XmppUser user = xmppConnector.getMe();
-				assertNotNull(user);
-				xmppConnector.sendMessage(user, "hello");
-			}
-			{
-				final XmppUser user = new XmppUser("bborbe@mobile-bb/mobile-bb");
-				xmppConnector.sendMessage(user, "hello " + user.getUid());
-			}
-			{
-				final XmppUser user = new XmppUser("bb@mobile-bb/Smack");
-				xmppConnector.sendMessage(user, "hello " + user.getUid());
-			}
+
+			final List<XmppUser> users = xmppConnector.getUsers();
+			assertNotNull(users);
 
 		}
 		finally {

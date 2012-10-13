@@ -101,7 +101,7 @@ public enum EncodingType {
 
 	private final String name;
 
-	private EncodingType(int id, String name) {
+	private EncodingType(final int id, final String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -138,9 +138,8 @@ public enum EncodingType {
 		compressionEncodings.add(JPEG_QUALITY_LEVEL_0);
 	}
 
-	public static EncodingType byId(int id) {
-		// TODO needs to speedup with hash usage?
-		for (EncodingType type : values()) {
+	public static EncodingType byId(final int id) {
+		for (final EncodingType type : values()) {
 			if (type.getId() == id)
 				return type;
 		}

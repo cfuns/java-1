@@ -53,27 +53,26 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 
 	private volatile double scaleFactor;
 
-	public MouseEventListener(IRepaintController repaintController, ProtocolContext context, double scaleFactor) {
+	public MouseEventListener(final IRepaintController repaintController, final ProtocolContext context, final double scaleFactor) {
 		this.repaintController = repaintController;
 		this.context = context;
 		this.scaleFactor = scaleFactor;
 	}
 
-	public void processMouseEvent(MouseEvent mouseEvent, MouseWheelEvent mouseWheelEvent, boolean moved) {
-		// TODO handle scaling
+	public void processMouseEvent(MouseEvent mouseEvent, final MouseWheelEvent mouseWheelEvent, final boolean moved) {
 
 		byte buttonMask = 0;
 		if (null == mouseEvent && mouseWheelEvent != null) {
 			mouseEvent = mouseWheelEvent;
 		}
 		assert mouseEvent != null;
-		short x = (short) (mouseEvent.getX() / scaleFactor);
-		short y = (short) (mouseEvent.getY() / scaleFactor);
+		final short x = (short) (mouseEvent.getX() / scaleFactor);
+		final short y = (short) (mouseEvent.getY() / scaleFactor);
 		if (moved) {
 			repaintController.updateCursorPosition(x, y);
 		}
 
-		int modifiersEx = mouseEvent.getModifiersEx();
+		final int modifiersEx = mouseEvent.getModifiersEx();
 		// left
 		buttonMask |= (modifiersEx & InputEvent.BUTTON1_DOWN_MASK) != 0 ? BUTTON_LEFT : 0;
 		// middle
@@ -84,7 +83,7 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 		// wheel
 		if (mouseWheelEvent != null) {
 			int notches = mouseWheelEvent.getWheelRotation();
-			byte wheelMask = notches < 0 ? WHEEL_UP : WHEEL_DOWN;
+			final byte wheelMask = notches < 0 ? WHEEL_UP : WHEEL_DOWN;
 			// handle more then 1 notches
 			notches = Math.abs(notches);
 			for (int i = 1; i < notches; ++i) {
@@ -97,36 +96,35 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 	}
 
 	@Override
-	public void mousePressed(MouseEvent mouseEvent) {
+	public void mousePressed(final MouseEvent mouseEvent) {
 		processMouseEvent(mouseEvent, null, false);
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent mouseEvent) {
+	public void mouseReleased(final MouseEvent mouseEvent) {
 		processMouseEvent(mouseEvent, null, false);
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent mouseEvent) {
-		// TODO Auto-generated method stub
+	public void mouseEntered(final MouseEvent mouseEvent) {
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent mouseEvent) {
+	public void mouseDragged(final MouseEvent mouseEvent) {
 		processMouseEvent(mouseEvent, null, true);
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent mouseEvent) {
+	public void mouseMoved(final MouseEvent mouseEvent) {
 		processMouseEvent(mouseEvent, null, true);
 	}
 
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent emouseWheelEvent) {
+	public void mouseWheelMoved(final MouseWheelEvent emouseWheelEvent) {
 		processMouseEvent(null, emouseWheelEvent, false);
 	}
 
-	public void setScaleFactor(double scaleFactor) {
+	public void setScaleFactor(final double scaleFactor) {
 		this.scaleFactor = scaleFactor;
 	}
 }

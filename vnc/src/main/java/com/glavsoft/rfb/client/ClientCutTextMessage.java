@@ -43,18 +43,17 @@ public class ClientCutTextMessage implements ClientToServerMessage {
 
 	private final byte[] bytes;
 
-	public ClientCutTextMessage(byte[] bytes) {
+	public ClientCutTextMessage(final byte[] bytes) {
 		this.bytes = bytes;
 	}
 
 	@Override
-	public void send(Writer writer) throws TransportException {
+	public void send(final Writer writer) throws TransportException {
 		writer.write(CLIENT_CUT_TEXT);
 		writer.writeByte(0);
-		writer.writeInt16(0); // padding
+		writer.writeInt16(0);
 		writer.write(bytes.length);
-		writer.write(bytes); // TODO: [dime] convert 'text' String to byte arrya using right
-													// charset
+		writer.write(bytes);
 		writer.flush();
 	}
 

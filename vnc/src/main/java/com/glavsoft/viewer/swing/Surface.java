@@ -74,12 +74,10 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 
 	@Override
 	public boolean isDoubleBuffered() {
-		// TODO returning false in some reason may speed ups drawing, but may
-		// not. Needed in challenging.
 		return false;
 	}
 
-	public Surface(ProtocolContext context, Viewer viewer, double scaleFactor) {
+	public Surface(final ProtocolContext context, final Viewer viewer, final double scaleFactor) {
 		this.context = context;
 		this.viewer = viewer;
 		this.scaleFactor = scaleFactor;
@@ -92,7 +90,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 		showCursor = context.getSettings().isShowRemoteCursor();
 	}
 
-	private void setUserInputEnabled(boolean enable, boolean convertToAscii) {
+	private void setUserInputEnabled(final boolean enable, final boolean convertToAscii) {
 		if (enable == isUserInputEnabled)
 			return;
 		isUserInputEnabled = enable;
@@ -124,7 +122,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	}
 
 	@Override
-	public Renderer createRenderer(Reader reader, int width, int height, PixelFormat pixelFormat) {
+	public Renderer createRenderer(final Reader reader, final int width, final int height, final PixelFormat pixelFormat) {
 		renderer = new RendererImpl(reader, width, height, pixelFormat);
 		synchronized (renderer) {
 			cursor = renderer.getCursor();
@@ -134,7 +132,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 		return renderer;
 	}
 
-	private void init(int width, int height) {
+	private void init(final int width, final int height) {
 		this.width = width;
 		this.height = height;
 		setSize(getPreferredSize());
@@ -147,17 +145,17 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(final Graphics g) {
 		((Graphics2D) g).scale(scaleFactor, scaleFactor);
 		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		synchronized (renderer) {
-			Image offscreenImage = renderer.getOffscreenImage();
+			final Image offscreenImage = renderer.getOffscreenImage();
 			if (offscreenImage != null) {
 				g.drawImage(offscreenImage, 0, 0, null);
 			}
 		}
 		synchronized (cursor) {
-			Image cursorImage = cursor.getImage();
+			final Image cursorImage = cursor.getImage();
 			if (showCursor && cursorImage != null && (scaleFactor != 1 || g.getClipBounds().intersects(cursor.rX, cursor.rY, cursor.width, cursor.height))) {
 				g.drawImage(cursorImage, cursor.rX, cursor.rY, null);
 			}
@@ -186,12 +184,12 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	 * threads.
 	 */
 	@Override
-	public void repaintBitmap(FramebufferUpdateRectangle rect) {
+	public void repaintBitmap(final FramebufferUpdateRectangle rect) {
 		repaintBitmap(rect.x, rect.y, rect.width, rect.height);
 	}
 
 	@Override
-	public void repaintBitmap(int x, int y, int width, int height) {
+	public void repaintBitmap(final int x, final int y, final int width, final int height) {
 		repaint((int) (x * scaleFactor), (int) (y * scaleFactor), (int) Math.ceil(width * scaleFactor), (int) Math.ceil(height * scaleFactor));
 	}
 
@@ -205,20 +203,20 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	}
 
 	@Override
-	public void updateCursorPosition(short x, short y) {
+	public void updateCursorPosition(final short x, final short y) {
 		synchronized (cursor) {
 			cursor.updatePosition(x, y);
 			repaintCursor();
 		}
 	}
 
-	private void showCursor(boolean show) {
+	private void showCursor(final boolean show) {
 		synchronized (cursor) {
 			showCursor = show;
 		}
 	}
 
-	public void addModifierListener(ModifierButtonEventListener modifierButtonListener) {
+	public void addModifierListener(final ModifierButtonEventListener modifierButtonListener) {
 		this.modifierButtonListener = modifierButtonListener;
 		if (keyEventListener != null) {
 			keyEventListener.addModifierListener(modifierButtonListener);
@@ -226,14 +224,14 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	}
 
 	@Override
-	public void settingsChanged(SettingsChangedEvent e) {
+	public void settingsChanged(final SettingsChangedEvent e) {
 		if (ProtocolSettings.isRfbSettingsChangedFired(e)) {
-			ProtocolSettings settings = (ProtocolSettings) e.getSource();
+			final ProtocolSettings settings = (ProtocolSettings) e.getSource();
 			setUserInputEnabled(!settings.isViewOnly(), settings.isConvertToAscii());
 			showCursor(settings.isShowRemoteCursor());
 		}
 		else if (UiSettings.isUiSettingsChangedFired(e)) {
-			UiSettings settings = (UiSettings) e.getSource();
+			final UiSettings settings = (UiSettings) e.getSource();
 			oldSize = getPreferredSize();
 			scaleFactor = settings.getScaleFactor();
 		}
@@ -242,7 +240,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	}
 
 	@Override
-	public void setPixelFormat(PixelFormat pixelFormat) {
+	public void setPixelFormat(final PixelFormat pixelFormat) {
 		if (renderer != null) {
 			renderer.initPixelFormat(pixelFormat);
 		}

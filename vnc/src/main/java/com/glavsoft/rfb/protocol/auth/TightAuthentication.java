@@ -47,7 +47,7 @@ public class TightAuthentication extends AuthHandler {
 	}
 
 	@Override
-	public boolean authenticate(Reader reader, Writer writer, CapabilityContainer authCaps, IPasswordRetriever passwordRetriever) throws TransportException, FatalException,
+	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException, FatalException,
 			UnsupportedSecurityTypeException {
 		initTunnelling(reader, writer);
 		initAuthorization(reader, writer, authCaps, passwordRetriever);
@@ -84,12 +84,12 @@ public class TightAuthentication extends AuthHandler {
 	 * #define sig_rfbNoTunneling "NOTUNNEL"
 	 * 
 	 */
-	private void initTunnelling(Reader reader, Writer writer) throws TransportException {
+	private void initTunnelling(final Reader reader, final Writer writer) throws TransportException {
 		long tunnelsCount;
 		tunnelsCount = reader.readUInt32();
 		if (tunnelsCount > 0) {
 			for (int i = 0; i < tunnelsCount; ++i) {
-				RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
+				final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
 				Logger.getLogger("com.glavsoft.rfb.protocol.auth").fine(rfbCapabilityInfo.toString());
 			}
 			writer.writeInt32(0); // NOTUNNEL
@@ -116,19 +116,18 @@ public class TightAuthentication extends AuthHandler {
 	 * #define sz_rfbAuthenticationCapsMsg 4
 	 * 
 	 * @param authCaps
-	 *          TODO
 	 * @param passwordRetriever
 	 * @throws UnsupportedSecurityTypeException
 	 * @throws TransportException
 	 * @throws FatalException
 	 */
-	private void initAuthorization(Reader reader, Writer writer, CapabilityContainer authCaps, IPasswordRetriever passwordRetriever) throws UnsupportedSecurityTypeException,
+	private void initAuthorization(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws UnsupportedSecurityTypeException,
 			TransportException, FatalException {
 		int authCount;
 		authCount = reader.readInt32();
-		byte[] cap = new byte[authCount];
+		final byte[] cap = new byte[authCount];
 		for (int i = 0; i < authCount; ++i) {
-			RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
+			final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
 			cap[i] = (byte) rfbCapabilityInfo.getCode();
 			Logger.getLogger("com.glavsoft.rfb.protocol.auth").fine(rfbCapabilityInfo.toString());
 		}
