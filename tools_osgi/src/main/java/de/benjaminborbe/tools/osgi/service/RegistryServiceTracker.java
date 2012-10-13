@@ -4,7 +4,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
-import de.benjaminborbe.tools.util.Registry;
+import de.benjaminborbe.tools.registry.Registry;
 
 public class RegistryServiceTracker<T> extends ServiceTracker {
 

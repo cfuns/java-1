@@ -13,12 +13,17 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.wow.api.WowService;
+import de.benjaminborbe.wow.bot.command.WowCommandRegistry;
 import de.benjaminborbe.wow.guice.WowModules;
+import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class WowActivator extends BaseBundleActivator {
 
 	@Inject
 	private WowService wowService;
+
+	@Inject
+	private WowCommandRegistry wowCommandRegistry;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -29,6 +34,9 @@ public class WowActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(WowService.class, wowService));
+		for (final XmppCommand command : wowCommandRegistry.getAll()) {
+			result.add(new ServiceInfo(XmppCommand.class, command, command.getName()));
+		}
 		return result;
 	}
 

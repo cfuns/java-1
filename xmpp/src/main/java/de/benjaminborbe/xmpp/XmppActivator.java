@@ -10,8 +10,11 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.xmpp.api.XmppCommand;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.config.XmppConfig;
+import de.benjaminborbe.xmpp.connector.XmppCommandRegistry;
+import de.benjaminborbe.xmpp.connector.XmppCommandServiceTracker;
 import de.benjaminborbe.xmpp.connector.XmppConnector;
 import de.benjaminborbe.xmpp.connector.XmppConnectorException;
 import de.benjaminborbe.xmpp.guice.XmppModules;
@@ -34,6 +37,9 @@ public class XmppActivator extends BaseBundleActivator {
 	@Inject
 	private Logger logger;
 
+	@Inject
+	private XmppCommandRegistry xmppCommandRegistry;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new XmppModules(context);
@@ -52,8 +58,7 @@ public class XmppActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new XmppServiceTracker(xmppRegistry, context,
-		// XmppService.class));
+		serviceTrackers.add(new XmppCommandServiceTracker(xmppCommandRegistry, context, XmppCommand.class));
 		return serviceTrackers;
 	}
 

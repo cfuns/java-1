@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.tools.util.RegistryBase;
+import de.benjaminborbe.tools.registry.RegistryBase;
 
 @Singleton
 public class CrawlerNotifierRegistry extends RegistryBase<CrawlerNotifier> {

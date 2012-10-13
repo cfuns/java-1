@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +19,7 @@ import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.wow.api.WowService;
 import de.benjaminborbe.wow.guice.WowModulesMock;
+import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class WowActivatorIntegrationTest {
 
@@ -64,7 +66,9 @@ public class WowActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(WowService.class.getName());
+		final List<String> names = new ArrayList<String>();
+		names.add(WowService.class.getName());
+		names.add(XmppCommand.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

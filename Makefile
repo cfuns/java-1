@@ -49,6 +49,9 @@ cleanup:
 	find . -name '.DS_Store' -exec rm -rf "{}" \;
 	find . -name '.svn' -exec rm -rf "{}" \;
 	find . -name 'target' -exec rm -rf "{}" \;
+buildtools:
+	cd tools && make all
+	cd tools_osgi && make all 
 buildwebsite:
 	cd website && make all
 buildlunch:
@@ -142,3 +145,8 @@ buildxmpp:
 	cd xmpp && make all
 	cd xmpp_gui && make all
 	cd xmpp_test && make all
+buildwow:
+	cd wow_api && make all
+	cd wow && make all
+	cd wow_gui && make all
+	cd wow_test && make all

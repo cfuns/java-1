@@ -1,5 +1,10 @@
 package de.benjaminborbe.xmpp.connector;
 
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
@@ -9,13 +14,18 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.xmpp.api.XmppCommand;
+
 public class XmppHelpMessageListener implements MessageListener {
 
 	private final Logger logger;
 
+	private final XmppCommandRegistry xmppCommandRegistry;
+
 	@Inject
-	public XmppHelpMessageListener(final Logger logger) {
+	public XmppHelpMessageListener(final Logger logger, final XmppCommandRegistry xmppCommandRegistry) {
 		this.logger = logger;
+		this.xmppCommandRegistry = xmppCommandRegistry;
 	}
 
 	@Override
@@ -24,12 +34,27 @@ public class XmppHelpMessageListener implements MessageListener {
 		if (Type.chat.equals(type)) {
 			if ("help".equalsIgnoreCase(message.getBody())) {
 				try {
-					chat.sendMessage("Help is available for the following commands:\nhelp");
+					final StringWriter sw = new StringWriter();
+					sw.append("Following commands are available:");
+					for (final String command : getCommands()) {
+						sw.append("\n");
+						sw.append(command);
+					}
+					chat.sendMessage(sw.toString());
 				}
 				catch (final XMPPException e) {
 					logger.debug(e.getClass().getName(), e);
 				}
 			}
 		}
+	}
+
+	private List<String> getCommands() {
+		final List<String> commands = new ArrayList<String>();
+		for (final XmppCommand command : xmppCommandRegistry.getAll()) {
+			commands.add(command.getName());
+		}
+		Collections.sort(commands);
+		return commands;
 	}
 }

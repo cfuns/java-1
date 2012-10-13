@@ -14,11 +14,18 @@ public class XmppChatManagerListener implements ChatManagerListener {
 
 	private final XmppDebugMessageListener xmppDebugMessageListener;
 
+	private final XmppExecuteMessageListener xmppExecuteMessageListener;
+
 	@Inject
-	public XmppChatManagerListener(final Logger logger, final XmppHelpMessageListener xmppHelpMessageListener, final XmppDebugMessageListener xmppDebugMessageListener) {
+	public XmppChatManagerListener(
+			final Logger logger,
+			final XmppHelpMessageListener xmppHelpMessageListener,
+			final XmppDebugMessageListener xmppDebugMessageListener,
+			final XmppExecuteMessageListener xmppExecuteMessageListener) {
 		this.logger = logger;
 		this.xmppHelpMessageListener = xmppHelpMessageListener;
 		this.xmppDebugMessageListener = xmppDebugMessageListener;
+		this.xmppExecuteMessageListener = xmppExecuteMessageListener;
 	}
 
 	@Override
@@ -27,5 +34,6 @@ public class XmppChatManagerListener implements ChatManagerListener {
 
 		chat.addMessageListener(xmppHelpMessageListener);
 		chat.addMessageListener(xmppDebugMessageListener);
+		chat.addMessageListener(xmppExecuteMessageListener);
 	}
 }

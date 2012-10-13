@@ -2,7 +2,7 @@ package de.benjaminborbe.monitoring.check;
 
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.util.RegistryBase;
+import de.benjaminborbe.tools.registry.RegistryBase;
 
 @Singleton
 public class SilentNodeRegistry extends RegistryBase<String> {

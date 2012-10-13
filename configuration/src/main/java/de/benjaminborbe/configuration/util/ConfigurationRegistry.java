@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
-import de.benjaminborbe.tools.util.RegistryBase;
+import de.benjaminborbe.tools.registry.RegistryBase;
 
 @Singleton
 public class ConfigurationRegistry extends RegistryBase<ConfigurationDescription> {
