@@ -31,7 +31,7 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 		final Type type = message.getType();
 		if (Type.chat.equals(type) && commands.containsKey(message.getBody())) {
 			final XmppCommand commmand = commands.get(message.getBody());
-			commmand.execute();
+			commmand.execute(new XmppChatImp(chat));
 		}
 	}
 
