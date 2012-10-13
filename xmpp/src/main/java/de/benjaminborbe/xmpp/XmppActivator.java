@@ -10,7 +10,9 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.xmpp.api.XmppService;
+import de.benjaminborbe.xmpp.config.XmppConfig;
 import de.benjaminborbe.xmpp.guice.XmppModules;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -19,6 +21,9 @@ public class XmppActivator extends BaseBundleActivator {
 
 	@Inject
 	private XmppService xmppService;
+
+	@Inject
+	private XmppConfig xmppConfig;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -29,6 +34,9 @@ public class XmppActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(XmppService.class, xmppService));
+		for (final ConfigurationDescription configuration : xmppConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 
