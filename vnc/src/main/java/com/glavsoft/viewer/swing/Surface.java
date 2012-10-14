@@ -43,7 +43,7 @@ import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
 import com.glavsoft.rfb.protocol.ProtocolContext;
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.transport.Reader;
-import com.glavsoft.viewer.Viewer;
+import com.glavsoft.viewer.ViewerGui;
 
 @SuppressWarnings("serial")
 public class Surface extends JPanel implements IRepaintController, IChangeSettingsListener {
@@ -70,7 +70,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 
 	private double scaleFactor;
 
-	private final Viewer viewer;
+	private final ViewerGui viewer;
 
 	public Dimension oldSize;
 
@@ -81,7 +81,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 		return false;
 	}
 
-	public Surface(final Logger logger, final ProtocolContext context, final Viewer viewer, final double scaleFactor) {
+	public Surface(final Logger logger, final ProtocolContext context, final ViewerGui viewer, final double scaleFactor) {
 		this.logger = logger;
 		this.context = context;
 		this.viewer = viewer;

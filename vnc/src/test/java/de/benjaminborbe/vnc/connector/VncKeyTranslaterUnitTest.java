@@ -1,6 +1,7 @@
 package de.benjaminborbe.vnc.connector;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -67,5 +68,26 @@ public class VncKeyTranslaterUnitTest {
 		assertEquals(Keymap.unicode2keysym('x'), vncKeyTranslater.translate(VncKey.x));
 		assertEquals(Keymap.unicode2keysym('y'), vncKeyTranslater.translate(VncKey.y));
 		assertEquals(Keymap.unicode2keysym('z'), vncKeyTranslater.translate(VncKey.z));
+		// numbers
+		assertEquals(Keymap.K_KP_0, vncKeyTranslater.translate(VncKey.K_0));
+		assertEquals(Keymap.K_KP_1, vncKeyTranslater.translate(VncKey.K_1));
+		assertEquals(Keymap.K_KP_2, vncKeyTranslater.translate(VncKey.K_2));
+		assertEquals(Keymap.K_KP_3, vncKeyTranslater.translate(VncKey.K_3));
+		assertEquals(Keymap.K_KP_4, vncKeyTranslater.translate(VncKey.K_4));
+		assertEquals(Keymap.K_KP_5, vncKeyTranslater.translate(VncKey.K_5));
+		assertEquals(Keymap.K_KP_6, vncKeyTranslater.translate(VncKey.K_6));
+		assertEquals(Keymap.K_KP_7, vncKeyTranslater.translate(VncKey.K_7));
+		assertEquals(Keymap.K_KP_8, vncKeyTranslater.translate(VncKey.K_8));
+		assertEquals(Keymap.K_KP_9, vncKeyTranslater.translate(VncKey.K_9));
+		// special
+		assertEquals(Keymap.K_ENTER, vncKeyTranslater.translate(VncKey.K_ENTER));
+	}
+
+	@Test
+	public void testComplete() throws Exception {
+		final VncKeyTranslater vncKeyTranslater = new VncKeyTranslater();
+		for (final VncKey vncKey : VncKey.values()) {
+			assertTrue(vncKeyTranslater.translate(vncKey) > 0);
+		}
 	}
 }

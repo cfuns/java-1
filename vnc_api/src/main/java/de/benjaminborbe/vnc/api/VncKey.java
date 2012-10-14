@@ -1,6 +1,7 @@
 package de.benjaminborbe.vnc.api;
 
 public enum VncKey {
+	// upper
 	A,
 	B,
 	C,
@@ -27,6 +28,7 @@ public enum VncKey {
 	X,
 	Y,
 	Z,
+	// lower
 	a,
 	b,
 	c,
@@ -52,5 +54,18 @@ public enum VncKey {
 	w,
 	x,
 	y,
-	z
+	z,
+	// number
+	K_0,
+	K_1,
+	K_2,
+	K_3,
+	K_4,
+	K_5,
+	K_6,
+	K_7,
+	K_8,
+	K_9,
+	// special
+	K_ENTER
 }

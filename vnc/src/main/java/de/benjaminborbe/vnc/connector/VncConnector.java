@@ -8,6 +8,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.vnc.api.VncKey;
+import de.benjaminborbe.vnc.api.VncScreenContent;
 
 @Singleton
 public class VncConnector {
@@ -16,45 +17,76 @@ public class VncConnector {
 
 	private final VncKeyTranslater vncKeyTranslater;
 
+	private boolean connected;
+
+	private final Provider<VncScreenContent> vncScreenContentProvider;
+
 	@Inject
-	public VncConnector(final Provider<Viewer> viewerProvider, final VncKeyTranslater vncKeyTranslater) {
+	public VncConnector(final Provider<Viewer> viewerProvider, final VncKeyTranslater vncKeyTranslater, final Provider<VncScreenContent> vncScreenContentProvider) {
 		this.viewerProvider = viewerProvider;
 		this.vncKeyTranslater = vncKeyTranslater;
-	}
-
-	private void sendMessage(final ClientToServerMessage message) {
-		getViewer().sendMessage(message);
+		this.vncScreenContentProvider = vncScreenContentProvider;
 	}
 
 	public VncHistory getHistory() {
 		return getViewer().getHistory();
 	}
 
-	public void connect() {
-		getViewer().run();
+	public synchronized void connect() {
+		if (!isConnected()) {
+			getViewer().run();
+			connected = true;
+		}
+	}
+
+	public synchronized void diconnect() {
+		if (isConnected()) {
+			connected = false;
+		}
+	}
+
+	public void mouseMouse(final int x, final int y) throws VncConnectorException {
+		expectConnected();
+	}
+
+	public void keyRelease(final VncKey vncKey) throws VncConnectorException, VncKeyTranslaterException {
+		sendMessage(new KeyEventMessage(vncKeyTranslater.translate(vncKey), false));
+	}
+
+	public void keyPress(final VncKey vncKey) throws VncConnectorException, VncKeyTranslaterException {
+		sendMessage(new KeyEventMessage(vncKeyTranslater.translate(vncKey), true));
+	}
+
+	public void mouseLeftButtonPress() throws VncConnectorException {
+
+	}
+
+	public void mouseLeftButtonRelease() throws VncConnectorException {
+
+	}
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+	private void sendMessage(final ClientToServerMessage message) throws VncConnectorException {
+		expectConnected();
+		getViewer().sendMessage(message);
 	}
 
 	private Viewer getViewer() {
 		return viewerProvider.get();
 	}
 
-	public void diconnect() {
+	private void expectConnected() throws VncConnectorException {
+		if (!isConnected()) {
+			throw new VncConnectorException("connect first");
+		}
 	}
 
-	public void mouseMouse(final int x, final int y) {
+	public VncScreenContent getScreenContent() throws VncConnectorException {
+		expectConnected();
+		return vncScreenContentProvider.get();
 	}
 
-	public void keyRelease(final VncKey vncKey) {
-		sendMessage(new KeyEventMessage(vncKeyTranslater.translate(vncKey), false));
-	}
-
-	public void keyPress(final VncKey vncKey) {
-		sendMessage(new KeyEventMessage(vncKeyTranslater.translate(vncKey), true));
-	}
-
-	public void mouseLeftButtonPress() {
-	}
-
-	public void mouseLeftButtonRelease() {
-	}
 }

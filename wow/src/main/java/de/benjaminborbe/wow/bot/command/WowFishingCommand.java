@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
 import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
@@ -40,6 +41,9 @@ public class WowFishingCommand implements XmppCommand {
 			chat.send(getName() + " - execution finished");
 		}
 		catch (final XmppChatException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

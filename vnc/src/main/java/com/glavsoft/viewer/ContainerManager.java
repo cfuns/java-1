@@ -72,7 +72,7 @@ public class ContainerManager {
 
 	public static final int FS_SCROLLING_ACTIVE_BORDER = 20;
 
-	private final Viewer viewer;
+	private final ViewerGui viewer;
 
 	private JToggleButton zoomFitButton;
 
@@ -108,7 +108,7 @@ public class ContainerManager {
 
 	private EmptyButtonsBarMouseAdapter buttonsBarMouseAdapter;
 
-	public ContainerManager(final Viewer viewer) {
+	public ContainerManager(final ViewerGui viewer) {
 		this.viewer = viewer;
 	}
 
