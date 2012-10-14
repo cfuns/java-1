@@ -68,6 +68,9 @@ public class VncKeyParser {
 		else if (c == '9') {
 			return VncKey.K_9;
 		}
+		else if (c == '/') {
+			return VncKey.K_SLASH;
+		}
 		else {
 			return parseUtil.parseEnum(VncKey.class, String.valueOf(c));
 		}

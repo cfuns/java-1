@@ -1,8 +1,36 @@
 package de.benjaminborbe.vnc.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import de.benjaminborbe.vnc.api.VncPixels;
 
 public class VncPixelsImpl implements VncPixels {
+
+	private final class PixelInputStream extends InputStream {
+
+		private int x = 1;
+
+		private int y = 1;
+
+		@Override
+		public int read() throws IOException {
+			int result = -1;
+			if (x <= width) {
+				result = getPixel(x, y);
+				x++;
+			}
+			else {
+				y++;
+				x = 1;
+				if (y <= height) {
+					result = getPixel(x, y);
+					x++;
+				}
+			}
+			return result;
+		}
+	}
 
 	private final int[] pixels;
 
@@ -62,5 +90,10 @@ public class VncPixelsImpl implements VncPixels {
 		final int xn = x + this.x - 1;
 		final int yn = y + this.y - 1;
 		return pixels[xn - 1 + (yn - 1) * orgWidth];
+	}
+
+	@Override
+	public InputStream getInputStream() {
+		return new PixelInputStream();
 	}
 }

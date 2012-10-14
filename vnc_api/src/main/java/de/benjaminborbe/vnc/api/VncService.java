@@ -19,4 +19,6 @@ public interface VncService {
 	void mouseMouse(int x, int y) throws VncServiceException;
 
 	void mouseMouse(VncLocation location) throws VncServiceException;
+
+	void storeImageContent() throws VncServiceException;
 }

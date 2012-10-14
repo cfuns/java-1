@@ -52,4 +52,8 @@ public class VncServiceMock implements VncService {
 	@Override
 	public void mouseMouse(final VncLocation fishingButton) throws VncServiceException {
 	}
+
+	@Override
+	public void storeImageContent() throws VncServiceException {
+	}
 }

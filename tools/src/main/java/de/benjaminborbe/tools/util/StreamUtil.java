@@ -16,10 +16,10 @@ public class StreamUtil {
 	public StreamUtil() {
 	}
 
-	public void copy(final InputStream input, final OutputStream output) throws IOException {
+	public void copy(final InputStream inputStream, final OutputStream outputStream) throws IOException {
 		// get an channel from the stream
-		final ReadableByteChannel inputChannel = Channels.newChannel(input);
-		final WritableByteChannel outputChannel = Channels.newChannel(output);
+		final ReadableByteChannel inputChannel = Channels.newChannel(inputStream);
+		final WritableByteChannel outputChannel = Channels.newChannel(outputStream);
 		// copy the channels
 		ChannelTools.fastChannelCopy(inputChannel, outputChannel);
 		// closing the channels

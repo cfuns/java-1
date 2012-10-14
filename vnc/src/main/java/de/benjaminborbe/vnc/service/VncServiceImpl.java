@@ -1,5 +1,7 @@
 package de.benjaminborbe.vnc.service;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -24,11 +26,14 @@ public class VncServiceImpl implements VncService {
 
 	private final VncAutoConnector vncAutoConnector;
 
+	private final VncStoreImageContentAction vncStoreImageContentAction;
+
 	@Inject
-	public VncServiceImpl(final Logger logger, final VncConnector vncConnector, final VncAutoConnector vncAutoConnector) {
+	public VncServiceImpl(final Logger logger, final VncConnector vncConnector, final VncAutoConnector vncAutoConnector, final VncStoreImageContentAction vncStoreImageContentAction) {
 		this.logger = logger;
 		this.vncConnector = vncConnector;
 		this.vncAutoConnector = vncAutoConnector;
+		this.vncStoreImageContentAction = vncStoreImageContentAction;
 	}
 
 	@Override
@@ -122,5 +127,18 @@ public class VncServiceImpl implements VncService {
 	@Override
 	public void mouseMouse(final VncLocation location) throws VncServiceException {
 		mouseMouse(location.getX(), location.getY());
+	}
+
+	@Override
+	public void storeImageContent() throws VncServiceException {
+		try {
+			vncStoreImageContentAction.storeImageContent();
+		}
+		catch (final VncConnectorException e) {
+			throw new VncServiceException(e);
+		}
+		catch (final IOException e) {
+			throw new VncServiceException(e);
+		}
 	}
 }

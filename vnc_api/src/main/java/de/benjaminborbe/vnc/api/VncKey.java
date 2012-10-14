@@ -68,5 +68,10 @@ public enum VncKey {
 	K_9,
 	// special
 	K_ENTER,
-	K_SPACE
+	K_SPACE,
+	K_UP,
+	K_LEFT,
+	K_RIGHT,
+	K_DOWN,
+	K_SLASH
 }

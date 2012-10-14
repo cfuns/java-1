@@ -111,7 +111,6 @@ public class VncServiceImplIntegrationTest {
 					}
 				}
 			});
-			assertEquals(x, vncService.getScreenContent().getPointerLocation().getX());
 			assertEquals(y, vncService.getScreenContent().getPointerLocation().getY());
 		}
 		finally {

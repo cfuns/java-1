@@ -53,4 +53,9 @@ public class VncServiceAdapter implements VncService {
 		vncService.mouseMouse(location);
 	}
 
+	@Override
+	public void storeImageContent() throws VncServiceException {
+		vncService.storeImageContent();
+	}
+
 }
