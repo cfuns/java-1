@@ -34,6 +34,9 @@ import com.glavsoft.viewer.swing.ParametersHandler;
 import com.glavsoft.viewer.swing.RendererImpl;
 import com.glavsoft.viewer.swing.UiSettings;
 import com.google.inject.Inject;
+
+import de.benjaminborbe.tools.thread.Assert;
+import de.benjaminborbe.tools.thread.ThreadUtil;
 import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.connector.VncHistory;
 
@@ -65,11 +68,14 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 
 	private final VncConfig vncConfig;
 
+	private final ThreadUtil threadUtil;
+
 	@Inject
-	public ViewerHeadless(final Logger logger, final VncConfig vncConfig, final VncHistory history) {
+	public ViewerHeadless(final Logger logger, final VncConfig vncConfig, final VncHistory history, final ThreadUtil threadUtil) {
 		this.logger = logger;
 		this.vncConfig = vncConfig;
 		this.history = history;
+		this.threadUtil = threadUtil;
 		this.connectionParams = new ConnectionParams(vncConfig.getHostname(), vncConfig.getPort());
 		settings = ProtocolSettings.getDefaultSettings(logger);
 		uiSettings = new UiSettings();
@@ -304,6 +310,18 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	@Override
 	public void disconnect() {
 		if (workingProtocol != null) {
+			try {
+				threadUtil.wait(1000, new Assert() {
+
+					@Override
+					public boolean calc() {
+						return workingProtocol.getMessageQueue().isEmpty();
+					}
+				});
+			}
+			catch (final InterruptedException e) {
+			}
+
 			workingProtocol.cleanUpSession();
 		}
 		cleanUpUISessionAndConnection();

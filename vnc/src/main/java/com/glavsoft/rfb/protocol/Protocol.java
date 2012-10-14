@@ -346,4 +346,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		return receiverTask.getRenderer();
 	}
 
+	public MessageQueue getMessageQueue() {
+		return messageQueue;
+	}
 }

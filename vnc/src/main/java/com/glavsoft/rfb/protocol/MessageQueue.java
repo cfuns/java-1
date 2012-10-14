@@ -55,4 +55,7 @@ public class MessageQueue {
 		return queue.take();
 	}
 
+	public boolean isEmpty() {
+		return queue.isEmpty();
+	}
 }

@@ -19,7 +19,7 @@ import de.benjaminborbe.vnc.guice.VncModulesMock;
 
 public class VncServiceImplIntegrationTest {
 
-	// @Test
+	@Test
 	public void testInject() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
@@ -27,7 +27,7 @@ public class VncServiceImplIntegrationTest {
 		assertEquals(VncServiceImpl.class, vncService.getClass());
 	}
 
-	// @Test
+	@Test
 	public void testConnect() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
@@ -39,7 +39,7 @@ public class VncServiceImplIntegrationTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void testGetWidth() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
@@ -55,7 +55,7 @@ public class VncServiceImplIntegrationTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void testGetHeight() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
@@ -71,7 +71,7 @@ public class VncServiceImplIntegrationTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void testKey() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
