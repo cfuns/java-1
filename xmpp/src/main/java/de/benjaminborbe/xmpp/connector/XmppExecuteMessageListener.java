@@ -1,7 +1,7 @@
 package de.benjaminborbe.xmpp.connector;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
@@ -18,7 +18,7 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 
 	private final Logger logger;
 
-	private final Map<String, XmppCommand> commands = new HashMap<String, XmppCommand>();
+	private final Set<XmppCommand> commands = new HashSet<XmppCommand>();
 
 	@Inject
 	public XmppExecuteMessageListener(final Logger logger, final XmppCommandRegistry xmppCommandRegistry) {
@@ -29,21 +29,25 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 	@Override
 	public void processMessage(final Chat chat, final Message message) {
 		final Type type = message.getType();
-		if (Type.chat.equals(type) && commands.containsKey(message.getBody())) {
-			final XmppCommand commmand = commands.get(message.getBody());
-			commmand.execute(new XmppChatImp(chat));
+		if (Type.chat.equals(type)) {
+			final String body = message.getBody();
+			for (final XmppCommand command : commands) {
+				if (command.match(body)) {
+					command.execute(new XmppChatImp(chat), body);
+				}
+			}
 		}
 	}
 
 	@Override
 	public void onAdd(final XmppCommand t) {
 		logger.debug("onAdd " + t.getName());
-		commands.put(t.getName(), t);
+		commands.add(t);
 	}
 
 	@Override
 	public void onRemove(final XmppCommand t) {
 		logger.debug("onRemove " + t.getName());
-		commands.remove(t.getName());
+		commands.remove(t);
 	}
 }

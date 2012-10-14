@@ -4,5 +4,7 @@ public interface XmppCommand {
 
 	String getName();
 
-	void execute(XmppChat chat);
+	void execute(XmppChat chat, String command);
+
+	boolean match(String body);
 }

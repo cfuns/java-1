@@ -30,7 +30,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 	}
 
 	@Override
-	public void execute(final XmppChat chat) {
+	public void execute(final XmppChat chat, final String msg) {
 		logger.debug("execute command " + getName());
 		try {
 			chat.send(getName() + " - execution started");
@@ -73,5 +73,10 @@ public class WowFishingXmppCommand implements XmppCommand {
 			}
 			logger.debug(e.getClass().getName(), e);
 		}
+	}
+
+	@Override
+	public boolean match(final String body) {
+		return body != null && body.indexOf(getName()) != -1;
 	}
 }

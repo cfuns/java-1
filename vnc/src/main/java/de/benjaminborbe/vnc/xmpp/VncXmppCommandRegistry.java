@@ -10,8 +10,11 @@ import de.benjaminborbe.xmpp.api.XmppCommand;
 public class VncXmppCommandRegistry extends RegistryBase<XmppCommand> {
 
 	@Inject
-	public VncXmppCommandRegistry(final VncServiceDisconnectXmppCommand wowFishingCommand) {
-		add(wowFishingCommand);
+	public VncXmppCommandRegistry(
+			final VncServiceDisconnectXmppCommand vncServiceDisconnectXmppCommand,
+			final VncServiceColorPickerXmppCommand vncServiceColorPickerXmppCommand,
+			final VncServiceMouseMoveXmppCommand vncServiceMouseMoveXmppCommand) {
+		super(vncServiceDisconnectXmppCommand, vncServiceColorPickerXmppCommand, vncServiceMouseMoveXmppCommand);
 	}
 
 }

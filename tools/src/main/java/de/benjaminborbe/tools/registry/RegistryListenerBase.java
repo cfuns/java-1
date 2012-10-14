@@ -7,6 +7,10 @@ public class RegistryListenerBase<T> extends RegistryBase<T> implements Registry
 
 	private final Set<RegistryChangeListener<T>> changeListener = new HashSet<RegistryChangeListener<T>>();
 
+	public RegistryListenerBase(final T... ts) {
+		super(ts);
+	}
+
 	@Override
 	public void addListener(final RegistryChangeListener<T> registryChangeListener) {
 		changeListener.add(registryChangeListener);

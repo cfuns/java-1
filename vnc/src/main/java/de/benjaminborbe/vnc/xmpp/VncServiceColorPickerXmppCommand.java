@@ -11,30 +11,33 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
-public class VncServiceDisconnectXmppCommand implements XmppCommand {
+public class VncServiceColorPickerXmppCommand implements XmppCommand {
 
 	private final Logger logger;
 
 	private final VncService vncService;
 
 	@Inject
-	public VncServiceDisconnectXmppCommand(final Logger logger, final VncService vncService) {
+	public VncServiceColorPickerXmppCommand(final Logger logger, final VncService vncService) {
 		this.logger = logger;
 		this.vncService = vncService;
 	}
 
 	@Override
 	public String getName() {
-		return VncConstants.NAME + " disconnect";
+		return VncConstants.NAME + " colorpick";
 	}
 
 	@Override
-	public void execute(final XmppChat chat, final String msg) {
+	public void execute(final XmppChat chat, final String command) {
 		logger.debug("execute command " + getName());
 		try {
 			chat.send(getName() + " - execution started");
 
-			vncService.disconnect();
+			final int pixel = vncService.getScreenContent().getPixel(1, 1);
+			logger.debug("pixel - int: " + pixel + " hex: " + Integer.toHexString(pixel));
+
+			chat.send(getName() + " - pixel = " + Integer.toHexString(pixel) + " int: " + pixel);
 
 			chat.send(getName() + " - execution finished");
 		}
