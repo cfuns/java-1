@@ -45,6 +45,8 @@ import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.transport.Reader;
 import com.glavsoft.viewer.ViewerGui;
 
+import de.benjaminborbe.vnc.connector.VncPointerLocation;
+
 @SuppressWarnings("serial")
 public class Surface extends JPanel implements IRepaintController, IChangeSettingsListener {
 
@@ -76,13 +78,16 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 
 	private final Logger logger;
 
+	private final VncPointerLocation vncPointerLocation;
+
 	@Override
 	public boolean isDoubleBuffered() {
 		return false;
 	}
 
-	public Surface(final Logger logger, final ProtocolContext context, final ViewerGui viewer, final double scaleFactor) {
+	public Surface(final Logger logger, final VncPointerLocation vncPointerLocation, final ProtocolContext context, final ViewerGui viewer, final double scaleFactor) {
 		this.logger = logger;
+		this.vncPointerLocation = vncPointerLocation;
 		this.context = context;
 		this.viewer = viewer;
 		this.scaleFactor = scaleFactor;
@@ -101,7 +106,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 		isUserInputEnabled = enable;
 		if (enable) {
 			if (null == mouseEventListener) {
-				mouseEventListener = new MouseEventListener(this, context, scaleFactor);
+				mouseEventListener = new MouseEventListener(vncPointerLocation, this, context, scaleFactor);
 			}
 			addMouseListener(mouseEventListener);
 			addMouseMotionListener(mouseEventListener);

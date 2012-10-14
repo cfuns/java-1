@@ -44,6 +44,12 @@ public class WowFishingCommand implements XmppCommand {
 			logger.debug(e.getClass().getName(), e);
 		}
 		catch (final VncServiceException e) {
+			try {
+				chat.send(getName() + " - execution failed! " + e.getClass().getName());
+			}
+			catch (final XmppChatException e1) {
+				logger.debug(e.getClass().getName(), e);
+			}
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

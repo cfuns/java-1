@@ -4,15 +4,20 @@ import com.glavsoft.drawing.Renderer;
 import com.glavsoft.viewer.Viewer;
 import com.google.inject.Inject;
 
+import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncScreenContent;
+import de.benjaminborbe.vnc.connector.VncPointerLocation;
 
 public class VncScreenContentImpl implements VncScreenContent {
 
 	private final Viewer viewer;
 
+	private final VncPointerLocation vncPointerLocation;
+
 	@Inject
-	public VncScreenContentImpl(final Viewer viewer) {
+	public VncScreenContentImpl(final Viewer viewer, final VncPointerLocation vncPointerLocation) {
 		this.viewer = viewer;
+		this.vncPointerLocation = vncPointerLocation;
 	}
 
 	private Renderer getRenderer() {
@@ -51,6 +56,11 @@ public class VncScreenContentImpl implements VncScreenContent {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public VncLocation getPointerLocation() {
+		return vncPointerLocation;
 	}
 
 }

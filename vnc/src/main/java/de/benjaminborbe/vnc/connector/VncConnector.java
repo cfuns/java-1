@@ -2,6 +2,7 @@ package de.benjaminborbe.vnc.connector;
 
 import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.client.KeyEventMessage;
+import com.glavsoft.rfb.client.PointerEventMessage;
 import com.glavsoft.viewer.Viewer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -17,15 +18,22 @@ public class VncConnector {
 
 	private final VncKeyTranslater vncKeyTranslater;
 
-	private boolean connected;
-
 	private final Provider<VncScreenContent> vncScreenContentProvider;
 
+	private final VncPointerLocation vncPointerLocation;
+
+	private boolean connected;
+
 	@Inject
-	public VncConnector(final Provider<Viewer> viewerProvider, final VncKeyTranslater vncKeyTranslater, final Provider<VncScreenContent> vncScreenContentProvider) {
+	public VncConnector(
+			final Provider<Viewer> viewerProvider,
+			final VncKeyTranslater vncKeyTranslater,
+			final Provider<VncScreenContent> vncScreenContentProvider,
+			final VncPointerLocation vncPointerLocation) {
 		this.viewerProvider = viewerProvider;
 		this.vncKeyTranslater = vncKeyTranslater;
 		this.vncScreenContentProvider = vncScreenContentProvider;
+		this.vncPointerLocation = vncPointerLocation;
 	}
 
 	public VncHistory getHistory() {
@@ -47,6 +55,9 @@ public class VncConnector {
 
 	public void mouseMouse(final int x, final int y) throws VncConnectorException {
 		expectConnected();
+		final byte buttonMask = 0;
+		sendMessage(new PointerEventMessage(vncPointerLocation, buttonMask, (short) x, (short) y));
+
 	}
 
 	public void keyRelease(final VncKey vncKey) throws VncConnectorException, VncKeyTranslaterException {

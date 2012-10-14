@@ -56,6 +56,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.connector.VncHistory;
+import de.benjaminborbe.vnc.connector.VncPointerLocation;
 
 @Singleton
 public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionListener, WindowListener, IChangeSettingsListener {
@@ -160,9 +161,12 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 
 	private final Logger logger;
 
+	private final VncPointerLocation vncPointerLocation;
+
 	@Inject
-	public ViewerGui(final Logger logger, final VncConfig vncConfig, final VncHistory history) {
+	public ViewerGui(final Logger logger, final VncPointerLocation vncPointerLocation, final VncConfig vncConfig, final VncHistory history) {
 		this.logger = logger;
+		this.vncPointerLocation = vncPointerLocation;
 		this.history = history;
 		this.connectionParams = new ConnectionParams(vncConfig.getHostname(), vncConfig.getPort());
 		this.passwordFromParams = vncConfig.getPassword();
@@ -287,7 +291,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 				clipboardController.setEnabled(settings.isAllowClipboardTransfer());
 				settings.addListener(clipboardController);
 
-				surface = new Surface(logger, workingProtocol, this, uiSettings.getScaleFactor());
+				surface = new Surface(logger, vncPointerLocation, workingProtocol, this, uiSettings.getScaleFactor());
 				settings.addListener(this);
 				uiSettings.addListener(surface);
 				containerFrame = createContainer();
@@ -548,14 +552,17 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 	public void windowDeactivated(final WindowEvent e) { /* nop */
 	}
 
+	@Override
 	public VncHistory getHistory() {
 		return history;
 	}
 
+	@Override
 	public Renderer getRenderer() {
 		return workingProtocol.getRenderer();
 	}
 
+	@Override
 	public void sendMessage(final ClientToServerMessage message) {
 		workingProtocol.sendMessage(message);
 	}

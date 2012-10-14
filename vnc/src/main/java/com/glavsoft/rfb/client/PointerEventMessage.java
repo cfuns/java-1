@@ -27,6 +27,8 @@ package com.glavsoft.rfb.client;
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.transport.Writer;
 
+import de.benjaminborbe.vnc.connector.VncPointerLocation;
+
 public class PointerEventMessage implements ClientToServerMessage {
 
 	private final byte buttonMask;
@@ -35,19 +37,23 @@ public class PointerEventMessage implements ClientToServerMessage {
 
 	private final short y;
 
-	public PointerEventMessage(byte buttonMask, short x, short y) {
+	private final VncPointerLocation vncPointerLocation;
+
+	public PointerEventMessage(final VncPointerLocation vncPointerLocation, final byte buttonMask, final short x, final short y) {
+		this.vncPointerLocation = vncPointerLocation;
 		this.buttonMask = buttonMask;
 		this.x = x;
 		this.y = y;
 	}
 
 	@Override
-	public void send(Writer writer) throws TransportException {
+	public void send(final Writer writer) throws TransportException {
 		writer.writeByte(POINTER_EVENT);
 		writer.writeByte(buttonMask);
 		writer.writeInt16(x);
 		writer.writeInt16(y);
 		writer.flush();
+		vncPointerLocation.set(x, y);
 	}
 
 	@Override

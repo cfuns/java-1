@@ -35,6 +35,8 @@ import com.glavsoft.rfb.IRepaintController;
 import com.glavsoft.rfb.client.PointerEventMessage;
 import com.glavsoft.rfb.protocol.ProtocolContext;
 
+import de.benjaminborbe.vnc.connector.VncPointerLocation;
+
 public class MouseEventListener extends MouseInputAdapter implements MouseWheelListener {
 
 	private static final byte BUTTON_LEFT = 1;
@@ -53,7 +55,10 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 
 	private volatile double scaleFactor;
 
-	public MouseEventListener(final IRepaintController repaintController, final ProtocolContext context, final double scaleFactor) {
+	private final VncPointerLocation vncPointerLocation;
+
+	public MouseEventListener(final VncPointerLocation vncPointerLocation, final IRepaintController repaintController, final ProtocolContext context, final double scaleFactor) {
+		this.vncPointerLocation = vncPointerLocation;
 		this.repaintController = repaintController;
 		this.context = context;
 		this.scaleFactor = scaleFactor;
@@ -87,12 +92,12 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 			// handle more then 1 notches
 			notches = Math.abs(notches);
 			for (int i = 1; i < notches; ++i) {
-				context.sendMessage(new PointerEventMessage((byte) (buttonMask | wheelMask), x, y));
-				context.sendMessage(new PointerEventMessage(buttonMask, x, y));
+				context.sendMessage(new PointerEventMessage(vncPointerLocation, (byte) (buttonMask | wheelMask), x, y));
+				context.sendMessage(new PointerEventMessage(vncPointerLocation, buttonMask, x, y));
 			}
-			context.sendMessage(new PointerEventMessage((byte) (buttonMask | wheelMask), x, y));
+			context.sendMessage(new PointerEventMessage(vncPointerLocation, (byte) (buttonMask | wheelMask), x, y));
 		}
-		context.sendMessage(new PointerEventMessage(buttonMask, x, y));
+		context.sendMessage(new PointerEventMessage(vncPointerLocation, buttonMask, x, y));
 	}
 
 	@Override
