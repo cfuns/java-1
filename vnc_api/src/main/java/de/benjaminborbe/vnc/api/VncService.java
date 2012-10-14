@@ -17,4 +17,6 @@ public interface VncService {
 	void mouseLeftButtonRelease() throws VncServiceException;
 
 	void mouseMouse(int x, int y) throws VncServiceException;
+
+	void mouseMouse(VncLocation location) throws VncServiceException;
 }

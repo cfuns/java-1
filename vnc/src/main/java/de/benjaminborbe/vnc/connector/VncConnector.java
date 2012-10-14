@@ -1,5 +1,7 @@
 package de.benjaminborbe.vnc.connector;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.client.KeyEventMessage;
 import com.glavsoft.rfb.client.PointerEventMessage;
@@ -24,12 +26,16 @@ public class VncConnector {
 
 	private boolean connected;
 
+	private final Logger logger;
+
 	@Inject
 	public VncConnector(
+			final Logger logger,
 			final Provider<Viewer> viewerProvider,
 			final VncKeyTranslater vncKeyTranslater,
 			final Provider<VncScreenContent> vncScreenContentProvider,
 			final VncPointerLocation vncPointerLocation) {
+		this.logger = logger;
 		this.viewerProvider = viewerProvider;
 		this.vncKeyTranslater = vncKeyTranslater;
 		this.vncScreenContentProvider = vncScreenContentProvider;
@@ -40,16 +46,22 @@ public class VncConnector {
 		return getViewer().getHistory();
 	}
 
-	public synchronized void connect() {
+	public synchronized void connect() throws VncConnectorException {
 		if (!isConnected()) {
 			getViewer().run();
 			connected = true;
 		}
+		else {
+			throw new VncConnectorException("already connected!");
+		}
 	}
 
-	public synchronized void diconnect() {
+	public synchronized void diconnect() throws VncConnectorException {
 		if (isConnected()) {
 			connected = false;
+		}
+		else {
+			logger.warn("already disconnected");
 		}
 	}
 

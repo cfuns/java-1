@@ -46,12 +46,12 @@ public class MessageQueue {
 	}
 
 	public void put(final ClientToServerMessage message) {
-		logger.debug("put message to queue");
+		logger.trace("put message to queue");
 		queue.offer(message);
 	}
 
 	public ClientToServerMessage get() throws InterruptedException {
-		logger.debug("remove message to queue");
+		logger.trace("remove message to queue");
 		return queue.take();
 	}
 

@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.vnc.api.VncLocation;
+import de.benjaminborbe.vnc.api.VncLocationImpl;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
+import de.benjaminborbe.wow.vnc.WowVncConnector;
 import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
@@ -15,10 +17,10 @@ public class WowFishingCommand implements XmppCommand {
 
 	private final Logger logger;
 
-	private final VncService vncService;
+	private final WowVncConnector vncService;
 
 	@Inject
-	public WowFishingCommand(final Logger logger, final VncService vncService) {
+	public WowFishingCommand(final Logger logger, final WowVncConnector vncService) {
 		this.logger = logger;
 		this.vncService = vncService;
 	}
@@ -34,9 +36,26 @@ public class WowFishingCommand implements XmppCommand {
 		try {
 			chat.send(getName() + " - execution started");
 
-			vncService.connect();
+			try {
+				vncService.connect();
 
-			vncService.disconnect();
+				// determine fishing button location
+				final VncLocation fishingButton = new VncLocationImpl(1350, 804);
+
+				// move mouse to fishing button
+				vncService.mouseMouse(fishingButton);
+
+				// take screencontent => s1
+				// click
+				// take screencontent => s2
+				// diff s1+s2 and determine position
+				// move mouse
+				// take screencontent of pointer area => sX
+				// diff sX+sX+1 => click if diff
+			}
+			finally {
+				vncService.disconnect();
+			}
 
 			chat.send(getName() + " - execution finished");
 		}
@@ -53,5 +72,4 @@ public class WowFishingCommand implements XmppCommand {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
-
 }

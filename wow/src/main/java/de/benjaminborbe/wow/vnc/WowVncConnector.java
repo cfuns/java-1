@@ -1,10 +1,45 @@
 package de.benjaminborbe.wow.vnc;
 
-public class WowVncConnector {
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-	public void connect() {
+import de.benjaminborbe.vnc.api.VncLocation;
+import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.vnc.api.VncServiceAdapter;
+import de.benjaminborbe.vnc.api.VncServiceException;
+
+@Singleton
+public class WowVncConnector extends VncServiceAdapter {
+
+	private final WowVncAutoConnector wowVncAutoConnector;
+
+	private final WowVncMouseMover wowVncMouseMover;
+
+	@Inject
+	public WowVncConnector(final VncService vncService, final WowVncAutoConnector wowVncAutoConnector, final WowVncMouseMover wowVncMouseMover) {
+		super(vncService);
+		this.wowVncAutoConnector = wowVncAutoConnector;
+		this.wowVncMouseMover = wowVncMouseMover;
 	}
 
-	public void disconnect() {
+	@Override
+	public void connect() throws VncServiceException {
+		wowVncAutoConnector.connect();
 	}
+
+	@Override
+	public void disconnect() throws VncServiceException {
+		wowVncAutoConnector.disconnect();
+	}
+
+	@Override
+	public void mouseMouse(final int x, final int y) throws VncServiceException {
+		wowVncMouseMover.mouseMouse(x, y);
+	}
+
+	@Override
+	public void mouseMouse(final VncLocation location) throws VncServiceException {
+		wowVncMouseMover.mouseMouse(location);
+	}
+
 }

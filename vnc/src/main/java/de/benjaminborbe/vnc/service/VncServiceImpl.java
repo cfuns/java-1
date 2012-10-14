@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.vnc.api.VncKey;
+import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
@@ -29,14 +30,26 @@ public class VncServiceImpl implements VncService {
 
 	@Override
 	public void connect() throws VncServiceException {
-		logger.trace("connect");
-		vncConnector.connect();
+		try {
+			logger.trace("connect");
+			vncConnector.connect();
+			// defaultlocation
+			vncConnector.mouseMouse(1, 1);
+		}
+		catch (final VncConnectorException e) {
+			throw new VncServiceException(e);
+		}
 	}
 
 	@Override
 	public void disconnect() throws VncServiceException {
-		logger.trace("disconnect");
-		vncConnector.diconnect();
+		try {
+			logger.trace("disconnect");
+			vncConnector.diconnect();
+		}
+		catch (final VncConnectorException e) {
+			throw new VncServiceException(e);
+		}
 	}
 
 	@Override
@@ -103,5 +116,10 @@ public class VncServiceImpl implements VncService {
 		catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
 		}
+	}
+
+	@Override
+	public void mouseMouse(final VncLocation location) throws VncServiceException {
+		mouseMouse(location.getX(), location.getY());
 	}
 }
