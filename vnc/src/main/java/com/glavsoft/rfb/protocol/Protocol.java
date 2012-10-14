@@ -24,7 +24,7 @@
 
 package com.glavsoft.rfb.protocol;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.exceptions.AuthenticationFailedException;
@@ -53,8 +53,6 @@ import de.benjaminborbe.vnc.connector.History;
 public class Protocol implements ProtocolContext, IChangeSettingsListener {
 
 	private ProtocolState state;
-
-	private final Logger logger = Logger.getLogger("com.glavsoft.rfb.protocol");
 
 	private final IPasswordRetriever passwordRetriever;
 
@@ -96,13 +94,16 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 
 	private final History history;
 
-	public Protocol(final History history, final Reader reader, final Writer writer, final IPasswordRetriever passwordRetriever, final ProtocolSettings settings) {
+	private final Logger logger;
+
+	public Protocol(final Logger logger, final History history, final Reader reader, final Writer writer, final IPasswordRetriever passwordRetriever, final ProtocolSettings settings) {
+		this.logger = logger;
 		this.history = history;
 		this.reader = reader;
 		this.writer = writer;
 		this.passwordRetriever = passwordRetriever;
 		this.settings = settings;
-		decoders = new DecodersContainer();
+		decoders = new DecodersContainer(logger);
 		decoders.instantiateDecodersWhenNeeded(settings.encodings);
 		state = new HandshakeState(this);
 	}
@@ -210,7 +211,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		serverPixelFormat.trueColourFlag = 1; // correct flag - we don't support color maps
 		setPixelFormat(createPixelFormat(settings));
 		sendMessage(new SetPixelFormatMessage(pixelFormat));
-		logger.fine("sent: " + pixelFormat);
+		logger.trace("sent: " + pixelFormat);
 
 		sendSupportedEncodingsMessage(settings);
 		settings.addListener(this); // to support pixel format (color depth), and encodings
@@ -218,11 +219,11 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		settings.addListener(repaintController);
 
 		sendRefreshMessage();
-		senderTask = new SenderTask(messageQueue, writer, this);
+		senderTask = new SenderTask(logger, messageQueue, writer, this);
 		senderThread = new Thread(senderTask);
 		senderThread.start();
 		decoders.resetDecoders();
-		receiverTask = new ReceiverTask(reader, repaintController, clipboardController, decoders, this);
+		receiverTask = new ReceiverTask(logger, reader, repaintController, clipboardController, decoders, this);
 		receiverThread = new Thread(receiverTask);
 		receiverThread.start();
 	}
@@ -237,7 +238,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		decoders.instantiateDecodersWhenNeeded(settings.encodings);
 		final SetEncodingsMessage encodingsMessage = new SetEncodingsMessage(settings.encodings);
 		sendMessage(encodingsMessage);
-		logger.fine("sent: " + encodingsMessage.toString());
+		logger.trace("sent: " + encodingsMessage.toString());
 	}
 
 	/**
@@ -278,7 +279,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 	@Override
 	public void sendRefreshMessage() {
 		sendMessage(new FramebufferUpdateRequestMessage(0, 0, fbWidth, fbHeight, false));
-		logger.fine("sent: full FB Refresh");
+		logger.trace("sent: full FB Refresh");
 	}
 
 	@Override

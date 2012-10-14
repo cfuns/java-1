@@ -1,27 +1,3 @@
-// Copyright (C) 2010, 2011, 2012 GlavSoft LLC.
-// All rights reserved.
-//
-//-------------------------------------------------------------------------
-// This file is part of the TightVNC software.  Please visit our Web site:
-//
-//                       http://www.tightvnc.com/
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License along
-// with this program; if not, write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//-------------------------------------------------------------------------
-//
-
 package com.glavsoft.viewer;
 
 import java.awt.Container;
@@ -38,8 +14,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
-
+import org.slf4j.Logger;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -79,10 +54,9 @@ import com.google.inject.Inject;
 import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.connector.History;
 
-@SuppressWarnings("serial")
 public class Viewer extends JApplet implements Runnable, IRfbSessionListener, WindowListener, IChangeSettingsListener {
 
-	public static Logger logger = Logger.getLogger("com.glavsoft");
+	private static final long serialVersionUID = 7875810628566999258L;
 
 	private boolean isZoomToFitSelected;
 
@@ -181,8 +155,6 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 
 	boolean isSeparateFrame = true;
 
-	boolean isApplet = true;
-
 	boolean showControls = true;
 
 	private Surface surface;
@@ -193,13 +165,15 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 
 	private boolean tryAgain;
 
-	private boolean isAppletStopped = false;
+	private final boolean isAppletStopped = false;
 
 	private volatile boolean isStoppingProcess;
 
 	private List<JComponent> kbdButtons;
 
 	private final History history;
+
+	private final Logger logger;
 
 	// public Viewer() {
 	// connectionParams = new ConnectionParams();
@@ -208,7 +182,8 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 	// }
 
 	@Inject
-	public Viewer(final VncConfig vncConfig, final History history) {
+	public Viewer(final Logger logger, final VncConfig vncConfig, final History history) {
+		this.logger = logger;
 		this.history = history;
 		this.connectionParams = new ConnectionParams(vncConfig.getHostname(), vncConfig.getPort());
 		this.passwordFromParams = vncConfig.getPassword();
@@ -276,14 +251,7 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 		}
 		cleanUpUISessionAndConnection();
 		tryAgain = false;
-		if (isApplet) {
-			logger.severe("Applet is stopped.");
-			isAppletStopped = true;
-			repaint();
-		}
-		else {
-			System.exit(0);
-		}
+
 	}
 
 	@Override
@@ -310,7 +278,6 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 		showControls = ParametersHandler.showControls;
 		isSeparateFrame = ParametersHandler.isSeparateFrame;
 		passwordFromParams = getParameter(ParametersHandler.ARG_PASSWORD);
-		isApplet = true;
 
 		repaint();
 		SwingUtilities.invokeLater(this);
@@ -324,7 +291,7 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 
 	@Override
 	public void run() {
-		final ConnectionManager connectionManager = new ConnectionManager(this, isApplet);
+		final ConnectionManager connectionManager = new ConnectionManager(logger, this);
 
 		if (forceReconnection) {
 			connectionManager.showReconnectDialog("Connection lost", reconnectionReason);
@@ -344,7 +311,7 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 				final Reader reader = new Reader(workingSocket.getInputStream());
 				final Writer writer = new Writer(workingSocket.getOutputStream());
 
-				workingProtocol = new Protocol(history, reader, writer, new PasswordChooser(passwordFromParams, connectionParams, containerFrame, this), settings);
+				workingProtocol = new Protocol(logger, history, reader, writer, new PasswordChooser(passwordFromParams, connectionParams, containerFrame, this), settings);
 				workingProtocol.handshake();
 
 				final ClipboardControllerImpl clipboardController = new ClipboardControllerImpl(workingProtocol, settings.getRemoteCharsetName());
@@ -363,37 +330,37 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 			}
 			catch (final UnsupportedProtocolVersionException e) {
 				connectionManager.showReconnectDialog("Unsupported Protocol Version", e.getMessage());
-				logger.severe(e.getMessage());
+				logger.debug(e.getMessage());
 			}
 			catch (final UnsupportedSecurityTypeException e) {
 				connectionManager.showReconnectDialog("Unsupported Security Type", e.getMessage());
-				logger.severe(e.getMessage());
+				logger.debug(e.getMessage());
 			}
 			catch (final AuthenticationFailedException e) {
 				passwordFromParams = null;
 				connectionManager.showReconnectDialog("Authentication Failed", e.getMessage());
-				logger.severe(e.getMessage());
+				logger.debug(e.getMessage());
 			}
 			catch (final TransportException e) {
 				if (!isAppletStopped) {
 					connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
-					logger.severe(e.getMessage());
+					logger.debug(e.getMessage());
 				}
 			}
 			catch (final IOException e) {
 				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
-				logger.severe(e.getMessage());
+				logger.debug(e.getMessage());
 			}
 			catch (final FatalException e) {
 				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
-				logger.severe(e.getMessage());
+				logger.debug(e.getMessage());
 			}
 		}
 	}
 
 	private JFrame createContainer() {
 		containerManager = new ContainerManager(this);
-		final Container container = containerManager.createContainer(surface, isSeparateFrame, isApplet);
+		final Container container = containerManager.createContainer(surface, isSeparateFrame);
 
 		if (showControls) {
 			createButtonsPanel(workingProtocol, containerManager);
@@ -507,7 +474,7 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 
 		buttonsBar.createStrut();
 
-		buttonsBar.createButton("close", isApplet ? "Disconnect" : "Close", new ActionListener() {
+		buttonsBar.createButton("close", "Close", new ActionListener() {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {

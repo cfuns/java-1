@@ -27,6 +27,8 @@ package com.glavsoft.rfb.protocol.auth;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
 
 /**
@@ -45,7 +47,7 @@ public enum SecurityType {
 
 	private int id;
 
-	private SecurityType(int id) {
+	private SecurityType(final int id) {
 		this.id = id;
 	}
 
@@ -63,12 +65,13 @@ public enum SecurityType {
 		}
 	};
 
-	public static AuthHandler getAuthHandlerById(int id) throws UnsupportedSecurityTypeException {
+	public static AuthHandler getAuthHandlerById(final Logger logger, final int id) throws UnsupportedSecurityTypeException {
 		AuthHandler typeSelected = null;
 		typeSelected = implementedSecurityTypes.get(id);
 		if (null == typeSelected) {
 			throw new UnsupportedSecurityTypeException("Not supported: " + id);
 		}
+		typeSelected.setLogger(logger);
 		return typeSelected;
 	}
 

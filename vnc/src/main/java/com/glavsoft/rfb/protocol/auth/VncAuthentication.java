@@ -36,6 +36,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.exceptions.CryptoException;
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
@@ -52,12 +54,12 @@ public class VncAuthentication extends AuthHandler {
 	}
 
 	@Override
-	public boolean authenticate(Reader reader, Writer writer, CapabilityContainer authCaps, IPasswordRetriever passwordRetriever) throws TransportException, FatalException {
-		byte[] challenge = reader.readBytes(16);
-		String password = passwordRetriever.getPassword();
+	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException, FatalException {
+		final byte[] challenge = reader.readBytes(16);
+		final String password = passwordRetriever.getPassword();
 		if (null == password)
 			return false;
-		byte[] key = new byte[8];
+		final byte[] key = new byte[8];
 		System.arraycopy(password.getBytes(), 0, key, 0, Math.min(key.length, password.getBytes().length));
 		writer.write(encrypt(challenge, key));
 		return false;
@@ -70,37 +72,37 @@ public class VncAuthentication extends AuthHandler {
 	 * @throws CryptoException
 	 *           on problem with DES algorithm support or smth about
 	 */
-	public byte[] encrypt(byte[] challenge, byte[] key) throws CryptoException {
+	public byte[] encrypt(final byte[] challenge, final byte[] key) throws CryptoException {
 		try {
-			DESKeySpec desKeySpec = new DESKeySpec(mirrorBits(key));
-			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-			Cipher desCipher = Cipher.getInstance("DES/ECB/NoPadding");
+			final DESKeySpec desKeySpec = new DESKeySpec(mirrorBits(key));
+			final SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+			final SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
+			final Cipher desCipher = Cipher.getInstance("DES/ECB/NoPadding");
 			desCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			return desCipher.doFinal(challenge);
 		}
-		catch (NoSuchAlgorithmException e) {
+		catch (final NoSuchAlgorithmException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
-		catch (NoSuchPaddingException e) {
+		catch (final NoSuchPaddingException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
-		catch (IllegalBlockSizeException e) {
+		catch (final IllegalBlockSizeException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
-		catch (BadPaddingException e) {
+		catch (final BadPaddingException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
-		catch (InvalidKeyException e) {
+		catch (final InvalidKeyException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
-		catch (InvalidKeySpecException e) {
+		catch (final InvalidKeySpecException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
 	}
 
-	private byte[] mirrorBits(byte[] k) {
-		byte[] key = new byte[8];
+	private byte[] mirrorBits(final byte[] k) {
+		final byte[] key = new byte[8];
 		for (int i = 0; i < 8; i++) {
 			byte s = k[i];
 			s = (byte) (((s >> 1) & 0x55) | ((s << 1) & 0xaa));
@@ -109,6 +111,10 @@ public class VncAuthentication extends AuthHandler {
 			key[i] = s;
 		}
 		return key;
+	}
+
+	@Override
+	public void setLogger(final Logger logger) {
 	}
 
 }

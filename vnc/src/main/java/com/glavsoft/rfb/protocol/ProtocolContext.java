@@ -24,7 +24,7 @@
 
 package com.glavsoft.rfb.protocol;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.rfb.client.ClientToServerMessage;

@@ -30,6 +30,8 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.rfb.CapabilityContainer;
 import com.glavsoft.rfb.IChangeSettingsListener;
@@ -117,8 +119,10 @@ public class ProtocolSettings implements Serializable {
 
 	private transient String remoteCharsetName;
 
+	private Logger logger;
+
 	public static ProtocolSettings getDefaultSettings() {
-		ProtocolSettings settings = new ProtocolSettings();
+		final ProtocolSettings settings = new ProtocolSettings();
 		settings.initKnownAuthCapabilities(settings.authCapabilities);
 		settings.initKnownEncodingTypesCapabilities(settings.encodingTypesCapabilities);
 		return settings;
@@ -139,22 +143,22 @@ public class ProtocolSettings implements Serializable {
 		refine();
 
 		listeners = new LinkedList<IChangeSettingsListener>();
-		tunnelingCapabilities = new CapabilityContainer();
-		authCapabilities = new CapabilityContainer();
-		serverMessagesCapabilities = new CapabilityContainer();
-		clientMessagesCapabilities = new CapabilityContainer();
-		encodingTypesCapabilities = new CapabilityContainer();
+		tunnelingCapabilities = new CapabilityContainer(logger);
+		authCapabilities = new CapabilityContainer(logger);
+		serverMessagesCapabilities = new CapabilityContainer(logger);
+		clientMessagesCapabilities = new CapabilityContainer(logger);
+		encodingTypesCapabilities = new CapabilityContainer(logger);
 		changedSettingsMask = 0;
 	}
 
-	public ProtocolSettings(ProtocolSettings s) {
+	public ProtocolSettings(final ProtocolSettings s) {
 		this();
 		copySerializedFieldsFrom(s);
 		changedSettingsMask = s.changedSettingsMask;
 		encodings = s.encodings;
 	}
 
-	public void copySerializedFieldsFrom(ProtocolSettings s) {
+	public void copySerializedFieldsFrom(final ProtocolSettings s) {
 		if (null == s)
 			return;
 		setSharedFlag(s.sharedFlag);
@@ -171,7 +175,7 @@ public class ProtocolSettings implements Serializable {
 		setPreferredEncoding(s.preferredEncoding);
 	}
 
-	private void initKnownAuthCapabilities(CapabilityContainer cc) {
+	private void initKnownAuthCapabilities(final CapabilityContainer cc) {
 		cc.addEnabled(SecurityType.NONE_AUTHENTICATION.getId(), RfbCapabilityInfo.VENDOR_STANDARD, RfbCapabilityInfo.AUTHENTICATION_NO_AUTH);
 		cc.addEnabled(SecurityType.VNC_AUTHENTICATION.getId(), RfbCapabilityInfo.VENDOR_STANDARD, RfbCapabilityInfo.AUTHENTICATION_VNC_AUTH);
 		// cc.addEnabled( 19, "VENC", "VENCRYPT");
@@ -180,7 +184,7 @@ public class ProtocolSettings implements Serializable {
 		// cc.addEnabled(130, RfbCapabilityInfo.TIGHT_VNC_VENDOR, "XTRNAUTH");
 	}
 
-	private void initKnownEncodingTypesCapabilities(CapabilityContainer cc) {
+	private void initKnownEncodingTypesCapabilities(final CapabilityContainer cc) {
 		cc.add(EncodingType.COPY_RECT.getId(), RfbCapabilityInfo.VENDOR_STANDARD, RfbCapabilityInfo.ENCODING_COPYRECT);
 		cc.add(EncodingType.HEXTILE.getId(), RfbCapabilityInfo.VENDOR_STANDARD, RfbCapabilityInfo.ENCODING_HEXTILE);
 		cc.add(EncodingType.ZLIB.getId(), RfbCapabilityInfo.VENDOR_TRIADA, RfbCapabilityInfo.ENCODING_ZLIB);
@@ -193,7 +197,7 @@ public class ProtocolSettings implements Serializable {
 		cc.add(EncodingType.DESKTOP_SIZE.getId(), RfbCapabilityInfo.VENDOR_TIGHT, RfbCapabilityInfo.ENCODING_DESKTOP_SIZE);
 	}
 
-	public void addListener(IChangeSettingsListener listener) {
+	public void addListener(final IChangeSettingsListener listener) {
 		listeners.add(listener);
 	}
 
@@ -205,7 +209,7 @@ public class ProtocolSettings implements Serializable {
 		return sharedFlag;
 	}
 
-	public void setSharedFlag(boolean sharedFlag) {
+	public void setSharedFlag(final boolean sharedFlag) {
 		this.sharedFlag = sharedFlag;
 	}
 
@@ -213,7 +217,7 @@ public class ProtocolSettings implements Serializable {
 		return viewOnly;
 	}
 
-	public void setViewOnly(boolean viewOnly) {
+	public void setViewOnly(final boolean viewOnly) {
 		if (this.viewOnly != viewOnly) {
 			this.viewOnly = viewOnly;
 			changedSettingsMask |= CHANGED_VIEW_ONLY;
@@ -233,7 +237,7 @@ public class ProtocolSettings implements Serializable {
 	 * Set bpp only in 3, 6, 8, 16, 32. When bpp is wrong, it resets to
 	 * {@link #DEFAULT_BITS_PER_PIXEL}
 	 */
-	public void setBitsPerPixel(int bpp) {
+	public void setBitsPerPixel(final int bpp) {
 		if (bitsPerPixel != bpp) {
 			changedSettingsMask |= CHANGED_BITS_PER_PIXEL;
 			switch (bpp) {
@@ -253,7 +257,7 @@ public class ProtocolSettings implements Serializable {
 	}
 
 	public void refine() {
-		LinkedHashSet<EncodingType> encodings = new LinkedHashSet<EncodingType>();
+		final LinkedHashSet<EncodingType> encodings = new LinkedHashSet<EncodingType>();
 		if (EncodingType.RAW_ENCODING == preferredEncoding) {
 			// when RAW selected send no ordinary encodings so only default RAW encoding will be
 			// enabled
@@ -293,14 +297,14 @@ public class ProtocolSettings implements Serializable {
 		}
 	}
 
-	private boolean isEncodingsChanged(LinkedHashSet<EncodingType> encodings1, LinkedHashSet<EncodingType> encodings2) {
+	private boolean isEncodingsChanged(final LinkedHashSet<EncodingType> encodings1, final LinkedHashSet<EncodingType> encodings2) {
 		if (null == encodings1 || encodings1.size() != encodings2.size())
 			return true;
-		Iterator<EncodingType> it1 = encodings1.iterator();
-		Iterator<EncodingType> it2 = encodings2.iterator();
+		final Iterator<EncodingType> it1 = encodings1.iterator();
+		final Iterator<EncodingType> it2 = encodings2.iterator();
 		while (it1.hasNext()) {
-			EncodingType v1 = it1.next();
-			EncodingType v2 = it2.next();
+			final EncodingType v1 = it1.next();
+			final EncodingType v2 = it2.next();
 			if (v1 != v2)
 				return true;
 		}
@@ -310,16 +314,16 @@ public class ProtocolSettings implements Serializable {
 	public void fireListeners() {
 		final SettingsChangedEvent event = new SettingsChangedEvent(new ProtocolSettings(this));
 		changedSettingsMask = 0;
-		for (IChangeSettingsListener listener : listeners) {
+		for (final IChangeSettingsListener listener : listeners) {
 			listener.settingsChanged(event);
 		}
 	}
 
-	public static boolean isRfbSettingsChangedFired(SettingsChangedEvent event) {
+	public static boolean isRfbSettingsChangedFired(final SettingsChangedEvent event) {
 		return event.getSource() instanceof ProtocolSettings;
 	}
 
-	public void setPreferredEncoding(EncodingType preferredEncoding) {
+	public void setPreferredEncoding(final EncodingType preferredEncoding) {
 		if (this.preferredEncoding != preferredEncoding) {
 			this.preferredEncoding = preferredEncoding;
 			changedSettingsMask |= CHANGED_ENCODINGS;
@@ -331,7 +335,7 @@ public class ProtocolSettings implements Serializable {
 		return preferredEncoding;
 	}
 
-	public void setAllowCopyRect(boolean allowCopyRect) {
+	public void setAllowCopyRect(final boolean allowCopyRect) {
 		if (this.allowCopyRect != allowCopyRect) {
 			this.allowCopyRect = allowCopyRect;
 			changedSettingsMask |= CHANGED_ALLOW_COPY_RECT;
@@ -343,7 +347,7 @@ public class ProtocolSettings implements Serializable {
 		return allowCopyRect;
 	}
 
-	private void setShowRemoteCursor(boolean showRemoteCursor) {
+	private void setShowRemoteCursor(final boolean showRemoteCursor) {
 		if (this.showRemoteCursor != showRemoteCursor) {
 			this.showRemoteCursor = showRemoteCursor;
 			changedSettingsMask |= CHANGED_SHOW_REMOTE_CURSOR;
@@ -354,7 +358,7 @@ public class ProtocolSettings implements Serializable {
 		return showRemoteCursor;
 	}
 
-	public void setMouseCursorTrack(LocalPointer mouseCursorTrack) {
+	public void setMouseCursorTrack(final LocalPointer mouseCursorTrack) {
 		if (this.mouseCursorTrack != mouseCursorTrack) {
 			this.mouseCursorTrack = mouseCursorTrack;
 			changedSettingsMask |= CHANGED_MOUSE_CURSOR_TRACK;
@@ -366,7 +370,7 @@ public class ProtocolSettings implements Serializable {
 		return mouseCursorTrack;
 	}
 
-	public void setCompressionLevel(int compressionLevel) {
+	public void setCompressionLevel(final int compressionLevel) {
 		if (this.compressionLevel != compressionLevel) {
 			this.compressionLevel = compressionLevel;
 			changedSettingsMask |= CHANGED_COMPRESSION_LEVEL;
@@ -378,7 +382,7 @@ public class ProtocolSettings implements Serializable {
 		return compressionLevel;
 	}
 
-	public void setJpegQuality(int jpegQuality) {
+	public void setJpegQuality(final int jpegQuality) {
 		if (this.jpegQuality != jpegQuality) {
 			this.jpegQuality = jpegQuality;
 			changedSettingsMask |= CHANGED_JPEG_QUALITY;
@@ -390,7 +394,7 @@ public class ProtocolSettings implements Serializable {
 		return jpegQuality;
 	}
 
-	public void setAllowClipboardTransfer(boolean enable) {
+	public void setAllowClipboardTransfer(final boolean enable) {
 		if (this.allowClipboardTransfer != enable) {
 			this.allowClipboardTransfer = enable;
 			changedSettingsMask |= CHANGED_ALLOW_CLIPBOARD_TRANSFER;
@@ -405,7 +409,7 @@ public class ProtocolSettings implements Serializable {
 		return convertToAscii;
 	}
 
-	public void setConvertToAscii(boolean convertToAscii) {
+	public void setConvertToAscii(final boolean convertToAscii) {
 		if (this.convertToAscii != convertToAscii) {
 			this.convertToAscii = convertToAscii;
 			changedSettingsMask |= CHANGED_CONVERT_TO_ASCII;
@@ -420,7 +424,7 @@ public class ProtocolSettings implements Serializable {
 		return (changedSettingsMask & CHANGED_BITS_PER_PIXEL) == CHANGED_BITS_PER_PIXEL;
 	}
 
-	public void setRemoteCharsetName(String remoteCharsetName) {
+	public void setRemoteCharsetName(final String remoteCharsetName) {
 		this.remoteCharsetName = remoteCharsetName;
 	}
 

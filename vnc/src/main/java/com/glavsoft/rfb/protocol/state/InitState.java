@@ -80,7 +80,7 @@ public class InitState extends ProtocolState {
 		context.setFbWidth(serverInitMessage.getFrameBufferWidth());
 		context.setFbHeight(serverInitMessage.getFrameBufferHeight());
 		context.setRemoteDesktopName(serverInitMessage.getName());
-		logger.fine(serverInitMessage.toString());
+		logger.trace(serverInitMessage.toString());
 	}
 
 	protected ServerInitMessage getServerInitMessage() throws TransportException {

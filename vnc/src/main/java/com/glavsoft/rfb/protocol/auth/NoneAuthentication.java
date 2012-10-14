@@ -24,6 +24,8 @@
 
 package com.glavsoft.rfb.protocol.auth;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.CapabilityContainer;
 import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.transport.Reader;
@@ -32,13 +34,17 @@ import com.glavsoft.transport.Writer;
 public class NoneAuthentication extends AuthHandler {
 
 	@Override
-	public boolean authenticate(Reader reader, Writer writer, CapabilityContainer authCaps, IPasswordRetriever passwordRetriever) {
+	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) {
 		return false;
 	}
 
 	@Override
 	public SecurityType getType() {
 		return SecurityType.NONE_AUTHENTICATION;
+	}
+
+	@Override
+	public void setLogger(final Logger logger) {
 	}
 
 }

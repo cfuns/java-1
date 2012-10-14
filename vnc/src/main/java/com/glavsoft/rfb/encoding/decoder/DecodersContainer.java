@@ -27,7 +27,8 @@ package com.glavsoft.rfb.encoding.decoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
 
 import com.glavsoft.rfb.encoding.EncodingType;
 
@@ -49,7 +50,10 @@ public class DecodersContainer {
 
 	private final Map<EncodingType, Decoder> decoders = new HashMap<EncodingType, Decoder>();
 
-	public DecodersContainer() {
+	private final Logger logger;
+
+	public DecodersContainer(final Logger logger) {
+		this.logger = logger;
 		decoders.put(EncodingType.RAW_ENCODING, RawDecoder.getInstance());
 	}
 
@@ -59,32 +63,32 @@ public class DecodersContainer {
 	 * @param encodings
 	 *          encodings we need to handle
 	 */
-	public void instantiateDecodersWhenNeeded(Collection<EncodingType> encodings) {
-		for (EncodingType enc : encodings) {
+	public void instantiateDecodersWhenNeeded(final Collection<EncodingType> encodings) {
+		for (final EncodingType enc : encodings) {
 			if (EncodingType.ordinaryEncodings.contains(enc) && !decoders.containsKey(enc)) {
 				try {
 					decoders.put(enc, knownDecoders.get(enc).newInstance());
 				}
-				catch (InstantiationException e) {
+				catch (final InstantiationException e) {
 					logError(enc, e);
 				}
-				catch (IllegalAccessException e) {
+				catch (final IllegalAccessException e) {
 					logError(enc, e);
 				}
 			}
 		}
 	}
 
-	private void logError(EncodingType enc, Exception e) {
-		Logger.getLogger(this.getClass().getName()).severe("Can not instantiate decoder for encoding type '" + enc.getName() + "' " + e.getMessage());
+	private void logError(final EncodingType enc, final Exception e) {
+		logger.debug("Can not instantiate decoder for encoding type '" + enc.getName() + "' " + e.getMessage());
 	}
 
-	public Decoder getDecoderByType(EncodingType type) {
+	public Decoder getDecoderByType(final EncodingType type) {
 		return decoders.get(type);
 	}
 
 	public void resetDecoders() {
-		for (Decoder decoder : decoders.values()) {
+		for (final Decoder decoder : decoders.values()) {
 			if (decoder != null) {
 				decoder.reset();
 			}

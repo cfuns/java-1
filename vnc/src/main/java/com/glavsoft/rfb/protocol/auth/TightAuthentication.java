@@ -24,7 +24,7 @@
 
 package com.glavsoft.rfb.protocol.auth;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
@@ -41,14 +41,16 @@ import com.glavsoft.transport.Writer;
  */
 public class TightAuthentication extends AuthHandler {
 
+	private Logger logger;
+
 	@Override
 	public SecurityType getType() {
 		return SecurityType.TIGHT_AUTHENTICATION;
 	}
 
 	@Override
-	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException, FatalException,
-			UnsupportedSecurityTypeException {
+	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException,
+			FatalException, UnsupportedSecurityTypeException {
 		initTunnelling(reader, writer);
 		initAuthorization(reader, writer, authCaps, passwordRetriever);
 		return true;
@@ -90,7 +92,7 @@ public class TightAuthentication extends AuthHandler {
 		if (tunnelsCount > 0) {
 			for (int i = 0; i < tunnelsCount; ++i) {
 				final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
-				Logger.getLogger("com.glavsoft.rfb.protocol.auth").fine(rfbCapabilityInfo.toString());
+				logger.debug(rfbCapabilityInfo.toString());
 			}
 			writer.writeInt32(0); // NOTUNNEL
 		}
@@ -121,15 +123,15 @@ public class TightAuthentication extends AuthHandler {
 	 * @throws TransportException
 	 * @throws FatalException
 	 */
-	private void initAuthorization(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws UnsupportedSecurityTypeException,
-			TransportException, FatalException {
+	private void initAuthorization(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever)
+			throws UnsupportedSecurityTypeException, TransportException, FatalException {
 		int authCount;
 		authCount = reader.readInt32();
 		final byte[] cap = new byte[authCount];
 		for (int i = 0; i < authCount; ++i) {
 			final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
 			cap[i] = (byte) rfbCapabilityInfo.getCode();
-			Logger.getLogger("com.glavsoft.rfb.protocol.auth").fine(rfbCapabilityInfo.toString());
+			logger.debug(rfbCapabilityInfo.toString());
 		}
 		AuthHandler authHandler = null;
 		if (authCount > 0) {
@@ -143,10 +145,14 @@ public class TightAuthentication extends AuthHandler {
 			}
 		}
 		else {
-			authHandler = SecurityType.getAuthHandlerById(SecurityType.NONE_AUTHENTICATION.getId());
+			authHandler = SecurityType.getAuthHandlerById(logger, SecurityType.NONE_AUTHENTICATION.getId());
 		}
-		Logger.getLogger("com.glavsoft.rfb.protocol.auth").info("Auth capability accepted: " + authHandler.getName());
+		logger.info("Auth capability accepted: " + authHandler.getName());
 		authHandler.authenticate(reader, writer, authCaps, passwordRetriever);
 	}
 
+	@Override
+	public void setLogger(final Logger logger) {
+		this.logger = logger;
+	}
 }

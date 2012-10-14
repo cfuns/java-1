@@ -13,6 +13,10 @@ public class VncServiceMock implements VncService {
 	}
 
 	@Override
-	public void execute() {
+	public void disconnect() {
+	}
+
+	@Override
+	public void connect() {
 	}
 }

@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.wow.WowConstants;
 import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
@@ -12,14 +14,17 @@ public class WowFishingCommand implements XmppCommand {
 
 	private final Logger logger;
 
+	private final VncService vncService;
+
 	@Inject
-	public WowFishingCommand(final Logger logger) {
+	public WowFishingCommand(final Logger logger, final VncService vncService) {
 		this.logger = logger;
+		this.vncService = vncService;
 	}
 
 	@Override
 	public String getName() {
-		return "wow fishing";
+		return WowConstants.NAME + " fishing";
 	}
 
 	@Override
@@ -27,6 +32,11 @@ public class WowFishingCommand implements XmppCommand {
 		logger.debug("execute command " + getName());
 		try {
 			chat.send(getName() + " - execution started");
+
+			vncService.connect();
+
+			vncService.disconnect();
+
 			chat.send(getName() + " - execution finished");
 		}
 		catch (final XmppChatException e) {

@@ -24,7 +24,7 @@
 
 package com.glavsoft.rfb.protocol.state;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 import com.glavsoft.exceptions.AuthenticationFailedException;
 import com.glavsoft.exceptions.FatalException;
@@ -45,7 +45,7 @@ abstract public class ProtocolState {
 
 	protected Writer writer;
 
-	public ProtocolState(ProtocolContext context) {
+	public ProtocolState(final ProtocolContext context) {
 		this.context = context;
 		this.logger = context.getLogger();
 		this.reader = context.getReader();
@@ -58,7 +58,7 @@ abstract public class ProtocolState {
 	 * @param state
 	 *          state, the Finite Machine will switched to
 	 */
-	protected void changeStateTo(ProtocolState state) {
+	protected void changeStateTo(final ProtocolState state) {
 		context.changeStateTo(state);
 	}
 

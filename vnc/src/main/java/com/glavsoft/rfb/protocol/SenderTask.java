@@ -26,7 +26,8 @@ package com.glavsoft.rfb.protocol;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
 
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.rfb.client.ClientToServerMessage;
@@ -42,6 +43,8 @@ public class SenderTask implements Runnable {
 
 	private volatile boolean isRunning = false;
 
+	private final Logger logger;
+
 	/**
 	 * Create sender task
 	 * Task runs as thread, receive messages from queue and sends them to writer.
@@ -54,7 +57,8 @@ public class SenderTask implements Runnable {
 	 *          writer to send messages out
 	 * @param protocolContext
 	 */
-	public SenderTask(MessageQueue messageQueue, Writer writer, ProtocolContext protocolContext) {
+	public SenderTask(final Logger logger, final MessageQueue messageQueue, final Writer writer, final ProtocolContext protocolContext) {
+		this.logger = logger;
 		this.queue = messageQueue;
 		this.writer = writer;
 		this.protocolContext = protocolContext;
@@ -71,19 +75,19 @@ public class SenderTask implements Runnable {
 					message.send(writer);
 				}
 			}
-			catch (InterruptedException e) {
+			catch (final InterruptedException e) {
 				// nop
 			}
-			catch (TransportException e) {
-				Logger.getLogger("com.glavsoft.rfb.protocol").severe("Close session: " + e.getMessage());
+			catch (final TransportException e) {
+				logger.debug("Close session: " + e.getMessage());
 				if (isRunning) {
 					protocolContext.cleanUpSession("Connection closed");
 				}
 				stopTask();
 			}
-			catch (Throwable te) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
+			catch (final Throwable te) {
+				final StringWriter sw = new StringWriter();
+				final PrintWriter pw = new PrintWriter(sw);
 				te.printStackTrace(pw);
 				if (isRunning) {
 					protocolContext.cleanUpSession(te.getMessage() + "\n" + sw.toString());

@@ -11,9 +11,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Logger;
+
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+
+import org.slf4j.Logger;
 
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.rfb.IChangeSettingsListener;
@@ -50,7 +52,10 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 
 	private final ConnectionParams workingConnectionParams;
 
-	public ConnectionsHistory(final ConnectionParams workingConnectionParams) {
+	private final Logger logger;
+
+	public ConnectionsHistory(final Logger logger, final ConnectionParams workingConnectionParams) {
+		this.logger = logger;
 		this.workingConnectionParams = workingConnectionParams;
 		settingsMap = new HashMap<ConnectionParams, ProtocolSettings>();
 		connections = new LinkedList<ConnectionParams>();
@@ -78,8 +83,8 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 				final String hostName = node.get(NODE_HOST_NAME, null);
 				if (null == hostName)
 					continue; // skip entries without hostName field
-				final ConnectionParams cp = new ConnectionParams(hostName, node.getInt(NODE_PORT_NUMBER, 0), node.getBoolean(NODE_USE_SSH, false), node.get(NODE_SSH_HOST_NAME, ""), node.getInt(
-						NODE_SSH_PORT_NUMBER, 0), node.get(NODE_SSH_USER_NAME, ""));
+				final ConnectionParams cp = new ConnectionParams(hostName, node.getInt(NODE_PORT_NUMBER, 0), node.getBoolean(NODE_USE_SSH, false), node.get(NODE_SSH_HOST_NAME, ""),
+						node.getInt(NODE_SSH_PORT_NUMBER, 0), node.get(NODE_SSH_USER_NAME, ""));
 				if (uniques.contains(cp))
 					continue; // skip duplicates
 				uniques.add(cp);
@@ -92,10 +97,10 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 						settingsMap.put(cp, settings);
 					}
 					catch (final IOException e) {
-						Logger.getLogger(this.getClass().getName()).fine("Cannot deserialize ProtocolSettings: " + e.getMessage());
+						logger.debug("Cannot deserialize ProtocolSettings: " + e.getMessage());
 					}
 					catch (final ClassNotFoundException e) {
-						Logger.getLogger(this.getClass().getName()).severe("Cannot deserialize ProtocolSettings : " + e.getMessage());
+						logger.debug("Cannot deserialize ProtocolSettings : " + e.getMessage());
 					}
 				}
 			}
@@ -111,7 +116,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			}
 		}
 		catch (final BackingStoreException e) {
-			Logger.getLogger(this.getClass().getName()).severe("Cannot retrieve connections history info: " + e.getMessage());
+			logger.debug("Cannot retrieve connections history info: " + e.getMessage());
 		}
 	}
 
@@ -134,7 +139,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			}
 		}
 		catch (final BackingStoreException e) {
-			Logger.getLogger(this.getClass().getName()).severe("Cannot remove node: " + e.getMessage());
+			logger.debug("Cannot remove node: " + e.getMessage());
 		}
 		int num = 0;
 		for (final ConnectionParams cp : connections) {
@@ -165,14 +170,14 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 				node.putByteArray(NODE_PROTOCOL_SETTINGS, byteArrayOutputStream.toByteArray());
 			}
 			catch (final IOException e) {
-				Logger.getLogger(this.getClass().getName()).severe("Cannot serialize ProtocolSettings: " + e.getMessage());
+				logger.debug("Cannot serialize ProtocolSettings: " + e.getMessage());
 			}
 		}
 		try {
 			node.flush();
 		}
 		catch (final BackingStoreException e) {
-			Logger.getLogger(this.getClass().getName()).severe("Cannot retrieve connections history info: " + e.getMessage());
+			logger.debug("Cannot retrieve connections history info: " + e.getMessage());
 		}
 	}
 

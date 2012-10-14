@@ -44,6 +44,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.utils.Strings;
 import com.glavsoft.viewer.swing.ConnectionParams;
@@ -61,7 +63,7 @@ public class ConnectionDialog extends JDialog {
 
 	public static final int COLUMNS_PORT_USER_FIELD = 13;
 
-	private ConnectionParams connectionParams;
+	private final ConnectionParams connectionParams;
 
 	private final boolean hasJsch;
 
@@ -88,6 +90,7 @@ public class ConnectionDialog extends JDialog {
 	private JLabel ssUserWarningLabel;
 
 	public ConnectionDialog(
+			final Logger logger,
 			final JFrame owner,
 			final WindowListener appWindowListener,
 			final ConnectionParams connectionParams,
@@ -97,7 +100,7 @@ public class ConnectionDialog extends JDialog {
 		this.connectionParams = connectionParams;
 		this.hasJsch = hasJsch;
 
-		JPanel pane = new JPanel(new GridBagLayout());
+		final JPanel pane = new JPanel(new GridBagLayout());
 		add(pane);
 		pane.setBorder(new EmptyBorder(PADDING, PADDING, PADDING, PADDING));
 
@@ -106,19 +109,19 @@ public class ConnectionDialog extends JDialog {
 		int gridRow = 0;
 
 		serverNameCombo = new JComboBox();
-		connectionsHistory = new ConnectionsHistory(connectionParams);
+		connectionsHistory = new ConnectionsHistory(logger, connectionParams);
 		initConnectionsHistoryCombo();
 		settings.copySerializedFieldsFrom(connectionsHistory.getSettings(connectionParams));
 		settings.addListener(connectionsHistory);
 		serverNameCombo.addItemListener(new ItemListener() {
 
 			@Override
-			public void itemStateChanged(ItemEvent e) {
-				Object item = serverNameCombo.getSelectedItem();
+			public void itemStateChanged(final ItemEvent e) {
+				final Object item = serverNameCombo.getSelectedItem();
 				if (item instanceof ConnectionParams) {
 					final ConnectionParams cp = (ConnectionParams) item;
 					completeInputFieldsFrom(cp);
-					ProtocolSettings settingsNew = connectionsHistory.getSettings(cp);
+					final ProtocolSettings settingsNew = connectionsHistory.getSettings(cp);
 					settings.copySerializedFieldsFrom(settingsNew);
 				}
 			}
@@ -137,15 +140,15 @@ public class ConnectionDialog extends JDialog {
 
 		completeInputFieldsFrom(connectionParams);
 
-		JPanel buttonPanel = new JPanel();
-		JButton connectButton = new JButton("Connect");
+		final JPanel buttonPanel = new JPanel();
+		final JButton connectButton = new JButton("Connect");
 		buttonPanel.add(connectButton);
 		connectButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object item = serverNameCombo.getSelectedItem();
-				String hostName = item instanceof ConnectionParams ? ((ConnectionParams) item).hostName : (String) item;
+			public void actionPerformed(final ActionEvent e) {
+				final Object item = serverNameCombo.getSelectedItem();
+				final String hostName = item instanceof ConnectionParams ? ((ConnectionParams) item).hostName : (String) item;
 				setServerNameString(hostName);
 				setPort(serverPortField.getText());
 				setSshOptions();
@@ -163,31 +166,31 @@ public class ConnectionDialog extends JDialog {
 			}
 		});
 
-		JButton optionsButton = new JButton("Options...");
+		final JButton optionsButton = new JButton("Options...");
 		buttonPanel.add(optionsButton);
 		optionsButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				OptionsDialog od = new OptionsDialog(ConnectionDialog.this);
+			public void actionPerformed(final ActionEvent e) {
+				final OptionsDialog od = new OptionsDialog(ConnectionDialog.this);
 				od.initControlsFromSettings(settings, true);
 				od.setVisible(true);
 				toFront();
 			}
 		});
 
-		JButton closeButton = new JButton("Close");
+		final JButton closeButton = new JButton("Close");
 		buttonPanel.add(closeButton);
 		closeButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				setVisible(false);
 				appWindowListener.windowClosing(null);
 			}
 		});
 
-		GridBagConstraints cButtons = new GridBagConstraints();
+		final GridBagConstraints cButtons = new GridBagConstraints();
 		cButtons.gridx = 0;
 		cButtons.gridy = gridRow;
 		cButtons.weightx = 100;
@@ -221,21 +224,21 @@ public class ConnectionDialog extends JDialog {
 			return;
 		}
 		serverNameCombo.addItem(new ConnectionParams(connectionParams));
-		for (ConnectionParams cp : connectionsHistory.getConnectionsList()) {
+		for (final ConnectionParams cp : connectionsHistory.getConnectionsList()) {
 			if (!cp.equals(connectionParams)) {
 				serverNameCombo.addItem(cp);
 			}
 		}
 	}
 
-	private void completeInputFieldsFrom(ConnectionParams cp) {
+	private void completeInputFieldsFrom(final ConnectionParams cp) {
 		serverPortField.setText(String.valueOf(cp.getPortNumber()));
 		if (hasJsch)
 			completeSshInputFieldsFrom(cp);
 	}
 
-	private int createSshOptions(final ConnectionParams connectionParams, JPanel pane, int gridRow) {
-		GridBagConstraints cUseSshTunnelLabel = new GridBagConstraints();
+	private int createSshOptions(final ConnectionParams connectionParams, final JPanel pane, int gridRow) {
+		final GridBagConstraints cUseSshTunnelLabel = new GridBagConstraints();
 		cUseSshTunnelLabel.gridx = 0;
 		cUseSshTunnelLabel.gridy = gridRow;
 		cUseSshTunnelLabel.weightx = 100;
@@ -261,7 +264,7 @@ public class ConnectionDialog extends JDialog {
 
 		sshUserLabel = new JLabel("SSH User:");
 		sshUserField = new JTextField(COLUMNS_PORT_USER_FIELD);
-		JPanel sshUserFieldPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		final JPanel sshUserFieldPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		sshUserFieldPane.add(sshUserField);
 		ssUserWarningLabel = new JLabel(" (will be asked if not specified)");
 		sshUserFieldPane.add(ssUserWarningLabel);
@@ -271,7 +274,7 @@ public class ConnectionDialog extends JDialog {
 		useSshTunnelingCheckbox.addItemListener(new ItemListener() {
 
 			@Override
-			public void itemStateChanged(ItemEvent e) {
+			public void itemStateChanged(final ItemEvent e) {
 				final boolean useSsh = e.getStateChange() == ItemEvent.SELECTED;
 				connectionParams.setUseSsh(useSsh);
 				sshUserLabel.setEnabled(useSsh);
@@ -289,8 +292,8 @@ public class ConnectionDialog extends JDialog {
 		return gridRow;
 	}
 
-	private void addFormFieldRow(JPanel pane, int gridRow, JLabel label, JComponent field, boolean fill) {
-		GridBagConstraints cLabel = new GridBagConstraints();
+	private void addFormFieldRow(final JPanel pane, final int gridRow, final JLabel label, final JComponent field, final boolean fill) {
+		final GridBagConstraints cLabel = new GridBagConstraints();
 		cLabel.gridx = 0;
 		cLabel.gridy = gridRow;
 		cLabel.weightx = cLabel.weighty = 100;
@@ -300,7 +303,7 @@ public class ConnectionDialog extends JDialog {
 		cLabel.ipady = 10;
 		pane.add(label, cLabel);
 
-		GridBagConstraints cField = new GridBagConstraints();
+		final GridBagConstraints cField = new GridBagConstraints();
 		cField.gridx = 1;
 		cField.gridy = gridRow;
 		cField.weightx = 0;
@@ -312,8 +315,8 @@ public class ConnectionDialog extends JDialog {
 		pane.add(field, cField);
 	}
 
-	private void completeSshInputFieldsFrom(ConnectionParams connectionParams) {
-		boolean useSsh = connectionParams.useSsh();
+	private void completeSshInputFieldsFrom(final ConnectionParams connectionParams) {
+		final boolean useSsh = connectionParams.useSsh();
 		useSshTunnelingCheckbox.setSelected(useSsh);
 		sshUserLabel.setEnabled(useSsh);
 		sshUserField.setEnabled(useSsh);
@@ -340,11 +343,11 @@ public class ConnectionDialog extends JDialog {
 		return !Strings.isTrimmedEmpty(connectionParams.hostName);
 	}
 
-	protected void setServerNameString(String text) {
+	protected void setServerNameString(final String text) {
 		connectionParams.hostName = text;
 	}
 
-	public void setPort(String text) {
+	public void setPort(final String text) {
 		connectionParams.parseRfbPortNumber(text);
 	}
 

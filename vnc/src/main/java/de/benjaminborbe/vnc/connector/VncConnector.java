@@ -2,22 +2,23 @@ package de.benjaminborbe.vnc.connector;
 
 import com.glavsoft.viewer.Viewer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class VncConnector {
 
-	private final Viewer viewer;
+	private final Provider<Viewer> viewerProvider;
 
 	@Inject
-	public VncConnector(final Viewer viewer) {
-		this.viewer = viewer;
+	public VncConnector(final Provider<Viewer> viewerProvider) {
+		this.viewerProvider = viewerProvider;
 	}
 
 	public History getHistory() {
-		return viewer.getHistory();
+		return viewerProvider.get().getHistory();
 	}
 
 	public void connect() {
-		viewer.run();
+		viewerProvider.get().run();
 	}
 
 	public void diconnect() {

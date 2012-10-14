@@ -48,7 +48,7 @@ import com.glavsoft.transport.Reader;
 
 public class RendererImpl extends Renderer implements ImageObserver {
 
-	private final Image offscreanImage;
+	private final BufferedImage offscreanImage;
 
 	public RendererImpl(final Reader reader, int width, int height, final PixelFormat pixelFormat) {
 		if (0 == width)
@@ -62,6 +62,7 @@ public class RendererImpl extends Renderer implements ImageObserver {
 		final DataBuffer dataBuffer = new DataBufferInt(pixels, width * height);
 		final WritableRaster raster = Raster.createWritableRaster(sampleModel, dataBuffer, null);
 		offscreanImage = new BufferedImage(colorModel, raster, false, null);
+
 		cursor = new SoftCursorImpl(0, 0, 0, 0);
 	}
 

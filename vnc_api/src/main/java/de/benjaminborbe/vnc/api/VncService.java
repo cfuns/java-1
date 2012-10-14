@@ -2,5 +2,7 @@ package de.benjaminborbe.vnc.api;
 
 public interface VncService {
 
-	void execute();
+	void disconnect();
+
+	void connect();
 }

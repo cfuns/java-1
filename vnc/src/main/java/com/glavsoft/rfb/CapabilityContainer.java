@@ -28,7 +28,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
 
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.rfb.encoding.EncodingType;
@@ -42,41 +43,44 @@ import com.glavsoft.transport.Reader;
  */
 public class CapabilityContainer {
 
-	public CapabilityContainer() {
+	private final Logger logger;
+
+	public CapabilityContainer(final Logger logger) {
+		this.logger = logger;
 	}
 
 	private final Map<Integer, RfbCapabilityInfo> caps = new HashMap<Integer, RfbCapabilityInfo>();
 
-	public void add(RfbCapabilityInfo capabilityInfo) {
+	public void add(final RfbCapabilityInfo capabilityInfo) {
 		caps.put(capabilityInfo.getCode(), capabilityInfo);
 	}
 
-	public void add(int code, String vendor, String name) {
+	public void add(final int code, final String vendor, final String name) {
 		caps.put(code, new RfbCapabilityInfo(code, vendor, name));
 	}
 
-	public void addEnabled(int code, String vendor, String name) {
-		RfbCapabilityInfo capability = new RfbCapabilityInfo(code, vendor, name);
+	public void addEnabled(final int code, final String vendor, final String name) {
+		final RfbCapabilityInfo capability = new RfbCapabilityInfo(code, vendor, name);
 		capability.setEnable(true);
 		caps.put(code, capability);
 	}
 
-	public void setEnable(int id, boolean enable) {
-		RfbCapabilityInfo c = caps.get(id);
+	public void setEnable(final int id, final boolean enable) {
+		final RfbCapabilityInfo c = caps.get(id);
 		if (c != null) {
 			c.setEnable(enable);
 		}
 	}
 
-	public void setAllEnable(boolean enable) {
-		for (RfbCapabilityInfo c : caps.values()) {
+	public void setAllEnable(final boolean enable) {
+		for (final RfbCapabilityInfo c : caps.values()) {
 			c.setEnable(enable);
 		}
 	}
 
 	public Collection<EncodingType> getEnabledEncodingTypes() {
-		Collection<EncodingType> types = new LinkedList<EncodingType>();
-		for (RfbCapabilityInfo c : caps.values()) {
+		final Collection<EncodingType> types = new LinkedList<EncodingType>();
+		for (final RfbCapabilityInfo c : caps.values()) {
 			if (c.isEnabled()) {
 				types.add(EncodingType.byId(c.getCode()));
 			}
@@ -84,25 +88,25 @@ public class CapabilityContainer {
 		return types;
 	}
 
-	public void read(Reader reader, int count) throws TransportException {
+	public void read(final Reader reader, int count) throws TransportException {
 		while (count-- > 0) {
-			RfbCapabilityInfo capInfoReceived = new RfbCapabilityInfo(reader);
-			Logger.getLogger("com.glavsoft.rfb").fine(capInfoReceived.toString());
-			RfbCapabilityInfo myCapInfo = caps.get(capInfoReceived.getCode());
+			final RfbCapabilityInfo capInfoReceived = new RfbCapabilityInfo(reader);
+			logger.trace(capInfoReceived.toString());
+			final RfbCapabilityInfo myCapInfo = caps.get(capInfoReceived.getCode());
 			if (myCapInfo != null) {
 				myCapInfo.setEnable(true);
 			}
 		}
 	}
 
-	public boolean isSupported(int code) {
-		RfbCapabilityInfo myCapInfo = caps.get(code);
+	public boolean isSupported(final int code) {
+		final RfbCapabilityInfo myCapInfo = caps.get(code);
 		if (myCapInfo != null)
 			return myCapInfo.isEnabled();
 		return false;
 	}
 
-	public boolean isSupported(RfbCapabilityInfo rfbCapabilityInfo) {
+	public boolean isSupported(final RfbCapabilityInfo rfbCapabilityInfo) {
 		return isSupported(rfbCapabilityInfo.getCode());
 	}
 

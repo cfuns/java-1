@@ -112,7 +112,7 @@ public class ContainerManager {
 		this.viewer = viewer;
 	}
 
-	public Container createContainer(final Surface surface, final boolean isSeparateFrame, final boolean isApplet) {
+	public Container createContainer(final Surface surface, final boolean isSeparateFrame) {
 		this.surface = surface;
 		this.isSeparateFrame = isSeparateFrame;
 		outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0)) {
@@ -151,9 +151,7 @@ public class ContainerManager {
 		scroller = new JScrollPane(outerPanel);
 		if (isSeparateFrame) {
 			frame = new JFrame();
-			if (!isApplet) {
-				frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			}
+			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 			Utils.setApplicationIconsForWindow(frame);
 			container = frame;

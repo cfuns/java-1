@@ -33,6 +33,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.viewer.swing.ConnectionParams;
 import com.glavsoft.viewer.swing.Utils;
@@ -40,17 +42,17 @@ import com.glavsoft.viewer.swing.gui.ConnectionDialog;
 
 public class ConnectionManager {
 
+	private final Logger logger;
+
 	private final WindowListener appWindowListener;
 
 	private volatile boolean forceConnectionDialog;
 
 	private JFrame containerFrame;
 
-	private final boolean isApplet;
-
-	public ConnectionManager(final WindowListener appWindowListener, final boolean isApplet) {
+	public ConnectionManager(final Logger logger, final WindowListener appWindowListener) {
+		this.logger = logger;
 		this.appWindowListener = appWindowListener;
-		this.isApplet = isApplet;
 	}
 
 	protected void showReconnectDialog(final String title, final String message) {
@@ -60,9 +62,6 @@ public class ConnectionManager {
 		reconnectDialog.setVisible(true);
 		if (reconnectPane.getValue() == null || (Integer) reconnectPane.getValue() == JOptionPane.NO_OPTION) {
 			appWindowListener.windowClosing(null);
-		}
-		else {
-			forceConnectionDialog = !isApplet;
 		}
 	}
 
@@ -76,7 +75,7 @@ public class ConnectionManager {
 			if (forceConnectionDialog || wasError || connectionParams.isHostNameEmpty()) {
 				forceConnectionDialog = false;
 				if (null == connectionDialog) {
-					connectionDialog = new ConnectionDialog(containerFrame, appWindowListener, connectionParams, settings, hasJsch);
+					connectionDialog = new ConnectionDialog(logger, containerFrame, appWindowListener, connectionParams, settings, hasJsch);
 				}
 				connectionDialog.setVisible(true);
 			}
@@ -85,22 +84,22 @@ public class ConnectionManager {
 				host = connectionParams.hostName;
 				port = connectionParams.getPortNumber();
 			}
-			Viewer.logger.info("Connecting to host " + host + ":" + port + (connectionParams.useSsh() ? " (tunneled)" : ""));
+			logger.info("Connecting to host " + host + ":" + port + (connectionParams.useSsh() ? " (tunneled)" : ""));
 			try {
 				socket = new Socket(host, port);
 				wasError = false;
 			}
 			catch (final UnknownHostException e) {
-				Viewer.logger.severe("Unknown host: " + connectionParams.hostName);
+				logger.warn("Unknown host: " + connectionParams.hostName);
 				showConnectionErrorDialog("Unknown host: '" + connectionParams.hostName + "'");
 				wasError = true;
 			}
 			catch (final IOException e) {
-				Viewer.logger.severe("Couldn't connect to: " + connectionParams.hostName + ":" + connectionParams.getPortNumber() + ": " + e.getMessage());
+				logger.warn("Couldn't connect to: " + connectionParams.hostName + ":" + connectionParams.getPortNumber() + ": " + e.getMessage());
 				showConnectionErrorDialog("Couldn't connect to: '" + connectionParams.hostName + ":" + connectionParams.getPortNumber() + "'\n" + e.getMessage());
 				wasError = true;
 			}
-		} while (!isApplet && (connectionParams.isHostNameEmpty() || wasError));
+		} while (connectionParams.isHostNameEmpty() || wasError);
 		if (connectionDialog != null) {
 			connectionDialog.dispose();
 		}
