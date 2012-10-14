@@ -566,4 +566,14 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 	public void sendMessage(final ClientToServerMessage message) {
 		workingProtocol.sendMessage(message);
 	}
+
+	@Override
+	public void connect() {
+		run();
+	}
+
+	@Override
+	public void disconnect() {
+		closeApp();
+	}
 }

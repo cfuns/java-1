@@ -9,7 +9,9 @@ public interface Viewer {
 
 	VncHistory getHistory();
 
-	void run();
+	void connect();
+
+	void disconnect();
 
 	void sendMessage(ClientToServerMessage message);
 

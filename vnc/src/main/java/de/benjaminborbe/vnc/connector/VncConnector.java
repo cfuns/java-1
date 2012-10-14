@@ -28,6 +28,8 @@ public class VncConnector {
 
 	private final Logger logger;
 
+	private Viewer viewer;
+
 	@Inject
 	public VncConnector(
 			final Logger logger,
@@ -47,18 +49,25 @@ public class VncConnector {
 	}
 
 	public synchronized void connect() throws VncConnectorException {
+		logger.debug("try connect");
 		if (!isConnected()) {
-			getViewer().run();
+			viewer = viewerProvider.get();
+			viewer.connect();
 			connected = true;
+			logger.debug("connect complete");
 		}
 		else {
 			throw new VncConnectorException("already connected!");
 		}
 	}
 
-	public synchronized void diconnect() throws VncConnectorException {
+	public synchronized void disconnect() throws VncConnectorException {
+		logger.debug("try disconnect");
 		if (isConnected()) {
+			viewer.disconnect();
+			viewer = null;
 			connected = false;
+			logger.debug("disconnect complete");
 		}
 		else {
 			logger.warn("already disconnected");
@@ -97,8 +106,8 @@ public class VncConnector {
 		getViewer().sendMessage(message);
 	}
 
-	private Viewer getViewer() {
-		return viewerProvider.get();
+	public Viewer getViewer() {
+		return viewer;
 	}
 
 	private void expectConnected() throws VncConnectorException {

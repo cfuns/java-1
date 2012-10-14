@@ -9,9 +9,11 @@ import de.benjaminborbe.vnc.api.VncServiceException;
 
 public class WowVncMouseMover {
 
-	private final VncService vncService;
+	private static final int STEPS = 100;
 
-	private final int DELAY = 300;
+	private final int DELAY = 50;
+
+	private final VncService vncService;
 
 	private final RandomUtil randomUtil;
 
@@ -30,7 +32,7 @@ public class WowVncMouseMover {
 		int currentX = currentLocation.getX();
 		int currentY = currentLocation.getY();
 
-		final int parts = randomUtil.getRandomized(5, 20);
+		final int parts = randomUtil.getRandomized(STEPS, 20);
 		for (int step = 1; step <= parts; ++step) {
 			if (step < parts) {
 				final int stepDeltaX = randomUtil.getRandomized((x - currentX) / (parts - step + 1), 10);

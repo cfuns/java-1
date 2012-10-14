@@ -1,27 +1,27 @@
 package de.benjaminborbe.vnc.util;
 
 import com.glavsoft.drawing.Renderer;
-import com.glavsoft.viewer.Viewer;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncScreenContent;
+import de.benjaminborbe.vnc.connector.VncConnector;
 import de.benjaminborbe.vnc.connector.VncPointerLocation;
 
 public class VncScreenContentImpl implements VncScreenContent {
 
-	private final Viewer viewer;
-
 	private final VncPointerLocation vncPointerLocation;
 
+	private final VncConnector vncConnector;
+
 	@Inject
-	public VncScreenContentImpl(final Viewer viewer, final VncPointerLocation vncPointerLocation) {
-		this.viewer = viewer;
+	public VncScreenContentImpl(final VncConnector vncConnector, final VncPointerLocation vncPointerLocation) {
+		this.vncConnector = vncConnector;
 		this.vncPointerLocation = vncPointerLocation;
 	}
 
 	private Renderer getRenderer() {
-		return viewer.getRenderer();
+		return vncConnector.getViewer().getRenderer();
 	}
 
 	@Override

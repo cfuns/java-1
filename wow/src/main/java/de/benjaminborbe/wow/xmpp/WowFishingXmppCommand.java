@@ -1,4 +1,4 @@
-package de.benjaminborbe.wow.bot.command;
+package de.benjaminborbe.wow.xmpp;
 
 import org.slf4j.Logger;
 
@@ -13,14 +13,14 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
-public class WowFishingCommand implements XmppCommand {
+public class WowFishingXmppCommand implements XmppCommand {
 
 	private final Logger logger;
 
 	private final WowVncConnector vncService;
 
 	@Inject
-	public WowFishingCommand(final Logger logger, final WowVncConnector vncService) {
+	public WowFishingXmppCommand(final Logger logger, final WowVncConnector vncService) {
 		this.logger = logger;
 		this.vncService = vncService;
 	}

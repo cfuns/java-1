@@ -33,12 +33,9 @@ import com.glavsoft.viewer.swing.ParametersHandler;
 import com.glavsoft.viewer.swing.RendererImpl;
 import com.glavsoft.viewer.swing.UiSettings;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
 import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.connector.VncHistory;
 
-@Singleton
 public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, WindowListener, IChangeSettingsListener {
 
 	private boolean isZoomToFitSelected;
@@ -339,5 +336,18 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	@Override
 	public void sendMessage(final ClientToServerMessage message) {
 		workingProtocol.sendMessage(message);
+	}
+
+	@Override
+	public void connect() {
+		run();
+	}
+
+	@Override
+	public void disconnect() {
+		if (workingProtocol != null) {
+			workingProtocol.cleanUpSession();
+		}
+		cleanUpUISessionAndConnection();
 	}
 }

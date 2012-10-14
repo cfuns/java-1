@@ -17,7 +17,7 @@ public class VncModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(Viewer.class).to(ViewerHeadless.class).in(Singleton.class);
+		bind(Viewer.class).to(ViewerHeadless.class);
 		bind(VncScreenContent.class).to(VncScreenContentImpl.class).in(Singleton.class);
 		bind(VncService.class).to(VncServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);

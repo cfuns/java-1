@@ -24,7 +24,7 @@ public class WowVncMouseMoverUnitTest {
 		EasyMock.replay(screenContent);
 
 		final RandomUtil randomUtil = EasyMock.createMock(RandomUtil.class);
-		EasyMock.expect(randomUtil.getRandomized(5, 20)).andReturn(stepCounter);
+		EasyMock.expect(randomUtil.getRandomized(EasyMock.anyInt(), EasyMock.anyInt())).andReturn(stepCounter);
 		EasyMock.replay(randomUtil);
 
 		final VncService vncService = EasyMock.createMock(VncService.class);
@@ -52,7 +52,7 @@ public class WowVncMouseMoverUnitTest {
 		EasyMock.replay(screenContent);
 
 		final RandomUtil randomUtil = EasyMock.createMock(RandomUtil.class);
-		EasyMock.expect(randomUtil.getRandomized(5, 20)).andReturn(stepCounter);
+		EasyMock.expect(randomUtil.getRandomized(EasyMock.anyInt(), EasyMock.anyInt())).andReturn(stepCounter);
 		EasyMock.expect(randomUtil.getRandomized(500, 10)).andReturn(500).times((stepCounter - 1) * 2);
 		EasyMock.replay(randomUtil);
 
@@ -82,7 +82,7 @@ public class WowVncMouseMoverUnitTest {
 		EasyMock.replay(screenContent);
 
 		final RandomUtil randomUtil = EasyMock.createMock(RandomUtil.class);
-		EasyMock.expect(randomUtil.getRandomized(5, 20)).andReturn(stepCounter);
+		EasyMock.expect(randomUtil.getRandomized(EasyMock.anyInt(), EasyMock.anyInt())).andReturn(stepCounter);
 		EasyMock.expect(randomUtil.getRandomized(200, 10)).andReturn(200).times((stepCounter - 1) * 2);
 		EasyMock.replay(randomUtil);
 

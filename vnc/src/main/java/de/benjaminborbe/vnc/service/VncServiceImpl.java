@@ -45,7 +45,7 @@ public class VncServiceImpl implements VncService {
 	public void disconnect() throws VncServiceException {
 		try {
 			logger.trace("disconnect");
-			vncConnector.diconnect();
+			vncConnector.disconnect();
 		}
 		catch (final VncConnectorException e) {
 			throw new VncServiceException(e);

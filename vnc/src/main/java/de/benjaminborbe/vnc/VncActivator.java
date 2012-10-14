@@ -13,12 +13,18 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.vnc.guice.VncModules;
+import de.benjaminborbe.vnc.xmpp.VncXmppCommandRegistry;
+import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class VncActivator extends BaseBundleActivator {
 
 	@Inject
 	private VncService vncService;
+
+	@Inject
+	private VncXmppCommandRegistry vncXmppCommandRegistry;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -29,6 +35,9 @@ public class VncActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(VncService.class, vncService));
+		for (final XmppCommand command : vncXmppCommandRegistry.getAll()) {
+			result.add(new ServiceInfo(XmppCommand.class, command, command.getName()));
+		}
 		return result;
 	}
 
@@ -39,4 +48,15 @@ public class VncActivator extends BaseBundleActivator {
 		// VncService.class));
 		return serviceTrackers;
 	}
+
+	@Override
+	protected void onStopped() {
+		super.onStopped();
+		try {
+			vncService.disconnect();
+		}
+		catch (final VncServiceException e) {
+		}
+	}
+
 }

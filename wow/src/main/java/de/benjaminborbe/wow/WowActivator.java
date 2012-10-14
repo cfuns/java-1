@@ -8,13 +8,15 @@ import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.wow.api.WowService;
-import de.benjaminborbe.wow.bot.command.WowCommandRegistry;
 import de.benjaminborbe.wow.guice.WowModules;
+import de.benjaminborbe.wow.xmpp.WowXmppCommandRegistry;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class WowActivator extends BaseBundleActivator {
@@ -23,7 +25,10 @@ public class WowActivator extends BaseBundleActivator {
 	private WowService wowService;
 
 	@Inject
-	private WowCommandRegistry wowCommandRegistry;
+	private WowXmppCommandRegistry wowCommandRegistry;
+
+	@Inject
+	private Provider<VncService> vncServicerProvider;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -47,4 +52,15 @@ public class WowActivator extends BaseBundleActivator {
 		// WowService.class));
 		return serviceTrackers;
 	}
+
+	@Override
+	protected void onStopped() {
+		super.onStopped();
+		try {
+			vncServicerProvider.get().disconnect();
+		}
+		catch (final Exception e) {
+		}
+	}
+
 }
