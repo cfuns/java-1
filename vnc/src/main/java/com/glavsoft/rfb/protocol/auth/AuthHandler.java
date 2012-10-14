@@ -24,8 +24,6 @@
 
 package com.glavsoft.rfb.protocol.auth;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
@@ -74,7 +72,5 @@ public abstract class AuthHandler {
 	public void setUseSecurityResult(final boolean enabled) {
 		useSecurityResult = enabled;
 	}
-
-	public abstract void setLogger(final Logger logger);
 
 }

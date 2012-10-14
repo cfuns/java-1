@@ -36,8 +36,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.CryptoException;
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
@@ -54,7 +52,8 @@ public class VncAuthentication extends AuthHandler {
 	}
 
 	@Override
-	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException, FatalException {
+	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException,
+			FatalException {
 		final byte[] challenge = reader.readBytes(16);
 		final String password = passwordRetriever.getPassword();
 		if (null == password)
@@ -111,10 +110,6 @@ public class VncAuthentication extends AuthHandler {
 			key[i] = s;
 		}
 		return key;
-	}
-
-	@Override
-	public void setLogger(final Logger logger) {
 	}
 
 }

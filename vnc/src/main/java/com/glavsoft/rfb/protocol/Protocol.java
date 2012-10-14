@@ -27,6 +27,7 @@ package com.glavsoft.rfb.protocol;
 import org.slf4j.Logger;
 
 import com.glavsoft.core.SettingsChangedEvent;
+import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.AuthenticationFailedException;
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
@@ -48,7 +49,7 @@ import com.glavsoft.rfb.protocol.state.ProtocolState;
 import com.glavsoft.transport.Reader;
 import com.glavsoft.transport.Writer;
 
-import de.benjaminborbe.vnc.connector.History;
+import de.benjaminborbe.vnc.connector.VncHistory;
 
 public class Protocol implements ProtocolContext, IChangeSettingsListener {
 
@@ -92,11 +93,17 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 
 	private String protocolVersion;
 
-	private final History history;
+	private final VncHistory history;
 
 	private final Logger logger;
 
-	public Protocol(final Logger logger, final History history, final Reader reader, final Writer writer, final IPasswordRetriever passwordRetriever, final ProtocolSettings settings) {
+	public Protocol(
+			final Logger logger,
+			final VncHistory history,
+			final Reader reader,
+			final Writer writer,
+			final IPasswordRetriever passwordRetriever,
+			final ProtocolSettings settings) {
 		this.logger = logger;
 		this.history = history;
 		this.reader = reader;
@@ -117,7 +124,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		while (state.next()) {
 			// continue;
 		}
-		this.messageQueue = new MessageQueue();
+		this.messageQueue = new MessageQueue(logger);
 	}
 
 	@Override
@@ -333,6 +340,10 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 	@Override
 	public String getProtocolVersion() {
 		return protocolVersion;
+	}
+
+	public Renderer getRenderer() {
+		return receiverTask.getRenderer();
 	}
 
 }

@@ -25,6 +25,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import com.glavsoft.core.SettingsChangedEvent;
+import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.AuthenticationFailedException;
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
@@ -33,6 +34,7 @@ import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
 import com.glavsoft.rfb.IChangeSettingsListener;
 import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.rfb.IRfbSessionListener;
+import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.client.KeyEventMessage;
 import com.glavsoft.rfb.protocol.Protocol;
 import com.glavsoft.rfb.protocol.ProtocolContext;
@@ -50,10 +52,12 @@ import com.glavsoft.viewer.swing.UiSettings;
 import com.glavsoft.viewer.swing.gui.OptionsDialog;
 import com.glavsoft.viewer.swing.gui.PasswordDialog;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.vnc.config.VncConfig;
-import de.benjaminborbe.vnc.connector.History;
+import de.benjaminborbe.vnc.connector.VncHistory;
 
+@Singleton
 public class Viewer extends JApplet implements Runnable, IRfbSessionListener, WindowListener, IChangeSettingsListener {
 
 	private static final long serialVersionUID = 7875810628566999258L;
@@ -124,25 +128,6 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 		}
 	}
 
-	// public static void main(final String[] args) {
-	// final Parser parser = new Parser();
-	// ParametersHandler.completeParserOptions(parser);
-	//
-	// parser.parse(args);
-	// if (parser.isSet(ParametersHandler.ARG_HELP)) {
-	// printUsage(parser.optionsUsage());
-	// System.exit(0);
-	// }
-	// final Viewer viewer = new Viewer(parser);
-	// SwingUtilities.invokeLater(viewer);
-	// }
-
-	public static void printUsage(final String additional) {
-		System.out.println("Usage: java -jar (progfilename) [hostname [port_number]] [Options]\n" + "    or\n" + " java -jar (progfilename) [Options]\n"
-				+ "    or\n java -jar (progfilename) -help\n    to view this help\n\n" + "Where Options are:\n" + additional
-				+ "\nOptions format: -optionName=optionValue. Ex. -host=localhost -port=5900 -viewonly=yes\n" + "Both option name and option value are case insensitive.");
-	}
-
 	private final ConnectionParams connectionParams;
 
 	private String passwordFromParams;
@@ -171,35 +156,19 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 
 	private List<JComponent> kbdButtons;
 
-	private final History history;
+	private final VncHistory history;
 
 	private final Logger logger;
 
-	// public Viewer() {
-	// connectionParams = new ConnectionParams();
-	// settings = ProtocolSettings.getDefaultSettings();
-	// uiSettings = new UiSettings();
-	// }
-
 	@Inject
-	public Viewer(final Logger logger, final VncConfig vncConfig, final History history) {
+	public Viewer(final Logger logger, final VncConfig vncConfig, final VncHistory history) {
 		this.logger = logger;
 		this.history = history;
 		this.connectionParams = new ConnectionParams(vncConfig.getHostname(), vncConfig.getPort());
 		this.passwordFromParams = vncConfig.getPassword();
-		settings = ProtocolSettings.getDefaultSettings();
+		settings = ProtocolSettings.getDefaultSettings(logger);
 		uiSettings = new UiSettings();
 	}
-
-	// private Viewer(final Parser parser) {
-	// this();
-	// ParametersHandler.completeSettingsFromCLI(parser, connectionParams, settings,
-	// uiSettings);
-	// showControls = ParametersHandler.showControls;
-	// passwordFromParams = parser.getValueFor(ParametersHandler.ARG_PASSWORD);
-	// logger.info("TightVNC Viewer version " + ver());
-	// isApplet = false;
-	// }
 
 	@Override
 	public void rfbSessionStopped(final String reason) {
@@ -318,7 +287,7 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 				clipboardController.setEnabled(settings.isAllowClipboardTransfer());
 				settings.addListener(clipboardController);
 
-				surface = new Surface(workingProtocol, this, uiSettings.getScaleFactor());
+				surface = new Surface(logger, workingProtocol, this, uiSettings.getScaleFactor());
 				settings.addListener(this);
 				uiSettings.addListener(surface);
 				containerFrame = createContainer();
@@ -579,8 +548,15 @@ public class Viewer extends JApplet implements Runnable, IRfbSessionListener, Wi
 	public void windowDeactivated(final WindowEvent e) { /* nop */
 	}
 
-	public History getHistory() {
+	public VncHistory getHistory() {
 		return history;
 	}
 
+	public Renderer getRenderer() {
+		return workingProtocol.getRenderer();
+	}
+
+	public void sendMessage(final ClientToServerMessage message) {
+		workingProtocol.sendMessage(message);
+	}
 }

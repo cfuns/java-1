@@ -32,6 +32,8 @@ import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.rfb.IChangeSettingsListener;
@@ -72,12 +74,15 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 
 	public Dimension oldSize;
 
+	private final Logger logger;
+
 	@Override
 	public boolean isDoubleBuffered() {
 		return false;
 	}
 
-	public Surface(final ProtocolContext context, final Viewer viewer, final double scaleFactor) {
+	public Surface(final Logger logger, final ProtocolContext context, final Viewer viewer, final double scaleFactor) {
+		this.logger = logger;
 		this.context = context;
 		this.viewer = viewer;
 		this.scaleFactor = scaleFactor;
@@ -148,6 +153,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	public void paintComponent(final Graphics g) {
 		((Graphics2D) g).scale(scaleFactor, scaleFactor);
 		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		logger.debug("renderer = " + renderer);
 		synchronized (renderer) {
 			final Image offscreenImage = renderer.getOffscreenImage();
 			if (offscreenImage != null) {

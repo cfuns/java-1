@@ -27,8 +27,6 @@ package com.glavsoft.rfb.encoding.decoder;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.drawing.ColorDecoder;
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.TransportException;
@@ -63,10 +61,7 @@ public class TightDecoder extends Decoder {
 
 	final static int tightZlibBufferSize = 512;
 
-	private final Logger logger;
-
-	public TightDecoder(final Logger logger) {
-		this.logger = logger;
+	public TightDecoder() {
 		reset();
 	}
 
@@ -247,7 +242,7 @@ public class TightDecoder extends Decoder {
 			decoder.inflate(buffer, 0, expectedLength);
 		}
 		catch (final DataFormatException e) {
-			logger.debug("TightDecoder", "readCompressedData", e);
+			// logger.debug("TightDecoder", "readCompressedData", e);
 			throw new TransportException("cannot inflate tight compressed data", e);
 		}
 		return buffer;

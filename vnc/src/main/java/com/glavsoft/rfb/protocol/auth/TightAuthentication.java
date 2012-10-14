@@ -24,8 +24,6 @@
 
 package com.glavsoft.rfb.protocol.auth;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
@@ -40,8 +38,6 @@ import com.glavsoft.transport.Writer;
  *
  */
 public class TightAuthentication extends AuthHandler {
-
-	private Logger logger;
 
 	@Override
 	public SecurityType getType() {
@@ -90,10 +86,10 @@ public class TightAuthentication extends AuthHandler {
 		long tunnelsCount;
 		tunnelsCount = reader.readUInt32();
 		if (tunnelsCount > 0) {
-			for (int i = 0; i < tunnelsCount; ++i) {
-				final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
-				logger.debug(rfbCapabilityInfo.toString());
-			}
+			// for (int i = 0; i < tunnelsCount; ++i) {
+			// final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
+			// logger.debug(rfbCapabilityInfo.toString());
+			// }
 			writer.writeInt32(0); // NOTUNNEL
 		}
 	}
@@ -131,7 +127,7 @@ public class TightAuthentication extends AuthHandler {
 		for (int i = 0; i < authCount; ++i) {
 			final RfbCapabilityInfo rfbCapabilityInfo = new RfbCapabilityInfo(reader);
 			cap[i] = (byte) rfbCapabilityInfo.getCode();
-			logger.debug(rfbCapabilityInfo.toString());
+			// logger.debug(rfbCapabilityInfo.toString());
 		}
 		AuthHandler authHandler = null;
 		if (authCount > 0) {
@@ -145,14 +141,10 @@ public class TightAuthentication extends AuthHandler {
 			}
 		}
 		else {
-			authHandler = SecurityType.getAuthHandlerById(logger, SecurityType.NONE_AUTHENTICATION.getId());
+			authHandler = SecurityType.getAuthHandlerById(SecurityType.NONE_AUTHENTICATION.getId());
 		}
-		logger.info("Auth capability accepted: " + authHandler.getName());
+		// logger.info("Auth capability accepted: " + authHandler.getName());
 		authHandler.authenticate(reader, writer, authCaps, passwordRetriever);
 	}
 
-	@Override
-	public void setLogger(final Logger logger) {
-		this.logger = logger;
-	}
 }

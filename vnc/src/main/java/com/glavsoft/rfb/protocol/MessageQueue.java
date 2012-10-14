@@ -27,6 +27,8 @@ package com.glavsoft.rfb.protocol;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.client.ClientToServerMessage;
 
 /**
@@ -36,15 +38,20 @@ public class MessageQueue {
 
 	private final BlockingQueue<ClientToServerMessage> queue;
 
-	public MessageQueue() {
+	private final Logger logger;
+
+	public MessageQueue(final Logger logger) {
+		this.logger = logger;
 		queue = new LinkedBlockingQueue<ClientToServerMessage>();
 	}
 
-	public void put(ClientToServerMessage message) {
+	public void put(final ClientToServerMessage message) {
+		logger.debug("put message to queue");
 		queue.offer(message);
 	}
 
 	public ClientToServerMessage get() throws InterruptedException {
+		logger.debug("remove message to queue");
 		return queue.take();
 	}
 

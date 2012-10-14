@@ -230,4 +230,7 @@ public class ReceiverTask implements Runnable {
 		isRunning = false;
 	}
 
+	public Renderer getRenderer() {
+		return renderer;
+	}
 }

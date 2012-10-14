@@ -199,7 +199,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			savedSettings.copySerializedFieldsFrom(settings);
 		}
 		else {
-			settingsMap.put(new ConnectionParams(connectionParams), new ProtocolSettings(settings));
+			settingsMap.put(new ConnectionParams(connectionParams), new ProtocolSettings(logger, settings));
 		}
 	}
 

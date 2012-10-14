@@ -119,16 +119,17 @@ public class ProtocolSettings implements Serializable {
 
 	private transient String remoteCharsetName;
 
-	private Logger logger;
+	private final Logger logger;
 
-	public static ProtocolSettings getDefaultSettings() {
-		final ProtocolSettings settings = new ProtocolSettings();
+	public static ProtocolSettings getDefaultSettings(final Logger logger) {
+		final ProtocolSettings settings = new ProtocolSettings(logger);
 		settings.initKnownAuthCapabilities(settings.authCapabilities);
 		settings.initKnownEncodingTypesCapabilities(settings.encodingTypesCapabilities);
 		return settings;
 	}
 
-	private ProtocolSettings() {
+	private ProtocolSettings(final Logger logger) {
+		this.logger = logger;
 		sharedFlag = true;
 		viewOnly = false;
 		showRemoteCursor = true;
@@ -151,8 +152,8 @@ public class ProtocolSettings implements Serializable {
 		changedSettingsMask = 0;
 	}
 
-	public ProtocolSettings(final ProtocolSettings s) {
-		this();
+	public ProtocolSettings(final Logger logger, final ProtocolSettings s) {
+		this(logger);
 		copySerializedFieldsFrom(s);
 		changedSettingsMask = s.changedSettingsMask;
 		encodings = s.encodings;
@@ -312,7 +313,7 @@ public class ProtocolSettings implements Serializable {
 	}
 
 	public void fireListeners() {
-		final SettingsChangedEvent event = new SettingsChangedEvent(new ProtocolSettings(this));
+		final SettingsChangedEvent event = new SettingsChangedEvent(new ProtocolSettings(logger, this));
 		changedSettingsMask = 0;
 		for (final IChangeSettingsListener listener : listeners) {
 			listener.settingsChanged(event);

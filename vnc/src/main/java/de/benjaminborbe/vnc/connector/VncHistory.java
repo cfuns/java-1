@@ -8,12 +8,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class History {
+public class VncHistory {
 
 	private final List<ClientToServerMessage> list = new ArrayList<ClientToServerMessage>();
 
 	@Inject
-	public History() {
+	public VncHistory() {
 		super();
 	}
 
