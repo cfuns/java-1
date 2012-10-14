@@ -106,7 +106,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 		isUserInputEnabled = enable;
 		if (enable) {
 			if (null == mouseEventListener) {
-				mouseEventListener = new MouseEventListener(vncPointerLocation, this, context, scaleFactor);
+				mouseEventListener = new MouseEventListener(logger, vncPointerLocation, this, context, scaleFactor);
 			}
 			addMouseListener(mouseEventListener);
 			addMouseMotionListener(mouseEventListener);
@@ -114,7 +114,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 
 			setFocusTraversalKeysEnabled(false);
 			if (null == keyEventListener) {
-				keyEventListener = new KeyEventListener(context);
+				keyEventListener = new KeyEventListener(logger, context);
 				if (modifierButtonListener != null) {
 					keyEventListener.addModifierListener(modifierButtonListener);
 				}

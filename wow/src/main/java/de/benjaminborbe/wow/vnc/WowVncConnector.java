@@ -11,25 +11,12 @@ import de.benjaminborbe.vnc.api.VncServiceException;
 @Singleton
 public class WowVncConnector extends VncServiceAdapter {
 
-	private final WowVncAutoConnector wowVncAutoConnector;
-
 	private final WowVncMouseMover wowVncMouseMover;
 
 	@Inject
-	public WowVncConnector(final VncService vncService, final WowVncAutoConnector wowVncAutoConnector, final WowVncMouseMover wowVncMouseMover) {
+	public WowVncConnector(final VncService vncService, final WowVncMouseMover wowVncMouseMover) {
 		super(vncService);
-		this.wowVncAutoConnector = wowVncAutoConnector;
 		this.wowVncMouseMover = wowVncMouseMover;
-	}
-
-	@Override
-	public void connect() throws VncServiceException {
-		wowVncAutoConnector.connect();
-	}
-
-	@Override
-	public void disconnect() throws VncServiceException {
-		wowVncAutoConnector.disconnect();
 	}
 
 	@Override

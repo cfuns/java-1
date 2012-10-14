@@ -411,10 +411,10 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 			@Override
 			public void itemStateChanged(final ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					context.sendMessage(new KeyEventMessage(Keymap.K_CTRL_LEFT, true));
+					context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, true));
 				}
 				else {
-					context.sendMessage(new KeyEventMessage(Keymap.K_CTRL_LEFT, false));
+					context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, false));
 				}
 				setSurfaceToHandleKbdFocus();
 			}
@@ -426,10 +426,10 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 			@Override
 			public void itemStateChanged(final ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					context.sendMessage(new KeyEventMessage(Keymap.K_ALT_LEFT, true));
+					context.sendMessage(new KeyEventMessage(logger, Keymap.K_ALT_LEFT, true));
 				}
 				else {
-					context.sendMessage(new KeyEventMessage(Keymap.K_ALT_LEFT, false));
+					context.sendMessage(new KeyEventMessage(logger, Keymap.K_ALT_LEFT, false));
 				}
 				setSurfaceToHandleKbdFocus();
 			}
@@ -513,19 +513,19 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 	}
 
 	private void sendCtrlAltDel(final ProtocolContext context) {
-		context.sendMessage(new KeyEventMessage(Keymap.K_CTRL_LEFT, true));
-		context.sendMessage(new KeyEventMessage(Keymap.K_ALT_LEFT, true));
-		context.sendMessage(new KeyEventMessage(Keymap.K_DELETE, true));
-		context.sendMessage(new KeyEventMessage(Keymap.K_DELETE, false));
-		context.sendMessage(new KeyEventMessage(Keymap.K_ALT_LEFT, false));
-		context.sendMessage(new KeyEventMessage(Keymap.K_CTRL_LEFT, false));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, true));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_ALT_LEFT, true));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_DELETE, true));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_DELETE, false));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_ALT_LEFT, false));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, false));
 	}
 
 	private void sendWinKey(final ProtocolContext context) {
-		context.sendMessage(new KeyEventMessage(Keymap.K_CTRL_LEFT, true));
-		context.sendMessage(new KeyEventMessage(Keymap.K_ESCAPE, true));
-		context.sendMessage(new KeyEventMessage(Keymap.K_ESCAPE, false));
-		context.sendMessage(new KeyEventMessage(Keymap.K_CTRL_LEFT, false));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, true));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_ESCAPE, true));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_ESCAPE, false));
+		context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, false));
 	}
 
 	@Override

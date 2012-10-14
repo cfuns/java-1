@@ -31,6 +31,8 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.event.MouseInputAdapter;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.IRepaintController;
 import com.glavsoft.rfb.client.PointerEventMessage;
 import com.glavsoft.rfb.protocol.ProtocolContext;
@@ -57,7 +59,15 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 
 	private final VncPointerLocation vncPointerLocation;
 
-	public MouseEventListener(final VncPointerLocation vncPointerLocation, final IRepaintController repaintController, final ProtocolContext context, final double scaleFactor) {
+	private final Logger logger;
+
+	public MouseEventListener(
+			final Logger logger,
+			final VncPointerLocation vncPointerLocation,
+			final IRepaintController repaintController,
+			final ProtocolContext context,
+			final double scaleFactor) {
+		this.logger = logger;
 		this.vncPointerLocation = vncPointerLocation;
 		this.repaintController = repaintController;
 		this.context = context;
@@ -92,12 +102,12 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 			// handle more then 1 notches
 			notches = Math.abs(notches);
 			for (int i = 1; i < notches; ++i) {
-				context.sendMessage(new PointerEventMessage(vncPointerLocation, (byte) (buttonMask | wheelMask), x, y));
-				context.sendMessage(new PointerEventMessage(vncPointerLocation, buttonMask, x, y));
+				context.sendMessage(new PointerEventMessage(logger, vncPointerLocation, (byte) (buttonMask | wheelMask), x, y));
+				context.sendMessage(new PointerEventMessage(logger, vncPointerLocation, buttonMask, x, y));
 			}
-			context.sendMessage(new PointerEventMessage(vncPointerLocation, (byte) (buttonMask | wheelMask), x, y));
+			context.sendMessage(new PointerEventMessage(logger, vncPointerLocation, (byte) (buttonMask | wheelMask), x, y));
 		}
-		context.sendMessage(new PointerEventMessage(vncPointerLocation, buttonMask, x, y));
+		context.sendMessage(new PointerEventMessage(logger, vncPointerLocation, buttonMask, x, y));
 	}
 
 	@Override

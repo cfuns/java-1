@@ -77,24 +77,25 @@ public class VncConnector {
 	public void mouseMouse(final int x, final int y) throws VncConnectorException {
 		expectConnected();
 		final byte buttonMask = 0;
-		sendMessage(new PointerEventMessage(vncPointerLocation, buttonMask, (short) x, (short) y));
-
+		sendMessage(new PointerEventMessage(logger, vncPointerLocation, buttonMask, (short) x, (short) y));
 	}
 
 	public void keyRelease(final VncKey vncKey) throws VncConnectorException, VncKeyTranslaterException {
-		sendMessage(new KeyEventMessage(vncKeyTranslater.translate(vncKey), false));
+		sendMessage(new KeyEventMessage(logger, vncKeyTranslater.translate(vncKey), false));
 	}
 
 	public void keyPress(final VncKey vncKey) throws VncConnectorException, VncKeyTranslaterException {
-		sendMessage(new KeyEventMessage(vncKeyTranslater.translate(vncKey), true));
+		sendMessage(new KeyEventMessage(logger, vncKeyTranslater.translate(vncKey), true));
 	}
 
 	public void mouseLeftButtonPress() throws VncConnectorException {
-
+		final byte buttonMask = 1;
+		sendMessage(new PointerEventMessage(logger, vncPointerLocation, buttonMask, (short) vncPointerLocation.getX(), (short) vncPointerLocation.getY()));
 	}
 
 	public void mouseLeftButtonRelease() throws VncConnectorException {
-
+		final byte buttonMask = 0;
+		sendMessage(new PointerEventMessage(logger, vncPointerLocation, buttonMask, (short) vncPointerLocation.getX(), (short) vncPointerLocation.getY()));
 	}
 
 	public boolean isConnected() {

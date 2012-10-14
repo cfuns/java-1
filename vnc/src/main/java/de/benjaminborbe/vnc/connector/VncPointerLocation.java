@@ -32,7 +32,7 @@ public class VncPointerLocation implements VncLocation {
 	}
 
 	public synchronized void set(final short x, final short y) {
-		logger.debug("set pointer to x: " + x + " y: " + y);
+		logger.trace("set pointer to x: " + x + " y: " + y);
 		this.x = x;
 		this.y = y;
 	}

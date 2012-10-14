@@ -11,10 +11,15 @@ public class VncXmppCommandRegistry extends RegistryBase<XmppCommand> {
 
 	@Inject
 	public VncXmppCommandRegistry(
+			final VncServiceMouseClickXmppCommand vncServiceMouseClickXmppCommand,
+			final VncServiceMouseDoubleClickXmppCommand vncServiceMouseDoubleClickXmppCommand,
+			final VncServiceTypeXmppCommand vncServiceTypeXmppCommand,
+			final VncServiceConnectXmppCommand vncServiceConnectXmppCommand,
 			final VncServiceDisconnectXmppCommand vncServiceDisconnectXmppCommand,
 			final VncServiceColorPickerXmppCommand vncServiceColorPickerXmppCommand,
 			final VncServiceMouseMoveXmppCommand vncServiceMouseMoveXmppCommand) {
-		super(vncServiceDisconnectXmppCommand, vncServiceColorPickerXmppCommand, vncServiceMouseMoveXmppCommand);
+		super(vncServiceConnectXmppCommand, vncServiceTypeXmppCommand, vncServiceDisconnectXmppCommand, vncServiceColorPickerXmppCommand, vncServiceMouseMoveXmppCommand,
+				vncServiceMouseClickXmppCommand, vncServiceMouseDoubleClickXmppCommand);
 	}
 
 }

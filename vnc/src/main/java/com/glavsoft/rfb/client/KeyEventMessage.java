@@ -24,6 +24,8 @@
 
 package com.glavsoft.rfb.client;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.transport.Writer;
 
@@ -46,18 +48,22 @@ public class KeyEventMessage implements ClientToServerMessage {
 
 	private final boolean downFlag;
 
-	public KeyEventMessage(int key, boolean downFlag) {
+	private final Logger logger;
+
+	public KeyEventMessage(final Logger logger, final int key, final boolean downFlag) {
+		this.logger = logger;
 		this.downFlag = downFlag;
 		this.key = key;
 	}
 
 	@Override
-	public void send(Writer writer) throws TransportException {
+	public void send(final Writer writer) throws TransportException {
 		writer.writeByte(KEY_EVENT);
 		writer.writeByte(downFlag ? 1 : 0);
 		writer.writeInt16(0); // padding
 		writer.write(key);
 		writer.flush();
+		logger.debug("key " + key + " " + (downFlag ? "down" : "up"));
 	}
 
 	@Override

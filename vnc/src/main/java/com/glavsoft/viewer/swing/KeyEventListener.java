@@ -87,6 +87,8 @@ import static com.glavsoft.utils.Keymap.unicode2keysym;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.rfb.client.KeyEventMessage;
 import com.glavsoft.rfb.protocol.ProtocolContext;
 
@@ -100,7 +102,10 @@ public class KeyEventListener implements KeyListener {
 
 	private KeyboardConvertor convertor;
 
-	public KeyEventListener(final ProtocolContext context) {
+	private final Logger logger;
+
+	public KeyEventListener(final Logger logger, final ProtocolContext context) {
+		this.logger = logger;
 		this.context = context;
 		this.convertToAscii = false;
 	}
@@ -352,7 +357,7 @@ public class KeyEventListener implements KeyListener {
 	}
 
 	private void sendKeyEvent(final int keyChar, final KeyEvent e) {
-		context.sendMessage(new KeyEventMessage(keyChar, e.getID() == KeyEvent.KEY_PRESSED));
+		context.sendMessage(new KeyEventMessage(logger, keyChar, e.getID() == KeyEvent.KEY_PRESSED));
 	}
 
 	@Override

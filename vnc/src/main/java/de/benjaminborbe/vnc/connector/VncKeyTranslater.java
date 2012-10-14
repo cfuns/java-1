@@ -25,6 +25,7 @@ public class VncKeyTranslater {
 		map.put(VncKey.K_8, Keymap.K_KP_8);
 		map.put(VncKey.K_9, Keymap.K_KP_9);
 		map.put(VncKey.K_ENTER, Keymap.K_ENTER);
+		map.put(VncKey.K_SPACE, Keymap.K_KP_SPACE);
 	}
 
 	public int translate(final VncKey vncKey) throws VncKeyTranslaterException {

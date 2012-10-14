@@ -24,6 +24,8 @@
 
 package com.glavsoft.rfb.client;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.transport.Writer;
 
@@ -39,7 +41,10 @@ public class PointerEventMessage implements ClientToServerMessage {
 
 	private final VncPointerLocation vncPointerLocation;
 
-	public PointerEventMessage(final VncPointerLocation vncPointerLocation, final byte buttonMask, final short x, final short y) {
+	private final Logger logger;
+
+	public PointerEventMessage(final Logger logger, final VncPointerLocation vncPointerLocation, final byte buttonMask, final short x, final short y) {
+		this.logger = logger;
 		this.vncPointerLocation = vncPointerLocation;
 		this.buttonMask = buttonMask;
 		this.x = x;
@@ -54,6 +59,7 @@ public class PointerEventMessage implements ClientToServerMessage {
 		writer.writeInt16(y);
 		writer.flush();
 		vncPointerLocation.set(x, y);
+		logger.debug("pointer x:" + x + " y:" + y + " mask:" + buttonMask);
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.vnc.connector.VncConnector;
 import de.benjaminborbe.vnc.connector.VncConnectorException;
 import de.benjaminborbe.vnc.connector.VncKeyTranslaterException;
+import de.benjaminborbe.vnc.util.VncAutoConnector;
 
 @Singleton
 public class VncServiceImpl implements VncService {
@@ -21,23 +22,20 @@ public class VncServiceImpl implements VncService {
 
 	private final VncConnector vncConnector;
 
+	private final VncAutoConnector vncAutoConnector;
+
 	@Inject
-	public VncServiceImpl(final Logger logger, final VncConnector vncConnector) {
+	public VncServiceImpl(final Logger logger, final VncConnector vncConnector, final VncAutoConnector vncAutoConnector) {
 		this.logger = logger;
 		this.vncConnector = vncConnector;
-
+		this.vncAutoConnector = vncAutoConnector;
 	}
 
 	@Override
 	public void connect() throws VncServiceException {
 		try {
 			logger.trace("connect");
-			vncConnector.connect();
-
-			// vncConnector.getScreenContent().getPointerLocation()
-
-			// defaultlocation
-			// vncConnector.mouseMouse(1, 1);
+			vncAutoConnector.connect();
 		}
 		catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
@@ -48,7 +46,7 @@ public class VncServiceImpl implements VncService {
 	public void disconnect() throws VncServiceException {
 		try {
 			logger.trace("disconnect");
-			vncConnector.disconnect();
+			vncAutoConnector.disconnect();
 		}
 		catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
