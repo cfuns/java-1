@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncLocationImpl;
-import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
 import de.benjaminborbe.wow.vnc.WowVncConnector;
 import de.benjaminborbe.xmpp.api.XmppChat;
@@ -45,6 +44,12 @@ public class WowFishingXmppCommand implements XmppCommand {
 				// move mouse to fishing button
 				vncService.mouseMouse(fishingButton);
 
+				try {
+					Thread.sleep(1000);
+				}
+				catch (final InterruptedException e) {
+				}
+
 				// take screencontent => s1
 				// click
 				// take screencontent => s2
@@ -59,10 +64,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 			chat.send(getName() + " - execution finished");
 		}
-		catch (final XmppChatException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-		catch (final VncServiceException e) {
+		catch (final Exception e) {
 			try {
 				chat.send(getName() + " - execution failed! " + e.getClass().getName());
 			}

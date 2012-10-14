@@ -4,6 +4,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.List;
 import org.slf4j.Logger;
 import javax.swing.JComponent;
@@ -40,28 +41,6 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 
 	private boolean isZoomToFitSelected;
 
-	private boolean forceReconnection;
-
-	private String reconnectionReason;
-
-	private ContainerManager containerManager;
-
-	public Protocol getWorkingProtocol() {
-		return workingProtocol;
-	}
-
-	public boolean isZoomToFitSelected() {
-		return isZoomToFitSelected;
-	}
-
-	public UiSettings getUiSettings() {
-		return uiSettings;
-	}
-
-	public void setZoomToFitSelected(final boolean zoomToFitSelected) {
-		isZoomToFitSelected = zoomToFitSelected;
-	}
-
 	private final ConnectionParams connectionParams;
 
 	private Socket workingSocket;
@@ -75,8 +54,6 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	private final UiSettings uiSettings;
 
 	private boolean tryAgain;
-
-	private final boolean isAppletStopped = false;
 
 	private volatile boolean isStoppingProcess;
 
@@ -107,8 +84,6 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 
 			@Override
 			public void run() {
-				forceReconnection = true;
-				reconnectionReason = reason;
 			}
 		});
 		// start new session
@@ -155,22 +130,11 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 
 	@Override
 	public void run() {
-		final ConnectionManager connectionManager = new ConnectionManager(logger, this);
-
-		if (forceReconnection) {
-			connectionManager.showReconnectDialog("Connection lost", reconnectionReason);
-			forceReconnection = false;
-		}
 		tryAgain = true;
 		while (tryAgain) {
-			workingSocket = connectionManager.connectToHost(connectionParams, settings);
-			if (null == workingSocket) {
-				closeApp();
-				break;
-			}
-			logger.info("Connected");
 
 			try {
+				workingSocket = connectToHost(connectionParams, settings);
 				workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
 				final Reader reader = new Reader(workingSocket.getInputStream());
 				final Writer writer = new Writer(workingSocket.getOutputStream());
@@ -253,36 +217,30 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 				tryAgain = false;
 			}
 			catch (final UnsupportedProtocolVersionException e) {
-				connectionManager.showReconnectDialog("Unsupported Protocol Version", e.getMessage());
 				logger.debug(e.getMessage());
 			}
 			catch (final UnsupportedSecurityTypeException e) {
-				connectionManager.showReconnectDialog("Unsupported Security Type", e.getMessage());
 				logger.debug(e.getMessage());
 			}
 			catch (final AuthenticationFailedException e) {
-				connectionManager.showReconnectDialog("Authentication Failed", e.getMessage());
 				logger.debug(e.getMessage());
 			}
 			catch (final TransportException e) {
-				if (!isAppletStopped) {
-					connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
-					logger.debug(e.getMessage());
-				}
+				logger.debug(e.getMessage());
 			}
 			catch (final IOException e) {
-				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
 				logger.debug(e.getMessage());
 			}
 			catch (final FatalException e) {
-				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
 				logger.debug(e.getMessage());
 			}
 		}
 	}
 
-	public void packContainer() {
-		containerManager.pack();
+	private Socket connectToHost(final ConnectionParams connectionParams, final ProtocolSettings settings) throws UnknownHostException, IOException {
+		final String host = connectionParams.hostName;
+		final int port = connectionParams.getPortNumber();
+		return new Socket(host, port);
 	}
 
 	@Override
@@ -350,4 +308,21 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 		}
 		cleanUpUISessionAndConnection();
 	}
+
+	public Protocol getWorkingProtocol() {
+		return workingProtocol;
+	}
+
+	public boolean isZoomToFitSelected() {
+		return isZoomToFitSelected;
+	}
+
+	public UiSettings getUiSettings() {
+		return uiSettings;
+	}
+
+	public void setZoomToFitSelected(final boolean zoomToFitSelected) {
+		isZoomToFitSelected = zoomToFitSelected;
+	}
+
 }

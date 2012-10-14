@@ -2,17 +2,22 @@ package de.benjaminborbe.wow.vnc;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.wow.WowConstants;
 
 public class WowVncMouseMoverUnitTest {
 
 	@Test
 	public void testRandomOneStep() throws Exception {
 		final int stepCounter = 1;
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 
 		final VncLocation location = EasyMock.createMock(VncLocation.class);
 		EasyMock.expect(location.getX()).andReturn(100).anyTimes();
@@ -32,7 +37,7 @@ public class WowVncMouseMoverUnitTest {
 		vncService.mouseMouse(1100, 1100);
 		EasyMock.replay(vncService);
 
-		final WowVncMouseMover wowVncMouseMover = new WowVncMouseMover(vncService, randomUtil);
+		final WowVncMouseMover wowVncMouseMover = new WowVncMouseMover(logger, vncService, randomUtil);
 		wowVncMouseMover.mouseMouse(1100, 1100);
 
 		EasyMock.verify(location, screenContent, randomUtil, vncService);
@@ -42,6 +47,9 @@ public class WowVncMouseMoverUnitTest {
 	public void testRandomTwoStep() throws Exception {
 		final int stepCounter = 2;
 
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
 		final VncLocation location = EasyMock.createMock(VncLocation.class);
 		EasyMock.expect(location.getX()).andReturn(100).anyTimes();
 		EasyMock.expect(location.getY()).andReturn(100).anyTimes();
@@ -53,7 +61,7 @@ public class WowVncMouseMoverUnitTest {
 
 		final RandomUtil randomUtil = EasyMock.createMock(RandomUtil.class);
 		EasyMock.expect(randomUtil.getRandomized(EasyMock.anyInt(), EasyMock.anyInt())).andReturn(stepCounter);
-		EasyMock.expect(randomUtil.getRandomized(500, 10)).andReturn(500).times((stepCounter - 1) * 2);
+		EasyMock.expect(randomUtil.getRandomized(500, WowConstants.MOUSE_MOVE_STEP_RAMDOM)).andReturn(500).times((stepCounter - 1) * 2);
 		EasyMock.replay(randomUtil);
 
 		final VncService vncService = EasyMock.createMock(VncService.class);
@@ -62,7 +70,7 @@ public class WowVncMouseMoverUnitTest {
 		vncService.mouseMouse(1100, 1100);
 		EasyMock.replay(vncService);
 
-		final WowVncMouseMover wowVncMouseMover = new WowVncMouseMover(vncService, randomUtil);
+		final WowVncMouseMover wowVncMouseMover = new WowVncMouseMover(logger, vncService, randomUtil);
 		wowVncMouseMover.mouseMouse(1100, 1100);
 
 		EasyMock.verify(location, screenContent, randomUtil, vncService);
@@ -72,6 +80,9 @@ public class WowVncMouseMoverUnitTest {
 	public void testRandomFiveStep() throws Exception {
 		final int stepCounter = 5;
 
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
 		final VncLocation location = EasyMock.createMock(VncLocation.class);
 		EasyMock.expect(location.getX()).andReturn(100).anyTimes();
 		EasyMock.expect(location.getY()).andReturn(100).anyTimes();
@@ -83,7 +94,7 @@ public class WowVncMouseMoverUnitTest {
 
 		final RandomUtil randomUtil = EasyMock.createMock(RandomUtil.class);
 		EasyMock.expect(randomUtil.getRandomized(EasyMock.anyInt(), EasyMock.anyInt())).andReturn(stepCounter);
-		EasyMock.expect(randomUtil.getRandomized(200, 10)).andReturn(200).times((stepCounter - 1) * 2);
+		EasyMock.expect(randomUtil.getRandomized(200, WowConstants.MOUSE_MOVE_STEP_RAMDOM)).andReturn(200).times((stepCounter - 1) * 2);
 		EasyMock.replay(randomUtil);
 
 		final VncService vncService = EasyMock.createMock(VncService.class);
@@ -95,7 +106,7 @@ public class WowVncMouseMoverUnitTest {
 		vncService.mouseMouse(1100, 1100);
 		EasyMock.replay(vncService);
 
-		final WowVncMouseMover wowVncMouseMover = new WowVncMouseMover(vncService, randomUtil);
+		final WowVncMouseMover wowVncMouseMover = new WowVncMouseMover(logger, vncService, randomUtil);
 		wowVncMouseMover.mouseMouse(1100, 1100);
 
 		EasyMock.verify(location, screenContent, randomUtil, vncService);

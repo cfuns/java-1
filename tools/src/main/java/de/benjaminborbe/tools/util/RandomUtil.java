@@ -23,7 +23,19 @@ public class RandomUtil {
 	 */
 	public int getRandomized(final int orgValue, final double randomFactor) {
 		final int maxDelta = (int) (orgValue * randomFactor);
-		final int delta = random.nextInt(2 * maxDelta);
+		final int delta = randomInt(2 * maxDelta);
 		return orgValue + delta - maxDelta;
+	}
+
+	private int randomInt(final int maxDelta) {
+		if (maxDelta == 0) {
+			return 0;
+		}
+		if (maxDelta > 0) {
+			return random.nextInt(maxDelta);
+		}
+		else {
+			return random.nextInt(maxDelta * -1) * -1;
+		}
 	}
 }
