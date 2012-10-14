@@ -8,8 +8,10 @@ public interface VncScreenContent {
 
 	int getPixel(int x, int y);
 
-	int[][] getPixels(int xstart, int ystart, int xend, int yend);
+	VncPixels getPixels(int xstart, int ystart, int xend, int yend);
 
 	VncLocation getPointerLocation();
+
+	VncPixels getPixels();
 
 }

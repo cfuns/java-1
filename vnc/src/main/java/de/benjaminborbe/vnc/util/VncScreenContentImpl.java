@@ -4,6 +4,7 @@ import com.glavsoft.drawing.Renderer;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.vnc.api.VncLocation;
+import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.connector.VncConnector;
 import de.benjaminborbe.vnc.connector.VncPointerLocation;
@@ -40,23 +41,32 @@ public class VncScreenContentImpl implements VncScreenContent {
 	 */
 	@Override
 	public int getPixel(final int x, final int y) {
-		final int[] pixels = getRenderer().getPixels();
-		return pixels[getWidth() * (y - 1) + x - 1];
+		return getPixels().getPixel(x, y);
 	}
 
 	/**
 	 * Start and end position are included
 	 */
 	@Override
-	public int[][] getPixels(final int xstart, final int ystart, final int xend, final int yend) {
-		final int[][] result = new int[xend - xstart + 1][yend - ystart + 1];
-		for (int x = xstart; x <= xend; ++x) {
-			for (final int y = ystart; y <= yend; ++x) {
-				result[x - xstart][y - ystart] = getPixel(x, y);
-			}
-		}
-		return result;
+	public VncPixels getPixels(final int xstart, final int ystart, final int xend, final int yend) {
+		return getPixels().getSubPixel(xstart, ystart, xend, yend);
 	}
+
+	@Override
+	public VncPixels getPixels() {
+		return new VncPixelsImpl(getRenderer().getPixels(), getWidth(), getHeight());
+	}
+
+	// public int[][] getPixelArray(final int xstart, final int ystart, final int xend,
+	// final int yend) {
+	// final int[][] result = new int[xend - xstart + 1][yend - ystart + 1];
+	// for (int x = xstart; x <= xend; ++x) {
+	// for (final int y = ystart; y <= yend; ++x) {
+	// result[x - xstart][y - ystart] = getPixel(x, y);
+	// }
+	// }
+	// return result;
+	// }
 
 	@Override
 	public VncLocation getPointerLocation() {
