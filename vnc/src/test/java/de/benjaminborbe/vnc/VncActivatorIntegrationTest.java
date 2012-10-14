@@ -68,7 +68,7 @@ public class VncActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
 		names.add(VncService.class.getName());
-		for (int i = 0; i < 7; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			names.add(XmppCommand.class.getName());
 		}
 		assertEquals(names.size(), serviceInfos.size());
