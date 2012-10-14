@@ -11,7 +11,7 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
-public class VncServiceDisconnectXmppCommand implements XmppCommand {
+public class VncServiceDisconnectXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
 
 	private final Logger logger;
 
@@ -19,6 +19,7 @@ public class VncServiceDisconnectXmppCommand implements XmppCommand {
 
 	@Inject
 	public VncServiceDisconnectXmppCommand(final Logger logger, final VncService vncService) {
+		super(logger);
 		this.logger = logger;
 		this.vncService = vncService;
 	}
@@ -52,8 +53,4 @@ public class VncServiceDisconnectXmppCommand implements XmppCommand {
 		}
 	}
 
-	@Override
-	public boolean match(final String body) {
-		return body != null && body.indexOf(getName()) != -1;
-	}
 }

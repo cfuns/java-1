@@ -133,7 +133,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 
 	@Override
 	public Renderer createRenderer(final Reader reader, final int width, final int height, final PixelFormat pixelFormat) {
-		renderer = new RendererImpl(reader, width, height, pixelFormat);
+		renderer = new RendererImpl(logger, reader, width, height, pixelFormat);
 		synchronized (renderer) {
 			cursor = renderer.getCursor();
 		}

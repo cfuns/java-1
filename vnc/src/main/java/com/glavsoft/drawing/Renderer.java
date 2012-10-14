@@ -26,6 +26,8 @@ package com.glavsoft.drawing;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.rfb.encoding.PixelFormat;
 import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
@@ -57,6 +59,12 @@ public abstract class Renderer {
 	protected PixelFormat pixelFormat;
 
 	private ColorDecoder colorDecoder;
+
+	private final Logger logger;
+
+	public Renderer(final Logger logger) {
+		this.logger = logger;
+	}
 
 	protected void init(final Reader reader, final int width, final int height, final PixelFormat pixelFormat) {
 		this.reader = reader;
@@ -259,6 +267,7 @@ public abstract class Renderer {
 	 *          rectangle height
 	 */
 	public synchronized void fillRect(final int color, final int x, final int y, final int width, final int height) {
+		logger.trace("fillRect");
 		final int sy = y * this.width + x;
 		final int ey = sy + height * this.width;
 		for (int i = sy; i < ey; i += this.width) {

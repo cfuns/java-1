@@ -41,6 +41,8 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.slf4j.Logger;
+
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.rfb.encoding.PixelFormat;
 import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
@@ -50,7 +52,8 @@ public class RendererImpl extends Renderer implements ImageObserver {
 
 	private final BufferedImage offscreanImage;
 
-	public RendererImpl(final Reader reader, int width, int height, final PixelFormat pixelFormat) {
+	public RendererImpl(final Logger logger, final Reader reader, int width, int height, final PixelFormat pixelFormat) {
+		super(logger);
 		if (0 == width)
 			width = 1;
 		if (0 == height)

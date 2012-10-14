@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.vnc.VncConstants;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
@@ -11,16 +13,20 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
-public class VncServiceColorPickerXmppCommand implements XmppCommand {
+public class VncServiceColorPickerXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
 
 	private final Logger logger;
 
 	private final VncService vncService;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public VncServiceColorPickerXmppCommand(final Logger logger, final VncService vncService) {
+	public VncServiceColorPickerXmppCommand(final Logger logger, final VncService vncService, final ParseUtil parseUtil) {
+		super(logger);
 		this.logger = logger;
 		this.vncService = vncService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -32,14 +38,46 @@ public class VncServiceColorPickerXmppCommand implements XmppCommand {
 	public void execute(final XmppChat chat, final String command) {
 		logger.debug("execute command " + getName());
 		try {
-			chat.send(getName() + " - execution started");
+			try {
+				chat.send(getName() + " - execution started");
 
-			final int pixel = vncService.getScreenContent().getPixel(1, 1);
-			logger.debug("pixel - int: " + pixel + " hex: " + Integer.toHexString(pixel));
+				vncService.connect();
 
-			chat.send(getName() + " - pixel = " + Integer.toHexString(pixel) + " int: " + pixel);
+				final String args = command.substring(command.indexOf(getName()) + getName().length() + 1);
+				logger.debug(args);
+				final String[] parts = args.split("\\s+");
+				if (parts.length == 2) {
+					int x = -1;
+					int y = -1;
+					try {
+						x = parseUtil.parseInt(parts[0]);
+						y = parseUtil.parseInt(parts[1]);
+					}
+					catch (final ParseException e) {
+						x = vncService.getScreenContent().getPointerLocation().getX();
+						y = vncService.getScreenContent().getPointerLocation().getY();
+					}
+					try {
+						Thread.sleep(1000);
+					}
+					catch (final InterruptedException e1) {
+					}
 
-			chat.send(getName() + " - execution finished");
+					final int pixel = vncService.getScreenContent().getPixel(x, y);
+					final String msg = "pixel(" + x + "," + y + ") = 0x" + Integer.toHexString(pixel) + " int: " + pixel;
+					logger.debug(msg);
+					chat.send(getName() + " - " + msg);
+				}
+				else {
+					send(chat, "usage: " + getName() + " [x] [y]");
+				}
+
+				chat.send(getName() + " - execution finished");
+			}
+			finally {
+				vncService.disconnect();
+			}
+
 		}
 		catch (final XmppChatException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -53,10 +91,5 @@ public class VncServiceColorPickerXmppCommand implements XmppCommand {
 			}
 			logger.debug(e.getClass().getName(), e);
 		}
-	}
-
-	@Override
-	public boolean match(final String body) {
-		return body != null && body.indexOf(getName()) != -1;
 	}
 }

@@ -13,7 +13,7 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
-public class VncServiceMouseMoveXmppCommand implements XmppCommand {
+public class VncServiceMouseMoveXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
 
 	private final Logger logger;
 
@@ -23,6 +23,7 @@ public class VncServiceMouseMoveXmppCommand implements XmppCommand {
 
 	@Inject
 	public VncServiceMouseMoveXmppCommand(final Logger logger, final VncService vncService, final ParseUtil parseUtil) {
+		super(logger);
 		this.logger = logger;
 		this.vncService = vncService;
 		this.parseUtil = parseUtil;
@@ -38,20 +39,27 @@ public class VncServiceMouseMoveXmppCommand implements XmppCommand {
 		logger.debug("execute command " + getName());
 		try {
 			send(chat, "execution started");
-
-			final String[] parts = command.substring(command.indexOf(getName())).split("\\s+");
+			final String args = command.substring(command.indexOf(getName()) + getName().length() + 1);
+			logger.debug(args);
+			final String[] parts = args.split("\\s+");
 			if (parts.length == 2) {
 				try {
-					vncService.mouseMouse(parseUtil.parseInt(parts[0]), parseUtil.parseInt(parts[1]));
+					vncService.connect();
+					final int x = parseUtil.parseInt(parts[0].trim());
+					final int y = parseUtil.parseInt(parts[1].trim());
+					vncService.mouseMouse(x, y);
+					send(chat, "moved mouse to " + x + " " + y);
 				}
 				catch (final ParseException e) {
 					send(chat, "parse parameter failed");
+				}
+				finally {
+					vncService.disconnect();
 				}
 			}
 			else {
 				send(chat, "usage: " + getName() + " [x] [y]");
 			}
-
 			send(chat, "execution finished");
 		}
 		catch (final XmppChatException e) {
@@ -66,14 +74,5 @@ public class VncServiceMouseMoveXmppCommand implements XmppCommand {
 			}
 			logger.debug(e.getClass().getName(), e);
 		}
-	}
-
-	private void send(final XmppChat chat, final String string) throws XmppChatException {
-		chat.send(getName() + " - " + string);
-	}
-
-	@Override
-	public boolean match(final String body) {
-		return body != null && body.indexOf(getName()) != -1;
 	}
 }

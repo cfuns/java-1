@@ -33,8 +33,11 @@ public class VncServiceImpl implements VncService {
 		try {
 			logger.trace("connect");
 			vncConnector.connect();
+
+			// vncConnector.getScreenContent().getPointerLocation()
+
 			// defaultlocation
-			vncConnector.mouseMouse(1, 1);
+			// vncConnector.mouseMouse(1, 1);
 		}
 		catch (final VncConnectorException e) {
 			throw new VncServiceException(e);

@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.thread.Assert;
 import de.benjaminborbe.tools.thread.ThreadUtil;
+import de.benjaminborbe.vnc.VncConstants;
 import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.connector.VncHistory;
 
@@ -188,7 +189,7 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 
 					@Override
 					public Renderer createRenderer(final Reader reader, final int width, final int height, final PixelFormat pixelFormat) {
-						return new RendererImpl(reader, width, height, pixelFormat);
+						return new RendererImpl(logger, reader, width, height, pixelFormat);
 					}
 
 					@Override
@@ -311,7 +312,7 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	public void disconnect() {
 		if (workingProtocol != null) {
 			try {
-				threadUtil.wait(1000, new Assert() {
+				threadUtil.wait(VncConstants.DISCONNECT_TIMEOUT, new Assert() {
 
 					@Override
 					public boolean calc() {
