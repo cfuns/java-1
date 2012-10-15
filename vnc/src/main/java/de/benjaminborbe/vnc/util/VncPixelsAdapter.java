@@ -1,7 +1,5 @@
 package de.benjaminborbe.vnc.util;
 
-import java.io.InputStream;
-
 import de.benjaminborbe.vnc.api.VncPixels;
 
 public class VncPixelsAdapter implements VncPixels {
@@ -30,16 +28,6 @@ public class VncPixelsAdapter implements VncPixels {
 	@Override
 	public int getHeight() {
 		return vncPixels.getHeight();
-	}
-
-	@Override
-	public InputStream getInputStream() {
-		return vncPixels.getInputStream();
-	}
-
-	@Override
-	public int[] getPixels() {
-		return vncPixels.getPixels();
 	}
 
 }

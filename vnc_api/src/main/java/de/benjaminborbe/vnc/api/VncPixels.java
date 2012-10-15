@@ -1,7 +1,5 @@
 package de.benjaminborbe.vnc.api;
 
-import java.io.InputStream;
-
 public interface VncPixels {
 
 	VncPixels getSubPixel(int xstart, int ystart, int xend, int yend);
@@ -11,9 +9,5 @@ public interface VncPixels {
 	int getWidth();
 
 	int getHeight();
-
-	InputStream getInputStream();
-
-	int[] getPixels();
 
 }

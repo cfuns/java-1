@@ -4,7 +4,6 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.slf4j.Logger;
@@ -43,32 +42,10 @@ public class VncStoreImageContentAction {
 
 	public void storePixelToFile(final VncPixels vncPixels, final File file) throws IOException {
 		logger.debug("storePixelToFile");
-		final InputStream inputStream = vncPixels.getInputStream();
-		final int width = vncPixels.getWidth();
-		final int height = vncPixels.getHeight();
-		logger.debug("storePixelToFile - width: " + width + " height: " + height);
-		final int[] pixels = vncPixels.getPixels();
-
-		if (pixels.length != width * height) {
-			logger.warn("invalid pixels length!");
-		}
-
-		// final int[] rgbArray = new int[width * height];
-		// int r = -1;
-		// int counter = 0;
-		// while ((r = inputStream.read()) != -1) {
-		// rgbArray[counter] = r;
-		// // logger.debug(Integer.toHexString(r));
-		// counter++;
-		// }
 		final OutputStream outputStream = new FileOutputStream(file);
-
 		final RenderedImage image = vncConnector.getViewer().getRenderer().getBufferedImage();
-		// bmpUtil.writeBMP(outputStream, width, height, pixels, 96);
 		bmpUtil.writeBMP(outputStream, image, 96);
-
 		outputStream.flush();
 		outputStream.close();
-		inputStream.close();
 	}
 }

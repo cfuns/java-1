@@ -54,7 +54,7 @@ public class VncScreenContentImpl implements VncScreenContent {
 
 	@Override
 	public VncPixels getPixels() {
-		return new VncPixelsImpl(getRenderer().getPixels(), getWidth(), getHeight());
+		return new VncPixelsImpl(getRenderer().getBufferedImage());
 	}
 
 	// public int[][] getPixelArray(final int xstart, final int ystart, final int xend,

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.benjaminborbe.vnc.api.VncLocation;
@@ -12,6 +13,7 @@ import de.benjaminborbe.vnc.api.VncPixels;
 
 public class VncPixelsDifferUnitTest {
 
+	@Ignore
 	@Test
 	public void testDiff() {
 		final VncPixelsDiffer vncPixelsDiffer = new VncPixelsDiffer();

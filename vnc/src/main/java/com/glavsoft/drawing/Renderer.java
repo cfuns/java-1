@@ -359,10 +359,6 @@ public abstract class Renderer {
 		}
 	}
 
-	public int[] getPixels() {
-		return pixels;
-	}
-
 	public abstract BufferedImage getBufferedImage();
 
 }

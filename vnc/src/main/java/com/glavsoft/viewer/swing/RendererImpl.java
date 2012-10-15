@@ -65,6 +65,7 @@ public class RendererImpl extends Renderer implements ImageObserver {
 
 		final DataBuffer dataBuffer = new DataBufferInt(pixels, width * height);
 		final WritableRaster raster = Raster.createWritableRaster(sampleModel, dataBuffer, null);
+
 		offscreanImage = new BufferedImage(colorModel, raster, false, null);
 
 		cursor = new SoftCursorImpl(0, 0, 0, 0);

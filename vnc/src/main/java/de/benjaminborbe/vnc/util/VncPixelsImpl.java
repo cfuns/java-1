@@ -1,38 +1,11 @@
 package de.benjaminborbe.vnc.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-
+import java.awt.image.BufferedImage;
 import de.benjaminborbe.vnc.api.VncPixels;
 
 public class VncPixelsImpl implements VncPixels {
 
-	private final class PixelInputStream extends InputStream {
-
-		private int x = 1;
-
-		private int y = 1;
-
-		@Override
-		public int read() throws IOException {
-			int result = -1;
-			if (x <= width) {
-				result = getPixel(x, y);
-				x++;
-			}
-			else {
-				y++;
-				x = 1;
-				if (y <= height) {
-					result = getPixel(x, y);
-					x++;
-				}
-			}
-			return result;
-		}
-	}
-
-	private final int[] pixels;
+	private final BufferedImage bufferedImage;
 
 	private final int x;
 
@@ -44,17 +17,36 @@ public class VncPixelsImpl implements VncPixels {
 
 	private final int orgWidth;
 
-	public VncPixelsImpl(final int[] pixels, final int width, final int height) {
-		this(pixels, 1, 1, width, height, width);
+	public VncPixelsImpl(final BufferedImage bufferedImage) {
+		this(bufferedImage, 1, 1, bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getWidth());
 	}
 
-	private VncPixelsImpl(final int[] pixels, final int x, final int y, final int width, final int height, final int orgWidth) {
-		this.pixels = pixels;
+	private VncPixelsImpl(final BufferedImage bufferedImage, final int x, final int y, final int width, final int height, final int orgWidth) {
+		this.bufferedImage = bufferedImage;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.orgWidth = orgWidth;
+	}
+
+	public VncPixelsImpl(final int[] pixels, final int width, final int height) {
+		this(buildBufferedImage(pixels, width, height));
+	}
+
+	private static BufferedImage buildBufferedImage(final int[] pixels, final int width, final int height) {
+		// final ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
+		// final SampleModel sampleModel = colorModel.createCompatibleSampleModel(width,
+		// height);
+		// final DataBuffer dataBuffer = new DataBufferInt(pixels, width * height);
+		// final WritableRaster raster = Raster.createWritableRaster(sampleModel, dataBuffer,
+		// null);
+		// final BufferedImage bi = new BufferedImage(colorModel, raster, false, null);
+
+		final BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		// bi.setRGB(0, 0, 0x00FFFFFF);
+		bi.setRGB(0, 0, width, height, pixels, 0, 0);
+		return bi;
 	}
 
 	@Override
@@ -75,7 +67,7 @@ public class VncPixelsImpl implements VncPixels {
 		if (y > this.height) {
 			throw new IllegalArgumentException("out of range");
 		}
-		return new VncPixelsImpl(pixels, this.x + x - 1, this.y + y - 1, width, height, orgWidth);
+		return new VncPixelsImpl(bufferedImage, this.x + x - 1, this.y + y - 1, width, height, orgWidth);
 	}
 
 	@Override
@@ -89,16 +81,11 @@ public class VncPixelsImpl implements VncPixels {
 
 		final int xn = x + this.x - 1;
 		final int yn = y + this.y - 1;
-		return pixels[xn - 1 + (yn - 1) * orgWidth];
+		return bufferedImage.getRGB(xn - 1, yn - 1);
 	}
 
-	@Override
-	public InputStream getInputStream() {
-		return new PixelInputStream();
+	public BufferedImage getBufferedImage() {
+		return bufferedImage;
 	}
 
-	@Override
-	public int[] getPixels() {
-		return pixels;
-	}
 }
