@@ -86,6 +86,8 @@ public abstract class BaseBundleActivator implements BundleActivator {
 			}
 			serviceRegistrations.clear();
 
+			onStopped();
+
 			logger.info("stopping: " + this.getClass().getName() + " done");
 		}
 		catch (final Exception e) {

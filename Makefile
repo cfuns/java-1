@@ -150,3 +150,8 @@ buildwow:
 	cd wow && make all
 	cd wow_gui && make all
 	cd wow_test && make all
+buildwebsearch:
+	cd websearch_api && make all
+	cd websearch && make all
+	cd websearch_gui && make all
+	cd websearch_test && make all

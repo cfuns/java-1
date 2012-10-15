@@ -14,4 +14,6 @@ public interface VncPixels {
 
 	InputStream getInputStream();
 
+	int[] getPixels();
+
 }

@@ -27,7 +27,7 @@ public class BMPUtil {
 	}
 
 	public void writeBMP(final OutputStream out, final int width, final int height, final int[] rgbArray, final int resolution) throws IOException {
-		final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		final int startx = 0;
 		final int starty = 0;
 		final int offset = 0;

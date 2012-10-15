@@ -58,4 +58,9 @@ public class VncServiceAdapter implements VncService {
 		vncService.storeImageContent();
 	}
 
+	@Override
+	public void disconnectForce() throws VncServiceException {
+		vncService.disconnectForce();
+	}
+
 }

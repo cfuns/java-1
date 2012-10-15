@@ -56,4 +56,8 @@ public class VncServiceMock implements VncService {
 	@Override
 	public void storeImageContent() throws VncServiceException {
 	}
+
+	@Override
+	public void disconnectForce() throws VncServiceException {
+	}
 }

@@ -13,7 +13,6 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.vnc.api.VncService;
-import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.vnc.guice.VncModules;
 import de.benjaminborbe.vnc.xmpp.VncXmppCommandRegistry;
 import de.benjaminborbe.xmpp.api.XmppCommand;
@@ -53,9 +52,9 @@ public class VncActivator extends BaseBundleActivator {
 	protected void onStopped() {
 		super.onStopped();
 		try {
-			vncService.disconnect();
+			vncService.disconnectForce();
 		}
-		catch (final VncServiceException e) {
+		catch (final Exception e) {
 		}
 	}
 

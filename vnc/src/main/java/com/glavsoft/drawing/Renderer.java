@@ -24,6 +24,7 @@
 
 package com.glavsoft.drawing;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
@@ -361,5 +362,7 @@ public abstract class Renderer {
 	public int[] getPixels() {
 		return pixels;
 	}
+
+	public abstract BufferedImage getBufferedImage();
 
 }

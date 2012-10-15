@@ -96,4 +96,9 @@ public class VncPixelsImpl implements VncPixels {
 	public InputStream getInputStream() {
 		return new PixelInputStream();
 	}
+
+	@Override
+	public int[] getPixels() {
+		return pixels;
+	}
 }

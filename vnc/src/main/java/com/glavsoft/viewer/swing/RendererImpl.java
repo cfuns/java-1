@@ -54,6 +54,7 @@ public class RendererImpl extends Renderer implements ImageObserver {
 
 	public RendererImpl(final Logger logger, final Reader reader, int width, int height, final PixelFormat pixelFormat) {
 		super(logger);
+		logger.debug("new RendererImpl");
 		if (0 == width)
 			width = 1;
 		if (0 == height)
@@ -122,6 +123,11 @@ public class RendererImpl extends Renderer implements ImageObserver {
 
 	/* Swing specific interface */
 	public Image getOffscreenImage() {
+		return offscreanImage;
+	}
+
+	@Override
+	public BufferedImage getBufferedImage() {
 		return offscreanImage;
 	}
 

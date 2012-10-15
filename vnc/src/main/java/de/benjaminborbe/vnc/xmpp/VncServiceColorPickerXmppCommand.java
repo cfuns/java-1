@@ -8,7 +8,6 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.vnc.VncConstants;
 import de.benjaminborbe.vnc.api.VncService;
-import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
@@ -43,7 +42,7 @@ public class VncServiceColorPickerXmppCommand extends VncServiceXmppCommandBase 
 
 				vncService.connect();
 
-				final String args = command.substring(command.indexOf(getName()) + getName().length() + 1);
+				final String args = parseArgs(command);
 				logger.debug(args);
 				final String[] parts = args.split("\\s+");
 				if (parts.length == 2) {
@@ -82,7 +81,7 @@ public class VncServiceColorPickerXmppCommand extends VncServiceXmppCommandBase 
 		catch (final XmppChatException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
-		catch (final VncServiceException e) {
+		catch (final Exception e) {
 			try {
 				chat.send(getName() + " - execution failed! " + e.getClass().getName());
 			}
@@ -92,4 +91,5 @@ public class VncServiceColorPickerXmppCommand extends VncServiceXmppCommandBase 
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
+
 }

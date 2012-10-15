@@ -208,6 +208,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 	 * should be regulated to avoid hogging the network.
 	 */
 	public void startNormalHandling(final IRfbSessionListener rfbSessionListener, final IRepaintController repaintController, final ClipboardController clipboardController) {
+		logger.debug("startNormalHandling");
 		this.rfbSessionListener = rfbSessionListener;
 		this.repaintController = repaintController;
 		// if (settings.getBitsPerPixel() == 0) {

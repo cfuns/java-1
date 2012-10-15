@@ -24,4 +24,12 @@ public abstract class VncServiceXmppCommandBase implements XmppCommand {
 	public boolean match(final String body) {
 		return body != null && body.indexOf(getName()) != -1;
 	}
+
+	protected String parseArgs(final String command) {
+		final int pos = command.indexOf(getName()) + getName().length() + 1;
+		if (pos > command.length()) {
+			return "";
+		}
+		return command.substring(pos);
+	}
 }

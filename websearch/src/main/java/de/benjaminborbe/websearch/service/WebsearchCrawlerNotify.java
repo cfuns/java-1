@@ -89,7 +89,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		for (final String link : links) {
 			try {
 				final URL url = buildUrl(result.getUrl(), link);
-				logger.debug("found page: " + url.toExternalForm());
+				logger.trace("found page: " + url.toExternalForm());
 				pageDao.findOrCreate(url);
 			}
 			catch (final MalformedURLException e) {
@@ -102,7 +102,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
-		logger.debug("buildUrl url: " + baseUrl + " link: " + link);
+		logger.trace("buildUrl url: " + baseUrl + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
 			url = link;
@@ -139,7 +139,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			url = sw.toString();
 		}
 		final String result = cleanUpUrl(url);
-		logger.debug("result = " + result);
+		logger.trace("result = " + result);
 		return new URL(result);
 	}
 

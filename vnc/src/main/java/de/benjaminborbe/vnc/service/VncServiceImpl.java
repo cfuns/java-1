@@ -59,6 +59,17 @@ public class VncServiceImpl implements VncService {
 	}
 
 	@Override
+	public void disconnectForce() throws VncServiceException {
+		try {
+			logger.debug("disconnectForce");
+			vncAutoConnector.disconnectForce();
+		}
+		catch (final VncConnectorException e) {
+			throw new VncServiceException(e);
+		}
+	}
+
+	@Override
 	public VncScreenContent getScreenContent() throws VncServiceException {
 		try {
 			return vncConnector.getScreenContent();

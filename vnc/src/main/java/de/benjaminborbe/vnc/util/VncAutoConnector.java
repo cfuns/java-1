@@ -22,7 +22,7 @@ public class VncAutoConnector {
 	}
 
 	public synchronized void connect() throws VncConnectorException {
-		logger.debug("try connect");
+		logger.debug("try connect - counter = " + connectCounter);
 		if (connectCounter == 0) {
 			vncConnector.connect();
 			logger.debug("connect called");
@@ -34,7 +34,7 @@ public class VncAutoConnector {
 	}
 
 	public synchronized void disconnect() throws VncConnectorException {
-		logger.debug("try disconnect");
+		logger.debug("try disconnect - counter = " + connectCounter);
 		if (connectCounter == 1) {
 			logger.debug("disconnect called");
 			vncConnector.disconnect();
@@ -45,5 +45,11 @@ public class VncAutoConnector {
 		if (connectCounter > 0) {
 			connectCounter--;
 		}
+	}
+
+	public void disconnectForce() throws VncConnectorException {
+		logger.debug("disconnect force");
+		connectCounter = 0;
+		vncConnector.disconnect();
 	}
 }

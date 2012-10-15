@@ -37,4 +37,9 @@ public class VncPixelsAdapter implements VncPixels {
 		return vncPixels.getInputStream();
 	}
 
+	@Override
+	public int[] getPixels() {
+		return vncPixels.getPixels();
+	}
+
 }

@@ -25,6 +25,7 @@ import com.glavsoft.rfb.IRfbSessionListener;
 import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.encoding.PixelFormat;
 import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
+import com.glavsoft.rfb.protocol.MessageQueue;
 import com.glavsoft.rfb.protocol.Protocol;
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.transport.Reader;
@@ -105,6 +106,7 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 			}
 			catch (final IOException e) { /* nop */
 			}
+			workingSocket = null;
 		}
 
 		isStoppingProcess = false;
@@ -139,11 +141,13 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	public void run() {
 		tryAgain = true;
 		while (tryAgain) {
-
 			try {
+				logger.debug("connect to host");
 				workingSocket = connectToHost(connectionParams, settings);
 				workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
+				logger.debug("create reader");
 				final Reader reader = new Reader(workingSocket.getInputStream());
+				logger.debug("create writer");
 				final Writer writer = new Writer(workingSocket.getOutputStream());
 
 				final IPasswordRetriever pw = new IPasswordRetriever() {
@@ -310,13 +314,20 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 
 	@Override
 	public void disconnect() {
+		logger.debug("disconnect - start");
 		if (workingProtocol != null) {
 			try {
 				threadUtil.wait(VncConstants.DISCONNECT_TIMEOUT, new Assert() {
 
 					@Override
 					public boolean calc() {
-						return workingProtocol.getMessageQueue().isEmpty();
+						final Protocol p = workingProtocol;
+						if (p == null)
+							return true;
+						final MessageQueue m = p.getMessageQueue();
+						if (m == null)
+							return true;
+						return m.isEmpty();
 					}
 				});
 			}
@@ -326,6 +337,7 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 			workingProtocol.cleanUpSession();
 		}
 		cleanUpUISessionAndConnection();
+		logger.debug("disconnect - done");
 	}
 
 	public Protocol getWorkingProtocol() {

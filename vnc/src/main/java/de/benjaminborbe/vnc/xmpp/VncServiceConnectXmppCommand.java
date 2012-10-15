@@ -30,7 +30,7 @@ public class VncServiceConnectXmppCommand extends VncServiceXmppCommandBase impl
 	}
 
 	@Override
-	public void execute(final XmppChat chat, final String msg) {
+	public void execute(final XmppChat chat, final String command) {
 		logger.debug("execute command " + getName());
 		try {
 			chat.send(getName() + " - execution started");

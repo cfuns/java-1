@@ -30,12 +30,21 @@ public class VncServiceDisconnectXmppCommand extends VncServiceXmppCommandBase i
 	}
 
 	@Override
-	public void execute(final XmppChat chat, final String msg) {
+	public void execute(final XmppChat chat, final String command) {
 		logger.debug("execute command " + getName());
 		try {
 			chat.send(getName() + " - execution started");
 
-			vncService.disconnect();
+			final String args = parseArgs(command);
+			logger.debug(args);
+			if (args != null && "force".equalsIgnoreCase(args.trim())) {
+				vncService.disconnectForce();
+				chat.send(getName() + " - force disconnected");
+			}
+			else {
+				vncService.disconnect();
+				chat.send(getName() + " - disconnected");
+			}
 
 			chat.send(getName() + " - execution finished");
 		}
@@ -52,5 +61,4 @@ public class VncServiceDisconnectXmppCommand extends VncServiceXmppCommandBase i
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
-
 }
