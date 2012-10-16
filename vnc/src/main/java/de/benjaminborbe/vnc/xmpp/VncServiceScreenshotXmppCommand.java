@@ -11,14 +11,14 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
-public class VncServiceSaveXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
+public class VncServiceScreenshotXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
 
 	private final Logger logger;
 
 	private final VncService vncService;
 
 	@Inject
-	public VncServiceSaveXmppCommand(final Logger logger, final VncService vncService) {
+	public VncServiceScreenshotXmppCommand(final Logger logger, final VncService vncService) {
 		super(logger);
 		this.logger = logger;
 		this.vncService = vncService;
@@ -26,7 +26,7 @@ public class VncServiceSaveXmppCommand extends VncServiceXmppCommandBase impleme
 
 	@Override
 	public String getName() {
-		return VncConstants.NAME + " save";
+		return VncConstants.NAME + " screenshot";
 	}
 
 	@Override

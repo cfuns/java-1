@@ -30,4 +30,9 @@ public class VncPixelsAdapter implements VncPixels {
 		return vncPixels.getHeight();
 	}
 
+	@Override
+	public VncPixels getCopy() {
+		return vncPixels.getCopy();
+	}
+
 }

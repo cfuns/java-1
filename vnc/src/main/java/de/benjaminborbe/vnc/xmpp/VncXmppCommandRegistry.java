@@ -11,7 +11,7 @@ public class VncXmppCommandRegistry extends RegistryBase<XmppCommand> {
 
 	@Inject
 	public VncXmppCommandRegistry(
-			final VncServiceSaveXmppCommand vncServiceSaveXmppCommand,
+			final VncServiceScreenshotXmppCommand vncServiceSaveXmppCommand,
 			final VncServiceMouseClickXmppCommand vncServiceMouseClickXmppCommand,
 			final VncServiceMouseDoubleClickXmppCommand vncServiceMouseDoubleClickXmppCommand,
 			final VncServiceTypeXmppCommand vncServiceTypeXmppCommand,

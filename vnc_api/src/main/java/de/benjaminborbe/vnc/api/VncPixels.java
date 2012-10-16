@@ -10,4 +10,5 @@ public interface VncPixels {
 
 	int getHeight();
 
+	VncPixels getCopy();
 }

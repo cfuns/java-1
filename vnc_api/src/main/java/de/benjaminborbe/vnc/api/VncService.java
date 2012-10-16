@@ -1,5 +1,7 @@
 package de.benjaminborbe.vnc.api;
 
+import java.util.List;
+
 public interface VncService {
 
 	void disconnect() throws VncServiceException;
@@ -22,5 +24,11 @@ public interface VncService {
 
 	void storeImageContent() throws VncServiceException;
 
+	void storeVncPixels(VncPixels vncPixels, String name) throws VncServiceException;
+
 	void disconnectForce() throws VncServiceException;
+
+	List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) throws VncServiceException;
+
+	List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB) throws VncServiceException;
 }

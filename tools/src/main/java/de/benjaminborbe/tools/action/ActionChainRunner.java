@@ -14,7 +14,7 @@ public class ActionChainRunner {
 
 		private final int pos;
 
-		private A(Action action, List<Action> actions, int pos) {
+		private A(final Action action, final List<Action> actions, final int pos) {
 			super(action);
 			this.actions = actions;
 			this.pos = pos;
@@ -45,7 +45,7 @@ public class ActionChainRunner {
 	private void run(final List<Action> actions, final int pos) {
 		if (actions.size() == pos)
 			return;
-
+		logger.debug("run action " + (pos + 1) + "/" + actions.size());
 		actionRunner.run(new A(actions.get(pos), actions, pos));
 	}
 }

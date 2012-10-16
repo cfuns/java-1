@@ -26,6 +26,7 @@ public class WowVncMouseMover {
 	}
 
 	public void mouseMouse(final VncLocation location) throws VncServiceException {
+		logger.debug("mouseMouse " + location);
 		mouseMouse(location.getX(), location.getY());
 	}
 

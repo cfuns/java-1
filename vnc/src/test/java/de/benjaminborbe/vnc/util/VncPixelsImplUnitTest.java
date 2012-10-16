@@ -36,6 +36,19 @@ public class VncPixelsImplUnitTest {
 	}
 
 	@Test
+	public void testCopy() {
+		final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		final VncPixelsImpl pixels = new VncPixelsImpl(data, 4, 3);
+		final VncPixels copy = pixels.getCopy();
+		assertEquals(copy.getWidth(), pixels.getWidth());
+		assertEquals(copy.getHeight(), pixels.getHeight());
+		assertEquals(1, pixels.getPixel(1, 1));
+		pixels.getBufferedImage().setRGB(0, 0, 0);
+		assertEquals(0, pixels.getPixel(1, 1));
+		assertEquals(1, copy.getPixel(1, 1));
+	}
+
+	@Test
 	public void testSubPixel() throws Exception {
 		final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		{

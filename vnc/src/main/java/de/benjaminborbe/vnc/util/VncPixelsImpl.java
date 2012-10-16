@@ -17,10 +17,6 @@ public class VncPixelsImpl implements VncPixels {
 
 	private final int orgWidth;
 
-	public VncPixelsImpl(final BufferedImage bufferedImage) {
-		this(bufferedImage, 1, 1, bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getWidth());
-	}
-
 	private VncPixelsImpl(final BufferedImage bufferedImage, final int x, final int y, final int width, final int height, final int orgWidth) {
 		this.bufferedImage = bufferedImage;
 		this.x = x;
@@ -30,26 +26,21 @@ public class VncPixelsImpl implements VncPixels {
 		this.orgWidth = orgWidth;
 	}
 
+	public VncPixelsImpl(final BufferedImage bufferedImage) {
+		this(bufferedImage, 1, 1, bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getWidth());
+	}
+
 	public VncPixelsImpl(final int[] pixels, final int width, final int height) {
 		this(buildBufferedImage(pixels, width, height));
 	}
 
 	private static BufferedImage buildBufferedImage(final int[] pixels, final int width, final int height) {
-		// final ColorModel colorModel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-		// final SampleModel sampleModel = colorModel.createCompatibleSampleModel(width,
-		// height);
-		// final DataBuffer dataBuffer = new DataBufferInt(pixels, width * height);
-		// final WritableRaster raster = Raster.createWritableRaster(sampleModel, dataBuffer,
-		// null);
-		// final BufferedImage bi = new BufferedImage(colorModel, raster, false, null);
-
 		final BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		for (int x = 0; x < width; ++x) {
 			for (int y = 0; y < height; ++y) {
 				bi.setRGB(x, y, pixels[x + y * width]);
 			}
 		}
-		// bi.setRGB(0, 0, width, height, pixels, 0, 0);
 		return bi;
 	}
 
@@ -92,4 +83,14 @@ public class VncPixelsImpl implements VncPixels {
 		return bufferedImage;
 	}
 
+	@Override
+	public VncPixels getCopy() {
+		final int[] rgbArray = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
+		for (int x = 0; x < width; ++x) {
+			for (int y = 0; y < height; ++y) {
+				rgbArray[x + y * bufferedImage.getWidth()] = bufferedImage.getRGB(x, y);
+			}
+		}
+		return new VncPixelsImpl(buildBufferedImage(rgbArray, bufferedImage.getWidth(), bufferedImage.getHeight()), x, y, width, height, orgWidth);
+	}
 }

@@ -37,4 +37,26 @@ public class VncPointerLocation implements VncLocation {
 		this.y = y;
 	}
 
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other)
+			return true;
+		if (other == null)
+			return false;
+		if (!(other instanceof VncLocation))
+			return false;
+		final VncLocation otherLocation = (VncLocation) other;
+		return x == otherLocation.getX() && y == otherLocation.getY();
+	}
+
+	@Override
+	public int hashCode() {
+		return x * y;
+	}
+
+	@Override
+	public String toString() {
+		return "x: " + x + " y: " + y;
+	}
+
 }

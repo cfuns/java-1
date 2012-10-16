@@ -1,5 +1,7 @@
 package de.benjaminborbe.vnc.api;
 
+import java.util.List;
+
 public class VncServiceAdapter implements VncService {
 
 	private final VncService vncService;
@@ -61,6 +63,21 @@ public class VncServiceAdapter implements VncService {
 	@Override
 	public void disconnectForce() throws VncServiceException {
 		vncService.disconnectForce();
+	}
+
+	@Override
+	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) throws VncServiceException {
+		return vncService.diff(pixelsA, pixelsB, mask);
+	}
+
+	@Override
+	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB) throws VncServiceException {
+		return vncService.diff(pixelsA, pixelsB);
+	}
+
+	@Override
+	public void storeVncPixels(final VncPixels vncPixels, final String name) throws VncServiceException {
+		vncService.storeVncPixels(vncPixels, name);
 	}
 
 }

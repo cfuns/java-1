@@ -34,13 +34,21 @@ public class VncStoreImageContentAction {
 		this.bmpUtil = bmpUtil;
 	}
 
-	public void storeImageContent() throws VncConnectorException, IOException {
+	public void storeImage() throws VncConnectorException, IOException {
 		final VncPixels vncPixels = vncConnector.getScreenContent().getPixels();
-		final File file = new File("/tmp/vnc-" + calendarUtil.toDateTimeString(calendarUtil.now()) + ".bmp");
-		storePixelToFile(vncPixels, file);
+		storeImage(vncPixels);
 	}
 
-	public void storePixelToFile(final VncPixels vncPixels, final File file) throws IOException {
+	public void storeImage(final VncPixels vncPixels) throws IOException {
+		storeImage(vncPixels, "vnc-" + calendarUtil.toDateTimeString(calendarUtil.now()));
+	}
+
+	public void storeImage(final VncPixels vncPixels, final String name) throws IOException {
+		final File file = new File("/tmp/" + name + ".bmp");
+		storeImage(vncPixels, file);
+	}
+
+	public void storeImage(final VncPixels vncPixels, final File file) throws IOException {
 		logger.debug("storePixelToFile");
 		final OutputStream outputStream = new FileOutputStream(file);
 		final RenderedImage image = vncConnector.getViewer().getRenderer().getBufferedImage();
@@ -48,4 +56,5 @@ public class VncStoreImageContentAction {
 		outputStream.flush();
 		outputStream.close();
 	}
+
 }

@@ -1,6 +1,7 @@
 package de.benjaminborbe.vnc.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 
@@ -9,6 +10,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncLocation;
+import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
@@ -16,6 +18,7 @@ import de.benjaminborbe.vnc.connector.VncConnector;
 import de.benjaminborbe.vnc.connector.VncConnectorException;
 import de.benjaminborbe.vnc.connector.VncKeyTranslaterException;
 import de.benjaminborbe.vnc.util.VncAutoConnector;
+import de.benjaminborbe.vnc.util.VncPixelsDiffer;
 
 @Singleton
 public class VncServiceImpl implements VncService {
@@ -28,12 +31,20 @@ public class VncServiceImpl implements VncService {
 
 	private final VncStoreImageContentAction vncStoreImageContentAction;
 
+	private final VncPixelsDiffer vncPixelsDiffer;
+
 	@Inject
-	public VncServiceImpl(final Logger logger, final VncConnector vncConnector, final VncAutoConnector vncAutoConnector, final VncStoreImageContentAction vncStoreImageContentAction) {
+	public VncServiceImpl(
+			final Logger logger,
+			final VncConnector vncConnector,
+			final VncAutoConnector vncAutoConnector,
+			final VncStoreImageContentAction vncStoreImageContentAction,
+			final VncPixelsDiffer vncPixelsDiffer) {
 		this.logger = logger;
 		this.vncConnector = vncConnector;
 		this.vncAutoConnector = vncAutoConnector;
 		this.vncStoreImageContentAction = vncStoreImageContentAction;
+		this.vncPixelsDiffer = vncPixelsDiffer;
 	}
 
 	@Override
@@ -143,10 +154,30 @@ public class VncServiceImpl implements VncService {
 	@Override
 	public void storeImageContent() throws VncServiceException {
 		try {
-			vncStoreImageContentAction.storeImageContent();
+			vncStoreImageContentAction.storeImage();
 		}
 		catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
+		}
+		catch (final IOException e) {
+			throw new VncServiceException(e);
+		}
+	}
+
+	@Override
+	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) throws VncServiceException {
+		return vncPixelsDiffer.diff(pixelsA, pixelsB, mask);
+	}
+
+	@Override
+	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB) throws VncServiceException {
+		return vncPixelsDiffer.diff(pixelsA, pixelsB);
+	}
+
+	@Override
+	public void storeVncPixels(final VncPixels vncPixels, final String name) throws VncServiceException {
+		try {
+			vncStoreImageContentAction.storeImage(vncPixels, name);
 		}
 		catch (final IOException e) {
 			throw new VncServiceException(e);
