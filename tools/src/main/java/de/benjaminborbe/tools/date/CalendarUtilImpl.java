@@ -26,6 +26,11 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
+	public String toDateTimeString(final Calendar date) {
+		return toDateString(date) + " " + toTimeString(date);
+	}
+
+	@Override
 	public String toDateString(final Calendar calendar) {
 		final StringWriter sw = new StringWriter();
 		final int year = calendar.get(Calendar.YEAR);
@@ -87,11 +92,6 @@ public class CalendarUtilImpl implements CalendarUtil {
 		calendar.set(Calendar.SECOND, second);
 		calendar.set(Calendar.MILLISECOND, millisecond);
 		return calendar;
-	}
-
-	@Override
-	public String toDateTimeString(final Calendar date) {
-		return toDateString(date) + " " + toTimeString(date);
 	}
 
 	@Override

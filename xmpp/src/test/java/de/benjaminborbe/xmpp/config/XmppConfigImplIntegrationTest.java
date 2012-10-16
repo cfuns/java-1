@@ -12,7 +12,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.xmpp.guice.XmppModulesMock;
 
-public class XmppConfigImplTest {
+public class XmppConfigImplIntegrationTest {
 
 	@Test
 	public void testInject() {
