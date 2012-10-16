@@ -1,7 +1,15 @@
 package de.benjaminborbe.vnc.connector;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import org.slf4j.Logger;
 
+import com.glavsoft.exceptions.AuthenticationFailedException;
+import com.glavsoft.exceptions.FatalException;
+import com.glavsoft.exceptions.TransportException;
+import com.glavsoft.exceptions.UnsupportedProtocolVersionException;
+import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
 import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.client.KeyEventMessage;
 import com.glavsoft.rfb.client.PointerEventMessage;
@@ -49,12 +57,43 @@ public class VncConnector {
 	}
 
 	public synchronized void connect() throws VncConnectorException {
+
 		logger.debug("try connect");
 		if (!isConnected()) {
-			viewer = viewerProvider.get();
-			viewer.connect();
-			connected = true;
-			logger.debug("connect complete");
+			try {
+				viewer = viewerProvider.get();
+				viewer.connect();
+				connected = true;
+				logger.debug("connect complete");
+			}
+			catch (final UnsupportedProtocolVersionException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
+			catch (final UnsupportedSecurityTypeException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
+			catch (final AuthenticationFailedException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
+			catch (final TransportException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
+			catch (final FatalException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
+			catch (final UnknownHostException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
+			catch (final IOException e) {
+				logger.debug(e.getClass().getName(), e);
+				throw new VncConnectorException(e.getClass().getName(), e);
+			}
 		}
 		else {
 			throw new VncConnectorException("already connected!");

@@ -3,7 +3,6 @@ package com.glavsoft.viewer;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -204,51 +203,33 @@ public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListen
 	}
 
 	@Override
-	public void connect() {
-		try {
-			logger.debug("connect to host");
-			workingSocket = connectToHost(connectionParams, settings);
-			workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
+	public void connect() throws UnsupportedProtocolVersionException, UnsupportedSecurityTypeException, AuthenticationFailedException, TransportException, FatalException,
+			UnknownHostException, IOException {
+		logger.debug("connect - started");
+		workingSocket = connectToHost(connectionParams, settings);
+		workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
 
-			logger.debug("create reader");
-			final Reader reader = new Reader(workingSocket.getInputStream());
-			logger.debug("create writer");
-			final Writer writer = new Writer(workingSocket.getOutputStream());
+		logger.debug("create reader");
+		final Reader reader = new Reader(workingSocket.getInputStream());
+		logger.debug("create writer");
+		final Writer writer = new Writer(workingSocket.getOutputStream());
 
-			final IPasswordRetriever pw = new MyIPasswordRetriever();
-			workingProtocol = new Protocol(logger, history, reader, writer, pw, settings);
-			workingProtocol.handshake();
+		final IPasswordRetriever pw = new MyIPasswordRetriever();
+		workingProtocol = new Protocol(logger, history, reader, writer, pw, settings);
+		workingProtocol.handshake();
 
-			final IRepaintController surface = new MyIRepaintController();
-			final ClipboardController clipboardController = new MyClipboardController();
-			workingProtocol.startNormalHandling(this, surface, clipboardController);
-		}
-		catch (final UnsupportedProtocolVersionException e) {
-			logger.debug(e.getMessage());
-		}
-		catch (final UnsupportedSecurityTypeException e) {
-			logger.debug(e.getMessage());
-		}
-		catch (final AuthenticationFailedException e) {
-			logger.debug(e.getMessage());
-		}
-		catch (final TransportException e) {
-			logger.debug(e.getMessage());
-		}
-		catch (final IOException e) {
-			logger.debug(e.getMessage());
-		}
-		catch (final FatalException e) {
-			logger.debug(e.getMessage());
-		}
+		final IRepaintController surface = new MyIRepaintController();
+		final ClipboardController clipboardController = new MyClipboardController();
+		workingProtocol.startNormalHandling(this, surface, clipboardController);
+		logger.debug("connect - complete");
 	}
 
 	private Socket connectToHost(final ConnectionParams connectionParams, final ProtocolSettings settings) throws UnknownHostException, IOException {
 		final String host = connectionParams.hostName;
 		final int port = connectionParams.getPortNumber();
-		final InetSocketAddress inetSocketAddress = new InetSocketAddress(host, port);
-		final InetAddress inetAddress = inetSocketAddress.getAddress();
-		return new Socket(inetAddress, CONNECT_TIMEOUT);
+		final Socket sock = new Socket();
+		sock.connect(new InetSocketAddress(host, port), CONNECT_TIMEOUT);
+		return sock;
 	}
 
 	@Override
