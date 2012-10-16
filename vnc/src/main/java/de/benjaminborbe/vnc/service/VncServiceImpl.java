@@ -166,7 +166,7 @@ public class VncServiceImpl implements VncService {
 
 	@Override
 	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) throws VncServiceException {
-		return vncPixelsDiffer.diff(pixelsA, pixelsB, mask);
+		return vncPixelsDiffer.diff(pixelsA, pixelsB, mask, 0);
 	}
 
 	@Override

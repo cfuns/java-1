@@ -41,7 +41,7 @@ public class IndexerServiceImpl implements IndexerService {
 
 	@Override
 	public void addToIndex(final String indexName, final URL url, final String title, final String content) throws IndexerServiceException {
-		logger.debug("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 20));
+		logger.trace("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 20));
 
 		if (!validateInput(indexName, url, title, content)) {
 			logger.warn("input not valid, skipping add to index");

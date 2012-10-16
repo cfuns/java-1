@@ -1,6 +1,6 @@
 package de.benjaminborbe.vnc.service;
 
-import java.awt.image.RenderedImage;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,10 +51,21 @@ public class VncStoreImageContentAction {
 	public void storeImage(final VncPixels vncPixels, final File file) throws IOException {
 		logger.debug("storePixelToFile");
 		final OutputStream outputStream = new FileOutputStream(file);
-		final RenderedImage image = vncConnector.getViewer().getRenderer().getBufferedImage();
-		bmpUtil.writeBMP(outputStream, image, 96);
+		// final RenderedImage image =
+		// vncConnector.getViewer().getRenderer().getBufferedImage();
+		bmpUtil.writeBMP(outputStream, buildBufferedImage(vncPixels, vncPixels.getWidth(), vncPixels.getHeight()), 96);
 		outputStream.flush();
 		outputStream.close();
+	}
+
+	private BufferedImage buildBufferedImage(final VncPixels vncPixels, final int width, final int height) {
+		final BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		for (int x = 0; x < width; ++x) {
+			for (int y = 0; y < height; ++y) {
+				bi.setRGB(x, y, vncPixels.getPixel(x + 1, y + 1));
+			}
+		}
+		return bi;
 	}
 
 }

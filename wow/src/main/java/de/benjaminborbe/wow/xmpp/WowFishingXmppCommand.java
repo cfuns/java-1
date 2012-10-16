@@ -22,20 +22,25 @@ import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class WowFishingXmppCommand implements XmppCommand {
 
-	private final class WaitOnFishAction extends ActionBase {
+	private final class SleepAction extends ActionBase {
 
 		private final String name;
 
-		private final ThreadResult<VncLocation> baitLocation;
+		private final long sleep;
 
-		public WaitOnFishAction(final String name, final ThreadResult<VncLocation> baitLocation) {
+		public SleepAction(final String name, final long sleep) {
 			this.name = name;
-			this.baitLocation = baitLocation;
+			this.sleep = sleep;
 		}
 
 		@Override
 		public void execute() {
 			logger.debug(name + " - execute started");
+			try {
+				Thread.sleep(sleep);
+			}
+			catch (final InterruptedException e) {
+			}
 			logger.debug(name + " - execute finished");
 		}
 
@@ -57,17 +62,16 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	}
 
-	private final class FindBaitAction extends ActionBase {
-
-		private final ThreadResult<VncPixels> vixelsBeforeFishing;
-
-		private final ThreadResult<VncLocation> baitLocation;
+	private final class WaitOnFishAction extends ActionBase {
 
 		private final String name;
 
-		private FindBaitAction(final String name, final ThreadResult<VncPixels> vixelsBeforeFishing, final ThreadResult<VncLocation> baitLocation) {
+		private final ThreadResult<VncLocation> baitLocation;
+
+		private VncPixels vncPixelsOrg;
+
+		public WaitOnFishAction(final String name, final ThreadResult<VncLocation> baitLocation) {
 			this.name = name;
-			this.vixelsBeforeFishing = vixelsBeforeFishing;
 			this.baitLocation = baitLocation;
 		}
 
@@ -75,16 +79,94 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public void execute() {
 			logger.debug(name + " - execute started");
 			try {
-				final VncPixels bevor = vixelsBeforeFishing.get();
-				final VncPixels after = vncService.getScreenContent().getPixels().getCopy();
+				vncPixelsOrg = vncService.getScreenContent().getPixels().getCopy();
+			}
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+			logger.debug(name + " - execute finished");
+		}
 
-				vncService.storeVncPixels(bevor, "bevor");
+		@Override
+		public void onSuccess() {
+			logger.debug(name + " - onSuccess");
+		}
+
+		@Override
+		public void onFailure() {
+			logger.debug(name + " - onFailure");
+		}
+
+		@Override
+		public boolean validateExecuteResult() {
+			logger.debug(name + " - validateExecuteResult");
+			try {
+				if (vncPixelsOrg == null)
+					return false;
+
+				final int now = vncService.getScreenContent().getPixels().getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
+				final int org = vncPixelsOrg.getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
+				logger.debug(Integer.toHexString(org) + "<=>" + Integer.toHexString(now) + " " + Integer.toHexString(Math.abs(now - org)));
+				return Math.abs(now - org) > 0x00500000;
+			}
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+				return false;
+			}
+		}
+
+		@Override
+		public long getWaitTimeout() {
+			return 15000;
+		}
+
+		@Override
+		public long getRetryDelay() {
+			return 100;
+		}
+
+	}
+
+	private final class FindBaitAction extends ActionBase {
+
+		private final ThreadResult<VncPixels> pixelsBeforeFishing;
+
+		private final ThreadResult<VncPixels> pixelsAfterFishing;
+
+		private final ThreadResult<VncLocation> baitLocation;
+
+		private final String name;
+
+		private FindBaitAction(
+				final String name,
+				final ThreadResult<VncPixels> pixelsBeforeFishing,
+				final ThreadResult<VncPixels> pixelsAfterFishing,
+				final ThreadResult<VncLocation> baitLocation) {
+			this.name = name;
+			this.pixelsBeforeFishing = pixelsBeforeFishing;
+			this.pixelsAfterFishing = pixelsAfterFishing;
+			this.baitLocation = baitLocation;
+		}
+
+		@Override
+		public void execute() {
+			logger.debug(name + " - execute started");
+			try {
+				final VncPixels before = pixelsBeforeFishing.get();
+				final VncPixels after = vncService.getScreenContent().getPixels().getCopy();
+				pixelsAfterFishing.set(after);
+
+				vncService.storeVncPixels(before, "before");
 				vncService.storeVncPixels(after, "after");
 
-				final List<VncLocation> locations = vncService.diff(bevor, after, 0xFF0000);
+				final List<VncLocation> locations = vncService.diff(before, after);
 				logger.debug("found " + locations.size() + " different locations");
+
+				for (final VncLocation location : locations) {
+					logger.debug("loc: " + location);
+				}
 				// baitLocation
-				if (locations.size() == 1) {
+				if (locations.size() > 0) {
 					baitLocation.set(locations.get(0));
 				}
 			}
@@ -109,6 +191,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 			logger.debug(name + " - validateExecuteResult");
 			return baitLocation.get() != null;
 		}
+
 	}
 
 	private final class MouseClickAction extends ActionBase {
@@ -151,20 +234,20 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private final class TakeScreenshotAction extends ActionBase {
 
-		private final ThreadResult<VncPixels> vixelsBeforeFishing;
+		private final ThreadResult<VncPixels> pixelsBeforeFishing;
 
 		private final String name;
 
-		private TakeScreenshotAction(final String name, final ThreadResult<VncPixels> vixelsBeforeFishing) {
+		private TakeScreenshotAction(final String name, final ThreadResult<VncPixels> pixelsBeforeFishing) {
 			this.name = name;
-			this.vixelsBeforeFishing = vixelsBeforeFishing;
+			this.pixelsBeforeFishing = pixelsBeforeFishing;
 		}
 
 		@Override
 		public void execute() {
 			logger.debug(name + " - execute started");
 			try {
-				vixelsBeforeFishing.set(vncService.getScreenContent().getPixels().getCopy());
+				pixelsBeforeFishing.set(vncService.getScreenContent().getPixels().getCopy());
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -185,7 +268,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 		@Override
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
-			return vixelsBeforeFishing.get() != null;
+			return pixelsBeforeFishing.get() != null;
 		}
 	}
 
@@ -231,16 +314,27 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		private final String name;
 
+		private final int x;
+
+		private final int y;
+
 		private MouseMoveAction(final String name, final ThreadResult<VncLocation> vncLocationThreadResult) {
+			this(name, vncLocationThreadResult, 0, 0);
+		}
+
+		private MouseMoveAction(final String name, final ThreadResult<VncLocation> vncLocationThreadResult, final int x, final int y) {
 			this.name = name;
 			this.vncLocationThreadResult = vncLocationThreadResult;
+			this.x = x;
+			this.y = y;
 		}
 
 		@Override
 		public void execute() {
 			logger.debug(name + " - execute started");
 			try {
-				vncService.mouseMouse(vncLocationThreadResult.get());
+				final VncLocation l = vncLocationThreadResult.get();
+				vncService.mouseMouse(l.getX() + x, l.getY() + y);
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -262,8 +356,9 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
 			try {
-				logger.debug("compare location " + vncLocationThreadResult.get() + " and " + vncService.getScreenContent().getPointerLocation());
-				return vncLocationThreadResult.get().equals(vncService.getScreenContent().getPointerLocation());
+				final VncLocation loc = new VncLocationImpl(vncLocationThreadResult.get().getX() + x, vncLocationThreadResult.get().getY() + y);
+				logger.debug("compare location " + loc + " and " + vncService.getScreenContent().getPointerLocation());
+				return loc.equals(vncService.getScreenContent().getPointerLocation());
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -304,11 +399,15 @@ public class WowFishingXmppCommand implements XmppCommand {
 				final ThreadResult<VncLocation> fishingButtonLocation = new ThreadResult<VncLocation>();
 				actions.add(new FindFishingButtonLocationAction("find fishing button location", fishingButtonLocation));
 				actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
-				final ThreadResult<VncPixels> vixelsBeforeFishing = new ThreadResult<VncPixels>();
-				actions.add(new TakeScreenshotAction("take screenshot before fishing", vixelsBeforeFishing));
+				final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
+				actions.add(new TakeScreenshotAction("take screenshot before fishing", pixelsBeforeFishing));
 				actions.add(new MouseClickAction("click fishing button"));
+				actions.add(new SleepAction("sleep", 2000));
 				final ThreadResult<VncLocation> baitLocation = new ThreadResult<VncLocation>();
-				actions.add(new FindBaitAction("find bait", vixelsBeforeFishing, baitLocation));
+				final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
+				actions.add(new FindBaitAction("find bait", pixelsBeforeFishing, pixelsAfterFishing, baitLocation));
+				actions.add(new MouseMoveAction("move mouse to bait", baitLocation, 5, 5));
+				actions.add(new SleepAction("sleep", 400));
 				actions.add(new WaitOnFishAction("wait on fish", baitLocation));
 				actions.add(new MouseClickAction("click on bait button"));
 

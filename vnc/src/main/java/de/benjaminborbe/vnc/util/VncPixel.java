@@ -13,20 +13,41 @@ public class VncPixel {
 	}
 
 	public int getRed() {
-		final int mask = 0xFFFF00;
-		final int r = pixel & mask;
-		return r >> 16;
+		return pixel >> 16 & 0xFF;
 	}
 
 	public int getGreen() {
-		final int mask = 0x00FF00;
-		final int r = pixel & mask;
-		return r >> 8;
+		return pixel >> 8 & 0xFF;
 	}
 
 	public int getBlue() {
-		final int mask = 0x0000FF;
-		final int r = pixel & mask;
-		return r;
+		return pixel & 0xFF;
+	}
+
+	public int getGrey() {
+		return (getRed() + getBlue() + getGreen()) / 3;
+		// final int c = (getRed() + getBlue() + getGreen()) / 3;
+		// return c | c << 8 | c << 16;
+	}
+
+	public boolean isRed() {
+		final int r = getRed();
+		final int g = getGreen();
+		final int b = getBlue();
+		return r > b && r > g;
+	}
+
+	public boolean isBlue() {
+		final int r = getRed();
+		final int g = getGreen();
+		final int b = getBlue();
+		return b > r && b > g;
+	}
+
+	public boolean isGreen() {
+		final int r = getRed();
+		final int g = getGreen();
+		final int b = getBlue();
+		return g > b && g > r;
 	}
 }

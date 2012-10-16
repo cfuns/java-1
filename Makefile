@@ -155,3 +155,13 @@ buildwebsearch:
 	cd websearch && make all
 	cd websearch_gui && make all
 	cd websearch_test && make all
+buildindex:
+	cd index_api && make all
+	cd index && make all
+	cd index_gui && make all
+	cd index_test && make all
+buildcrawler:
+	cd crawler_api && make all
+	cd crawler && make all
+	cd crawler_gui && make all
+	cd crawler_test && make all

@@ -102,7 +102,7 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 
 	protected String getMemoryState() {
 		final StringWriter msg = new StringWriter();
-		msg.append("Memory state bevor cleanup: ");
+		msg.append("Memory state before cleanup: ");
 		msg.append("used=" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 		msg.append(", ");
 		msg.append("free=" + (Runtime.getRuntime().freeMemory() / (1024 * 1024)));

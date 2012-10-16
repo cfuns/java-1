@@ -54,7 +54,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	@Override
 	public void notifiy(final CrawlerResult result) {
-		logger.debug("notify " + result.getUrl());
+		logger.trace("notify " + result.getUrl());
 		try {
 			updateLastVisit(result);
 			if (isIndexAble(result)) {
@@ -85,7 +85,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	protected void parseLinks(final CrawlerResult result) {
 		final Set<String> links = htmlUtil.parseLinks(result.getContent());
-		logger.debug("found " + links.size() + " links");
+		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
 			try {
 				final URL url = buildUrl(result.getUrl(), link);
@@ -170,7 +170,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 				}
 			}
 		}
-		logger.debug("add url " + result.getUrl() + " to index");
+		logger.trace("add url " + result.getUrl() + " to index");
 		indexerService.addToIndex(WebsearchActivator.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
 	}
 
