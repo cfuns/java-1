@@ -3,6 +3,8 @@ package com.glavsoft.viewer;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -42,7 +44,74 @@ import de.benjaminborbe.vnc.VncConstants;
 import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.connector.VncHistory;
 
-public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, WindowListener, IChangeSettingsListener {
+public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListener, IChangeSettingsListener {
+
+	private final class MyIPasswordRetriever implements IPasswordRetriever {
+
+		@Override
+		public String getPassword() {
+			return vncConfig.getPassword();
+		}
+	}
+
+	private final class MyIRepaintController implements IRepaintController {
+
+		@Override
+		public void settingsChanged(final SettingsChangedEvent event) {
+		}
+
+		@Override
+		public void repaintBitmap(final FramebufferUpdateRectangle rect) {
+		}
+
+		@Override
+		public void repaintBitmap(final int x, final int y, final int width, final int height) {
+		}
+
+		@Override
+		public void repaintCursor() {
+		}
+
+		@Override
+		public void updateCursorPosition(final short x, final short y) {
+		}
+
+		@Override
+		public Renderer createRenderer(final Reader reader, final int width, final int height, final PixelFormat pixelFormat) {
+			return new RendererImpl(logger, reader, width, height, pixelFormat);
+		}
+
+		@Override
+		public void setPixelFormat(final PixelFormat pixelFormat) {
+		}
+	}
+
+	private final class MyClipboardController implements ClipboardController {
+
+		@Override
+		public void settingsChanged(final SettingsChangedEvent event) {
+		}
+
+		@Override
+		public void updateSystemClipboard(final byte[] bytes) {
+		}
+
+		@Override
+		public void setEnabled(final boolean enable) {
+		}
+
+		@Override
+		public String getRenewedClipboardText() {
+			return null;
+		}
+
+		@Override
+		public String getClipboardText() {
+			return null;
+		}
+	}
+
+	private static final int CONNECT_TIMEOUT = 1000;
 
 	private boolean isZoomToFitSelected;
 
@@ -57,8 +126,6 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	private final ProtocolSettings settings;
 
 	private final UiSettings uiSettings;
-
-	private boolean tryAgain;
 
 	private volatile boolean isStoppingProcess;
 
@@ -95,7 +162,7 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 			}
 		});
 		// start new session
-		SwingUtilities.invokeLater(this);
+		// SwingUtilities.invokeLater(this);
 	}
 
 	private synchronized void cleanUpUISessionAndConnection() {
@@ -128,130 +195,60 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 			workingProtocol.cleanUpSession();
 		}
 		cleanUpUISessionAndConnection();
-		tryAgain = false;
 
 	}
 
 	public void init() {
 		isSeparateFrame = ParametersHandler.isSeparateFrame;
-		SwingUtilities.invokeLater(this);
+		// SwingUtilities.invokeLater(this);
 	}
 
 	@Override
-	public void run() {
-		tryAgain = true;
-		while (tryAgain) {
-			try {
-				logger.debug("connect to host");
-				workingSocket = connectToHost(connectionParams, settings);
-				workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
-				logger.debug("create reader");
-				final Reader reader = new Reader(workingSocket.getInputStream());
-				logger.debug("create writer");
-				final Writer writer = new Writer(workingSocket.getOutputStream());
+	public void connect() {
+		try {
+			logger.debug("connect to host");
+			workingSocket = connectToHost(connectionParams, settings);
+			workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
 
-				final IPasswordRetriever pw = new IPasswordRetriever() {
+			logger.debug("create reader");
+			final Reader reader = new Reader(workingSocket.getInputStream());
+			logger.debug("create writer");
+			final Writer writer = new Writer(workingSocket.getOutputStream());
 
-					@Override
-					public String getPassword() {
-						return vncConfig.getPassword();
-					}
-				};
-				workingProtocol = new Protocol(logger, history, reader, writer, pw, settings);
-				workingProtocol.handshake();
+			final IPasswordRetriever pw = new MyIPasswordRetriever();
+			workingProtocol = new Protocol(logger, history, reader, writer, pw, settings);
+			workingProtocol.handshake();
 
-				// final ClipboardControllerImpl clipboardController = new
-				// ClipboardControllerImpl(workingProtocol, settings.getRemoteCharsetName());
-				// clipboardController.setEnabled(settings.isAllowClipboardTransfer());
-				// settings.addListener(clipboardController);
-				// settings.addListener(this);
-				// uiSettings.addListener(surface);
-				// connectionManager.setContainerFrame(containerFrame);
-				// updateFrameTitle();
-
-				final IRepaintController surface = new IRepaintController() {
-
-					@Override
-					public void settingsChanged(final SettingsChangedEvent event) {
-					}
-
-					@Override
-					public void repaintBitmap(final FramebufferUpdateRectangle rect) {
-					}
-
-					@Override
-					public void repaintBitmap(final int x, final int y, final int width, final int height) {
-					}
-
-					@Override
-					public void repaintCursor() {
-					}
-
-					@Override
-					public void updateCursorPosition(final short x, final short y) {
-					}
-
-					@Override
-					public Renderer createRenderer(final Reader reader, final int width, final int height, final PixelFormat pixelFormat) {
-						return new RendererImpl(logger, reader, width, height, pixelFormat);
-					}
-
-					@Override
-					public void setPixelFormat(final PixelFormat pixelFormat) {
-					}
-				};
-				final ClipboardController clipboardController = new ClipboardController() {
-
-					@Override
-					public void settingsChanged(final SettingsChangedEvent event) {
-					}
-
-					@Override
-					public void updateSystemClipboard(final byte[] bytes) {
-					}
-
-					@Override
-					public void setEnabled(final boolean enable) {
-					}
-
-					@Override
-					public String getRenewedClipboardText() {
-						return null;
-					}
-
-					@Override
-					public String getClipboardText() {
-						return null;
-					}
-				};
-				workingProtocol.startNormalHandling(this, surface, clipboardController);
-				tryAgain = false;
-			}
-			catch (final UnsupportedProtocolVersionException e) {
-				logger.debug(e.getMessage());
-			}
-			catch (final UnsupportedSecurityTypeException e) {
-				logger.debug(e.getMessage());
-			}
-			catch (final AuthenticationFailedException e) {
-				logger.debug(e.getMessage());
-			}
-			catch (final TransportException e) {
-				logger.debug(e.getMessage());
-			}
-			catch (final IOException e) {
-				logger.debug(e.getMessage());
-			}
-			catch (final FatalException e) {
-				logger.debug(e.getMessage());
-			}
+			final IRepaintController surface = new MyIRepaintController();
+			final ClipboardController clipboardController = new MyClipboardController();
+			workingProtocol.startNormalHandling(this, surface, clipboardController);
+		}
+		catch (final UnsupportedProtocolVersionException e) {
+			logger.debug(e.getMessage());
+		}
+		catch (final UnsupportedSecurityTypeException e) {
+			logger.debug(e.getMessage());
+		}
+		catch (final AuthenticationFailedException e) {
+			logger.debug(e.getMessage());
+		}
+		catch (final TransportException e) {
+			logger.debug(e.getMessage());
+		}
+		catch (final IOException e) {
+			logger.debug(e.getMessage());
+		}
+		catch (final FatalException e) {
+			logger.debug(e.getMessage());
 		}
 	}
 
 	private Socket connectToHost(final ConnectionParams connectionParams, final ProtocolSettings settings) throws UnknownHostException, IOException {
 		final String host = connectionParams.hostName;
 		final int port = connectionParams.getPortNumber();
-		return new Socket(host, port);
+		final InetSocketAddress inetSocketAddress = new InetSocketAddress(host, port);
+		final InetAddress inetAddress = inetSocketAddress.getAddress();
+		return new Socket(inetAddress, CONNECT_TIMEOUT);
 	}
 
 	@Override
@@ -305,11 +302,6 @@ public class ViewerHeadless implements Viewer, Runnable, IRfbSessionListener, Wi
 	@Override
 	public void sendMessage(final ClientToServerMessage message) {
 		workingProtocol.sendMessage(message);
-	}
-
-	@Override
-	public void connect() {
-		run();
 	}
 
 	@Override
