@@ -44,8 +44,12 @@ public class VncPixelsImpl implements VncPixels {
 		// final BufferedImage bi = new BufferedImage(colorModel, raster, false, null);
 
 		final BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		// bi.setRGB(0, 0, 0x00FFFFFF);
-		bi.setRGB(0, 0, width, height, pixels, 0, 0);
+		for (int x = 0; x < width; ++x) {
+			for (int y = 0; y < height; ++y) {
+				bi.setRGB(x, y, pixels[x + y * width]);
+			}
+		}
+		// bi.setRGB(0, 0, width, height, pixels, 0, 0);
 		return bi;
 	}
 

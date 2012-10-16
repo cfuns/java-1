@@ -15,6 +15,10 @@ public class VncPixelsDiffer {
 	public VncPixelsDiffer() {
 	}
 
+	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) {
+		return diff(new VncPixelsColorFilter(pixelsA, mask), new VncPixelsColorFilter(pixelsB, mask));
+	}
+
 	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB) {
 		final List<VncLocation> result = new ArrayList<VncLocation>();
 		if (pixelsA.getWidth() != pixelsB.getWidth() || pixelsA.getHeight() != pixelsB.getHeight()) {
