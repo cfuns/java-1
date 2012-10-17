@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.easymock.EasyMock;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
