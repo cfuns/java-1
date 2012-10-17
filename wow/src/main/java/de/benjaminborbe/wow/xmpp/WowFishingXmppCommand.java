@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
 import de.benjaminborbe.tools.image.Coordinate;
@@ -14,6 +13,7 @@ import de.benjaminborbe.tools.image.Pixel;
 import de.benjaminborbe.tools.image.Pixels;
 import de.benjaminborbe.tools.image.PixelsImpl;
 import de.benjaminborbe.tools.util.ThreadResult;
+import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
@@ -24,26 +24,75 @@ import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class WowFishingXmppCommand implements XmppCommand {
 
-	private final class SleepAction extends ActionBase {
+	private final ThreadResult<Boolean> running = new ThreadResult<Boolean>(false);
 
-		private final String name;
+	private final class FishingThread implements Runnable {
 
-		private final long sleep;
+		private final XmppChat chat;
 
-		public SleepAction(final String name, final long sleep) {
-			this.name = name;
-			this.sleep = sleep;
+		private FishingThread(final XmppChat chat) {
+			this.chat = chat;
 		}
 
 		@Override
-		public void execute() {
-			logger.debug(name + " - execute started");
+		public void run() {
 			try {
-				Thread.sleep(sleep);
+				vncService.connect();
+
+				while (running.get()) {
+					final List<Action> actions = new ArrayList<Action>();
+					actions.add(new SleepAction("sleep", 2000));
+					final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
+					actions.add(new FindFishingButtonLocationAction("find fishing button location", fishingButtonLocation));
+					actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
+					final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
+					actions.add(new TakeScreenshotAction("take screenshot before fishing", pixelsBeforeFishing));
+					actions.add(new MouseClickAction("click fishing button"));
+					actions.add(new SleepAction("sleep", 2000));
+					final ThreadResult<Coordinate> baitLocation = new ThreadResult<Coordinate>();
+					final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
+					actions.add(new FindBaitAction("find bait", pixelsBeforeFishing, pixelsAfterFishing, baitLocation));
+					actions.add(new MouseMoveAction("move mouse to bait", baitLocation, 5, 5));
+					actions.add(new SleepAction("sleep", 2000));
+					actions.add(new WaitOnFishAction("wait on fish", baitLocation));
+					actions.add(new MouseClickAction("click on bait button"));
+					actionChainRunner.run(actions);
+				}
+				send(chat, "stopped");
 			}
-			catch (final InterruptedException e) {
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
 			}
-			logger.debug(name + " - execute finished");
+			catch (final XmppChatException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+			finally {
+				try {
+					vncService.disconnect();
+				}
+				catch (final VncServiceException e) {
+					logger.debug(e.getClass().getName(), e);
+				}
+			}
+		}
+	}
+
+	private abstract class ActionBase implements Action {
+
+		protected final String name;
+
+		public ActionBase(final String name) {
+			this.name = name;
+		}
+
+		@Override
+		public long getWaitTimeout() {
+			return 5000;
+		}
+
+		@Override
+		public long getRetryDelay() {
+			return 500;
 		}
 
 		@Override
@@ -59,21 +108,40 @@ public class WowFishingXmppCommand implements XmppCommand {
 		@Override
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
-			return true;
+			return running.get();
+		}
+	}
+
+	private final class SleepAction extends ActionBase {
+
+		private final long sleep;
+
+		public SleepAction(final String name, final long sleep) {
+			super(name);
+			this.sleep = sleep;
+		}
+
+		@Override
+		public void execute() {
+			logger.debug(name + " - execute started");
+			try {
+				Thread.sleep(sleep);
+			}
+			catch (final InterruptedException e) {
+			}
+			logger.debug(name + " - execute finished");
 		}
 
 	}
 
 	private final class WaitOnFishAction extends ActionBase {
 
-		private final String name;
-
 		private final ThreadResult<Coordinate> baitLocation;
 
 		private VncPixels vncPixelsOrg;
 
 		public WaitOnFishAction(final String name, final ThreadResult<Coordinate> baitLocation) {
-			this.name = name;
+			super(name);
 			this.baitLocation = baitLocation;
 		}
 
@@ -90,25 +158,17 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 
 		@Override
-		public void onSuccess() {
-			logger.debug(name + " - onSuccess");
-		}
-
-		@Override
-		public void onFailure() {
-			logger.debug(name + " - onFailure");
-		}
-
-		@Override
 		public boolean validateExecuteResult() {
-			logger.debug(name + " - validateExecuteResult");
+			logger.trace(name + " - validateExecuteResult");
 			try {
+				if (super.validateExecuteResult() == false)
+					return false;
 				if (vncPixelsOrg == null)
 					return false;
 
 				final int now = vncService.getScreenContent().getPixels().getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
 				final int org = vncPixelsOrg.getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
-				logger.debug(Integer.toHexString(org) + "<=>" + Integer.toHexString(now) + " " + Integer.toHexString(Math.abs(now - org)));
+				logger.trace(Integer.toHexString(org) + "<=>" + Integer.toHexString(now) + " " + Integer.toHexString(Math.abs(now - org)));
 				return Math.abs(now - org) > 0x00400000;
 			}
 			catch (final VncServiceException e) {
@@ -127,6 +187,18 @@ public class WowFishingXmppCommand implements XmppCommand {
 			return 100;
 		}
 
+		@Override
+		public void onFailure() {
+			logger.trace(name + " - onFailure");
+			try {
+				vncService.mouseLeftButtonPress();
+				vncService.mouseLeftButtonPress();
+			}
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+		}
+
 	}
 
 	private final class FindBaitAction extends ActionBase {
@@ -137,14 +209,12 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		private final ThreadResult<Coordinate> baitLocation;
 
-		private final String name;
-
 		private FindBaitAction(
 				final String name,
 				final ThreadResult<VncPixels> pixelsBeforeFishing,
 				final ThreadResult<VncPixels> pixelsAfterFishing,
 				final ThreadResult<Coordinate> baitLocation) {
-			this.name = name;
+			super(name);
 			this.pixelsBeforeFishing = pixelsBeforeFishing;
 			this.pixelsAfterFishing = pixelsAfterFishing;
 			this.baitLocation = baitLocation;
@@ -166,8 +236,14 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 				final Pixels diffBlueToRed = new PixelsImpl(new int[width * height], width, height);
 
-				for (int x = 1; x <= width; ++x) {
-					for (int y = 1; y <= height; ++y) {
+				// TODO auto determine
+				final int startX = 560; // 1
+				final int startY = 560; // 1
+				final int endX = 1300; // width
+				final int endY = 760; // height
+
+				for (int x = startX; x <= endX; ++x) {
+					for (int y = startY; y <= endY; ++y) {
 						final Pixel pb = new Pixel(before.getPixel(x, y));
 						final Pixel pa = new Pixel(after.getPixel(x, y));
 						if (pb.isBlue() && pa.isRed()) {
@@ -180,53 +256,34 @@ public class WowFishingXmppCommand implements XmppCommand {
 				}
 
 				final int range = 2;
-				final int min = 20;
+				final int minCounter = 18;
+				int bestCounter = minCounter;
+				Coordinate bestCoordinate = null;
 
-				final List<Coordinate> cs = new ArrayList<Coordinate>();
-				// final Pixels diffNeighbors = new PixelsImpl(new int[width * height], width,
-				// height);
-				for (int x = 1; x <= width; ++x) {
-					for (int y = 1; y <= height; ++y) {
+				for (int x = startX; x <= endX; ++x) {
+					for (int y = startY; y <= endY; ++y) {
 						final int pixel = diffBlueToRed.getPixel(x, y);
-						if (pixel == 0) {
-							// diffNeighbors.setPixel(x, y, 0x0);
-						}
-						else {
-							final int minX = Math.max(1, x - range);
-							final int minY = Math.max(1, y - range);
-							final int maxX = Math.min(width, x + range);
-							final int maxY = Math.min(height, y + range);
+						if (pixel != 0) {
+							final int minX = Math.max(startX, x - range);
+							final int minY = Math.max(startY, y - range);
+							final int maxX = Math.min(endX, x + range);
+							final int maxY = Math.min(endY, y + range);
 							int counter = 0;
 							for (int xc = minX; xc <= maxX; ++xc) {
 								for (int yc = minY; yc <= maxY; ++yc) {
 									counter += diffBlueToRed.getPixel(xc, yc) & 0x1;
 								}
 							}
-							if (counter >= min) {
-								cs.add(new Coordinate(x, y));
-								// diffNeighbors.setPixel(x, y, 0xFFFFFF);
-							}
-							else {
-								// diffNeighbors.setPixel(x, y, 0x0);
+							if (counter >= bestCounter) {
+								bestCounter = counter;
+								bestCoordinate = new Coordinate(x, y);
 							}
 						}
 					}
 				}
 
-				logger.debug("found " + cs.size() + " bait locations");
-				if (cs.size() > 0) {
-					baitLocation.set(cs.get(0));
-				}
-				// // final List<Coordinate> locations = vncService.diff(before, after);
-				// logger.debug("found " + locations.size() + " different locations");
-				//
-				// for (final Coordinate location : locations) {
-				// logger.debug("loc: " + location);
-				// }
-				// // baitLocation
-				// if (locations.size() > 0) {
-				// baitLocation.set(locations.get(0));
-				// }
+				logger.debug("found bait locations at " + bestCoordinate + " with " + bestCounter);
+				baitLocation.set(bestCoordinate);
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -235,29 +292,17 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 
 		@Override
-		public void onSuccess() {
-			logger.debug(name + " - onSuccess");
-		}
-
-		@Override
-		public void onFailure() {
-			logger.debug(name + " - onFailure");
-		}
-
-		@Override
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
-			return baitLocation.get() != null;
+			return super.validateExecuteResult() && baitLocation.get() != null;
 		}
 
 	}
 
 	private final class MouseClickAction extends ActionBase {
 
-		private final String name;
-
 		public MouseClickAction(final String name) {
-			this.name = name;
+			super(name);
 		}
 
 		@Override
@@ -273,31 +318,14 @@ public class WowFishingXmppCommand implements XmppCommand {
 			logger.debug(name + " - execute finished");
 		}
 
-		@Override
-		public void onSuccess() {
-			logger.debug(name + " - onSuccess");
-		}
-
-		@Override
-		public void onFailure() {
-			logger.debug(name + " - onFailure");
-		}
-
-		@Override
-		public boolean validateExecuteResult() {
-			logger.debug(name + " - validateExecuteResult");
-			return true;
-		}
 	}
 
 	private final class TakeScreenshotAction extends ActionBase {
 
 		private final ThreadResult<VncPixels> pixelsBeforeFishing;
 
-		private final String name;
-
 		private TakeScreenshotAction(final String name, final ThreadResult<VncPixels> pixelsBeforeFishing) {
-			this.name = name;
+			super(name);
 			this.pixelsBeforeFishing = pixelsBeforeFishing;
 		}
 
@@ -314,19 +342,9 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 
 		@Override
-		public void onSuccess() {
-			logger.debug(name + " - onSuccess");
-		}
-
-		@Override
-		public void onFailure() {
-			logger.debug(name + " - onFailure");
-		}
-
-		@Override
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
-			return pixelsBeforeFishing.get() != null;
+			return super.validateExecuteResult() && pixelsBeforeFishing.get() != null;
 		}
 	}
 
@@ -334,10 +352,8 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		private final ThreadResult<Coordinate> fishingButtonLocation;
 
-		private final String name;
-
 		private FindFishingButtonLocationAction(final String name, final ThreadResult<Coordinate> fishingButtonLocation) {
-			this.name = name;
+			super(name);
 			this.fishingButtonLocation = fishingButtonLocation;
 		}
 
@@ -350,27 +366,15 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 
 		@Override
-		public void onSuccess() {
-			logger.debug(name + " - onSuccess");
-		}
-
-		@Override
-		public void onFailure() {
-			logger.debug(name + " - onFailure");
-		}
-
-		@Override
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
-			return fishingButtonLocation.get() != null;
+			return super.validateExecuteResult() && fishingButtonLocation.get() != null;
 		}
 	}
 
 	private final class MouseMoveAction extends ActionBase {
 
 		private final ThreadResult<Coordinate> vncLocationThreadResult;
-
-		private final String name;
 
 		private final int x;
 
@@ -381,7 +385,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 
 		private MouseMoveAction(final String name, final ThreadResult<Coordinate> vncLocationThreadResult, final int x, final int y) {
-			this.name = name;
+			super(name);
 			this.vncLocationThreadResult = vncLocationThreadResult;
 			this.x = x;
 			this.y = y;
@@ -398,16 +402,6 @@ public class WowFishingXmppCommand implements XmppCommand {
 				logger.debug(e.getClass().getName(), e);
 			}
 			logger.debug(name + " - execute finished");
-		}
-
-		@Override
-		public void onSuccess() {
-			logger.debug(name + " - onSuccess");
-		}
-
-		@Override
-		public void onFailure() {
-			logger.debug(name + " - onFailure");
 		}
 
 		@Override
@@ -431,11 +425,14 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private final ActionChainRunner actionChainRunner;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
-	public WowFishingXmppCommand(final Logger logger, final WowVncConnector vncService, final ActionChainRunner actionChainRunner) {
+	public WowFishingXmppCommand(final Logger logger, final WowVncConnector vncService, final ActionChainRunner actionChainRunner, final ThreadRunner threadRunner) {
 		this.logger = logger;
 		this.vncService = vncService;
 		this.actionChainRunner = actionChainRunner;
+		this.threadRunner = threadRunner;
 	}
 
 	@Override
@@ -444,39 +441,34 @@ public class WowFishingXmppCommand implements XmppCommand {
 	}
 
 	@Override
-	public void execute(final XmppChat chat, final String msg) {
+	public void execute(final XmppChat chat, final String command) {
 		logger.debug("execute command " + getName());
 		try {
-			chat.send(getName() + " - execution started");
 
-			try {
-				vncService.connect();
-
-				final List<Action> actions = new ArrayList<Action>();
-
-				final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
-				actions.add(new FindFishingButtonLocationAction("find fishing button location", fishingButtonLocation));
-				actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
-				final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
-				actions.add(new TakeScreenshotAction("take screenshot before fishing", pixelsBeforeFishing));
-				actions.add(new MouseClickAction("click fishing button"));
-				actions.add(new SleepAction("sleep", 2000));
-				final ThreadResult<Coordinate> baitLocation = new ThreadResult<Coordinate>();
-				final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
-				actions.add(new FindBaitAction("find bait", pixelsBeforeFishing, pixelsAfterFishing, baitLocation));
-				actions.add(new MouseMoveAction("move mouse to bait", baitLocation, 5, 5));
-				actions.add(new SleepAction("sleep", 400));
-				actions.add(new WaitOnFishAction("wait on fish", baitLocation));
-				actions.add(new MouseClickAction("click on bait button"));
-
-				actionChainRunner.run(actions);
-
+			final String action = parseArgs(command);
+			if ("start".equals(action)) {
+				if (!running.get()) {
+					send(chat, "starting ...");
+					running.set(true);
+					threadRunner.run("fishing thread", new FishingThread(chat));
+					send(chat, "started");
+				}
+				else {
+					send(chat, "already started");
+				}
 			}
-			finally {
-				vncService.disconnect();
+			else if ("stop".equals(action)) {
+				if (running.get()) {
+					send(chat, "stopping ....");
+					running.set(false);
+				}
+				else {
+					send(chat, "already stopped");
+				}
 			}
-
-			chat.send(getName() + " - execution finished");
+			else {
+				send(chat, "parameter expected! [start|stop]");
+			}
 		}
 		catch (final Exception e) {
 			try {
@@ -492,5 +484,18 @@ public class WowFishingXmppCommand implements XmppCommand {
 	@Override
 	public boolean match(final String body) {
 		return body != null && body.indexOf(getName()) != -1;
+	}
+
+	private String parseArgs(final String command) {
+		final int pos = command.indexOf(getName()) + getName().length() + 1;
+		if (pos > command.length()) {
+			return "";
+		}
+		return command.substring(pos);
+	}
+
+	private void send(final XmppChat chat, final String string) throws XmppChatException {
+		chat.send(getName() + " - " + string);
+		logger.debug(string);
 	}
 }

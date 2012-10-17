@@ -31,9 +31,8 @@ public class XmppChatManagerListener implements ChatManagerListener {
 	@Override
 	public void chatCreated(final Chat chat, final boolean createdLocally) {
 		logger.debug("chatCreated chat: " + chat.getParticipant() + " local: " + createdLocally);
-
 		chat.addMessageListener(xmppHelpMessageListener);
-		chat.addMessageListener(xmppDebugMessageListener);
 		chat.addMessageListener(xmppExecuteMessageListener);
+		chat.addMessageListener(xmppDebugMessageListener);
 	}
 }

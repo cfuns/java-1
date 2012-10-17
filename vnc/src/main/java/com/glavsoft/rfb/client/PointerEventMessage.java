@@ -59,7 +59,7 @@ public class PointerEventMessage implements ClientToServerMessage {
 		writer.writeInt16(y);
 		writer.flush();
 		vncPointerLocation.set(x, y);
-		logger.debug("pointer x:" + x + " y:" + y + " mask:" + buttonMask);
+		logger.trace("pointer x:" + x + " y:" + y + " mask:" + buttonMask);
 	}
 
 	@Override
