@@ -4,6 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -15,9 +21,30 @@ import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
+import de.benjaminborbe.vnc.config.VncConfig;
 import de.benjaminborbe.vnc.guice.VncModulesMock;
 
 public class VncServiceImplIntegrationTest {
+
+	private static boolean vncNotFound = true;
+
+	@BeforeClass
+	public static void setUp() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
+		final VncConfig vncConfig = injector.getInstance(VncConfig.class);
+
+		final Socket socket = new Socket();
+		final SocketAddress endpoint = new InetSocketAddress(vncConfig.getHostname(), vncConfig.getPort());
+		try {
+			socket.connect(endpoint, 500);
+
+			vncNotFound = !socket.isConnected();
+			vncNotFound = true;
+		}
+		catch (final IOException e) {
+			vncNotFound = true;
+		}
+	}
 
 	@Test
 	public void testInject() throws Exception {
@@ -29,6 +56,8 @@ public class VncServiceImplIntegrationTest {
 
 	@Test
 	public void testConnect() throws Exception {
+		if (vncNotFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
 		try {
@@ -41,6 +70,8 @@ public class VncServiceImplIntegrationTest {
 
 	@Test
 	public void testGetWidth() throws Exception {
+		if (vncNotFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
 		try {
@@ -57,6 +88,8 @@ public class VncServiceImplIntegrationTest {
 
 	@Test
 	public void testGetHeight() throws Exception {
+		if (vncNotFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
 		try {
@@ -73,6 +106,8 @@ public class VncServiceImplIntegrationTest {
 
 	@Test
 	public void testKey() throws Exception {
+		if (vncNotFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
 		try {
@@ -90,6 +125,8 @@ public class VncServiceImplIntegrationTest {
 
 	@Test
 	public void testMouse() throws Exception {
+		if (vncNotFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VncModulesMock());
 		final VncService vncService = injector.getInstance(VncService.class);
 		final ThreadUtil threadUtil = injector.getInstance(ThreadUtil.class);
