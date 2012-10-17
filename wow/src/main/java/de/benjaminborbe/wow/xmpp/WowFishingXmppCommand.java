@@ -107,7 +107,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		@Override
 		public boolean validateExecuteResult() {
-			logger.debug(name + " - validateExecuteResult");
+			logger.trace(name + " - validateExecuteResult");
 			return running.get();
 		}
 	}
