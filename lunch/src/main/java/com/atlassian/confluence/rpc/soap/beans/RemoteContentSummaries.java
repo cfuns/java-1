@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "unused", "serial", "rawtypes" })
 public class RemoteContentSummaries implements java.io.Serializable {
 
 	private com.atlassian.confluence.rpc.soap.beans.RemoteContentSummary[] content;
@@ -81,7 +81,6 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
-	@SuppressWarnings("unused")
 	@Override
 	public synchronized boolean equals(final java.lang.Object obj) {
 		if (!(obj instanceof RemoteContentSummaries))
@@ -160,7 +159,6 @@ public class RemoteContentSummaries implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
@@ -168,7 +166,6 @@ public class RemoteContentSummaries implements java.io.Serializable {
 	/**
 	 * Get Custom Deserializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}

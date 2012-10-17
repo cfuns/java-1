@@ -9,13 +9,9 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
-import net.seibertmedia.kunden.ConfluenceSoapService;
-import net.seibertmedia.kunden.ConfluenceSoapServiceServiceLocator;
+import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService;
+import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapServiceServiceLocator;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
 import com.atlassian.confluence.rpc.AuthenticationFailedException;
@@ -27,6 +23,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.bean.LunchBean;
+import de.benjaminborbe.lunch.util.LunchParseUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -35,15 +32,18 @@ public class LunchWikiConnector {
 
 	private final DateUtil dateUtil;
 
-	private final HtmlUtil htmlUtil;
-
 	private final Logger logger;
+
+	private final LunchParseUtil lunchParseUtil;
+
+	private final HtmlUtil htmlUtil;
 
 	// https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs
 	@Inject
-	public LunchWikiConnector(final Logger logger, final DateUtil dateUtil, final HtmlUtil htmlUtil) {
+	public LunchWikiConnector(final Logger logger, final DateUtil dateUtil, final LunchParseUtil lunchParseUtil, final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.dateUtil = dateUtil;
+		this.lunchParseUtil = lunchParseUtil;
 		this.htmlUtil = htmlUtil;
 	}
 
@@ -53,7 +53,7 @@ public class LunchWikiConnector {
 		final List<Lunch> result = new ArrayList<Lunch>();
 
 		final ConfluenceSoapServiceServiceLocator serviceLocator = new ConfluenceSoapServiceServiceLocator();
-		final ConfluenceSoapService service = serviceLocator.getConfluenceserviceV1();
+		final ConfluenceSoapService service = serviceLocator.getConfluenceserviceV2();
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
@@ -74,17 +74,17 @@ public class LunchWikiConnector {
 			return true;
 		}
 		final Date pageDate = extractDate(remotePageSummary.getTitle());
-		logger.debug("compare " + dateUtil.dateTimeString(date) + " <=> " + dateUtil.dateTimeString(pageDate));
+		logger.trace("compare " + dateUtil.dateTimeString(date) + " <=> " + dateUtil.dateTimeString(pageDate));
 		return date.compareTo(pageDate) != 1;
 	}
 
 	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary, final String fullname) throws ParseException,
 			InvalidSessionException, RemoteException, java.rmi.RemoteException {
 		final RemotePage page = service.getPage(token, remotePageSummary.getId());
+		final String htmlContent = htmlUtil.unescapeHtml(service.renderContent(token, page.getSpace(), page.getId(), page.getContent()));
 		final LunchBean lunch = new LunchBean();
-		final String htmlContent = service.renderContent(token, page.getSpace(), page.getId(), page.getContent());
-		lunch.setName(extractLunchName(htmlContent));
-		lunch.setSubscribed(extractLunchSubscribed(htmlContent, fullname));
+		lunch.setName(lunchParseUtil.extractLunchName(htmlContent));
+		lunch.setSubscribed(lunchParseUtil.extractLunchSubscribed(htmlContent, fullname));
 		lunch.setDate(extractDate(remotePageSummary.getTitle()));
 		lunch.setUrl(buildUrl(remotePageSummary.getUrl()));
 		return lunch;
@@ -98,36 +98,6 @@ public class LunchWikiConnector {
 			logger.debug("build WikiPageUrl failed!", e);
 			return null;
 		}
-	}
-
-	protected boolean extractLunchSubscribed(final String htmlContent, final String fullname) {
-		final Document document = Jsoup.parse(htmlContent);
-		final Elements tables = document.getElementsByClass("confluenceTable");
-		for (final Element table : tables) {
-			final Elements tds = table.getElementsByTag("td");
-			for (final Element td : tds) {
-				if (td.html().indexOf(fullname) != -1) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private String extractLunchName(final String htmlContent) {
-		final Document document = Jsoup.parse(htmlContent);
-		final Elements elements = document.getElementsByClass("tipMacro");
-		for (final Element element : elements) {
-			final Elements tds = element.getElementsByTag("td");
-			for (final Element td : tds) {
-				final String innerHtml = td.html();
-				final String result = htmlUtil.filterHtmlTages(innerHtml);
-				if (result != null && result.length() > 0) {
-					return result;
-				}
-			}
-		}
-		return null;
 	}
 
 	protected Date extractDate(final String title) throws ParseException {

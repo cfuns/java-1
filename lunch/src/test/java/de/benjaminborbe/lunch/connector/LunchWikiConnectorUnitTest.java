@@ -10,6 +10,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.lunch.util.LunchParseUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.DateUtilImpl;
 import de.benjaminborbe.tools.html.HtmlUtil;
@@ -22,9 +23,12 @@ public class LunchWikiConnectorUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
+		final LunchParseUtil lunchParseUtil = EasyMock.createNiceMock(LunchParseUtil.class);
+		EasyMock.replay(lunchParseUtil);
+
 		final DateUtil dateUtil = new DateUtilImpl();
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final LunchWikiConnector wikiConnector = new LunchWikiConnector(logger, dateUtil, htmlUtil);
+		final LunchWikiConnector wikiConnector = new LunchWikiConnector(logger, dateUtil, lunchParseUtil, htmlUtil);
 		final Date date = wikiConnector.extractDate("2012-05-03 - Bastians Mittagessen");
 		assertNotNull(date);
 		final Calendar calendar = Calendar.getInstance();

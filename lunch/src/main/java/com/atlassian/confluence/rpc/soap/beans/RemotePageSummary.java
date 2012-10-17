@@ -7,17 +7,20 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "unused", "serial", "rawtypes" })
 public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.AbstractRemotePageSummary implements java.io.Serializable {
 
 	private long parentId;
 
+	private int version;
+
 	public RemotePageSummary() {
 	}
 
-	public RemotePageSummary(final long id, final int permissions, final java.lang.String space, final java.lang.String title, final java.lang.String url, final long parentId) {
+	public RemotePageSummary(final long id, final int permissions, final java.lang.String space, final java.lang.String title, final java.lang.String url, final long parentId, final int version) {
 		super(id, permissions, space, title, url);
 		this.parentId = parentId;
+		this.version = version;
 	}
 
 	/**
@@ -38,9 +41,26 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 		this.parentId = parentId;
 	}
 
+	/**
+	 * Gets the version value for this RemotePageSummary.
+	 * 
+	 * @return version
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * Sets the version value for this RemotePageSummary.
+	 * 
+	 * @param version
+	 */
+	public void setVersion(final int version) {
+		this.version = version;
+	}
+
 	private java.lang.Object __equalsCalc = null;
 
-	@SuppressWarnings("unused")
 	@Override
 	public synchronized boolean equals(final java.lang.Object obj) {
 		if (!(obj instanceof RemotePageSummary))
@@ -55,7 +75,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 		}
 		__equalsCalc = obj;
 		boolean _equals;
-		_equals = super.equals(obj) && this.parentId == other.getParentId();
+		_equals = super.equals(obj) && this.parentId == other.getParentId() && this.version == other.getVersion();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -70,6 +90,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 		__hashCodeCalc = true;
 		int _hashCode = super.hashCode();
 		_hashCode += new Long(getParentId()).hashCode();
+		_hashCode += getVersion();
 		__hashCodeCalc = false;
 		return _hashCode;
 	}
@@ -79,10 +100,16 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePageSummary"));
-		final org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
 		elemField.setFieldName("parentId");
 		elemField.setXmlName(new javax.xml.namespace.QName("", "parentId"));
 		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+		elemField.setNillable(false);
+		typeDesc.addFieldDesc(elemField);
+		elemField = new org.apache.axis.description.ElementDesc();
+		elemField.setFieldName("version");
+		elemField.setXmlName(new javax.xml.namespace.QName("", "version"));
+		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
 		elemField.setNillable(false);
 		typeDesc.addFieldDesc(elemField);
 	}
@@ -97,7 +124,6 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 	/**
 	 * Get Custom Serializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
@@ -105,7 +131,6 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 	/**
 	 * Get Custom Deserializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}

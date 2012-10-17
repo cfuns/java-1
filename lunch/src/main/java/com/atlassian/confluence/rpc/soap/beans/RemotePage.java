@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "unused", "serial", "rawtypes" })
 public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePageSummary implements java.io.Serializable {
 
 	private java.lang.String content;
@@ -26,8 +26,6 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	private java.lang.String modifier;
 
-	private int version;
-
 	public RemotePage() {
 	}
 
@@ -38,6 +36,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 			final java.lang.String title,
 			final java.lang.String url,
 			final long parentId,
+			final int version,
 			final java.lang.String content,
 			final java.lang.String contentStatus,
 			final java.util.Calendar created,
@@ -45,9 +44,8 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 			final boolean current,
 			final boolean homePage,
 			final java.util.Calendar modified,
-			final java.lang.String modifier,
-			final int version) {
-		super(id, permissions, space, title, url, parentId);
+			final java.lang.String modifier) {
+		super(id, permissions, space, title, url, parentId, version);
 		this.content = content;
 		this.contentStatus = contentStatus;
 		this.created = created;
@@ -56,7 +54,6 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 		this.homePage = homePage;
 		this.modified = modified;
 		this.modifier = modifier;
-		this.version = version;
 	}
 
 	/**
@@ -203,27 +200,8 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 		this.modifier = modifier;
 	}
 
-	/**
-	 * Gets the version value for this RemotePage.
-	 * 
-	 * @return version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	/**
-	 * Sets the version value for this RemotePage.
-	 * 
-	 * @param version
-	 */
-	public void setVersion(final int version) {
-		this.version = version;
-	}
-
 	private java.lang.Object __equalsCalc = null;
 
-	@SuppressWarnings("unused")
 	@Override
 	public synchronized boolean equals(final java.lang.Object obj) {
 		if (!(obj instanceof RemotePage))
@@ -243,7 +221,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 				&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
 				&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.current == other.isCurrent()
 				&& this.homePage == other.isHomePage() && ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
-				&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier()))) && this.version == other.getVersion();
+				&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -277,7 +255,6 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 		if (getModifier() != null) {
 			_hashCode += getModifier().hashCode();
 		}
-		_hashCode += getVersion();
 		__hashCodeCalc = false;
 		return _hashCode;
 	}
@@ -335,12 +312,6 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		elemField.setNillable(true);
 		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("version");
-		elemField.setXmlName(new javax.xml.namespace.QName("", "version"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
 	}
 
 	/**
@@ -353,7 +324,6 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 	/**
 	 * Get Custom Serializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
@@ -361,7 +331,6 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 	/**
 	 * Get Custom Deserializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}

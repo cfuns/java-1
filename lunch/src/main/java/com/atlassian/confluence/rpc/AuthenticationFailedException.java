@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "unused", "serial", "rawtypes" })
 public class AuthenticationFailedException extends com.atlassian.confluence.rpc.RemoteException implements java.io.Serializable {
 
 	public AuthenticationFailedException() {
@@ -15,7 +15,6 @@ public class AuthenticationFailedException extends com.atlassian.confluence.rpc.
 
 	private java.lang.Object __equalsCalc = null;
 
-	@SuppressWarnings("unused")
 	@Override
 	public synchronized boolean equals(final java.lang.Object obj) {
 		if (!(obj instanceof AuthenticationFailedException))
@@ -65,7 +64,6 @@ public class AuthenticationFailedException extends com.atlassian.confluence.rpc.
 	/**
 	 * Get Custom Serializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
@@ -73,7 +71,6 @@ public class AuthenticationFailedException extends com.atlassian.confluence.rpc.
 	/**
 	 * Get Custom Deserializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}

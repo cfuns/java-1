@@ -7,24 +7,20 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "unused", "serial", "rawtypes" })
 public class RemoteNodeStatus implements java.io.Serializable {
 
-	@SuppressWarnings("rawtypes")
 	private java.util.HashMap JVMstats;
 
-	@SuppressWarnings("rawtypes")
 	private java.util.HashMap buildStats;
 
 	private int nodeId;
 
-	@SuppressWarnings("rawtypes")
 	private java.util.HashMap props;
 
 	public RemoteNodeStatus() {
 	}
 
-	@SuppressWarnings("rawtypes")
 	public RemoteNodeStatus(final java.util.HashMap JVMstats, final java.util.HashMap buildStats, final int nodeId, final java.util.HashMap props) {
 		this.JVMstats = JVMstats;
 		this.buildStats = buildStats;
@@ -37,7 +33,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	 * 
 	 * @return JVMstats
 	 */
-	@SuppressWarnings("rawtypes")
 	public java.util.HashMap getJVMstats() {
 		return JVMstats;
 	}
@@ -47,7 +42,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	 * 
 	 * @param JVMstats
 	 */
-	@SuppressWarnings("rawtypes")
 	public void setJVMstats(final java.util.HashMap JVMstats) {
 		this.JVMstats = JVMstats;
 	}
@@ -57,7 +51,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	 * 
 	 * @return buildStats
 	 */
-	@SuppressWarnings("rawtypes")
 	public java.util.HashMap getBuildStats() {
 		return buildStats;
 	}
@@ -67,7 +60,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	 * 
 	 * @param buildStats
 	 */
-	@SuppressWarnings("rawtypes")
 	public void setBuildStats(final java.util.HashMap buildStats) {
 		this.buildStats = buildStats;
 	}
@@ -95,7 +87,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	 * 
 	 * @return props
 	 */
-	@SuppressWarnings("rawtypes")
 	public java.util.HashMap getProps() {
 		return props;
 	}
@@ -105,14 +96,12 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	 * 
 	 * @param props
 	 */
-	@SuppressWarnings("rawtypes")
 	public void setProps(final java.util.HashMap props) {
 		this.props = props;
 	}
 
 	private java.lang.Object __equalsCalc = null;
 
-	@SuppressWarnings("unused")
 	@Override
 	public synchronized boolean equals(final java.lang.Object obj) {
 		if (!(obj instanceof RemoteNodeStatus))
@@ -198,7 +187,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
@@ -206,7 +194,6 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	/**
 	 * Get Custom Deserializer
 	 */
-	@SuppressWarnings("rawtypes")
 	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}

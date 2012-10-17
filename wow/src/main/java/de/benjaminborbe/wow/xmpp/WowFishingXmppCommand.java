@@ -107,7 +107,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 				final int now = vncService.getScreenContent().getPixels().getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
 				final int org = vncPixelsOrg.getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
 				logger.debug(Integer.toHexString(org) + "<=>" + Integer.toHexString(now) + " " + Integer.toHexString(Math.abs(now - org)));
-				return Math.abs(now - org) > 0x00500000;
+				return Math.abs(now - org) > 0x00400000;
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);

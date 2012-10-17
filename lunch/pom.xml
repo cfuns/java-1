@@ -42,7 +42,7 @@
 					<instructions>
 						<Export-Package>de.benjaminborbe.lunch.api.*</Export-Package>
 						<Bundle-Activator>de.benjaminborbe.lunch.LunchActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.lunch.*,net.seibertmedia.kunden.*,org.apache.xml.xml_soap.*,com.atlassian.confluence.rpc.*</Private-Package>
+						<Private-Package>de.benjaminborbe.lunch.*,net.seibert_media.kunden.*,org.apache.xml.xml_soap.*,com.atlassian.confluence.rpc.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
