@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 
 public class PixelsDifferIntegrationTest {
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testDiffBmp() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
