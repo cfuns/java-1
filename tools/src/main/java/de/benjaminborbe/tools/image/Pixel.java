@@ -1,10 +1,10 @@
-package de.benjaminborbe.vnc.util;
+package de.benjaminborbe.tools.image;
 
-public class VncPixel {
+public class Pixel {
 
 	private final int pixel;
 
-	public VncPixel(final int pixel) {
+	public Pixel(final int pixel) {
 		this.pixel = pixel;
 	}
 
@@ -26,8 +26,6 @@ public class VncPixel {
 
 	public int getGrey() {
 		return (getRed() + getBlue() + getGreen()) / 3;
-		// final int c = (getRed() + getBlue() + getGreen()) / 3;
-		// return c | c << 8 | c << 16;
 	}
 
 	public boolean isRed() {

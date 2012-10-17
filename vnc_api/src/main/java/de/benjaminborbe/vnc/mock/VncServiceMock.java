@@ -1,7 +1,5 @@
 package de.benjaminborbe.vnc.mock;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -62,16 +60,6 @@ public class VncServiceMock implements VncService {
 
 	@Override
 	public void disconnectForce() throws VncServiceException {
-	}
-
-	@Override
-	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) {
-		return null;
-	}
-
-	@Override
-	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB) {
-		return null;
 	}
 
 	@Override

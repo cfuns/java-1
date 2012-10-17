@@ -1,8 +1,6 @@
 package de.benjaminborbe.vnc.service;
 
 import java.io.IOException;
-import java.util.List;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -18,7 +16,6 @@ import de.benjaminborbe.vnc.connector.VncConnector;
 import de.benjaminborbe.vnc.connector.VncConnectorException;
 import de.benjaminborbe.vnc.connector.VncKeyTranslaterException;
 import de.benjaminborbe.vnc.util.VncAutoConnector;
-import de.benjaminborbe.vnc.util.VncPixelsDiffer;
 
 @Singleton
 public class VncServiceImpl implements VncService {
@@ -31,20 +28,12 @@ public class VncServiceImpl implements VncService {
 
 	private final VncStoreImageContentAction vncStoreImageContentAction;
 
-	private final VncPixelsDiffer vncPixelsDiffer;
-
 	@Inject
-	public VncServiceImpl(
-			final Logger logger,
-			final VncConnector vncConnector,
-			final VncAutoConnector vncAutoConnector,
-			final VncStoreImageContentAction vncStoreImageContentAction,
-			final VncPixelsDiffer vncPixelsDiffer) {
+	public VncServiceImpl(final Logger logger, final VncConnector vncConnector, final VncAutoConnector vncAutoConnector, final VncStoreImageContentAction vncStoreImageContentAction) {
 		this.logger = logger;
 		this.vncConnector = vncConnector;
 		this.vncAutoConnector = vncAutoConnector;
 		this.vncStoreImageContentAction = vncStoreImageContentAction;
-		this.vncPixelsDiffer = vncPixelsDiffer;
 	}
 
 	@Override
@@ -162,16 +151,6 @@ public class VncServiceImpl implements VncService {
 		catch (final IOException e) {
 			throw new VncServiceException(e);
 		}
-	}
-
-	@Override
-	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB, final int mask) throws VncServiceException {
-		return vncPixelsDiffer.diff(pixelsA, pixelsB, mask, 0);
-	}
-
-	@Override
-	public List<VncLocation> diff(final VncPixels pixelsA, final VncPixels pixelsB) throws VncServiceException {
-		return vncPixelsDiffer.diff(pixelsA, pixelsB);
 	}
 
 	@Override

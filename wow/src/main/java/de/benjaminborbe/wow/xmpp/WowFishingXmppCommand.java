@@ -9,9 +9,11 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
+import de.benjaminborbe.tools.image.Coordinate;
+import de.benjaminborbe.tools.image.Pixel;
+import de.benjaminborbe.tools.image.Pixels;
+import de.benjaminborbe.tools.image.PixelsImpl;
 import de.benjaminborbe.tools.util.ThreadResult;
-import de.benjaminborbe.vnc.api.VncLocation;
-import de.benjaminborbe.vnc.api.VncLocationImpl;
 import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
@@ -66,11 +68,11 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		private final String name;
 
-		private final ThreadResult<VncLocation> baitLocation;
+		private final ThreadResult<Coordinate> baitLocation;
 
 		private VncPixels vncPixelsOrg;
 
-		public WaitOnFishAction(final String name, final ThreadResult<VncLocation> baitLocation) {
+		public WaitOnFishAction(final String name, final ThreadResult<Coordinate> baitLocation) {
 			this.name = name;
 			this.baitLocation = baitLocation;
 		}
@@ -133,7 +135,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		private final ThreadResult<VncPixels> pixelsAfterFishing;
 
-		private final ThreadResult<VncLocation> baitLocation;
+		private final ThreadResult<Coordinate> baitLocation;
 
 		private final String name;
 
@@ -141,7 +143,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 				final String name,
 				final ThreadResult<VncPixels> pixelsBeforeFishing,
 				final ThreadResult<VncPixels> pixelsAfterFishing,
-				final ThreadResult<VncLocation> baitLocation) {
+				final ThreadResult<Coordinate> baitLocation) {
 			this.name = name;
 			this.pixelsBeforeFishing = pixelsBeforeFishing;
 			this.pixelsAfterFishing = pixelsAfterFishing;
@@ -159,16 +161,72 @@ public class WowFishingXmppCommand implements XmppCommand {
 				vncService.storeVncPixels(before, "before");
 				vncService.storeVncPixels(after, "after");
 
-				final List<VncLocation> locations = vncService.diff(before, after);
-				logger.debug("found " + locations.size() + " different locations");
+				final int width = before.getWidth();
+				final int height = before.getHeight();
 
-				for (final VncLocation location : locations) {
-					logger.debug("loc: " + location);
+				final Pixels diffBlueToRed = new PixelsImpl(new int[width * height], width, height);
+
+				for (int x = 1; x <= width; ++x) {
+					for (int y = 1; y <= height; ++y) {
+						final Pixel pb = new Pixel(before.getPixel(x, y));
+						final Pixel pa = new Pixel(after.getPixel(x, y));
+						if (pb.isBlue() && pa.isRed()) {
+							diffBlueToRed.setPixel(x, y, 0xFFFFFF);
+						}
+						else {
+							diffBlueToRed.setPixel(x, y, 0x000000);
+						}
+					}
 				}
-				// baitLocation
-				if (locations.size() > 0) {
-					baitLocation.set(locations.get(0));
+
+				final int range = 2;
+				final int min = 20;
+
+				final List<Coordinate> cs = new ArrayList<Coordinate>();
+				// final Pixels diffNeighbors = new PixelsImpl(new int[width * height], width,
+				// height);
+				for (int x = 1; x <= width; ++x) {
+					for (int y = 1; y <= height; ++y) {
+						final int pixel = diffBlueToRed.getPixel(x, y);
+						if (pixel == 0) {
+							// diffNeighbors.setPixel(x, y, 0x0);
+						}
+						else {
+							final int minX = Math.max(1, x - range);
+							final int minY = Math.max(1, y - range);
+							final int maxX = Math.min(width, x + range);
+							final int maxY = Math.min(height, y + range);
+							int counter = 0;
+							for (int xc = minX; xc <= maxX; ++xc) {
+								for (int yc = minY; yc <= maxY; ++yc) {
+									counter += diffBlueToRed.getPixel(xc, yc) & 0x1;
+								}
+							}
+							if (counter >= min) {
+								cs.add(new Coordinate(x, y));
+								// diffNeighbors.setPixel(x, y, 0xFFFFFF);
+							}
+							else {
+								// diffNeighbors.setPixel(x, y, 0x0);
+							}
+						}
+					}
 				}
+
+				logger.debug("found " + cs.size() + " bait locations");
+				if (cs.size() > 0) {
+					baitLocation.set(cs.get(0));
+				}
+				// // final List<Coordinate> locations = vncService.diff(before, after);
+				// logger.debug("found " + locations.size() + " different locations");
+				//
+				// for (final Coordinate location : locations) {
+				// logger.debug("loc: " + location);
+				// }
+				// // baitLocation
+				// if (locations.size() > 0) {
+				// baitLocation.set(locations.get(0));
+				// }
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -274,11 +332,11 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private final class FindFishingButtonLocationAction extends ActionBase {
 
-		private final ThreadResult<VncLocation> fishingButtonLocation;
+		private final ThreadResult<Coordinate> fishingButtonLocation;
 
 		private final String name;
 
-		private FindFishingButtonLocationAction(final String name, final ThreadResult<VncLocation> fishingButtonLocation) {
+		private FindFishingButtonLocationAction(final String name, final ThreadResult<Coordinate> fishingButtonLocation) {
 			this.name = name;
 			this.fishingButtonLocation = fishingButtonLocation;
 		}
@@ -287,7 +345,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public void execute() {
 			logger.debug(name + " - execute started");
 			// determine fishing button location
-			fishingButtonLocation.set(new VncLocationImpl(1350, 804));
+			fishingButtonLocation.set(new Coordinate(1350, 804));
 			logger.debug(name + " - execute finished");
 		}
 
@@ -310,7 +368,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private final class MouseMoveAction extends ActionBase {
 
-		private final ThreadResult<VncLocation> vncLocationThreadResult;
+		private final ThreadResult<Coordinate> vncLocationThreadResult;
 
 		private final String name;
 
@@ -318,11 +376,11 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		private final int y;
 
-		private MouseMoveAction(final String name, final ThreadResult<VncLocation> vncLocationThreadResult) {
+		private MouseMoveAction(final String name, final ThreadResult<Coordinate> vncLocationThreadResult) {
 			this(name, vncLocationThreadResult, 0, 0);
 		}
 
-		private MouseMoveAction(final String name, final ThreadResult<VncLocation> vncLocationThreadResult, final int x, final int y) {
+		private MouseMoveAction(final String name, final ThreadResult<Coordinate> vncLocationThreadResult, final int x, final int y) {
 			this.name = name;
 			this.vncLocationThreadResult = vncLocationThreadResult;
 			this.x = x;
@@ -333,7 +391,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public void execute() {
 			logger.debug(name + " - execute started");
 			try {
-				final VncLocation l = vncLocationThreadResult.get();
+				final Coordinate l = vncLocationThreadResult.get();
 				vncService.mouseMouse(l.getX() + x, l.getY() + y);
 			}
 			catch (final VncServiceException e) {
@@ -356,9 +414,9 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
 			try {
-				final VncLocation loc = new VncLocationImpl(vncLocationThreadResult.get().getX() + x, vncLocationThreadResult.get().getY() + y);
+				final Coordinate loc = new Coordinate(vncLocationThreadResult.get().getX() + x, vncLocationThreadResult.get().getY() + y);
 				logger.debug("compare location " + loc + " and " + vncService.getScreenContent().getPointerLocation());
-				return loc.equals(vncService.getScreenContent().getPointerLocation());
+				return loc.getX() == vncService.getScreenContent().getPointerLocation().getX() && loc.getY() == vncService.getScreenContent().getPointerLocation().getY();
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -396,14 +454,14 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 				final List<Action> actions = new ArrayList<Action>();
 
-				final ThreadResult<VncLocation> fishingButtonLocation = new ThreadResult<VncLocation>();
+				final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
 				actions.add(new FindFishingButtonLocationAction("find fishing button location", fishingButtonLocation));
 				actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
 				final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
 				actions.add(new TakeScreenshotAction("take screenshot before fishing", pixelsBeforeFishing));
 				actions.add(new MouseClickAction("click fishing button"));
 				actions.add(new SleepAction("sleep", 2000));
-				final ThreadResult<VncLocation> baitLocation = new ThreadResult<VncLocation>();
+				final ThreadResult<Coordinate> baitLocation = new ThreadResult<Coordinate>();
 				final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
 				actions.add(new FindBaitAction("find bait", pixelsBeforeFishing, pixelsAfterFishing, baitLocation));
 				actions.add(new MouseMoveAction("move mouse to bait", baitLocation, 5, 5));

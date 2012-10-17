@@ -1,18 +1,16 @@
-package de.benjaminborbe.vnc.util;
+package de.benjaminborbe.tools.image;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.benjaminborbe.vnc.api.VncPixels;
-
-public class VncPixelsImplUnitTest {
+public class PixelsImplUnitTest {
 
 	@Test
 	public void testPixel() throws Exception {
 		{
 			final int[] data = { 0xFFFFFF };
-			final VncPixelsImpl pixels = new VncPixelsImpl(data, 1, 1);
+			final PixelsImpl pixels = new PixelsImpl(data, 1, 1);
 			assertEquals(1, pixels.getWidth());
 			assertEquals(1, pixels.getHeight());
 
@@ -21,7 +19,7 @@ public class VncPixelsImplUnitTest {
 		}
 		{
 			final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-			final VncPixelsImpl pixels = new VncPixelsImpl(data, 4, 3);
+			final PixelsImpl pixels = new PixelsImpl(data, 4, 3);
 			assertEquals(4, pixels.getWidth());
 			assertEquals(3, pixels.getHeight());
 			int counter = 0;
@@ -38,8 +36,8 @@ public class VncPixelsImplUnitTest {
 	@Test
 	public void testCopy() {
 		final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-		final VncPixelsImpl pixels = new VncPixelsImpl(data, 4, 3);
-		final VncPixels copy = pixels.getCopy();
+		final PixelsImpl pixels = new PixelsImpl(data, 4, 3);
+		final Pixels copy = pixels.getCopy();
 		assertEquals(copy.getWidth(), pixels.getWidth());
 		assertEquals(copy.getHeight(), pixels.getHeight());
 		assertEquals(1, pixels.getPixel(1, 1));
@@ -52,7 +50,7 @@ public class VncPixelsImplUnitTest {
 	public void testSubPixel() throws Exception {
 		final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		{
-			final VncPixels pixels = new VncPixelsImpl(data, 4, 3).getSubPixel(1, 1, 2, 2);
+			final Pixels pixels = new PixelsImpl(data, 4, 3).getSubPixel(1, 1, 2, 2);
 			assertEquals(2, pixels.getWidth());
 			assertEquals(2, pixels.getHeight());
 			assertEquals(1, pixels.getPixel(1, 1));
@@ -61,7 +59,7 @@ public class VncPixelsImplUnitTest {
 			assertEquals(6, pixels.getPixel(2, 2));
 		}
 		{
-			final VncPixels pixels = new VncPixelsImpl(data, 4, 3).getSubPixel(3, 2, 2, 2);
+			final Pixels pixels = new PixelsImpl(data, 4, 3).getSubPixel(3, 2, 2, 2);
 			assertEquals(2, pixels.getWidth());
 			assertEquals(2, pixels.getHeight());
 			assertEquals(7, pixels.getPixel(1, 1));

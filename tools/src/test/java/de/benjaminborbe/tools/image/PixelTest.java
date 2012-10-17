@@ -1,4 +1,4 @@
-package de.benjaminborbe.vnc.util;
+package de.benjaminborbe.tools.image;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,11 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class VncPixelTest {
+import de.benjaminborbe.tools.image.Pixel;
+
+public class PixelTest {
 
 	@Test
 	public void testRGB() {
-		final VncPixel pixel = new VncPixel(0xAABBCC);
+		final Pixel pixel = new Pixel(0xAABBCC);
 		assertEquals(0xCC, pixel.getBlue());
 		assertEquals(0xBB, pixel.getGreen());
 		assertEquals(0xAA, pixel.getRed());
@@ -18,7 +20,7 @@ public class VncPixelTest {
 
 	@Test
 	public void testIsRed() {
-		final VncPixel pixel = new VncPixel(0x482d26);
+		final Pixel pixel = new Pixel(0x482d26);
 		assertTrue(pixel.isRed());
 		assertFalse(pixel.isBlue());
 		assertFalse(pixel.isGreen());
@@ -26,7 +28,7 @@ public class VncPixelTest {
 
 	@Test
 	public void testIsBlue() {
-		final VncPixel pixel = new VncPixel(0x1d3646);
+		final Pixel pixel = new Pixel(0x1d3646);
 		assertTrue(pixel.isBlue());
 		assertFalse(pixel.isRed());
 		assertFalse(pixel.isGreen());

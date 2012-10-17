@@ -62,9 +62,8 @@ public class LunchParseUtil {
 				return result;
 			}
 		}
-		// logger.warn(content);
-		// System.out.println(content);
 
+		logger.debug("extractLunchName failed " + htmlContent);
 		return null;
 	}
 }
