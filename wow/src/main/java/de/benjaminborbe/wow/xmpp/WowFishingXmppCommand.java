@@ -44,12 +44,16 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public void run() {
 			try {
 				vncService.connect();
+				final ThreadResult<Integer> counter = new ThreadResult<Integer>(0);
 
 				final ThreadResult<Coordinate> wowAppIconLocation = new ThreadResult<Coordinate>();
 				final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
+
 				while (running.get()) {
 					final List<Action> actions = new ArrayList<Action>();
-					actions.add(new SendKeyAction("jump", VncKey.K_SPACE));
+					if (counter.get() % 20 == 0) {
+						actions.add(new SendKeyAction("jump", VncKey.K_SPACE));
+					}
 					actions.add(new SleepAction("sleep", 2000));
 					actions.add(new FindPixelsAction("find wow app icon", wowAppIconLocation, wowImageLibrary.getWowAppIcon(), 70));
 					actions.add(new FindPixelsAction("find fishing button location", fishingButtonLocation, wowImageLibrary.getFishingButton(), 90));
@@ -65,6 +69,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 					actions.add(new SleepAction("sleep", 2000));
 					actions.add(new WaitOnFishAction("wait on fish", baitLocation));
 					actions.add(new MouseClickAction("click on bait button"));
+					actions.add(new IncreaseCounterAction("increase counter", counter));
 					actionChainRunner.run(actions);
 				}
 				send(chat, "stopped");
@@ -124,6 +129,21 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 	}
 
+	private class IncreaseCounterAction extends ActionBase {
+
+		private final ThreadResult<Integer> counter;
+
+		public IncreaseCounterAction(final String name, final ThreadResult<Integer> counter) {
+			super(name);
+			this.counter = counter;
+		}
+
+		@Override
+		public void execute() {
+			counter.set(counter.get() + 1);
+		}
+	}
+
 	private class SendKeyAction extends ActionBase {
 
 		private final VncKey key;
@@ -135,6 +155,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		@Override
 		public void execute() {
+			logger.debug(name + " - execute started");
 			try {
 				vncService.keyPress(key);
 				Thread.sleep(100);
@@ -144,7 +165,9 @@ public class WowFishingXmppCommand implements XmppCommand {
 				logger.debug(e.getClass().getName(), e);
 			}
 			catch (final InterruptedException e) {
+				logger.debug(e.getClass().getName(), e);
 			}
+			logger.debug(name + " - execute finished");
 		}
 	}
 
@@ -381,9 +404,13 @@ public class WowFishingXmppCommand implements XmppCommand {
 						}
 					}
 				}
-
-				logger.debug("found bait locations at " + bestCoordinate + " with " + bestCounter);
-				baitLocation.set(bestCoordinate);
+				if (bestCoordinate != null) {
+					logger.debug("found bait locations at " + bestCoordinate + " with " + bestCounter);
+					baitLocation.set(bestCoordinate);
+				}
+				else {
+					logger.debug("bait location not found");
+				}
 			}
 			catch (final VncServiceException e) {
 				logger.debug(e.getClass().getName(), e);
@@ -409,10 +436,16 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public void execute() {
 			logger.debug(name + " - execute started");
 			try {
+				Thread.sleep(100);
 				vncService.mouseLeftButtonPress();
+				Thread.sleep(100);
 				vncService.mouseLeftButtonRelease();
+				Thread.sleep(100);
 			}
 			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+			catch (final InterruptedException e) {
 				logger.debug(e.getClass().getName(), e);
 			}
 			logger.debug(name + " - execute finished");
