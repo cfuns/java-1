@@ -1,6 +1,9 @@
 package de.benjaminborbe.wow.xmpp;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +13,7 @@ import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
 import de.benjaminborbe.tools.image.Coordinate;
 import de.benjaminborbe.tools.image.Pixel;
+import de.benjaminborbe.tools.image.PixelFinder;
 import de.benjaminborbe.tools.image.Pixels;
 import de.benjaminborbe.tools.image.PixelsImpl;
 import de.benjaminborbe.tools.util.ThreadResult;
@@ -26,7 +30,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private final ThreadResult<Boolean> running = new ThreadResult<Boolean>(false);
 
-	private final class FishingThread implements Runnable {
+	private class FishingThread implements Runnable {
 
 		private final XmppChat chat;
 
@@ -42,8 +46,10 @@ public class WowFishingXmppCommand implements XmppCommand {
 				while (running.get()) {
 					final List<Action> actions = new ArrayList<Action>();
 					actions.add(new SleepAction("sleep", 2000));
+					final ThreadResult<Coordinate> wowAppIconLocation = new ThreadResult<Coordinate>();
+					actions.add(new FindPixelsAction("find wow app icon", wowAppIconLocation, wowImageLibrary.getWowAppIcon(), 70));
 					final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
-					actions.add(new FindFishingButtonLocationAction("find fishing button location", fishingButtonLocation));
+					actions.add(new FindPixelsAction("find fishing button location", fishingButtonLocation, wowImageLibrary.getFishingButton(), 90));
 					actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
 					final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
 					actions.add(new TakeScreenshotAction("take screenshot before fishing", pixelsBeforeFishing));
@@ -51,7 +57,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 					actions.add(new SleepAction("sleep", 2000));
 					final ThreadResult<Coordinate> baitLocation = new ThreadResult<Coordinate>();
 					final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
-					actions.add(new FindBaitAction("find bait", pixelsBeforeFishing, pixelsAfterFishing, baitLocation));
+					actions.add(new FindBaitAction("find bait", pixelsBeforeFishing, pixelsAfterFishing, wowAppIconLocation, baitLocation));
 					actions.add(new MouseMoveAction("move mouse to bait", baitLocation, 5, 5));
 					actions.add(new SleepAction("sleep", 2000));
 					actions.add(new WaitOnFishAction("wait on fish", baitLocation));
@@ -64,6 +70,9 @@ public class WowFishingXmppCommand implements XmppCommand {
 				logger.debug(e.getClass().getName(), e);
 			}
 			catch (final XmppChatException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+			catch (final IOException e) {
 				logger.debug(e.getClass().getName(), e);
 			}
 			finally {
@@ -79,7 +88,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private abstract class ActionBase implements Action {
 
-		protected final String name;
+		protected String name;
 
 		public ActionBase(final String name) {
 			this.name = name;
@@ -112,7 +121,50 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 	}
 
-	private final class SleepAction extends ActionBase {
+	private class FindPixelsAction extends ActionBase {
+
+		private final ThreadResult<Coordinate> location;
+
+		private final Pixels pixels;
+
+		private final int matchPercent;
+
+		public FindPixelsAction(final String name, final ThreadResult<Coordinate> location, final Pixels pixels, final int matchPercent) {
+			super(name);
+			this.location = location;
+			this.pixels = pixels;
+			this.matchPercent = matchPercent;
+		}
+
+		@Override
+		public void execute() {
+			logger.debug(name + " - execute started");
+			try {
+				final Pixels screen = new PixelsAdapter(vncService.getScreenContent().getPixels());
+				final Collection<Coordinate> cs = pixelFinder.find(screen, pixels, matchPercent);
+				logger.debug("found " + cs.size() + " pixels");
+				final Iterator<Coordinate> i = cs.iterator();
+				if (i.hasNext()) {
+					final Coordinate loc = i.next().add(pixels.getWidth() / 2, pixels.getHeight() / 2);
+					logger.debug("found image " + loc);
+					location.set(loc);
+				}
+			}
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+
+			logger.debug(name + " - execute finished");
+		}
+
+		@Override
+		public boolean validateExecuteResult() {
+			logger.debug(name + " - validateExecuteResult");
+			return super.validateExecuteResult() && location.get() != null;
+		}
+	}
+
+	private class SleepAction extends ActionBase {
 
 		private final long sleep;
 
@@ -134,7 +186,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	}
 
-	private final class WaitOnFishAction extends ActionBase {
+	private class WaitOnFishAction extends ActionBase {
 
 		private final ThreadResult<Coordinate> baitLocation;
 
@@ -201,7 +253,9 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	}
 
-	private final class FindBaitAction extends ActionBase {
+	private class FindBaitAction extends ActionBase {
+
+		private final ThreadResult<Coordinate> wowAppIconLocation;
 
 		private final ThreadResult<VncPixels> pixelsBeforeFishing;
 
@@ -213,10 +267,12 @@ public class WowFishingXmppCommand implements XmppCommand {
 				final String name,
 				final ThreadResult<VncPixels> pixelsBeforeFishing,
 				final ThreadResult<VncPixels> pixelsAfterFishing,
+				final ThreadResult<Coordinate> wowAppIconLocation,
 				final ThreadResult<Coordinate> baitLocation) {
 			super(name);
 			this.pixelsBeforeFishing = pixelsBeforeFishing;
 			this.pixelsAfterFishing = pixelsAfterFishing;
+			this.wowAppIconLocation = wowAppIconLocation;
 			this.baitLocation = baitLocation;
 		}
 
@@ -236,11 +292,12 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 				final Pixels diffBlueToRed = new PixelsImpl(new int[width * height], width, height);
 
-				// TODO auto determine
-				final int startX = 560; // 1
-				final int startY = 560; // 1
-				final int endX = 1300; // width
-				final int endY = 760; // height
+				final int startX = wowAppIconLocation.get().getX() + 0; // 560; // 1
+				final int startY = wowAppIconLocation.get().getY() + 150; // 560; // 1
+				final int endX = wowAppIconLocation.get().getX() + 765; // 1300; // width
+				final int endY = wowAppIconLocation.get().getY() + 485; // 760; // height
+
+				logger.debug("search in (" + startX + "," + startY + ") to (" + endX + "," + endY + ")");
 
 				for (int x = startX; x <= endX; ++x) {
 					for (int y = startY; y <= endY; ++y) {
@@ -299,7 +356,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	}
 
-	private final class MouseClickAction extends ActionBase {
+	private class MouseClickAction extends ActionBase {
 
 		public MouseClickAction(final String name) {
 			super(name);
@@ -320,7 +377,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	}
 
-	private final class TakeScreenshotAction extends ActionBase {
+	private class TakeScreenshotAction extends ActionBase {
 
 		private final ThreadResult<VncPixels> pixelsBeforeFishing;
 
@@ -348,31 +405,7 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 	}
 
-	private final class FindFishingButtonLocationAction extends ActionBase {
-
-		private final ThreadResult<Coordinate> fishingButtonLocation;
-
-		private FindFishingButtonLocationAction(final String name, final ThreadResult<Coordinate> fishingButtonLocation) {
-			super(name);
-			this.fishingButtonLocation = fishingButtonLocation;
-		}
-
-		@Override
-		public void execute() {
-			logger.debug(name + " - execute started");
-			// determine fishing button location
-			fishingButtonLocation.set(new Coordinate(1350, 804));
-			logger.debug(name + " - execute finished");
-		}
-
-		@Override
-		public boolean validateExecuteResult() {
-			logger.debug(name + " - validateExecuteResult");
-			return super.validateExecuteResult() && fishingButtonLocation.get() != null;
-		}
-	}
-
-	private final class MouseMoveAction extends ActionBase {
+	private class MouseMoveAction extends ActionBase {
 
 		private final ThreadResult<Coordinate> vncLocationThreadResult;
 
@@ -427,12 +460,24 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 	private final ThreadRunner threadRunner;
 
+	private final WowImageLibrary wowImageLibrary;
+
+	private final PixelFinder pixelFinder;
+
 	@Inject
-	public WowFishingXmppCommand(final Logger logger, final WowVncConnector vncService, final ActionChainRunner actionChainRunner, final ThreadRunner threadRunner) {
+	public WowFishingXmppCommand(
+			final Logger logger,
+			final PixelFinder pixelFinder,
+			final WowVncConnector vncService,
+			final ActionChainRunner actionChainRunner,
+			final ThreadRunner threadRunner,
+			final WowImageLibrary wowImageLibrary) {
 		this.logger = logger;
+		this.pixelFinder = pixelFinder;
 		this.vncService = vncService;
 		this.actionChainRunner = actionChainRunner;
 		this.threadRunner = threadRunner;
+		this.wowImageLibrary = wowImageLibrary;
 	}
 
 	@Override

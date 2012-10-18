@@ -5,9 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Collection;
 
+import javax.imageio.ImageIO;
+
 import org.easymock.EasyMock;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -65,5 +70,19 @@ public class PixelFinderUnitTest {
 		assertTrue(pixelFinder.match(0xFF, 0xFF, 100));
 		assertTrue(pixelFinder.match(0xFF, 0x00, 0));
 		assertFalse(pixelFinder.match(0xFF, 0xEE, 100));
+	}
+
+	@Ignore
+	@Test
+	public void testFoo() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		final PixelFinder pixelFinder = new PixelFinder(logger);
+
+		final BufferedImage image = ImageIO.read(new File("/tmp/foo.bmp"));
+		final BufferedImage subimage = ImageIO.read(new File("/tmp/wow-app-icon.bmp"));
+		final Collection<Coordinate> cs = pixelFinder.find(new PixelsImpl(image), new PixelsImpl(subimage), 70);
+		assertNotNull(cs);
+		assertEquals(1, cs.size());
 	}
 }

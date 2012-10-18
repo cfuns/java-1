@@ -35,12 +35,13 @@ public class PixelFinder {
 	}
 
 	private boolean isMatch(final Pixels image, final Pixels subImage, final int xi, final int yi, final int matchInPercent) {
+		// int counter = 0;
 		for (int xs = 1; xs <= subImage.getWidth(); ++xs) {
 			for (int ys = 1; ys <= subImage.getHeight(); ++ys) {
 				final int pb = subImage.getPixel(xs, ys);
 				final int pa = image.getPixel(xi + xs - 1, yi + ys - 1);
 				if (pa == pb) {
-					// nop
+					// counter++;
 				}
 				else if (100 == matchInPercent) {
 					return false;
@@ -48,13 +49,11 @@ public class PixelFinder {
 				else {
 					final Pixel pixela = new Pixel(pa);
 					final Pixel pixelb = new Pixel(pb);
-					if (match(pixela.getRed(), pixelb.getRed(), matchInPercent)) {
-						return false;
+					if (match(pixela.getRed(), pixelb.getRed(), matchInPercent) && match(pixela.getBlue(), pixelb.getBlue(), matchInPercent)
+							&& match(pixela.getGreen(), pixelb.getGreen(), matchInPercent)) {
+						// counter++;
 					}
-					if (match(pixela.getBlue(), pixelb.getBlue(), matchInPercent)) {
-						return false;
-					}
-					if (match(pixela.getGreen(), pixelb.getGreen(), matchInPercent)) {
+					else {
 						return false;
 					}
 				}

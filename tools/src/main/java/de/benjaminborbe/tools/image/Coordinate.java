@@ -11,6 +11,10 @@ public class Coordinate {
 		this.y = y;
 	}
 
+	public Coordinate add(final int x, final int y) {
+		return new Coordinate(this.x + x, this.y + y);
+	}
+
 	public int getX() {
 		return x;
 	}

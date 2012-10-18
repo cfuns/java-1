@@ -63,7 +63,7 @@ public class KeyEventMessage implements ClientToServerMessage {
 		writer.writeInt16(0); // padding
 		writer.write(key);
 		writer.flush();
-		logger.debug("key " + key + " " + (downFlag ? "down" : "up"));
+		logger.trace("key " + key + " " + (downFlag ? "down" : "up"));
 	}
 
 	@Override
