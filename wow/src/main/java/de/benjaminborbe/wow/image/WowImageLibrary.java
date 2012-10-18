@@ -1,4 +1,4 @@
-package de.benjaminborbe.wow.xmpp;
+package de.benjaminborbe.wow.image;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

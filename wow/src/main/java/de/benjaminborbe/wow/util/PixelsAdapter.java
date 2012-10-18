@@ -1,4 +1,4 @@
-package de.benjaminborbe.wow.xmpp;
+package de.benjaminborbe.wow.util;
 
 import de.benjaminborbe.tools.image.Pixels;
 import de.benjaminborbe.vnc.api.VncPixels;
