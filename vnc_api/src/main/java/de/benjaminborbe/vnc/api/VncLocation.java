@@ -5,4 +5,5 @@ public interface VncLocation {
 	int getX();
 
 	int getY();
+
 }

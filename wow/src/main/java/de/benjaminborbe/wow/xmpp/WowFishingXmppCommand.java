@@ -18,6 +18,8 @@ import de.benjaminborbe.tools.image.Pixels;
 import de.benjaminborbe.tools.image.PixelsImpl;
 import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.vnc.api.VncKey;
+import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
@@ -43,12 +45,13 @@ public class WowFishingXmppCommand implements XmppCommand {
 			try {
 				vncService.connect();
 
+				final ThreadResult<Coordinate> wowAppIconLocation = new ThreadResult<Coordinate>();
+				final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
 				while (running.get()) {
 					final List<Action> actions = new ArrayList<Action>();
+					actions.add(new SendKeyAction("jump", VncKey.K_SPACE));
 					actions.add(new SleepAction("sleep", 2000));
-					final ThreadResult<Coordinate> wowAppIconLocation = new ThreadResult<Coordinate>();
 					actions.add(new FindPixelsAction("find wow app icon", wowAppIconLocation, wowImageLibrary.getWowAppIcon(), 70));
-					final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
 					actions.add(new FindPixelsAction("find fishing button location", fishingButtonLocation, wowImageLibrary.getFishingButton(), 90));
 					actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
 					final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
@@ -121,6 +124,30 @@ public class WowFishingXmppCommand implements XmppCommand {
 		}
 	}
 
+	private class SendKeyAction extends ActionBase {
+
+		private final VncKey key;
+
+		public SendKeyAction(final String name, final VncKey key) {
+			super(name);
+			this.key = key;
+		}
+
+		@Override
+		public void execute() {
+			try {
+				vncService.keyPress(key);
+				Thread.sleep(100);
+				vncService.keyRelease(key);
+			}
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+			catch (final InterruptedException e) {
+			}
+		}
+	}
+
 	private class FindPixelsAction extends ActionBase {
 
 		private final ThreadResult<Coordinate> location;
@@ -138,6 +165,10 @@ public class WowFishingXmppCommand implements XmppCommand {
 
 		@Override
 		public void execute() {
+			if (validateExecuteResult()) {
+				logger.debug(name + " - alread found");
+				return;
+			}
 			logger.debug(name + " - execute started");
 			try {
 				final Pixels screen = new PixelsAdapter(vncService.getScreenContent().getPixels());
@@ -161,6 +192,18 @@ public class WowFishingXmppCommand implements XmppCommand {
 		public boolean validateExecuteResult() {
 			logger.debug(name + " - validateExecuteResult");
 			return super.validateExecuteResult() && location.get() != null;
+		}
+
+		@Override
+		public void onFailure() {
+			logger.debug(name + " - onFailure - move mouse a bit");
+			try {
+				final VncLocation loc = vncService.getScreenContent().getPointerLocation();
+				vncService.mouseMouse(loc.getX() + pixels.getWidth(), loc.getY() + pixels.getHeight());
+			}
+			catch (final VncServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
 		}
 	}
 

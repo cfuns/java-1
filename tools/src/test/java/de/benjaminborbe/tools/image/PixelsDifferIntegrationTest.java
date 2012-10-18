@@ -100,7 +100,7 @@ public class PixelsDifferIntegrationTest {
 		// return toGrey(a ^ b);
 	}
 
-	private int toGrey(final int pixel) {
+	protected int toGrey(final int pixel) {
 		final int blue = pixel & 0xFF;
 		final int green = pixel >> 8 & 0xFF;
 		final int red = pixel >> 16 & 0xFF;
