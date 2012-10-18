@@ -32,7 +32,7 @@ public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
 		try {
 			final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
 			final String content = microblogPostResult.getContent();
-			if (content != null && content.indexOf("Mittagessen") != -1) {
+			if (content != null && (content.indexOf("Mittagessen") != -1 || content.indexOf("Mittagstisch") != -1)) {
 				xmppService.send(content);
 			}
 		}

@@ -33,6 +33,7 @@ import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
+import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.gui.servlet.XmppGuiServlet;
 
 public class XmppGuiServletUnitTest {
@@ -117,13 +118,16 @@ public class XmppGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.replay(authorizationService);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final XmppService xmppService = EasyMock.createMock(XmppService.class);
+		EasyMock.replay(xmppService);
+
 		final XmppGuiServlet xmppServlet = new XmppGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService);
+				redirectUtil, urlUtil, authorizationService, xmppService);
 
 		xmppServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
