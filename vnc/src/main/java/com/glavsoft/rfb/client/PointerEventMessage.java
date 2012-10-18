@@ -53,12 +53,28 @@ public class PointerEventMessage implements ClientToServerMessage {
 
 	@Override
 	public void send(final Writer writer) throws TransportException {
-		writer.writeByte(POINTER_EVENT);
-		writer.writeByte(buttonMask);
-		writer.writeInt16(x);
-		writer.writeInt16(y);
-		writer.flush();
-		vncPointerLocation.set(x, y);
+		if (buttonMask != 0) {
+			writer.writeByte(POINTER_EVENT);
+			writer.writeByte(buttonMask);
+			writer.writeInt16(vncPointerLocation.getX());
+			writer.writeInt16(vncPointerLocation.getY());
+			writer.flush();
+			writer.writeByte(POINTER_EVENT);
+			writer.writeByte(0);
+			writer.writeInt16(vncPointerLocation.getX());
+			writer.writeInt16(vncPointerLocation.getY());
+			writer.flush();
+			logger.debug("pointer x:" + x + " y:" + y + " mask:" + buttonMask);
+		}
+		else {
+			writer.writeByte(POINTER_EVENT);
+			writer.writeByte(buttonMask);
+			writer.writeInt16(x);
+			writer.writeInt16(y);
+			writer.flush();
+			vncPointerLocation.set(x, y);
+		}
+
 		logger.trace("pointer x:" + x + " y:" + y + " mask:" + buttonMask);
 	}
 

@@ -54,9 +54,10 @@ public class WowFishingXmppCommand implements XmppCommand {
 					if (counter.get() % 20 == 0) {
 						actions.add(new SendKeyAction("jump", VncKey.K_SPACE));
 					}
+					actions.add(new IncreaseCounterAction("increase counter", counter));
 					actions.add(new SleepAction("sleep", 2000));
 					actions.add(new FindPixelsAction("find wow app icon", wowAppIconLocation, wowImageLibrary.getWowAppIcon(), 70));
-					actions.add(new FindPixelsAction("find fishing button location", fishingButtonLocation, wowImageLibrary.getFishingButton(), 90));
+					actions.add(new FindPixelsAction("find fishing button location", fishingButtonLocation, wowImageLibrary.getFishingButton(), 70));
 					actions.add(new MouseMoveAction("move mouse to fishing button", fishingButtonLocation));
 					final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
 					actions.add(new TakeScreenshotAction("take screenshot before fishing", pixelsBeforeFishing));
@@ -69,7 +70,6 @@ public class WowFishingXmppCommand implements XmppCommand {
 					actions.add(new SleepAction("sleep", 2000));
 					actions.add(new WaitOnFishAction("wait on fish", baitLocation));
 					actions.add(new MouseClickAction("click on bait button"));
-					actions.add(new IncreaseCounterAction("increase counter", counter));
 					actionChainRunner.run(actions);
 				}
 				send(chat, "stopped");
