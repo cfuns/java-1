@@ -89,6 +89,7 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			actionChainRunner.run(actions);
 		}
 		catch (final IOException e) {
+			logger.debug(e.getClass().getName(), e);
 		}
 	}
 

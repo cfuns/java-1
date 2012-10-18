@@ -23,7 +23,7 @@ public class WowFindBaitAction extends WowActionBase {
 
 	private final Logger logger;
 
-	private VncService vncService;
+	private final VncService vncService;
 
 	public WowFindBaitAction(
 			final Logger logger,
@@ -36,6 +36,7 @@ public class WowFindBaitAction extends WowActionBase {
 			final ThreadResult<Coordinate> baitLocation) {
 		super(logger, name, running);
 		this.logger = logger;
+		this.vncService = vncService;
 		this.pixelsBeforeFishing = pixelsBeforeFishing;
 		this.pixelsAfterFishing = pixelsAfterFishing;
 		this.wowAppIconLocation = wowAppIconLocation;
