@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.slf4j.Logger;
 
@@ -30,6 +33,8 @@ public class XmppConnectorImpl implements XmppConnector {
 	private XMPPConnection connection;
 
 	private final XmppChatManagerListener xmppChatManagerListener;
+
+	private ChatManager chatManager;
 
 	@Inject
 	public XmppConnectorImpl(final Logger logger, final XmppConfig xmppConfig, final XmppChatManagerListener xmppChatManagerListener) {
@@ -64,7 +69,7 @@ public class XmppConnectorImpl implements XmppConnector {
 			final Presence presence = new Presence(Presence.Type.available);
 			connection.sendPacket(presence);
 
-			final ChatManager chatManager = connection.getChatManager();
+			chatManager = connection.getChatManager();
 			chatManager.addChatListener(xmppChatManagerListener);
 
 			final Roster roster = connection.getRoster();
@@ -88,6 +93,7 @@ public class XmppConnectorImpl implements XmppConnector {
 		if (connection != null) {
 			connection.disconnect();
 			connection = null;
+			chatManager = null;
 		}
 	}
 
@@ -177,4 +183,21 @@ public class XmppConnectorImpl implements XmppConnector {
 		}
 	}
 
+	@Override
+	public void sendMessage(final XmppUser user, final String message) throws XmppConnectorException {
+
+		try {
+			final MessageListener listener = new MessageListener() {
+
+				@Override
+				public void processMessage(final Chat chat, final Message message) {
+				}
+			};
+			final Chat chat = chatManager.createChat(user.getUid(), listener);
+			chat.sendMessage(message);
+		}
+		catch (final XMPPException e) {
+			throw new XmppConnectorException(e.getClass().getName(), e);
+		}
+	}
 }

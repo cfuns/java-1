@@ -1,5 +1,7 @@
 package de.benjaminborbe.microblog.service;
 
+import java.util.HashSet;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -11,6 +13,8 @@ import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
 import de.benjaminborbe.microblog.post.MicroblogPostMailer;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
+import de.benjaminborbe.microblog.util.MicroblogPostListener;
+import de.benjaminborbe.microblog.util.MicroblogPostListenerRegistry;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 
@@ -48,7 +52,11 @@ public class MicroblogCronJobUnitTest {
 		final MicroblogConversationFinder microblogConversationFinder = EasyMock.createNiceMock(MicroblogConversationFinder.class);
 		EasyMock.replay(microblogConversationFinder);
 
-		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogConversationFinder, microblogPostMailer, null);
+		final MicroblogPostListenerRegistry microblogPostListenerRegistry = EasyMock.createNiceMock(MicroblogPostListenerRegistry.class);
+		EasyMock.expect(microblogPostListenerRegistry.getAll()).andReturn(new HashSet<MicroblogPostListener>()).anyTimes();
+		EasyMock.replay(microblogPostListenerRegistry);
+
+		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogPostListenerRegistry);
 
 		microblogCronJob.execute();
 	}
@@ -80,7 +88,7 @@ public class MicroblogCronJobUnitTest {
 		final MicroblogConversationFinder microblogConversationFinder = EasyMock.createNiceMock(MicroblogConversationFinder.class);
 		EasyMock.replay(microblogConversationFinder);
 
-		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, microblogConversationFinder, microblogPostMailer, null);
+		final MicroblogCronJob microblogCronJob = new MicroblogCronJob(logger, microblogConnector, microblogRevisionStorage, null);
 
 		microblogCronJob.execute();
 	}

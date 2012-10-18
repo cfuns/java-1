@@ -8,7 +8,7 @@ public interface XmppConnector {
 
 	void disconnect() throws XmppConnectorException;
 
-	// void sendMessage(XmppUser user, String string) throws XmppConnectorException;
+	void sendMessage(XmppUser user, String message) throws XmppConnectorException;
 
 	List<XmppUser> getUsers();
 

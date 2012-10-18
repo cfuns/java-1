@@ -2,5 +2,5 @@ package de.benjaminborbe.xmpp.api;
 
 public interface XmppService {
 
-	void execute();
+	void send(String content) throws XmppServiceException;
 }

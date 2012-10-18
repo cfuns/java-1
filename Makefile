@@ -165,3 +165,8 @@ buildcrawler:
 	cd crawler && make all
 	cd crawler_gui && make all
 	cd crawler_test && make all
+buildmicroblog:
+	cd microblog_api && make all
+	cd microblog && make all
+	cd microblog_gui && make all
+	cd microblog_test && make all

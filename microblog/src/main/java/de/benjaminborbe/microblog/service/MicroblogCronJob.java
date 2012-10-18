@@ -6,18 +6,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationMailer;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationMailerException;
-import de.benjaminborbe.microblog.post.MicroblogPostMailer;
-import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
-import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.microblog.util.MicroblogPostListener;
+import de.benjaminborbe.microblog.util.MicroblogPostListenerRegistry;
 
 @Singleton
 public class MicroblogCronJob implements CronJob {
@@ -31,26 +26,18 @@ public class MicroblogCronJob implements CronJob {
 
 	private final MicroblogRevisionStorage microblogRevisionStorage;
 
-	private final MicroblogPostMailer microblogPostMailer;
-
-	private final MicroblogConversationFinder microblogConversationFinder;
-
-	private final MicroblogConversationMailer microblogConversationMailer;
+	private final MicroblogPostListenerRegistry microblogPostListenerRegistry;
 
 	@Inject
 	public MicroblogCronJob(
 			final Logger logger,
 			final MicroblogConnector microblogConnector,
 			final MicroblogRevisionStorage microblogRevisionStorage,
-			final MicroblogConversationFinder microblogConversationFinder,
-			final MicroblogPostMailer microblogPostMailer,
-			final MicroblogConversationMailer microblogConversationMailer) {
+			final MicroblogPostListenerRegistry microblogPostListenerRegistry) {
 		this.logger = logger;
 		this.microblogConnector = microblogConnector;
 		this.microblogRevisionStorage = microblogRevisionStorage;
-		this.microblogConversationFinder = microblogConversationFinder;
-		this.microblogPostMailer = microblogPostMailer;
-		this.microblogConversationMailer = microblogConversationMailer;
+		this.microblogPostListenerRegistry = microblogPostListenerRegistry;
 	}
 
 	@Override
@@ -73,17 +60,10 @@ public class MicroblogCronJob implements CronJob {
 			else {
 				logger.trace("latestRevision send: " + latestRevision);
 				for (long rev = lastestRevisionSend.getId() + 1; rev <= latestRevision.getId(); ++rev) {
-					microblogRevisionStorage.setLastRevision(new MicroblogPostIdentifier(rev));
 					final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(rev);
-					final MicroblogConversationIdentifier microblogConversationIdentifier = microblogConversationFinder.findIdentifier(microblogPostIdentifier);
-					logger.trace("found microblogConversationIdentifier = " + microblogConversationIdentifier);
-					if (microblogConversationIdentifier != null) {
-						logger.trace("mailConversation: " + microblogConversationIdentifier);
-						microblogConversationMailer.mailConversation(microblogConversationIdentifier);
-					}
-					else {
-						logger.trace("mailPost: " + microblogPostIdentifier);
-						microblogPostMailer.mailPost(microblogPostIdentifier);
+					microblogRevisionStorage.setLastRevision(microblogPostIdentifier);
+					for (final MicroblogPostListener microblogPostListener : microblogPostListenerRegistry.getAll()) {
+						microblogPostListener.onNewPost(microblogPostIdentifier);
 					}
 				}
 			}
@@ -94,15 +74,6 @@ public class MicroblogCronJob implements CronJob {
 		}
 		catch (final MicroblogRevisionStorageException e) {
 			logger.trace("MicroblogRevisionStorageException", e);
-		}
-		catch (final MicroblogPostMailerException e) {
-			logger.trace("MicroblogRevisionStorageException", e);
-		}
-		catch (final ParseException e) {
-			logger.trace("ParseException", e);
-		}
-		catch (final MicroblogConversationMailerException e) {
-			logger.trace("MicroblogConversationMailerException", e);
 		}
 
 		logger.trace("MonitoringCronJob.execute() - finished");

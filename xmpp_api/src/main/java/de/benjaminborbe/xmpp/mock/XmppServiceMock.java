@@ -13,6 +13,7 @@ public class XmppServiceMock implements XmppService {
 	}
 
 	@Override
-	public void execute() {
+	public void send(final String content) {
 	}
+
 }
