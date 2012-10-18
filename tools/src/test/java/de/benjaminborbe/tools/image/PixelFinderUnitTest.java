@@ -1,7 +1,9 @@
 package de.benjaminborbe.tools.image;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
@@ -15,11 +17,12 @@ public class PixelFinderUnitTest {
 	public void testFind() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
+		final PixelFinder pixelFinder = new PixelFinder(logger);
+
 		final int[] rbgArray = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 		final int width = 4;
 		final int height = 3;
 		final Pixels image = new PixelsImpl(rbgArray, width, height);
-		final PixelFinder pixelFinder = new PixelFinder(logger);
 		{
 			final Pixels subImage = image.getSubPixel(1, 1, 2, 2);
 			assertEquals(image.getPixel(1, 1), subImage.getPixel(1, 1));
@@ -40,5 +43,27 @@ public class PixelFinderUnitTest {
 				assertEquals("x:" + x + " y: " + y, 1, cs.size());
 			}
 		}
+	}
+
+	@Test
+	public void testGetMatchInPercent() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		final PixelFinder pixelFinder = new PixelFinder(logger);
+
+		assertEquals(100, pixelFinder.getMatchInPercent(0xFF, 0xFF));
+		assertEquals(0, pixelFinder.getMatchInPercent(0x0, 0xFF));
+		assertEquals(0, pixelFinder.getMatchInPercent(0xFF, 0x0));
+	}
+
+	@Test
+	public void testMatch() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		final PixelFinder pixelFinder = new PixelFinder(logger);
+
+		assertTrue(pixelFinder.match(0xFF, 0xFF, 100));
+		assertTrue(pixelFinder.match(0xFF, 0x00, 0));
+		assertFalse(pixelFinder.match(0xFF, 0xEE, 100));
 	}
 }
