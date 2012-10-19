@@ -1,5 +1,8 @@
 package de.benjaminborbe.microblog.util;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -12,6 +15,8 @@ import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
 
 public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
+
+	private final Collection<String> words = Arrays.asList("Essen", "Mittagessen", "Mittagstisch");
 
 	private final Logger logger;
 
@@ -32,7 +37,7 @@ public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
 		try {
 			final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
 			final String content = microblogPostResult.getContent();
-			if (content != null && (content.indexOf("Mittagessen") != -1 || content.indexOf("Mittagstisch") != -1)) {
+			if (isLunch(content)) {
 				xmppService.send(content);
 			}
 		}
@@ -44,4 +49,14 @@ public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
 		}
 	}
 
+	private boolean isLunch(final String content) {
+		if (content != null) {
+			for (final String word : words) {
+				if (content.indexOf(word) != -1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

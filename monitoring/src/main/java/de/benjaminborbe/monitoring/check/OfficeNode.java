@@ -43,6 +43,13 @@ public class OfficeNode extends TreeNode implements HasChildNodes, HasPreconditi
 			final String contentMatch = "<span class=\"app_name\">//SEIBERT/MEDIA TimeTracker</span>";
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
 		}
+		{
+			final String name = "URL-Check on bborbe.devel.lf.seibert-media.net";
+			final String url = "https://bborbe.devel.lf.seibert-media.net/bb/authentication/login";
+			final String titleMatch = "Authentication - Login";
+			final String contentMatch = "Authentication - Login";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
 
 		// hudson checks
 		// {
