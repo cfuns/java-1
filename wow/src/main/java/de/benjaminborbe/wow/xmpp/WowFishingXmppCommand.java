@@ -2,6 +2,7 @@ package de.benjaminborbe.wow.xmpp;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -72,7 +73,8 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			}
 			actions.add(new WowIncreaseCounterAction(logger, "increase counter", running, counter));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
-			actions.add(new WowFindPixelsAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, wowImageLibrary.getWowAppIcon(), 70));
+			actions.add(new WowFindPixelsAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, Arrays.asList(wowImageLibrary.getWowAppIconV1(),
+					wowImageLibrary.getWowAppIconV2()), 70));
 			actions.add(new WowFindPixelsAction(logger, vncService, pixelFinder, "find fishing button location", running, fishingButtonLocation, wowImageLibrary.getFishingButton(), 70));
 			actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to fishing button", running, fishingButtonLocation));
 			final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();

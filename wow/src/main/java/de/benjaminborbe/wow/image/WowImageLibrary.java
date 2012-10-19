@@ -34,7 +34,11 @@ public class WowImageLibrary {
 		return getFileAsPixels("wow-fishing-button.bmp");
 	}
 
-	public Pixels getWowAppIcon() throws IOException {
-		return getFileAsPixels("wow-app-icon.bmp");
+	public Pixels getWowAppIconV1() throws IOException {
+		return getFileAsPixels("wow-app-icon-v1.bmp");
+	}
+
+	public Pixels getWowAppIconV2() throws IOException {
+		return getFileAsPixels("wow-app-icon-v2.bmp");
 	}
 }

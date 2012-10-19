@@ -1,8 +1,8 @@
 package de.benjaminborbe.wow.xmpp.action;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.image.Coordinate;
@@ -18,7 +18,7 @@ public class WowFindPixelsAction extends WowActionBase {
 
 	private final ThreadResult<Coordinate> location;
 
-	private final Pixels pixels;
+	private final Collection<Pixels> pixels;
 
 	private final int matchPercent;
 
@@ -35,7 +35,7 @@ public class WowFindPixelsAction extends WowActionBase {
 			final String name,
 			final ThreadResult<Boolean> running,
 			final ThreadResult<Coordinate> location,
-			final Pixels pixels,
+			final Collection<Pixels> pixels,
 			final int matchPercent) {
 		super(logger, name, running);
 		this.logger = logger;
@@ -46,6 +46,18 @@ public class WowFindPixelsAction extends WowActionBase {
 		this.matchPercent = matchPercent;
 	}
 
+	public WowFindPixelsAction(
+			final Logger logger,
+			final VncService vncService,
+			final PixelFinder pixelFinder,
+			final String name,
+			final ThreadResult<Boolean> running,
+			final ThreadResult<Coordinate> location,
+			final Pixels pixels,
+			final int matchPercent) {
+		this(logger, vncService, pixelFinder, name, running, location, Arrays.asList(pixels), matchPercent);
+	}
+
 	@Override
 	public void execute() {
 		if (validateExecuteResult()) {
@@ -54,14 +66,20 @@ public class WowFindPixelsAction extends WowActionBase {
 		}
 		logger.debug(name + " - execute started");
 		try {
-			final Pixels screen = new PixelsAdapter(vncService.getScreenContent().getPixels());
-			final Collection<Coordinate> cs = pixelFinder.find(screen, pixels, matchPercent);
-			logger.debug("found " + cs.size() + " pixels");
-			final Iterator<Coordinate> i = cs.iterator();
-			if (i.hasNext()) {
-				final Coordinate loc = i.next().add(pixels.getWidth() / 2, pixels.getHeight() / 2);
-				logger.debug("found image " + loc);
-				location.set(loc);
+			boolean notFound = true;
+			final Iterator<Pixels> i = pixels.iterator();
+			while (notFound && i.hasNext()) {
+				final Pixels subImage = i.next();
+				final Pixels screen = new PixelsAdapter(vncService.getScreenContent().getPixels());
+				final Collection<Coordinate> cs = pixelFinder.find(screen, subImage, matchPercent);
+				logger.debug("found " + cs.size() + " subImage");
+				final Iterator<Coordinate> csi = cs.iterator();
+				if (csi.hasNext()) {
+					final Coordinate loc = csi.next().add(subImage.getWidth() / 2, subImage.getHeight() / 2);
+					logger.debug("found image " + loc);
+					location.set(loc);
+					notFound = false;
+				}
 			}
 		}
 		catch (final VncServiceException e) {
@@ -82,7 +100,11 @@ public class WowFindPixelsAction extends WowActionBase {
 		logger.debug(name + " - onFailure - move mouse a bit");
 		try {
 			final VncLocation loc = vncService.getScreenContent().getPointerLocation();
-			vncService.mouseMouse(loc.getX() + pixels.getWidth(), loc.getY() + pixels.getHeight());
+			final Iterator<Pixels> i = pixels.iterator();
+			if (i.hasNext()) {
+				final Pixels subImage = i.next();
+				vncService.mouseMouse(loc.getX() + subImage.getWidth(), loc.getY() + subImage.getHeight());
+			}
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
