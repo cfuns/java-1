@@ -20,13 +20,14 @@ import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.WowConstants;
 import de.benjaminborbe.wow.image.WowImageLibrary;
 import de.benjaminborbe.wow.vnc.WowVncConnector;
-import de.benjaminborbe.wow.xmpp.action.WowFindBaitAction;
-import de.benjaminborbe.wow.xmpp.action.WowFindPixelsAction;
+import de.benjaminborbe.wow.xmpp.action.WowFindBaitLocationAction;
+import de.benjaminborbe.wow.xmpp.action.WowFindPixelsLocationAction;
 import de.benjaminborbe.wow.xmpp.action.WowIncreaseCounterAction;
 import de.benjaminborbe.wow.xmpp.action.WowMouseClickAction;
 import de.benjaminborbe.wow.xmpp.action.WowMouseMoveAction;
 import de.benjaminborbe.wow.xmpp.action.WowSendKeyAction;
 import de.benjaminborbe.wow.xmpp.action.WowSleepAction;
+import de.benjaminborbe.wow.xmpp.action.WowTakePixelsAction;
 import de.benjaminborbe.wow.xmpp.action.WowTakeScreenshotAction;
 import de.benjaminborbe.wow.xmpp.action.WowWaitOnFishAction;
 
@@ -47,6 +48,8 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 	private final WowImageLibrary wowImageLibrary;
 
 	private final PixelFinder pixelFinder;
+
+	private final boolean DEBUG = true;
 
 	@Inject
 	public WowFishingXmppCommand(
@@ -73,17 +76,23 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			}
 			actions.add(new WowIncreaseCounterAction(logger, "increase counter", running, counter));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
-			actions.add(new WowFindPixelsAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, Arrays.asList(wowImageLibrary.getWowAppIconV1(),
+			actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, Arrays.asList(wowImageLibrary.getWowAppIconV1(),
 					wowImageLibrary.getWowAppIconV2()), 70));
-			actions.add(new WowFindPixelsAction(logger, vncService, pixelFinder, "find fishing button location", running, fishingButtonLocation, wowImageLibrary.getFishingButton(), 70));
+			actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find fishing button location", running, fishingButtonLocation, wowImageLibrary.getFishingButton(), 70));
 			actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to fishing button", running, fishingButtonLocation));
 			final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
-			actions.add(new WowTakeScreenshotAction(logger, vncService, "take screenshot before fishing", running, pixelsBeforeFishing));
+			actions.add(new WowTakePixelsAction(logger, vncService, "take pixels before fishing", running, pixelsBeforeFishing));
+			if (DEBUG) {
+				actions.add(new WowTakeScreenshotAction(logger, vncService, "take screenshot before", "before", running));
+			}
 			actions.add(new WowMouseClickAction(logger, vncService, "click fishing button", running));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
 			final ThreadResult<Coordinate> baitLocation = new ThreadResult<Coordinate>();
 			final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
-			actions.add(new WowFindBaitAction(logger, vncService, "find bait", running, pixelsBeforeFishing, pixelsAfterFishing, wowAppIconLocation, baitLocation));
+			if (DEBUG) {
+				actions.add(new WowTakeScreenshotAction(logger, vncService, "take screenshot after", "after", running));
+			}
+			actions.add(new WowFindBaitLocationAction(logger, vncService, "find bait", running, pixelsBeforeFishing, pixelsAfterFishing, wowAppIconLocation, baitLocation));
 			actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to bait", running, baitLocation, 5, 5));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
 			actions.add(new WowWaitOnFishAction(logger, vncService, "wait on fish", running, baitLocation));

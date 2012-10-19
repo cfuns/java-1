@@ -11,7 +11,11 @@ import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 
-public class WowFindBaitAction extends WowActionBase {
+public class WowFindBaitLocationAction extends WowActionBase {
+
+	private static final int BLACK = 0x000000;
+
+	private static final int WHITE = 0xFFFFFF;
 
 	private final ThreadResult<Coordinate> wowAppIconLocation;
 
@@ -25,7 +29,7 @@ public class WowFindBaitAction extends WowActionBase {
 
 	private final VncService vncService;
 
-	public WowFindBaitAction(
+	public WowFindBaitLocationAction(
 			final Logger logger,
 			final VncService vncService,
 			final String name,
@@ -71,10 +75,10 @@ public class WowFindBaitAction extends WowActionBase {
 					final Pixel pb = new Pixel(before.getPixel(x, y));
 					final Pixel pa = new Pixel(after.getPixel(x, y));
 					if (pb.isBlue() && pa.isRed()) {
-						diffBlueToRed.setPixel(x, y, 0xFFFFFF);
+						diffBlueToRed.setPixel(x, y, WHITE);
 					}
 					else {
-						diffBlueToRed.setPixel(x, y, 0x000000);
+						diffBlueToRed.setPixel(x, y, BLACK);
 					}
 				}
 			}

@@ -14,7 +14,7 @@ import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.util.PixelsAdapter;
 
-public class WowFindPixelsAction extends WowActionBase {
+public class WowFindPixelsLocationAction extends WowActionBase {
 
 	private final ThreadResult<Coordinate> location;
 
@@ -28,7 +28,7 @@ public class WowFindPixelsAction extends WowActionBase {
 
 	private final PixelFinder pixelFinder;
 
-	public WowFindPixelsAction(
+	public WowFindPixelsLocationAction(
 			final Logger logger,
 			final VncService vncService,
 			final PixelFinder pixelFinder,
@@ -46,7 +46,7 @@ public class WowFindPixelsAction extends WowActionBase {
 		this.matchPercent = matchPercent;
 	}
 
-	public WowFindPixelsAction(
+	public WowFindPixelsLocationAction(
 			final Logger logger,
 			final VncService vncService,
 			final PixelFinder pixelFinder,
