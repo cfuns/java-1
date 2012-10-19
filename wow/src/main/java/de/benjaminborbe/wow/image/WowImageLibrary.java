@@ -41,4 +41,12 @@ public class WowImageLibrary {
 	public Pixels getWowAppIconV2() throws IOException {
 		return getFileAsPixels("wow-app-icon-v2.bmp");
 	}
+
+	public Pixels getWowAppIconV3() throws IOException {
+		return getFileAsPixels("wow-app-icon-v3.bmp");
+	}
+
+	public Pixels getWowAppIconV4() throws IOException {
+		return getFileAsPixels("wow-app-icon-v4.bmp");
+	}
 }
