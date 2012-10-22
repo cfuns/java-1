@@ -1,4 +1,4 @@
-package de.benjaminborbe.googlesearch.gui.service;
+package de.benjaminborbe.search.gui.service;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -18,16 +18,16 @@ import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
-public class GooglesearchGuiSpecialSearch implements SearchSpecial {
+public class SearchGuiBugzillaSpecialSearch implements SearchSpecial {
 
-	private static final List<String> NAMES = Arrays.asList("g", "google");
+	private static final List<String> NAMES = Arrays.asList("bugzilla");
 
 	private final static String PARAMETER_SEARCH = "q";
 
 	private final UrlUtil urlUtil;
 
 	@Inject
-	public GooglesearchGuiSpecialSearch(final UrlUtil urlUtil) {
+	public SearchGuiBugzillaSpecialSearch(final UrlUtil urlUtil) {
 		this.urlUtil = urlUtil;
 	}
 
@@ -44,9 +44,8 @@ public class GooglesearchGuiSpecialSearch implements SearchSpecial {
 
 	protected String buildRedirect(final String searchQuery) throws UnsupportedEncodingException {
 		final String term = searchQuery.substring(searchQuery.indexOf(":") + 1).trim();
-		
 		final StringWriter sw = new StringWriter();
-		sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
+		sw.append("https://code.allianz24.de/az24/bugzilla/show_bug.cgi?id=");
 		sw.append(urlUtil.encode(term));
 		return sw.toString();
 	}

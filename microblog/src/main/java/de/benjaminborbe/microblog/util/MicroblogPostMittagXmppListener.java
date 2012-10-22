@@ -33,11 +33,12 @@ public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
 
 	@Override
 	public void onNewPost(final MicroblogPostIdentifier microblogPostIdentifier) {
-		logger.debug("onNewPost");
 		try {
+			logger.trace("onNewPost");
 			final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
 			final String content = microblogPostResult.getContent();
 			if (isLunch(content)) {
+				logger.trace("isLunch = true, sending message");
 				xmppService.send(content);
 			}
 		}

@@ -170,3 +170,8 @@ buildmicroblog:
 	cd microblog && make all
 	cd microblog_gui && make all
 	cd microblog_test && make all
+buildsearch:
+	cd search_api && make all
+	cd search && make all
+	cd search_gui && make all
+	cd search_test && make all

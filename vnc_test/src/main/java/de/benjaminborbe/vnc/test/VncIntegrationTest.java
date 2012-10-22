@@ -89,15 +89,19 @@ public class VncIntegrationTest extends OSGiTestCase {
 		final Object serviceObject = getServiceObject(VncService.class.getName(), null);
 		final VncService service = (VncService) serviceObject;
 		try {
-			service.connect();
+			try {
+				service.connect();
 
-			final VncScreenContent vncScreenContent = service.getScreenContent();
-			assertNotNull(vncScreenContent);
-			assertTrue(vncScreenContent.getWidth() > 0);
-			assertTrue(vncScreenContent.getHeight() > 0);
+				final VncScreenContent vncScreenContent = service.getScreenContent();
+				assertNotNull(vncScreenContent);
+				assertTrue(vncScreenContent.getWidth() > 0);
+				assertTrue(vncScreenContent.getHeight() > 0);
+			}
+			finally {
+				service.disconnect();
+			}
 		}
-		finally {
-			service.disconnect();
+		catch (final VncServiceException e) {
 		}
 	}
 

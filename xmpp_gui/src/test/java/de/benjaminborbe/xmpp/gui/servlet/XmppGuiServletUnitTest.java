@@ -123,7 +123,7 @@ public class XmppGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final XmppService xmppService = EasyMock.createMock(XmppService.class);
+		final XmppService xmppService = EasyMock.createNiceMock(XmppService.class);
 		EasyMock.replay(xmppService);
 
 		final XmppGuiServlet xmppServlet = new XmppGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
