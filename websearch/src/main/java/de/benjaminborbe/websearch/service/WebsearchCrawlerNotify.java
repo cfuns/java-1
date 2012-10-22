@@ -77,7 +77,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		}
 		final String contentType = result.getContentType();
 		if (contentType == null || contentType.indexOf(CONTENT_TYPE) != 0) {
-			logger.warn("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + contentType);
+			logger.trace("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + contentType);
 			return false;
 		}
 		return true;

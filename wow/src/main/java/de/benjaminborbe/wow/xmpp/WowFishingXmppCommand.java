@@ -76,9 +76,15 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			}
 			actions.add(new WowIncreaseCounterAction(logger, "increase counter", running, counter));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
-			actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, Arrays.asList(
-					wowImageLibrary.getWowAppIconV1(), wowImageLibrary.getWowAppIconV2(), wowImageLibrary.getWowAppIconV3(), wowImageLibrary.getWowAppIconV4(),
-					wowImageLibrary.getWowAppIconV5(), wowImageLibrary.getWowAppIconV6()), 60));
+			// fullscreen
+			if (vncService.getScreenContent().getWidth() == 800) {
+				wowAppIconLocation.set(new Coordinate(1, 1));
+			}
+			else {
+				actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, Arrays.asList(
+						wowImageLibrary.getWowAppIconV1(), wowImageLibrary.getWowAppIconV2(), wowImageLibrary.getWowAppIconV3(), wowImageLibrary.getWowAppIconV4(),
+						wowImageLibrary.getWowAppIconV5(), wowImageLibrary.getWowAppIconV6()), 60));
+			}
 			actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find fishing button location", running, fishingButtonLocation, wowImageLibrary
 					.getFishingButton(), 60));
 			actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to fishing button", running, fishingButtonLocation));
@@ -102,6 +108,9 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			actionChainRunner.run(actions);
 		}
 		catch (final IOException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
