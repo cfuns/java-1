@@ -67,7 +67,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	@Override
 	protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		logger.debug("service start");
+		logger.trace("service start");
 		final String startTime = getNowAsString();
 		logger.trace("service startTime=" + startTime);
 		final HttpContext context = httpContextProvider.get();

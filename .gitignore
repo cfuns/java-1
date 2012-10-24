@@ -195,3 +195,7 @@ xmpp/target
 xmpp_api/target
 xmpp_gui/target
 xmpp_test/target
+scala/target
+scala_api/target
+scala_gui/target
+scala_test/target

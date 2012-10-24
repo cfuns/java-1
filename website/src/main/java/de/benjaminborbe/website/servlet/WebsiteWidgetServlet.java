@@ -42,7 +42,7 @@ public abstract class WebsiteWidgetServlet extends WebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, ServletException {
 		final Widget widget = createWidget(request, response, context);
 		widget.render(request, response, context);
-		logger.debug("serice end");
+		logger.trace("serice end");
 	}
 
 	public abstract Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException;

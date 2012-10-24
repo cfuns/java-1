@@ -30,9 +30,9 @@ public class XmppConnectorImpl implements XmppConnector {
 
 	private final Logger logger;
 
-	private XMPPConnection connection;
-
 	private final XmppChatManagerListener xmppChatManagerListener;
+
+	private XMPPConnection connection;
 
 	private ChatManager chatManager;
 

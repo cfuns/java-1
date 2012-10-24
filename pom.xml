@@ -233,6 +233,10 @@
 		<module>vnc_api</module>
 		<module>vnc_gui</module>
 		<module>vnc_test</module>
+		<module>scala</module>
+		<module>scala_api</module>
+		<module>scala_gui</module>
+		<module>scala_test</module>
 		<module>xmpp</module>
 		<module>xmpp_api</module>
 		<module>xmpp_gui</module>
