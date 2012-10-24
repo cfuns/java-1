@@ -13,6 +13,7 @@ public class ScalaServiceMock implements ScalaService {
 	}
 
 	@Override
-	public void execute() {
+	public String helloWorld() {
+		return null;
 	}
 }

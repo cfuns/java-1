@@ -175,3 +175,8 @@ buildsearch:
 	cd search && make all
 	cd search_gui && make all
 	cd search_test && make all
+buildscala:
+	cd scala_api && make all
+	cd scala && make all
+	cd scala_gui && make all
+	cd scala_test && make all

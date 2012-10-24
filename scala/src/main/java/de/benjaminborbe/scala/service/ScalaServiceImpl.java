@@ -18,8 +18,9 @@ public class ScalaServiceImpl implements ScalaService {
 	}
 
 	@Override
-	public void execute() {
+	public String helloWorld() {
 		logger.trace("execute");
+		return de.benjaminborbe.scala.util.HelloWorld.msg();
 	}
 
 }
