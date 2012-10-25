@@ -20,7 +20,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 @Singleton
 public class SearchGuiBugzillaSpecialSearch implements SearchSpecial {
 
-	private static final List<String> NAMES = Arrays.asList("bugzilla");
+	private static final List<String> NAMES = Arrays.asList("bugzilla", "et");
 
 	private final static String PARAMETER_SEARCH = "q";
 
