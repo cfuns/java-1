@@ -20,6 +20,19 @@ public class LuaParserUnitTest {
 	}
 
 	@Test
+	public void testParseSimpleQuote() throws LuaParseException {
+		final StringWriter luaContent = new StringWriter();
+		luaContent.append("\"KEY\" = VALUE");
+		luaContent.append("\"MY KEY\" = \"MY VALUE\"");
+		final LuaParser luaParse = new LuaParserImpl();
+		final LuaHash lua = luaParse.parse(luaContent);
+		assertNotNull(lua);
+		assertEquals(2, lua.keys().size());
+		assertEquals("VALUE", String.valueOf(lua.get("KEY")));
+		assertEquals("MY VALUE", String.valueOf(lua.get("MY KEY")));
+	}
+
+	@Test
 	public void testParseSimple() throws LuaParseException {
 		final StringWriter luaContent = new StringWriter();
 		luaContent.append("KEY = VALUE");

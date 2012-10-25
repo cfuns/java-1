@@ -18,7 +18,7 @@ public class LuaContent {
 		this.content = content;
 	}
 
-	public boolean existsCurrent() {
+	public boolean hasCurrent() {
 		return pos >= 0 && pos < content.length;
 	}
 
@@ -28,6 +28,10 @@ public class LuaContent {
 
 	public char getCurrentChar() {
 		return content[pos];
+	}
+
+	public char getNextChar() {
+		return content[pos + 1];
 	}
 
 	public void next() {

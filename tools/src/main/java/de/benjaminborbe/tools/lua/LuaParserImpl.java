@@ -33,7 +33,7 @@ public class LuaParserImpl implements LuaParser {
 		while (content.hasNext()) {
 			parseSpacesAndNewlines(content);
 
-			if (content.existsCurrent() && content.getCurrentChar() == '}') {
+			if (content.hasCurrent() && content.getCurrentChar() == '}') {
 				debug(content.getCurrentChar());
 				content.next();
 				return lua;
@@ -49,6 +49,9 @@ public class LuaParserImpl implements LuaParser {
 				lua.add(key, value);
 				parseSpaces(content);
 			}
+			else {
+				return lua;
+			}
 		}
 		return lua;
 	}
@@ -59,18 +62,33 @@ public class LuaParserImpl implements LuaParser {
 	}
 
 	private void parseSpacesAndNewlines(final LuaContent content) {
-		while (content.existsCurrent() && (content.getCurrentChar() == '\n' || content.getCurrentChar() == ' ')) {
+		while (content.hasCurrent() && (content.getCurrentChar() == '\n' || content.getCurrentChar() == ' ')) {
 			debug(content.getCurrentChar());
 			content.next();
 		}
 	}
 
 	private String parseKey(final LuaContent content) {
-		return parseWord(content);
+		if (content.hasCurrent() && content.getCurrentChar() == '"') {
+			debug(content.getCurrentChar());
+			content.next();
+			final int startpos = content.getCurrentPos();
+			while (content.hasCurrent() && content.getCurrentChar() != '"') {
+				debug(content.getCurrentChar());
+				content.next();
+			}
+			final String result = content.substring(startpos, content.getCurrentPos() - startpos);
+			debug(content.getCurrentChar());
+			content.next();
+			return result;
+		}
+		else {
+			return parseWord(content);
+		}
 	}
 
 	private void parseEquals(final LuaContent content) throws LuaParseException {
-		if (content.existsCurrent() && content.getCurrentChar() == '=') {
+		if (content.hasCurrent() && content.getCurrentChar() == '=') {
 			debug(content.getCurrentChar());
 			content.next();
 		}
@@ -80,10 +98,23 @@ public class LuaParserImpl implements LuaParser {
 	}
 
 	private Lua parseValue(final LuaContent content) throws LuaParseException {
-		if (content.existsCurrent() && content.getCurrentChar() == '{') {
+		if (content.hasCurrent() && content.getCurrentChar() == '{') {
 			debug(content.getCurrentChar());
 			content.next();
 			return parseHash(content);
+		}
+		else if (content.hasCurrent() && content.getCurrentChar() == '"') {
+			debug(content.getCurrentChar());
+			content.next();
+			final int startpos = content.getCurrentPos();
+			while (content.hasCurrent() && content.getCurrentChar() != '"') {
+				debug(content.getCurrentChar());
+				content.next();
+			}
+			final String result = content.substring(startpos, content.getCurrentPos() - startpos);
+			debug(content.getCurrentChar());
+			content.next();
+			return new LuaValue(result);
 		}
 		else {
 			return new LuaValue(parseWord(content));
@@ -92,7 +123,7 @@ public class LuaParserImpl implements LuaParser {
 
 	private String parseWord(final LuaContent content) {
 		final int startpos = content.getCurrentPos();
-		while (content.existsCurrent() && isLetterAndNumber(content.getCurrentChar())) {
+		while (content.hasCurrent() && isLetterAndNumber(content.getCurrentChar())) {
 			debug(content.getCurrentChar());
 			content.next();
 		}
@@ -112,7 +143,7 @@ public class LuaParserImpl implements LuaParser {
 	}
 
 	private void parseSpaces(final LuaContent content) {
-		while (content.existsCurrent() && content.getCurrentChar() == ' ') {
+		while (content.hasCurrent() && content.getCurrentChar() == ' ') {
 			debug(content.getCurrentChar());
 			content.next();
 		}
