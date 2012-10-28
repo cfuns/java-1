@@ -80,26 +80,34 @@ public class WowLoginAction extends WowBaseXmppCommand {
 				// click play
 				{
 					final ThreadResult<Coordinate> playButtonLocation = new ThreadResult<Coordinate>();
-					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find play button", running, playButtonLocation, wowImageLibrary.getWowPlayButton(), 70));
+					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find play button", running, playButtonLocation, wowImageLibrary.getWowPlayButton(), 60));
 					actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to play button", running, playButtonLocation));
 					actions.add(new WowMouseClickAction(logger, vncService, "click play button", running));
 				}
 				// login
 				{
-					final ThreadResult<Coordinate> playButtonLocation = new ThreadResult<Coordinate>();
-					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find login button", running, playButtonLocation, wowImageLibrary.getWowLoginButton(), 70));
+					final ThreadResult<Coordinate> loginButtonLocation = new ThreadResult<Coordinate>();
+					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find login button", running, loginButtonLocation, wowImageLibrary.getWowLoginButton(), 70));
 					// enter email
 					// select accountname
 					// enter password
 					{
-						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to password field", running, playButtonLocation));
+						final ThreadResult<Coordinate> passwordFieldLocation = new ThreadResult<Coordinate>() {
+
+							@Override
+							public Coordinate get() {
+								return loginButtonLocation.get().add(0, -48);
+							}
+						};
+						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to password field", running, passwordFieldLocation));
 						actions.add(new WowMouseClickAction(logger, vncService, "click into password field", running));
 						actions.add(new WowSleepAction(logger, "sleep", running, 100));
 						actions.add(new WowKeyTypeAction(logger, vncService, "type password into field", running, args.get(0)));
 					}
 					// click login
 					{
-						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to login button", running, playButtonLocation));
+						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to login button", running, loginButtonLocation));
+						actions.add(new WowSleepAction(logger, "sleep", running, 100));
 						actions.add(new WowMouseClickAction(logger, vncService, "click login button", running));
 					}
 				}

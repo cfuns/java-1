@@ -3,44 +3,44 @@ package de.benjaminborbe.wow.xmpp.action;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.util.ThreadResult;
-import de.benjaminborbe.vnc.api.VncPixels;
+import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 
-public class WowTakeScreenshotAction extends WowActionBase {
+public class WowAltF4Action extends WowActionBase {
 
 	private final Logger logger;
 
 	private final VncService vncService;
 
-	private final String filename;
+	private boolean executed;
 
-	private boolean executed = false;
-
-	public WowTakeScreenshotAction(final Logger logger, final VncService vncService, final String name, final String filename, final ThreadResult<Boolean> running) {
+	public WowAltF4Action(final Logger logger, final String name, final ThreadResult<Boolean> running, final VncService vncService) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;
-		this.filename = filename;
 	}
 
 	@Override
 	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
-			final VncPixels pixels = vncService.getScreenContent().getPixels().getCopy();
-			vncService.storeVncPixels(pixels, filename);
+			vncService.keyPress(VncKey.K_ALT_LEFT);
+			vncService.keyPress(VncKey.K_F4);
+			vncService.keyRelease(VncKey.K_ALT_LEFT);
+			vncService.keyRelease(VncKey.K_F4);
 			executed = true;
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 		logger.debug(name + " - execute finished");
+
 	}
 
 	@Override
 	public boolean validateExecuteResult() {
-		logger.debug(name + " - validateExecuteResult");
 		return executed && super.validateExecuteResult();
 	}
+
 }

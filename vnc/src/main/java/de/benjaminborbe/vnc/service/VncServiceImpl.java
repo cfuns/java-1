@@ -202,8 +202,7 @@ public class VncServiceImpl implements VncService {
 	public void keyType(final List<VncKey> keys) throws VncServiceException {
 		logger.trace("keyType - keys: " + keys);
 		for (final VncKey key : keys) {
-			keyPress(key);
-			keyRelease(key);
+			keyType(key);
 		}
 	}
 
@@ -212,14 +211,8 @@ public class VncServiceImpl implements VncService {
 		logger.trace("keyType - keys: " + keys);
 		try {
 			for (final VncKey key : vncKeyParser.parseKeys(keys)) {
-				try {
-					keyPress(key);
-					Thread.sleep(10);
-					keyRelease(key);
-					Thread.sleep(50);
-				}
-				catch (final InterruptedException e) {
-				}
+				keyPress(key);
+				keyRelease(key);
 			}
 		}
 		catch (final VncKeyParseException e) {
@@ -229,29 +222,23 @@ public class VncServiceImpl implements VncService {
 
 	@Override
 	public void mouseLeftClick() throws VncServiceException {
-		logger.debug("mouseLeftClick");
-		// Thread.sleep(10);
-		mouseLeftButtonPress();
-		// Thread.sleep(10);
-		// mouseLeftButtonRelease();
-		// Thread.sleep(10);
+		try {
+			logger.debug("mouseLeftClick");
+			vncConnector.mouseLeftClick();
+		}
+		catch (final VncConnectorException e) {
+			throw new VncServiceException(e);
+		}
 	}
 
 	@Override
 	public void mouseLeftClickDouble() throws VncServiceException {
 		try {
 			logger.debug("mouseLeftClickDouble");
-			// Thread.sleep(10);
-			mouseLeftButtonPress();
-			// Thread.sleep(10);
-			// mouseLeftButtonRelease();
-			Thread.sleep(10);
-			mouseLeftButtonPress();
-			// Thread.sleep(10);
-			// mouseLeftButtonRelease();
-			// Thread.sleep(10);
+			vncConnector.mouseLeftClickDouble();
 		}
-		catch (final InterruptedException e) {
+		catch (final VncConnectorException e) {
+			throw new VncServiceException(e);
 		}
 	}
 
@@ -259,5 +246,12 @@ public class VncServiceImpl implements VncService {
 	public VncKeyParser getVncKeyParser() {
 		logger.trace("getVncKeyParser");
 		return vncKeyParser;
+	}
+
+	@Override
+	public void keyType(final VncKey key) throws VncServiceException {
+		logger.trace("keyType - key: " + key);
+		keyPress(key);
+		keyRelease(key);
 	}
 }

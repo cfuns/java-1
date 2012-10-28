@@ -2,7 +2,7 @@ package de.benjaminborbe.vnc.config;
 
 public class VncConfig {
 
-	private final String hostname = "192.168.2.103";
+	private final String hostname = "192.168.2.109";
 
 	private final int port = 5900;
 

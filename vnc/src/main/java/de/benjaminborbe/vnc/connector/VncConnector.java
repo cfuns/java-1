@@ -160,4 +160,13 @@ public class VncConnector {
 		return vncScreenContentProvider.get();
 	}
 
+	public void mouseLeftClickDouble() throws VncConnectorException {
+		mouseLeftButtonPress();
+		mouseLeftButtonPress();
+	}
+
+	public void mouseLeftClick() throws VncConnectorException {
+		mouseLeftButtonPress();
+	}
+
 }

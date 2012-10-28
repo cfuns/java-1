@@ -80,6 +80,10 @@ public class VncKeyTranslaterUnitTest {
 		assertEquals(Keymap.K_KP_8, vncKeyTranslater.translate(VncKey.K_8));
 		assertEquals(Keymap.K_KP_9, vncKeyTranslater.translate(VncKey.K_9));
 		// special
+
+		assertEquals(Keymap.K_ALT_LEFT, vncKeyTranslater.translate(VncKey.K_ALT_LEFT));
+		assertEquals(Keymap.K_F4, vncKeyTranslater.translate(VncKey.K_F4));
+
 		assertEquals(Keymap.K_ENTER, vncKeyTranslater.translate(VncKey.K_ENTER));
 		assertEquals(Keymap.K_KP_SPACE, vncKeyTranslater.translate(VncKey.K_SPACE));
 		assertEquals(Keymap.K_KP_DIVIDE, vncKeyTranslater.translate(VncKey.K_SLASH));

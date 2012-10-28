@@ -12,6 +12,8 @@ public class WowMouseClickDoubleAction extends WowActionBase {
 
 	private final VncService vncService;
 
+	private boolean executed = false;
+
 	public WowMouseClickDoubleAction(final Logger logger, final VncService vncService, final String name, final ThreadResult<Boolean> running) {
 		super(logger, name, running);
 		this.logger = logger;
@@ -23,11 +25,17 @@ public class WowMouseClickDoubleAction extends WowActionBase {
 		logger.debug(name + " - execute started");
 		try {
 			vncService.mouseLeftClickDouble();
+			executed = true;
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 		logger.debug(name + " - execute finished");
+	}
+
+	@Override
+	public boolean validateExecuteResult() {
+		return executed && super.validateExecuteResult();
 	}
 
 }

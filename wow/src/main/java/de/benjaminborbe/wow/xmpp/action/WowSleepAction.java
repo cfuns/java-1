@@ -10,6 +10,8 @@ public class WowSleepAction extends WowActionBase {
 
 	private final Logger logger;
 
+	private boolean executed = false;
+
 	public WowSleepAction(final Logger logger, final String name, final ThreadResult<Boolean> running, final long sleep) {
 		super(logger, name, running);
 		this.logger = logger;
@@ -21,10 +23,16 @@ public class WowSleepAction extends WowActionBase {
 		logger.debug(name + " - execute started");
 		try {
 			Thread.sleep(sleep);
+			executed = true;
 		}
 		catch (final InterruptedException e) {
 		}
 		logger.debug(name + " - execute finished");
+	}
+
+	@Override
+	public boolean validateExecuteResult() {
+		return executed && super.validateExecuteResult();
 	}
 
 }

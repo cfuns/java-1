@@ -19,6 +19,8 @@ public class WowKeyTypeAction extends WowActionBase {
 
 	private final Logger logger;
 
+	private boolean executed = false;
+
 	public WowKeyTypeAction(final Logger logger, final VncService vncService, final String name, final ThreadResult<Boolean> running, final List<VncKey> keys) {
 		super(logger, name, running);
 		this.logger = logger;
@@ -38,11 +40,23 @@ public class WowKeyTypeAction extends WowActionBase {
 	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
-			vncService.keyType(keys);
+			for (final VncKey key : keys) {
+				vncService.keyType(key);
+				Thread.sleep(30);
+			}
+			executed = true;
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
+		catch (final InterruptedException e) {
+		}
 		logger.debug(name + " - execute finished");
 	}
+
+	@Override
+	public boolean validateExecuteResult() {
+		return executed && super.validateExecuteResult();
+	}
+
 }

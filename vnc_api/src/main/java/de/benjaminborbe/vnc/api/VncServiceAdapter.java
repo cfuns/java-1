@@ -99,4 +99,9 @@ public class VncServiceAdapter implements VncService {
 	public void storeImageContent(final String name) throws VncServiceException {
 		vncService.storeImageContent(name);
 	}
+
+	@Override
+	public void keyType(final VncKey key) throws VncServiceException {
+		vncService.keyType(key);
+	}
 }

@@ -93,4 +93,8 @@ public class VncServiceMock implements VncService {
 	@Override
 	public void storeImageContent(final String name) throws VncServiceException {
 	}
+
+	@Override
+	public void keyType(final VncKey key) throws VncServiceException {
+	}
 }

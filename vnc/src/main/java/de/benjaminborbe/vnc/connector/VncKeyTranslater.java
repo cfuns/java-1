@@ -31,6 +31,8 @@ public class VncKeyTranslater {
 		put(VncKey.K_LEFT, Keymap.K_LEFT);
 		put(VncKey.K_RIGHT, Keymap.K_RIGHT);
 		put(VncKey.K_SLASH, Keymap.K_KP_DIVIDE);
+		put(VncKey.K_ALT_LEFT, Keymap.K_ALT_LEFT);
+		put(VncKey.K_F4, Keymap.K_F4);
 	}
 
 	private void put(final VncKey key, final int value) {

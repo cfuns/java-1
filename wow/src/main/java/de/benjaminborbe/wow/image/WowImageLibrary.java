@@ -49,8 +49,8 @@ public class WowImageLibrary {
 		return getFileAsPixels("wow-app-icon-v1.bmp", "wow-app-icon-v2.bmp", "wow-app-icon-v3.bmp", "wow-app-icon-v4.bmp", "wow-app-icon-v5.bmp", "wow-app-icon-v6.bmp");
 	}
 
-	public Pixels getWowPlayButton() throws IOException {
-		return getFileAsPixels("wow-play-button.bmp");
+	public Collection<Pixels> getWowPlayButton() throws IOException {
+		return getFileAsPixels("wow-play-button-v1.bmp", "wow-play-button-v2.bmp");
 	}
 
 	public Collection<Pixels> getWowStartIcon() throws IOException {
@@ -59,6 +59,10 @@ public class WowImageLibrary {
 
 	public Pixels getWowLoginButton() throws IOException {
 		return getFileAsPixels("wow-login-button.bmp");
+	}
+
+	public Collection<Pixels> getWowLogoutButton() throws IOException {
+		return getFileAsPixels("wow-logout-x.bmp", "wow-logout-quit-button.bmp");
 	}
 
 }
