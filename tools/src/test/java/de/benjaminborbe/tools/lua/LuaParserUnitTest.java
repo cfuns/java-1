@@ -22,8 +22,8 @@ public class LuaParserUnitTest {
 	@Test
 	public void testParseSimpleQuote() throws LuaParseException {
 		final StringWriter luaContent = new StringWriter();
-		luaContent.append("\"KEY\" = VALUE");
-		luaContent.append("\"MY KEY\" = \"MY VALUE\"");
+		luaContent.append("\"KEY\" = VALUE\n");
+		luaContent.append("\"MY KEY\" = \"MY VALUE\"\n");
 		final LuaParser luaParse = new LuaParserImpl();
 		final LuaHash lua = luaParse.parse(luaContent);
 		assertNotNull(lua);
@@ -35,12 +35,20 @@ public class LuaParserUnitTest {
 	@Test
 	public void testParseSimple() throws LuaParseException {
 		final StringWriter luaContent = new StringWriter();
-		luaContent.append("KEY = VALUE");
+		luaContent.append("KEY = VALUE\n");
+		luaContent.append("DEC = 42\n");
+		luaContent.append("ZERO = 0\n");
+		luaContent.append("FLOAT = 13.37\n");
+		luaContent.append("NEG = -9\n");
 		final LuaParser luaParse = new LuaParserImpl();
 		final LuaHash lua = luaParse.parse(luaContent);
 		assertNotNull(lua);
-		assertEquals(1, lua.keys().size());
+		assertEquals(5, lua.keys().size());
 		assertEquals("VALUE", String.valueOf(lua.get("KEY")));
+		assertEquals("42", String.valueOf(lua.get("DEC")));
+		assertEquals("0", String.valueOf(lua.get("ZERO")));
+		assertEquals("13.37", String.valueOf(lua.get("FLOAT")));
+		assertEquals("-9", String.valueOf(lua.get("NEG")));
 	}
 
 	@Test

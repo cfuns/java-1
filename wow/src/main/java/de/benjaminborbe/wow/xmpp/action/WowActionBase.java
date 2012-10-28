@@ -40,6 +40,16 @@ public abstract class WowActionBase implements Action {
 	}
 
 	@Override
+	public void executeOnce() {
+		logger.debug(name + " - executeOnce");
+	}
+
+	@Override
+	public void executeRetry() {
+		logger.debug(name + " - executeRetry");
+	}
+
+	@Override
 	public boolean validateExecuteResult() {
 		logger.trace(name + " - validateExecuteResult");
 		return running.get();

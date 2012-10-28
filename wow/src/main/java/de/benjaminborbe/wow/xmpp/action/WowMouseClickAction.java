@@ -19,19 +19,12 @@ public class WowMouseClickAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
+	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
-			Thread.sleep(100);
-			vncService.mouseLeftButtonPress();
-			Thread.sleep(100);
-			vncService.mouseLeftButtonRelease();
-			Thread.sleep(100);
+			vncService.mouseLeftClick();
 		}
 		catch (final VncServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-		catch (final InterruptedException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 		logger.debug(name + " - execute finished");

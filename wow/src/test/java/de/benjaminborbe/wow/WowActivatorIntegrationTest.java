@@ -69,6 +69,8 @@ public class WowActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(WowService.class.getName());
 		names.add(XmppCommand.class.getName());
+		names.add(XmppCommand.class.getName());
+		names.add(XmppCommand.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

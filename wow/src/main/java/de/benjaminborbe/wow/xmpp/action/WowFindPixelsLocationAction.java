@@ -59,34 +59,44 @@ public class WowFindPixelsLocationAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
-		if (validateExecuteResult()) {
-			logger.debug(name + " - alread found");
-			return;
-		}
-		logger.debug(name + " - execute started");
+	public void executeOnce() {
+		logger.debug(name + " - executeOnce started");
 		try {
-			boolean notFound = true;
-			final Iterator<Pixels> i = pixels.iterator();
-			while (notFound && i.hasNext()) {
-				final Pixels subImage = i.next();
-				final Pixels screen = new PixelsAdapter(vncService.getScreenContent().getPixels());
-				final Collection<Coordinate> cs = pixelFinder.find(screen, subImage, matchPercent);
-				logger.debug("found " + cs.size() + " subImage");
-				final Iterator<Coordinate> csi = cs.iterator();
-				if (csi.hasNext()) {
-					final Coordinate loc = csi.next().add(subImage.getWidth() / 2, subImage.getHeight() / 2);
-					logger.debug("found image " + loc);
-					location.set(loc);
-					notFound = false;
-				}
-			}
+			find();
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
+		logger.debug(name + " - executeOnce finished");
+	}
 
-		logger.debug(name + " - execute finished");
+	@Override
+	public void executeRetry() {
+		logger.debug(name + " - executeRetry started");
+		try {
+			find();
+		}
+		catch (final VncServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+		logger.debug(name + " - executeRetry finished");
+	}
+
+	private void find() throws VncServiceException {
+		final Iterator<Pixels> i = pixels.iterator();
+		while (i.hasNext()) {
+			final Pixels subImage = i.next();
+			final Pixels screen = new PixelsAdapter(vncService.getScreenContent().getPixels());
+			final Collection<Coordinate> cs = pixelFinder.find(screen, subImage, matchPercent);
+			logger.debug("found " + cs.size() + " subImage");
+			final Iterator<Coordinate> csi = cs.iterator();
+			if (csi.hasNext()) {
+				final Coordinate loc = csi.next().add(subImage.getWidth() / 2, subImage.getHeight() / 2);
+				logger.debug("found image " + loc);
+				location.set(loc);
+				return;
+			}
+		}
 	}
 
 	@Override
@@ -105,9 +115,11 @@ public class WowFindPixelsLocationAction extends WowActionBase {
 				final Pixels subImage = i.next();
 				vncService.mouseMouse(loc.getX() + subImage.getWidth(), loc.getY() + subImage.getHeight());
 			}
+			vncService.storeImageContent(name);
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
+
 }

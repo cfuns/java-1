@@ -45,7 +45,7 @@ public class WowMouseMoveAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
+	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
 			final Coordinate l = vncLocationThreadResult.get();

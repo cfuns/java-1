@@ -2,7 +2,9 @@ package de.benjaminborbe.tools.action;
 
 public interface Action {
 
-	void execute();
+	void executeOnce();
+
+	void executeRetry();
 
 	void onSuccess();
 

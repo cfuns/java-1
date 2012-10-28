@@ -18,6 +18,8 @@ public class WowWaitOnFishAction extends WowActionBase {
 
 	private final Logger logger;
 
+	private boolean found = false;
+
 	public WowWaitOnFishAction(final Logger logger, final VncService vncService, final String name, final ThreadResult<Boolean> running, final ThreadResult<Coordinate> baitLocation) {
 		super(logger, name, running);
 		this.logger = logger;
@@ -26,35 +28,41 @@ public class WowWaitOnFishAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
-		logger.debug(name + " - execute started");
+	public void executeOnce() {
+		logger.debug(name + " - executeOnce started");
 		try {
 			vncPixelsOrg = vncService.getScreenContent().getPixels().getCopy();
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
-		logger.debug(name + " - execute finished");
+		logger.debug(name + " - executeOnce finished");
+	}
+
+	@Override
+	public void executeRetry() {
+		logger.debug(name + " - executeRetry started");
+		try {
+
+			final int now = vncService.getScreenContent().getPixels().getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
+			final int org = vncPixelsOrg.getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
+			logger.trace(Integer.toHexString(org) + "<=>" + Integer.toHexString(now) + " " + Integer.toHexString(Math.abs(now - org)));
+			found = Math.abs(now - org) > 0x00400000;
+		}
+		catch (final VncServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+		logger.debug(name + " - executeRetry finished");
 	}
 
 	@Override
 	public boolean validateExecuteResult() {
 		logger.trace(name + " - validateExecuteResult");
-		try {
-			if (super.validateExecuteResult() == false)
-				return false;
-			if (vncPixelsOrg == null)
-				return false;
-
-			final int now = vncService.getScreenContent().getPixels().getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
-			final int org = vncPixelsOrg.getPixel(baitLocation.get().getX(), baitLocation.get().getY()) & 0x00FF0000;
-			logger.trace(Integer.toHexString(org) + "<=>" + Integer.toHexString(now) + " " + Integer.toHexString(Math.abs(now - org)));
-			return Math.abs(now - org) > 0x00400000;
-		}
-		catch (final VncServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+		if (super.validateExecuteResult() == false)
 			return false;
-		}
+		if (vncPixelsOrg == null)
+			return false;
+		return found;
 	}
 
 	@Override
@@ -71,8 +79,7 @@ public class WowWaitOnFishAction extends WowActionBase {
 	public void onFailure() {
 		logger.trace(name + " - onFailure");
 		try {
-			vncService.mouseLeftButtonPress();
-			vncService.mouseLeftButtonPress();
+			vncService.mouseLeftClick();
 		}
 		catch (final VncServiceException e) {
 			logger.debug(e.getClass().getName(), e);

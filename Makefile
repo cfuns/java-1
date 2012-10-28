@@ -5,10 +5,14 @@ clean:
 	find . -name target -type d -exec rm -rf "{}" \;
 deploy:
 	make deploydevel
+deployforce:
+	make deploydevelforce
 package:
 	make packagedevel
 deploydevel:
 	cd bridge/war/devel && make deploy
+deploydevelforce:
+	cd bridge/war/devel && make deployforce
 packagedevel:
 	cd bridge/war/devel && make installwotest
 builddevel:

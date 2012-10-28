@@ -55,43 +55,30 @@ public abstract class WowStartStopXmppCommand extends WowBaseXmppCommand {
 	protected abstract void runAction();
 
 	@Override
-	public void execute(final XmppChat chat, final String command) {
-		logger.debug("execute command " + getName());
-		try {
-
-			final String action = parseArgs(command);
-			if ("start".equals(action)) {
-				if (!running.get()) {
-					send(chat, "starting ...");
-					running.set(true);
-					threadRunner.run("fishing thread", new RepeatThread(chat));
-					send(chat, "started");
-				}
-				else {
-					send(chat, "already started");
-				}
-			}
-			else if ("stop".equals(action)) {
-				if (running.get()) {
-					send(chat, "stopping ....");
-					running.set(false);
-				}
-				else {
-					send(chat, "already stopped");
-				}
+	public void executeInternal(final XmppChat chat, final String command) throws XmppChatException {
+		final String action = parseArg(command);
+		if ("start".equals(action)) {
+			if (!running.get()) {
+				send(chat, "starting ...");
+				running.set(true);
+				threadRunner.run("fishing thread", new RepeatThread(chat));
+				send(chat, "started");
 			}
 			else {
-				send(chat, "parameter expected! [start|stop]");
+				send(chat, "already started");
 			}
 		}
-		catch (final Exception e) {
-			try {
-				chat.send(getName() + " - execution failed! " + e.getClass().getName());
+		else if ("stop".equals(action)) {
+			if (running.get()) {
+				send(chat, "stopping ....");
+				running.set(false);
 			}
-			catch (final XmppChatException e1) {
-				logger.debug(e.getClass().getName(), e);
+			else {
+				send(chat, "already stopped");
 			}
-			logger.debug(e.getClass().getName(), e);
+		}
+		else {
+			send(chat, "parameter expected! [start|stop]");
 		}
 	}
 

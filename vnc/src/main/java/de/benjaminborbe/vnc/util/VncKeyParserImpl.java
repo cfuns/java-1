@@ -3,35 +3,40 @@ package de.benjaminborbe.vnc.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.vnc.api.VncKey;
+import de.benjaminborbe.vnc.api.VncKeyParseException;
+import de.benjaminborbe.vnc.api.VncKeyParser;
 
-public class VncKeyParser {
+public class VncKeyParserImpl implements VncKeyParser {
 
 	private final ParseUtil parseUtil;
 
+	private final Logger logger;
+
 	@Inject
-	public VncKeyParser(final ParseUtil parseUtil) {
+	public VncKeyParserImpl(final Logger logger, final ParseUtil parseUtil) {
+		this.logger = logger;
 		this.parseUtil = parseUtil;
 	}
 
-	public List<VncKey> parseKeys(final String keyString) {
+	@Override
+	public List<VncKey> parseKeys(final String keyString) throws VncKeyParseException {
 		final List<VncKey> result = new ArrayList<VncKey>();
 		final char[] chars = keyString.toCharArray();
 		for (int i = 0; i < chars.length; ++i) {
-			try {
-				result.add(parseKey(chars[i]));
-			}
-			catch (final ParseException e) {
-			}
+			result.add(parseKey(chars[i]));
 		}
 		return result;
 	}
 
-	public VncKey parseKey(final char c) throws ParseException {
+	@Override
+	public VncKey parseKey(final char c) throws VncKeyParseException {
 		if (c == ' ') {
 			return VncKey.K_SPACE;
 		}
@@ -72,7 +77,13 @@ public class VncKeyParser {
 			return VncKey.K_SLASH;
 		}
 		else {
-			return parseUtil.parseEnum(VncKey.class, String.valueOf(c));
+			try {
+				return parseUtil.parseEnum(VncKey.class, String.valueOf(c));
+			}
+			catch (final ParseException e) {
+				logger.debug("parse key " + c + " failed");
+				throw new VncKeyParseException(e);
+			}
 		}
 	}
 }

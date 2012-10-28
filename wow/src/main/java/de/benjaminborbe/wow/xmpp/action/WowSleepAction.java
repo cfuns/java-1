@@ -17,7 +17,7 @@ public class WowSleepAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
+	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
 			Thread.sleep(sleep);

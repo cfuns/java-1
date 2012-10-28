@@ -123,7 +123,7 @@ public class LuaParserImpl implements LuaParser {
 
 	private String parseWord(final LuaContent content) {
 		final int startpos = content.getCurrentPos();
-		while (content.hasCurrent() && isLetterAndNumber(content.getCurrentChar())) {
+		while (content.hasCurrent() && (isLetter(content.getCurrentChar()) || isNumber(content.getCurrentChar()))) {
 			debug(content.getCurrentChar());
 			content.next();
 		}
@@ -134,12 +134,8 @@ public class LuaParserImpl implements LuaParser {
 		return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z';
 	}
 
-	private boolean isLetterAndNumber(final char c) {
-		return isLetter(c) || isNumber(c);
-	}
-
 	private boolean isNumber(final char c) {
-		return '1' <= c && c <= '9';
+		return '0' <= c && c <= '9' || c == '.' || c == '-';
 	}
 
 	private void parseSpaces(final LuaContent content) {

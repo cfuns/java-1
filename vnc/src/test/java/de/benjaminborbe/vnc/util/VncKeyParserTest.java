@@ -4,20 +4,25 @@ import static org.junit.Assert.assertEquals;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.vnc.api.VncKey;
+import de.benjaminborbe.vnc.api.VncKeyParser;
 
 public class VncKeyParserTest {
 
 	@Test
 	public void testParse() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "a")).andReturn(VncKey.a).anyTimes();
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "b")).andReturn(VncKey.b).anyTimes();
 		EasyMock.replay(parseUtil);
 
-		final VncKeyParser parser = new VncKeyParser(parseUtil);
+		final VncKeyParser parser = new VncKeyParserImpl(logger, parseUtil);
 		assertEquals(0, parser.parseKeys("").size());
 		assertEquals(1, parser.parseKeys("a").size());
 		assertEquals(2, parser.parseKeys("ab").size());
@@ -25,12 +30,15 @@ public class VncKeyParserTest {
 
 	@Test
 	public void testParseSpecial() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "a")).andReturn(VncKey.a).anyTimes();
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "b")).andReturn(VncKey.b).anyTimes();
 		EasyMock.replay(parseUtil);
 
-		final VncKeyParser parser = new VncKeyParser(parseUtil);
+		final VncKeyParser parser = new VncKeyParserImpl(logger, parseUtil);
 		assertEquals(1, parser.parseKeys(" ").size());
 		assertEquals(VncKey.K_SPACE, parser.parseKeys(" ").get(0));
 		assertEquals(1, parser.parseKeys("\n").size());
@@ -39,6 +47,9 @@ public class VncKeyParserTest {
 
 	@Test
 	public void testParseNumber() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "K_0")).andReturn(VncKey.K_1).anyTimes();
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "K_1")).andReturn(VncKey.K_2).anyTimes();
@@ -51,7 +62,7 @@ public class VncKeyParserTest {
 		EasyMock.expect(parseUtil.parseEnum(VncKey.class, "K_9")).andReturn(VncKey.K_9).anyTimes();
 		EasyMock.replay(parseUtil);
 
-		final VncKeyParser parser = new VncKeyParser(parseUtil);
+		final VncKeyParser parser = new VncKeyParserImpl(logger, parseUtil);
 		assertEquals(10, parser.parseKeys("0123456789").size());
 		assertEquals(VncKey.K_0, parser.parseKeys("0").get(0));
 		assertEquals(VncKey.K_1, parser.parseKeys("1").get(0));

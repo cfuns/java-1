@@ -36,4 +36,11 @@ public class CronJobRegistryImpl implements CronJobRegistry {
 	public Collection<CronJob> getAll() {
 		return data.values();
 	}
+
+	@Override
+	public void add(final CronJob... objects) {
+		for (final CronJob object : objects) {
+			add(object);
+		}
+	}
 }

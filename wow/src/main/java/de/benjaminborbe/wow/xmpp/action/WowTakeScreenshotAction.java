@@ -23,7 +23,7 @@ public class WowTakeScreenshotAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
+	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
 			final VncPixels pixels = vncService.getScreenContent().getPixels().getCopy();

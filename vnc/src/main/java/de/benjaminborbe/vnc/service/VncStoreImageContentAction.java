@@ -39,6 +39,11 @@ public class VncStoreImageContentAction {
 		storeImage(vncPixels);
 	}
 
+	public void storeImage(final String name) throws VncConnectorException, IOException {
+		final VncPixels vncPixels = vncConnector.getScreenContent().getPixels();
+		storeImage(vncPixels, name);
+	}
+
 	public void storeImage(final VncPixels vncPixels) throws IOException {
 		storeImage(vncPixels, "vnc-" + calendarUtil.toDateTimeString(calendarUtil.now()));
 	}

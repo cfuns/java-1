@@ -5,10 +5,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.vnc.VncConstants;
-import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
-import de.benjaminborbe.vnc.util.VncKeyParser;
 import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
@@ -19,14 +17,11 @@ public class VncServiceTypeXmppCommand extends VncServiceXmppCommandBase impleme
 
 	private final VncService vncService;
 
-	private final VncKeyParser vncKeyParser;
-
 	@Inject
-	public VncServiceTypeXmppCommand(final Logger logger, final VncService vncService, final VncKeyParser vncKeyParser) {
+	public VncServiceTypeXmppCommand(final Logger logger, final VncService vncService) {
 		super(logger);
 		this.logger = logger;
 		this.vncService = vncService;
-		this.vncKeyParser = vncKeyParser;
 	}
 
 	@Override
@@ -45,10 +40,7 @@ public class VncServiceTypeXmppCommand extends VncServiceXmppCommandBase impleme
 				try {
 					vncService.connect();
 
-					for (final VncKey key : vncKeyParser.parseKeys(args.trim())) {
-						vncService.keyPress(key);
-						vncService.keyRelease(key);
-					}
+					vncService.keyType(args.trim());
 				}
 				finally {
 					vncService.disconnect();
@@ -72,5 +64,4 @@ public class VncServiceTypeXmppCommand extends VncServiceXmppCommandBase impleme
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
-
 }

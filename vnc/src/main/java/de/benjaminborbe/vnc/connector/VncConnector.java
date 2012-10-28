@@ -2,7 +2,6 @@ package de.benjaminborbe.vnc.connector;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-
 import org.slf4j.Logger;
 
 import com.glavsoft.exceptions.AuthenticationFailedException;

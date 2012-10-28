@@ -38,10 +38,7 @@ public class VncServiceMouseDoubleClickXmppCommand extends VncServiceXmppCommand
 
 				vncService.connect();
 
-				vncService.mouseLeftButtonPress();
-				vncService.mouseLeftButtonRelease();
-				vncService.mouseLeftButtonPress();
-				vncService.mouseLeftButtonRelease();
+				vncService.mouseLeftClickDouble();
 
 				chat.send(getName() + " - execution finished");
 			}

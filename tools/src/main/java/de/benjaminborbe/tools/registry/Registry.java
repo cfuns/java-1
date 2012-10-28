@@ -6,6 +6,8 @@ public interface Registry<T> {
 
 	void add(T object);
 
+	void add(T... objects);
+
 	void remove(T object);
 
 	Collection<T> getAll();

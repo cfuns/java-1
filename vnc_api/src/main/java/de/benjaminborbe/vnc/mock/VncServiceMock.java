@@ -1,9 +1,12 @@
 package de.benjaminborbe.vnc.mock;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.vnc.api.VncKey;
+import de.benjaminborbe.vnc.api.VncKeyParser;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncScreenContent;
@@ -51,7 +54,7 @@ public class VncServiceMock implements VncService {
 	}
 
 	@Override
-	public void mouseMouse(final VncLocation fishingButton) throws VncServiceException {
+	public void mouseMouse(final VncLocation vncLocation) throws VncServiceException {
 	}
 
 	@Override
@@ -64,5 +67,30 @@ public class VncServiceMock implements VncService {
 
 	@Override
 	public void storeVncPixels(final VncPixels vncPixels, final String name) throws VncServiceException {
+	}
+
+	@Override
+	public void keyType(final List<VncKey> keys) throws VncServiceException {
+	}
+
+	@Override
+	public void keyType(final String keys) throws VncServiceException {
+	}
+
+	@Override
+	public void mouseLeftClick() throws VncServiceException {
+	}
+
+	@Override
+	public void mouseLeftClickDouble() throws VncServiceException {
+	}
+
+	@Override
+	public VncKeyParser getVncKeyParser() {
+		return null;
+	}
+
+	@Override
+	public void storeImageContent(final String name) throws VncServiceException {
 	}
 }

@@ -3,6 +3,9 @@ package de.benjaminborbe.wow.image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -25,6 +28,14 @@ public class WowImageLibrary {
 		return getFileAsPixels(resourceUtil.getResourceContentAsInputStream(fileName));
 	}
 
+	private Collection<Pixels> getFileAsPixels(final String... fileNames) throws IOException {
+		final List<Pixels> result = new ArrayList<Pixels>();
+		for (final String filename : fileNames) {
+			result.add(getFileAsPixels(filename));
+		}
+		return result;
+	}
+
 	private Pixels getFileAsPixels(final InputStream file) throws IOException {
 		final BufferedImage image = ImageIO.read(file);
 		return new PixelsImpl(image);
@@ -34,27 +45,20 @@ public class WowImageLibrary {
 		return getFileAsPixels("wow-fishing-button.bmp");
 	}
 
-	public Pixels getWowAppIconV1() throws IOException {
-		return getFileAsPixels("wow-app-icon-v1.bmp");
+	public Collection<Pixels> getWowAppIcon() throws IOException {
+		return getFileAsPixels("wow-app-icon-v1.bmp", "wow-app-icon-v2.bmp", "wow-app-icon-v3.bmp", "wow-app-icon-v4.bmp", "wow-app-icon-v5.bmp", "wow-app-icon-v6.bmp");
 	}
 
-	public Pixels getWowAppIconV2() throws IOException {
-		return getFileAsPixels("wow-app-icon-v2.bmp");
+	public Pixels getWowPlayButton() throws IOException {
+		return getFileAsPixels("wow-play-button.bmp");
 	}
 
-	public Pixels getWowAppIconV3() throws IOException {
-		return getFileAsPixels("wow-app-icon-v3.bmp");
+	public Collection<Pixels> getWowStartIcon() throws IOException {
+		return getFileAsPixels("wow-icon-inner-v1.bmp", "wow-icon-inner-v2.bmp");
 	}
 
-	public Pixels getWowAppIconV4() throws IOException {
-		return getFileAsPixels("wow-app-icon-v4.bmp");
+	public Pixels getWowLoginButton() throws IOException {
+		return getFileAsPixels("wow-login-button.bmp");
 	}
 
-	public Pixels getWowAppIconV5() throws IOException {
-		return getFileAsPixels("wow-app-icon-v5.bmp");
-	}
-
-	public Pixels getWowAppIconV6() throws IOException {
-		return getFileAsPixels("wow-app-icon-v6.bmp");
-	}
 }

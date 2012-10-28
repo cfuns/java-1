@@ -9,14 +9,19 @@ public class RegistryBase<T> implements Registry<T> {
 	private final Set<T> objects = new HashSet<T>();
 
 	public RegistryBase(final T... ts) {
-		for (final T t : ts) {
-			add(t);
-		}
+		add(ts);
 	}
 
 	@Override
 	public void add(final T object) {
 		objects.add(object);
+	}
+
+	@Override
+	public void add(final T... objects) {
+		for (final T object : objects) {
+			add(object);
+		}
 	}
 
 	@Override

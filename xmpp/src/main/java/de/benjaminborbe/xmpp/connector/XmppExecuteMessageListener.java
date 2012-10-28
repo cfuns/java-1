@@ -12,17 +12,41 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.registry.RegistryChangeListener;
+import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 
 public class XmppExecuteMessageListener implements MessageListener, RegistryChangeListener<XmppCommand> {
+
+	private final class ExecuteCommand implements Runnable {
+
+		private final Chat chat;
+
+		private final XmppCommand command;
+
+		private final String body;
+
+		private ExecuteCommand(Chat chat, XmppCommand command, String body) {
+			this.chat = chat;
+			this.command = command;
+			this.body = body;
+		}
+
+		@Override
+		public void run() {
+			command.execute(new XmppChatImp(chat), body);
+		}
+	}
 
 	private final Logger logger;
 
 	private final Set<XmppCommand> commands = new HashSet<XmppCommand>();
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
-	public XmppExecuteMessageListener(final Logger logger, final XmppCommandRegistry xmppCommandRegistry) {
+	public XmppExecuteMessageListener(final Logger logger, final XmppCommandRegistry xmppCommandRegistry, final ThreadRunner threadRunner) {
 		this.logger = logger;
+		this.threadRunner = threadRunner;
 		xmppCommandRegistry.addListener(this);
 	}
 
@@ -33,7 +57,7 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 			final String body = message.getBody();
 			for (final XmppCommand command : commands) {
 				if (command.match(body)) {
-					command.execute(new XmppChatImp(chat), body);
+					threadRunner.run("execute xmppchat message: " + message, new ExecuteCommand(chat, command, body));
 				}
 			}
 		}

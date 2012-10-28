@@ -2,7 +2,6 @@ package de.benjaminborbe.wow.xmpp;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ import de.benjaminborbe.wow.xmpp.action.WowFindPixelsLocationAction;
 import de.benjaminborbe.wow.xmpp.action.WowIncreaseCounterAction;
 import de.benjaminborbe.wow.xmpp.action.WowMouseClickAction;
 import de.benjaminborbe.wow.xmpp.action.WowMouseMoveAction;
-import de.benjaminborbe.wow.xmpp.action.WowSendKeyAction;
+import de.benjaminborbe.wow.xmpp.action.WowKeyTypeAction;
 import de.benjaminborbe.wow.xmpp.action.WowSleepAction;
 import de.benjaminborbe.wow.xmpp.action.WowTakePixelsAction;
 import de.benjaminborbe.wow.xmpp.action.WowTakeScreenshotAction;
@@ -72,7 +71,7 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 		try {
 			final List<Action> actions = new ArrayList<Action>();
 			if (counter.get() % 20 == 0) {
-				actions.add(new WowSendKeyAction(logger, vncService, "jump", running, VncKey.K_SPACE));
+				actions.add(new WowKeyTypeAction(logger, vncService, "jump", running, VncKey.K_SPACE));
 			}
 			actions.add(new WowIncreaseCounterAction(logger, "increase counter", running, counter));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
@@ -81,9 +80,7 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 				wowAppIconLocation.set(new Coordinate(1, 1));
 			}
 			else {
-				actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, Arrays.asList(
-						wowImageLibrary.getWowAppIconV1(), wowImageLibrary.getWowAppIconV2(), wowImageLibrary.getWowAppIconV3(), wowImageLibrary.getWowAppIconV4(),
-						wowImageLibrary.getWowAppIconV5(), wowImageLibrary.getWowAppIconV6()), 60));
+				actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find wow app icon", running, wowAppIconLocation, wowImageLibrary.getWowAppIcon(), 60));
 			}
 			actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find fishing button location", running, fishingButtonLocation, wowImageLibrary
 					.getFishingButton(), 60));

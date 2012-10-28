@@ -12,7 +12,8 @@ public class ActionRunnerUnitTest {
 		EasyMock.replay(logger);
 
 		final Action action = EasyMock.createMock(Action.class);
-		action.execute();
+		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
+		action.executeOnce();
 		EasyMock.expect(action.getWaitTimeout()).andReturn(0l);
 		EasyMock.expect(action.getRetryDelay()).andReturn(0l);
 		EasyMock.expect(action.validateExecuteResult()).andReturn(true);
@@ -31,7 +32,8 @@ public class ActionRunnerUnitTest {
 		EasyMock.replay(logger);
 
 		final Action action = EasyMock.createMock(Action.class);
-		action.execute();
+		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
+		action.executeOnce();
 		EasyMock.expect(action.getWaitTimeout()).andReturn(0l);
 		EasyMock.expect(action.getRetryDelay()).andReturn(0l);
 		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
@@ -50,7 +52,7 @@ public class ActionRunnerUnitTest {
 		EasyMock.replay(logger);
 
 		final Action action = EasyMock.createMock(Action.class);
-		action.execute();
+		action.executeOnce();
 		EasyMock.expect(action.getWaitTimeout()).andReturn(1l);
 		EasyMock.expect(action.getRetryDelay()).andReturn(1l);
 		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
@@ -70,10 +72,12 @@ public class ActionRunnerUnitTest {
 		EasyMock.replay(logger);
 
 		final Action action = EasyMock.createMock(Action.class);
-		action.execute();
+		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
+		action.executeOnce();
 		EasyMock.expect(action.getWaitTimeout()).andReturn(1l);
 		EasyMock.expect(action.getRetryDelay()).andReturn(1l);
 		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
+		action.executeRetry();
 		EasyMock.expect(action.validateExecuteResult()).andReturn(false);
 		action.onFailure();
 		EasyMock.replay(action);

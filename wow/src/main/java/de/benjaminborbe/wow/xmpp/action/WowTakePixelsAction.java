@@ -15,7 +15,12 @@ public class WowTakePixelsAction extends WowActionBase {
 
 	private final VncService vncService;
 
-	public WowTakePixelsAction(final Logger logger, final VncService vncService, final String name, final ThreadResult<Boolean> running, final ThreadResult<VncPixels> pixelsBeforeFishing) {
+	public WowTakePixelsAction(
+			final Logger logger,
+			final VncService vncService,
+			final String name,
+			final ThreadResult<Boolean> running,
+			final ThreadResult<VncPixels> pixelsBeforeFishing) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;
@@ -23,7 +28,7 @@ public class WowTakePixelsAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
+	public void executeOnce() {
 		logger.debug(name + " - execute started");
 		try {
 			pixelsBeforeFishing.set(vncService.getScreenContent().getPixels().getCopy());

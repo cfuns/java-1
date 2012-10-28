@@ -14,7 +14,7 @@ public class WowIncreaseCounterAction extends WowActionBase {
 	}
 
 	@Override
-	public void execute() {
+	public void executeOnce() {
 		counter.set(counter.get() + 1);
 	}
 }

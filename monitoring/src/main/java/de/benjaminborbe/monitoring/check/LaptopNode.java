@@ -70,5 +70,13 @@ public class LaptopNode extends HasChildNodesImpl implements HasChildNodes {
 			final String contentMatch = ">Queues<";
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
 		}
+		// openfire-admin-gui
+		{
+			final String name = "URL-Check on local openfire-gui";
+			final String url = "http://0.0.0.0:9090/login.jsp";
+			final String titleMatch = "Openfire Admin Console";
+			final String contentMatch = " Administration Console";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
 	}
 }

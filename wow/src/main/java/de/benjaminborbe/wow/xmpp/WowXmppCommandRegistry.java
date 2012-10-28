@@ -10,8 +10,8 @@ import de.benjaminborbe.xmpp.api.XmppCommand;
 public class WowXmppCommandRegistry extends RegistryBase<XmppCommand> {
 
 	@Inject
-	public WowXmppCommandRegistry(final WowFishingXmppCommand wowFishingCommand) {
-		add(wowFishingCommand);
+	public WowXmppCommandRegistry(final WowFishingXmppCommand wowFishingCommand, final WowLoginAction wowLoginAction, final WowLogoutAction wowLogoutAction) {
+		add(wowFishingCommand, wowLoginAction, wowLogoutAction);
 	}
 
 }

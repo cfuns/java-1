@@ -1,5 +1,7 @@
 package de.benjaminborbe.vnc.api;
 
+import java.util.List;
+
 public class VncServiceAdapter implements VncService {
 
 	private final VncService vncService;
@@ -68,4 +70,33 @@ public class VncServiceAdapter implements VncService {
 		vncService.storeVncPixels(vncPixels, name);
 	}
 
+	@Override
+	public void keyType(final List<VncKey> keys) throws VncServiceException {
+		vncService.keyType(keys);
+	}
+
+	@Override
+	public void keyType(final String keys) throws VncServiceException {
+		vncService.keyType(keys);
+	}
+
+	@Override
+	public void mouseLeftClick() throws VncServiceException {
+		vncService.mouseLeftClick();
+	}
+
+	@Override
+	public void mouseLeftClickDouble() throws VncServiceException {
+		vncService.mouseLeftClickDouble();
+	}
+
+	@Override
+	public VncKeyParser getVncKeyParser() {
+		return vncService.getVncKeyParser();
+	}
+
+	@Override
+	public void storeImageContent(final String name) throws VncServiceException {
+		vncService.storeImageContent(name);
+	}
 }

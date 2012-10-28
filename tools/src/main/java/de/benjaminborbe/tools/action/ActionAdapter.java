@@ -9,11 +9,6 @@ public class ActionAdapter implements Action {
 	}
 
 	@Override
-	public void execute() {
-		action.execute();
-	}
-
-	@Override
 	public void onSuccess() {
 		action.onSuccess();
 	}
@@ -36,6 +31,16 @@ public class ActionAdapter implements Action {
 	@Override
 	public long getRetryDelay() {
 		return action.getRetryDelay();
+	}
+
+	@Override
+	public void executeOnce() {
+		action.executeOnce();
+	}
+
+	@Override
+	public void executeRetry() {
+		action.executeRetry();
 	}
 
 }
