@@ -50,7 +50,7 @@ public class WowImageLibrary {
 	}
 
 	public Collection<Pixels> getWowPlayButton() throws IOException {
-		return getFileAsPixels("wow-play-button-v1.bmp", "wow-play-button-v2.bmp");
+		return getFileAsPixels("wow-play-button-v1.bmp", "wow-play-button-v2.bmp", "wow-play-button-v3.bmp");
 	}
 
 	public Collection<Pixels> getWowStartIcon() throws IOException {
