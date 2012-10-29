@@ -80,16 +80,29 @@ public class WowLoginAction extends WowBaseXmppCommand {
 				// click play
 				{
 					final ThreadResult<Coordinate> playButtonLocation = new ThreadResult<Coordinate>();
-					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find play button", running, playButtonLocation, wowImageLibrary.getWowPlayButton(), 60));
+					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find play button", running, playButtonLocation, wowImageLibrary.getWowPlayButton(), 55));
 					actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to play button", running, playButtonLocation));
 					actions.add(new WowMouseClickAction(logger, vncService, "click play button", running));
 				}
 				// login
 				{
 					final ThreadResult<Coordinate> loginButtonLocation = new ThreadResult<Coordinate>();
-					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find login button", running, loginButtonLocation, wowImageLibrary.getWowLoginButton(), 70));
+					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find login button", running, loginButtonLocation, wowImageLibrary.getWowLoginButton(), 50));
 					// enter email
+					{
+						// nop
+					}
 					// select accountname
+					{
+						final ThreadResult<Coordinate> accountNameDropDownLocation = new ThreadResult<Coordinate>(new Coordinate(467, 337));
+						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to accountname dropdown button", running, accountNameDropDownLocation));
+						actions.add(new WowMouseClickAction(logger, vncService, "click accountname dropdown button", running));
+						actions.add(new WowSleepAction(logger, "sleep", running, 1000));
+						final ThreadResult<Coordinate> accountNameOptionLocation = new ThreadResult<Coordinate>(new Coordinate(375, 377));
+						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to accountname option", running, accountNameOptionLocation));
+						actions.add(new WowMouseClickAction(logger, vncService, "click accountname option", running));
+						actions.add(new WowSleepAction(logger, "sleep", running, 1000));
+					}
 					// enter password
 					{
 						final ThreadResult<Coordinate> passwordFieldLocation = new ThreadResult<Coordinate>() {
@@ -101,15 +114,35 @@ public class WowLoginAction extends WowBaseXmppCommand {
 						};
 						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to password field", running, passwordFieldLocation));
 						actions.add(new WowMouseClickAction(logger, vncService, "click into password field", running));
-						actions.add(new WowSleepAction(logger, "sleep", running, 100));
+						actions.add(new WowSleepAction(logger, "sleep", running, 500));
 						actions.add(new WowKeyTypeAction(logger, vncService, "type password into field", running, args.get(0)));
 					}
 					// click login
 					{
 						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to login button", running, loginButtonLocation));
-						actions.add(new WowSleepAction(logger, "sleep", running, 100));
-						actions.add(new WowMouseClickAction(logger, vncService, "click login button", running));
+						actions.add(new WowSleepAction(logger, "sleep", running, 500));
+						actions.add(new WowMouseClickDoubleAction(logger, vncService, "click login button", running));
+						actions.add(new WowSleepAction(logger, "sleep", running, 15000));
 					}
+				}
+				// select char
+				{
+					final ThreadResult<Coordinate> enterWorldLocation = new ThreadResult<Coordinate>();
+					actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find enter world button", running, enterWorldLocation, wowImageLibrary
+							.getWowEnterWorldButton(), 60));
+					{
+						final ThreadResult<Coordinate> charLocation = new ThreadResult<Coordinate>(new Coordinate(621, 139));
+						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to char location", running, charLocation));
+						actions.add(new WowMouseClickAction(logger, vncService, "click char location", running));
+						actions.add(new WowSleepAction(logger, "sleep", running, 1000));
+					}
+					// enter world
+					{
+						actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to enter world button", running, enterWorldLocation));
+						actions.add(new WowMouseClickAction(logger, vncService, "click enter world button", running));
+						actions.add(new WowSleepAction(logger, "sleep", running, 500));
+					}
+
 				}
 
 				actionChainRunner.run(actions);

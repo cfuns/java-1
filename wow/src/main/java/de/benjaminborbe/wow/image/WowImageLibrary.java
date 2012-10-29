@@ -57,12 +57,16 @@ public class WowImageLibrary {
 		return getFileAsPixels("wow-icon-inner-v1.bmp", "wow-icon-inner-v2.bmp");
 	}
 
-	public Pixels getWowLoginButton() throws IOException {
-		return getFileAsPixels("wow-login-button.bmp");
+	public Collection<Pixels> getWowLoginButton() throws IOException {
+		return getFileAsPixels("wow-login-button-v1.bmp", "wow-login-button-v2.bmp");
 	}
 
 	public Collection<Pixels> getWowLogoutButton() throws IOException {
 		return getFileAsPixels("wow-logout-x.bmp", "wow-logout-quit-button.bmp");
+	}
+
+	public Collection<Pixels> getWowEnterWorldButton() throws IOException {
+		return getFileAsPixels("wow-enter-world-button-v1.bmp", "wow-enter-world-button-v2.bmp", "wow-enter-world-button-v3.bmp");
 	}
 
 }
