@@ -84,7 +84,7 @@ public class LunchWikiConnector {
 		final String htmlContent = htmlUtil.unescapeHtml(service.renderContent(token, page.getSpace(), page.getId(), page.getContent()));
 		final LunchBean lunch = new LunchBean();
 		lunch.setName(lunchParseUtil.extractLunchName(htmlContent));
-		lunch.setSubscribed(lunchParseUtil.extractLunchSubscribed(htmlContent, fullname));
+		lunch.setSubscribed(lunchParseUtil.extractLunchSubscribed(page.getContent(), fullname));
 		lunch.setDate(extractDate(remotePageSummary.getTitle()));
 		lunch.setUrl(buildUrl(remotePageSummary.getUrl()));
 		return lunch;

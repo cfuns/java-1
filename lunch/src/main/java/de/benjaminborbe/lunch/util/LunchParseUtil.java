@@ -22,18 +22,19 @@ public class LunchParseUtil {
 		this.htmlUtil = htmlUtil;
 	}
 
-	public boolean extractLunchSubscribed(final String htmlContent, final String fullname) {
-		final Document document = Jsoup.parse(htmlContent);
-		final Elements tables = document.getElementsByClass("confluenceTable");
-		for (final Element table : tables) {
-			final Elements tds = table.getElementsByTag("td");
-			for (final Element td : tds) {
-				if (td.html().indexOf(fullname) != -1) {
-					return true;
-				}
-			}
-		}
-		return false;
+	public boolean extractLunchSubscribed(final String content, final String fullname) {
+		return content.indexOf(fullname) != -1;
+		// final Document document = Jsoup.parse(htmlContent);
+		// final Elements tables = document.getElementsByClass("confluenceTable");
+		// for (final Element table : tables) {
+		// final Elements tds = table.getElementsByTag("td");
+		// for (final Element td : tds) {
+		// if (td.html().indexOf(fullname) != -1) {
+		// return true;
+		// }
+		// }
+		// }
+		// return false;
 	}
 
 	public String extractLunchName(final String htmlContent) {
