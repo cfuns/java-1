@@ -19,6 +19,8 @@ import de.benjaminborbe.websearch.util.UpdateDeterminer;
 @Singleton
 public class RefreshPagesCronJob implements CronJob {
 
+	private static final int TIMEOUT = 5000;
+
 	private final class RefreshRunnable implements Runnable {
 
 		@Override
@@ -44,7 +46,7 @@ public class RefreshPagesCronJob implements CronJob {
 					try {
 						final URL url = page.getUrl();
 						logger.trace("trigger refresh of url " + url.toExternalForm());
-						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url);
+						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
 						crawlerService.processCrawlerInstruction(crawlerInstruction);
 					}
 					catch (final Exception e) {

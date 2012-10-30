@@ -52,7 +52,12 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		@Override
 		public int compare(final Bookmark a, final Bookmark b) {
-			return a.getName().compareTo(b.getName());
+			if (a != null && b != null) {
+				return a.getName().compareTo(b.getName());
+			}
+			else {
+				return 0;
+			}
 		}
 	}
 

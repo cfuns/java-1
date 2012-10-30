@@ -38,7 +38,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public String get(final String columnFamily, final String id, final String key) {
+	public String get(final String columnFamily, final String id, final String key) throws StorageException {
 		try {
 			storageConnection.open();
 
@@ -49,7 +49,7 @@ public class StorageServiceImpl implements StorageService {
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);
-			return null;
+			throw new StorageException(e);
 		}
 		finally {
 			storageConnection.close();
@@ -57,7 +57,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void delete(final String columnFamily, final String id, final String key) {
+	public void delete(final String columnFamily, final String id, final String key) throws StorageException {
 		try {
 			storageConnection.open();
 
@@ -65,6 +65,7 @@ public class StorageServiceImpl implements StorageService {
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);
+			throw new StorageException(e);
 		}
 		finally {
 			storageConnection.close();

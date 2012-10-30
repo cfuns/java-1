@@ -44,6 +44,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	private static final String PARAMETER_URL = "url";
 
+	private static final int TIMEOUT = 5000;
+
 	private final CrawlerService crawlerService;
 
 	private final Logger logger;
@@ -80,7 +82,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		if (request.getParameter(PARAMETER_URL) != null) {
 			try {
 				final URL url = new URL(request.getParameter(PARAMETER_URL));
-				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(url);
+				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(url, TIMEOUT);
 				crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
 				widgets.add("add url successful");
 			}

@@ -22,9 +22,6 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 	private final Logger logger;
 
-	// 5 sec
-	private static final int TIMEOUT = 5 * 1000;
-
 	private final HttpDownloader httpDownloader;
 
 	private final HttpDownloadUtil httpDownloadUtil;
@@ -39,10 +36,10 @@ public class CrawlerServiceImpl implements CrawlerService {
 		this.crawlerNotifier = crawlerNotifier;
 	}
 
-	protected void crawleDomain(final URL domainUrl) throws CrawlerException {
+	protected void crawleDomain(final URL domainUrl, final int timeout) throws CrawlerException {
 		try {
 			logger.trace("crawle domain: " + domainUrl);
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(domainUrl, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(domainUrl, timeout);
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();
 			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, content, contentType, true));
@@ -60,7 +57,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 	@Override
 	public void processCrawlerInstruction(final CrawlerInstruction crawlerInstruction) throws CrawlerException {
 		logger.trace("processCrawlerInstruction");
-		crawleDomain(crawlerInstruction.getUrl());
+		crawleDomain(crawlerInstruction.getUrl(), crawlerInstruction.getTimeout());
 	}
 
 }

@@ -1,3 +1,5 @@
+all:
+	mvn clean install
 installwotest:
 	mvn -Dmaven.test.skip=true install
 dir:
