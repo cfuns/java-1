@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -122,8 +125,12 @@ public class TaskGuiNextServletUnitTest {
 		authorizationService.expectAdminRole(sessionIdentifier);
 		EasyMock.replay(authorizationService);
 
+		final TaskService taskService = EasyMock.createMock(TaskService.class);
+		EasyMock.expect(taskService.getNextTasks(sessionIdentifier, 1)).andReturn(new ArrayList<Task>());
+		EasyMock.replay(taskService);
+
 		final TaskGuiNextServlet taskServlet = new TaskGuiNextServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService);
+				redirectUtil, urlUtil, authorizationService, taskService);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

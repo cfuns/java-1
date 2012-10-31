@@ -184,3 +184,8 @@ buildscala:
 	cd scala && make all
 	cd scala_gui && make all
 	cd scala_test && make all
+buildtask:
+	cd task_api && make all
+	cd task && make all
+	cd task_gui && make all
+	cd task_test && make all
