@@ -2,6 +2,7 @@ package de.benjaminborbe.authorization.api;
 
 import java.util.Collection;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
@@ -46,4 +47,7 @@ public interface AuthorizationService {
 	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
 
 	void expectAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
+
+	boolean expectUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
+
 }

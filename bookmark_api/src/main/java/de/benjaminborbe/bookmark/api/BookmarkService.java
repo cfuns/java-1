@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface BookmarkService {
 
@@ -11,13 +12,15 @@ public interface BookmarkService {
 			throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException;
 
 	void updateBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
-			final List<String> keywords, boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkUpdateException;
+			final List<String> keywords, boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkUpdateException, PermissionDeniedException;
 
-	void deleteBookmark(SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException;
+	void deleteBookmark(SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException,
+			PermissionDeniedException, LoginRequiredException;
 
 	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException;
 
-	Bookmark getBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException;
+	Bookmark getBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
 	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, String[] words) throws BookmarkServiceException;
 

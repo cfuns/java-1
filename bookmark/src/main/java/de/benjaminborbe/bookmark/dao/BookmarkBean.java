@@ -23,7 +23,7 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 
 	private boolean favorite;
 
-	private UserIdentifier ownerUsername;
+	private UserIdentifier owner;
 
 	@Override
 	public String getName() {
@@ -79,11 +79,11 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 		this.favorite = favorite;
 	}
 
-	public UserIdentifier getOwnerUsername() {
-		return ownerUsername;
+	public UserIdentifier getOwner() {
+		return owner;
 	}
 
-	public void setOwnerUsername(final UserIdentifier ownerUsername) {
-		this.ownerUsername = ownerUsername;
+	public void setOwner(final UserIdentifier owner) {
+		this.owner = owner;
 	}
 }

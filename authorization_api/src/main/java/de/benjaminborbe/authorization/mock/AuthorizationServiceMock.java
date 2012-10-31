@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -110,6 +111,12 @@ public class AuthorizationServiceMock implements AuthorizationService {
 
 	@Override
 	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+	}
+
+	@Override
+	public boolean expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		return false;
 	}
 
 }

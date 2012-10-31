@@ -126,12 +126,12 @@ buildbookmark:
 	cd bookmark_gui && make all
 	cd bookmark_test && make all
 buildauth:
-	cd authentication && make all
 	cd authentication_api && make all
+	cd authentication && make all
 	cd authentication_gui && make all
 	cd authentication_test && make all
-	cd authorization && make all
 	cd authorization_api && make all
+	cd authorization && make all
 	cd authorization_gui && make all
 	cd authorization_test && make all
 buildmonitoring:

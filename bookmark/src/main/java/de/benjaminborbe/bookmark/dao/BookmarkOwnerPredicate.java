@@ -15,6 +15,6 @@ public class BookmarkOwnerPredicate implements Predicate<BookmarkBean> {
 	@Override
 	public boolean apply(final BookmarkBean bookmark) {
 		final Object username = userIdentifier.getId();
-		return username.equals(bookmark.getOwnerUsername());
+		return username.equals(bookmark.getOwner());
 	}
 }

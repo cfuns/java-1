@@ -19,6 +19,9 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
@@ -71,10 +74,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
-	public BookmarkServiceImpl(final Logger logger, final AuthenticationService authenticationService, final BookmarkDao bookmarkDao, final ValidationExecutor validationExecutor) {
+	public BookmarkServiceImpl(
+			final Logger logger,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
+			final BookmarkDao bookmarkDao,
+			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.bookmarkDao = bookmarkDao;
 		this.validationExecutor = validationExecutor;
 	}
@@ -88,7 +99,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return bookmarks;
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
 	}
 
@@ -102,10 +113,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return bookmarks;
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
 	}
 
@@ -188,7 +199,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			bookmark.setName(name);
 			bookmark.setDescription(description);
 			bookmark.setKeywords(keywords);
-			bookmark.setOwnerUsername(userIdentifier);
+			bookmark.setOwner(userIdentifier);
 
 			final ValidationResult errors = validationExecutor.validate(bookmark);
 			if (errors.hasErrors()) {
@@ -198,10 +209,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 			bookmarkDao.save(bookmark);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
 	}
 
@@ -212,71 +223,70 @@ public class BookmarkServiceImpl implements BookmarkService {
 			return new BookmarkIdentifier(userIdentifier.getId() + "-" + url);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
 	}
 
 	@Override
-	public void deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException {
+	public void deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException,
+			PermissionDeniedException, LoginRequiredException {
 		try {
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			if (bookmark == null) {
 				logger.info("delete bookmark failed, not found");
 				throw new BookmarkDeletionException("bookmark not found");
 			}
+			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			bookmarkDao.delete(bookmark);
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
 		}
 	}
 
 	@Override
 	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
-			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, BookmarkUpdateException, LoginRequiredException {
-		logger.info("updateBookmark");
+			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException, BookmarkUpdateException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.info("updateBookmark");
 
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
-			if (!userIdentifier.equals(bookmark.getOwnerUsername())) {
-				throw new BookmarkUpdateException("owner missmatch");
-			}
+			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 
 			deleteBookmark(sessionIdentifier, bookmarkIdentifier);
 			createBookmark(sessionIdentifier, url, name, description, keywords, favorite);
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
-		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
 		}
 		catch (final BookmarkDeletionException e) {
-			throw new BookmarkUpdateException(e.getClass().getSimpleName(), e);
+			throw new BookmarkUpdateException(e);
 		}
 		catch (final BookmarkCreationException e) {
-			throw new BookmarkUpdateException(e.getClass().getSimpleName(), e);
+			throw new BookmarkUpdateException(e);
 		}
 	}
 
 	@Override
-	public Bookmark getBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException {
+	public Bookmark getBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		logger.info("updateBookmark");
 		try {
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
-			if (!userIdentifier.equals(bookmark.getOwnerUsername())) {
-				throw new BookmarkServiceException("owner missmatch");
-			}
+			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			return bookmark;
 		}
 		catch (final StorageException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+			throw new BookmarkServiceException(e);
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BookmarkServiceException(e.getClass().getSimpleName(), e);
+		catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
 		}
 	}
 }

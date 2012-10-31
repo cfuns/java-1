@@ -11,6 +11,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -312,5 +313,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
 		expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+	}
+
+	@Override
+	public boolean expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			return userIdentifier.equals(authenticationService.getCurrentUser(sessionIdentifier));
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 }
