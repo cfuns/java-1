@@ -12,6 +12,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class BundleActivatorTestUtil {
 
@@ -25,7 +26,7 @@ public class BundleActivatorTestUtil {
 		final Filter filter = EasyMock.createMock(Filter.class);
 		EasyMock.replay(filter);
 
-		final ExtHttpServiceMock extBundle = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extBundle = new ExtHttpServiceMock(new UrlUtilImpl());
 
 		final ServiceReference extServiceReference = EasyMock.createMock(ServiceReference.class);
 		EasyMock.expect(extServiceReference.getBundle()).andReturn(extBundle);

@@ -10,6 +10,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class SlashIntegrationTest extends OSGiTestCase {
 
@@ -27,7 +28,7 @@ public class SlashIntegrationTest extends OSGiTestCase {
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
-		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
 		assertNotNull(extHttpService);
 		// zum start: keine Dienste registriert
 		assertEquals(0, extHttpService.getRegisterFilterCallCounter());
@@ -54,7 +55,7 @@ public class SlashIntegrationTest extends OSGiTestCase {
 	public void testServletSlash() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
-		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
 		assertNotNull(extHttpService);
 		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(), extHttpService, null);
 		assertNotNull(serviceRegistration);

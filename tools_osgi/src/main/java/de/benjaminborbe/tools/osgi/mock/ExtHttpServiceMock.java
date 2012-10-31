@@ -20,6 +20,10 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 
+import com.google.inject.Inject;
+
+import de.benjaminborbe.tools.url.UrlUtil;
+
 public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	private final Map<Servlet, String> servletAlias = new HashMap<Servlet, String>();
@@ -40,6 +44,13 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	private int registerResourceCallCounter;
 
+	private final UrlUtil urlUtil;
+
+	@Inject
+	public ExtHttpServiceMock(final UrlUtil urlUtil) {
+		this.urlUtil = urlUtil;
+	}
+
 	public Collection<Filter> getFilters() {
 		return filterAlias.keySet();
 	}
@@ -51,13 +62,13 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	@Override
 	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context)
 			throws ServletException, NamespaceException {
-		servletAlias.put(servlet, alias);
+		servletAlias.put(servlet, urlUtil.removeTailingSlash(alias));
 		registerServletCallCounter++;
 	}
 
 	@Override
 	public void registerResources(final String alias, final String name, final HttpContext context) throws NamespaceException {
-		resourceAlias.put(alias, name);
+		resourceAlias.put(urlUtil.removeTailingSlash(alias), name);
 		registerResourceCallCounter++;
 	}
 
@@ -69,8 +80,8 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	}
 
 	@Override
-	public void unregister(final String alias) {
-		resourceAlias.remove(alias);
+	public void unregister(final String path) {
+		resourceAlias.remove(urlUtil.removeTailingSlash(path));
 		unregisterResourceCallCounter++;
 	}
 
@@ -96,7 +107,7 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	}
 
 	public boolean hasResource(final String path) {
-		return resourceAlias.containsKey(path);
+		return resourceAlias.containsKey(urlUtil.removeTailingSlash(path));
 	}
 
 	public boolean hasFilter(final Filter filter) {
@@ -104,7 +115,7 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	}
 
 	public boolean hasFilterPath(final String path) {
-		return filterAlias.containsValue(path);
+		return filterAlias.containsValue(urlUtil.removeTailingSlash(path));
 	}
 
 	public int getUnregisterServletCallCounter() {
@@ -132,7 +143,7 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	}
 
 	public boolean hasServletPath(final String path) {
-		return servletAlias.containsValue(path);
+		return servletAlias.containsValue(urlUtil.removeTailingSlash(path));
 	}
 
 	@Override
@@ -261,4 +272,5 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 		return null;
 	}
+
 }

@@ -73,4 +73,14 @@ public class UrlUtilImpl implements UrlUtil {
 		}
 		return sw.toString();
 	}
+
+	@Override
+	public String removeTailingSlash(final String path) {
+		if (path.length() > 1 && path.charAt(path.length() - 1) == '/') {
+			return removeTailingSlash(path.substring(0, path.length() - 1));
+		}
+		else {
+			return path;
+		}
+	}
 }

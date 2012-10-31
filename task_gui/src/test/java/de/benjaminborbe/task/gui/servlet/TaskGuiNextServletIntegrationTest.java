@@ -7,16 +7,16 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.task.gui.guice.TaskGuiModulesMock;
-import de.benjaminborbe.task.gui.servlet.TaskGuiServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class TaskGuiServletIntegrationTest {
+public class TaskGuiNextServletIntegrationTest {
 
 	@Test
 	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskGuiModulesMock());
-		final TaskGuiServlet a = injector.getInstance(TaskGuiServlet.class);
-		final TaskGuiServlet b = injector.getInstance(TaskGuiServlet.class);
+		final TaskGuiNextServlet a = injector.getInstance(TaskGuiNextServlet.class);
+		final TaskGuiNextServlet b = injector.getInstance(TaskGuiNextServlet.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 		assertEquals(a, b);

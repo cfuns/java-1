@@ -26,7 +26,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.task.gui.servlet.TaskGuiServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -35,7 +35,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class TaskGuiServletUnitTest {
+public class TaskGuiNextServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -120,14 +120,14 @@ public class TaskGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.replay(authorizationService);
 
-		final TaskGuiServlet taskServlet = new TaskGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+		final TaskGuiNextServlet taskServlet = new TaskGuiNextServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
 				redirectUtil, urlUtil, authorizationService);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Task</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Task - Next</h1>") != -1);
 	}
 }

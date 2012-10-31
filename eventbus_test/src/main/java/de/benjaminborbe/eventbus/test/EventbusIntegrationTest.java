@@ -13,6 +13,7 @@ import de.benjaminborbe.eventbus.api.EventbusInitializedEvent;
 import de.benjaminborbe.eventbus.api.EventbusInitializedEventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class EventbusIntegrationTest extends OSGiTestCase {
 
@@ -31,7 +32,7 @@ public class EventbusIntegrationTest extends OSGiTestCase {
 
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
-		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
 		assertNotNull(extHttpService);
 		// zum start: keine Dienste registriert
 		assertEquals(0, extHttpService.getRegisterFilterCallCounter());

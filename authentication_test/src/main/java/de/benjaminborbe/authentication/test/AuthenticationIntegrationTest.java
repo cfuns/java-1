@@ -10,6 +10,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class AuthenticationIntegrationTest extends OSGiTestCase {
 
@@ -27,7 +28,7 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
-		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
 		assertNotNull(extHttpService);
 		// zum start: keine Dienste registriert
 		assertEquals(0, extHttpService.getRegisterFilterCallCounter());

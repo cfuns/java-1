@@ -8,6 +8,7 @@ import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class StorageIntegrationTest extends OSGiTestCase {
 
@@ -26,7 +27,7 @@ public class StorageIntegrationTest extends OSGiTestCase {
 
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
-		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
 		assertNotNull(extHttpService);
 		// zum start: keine Dienste registriert
 		assertEquals(0, extHttpService.getRegisterFilterCallCounter());

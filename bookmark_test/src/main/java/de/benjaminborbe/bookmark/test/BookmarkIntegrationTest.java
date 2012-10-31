@@ -13,6 +13,7 @@ import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class BookmarkIntegrationTest extends OSGiTestCase {
 
@@ -31,7 +32,7 @@ public class BookmarkIntegrationTest extends OSGiTestCase {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 
-		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock();
+		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
 		assertNotNull(extHttpService);
 
 		// zum start: keine Dienste registriert

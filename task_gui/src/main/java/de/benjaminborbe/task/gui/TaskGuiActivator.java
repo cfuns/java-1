@@ -9,7 +9,8 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
-import de.benjaminborbe.task.gui.servlet.TaskGuiServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiCreateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -17,7 +18,10 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private TaskGuiServlet taskGuiServlet;
+	private TaskGuiCreateServlet taskGuiCreateServlet;
+
+	@Inject
+	private TaskGuiNextServlet taskGuiNextServlet;
 
 	public TaskGuiActivator() {
 		super(TaskGuiConstants.NAME);
@@ -31,7 +35,8 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(taskGuiServlet, TaskGuiConstants.HOME_URL));
+		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_CREATE));
+		result.add(new ServletInfo(taskGuiNextServlet, TaskGuiConstants.URL_NEXT));
 		return result;
 	}
 

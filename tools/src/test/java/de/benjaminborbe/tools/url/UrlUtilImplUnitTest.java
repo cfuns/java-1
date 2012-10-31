@@ -41,4 +41,15 @@ public class UrlUtilImplUnitTest {
 		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", null).add("b", "c")));
 		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add(null, "b").add("b", "c")));
 	}
+
+	@Test
+	public void testremoveTailingSlash() {
+		final UrlUtil urlUtil = new UrlUtilImpl();
+		assertEquals("", urlUtil.removeTailingSlash(""));
+		assertEquals("/foo", urlUtil.removeTailingSlash("/foo"));
+		assertEquals("/", urlUtil.removeTailingSlash("/"));
+		assertEquals("/foo", urlUtil.removeTailingSlash("/foo"));
+		assertEquals("/foo", urlUtil.removeTailingSlash("/foo/"));
+		assertEquals("/foo", urlUtil.removeTailingSlash("/foo//"));
+	}
 }

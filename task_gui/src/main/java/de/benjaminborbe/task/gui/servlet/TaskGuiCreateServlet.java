@@ -18,14 +18,14 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class TaskGuiServlet extends WebsiteHtmlServlet {
+public class TaskGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Task";
+	private static final String TITLE = "Task - Create";
 
 	@Inject
-	public TaskGuiServlet(
+	public TaskGuiCreateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
