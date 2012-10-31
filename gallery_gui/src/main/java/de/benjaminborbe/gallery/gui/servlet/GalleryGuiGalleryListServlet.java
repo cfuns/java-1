@@ -19,7 +19,7 @@ import de.benjaminborbe.gallery.api.Gallery;
 import de.benjaminborbe.gallery.api.GalleryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
-import de.benjaminborbe.gallery.gui.util.LinkFactory;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -46,7 +46,7 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
-	private final LinkFactory linkFactory;
+	private final GalleryGuiLinkFactory linkFactory;
 
 	@Inject
 	public GalleryGuiGalleryListServlet(
@@ -59,7 +59,7 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final LinkFactory linkFactory,
+			final GalleryGuiLinkFactory linkFactory,
 			final GalleryService galleryService,
 			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);

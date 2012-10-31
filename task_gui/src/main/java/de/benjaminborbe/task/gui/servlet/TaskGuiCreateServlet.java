@@ -25,6 +25,7 @@ import de.benjaminborbe.task.api.TaskCreationException;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -54,6 +55,8 @@ public class TaskGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final TaskGuiLinkFactory taskGuiLinkFactory;
+
 	@Inject
 	public TaskGuiCreateServlet(
 			final Logger logger,
@@ -66,11 +69,13 @@ public class TaskGuiCreateServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final TaskService taskService) {
+			final TaskService taskService,
+			final TaskGuiLinkFactory taskGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
+		this.taskGuiLinkFactory = taskGuiLinkFactory;
 	}
 
 	@Override
@@ -110,6 +115,8 @@ public class TaskGuiCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 
+			widgets.add(taskGuiLinkFactory.nextTasks(request));
+
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
@@ -123,5 +130,4 @@ public class TaskGuiCreateServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }

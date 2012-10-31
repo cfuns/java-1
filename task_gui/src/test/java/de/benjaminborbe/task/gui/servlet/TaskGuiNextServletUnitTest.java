@@ -30,6 +30,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
+import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -37,6 +38,7 @@ import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
+import de.benjaminborbe.website.util.StringWidget;
 
 public class TaskGuiNextServletUnitTest {
 
@@ -129,8 +131,12 @@ public class TaskGuiNextServletUnitTest {
 		EasyMock.expect(taskService.getNextTasks(sessionIdentifier, 1)).andReturn(new ArrayList<Task>());
 		EasyMock.replay(taskService);
 
+		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
+		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
+		EasyMock.replay(taskGuiLinkFactory);
+
 		final TaskGuiNextServlet taskServlet = new TaskGuiNextServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, taskService);
+				redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

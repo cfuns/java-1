@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,7 +40,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	@Override
 	public List<TaskBean> getNextTasks(final UserIdentifier userIdentifier, final int limit) throws StorageException {
-		final Collection<TaskBean> tasks = getAll();
-		return new ArrayList<TaskBean>(Collections2.filter(tasks, new TaskOwnerPredicate(userIdentifier)));
+		final Collection<TaskBean> tasks = Collections2.filter(getAll(), Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate()));
+		return new ArrayList<TaskBean>(tasks);
 	}
 }

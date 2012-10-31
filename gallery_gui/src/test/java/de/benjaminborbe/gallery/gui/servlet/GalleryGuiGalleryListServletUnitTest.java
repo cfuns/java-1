@@ -28,7 +28,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryListServlet;
-import de.benjaminborbe.gallery.gui.util.LinkFactory;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -127,7 +127,7 @@ public class GalleryGuiGalleryListServletUnitTest {
 		EasyMock.expect(galleryService.getGalleryIdentifiers()).andReturn(new HashSet<GalleryIdentifier>());
 		EasyMock.replay(galleryService);
 
-		final LinkFactory linkFactory = EasyMock.createMock(LinkFactory.class);
+		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);
 		EasyMock.expect(linkFactory.createGallery(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(linkFactory);
 

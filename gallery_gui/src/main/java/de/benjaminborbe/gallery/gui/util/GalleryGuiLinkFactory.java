@@ -16,12 +16,12 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
 @Singleton
-public class LinkFactory {
+public class GalleryGuiLinkFactory {
 
 	private final UrlUtil urlUtil;
 
 	@Inject
-	public LinkFactory(final UrlUtil urlUtil) {
+	public GalleryGuiLinkFactory(final UrlUtil urlUtil) {
 		this.urlUtil = urlUtil;
 	}
 
