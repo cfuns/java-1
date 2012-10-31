@@ -83,7 +83,7 @@ public class UrlCheck implements Check {
 			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;
-				logger.warn(msg);
+				logger.trace(msg);
 				return new CheckResultImpl(this, false, msg, url);
 			}
 			final String content = httpDownloadUtil.getContent(result);
@@ -109,7 +109,7 @@ public class UrlCheck implements Check {
 			return new CheckResultException(this, e, url);
 		}
 		catch (final HttpDownloaderException e) {
-			logger.warn("HttpDownloaderException: " + e.getMessage());
+			logger.trace("HttpDownloaderException: " + e.getMessage());
 			return new CheckResultException(this, e, url);
 		}
 	}

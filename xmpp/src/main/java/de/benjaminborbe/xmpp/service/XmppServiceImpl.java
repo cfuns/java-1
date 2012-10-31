@@ -26,7 +26,7 @@ public class XmppServiceImpl implements XmppService {
 
 	@Override
 	public void send(final String message) throws XmppServiceException {
-		logger.debug("send " + message);
+		logger.trace("send " + message);
 		final XmppUser user = new XmppUser("bborbe@mobile-bb/mobile-bb");
 		try {
 			xmppConnector.sendMessage(user, message);
