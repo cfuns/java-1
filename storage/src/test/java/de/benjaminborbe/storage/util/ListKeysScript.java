@@ -41,9 +41,9 @@ public class ListKeysScript {
 
 	private final String host = "localhost";
 
-	private final String keySpace = "api_data";
+	private final String keySpace = "bb";
 
-	private final String columnFamily = "twentyfeet";
+	private final String columnFamily = "user";
 
 	private final int readLimit = 1000;
 
@@ -64,13 +64,56 @@ public class ListKeysScript {
 	public void run() throws Exception {
 		try {
 			open();
-			for (final String key : list()) {
-				System.out.println(key);
-			}
+			// for (final String key : list()) {
+			// System.out.println(key);
+			// }
+
+			// System.err.println("-----");
+
+			// list2();
+			list3();
+
 		}
 		finally {
 			close();
 		}
+	}
+
+	public void list3() throws InvalidRequestException, TException, UnavailableException, TimedOutException {
+		final ColumnParent column_parent = new ColumnParent("user");
+		final Iface client = getClient(keySpace);
+		final StorageKeyIterator i = new StorageKeyIterator(client, column_parent);
+		while (i.hasNext()) {
+			System.out.println(new String(i.next()));
+		}
+	}
+
+	public void list2() throws InvalidRequestException, UnavailableException, TimedOutException, TException {
+
+		final ColumnParent column_parent = new ColumnParent("worktime");
+
+		final Iface client = getClient(keySpace);
+
+		final KeyRange range = new KeyRange();
+		range.setStart_key(new byte[0]);
+		range.setEnd_key(new byte[0]);
+
+		final SlicePredicate predicate = new SlicePredicate();
+		predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 0));
+
+		List<KeySlice> cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
+		while (cols.size() > 0) {
+			for (int i = 0; i < cols.size(); ++i) {
+				System.err.println(new String(cols.get(i).getKey()));
+			}
+			System.err.println("cols.size=" + cols.size());
+			final KeySlice b = cols.get(cols.size() - 1);
+			range.setStart_key(b.key);
+			cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
+			if (cols.size() == 1)
+				return;
+		}
+
 	}
 
 	public List<String> list() throws UnsupportedEncodingException, InvalidRequestException, TException, UnavailableException, TimedOutException {

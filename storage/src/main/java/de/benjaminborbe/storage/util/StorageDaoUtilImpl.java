@@ -173,9 +173,9 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 	private List<KeySlice> filterWithColumns(final List<KeySlice> keySlices) {
 		final List<KeySlice> result = new ArrayList<KeySlice>();
-		for (final KeySlice k : keySlices) {
-			if (k.getColumnsSize() > 0)
-				result.add(k);
+		for (final KeySlice keySlice : keySlices) {
+			if (keySlice.getColumnsSize() > 0)
+				result.add(keySlice);
 		}
 		return result;
 	}
@@ -201,6 +201,14 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		}
 		logger.trace("found " + result.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
 		return result;
+	}
+
+	@Override
+	public StorageKeyIterator keyIterator(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException, NotFoundException {
+		final ColumnParent column_parent = new ColumnParent(columnFamily);
+		final Iface client = getClient(keySpace);
+		return new StorageKeyIterator(client, column_parent);
 	}
 
 }

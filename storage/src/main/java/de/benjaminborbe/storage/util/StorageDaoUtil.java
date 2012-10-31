@@ -24,4 +24,7 @@ public interface StorageDaoUtil {
 	List<String> list(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException,
 			NotFoundException;
 
+	StorageKeyIterator keyIterator(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException, NotFoundException;
+
 }
