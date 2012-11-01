@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,9 @@ import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.IndexClause;
+import org.apache.cassandra.thrift.IndexExpression;
+import org.apache.cassandra.thrift.IndexOperator;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KeyRange;
 import org.apache.cassandra.thrift.KeySlice;
@@ -71,12 +75,74 @@ public class ListKeysScript {
 			// System.err.println("-----");
 
 			// list2();
-			list3();
+			// list3();
+			// list4();
+			list5();
 
 		}
 		finally {
 			close();
 		}
+	}
+
+	public void list5() throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException {
+
+		final ColumnParent column_parent = new ColumnParent("bookmark");
+
+		final Iface client = getClient(keySpace);
+
+		final KeyRange range = new KeyRange();
+		range.setStart_key(new byte[0]);
+		range.setEnd_key(new byte[0]);
+
+		final SlicePredicate predicate = new SlicePredicate();
+		predicate.setColumn_names(Arrays.asList(buffer("ownerUsername")));
+		range.setRow_filter(Arrays.asList(new IndexExpression(buffer("ownerUsername"), IndexOperator.EQ, buffer("bborbe"))));
+
+		List<KeySlice> cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
+		while (cols.size() > 0) {
+			for (int i = 0; i < cols.size(); ++i) {
+				System.err.println(new String(cols.get(i).getKey()));
+			}
+			System.err.println("cols.size=" + cols.size());
+			final KeySlice b = cols.get(cols.size() - 1);
+			range.setStart_key(b.key);
+			cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
+			if (cols.size() == 1)
+				return;
+		}
+
+	}
+
+	public void list4() throws InvalidRequestException, TException, UnavailableException, TimedOutException, UnsupportedEncodingException {
+		final ColumnParent column_parent = new ColumnParent("bookmark");
+
+		final Iface client = getClient(keySpace);
+
+		final SlicePredicate column_predicate = new SlicePredicate();
+		column_predicate.setColumn_names(Arrays.asList(buffer("ownerUsername")));
+
+		final IndexClause index_clause = new IndexClause();
+		index_clause.setCount(5);
+		index_clause.setStart_key(new byte[0]);
+		index_clause.setExpressions(Arrays.asList(new IndexExpression(buffer("ownerUsername"), IndexOperator.EQ, buffer("bborbe"))));
+
+		List<KeySlice> cols = client.get_indexed_slices(column_parent, index_clause, column_predicate, ConsistencyLevel.ONE);
+		while (cols.size() > 0) {
+			for (int i = 0; i < cols.size(); ++i) {
+				System.err.println(new String(cols.get(i).getKey()));
+			}
+			System.err.println("cols.size=" + cols.size());
+			final KeySlice b = cols.get(cols.size() - 1);
+			index_clause.setStart_key(b.key);
+			cols = client.get_indexed_slices(column_parent, index_clause, column_predicate, ConsistencyLevel.ONE);
+			if (cols.size() == 1)
+				return;
+		}
+	}
+
+	private ByteBuffer buffer(final String string) throws UnsupportedEncodingException {
+		return ByteBuffer.wrap(string.getBytes("UTF-8"));
 	}
 
 	public void list3() throws InvalidRequestException, TException, UnavailableException, TimedOutException {

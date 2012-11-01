@@ -18,6 +18,9 @@ import org.apache.thrift.TException;
 
 public class StorageKeyIterator {
 
+	// COUNT > 1
+	private static final int COUNT = 100;
+
 	private final Iface client;
 
 	private final ColumnParent column_parent;
@@ -37,7 +40,7 @@ public class StorageKeyIterator {
 		final KeyRange range = new KeyRange();
 		range.setStart_key(new byte[0]);
 		range.setEnd_key(new byte[0]);
-		range.setCount(2); // 2 - 100
+		range.setCount(COUNT);
 		this.range = range;
 
 		final SlicePredicate predicate = new SlicePredicate();
