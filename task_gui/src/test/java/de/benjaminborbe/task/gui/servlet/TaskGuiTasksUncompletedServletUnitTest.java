@@ -39,7 +39,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.StringWidget;
 
-public class TaskGuiUncompletedTaskListServletUnitTest {
+public class TaskGuiTasksUncompletedServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -132,14 +132,15 @@ public class TaskGuiUncompletedTaskListServletUnitTest {
 
 		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
 		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiLinkFactory.completedTasks(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
 
-		final TaskGuiUncompletedTaskListServlet taskServlet = new TaskGuiUncompletedTaskListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory);
+		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Tasks</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Tasks - Uncompleted</h1>") != -1);
 	}
 }

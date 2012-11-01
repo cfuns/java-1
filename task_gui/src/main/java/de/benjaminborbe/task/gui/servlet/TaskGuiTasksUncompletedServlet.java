@@ -38,11 +38,11 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiUncompletedTaskListServlet extends WebsiteHtmlServlet {
+public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Tasks";
+	private static final String TITLE = "Tasks - Uncompleted";
 
 	private final Logger logger;
 
@@ -53,7 +53,7 @@ public class TaskGuiUncompletedTaskListServlet extends WebsiteHtmlServlet {
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
 	@Inject
-	public TaskGuiUncompletedTaskListServlet(
+	public TaskGuiTasksUncompletedServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -93,11 +93,16 @@ public class TaskGuiUncompletedTaskListServlet extends WebsiteHtmlServlet {
 				row.add(task.getName());
 				row.add(" ");
 				row.add(taskGuiLinkFactory.completeTask(request, task));
+				row.add(" ");
+				row.add(taskGuiLinkFactory.deleteTask(request, task));
 				ul.add(row);
 			}
 			widgets.add(ul);
-			widgets.add(taskGuiLinkFactory.createTask(request));
-			widgets.add(taskGuiLinkFactory.completedTasks(request));
+			final ListWidget links = new ListWidget();
+			links.add(taskGuiLinkFactory.createTask(request));
+			links.add(" ");
+			links.add(taskGuiLinkFactory.completedTasks(request));
+			widgets.add(links);
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

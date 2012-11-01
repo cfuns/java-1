@@ -4,11 +4,13 @@ public interface TaskGuiConstants {
 
 	String NAME = "task";
 
-	String URL_CREATE_TASK = "/task/create";
+	String URL_TASK_CREATE = "/task/create";
 
-	String URL_COMPLETE_TASK = "/task/complete";
+	String URL_TASK_COMPLETE = "/task/complete";
 
-	String URL_UNCOMPLETE_TASK = "/task/uncomplete";
+	String URL_TASK_DELETE = "/task/delete";
+
+	String URL_TASK_UNCOMPLETE = "/task/uncomplete";
 
 	String URL_TASKS_COMPLETED = "/tasks/completed";
 

@@ -11,11 +11,12 @@ import com.google.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
-import de.benjaminborbe.task.gui.servlet.TaskGuiCompleteServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiCompletedTaskListServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiCreateServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiUncompletedTaskListServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiUncompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskDeleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTasksCompletedServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCreateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTasksUncompletedServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUncompleteServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -24,19 +25,22 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private TaskGuiCompleteServlet taskGuiCompleteServlet;
+	private TaskGuiTaskDeleteServlet taskGuiTaskDeleteServlet;
 
 	@Inject
-	private TaskGuiUncompleteServlet taskGuiUncompleteServlet;
+	private TaskGuiTaskCompleteServlet taskGuiCompleteServlet;
 
 	@Inject
-	private TaskGuiCreateServlet taskGuiCreateServlet;
+	private TaskGuiTaskUncompleteServlet taskGuiUncompleteServlet;
 
 	@Inject
-	private TaskGuiUncompletedTaskListServlet taskGuiUncompletedTaskListServlet;
+	private TaskGuiTaskCreateServlet taskGuiCreateServlet;
 
 	@Inject
-	private TaskGuiCompletedTaskListServlet taskGuiCompletedTaskListServlet;
+	private TaskGuiTasksUncompletedServlet taskGuiUncompletedTaskListServlet;
+
+	@Inject
+	private TaskGuiTasksCompletedServlet taskGuiCompletedTaskListServlet;
 
 	public TaskGuiActivator() {
 		super(TaskGuiConstants.NAME);
@@ -50,18 +54,19 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_CREATE_TASK));
+		result.add(new ServletInfo(taskGuiTaskDeleteServlet, TaskGuiConstants.URL_TASK_DELETE));
+		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_TASK_CREATE));
 		result.add(new ServletInfo(taskGuiUncompletedTaskListServlet, TaskGuiConstants.URL_TASKS_UNCOMPLETED));
 		result.add(new ServletInfo(taskGuiCompletedTaskListServlet, TaskGuiConstants.URL_TASKS_COMPLETED));
-		result.add(new ServletInfo(taskGuiCompleteServlet, TaskGuiConstants.URL_COMPLETE_TASK));
-		result.add(new ServletInfo(taskGuiUncompleteServlet, TaskGuiConstants.URL_UNCOMPLETE_TASK));
+		result.add(new ServletInfo(taskGuiCompleteServlet, TaskGuiConstants.URL_TASK_COMPLETE));
+		result.add(new ServletInfo(taskGuiUncompleteServlet, TaskGuiConstants.URL_TASK_UNCOMPLETE));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Task", "/bb/" + TaskGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Task", "/bb/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED)));
 		return result;
 	}
 

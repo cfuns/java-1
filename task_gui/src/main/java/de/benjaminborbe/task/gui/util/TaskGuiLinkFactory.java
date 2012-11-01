@@ -26,29 +26,30 @@ public class TaskGuiLinkFactory {
 	}
 
 	public Widget createTask(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CREATE_TASK, "create task");
-	}
-
-	public Widget nextTasks(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CREATE_TASK, "next tasks");
+		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, "create task");
 	}
 
 	public Widget completeTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_COMPLETE_TASK, new MapChain<String, String>().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, new MapChain<String, String>().add(
 				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "complete");
 	}
 
 	public Widget uncompleteTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_UNCOMPLETE_TASK, new MapChain<String, String>().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UNCOMPLETE, new MapChain<String, String>().add(
 				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "uncomplete");
 	}
 
+	public Widget deleteTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_DELETE, new MapChain<String, String>().add(
+				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "delete");
+	}
+
 	public Widget completedTasks(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_COMPLETE_TASK, "complete tasks");
+		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_COMPLETED, "completed tasks");
 	}
 
 	public Widget uncompletedTasks(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_UNCOMPLETE_TASK, "uncomplete tasks");
+		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED, "uncompleted tasks");
 	}
 
 }

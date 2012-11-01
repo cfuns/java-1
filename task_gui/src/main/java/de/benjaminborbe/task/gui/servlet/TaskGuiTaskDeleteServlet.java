@@ -29,7 +29,7 @@ import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class TaskGuiCompleteServlet extends WebsiteServlet {
+public class TaskGuiTaskDeleteServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
@@ -40,7 +40,7 @@ public class TaskGuiCompleteServlet extends WebsiteServlet {
 	private final Logger logger;
 
 	@Inject
-	public TaskGuiCompleteServlet(
+	public TaskGuiTaskDeleteServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -59,7 +59,7 @@ public class TaskGuiCompleteServlet extends WebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-			taskService.unCompleteTask(sessionIdentifier, taskIdentifier);
+			taskService.deleteTask(sessionIdentifier, taskIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
