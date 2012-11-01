@@ -12,7 +12,7 @@ import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
 import de.benjaminborbe.task.gui.servlet.TaskGuiCreateServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskListServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -24,7 +24,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	private TaskGuiCreateServlet taskGuiCreateServlet;
 
 	@Inject
-	private TaskGuiNextServlet taskGuiNextServlet;
+	private TaskGuiTaskListServlet taskGuiNextServlet;
 
 	public TaskGuiActivator() {
 		super(TaskGuiConstants.NAME);

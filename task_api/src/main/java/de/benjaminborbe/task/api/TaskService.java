@@ -16,6 +16,10 @@ public interface TaskService {
 
 	void completeTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	List<Task> getNextTasks(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+	void unCompleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+
+	List<Task> getTasksCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
 
 }

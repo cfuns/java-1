@@ -139,13 +139,54 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getNextTasks(final SessionIdentifier sessionIdentifier, final int limit) throws LoginRequiredException, TaskServiceException {
+	public void unCompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		try {
-			logger.debug("getNextTasks");
+			logger.debug("unCompleteTask");
+			final TaskBean task = taskDao.load(taskIdentifier);
+			authorizationService.expectUser(sessionIdentifier, task.getOwner());
+			task.setModified(calendarUtil.now());
+			task.setCompleted(false);
+			taskDao.save(task);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+		try {
+			logger.debug("getTasksNotCompleted");
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			logger.debug("user " + userIdentifier);
 			final List<Task> result = new ArrayList<Task>();
-			for (final TaskBean task : taskDao.getNextTasks(userIdentifier, limit)) {
+			for (final TaskBean task : taskDao.getTasksNotCompleted(userIdentifier, limit)) {
+				result.add(task);
+			}
+			return result;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+		try {
+			logger.debug("getTasksCompleted");
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			logger.debug("user " + userIdentifier);
+			final List<Task> result = new ArrayList<Task>();
+			for (final TaskBean task : taskDao.getTasksCompleted(userIdentifier, limit)) {
 				result.add(task);
 			}
 			return result;

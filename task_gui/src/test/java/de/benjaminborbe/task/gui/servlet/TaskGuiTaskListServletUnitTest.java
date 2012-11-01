@@ -29,7 +29,6 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskService;
-import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -40,7 +39,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.StringWidget;
 
-public class TaskGuiNextServletUnitTest {
+public class TaskGuiTaskListServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -128,19 +127,19 @@ public class TaskGuiNextServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final TaskService taskService = EasyMock.createMock(TaskService.class);
-		EasyMock.expect(taskService.getNextTasks(sessionIdentifier, 1)).andReturn(new ArrayList<Task>());
+		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, 1)).andReturn(new ArrayList<Task>());
 		EasyMock.replay(taskService);
 
 		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
 		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
 
-		final TaskGuiNextServlet taskServlet = new TaskGuiNextServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+		final TaskGuiTaskListServlet taskServlet = new TaskGuiTaskListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
 				redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Task - Next</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Tasks</h1>") != -1);
 	}
 }

@@ -14,7 +14,6 @@ public class TaskOwnerPredicate implements Predicate<TaskBean> {
 
 	@Override
 	public boolean apply(final TaskBean task) {
-		final Object username = userIdentifier.getId();
-		return username.equals(task.getOwner());
+		return userIdentifier != null && task != null && userIdentifier.equals(task.getOwner());
 	}
 }

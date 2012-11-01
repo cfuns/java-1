@@ -9,5 +9,7 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 
 public interface TaskDao extends Dao<TaskBean, TaskIdentifier> {
 
-	List<TaskBean> getNextTasks(UserIdentifier userIdentifier, int limit) throws StorageException;
+	List<TaskBean> getTasksNotCompleted(UserIdentifier userIdentifier, int limit) throws StorageException;
+
+	List<TaskBean> getTasksCompleted(UserIdentifier userIdentifier, int limit) throws StorageException;
 }

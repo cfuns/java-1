@@ -38,11 +38,11 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiNextServlet extends WebsiteHtmlServlet {
+public class TaskGuiTaskListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Task - Next";
+	private static final String TITLE = "Tasks";
 
 	private final Logger logger;
 
@@ -53,7 +53,7 @@ public class TaskGuiNextServlet extends WebsiteHtmlServlet {
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
 	@Inject
-	public TaskGuiNextServlet(
+	public TaskGuiTaskListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -87,7 +87,7 @@ public class TaskGuiNextServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<Task> tasks = taskService.getNextTasks(sessionIdentifier, 1);
+			final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier, 1);
 			for (final Task task : tasks) {
 				final ListWidget row = new ListWidget();
 				row.add(task.getName());
