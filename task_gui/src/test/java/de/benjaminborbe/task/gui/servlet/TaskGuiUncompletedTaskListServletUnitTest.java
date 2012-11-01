@@ -39,7 +39,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.StringWidget;
 
-public class TaskGuiTaskListServletUnitTest {
+public class TaskGuiUncompletedTaskListServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -134,7 +134,7 @@ public class TaskGuiTaskListServletUnitTest {
 		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
 
-		final TaskGuiTaskListServlet taskServlet = new TaskGuiTaskListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+		final TaskGuiUncompletedTaskListServlet taskServlet = new TaskGuiUncompletedTaskListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
 				redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory);
 
 		taskServlet.service(request, response);

@@ -8,6 +8,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface TaskService {
 
+	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
+
 	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description) throws TaskServiceException, TaskCreationException, LoginRequiredException;
 
 	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;

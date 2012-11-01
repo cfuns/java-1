@@ -47,8 +47,11 @@ public class TaskGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_NEXT);
-		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CREATE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_COMPLETED);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CREATE_TASK);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_COMPLETE_TASK);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_UNCOMPLETE_TASK);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

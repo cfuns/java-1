@@ -118,6 +118,10 @@ public abstract class WebsiteServlet extends HttpServlet {
 		return result.toString();
 	}
 
+	protected String buildRefererUrl(final HttpServletRequest request) {
+		return request.getHeader("referer");
+	}
+
 	private String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
 		final StringWriter referer = new StringWriter();
 		final String requestUri = request.getRequestURI().replaceFirst("//", "/");

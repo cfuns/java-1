@@ -199,4 +199,9 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
+	@Override
+	public TaskIdentifier createTaskIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
+		return new TaskIdentifier(id);
+	}
+
 }

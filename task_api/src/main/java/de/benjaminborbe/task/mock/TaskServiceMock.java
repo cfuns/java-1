@@ -40,7 +40,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void unCompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public void unCompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 	@Override
@@ -50,6 +51,11 @@ public class TaskServiceMock implements TaskService {
 
 	@Override
 	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public TaskIdentifier createTaskIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
 		return null;
 	}
 

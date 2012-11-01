@@ -11,8 +11,11 @@ import com.google.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
+import de.benjaminborbe.task.gui.servlet.TaskGuiCompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiCompletedTaskListServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiCreateServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiTaskListServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiUncompletedTaskListServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiUncompleteServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -21,10 +24,19 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private TaskGuiCompleteServlet taskGuiCompleteServlet;
+
+	@Inject
+	private TaskGuiUncompleteServlet taskGuiUncompleteServlet;
+
+	@Inject
 	private TaskGuiCreateServlet taskGuiCreateServlet;
 
 	@Inject
-	private TaskGuiTaskListServlet taskGuiNextServlet;
+	private TaskGuiUncompletedTaskListServlet taskGuiUncompletedTaskListServlet;
+
+	@Inject
+	private TaskGuiCompletedTaskListServlet taskGuiCompletedTaskListServlet;
 
 	public TaskGuiActivator() {
 		super(TaskGuiConstants.NAME);
@@ -38,8 +50,11 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_CREATE));
-		result.add(new ServletInfo(taskGuiNextServlet, TaskGuiConstants.URL_NEXT));
+		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_CREATE_TASK));
+		result.add(new ServletInfo(taskGuiUncompletedTaskListServlet, TaskGuiConstants.URL_TASKS_UNCOMPLETED));
+		result.add(new ServletInfo(taskGuiCompletedTaskListServlet, TaskGuiConstants.URL_TASKS_COMPLETED));
+		result.add(new ServletInfo(taskGuiCompleteServlet, TaskGuiConstants.URL_COMPLETE_TASK));
+		result.add(new ServletInfo(taskGuiUncompleteServlet, TaskGuiConstants.URL_UNCOMPLETE_TASK));
 		return result;
 	}
 

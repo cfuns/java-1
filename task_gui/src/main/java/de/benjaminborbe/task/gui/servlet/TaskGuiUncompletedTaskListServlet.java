@@ -38,7 +38,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTaskListServlet extends WebsiteHtmlServlet {
+public class TaskGuiUncompletedTaskListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -53,7 +53,7 @@ public class TaskGuiTaskListServlet extends WebsiteHtmlServlet {
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
 	@Inject
-	public TaskGuiTaskListServlet(
+	public TaskGuiUncompletedTaskListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -91,10 +91,13 @@ public class TaskGuiTaskListServlet extends WebsiteHtmlServlet {
 			for (final Task task : tasks) {
 				final ListWidget row = new ListWidget();
 				row.add(task.getName());
+				row.add(" ");
+				row.add(taskGuiLinkFactory.completeTask(request, task));
 				ul.add(row);
 			}
 			widgets.add(ul);
 			widgets.add(taskGuiLinkFactory.createTask(request));
+			widgets.add(taskGuiLinkFactory.completedTasks(request));
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
