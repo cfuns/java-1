@@ -11,7 +11,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -21,7 +20,6 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.task.api.TaskCreationException;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
@@ -40,7 +38,6 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class TaskGuiTaskCreateServlet extends WebsiteHtmlServlet {
@@ -95,18 +92,8 @@ public class TaskGuiTaskCreateServlet extends WebsiteHtmlServlet {
 			final String description = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION);
 			if (name != null && description != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				try {
-					taskService.createTask(sessionIdentifier, name, description);
-					throw new RedirectException(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE);
-				}
-				catch (final TaskCreationException e) {
-					widgets.add("create task failed!");
-					final UlWidget ul = new UlWidget();
-					for (final ValidationError validationError : e.getErrors()) {
-						ul.add(validationError.getMessage());
-					}
-					widgets.add(ul);
-				}
+				taskService.createTask(sessionIdentifier, name, description);
+				throw new RedirectException(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE);
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
@@ -117,6 +104,8 @@ public class TaskGuiTaskCreateServlet extends WebsiteHtmlServlet {
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));
+			links.add(" ");
+			links.add(taskGuiLinkFactory.listTaskContext(request));
 			widgets.add(links);
 
 			return widgets;

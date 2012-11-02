@@ -1,7 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,31 +20,31 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
-import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
+public class TaskGuiTaskContextCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Tasks";
+	private static final String TITLE = "TaskContext - Create";
 
 	private final Logger logger;
 
@@ -55,10 +54,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
-	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
-
 	@Inject
-	public TaskGuiTasksUncompletedServlet(
+	public TaskGuiTaskContextCreateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -70,14 +67,12 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiWidgetFactory taskGuiWidgetFactory) {
+			final TaskGuiLinkFactory taskGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
-		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 	}
 
 	@Override
@@ -93,30 +88,24 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			widgets.add(taskGuiWidgetFactory.switchTaskContext(request));
-
-			final UlWidget ul = new UlWidget();
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
-			final TaskContextIdentifier taskContextIdentifier = taskContextId != null ? taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId) : null;
-			final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, 1);
-			for (final Task task : tasks) {
-				final ListWidget row = new ListWidget();
-				row.add(task.getName());
-				row.add(" ");
-				row.add(taskGuiLinkFactory.completeTask(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.deleteTask(request, task));
-				ul.add(row);
+			final String name = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME);
+			if (name != null) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				taskService.createTaskContext(sessionIdentifier, name);
+				throw new RedirectException(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_CREATE);
 			}
-			widgets.add(ul);
+
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME).addLabel("Name").addPlaceholder("name ..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			widgets.add(formWidget);
+
 			final ListWidget links = new ListWidget();
-			links.add(taskGuiLinkFactory.createTask(request));
-			links.add(" ");
-			links.add(taskGuiLinkFactory.completedTasks(request));
+			links.add(taskGuiLinkFactory.uncompletedTasks(request));
 			links.add(" ");
 			links.add(taskGuiLinkFactory.listTaskContext(request));
 			widgets.add(links);
+
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

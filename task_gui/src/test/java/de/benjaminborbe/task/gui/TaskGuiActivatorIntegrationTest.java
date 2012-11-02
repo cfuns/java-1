@@ -53,6 +53,10 @@ public class TaskGuiActivatorIntegrationTest {
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_DELETE);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UNCOMPLETE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_CREATE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_DELETE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_LIST);
+
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

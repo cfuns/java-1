@@ -18,7 +18,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
@@ -29,7 +29,7 @@ import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class TaskGuiTaskUncompleteServlet extends WebsiteServlet {
+public class TaskGuiTaskContextDeleteServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
@@ -40,7 +40,7 @@ public class TaskGuiTaskUncompleteServlet extends WebsiteServlet {
 	private final Logger logger;
 
 	@Inject
-	public TaskGuiTaskUncompleteServlet(
+	public TaskGuiTaskContextDeleteServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -58,8 +58,9 @@ public class TaskGuiTaskUncompleteServlet extends WebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-			taskService.uncompleteTask(sessionIdentifier, taskIdentifier);
+			final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier,
+					request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID));
+			taskService.deleteContextTask(sessionIdentifier, taskContextIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

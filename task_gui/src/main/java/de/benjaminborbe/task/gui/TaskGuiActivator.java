@@ -12,6 +12,9 @@ import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextCreateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextDeleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextListServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskDeleteServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTasksCompletedServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCreateServlet;
@@ -23,6 +26,15 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class TaskGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private TaskGuiTaskContextCreateServlet taskGuiTaskContextCreateServlet;
+
+	@Inject
+	private TaskGuiTaskContextDeleteServlet taskGuiTaskContextDeleteServlet;
+
+	@Inject
+	private TaskGuiTaskContextListServlet taskGuiTaskContextListServlet;
 
 	@Inject
 	private TaskGuiTaskDeleteServlet taskGuiTaskDeleteServlet;
@@ -60,6 +72,9 @@ public class TaskGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(taskGuiCompletedTaskListServlet, TaskGuiConstants.URL_TASKS_COMPLETED));
 		result.add(new ServletInfo(taskGuiCompleteServlet, TaskGuiConstants.URL_TASK_COMPLETE));
 		result.add(new ServletInfo(taskGuiUncompleteServlet, TaskGuiConstants.URL_TASK_UNCOMPLETE));
+		result.add(new ServletInfo(taskGuiTaskContextCreateServlet, TaskGuiConstants.URL_TASKCONTEXT_CREATE));
+		result.add(new ServletInfo(taskGuiTaskContextDeleteServlet, TaskGuiConstants.URL_TASKCONTEXT_DELETE));
+		result.add(new ServletInfo(taskGuiTaskContextListServlet, TaskGuiConstants.URL_TASKCONTEXT_LIST));
 		return result;
 	}
 

@@ -21,13 +21,10 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
-import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
-import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -41,11 +38,11 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
+public class TaskGuiTaskContextListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Tasks";
+	private static final String TITLE = "TaskContext - List";
 
 	private final Logger logger;
 
@@ -55,10 +52,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
-	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
-
 	@Inject
-	public TaskGuiTasksUncompletedServlet(
+	public TaskGuiTaskContextListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -70,14 +65,12 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiWidgetFactory taskGuiWidgetFactory) {
+			final TaskGuiLinkFactory taskGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
-		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 	}
 
 	@Override
@@ -92,30 +85,21 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-
-			widgets.add(taskGuiWidgetFactory.switchTaskContext(request));
-
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
-			final TaskContextIdentifier taskContextIdentifier = taskContextId != null ? taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId) : null;
-			final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, 1);
-			for (final Task task : tasks) {
+			final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
+			for (final TaskContext taskContext : taskContexts) {
 				final ListWidget row = new ListWidget();
-				row.add(task.getName());
+				row.add(taskContext.getName());
 				row.add(" ");
-				row.add(taskGuiLinkFactory.completeTask(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.deleteTask(request, task));
+				row.add(taskGuiLinkFactory.deleteTaskContext(request, taskContext));
 				ul.add(row);
 			}
 			widgets.add(ul);
 			final ListWidget links = new ListWidget();
-			links.add(taskGuiLinkFactory.createTask(request));
+			links.add(taskGuiLinkFactory.uncompletedTasks(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.completedTasks(request));
-			links.add(" ");
-			links.add(taskGuiLinkFactory.listTaskContext(request));
+			links.add(taskGuiLinkFactory.createTaskContext(request));
 			widgets.add(links);
 			return widgets;
 		}

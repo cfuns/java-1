@@ -28,8 +28,11 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskService;
+import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -67,6 +70,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -127,16 +131,22 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final TaskService taskService = EasyMock.createMock(TaskService.class);
-		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, 1)).andReturn(new ArrayList<Task>());
+		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, null, 1)).andReturn(new ArrayList<Task>());
+		EasyMock.expect(taskService.getTasksContexts(sessionIdentifier)).andReturn(new ArrayList<TaskContext>());
 		EasyMock.replay(taskService);
 
 		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
 		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
 		EasyMock.expect(taskGuiLinkFactory.completedTasks(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiLinkFactory.listTaskContext(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
 
+		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
+		EasyMock.expect(taskGuiWidgetFactory.switchTaskContext(request)).andReturn(new StringWidget(""));
+		EasyMock.replay(taskGuiWidgetFactory);
+
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory, taskGuiWidgetFactory);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

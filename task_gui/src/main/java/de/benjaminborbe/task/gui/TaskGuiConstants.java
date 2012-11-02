@@ -16,10 +16,22 @@ public interface TaskGuiConstants {
 
 	String URL_TASKS_UNCOMPLETED = "/tasks/uncompletd";
 
+	String URL_TASKCONTEXT_LIST = "/taskcontext/list";
+
+	String URL_TASKCONTEXT_DELETE = "/taskcontext/delete";
+
+	String URL_TASKCONTEXT_CREATE = "/taskcontext/create";
+
 	String PARAMETER_TASK_ID = "task_id";
 
 	String PARAMETER_TASK_NAME = "task_name";
 
 	String PARAMETER_TASK_DESCRIPTION = "task_description";
+
+	String PARAMETER_TASKCONTEXT_ID = "taskcontext_id";
+
+	String PARAMETER_TASKCONTEXT_NAME = "taskcontext_name";
+
+	String PARAMETER_SELECTED_TASKCONTEXT_ID = "selected_taskcontext_id";
 
 }

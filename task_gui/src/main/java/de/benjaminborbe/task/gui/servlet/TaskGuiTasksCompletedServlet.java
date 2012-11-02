@@ -102,6 +102,8 @@ public class TaskGuiTasksCompletedServlet extends WebsiteHtmlServlet {
 			links.add(taskGuiLinkFactory.createTask(request));
 			links.add(" ");
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));
+			links.add(" ");
+			links.add(taskGuiLinkFactory.listTaskContext(request));
 			widgets.add(links);
 			return widgets;
 		}

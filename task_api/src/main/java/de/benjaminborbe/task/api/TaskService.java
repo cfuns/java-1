@@ -10,7 +10,7 @@ public interface TaskService {
 
 	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
 
-	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description) throws TaskServiceException, TaskCreationException, LoginRequiredException;
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description) throws TaskServiceException, LoginRequiredException;
 
 	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
@@ -18,10 +18,21 @@ public interface TaskService {
 
 	void completeTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	void unCompleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+	void uncompleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
 	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
 
+	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+
 	List<Task> getTasksCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+
+	TaskContextIdentifier createTaskContextIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
+
+	TaskContextIdentifier createTaskContext(SessionIdentifier sessionIdentifier, String name) throws TaskServiceException, LoginRequiredException;
+
+	List<TaskContext> getTasksContexts(SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException;
+
+	void deleteContextTask(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
+			PermissionDeniedException;
 
 }
