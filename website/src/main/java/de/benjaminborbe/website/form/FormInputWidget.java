@@ -1,14 +1,14 @@
 package de.benjaminborbe.website.form;
 
-public interface FormInputWidget extends FormElementWidget {
+public interface FormInputWidget<E extends FormElementWidget> extends FormElementWidget {
 
-	FormInputWidget addLabel(final String label);
+	E addLabel(final String label);
 
-	public FormInputWidget addDefaultValue(final String defaultValue);
+	E addDefaultValue(final String defaultValue);
 
-	FormInputWidget addPlaceholder(final String placeholder);
+	E addPlaceholder(final String placeholder);
 
-	FormInputWidget addId(final String id);
+	E addId(final String id);
 
 	String getName();
 }

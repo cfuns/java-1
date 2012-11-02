@@ -10,7 +10,7 @@ import de.benjaminborbe.website.util.SingleTagWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormInputBaseWidget extends SingleTagWidget implements FormElementWidget, FormInputWidget {
+public class FormInputBaseWidget extends SingleTagWidget implements FormInputWidget<FormInputBaseWidget> {
 
 	private static final String TAG = "input";
 

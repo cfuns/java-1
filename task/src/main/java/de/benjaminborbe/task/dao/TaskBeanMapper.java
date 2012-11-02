@@ -26,7 +26,7 @@ public class TaskBeanMapper extends BaseMapper<TaskBean> {
 
 	private static final String DESCRIPTION = "description";
 
-	private static final String OWNER_USERNAME = "owner";
+	private static final String OWNER = "owner";
 
 	private static final String CREATED = "created";
 
@@ -48,7 +48,7 @@ public class TaskBeanMapper extends BaseMapper<TaskBean> {
 		data.put(ID, toString(object.getId()));
 		data.put(NAME, object.getName());
 		data.put(DESCRIPTION, object.getDescription());
-		data.put(OWNER_USERNAME, object.getOwner() != null ? object.getOwner().getId() : null);
+		data.put(OWNER, object.getOwner() != null ? object.getOwner().getId() : null);
 		data.put(COMPLETED, toString(object.isCompleted()));
 		data.put(MODIFIED, toString(object.getModified()));
 		data.put(CREATED, toString(object.getCreated()));
@@ -59,7 +59,7 @@ public class TaskBeanMapper extends BaseMapper<TaskBean> {
 		object.setId(toTaskIdentifier(data.get(ID)));
 		object.setName(data.get(NAME));
 		object.setDescription(data.get(DESCRIPTION));
-		object.setOwner(data.get(OWNER_USERNAME) != null ? new UserIdentifier(data.get(OWNER_USERNAME)) : null);
+		object.setOwner(data.get(OWNER) != null ? new UserIdentifier(data.get(OWNER)) : null);
 		try {
 			object.setCompleted(toBoolean(data.get(COMPLETED)));
 		}

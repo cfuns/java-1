@@ -86,4 +86,5 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
 	}
+
 }

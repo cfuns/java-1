@@ -90,4 +90,8 @@ public class TagWidget implements Widget {
 		Collections.sort(result, new EntrySetComparator());
 		return result;
 	}
+
+	public void addContent(final String content) {
+		addContent(new StringWidget(content));
+	}
 }

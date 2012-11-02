@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -242,7 +244,15 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
 			throws TaskServiceException, LoginRequiredException {
-		return getTasksNotCompleted(sessionIdentifier, limit);
+		final List<Task> result = getTasksNotCompleted(sessionIdentifier, limit);
+		Collections2.filter(result, new Predicate<Task>() {
+
+			@Override
+			public boolean apply(final Task input) {
+				return false;
+			}
+		});
+		return result;
 	}
 
 	@Override

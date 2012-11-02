@@ -10,7 +10,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
-public class FormInputTextareaWidget extends TagWidget implements FormInputWidget {
+public class FormInputTextareaWidget extends TagWidget implements FormInputWidget<FormInputTextareaWidget> {
 
 	private String label;
 

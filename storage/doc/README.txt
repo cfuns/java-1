@@ -139,3 +139,9 @@ create column family task_context with
   column_metadata = [
     {column_name: owner, validation_class: UTF8Type, index_type: KEYS}
   ];
+
+drop column family task_context_relation;
+create column family task_context_relation with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
