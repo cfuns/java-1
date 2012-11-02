@@ -12,8 +12,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormSelectboxWidget implements FormElementWidget, HasId<FormSelectboxWidget>, HasOption<FormSelectboxWidget>, HasLabel<FormSelectboxWidget>,
-		HasValue<FormSelectboxWidget>, HasName<FormSelectboxWidget> {
+public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<FormSelectboxWidget>, HasId<FormSelectboxWidget>, HasOption<FormSelectboxWidget>,
+		HasLabel<FormSelectboxWidget>, HasValue<FormSelectboxWidget>, HasName<FormSelectboxWidget> {
 
 	private final class Option {
 
@@ -45,6 +45,8 @@ public class FormSelectboxWidget implements FormElementWidget, HasId<FormSelectb
 
 	private String value;
 
+	private String placeholder;
+
 	public FormSelectboxWidget(final String name) {
 		this.name = name;
 	}
@@ -63,6 +65,12 @@ public class FormSelectboxWidget implements FormElementWidget, HasId<FormSelectb
 			select.addAttribute("name", name);
 		}
 		final ListWidget optionWidgets = new ListWidget();
+
+		if (placeholder != null) {
+			final TagWidget optionWidget = new TagWidget("option");
+			optionWidget.addContent(placeholder);
+			optionWidgets.add(optionWidget);
+		}
 
 		for (final Option option : options) {
 			final TagWidget optionWidget = new TagWidget("option");
@@ -129,6 +137,17 @@ public class FormSelectboxWidget implements FormElementWidget, HasId<FormSelectb
 	@Override
 	public String getValue() {
 		return value;
+	}
+
+	@Override
+	public FormSelectboxWidget addPlaceholder(final String placeholder) {
+		this.placeholder = placeholder;
+		return this;
+	}
+
+	@Override
+	public String getPlaceholder() {
+		return placeholder;
 	}
 
 }

@@ -51,4 +51,5 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 		final String id = buildKey(identifierA, identifierB);
 		return VALUE.equals(storageService.get(getColumnFamily(), id, KEY));
 	}
+
 }

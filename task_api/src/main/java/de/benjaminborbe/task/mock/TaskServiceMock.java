@@ -86,4 +86,8 @@ public class TaskServiceMock implements TaskService {
 			PermissionDeniedException {
 	}
 
+	@Override
+	public void addTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
+	}
+
 }

@@ -98,8 +98,15 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
-			final TaskContextIdentifier taskContextIdentifier = taskContextId != null ? taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId) : null;
-			final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, 1);
+			final List<Task> tasks;
+			if (taskContextId != null && taskContextId.length() > 0) {
+				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId);
+				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, 1);
+			}
+			else {
+				tasks = taskService.getTasksNotCompleted(sessionIdentifier, 1);
+			}
+
 			for (final Task task : tasks) {
 				final ListWidget row = new ListWidget();
 				row.add(task.getName());

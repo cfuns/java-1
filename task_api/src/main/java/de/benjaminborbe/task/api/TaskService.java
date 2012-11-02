@@ -35,4 +35,6 @@ public interface TaskService {
 	void deleteContextTask(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
 			PermissionDeniedException;
 
+	void addTaskContext(TaskIdentifier taskIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException;
+
 }

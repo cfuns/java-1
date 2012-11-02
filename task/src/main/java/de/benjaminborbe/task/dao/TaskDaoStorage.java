@@ -51,4 +51,5 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 		return new ArrayList<TaskBean>(tasks);
 	}
+
 }

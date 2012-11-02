@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -29,6 +27,7 @@ import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.dao.TaskBean;
 import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
+import de.benjaminborbe.task.dao.TaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
@@ -47,6 +46,8 @@ public class TaskServiceImpl implements TaskService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final TaskContextManyToManyRelation taskContextManyToManyRelation;
+
 	@Inject
 	public TaskServiceImpl(
 			final Logger logger,
@@ -54,12 +55,14 @@ public class TaskServiceImpl implements TaskService {
 			final TaskContextDao taskContextDao,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
+			final TaskContextManyToManyRelation taskContextManyToManyRelation,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.taskDao = taskDao;
 		this.taskContextDao = taskContextDao;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
+		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
 		this.calendarUtil = calendarUtil;
 	}
 
@@ -244,15 +247,20 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
 			throws TaskServiceException, LoginRequiredException {
-		final List<Task> result = getTasksNotCompleted(sessionIdentifier, limit);
-		Collections2.filter(result, new Predicate<Task>() {
-
-			@Override
-			public boolean apply(final Task input) {
-				return false;
+		try {
+			logger.debug("getTasksNotCompleted");
+			final List<Task> tasks = getTasksNotCompleted(sessionIdentifier, limit);
+			final List<Task> result = new ArrayList<Task>();
+			for (final Task task : tasks) {
+				if (taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
+					result.add(task);
+				}
 			}
-		});
-		return result;
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
 	}
 
 	@Override
@@ -287,6 +295,17 @@ public class TaskServiceImpl implements TaskService {
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public void addTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
+		try {
+			logger.debug("addTaskContext");
+			taskContextManyToManyRelation.add(taskIdentifier, taskContextIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
