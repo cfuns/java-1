@@ -42,7 +42,7 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Tasks - Uncompleted";
+	private static final String TITLE = "Tasks";
 
 	private final Logger logger;
 

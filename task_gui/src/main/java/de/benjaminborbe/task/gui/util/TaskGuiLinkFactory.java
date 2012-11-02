@@ -49,7 +49,7 @@ public class TaskGuiLinkFactory {
 	}
 
 	public Widget uncompletedTasks(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED, "uncompleted tasks");
+		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED, "tasks");
 	}
 
 }
