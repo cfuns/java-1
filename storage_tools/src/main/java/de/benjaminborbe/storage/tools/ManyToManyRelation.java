@@ -10,4 +10,8 @@ public interface ManyToManyRelation<A extends Identifier<?>, B extends Identifie
 	void remove(final A identifierA, final B identifierB) throws StorageException;
 
 	boolean exists(final A identifierA, final B identifierB) throws StorageException;
+
+	void removeB(B identifierB) throws StorageException;
+
+	void removeA(A identifierA) throws StorageException;
 }

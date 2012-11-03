@@ -1,5 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -12,6 +15,10 @@ import de.benjaminborbe.storage.api.StorageService;
 public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
 
 	private static final String KEY = "exists";
+
+	private static final String KEY_A = "key_a";
+
+	private static final String KEY_B = "key_b";
 
 	private static final String VALUE = "true";
 
@@ -35,14 +42,18 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 	public void add(final A identifierA, final B identifierB) throws StorageException {
 		logger.trace("add " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
-		storageService.set(getColumnFamily(), id, KEY, VALUE);
+		final Map<String, String> data = new HashMap<String, String>();
+		data.put(KEY, VALUE);
+		data.put(KEY_A, String.valueOf(identifierA));
+		data.put(KEY_B, String.valueOf(identifierB));
+		storageService.set(getColumnFamily(), id, data);
 	}
 
 	@Override
 	public void remove(final A identifierA, final B identifierB) throws StorageException {
 		logger.trace("remove " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
-		storageService.delete(getColumnFamily(), id, KEY);
+		storageService.delete(getColumnFamily(), id, KEY, KEY_A, KEY_B);
 	}
 
 	@Override
@@ -50,6 +61,15 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 		logger.trace("exists " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
 		return VALUE.equals(storageService.get(getColumnFamily(), id, KEY));
+	}
+
+	@Override
+	public void removeA(final A identifierA) throws StorageException {
+		// storageService.list(columnFamily)
+	}
+
+	@Override
+	public void removeB(final B identifierB) throws StorageException {
 	}
 
 }

@@ -1,6 +1,7 @@
 package de.benjaminborbe.storage.mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 
 @Singleton
@@ -36,13 +38,19 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public void delete(final String columnFamily, final String id, final String key) {
+		delete(columnFamily, id, Arrays.asList(key));
+	}
+
+	public void delete(final String columnFamily, final String id, final Collection<String> keys) {
 		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		if (cfData == null)
 			return;
 		final HashMap<String, String> idData = cfData.get(id);
 		if (idData == null)
 			return;
-		idData.remove(key);
+		for (final String key : keys) {
+			idData.remove(key);
+		}
 	}
 
 	@Override
@@ -96,5 +104,10 @@ public class StorageServiceMock implements StorageService {
 			return new ArrayList<String>();
 		}
 		return new ArrayList<String>(cfData.keySet());
+	}
+
+	@Override
+	public void delete(final String columnFamily, final String id, final String... keys) throws StorageException {
+		delete(columnFamily, id, Arrays.asList(keys));
 	}
 }

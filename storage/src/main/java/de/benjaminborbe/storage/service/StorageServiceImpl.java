@@ -1,6 +1,7 @@
 package de.benjaminborbe.storage.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -58,28 +59,9 @@ public class StorageServiceImpl implements StorageService {
 
 	@Override
 	public void delete(final String columnFamily, final String id, final String key) throws StorageException {
-		try {
-			storageConnection.open();
-
-			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
-		}
-		catch (final Exception e) {
-			logger.trace("Exception", e);
-			throw new StorageException(e);
-		}
-		finally {
-			storageConnection.close();
-		}
+		delete(columnFamily, id, Arrays.asList(key));
 	}
 
-	/**
-	 * columnFamily <=> tabellenname
-	 * id <=> primarykey
-	 * key <=> fieldname
-	 * value <=> fieldvalue
-	 * 
-	 * @throws StorageException
-	 */
 	@Override
 	public void set(final String columnFamily, final String id, final String key, final String value) throws StorageException {
 		final Map<String, String> data = new HashMap<String, String>();
@@ -87,15 +69,6 @@ public class StorageServiceImpl implements StorageService {
 		set(columnFamily, id, data);
 	}
 
-	/**
-	 * columnFamily <=> tabellenname
-	 * id <=> primarykey
-	 * data: multible
-	 * - key <=> fieldname
-	 * - value <=> fieldvalue
-	 * 
-	 * @throws StorageException
-	 */
 	@Override
 	public void set(final String columnFamily, final String id, final Map<String, String> data) throws StorageException {
 		try {
@@ -154,4 +127,24 @@ public class StorageServiceImpl implements StorageService {
 		return result;
 	}
 
+	public void delete(final String columnFamily, final String id, final Collection<String> keys) throws StorageException {
+		try {
+			storageConnection.open();
+			for (final String key : keys) {
+				storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
+			}
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			storageConnection.close();
+		}
+	}
+
+	@Override
+	public void delete(final String columnFamily, final String id, final String... keys) throws StorageException {
+		delete(columnFamily, id, Arrays.asList(keys));
+	}
 }
