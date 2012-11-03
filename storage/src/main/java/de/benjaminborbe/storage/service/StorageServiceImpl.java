@@ -18,6 +18,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnection;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
+import de.benjaminborbe.storage.util.StorageKeyIterator;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
@@ -91,8 +92,9 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			storageConnection.open();
 
-			final List<String> idList = storageDaoUtil.list(config.getKeySpace(), columnFamily);
-			for (final String id : idList) {
+			final StorageKeyIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
+			while (i.hasNext()) {
+				final String id = new String(i.next(), config.getEncoding());
 				if (id.startsWith(idPrefix)) {
 					result.add(id);
 				}
@@ -114,8 +116,10 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			storageConnection.open();
 
-			result.addAll(storageDaoUtil.list(config.getKeySpace(), columnFamily));
-
+			final StorageKeyIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
+			while (i.hasNext()) {
+				result.add(new String(i.next(), config.getEncoding()));
+			}
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);
@@ -127,6 +131,7 @@ public class StorageServiceImpl implements StorageService {
 		return result;
 	}
 
+	@Override
 	public void delete(final String columnFamily, final String id, final Collection<String> keys) throws StorageException {
 		try {
 			storageConnection.open();

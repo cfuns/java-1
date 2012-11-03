@@ -79,9 +79,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public void delete(final E entity) throws StorageException {
 		try {
 			logger.trace("delete");
-			for (final String fieldName : getFieldNames(entity)) {
-				storageService.delete(getColumnFamily(), entity.getId().getId(), fieldName);
-			}
+			storageService.delete(getColumnFamily(), entity.getId().getId(), getFieldNames(entity));
 		}
 		catch (final MapException e) {
 			throw new StorageException("MapException", e);

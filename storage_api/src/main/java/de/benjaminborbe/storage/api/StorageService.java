@@ -20,4 +20,6 @@ public interface StorageService {
 
 	void set(String columnFamily, String id, Map<String, String> data) throws StorageException;
 
+	void delete(String columnFamily, String id, Collection<String> keys) throws StorageException;
+
 }

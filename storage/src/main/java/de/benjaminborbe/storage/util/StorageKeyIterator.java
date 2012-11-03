@@ -16,7 +16,10 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
-public class StorageKeyIterator {
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
+
+public class StorageKeyIterator implements StorageIterator {
 
 	// COUNT > 1
 	private static final int COUNT = 100;
@@ -49,20 +52,35 @@ public class StorageKeyIterator {
 		this.predicate = predicate;
 	}
 
-	public boolean hasNext() throws InvalidRequestException, UnavailableException, TimedOutException, TException {
-		if (cols == null) {
-			cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
-			currentPos = 0;
+	@Override
+	public boolean hasNext() throws StorageException {
+		try {
+			if (cols == null) {
+				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
+				currentPos = 0;
+			}
+			else if (currentPos == cols.size()) {
+				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
+				currentPos = 1;
+			}
+			return currentPos < cols.size();
 		}
-		else if (currentPos == cols.size()) {
-			cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
-			currentPos = 1;
+		catch (final InvalidRequestException e) {
+			throw new StorageException(e);
 		}
-
-		return currentPos < cols.size();
+		catch (final UnavailableException e) {
+			throw new StorageException(e);
+		}
+		catch (final TimedOutException e) {
+			throw new StorageException(e);
+		}
+		catch (final TException e) {
+			throw new StorageException(e);
+		}
 	}
 
-	public byte[] next() throws InvalidRequestException, UnavailableException, TimedOutException, TException {
+	@Override
+	public byte[] next() throws StorageException {
 		if (hasNext()) {
 			final byte[] result = cols.get(currentPos).getKey();
 			range.setStart_key(result);

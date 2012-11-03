@@ -103,7 +103,7 @@ public class StorageDaoUtilIntegrationTest {
 			connection.open();
 
 			// leer db
-			assertEquals(0, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+			assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 
 			final String id = "a";
 			final Map<String, String> data = new HashMap<String, String>();
@@ -117,7 +117,7 @@ public class StorageDaoUtilIntegrationTest {
 			assertEquals(value, daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
 			// ein eitnrag
-			assertEquals(1, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+			assertEquals(1, daoUtil.count(config.getKeySpace(), COLUMNFAMILY, key));
 
 			// eintrag loeschen
 			daoUtil.delete(config.getKeySpace(), COLUMNFAMILY, id, key);
@@ -126,7 +126,7 @@ public class StorageDaoUtilIntegrationTest {
 			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
 			// nach dem loeschen wieder leer
-			assertEquals(0, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+			assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY, key));
 
 		}
 		finally {
@@ -163,7 +163,7 @@ public class StorageDaoUtilIntegrationTest {
 				daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
 
 				// nach dem loeschen wieder leer
-				assertEquals(counter, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+				assertEquals(counter, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 
 			}
 
@@ -188,14 +188,14 @@ public class StorageDaoUtilIntegrationTest {
 
 		try {
 			connection.open();
-			assertEquals(0, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+			assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 			for (int id = 1; id <= max; ++id) {
 				final Map<String, String> data = new HashMap<String, String>();
 				final String key = FIELD_NAME;
 				data.put(key + "_a", String.valueOf(id));
 				data.put(key + "_b", String.valueOf(id));
 				daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, String.valueOf(id), data);
-				assertEquals(id, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+				assertEquals(id, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 			}
 		}
 		finally {
@@ -227,7 +227,7 @@ public class StorageDaoUtilIntegrationTest {
 
 				// nach dem loeschen wieder leer
 				if (i % 1000 == 0) {
-					assertEquals(i, daoUtil.list(config.getKeySpace(), COLUMNFAMILY).size());
+					assertEquals(i, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 				}
 			}
 		}

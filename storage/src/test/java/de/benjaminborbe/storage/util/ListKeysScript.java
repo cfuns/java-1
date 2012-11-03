@@ -33,6 +33,8 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.benjaminborbe.storage.api.StorageException;
+
 public class ListKeysScript {
 
 	private static final int SOCKET_TIMEOUT = 7000;
@@ -145,7 +147,7 @@ public class ListKeysScript {
 		return ByteBuffer.wrap(string.getBytes("UTF-8"));
 	}
 
-	public void list3() throws InvalidRequestException, TException, UnavailableException, TimedOutException {
+	public void list3() throws StorageException, InvalidRequestException, TException {
 		final ColumnParent column_parent = new ColumnParent("user");
 		final Iface client = getClient(keySpace);
 		final StorageKeyIterator i = new StorageKeyIterator(client, column_parent);

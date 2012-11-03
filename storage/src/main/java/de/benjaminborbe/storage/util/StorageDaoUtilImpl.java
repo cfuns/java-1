@@ -2,13 +2,8 @@ package de.benjaminborbe.storage.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.Column;
@@ -17,11 +12,7 @@ import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
-import org.apache.cassandra.thrift.KeyRange;
-import org.apache.cassandra.thrift.KeySlice;
 import org.apache.cassandra.thrift.NotFoundException;
-import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
@@ -29,6 +20,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 public class StorageDaoUtilImpl implements StorageDaoUtil {
@@ -54,7 +46,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
-		logger.trace("insert keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " data: " + data);
+		logger.trace("insert keyspace: " + keySpace + " columnFamily: " + columnFamily + " id: " + id + " data: " + data);
 
 		final long timestamp = calendarUtil.getTime();
 		for (final Entry<String, String> e : data.entrySet()) {
@@ -90,7 +82,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
-		logger.trace("read keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
+		logger.trace("read keyspace: " + keySpace + " columnFamily: " + columnFamily + " id: " + id + " key: " + field);
 		final String encoding = config.getEncoding();
 		logger.trace("encoding = " + encoding);
 		final ByteBuffer key = ByteBuffer.wrap(id.getBytes(encoding));
@@ -109,7 +101,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		}
 	}
 
-	protected Iface getClient(final String keySpace) throws InvalidRequestException, TException {
+	private Iface getClient(final String keySpace) throws InvalidRequestException, TException {
 		final Client client = connection.getClient();
 		client.set_keyspace(keySpace);
 		return client;
@@ -120,7 +112,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException {
 		final Iface client = getClient(keySpace);
 
-		logger.trace("delete keyspace: " + keySpace + " columnfamily: " + columnFamily + " id: " + id + " key: " + field);
+		logger.trace("delete keyspace: " + keySpace + " columnFamily: " + columnFamily + " id: " + id + " key: " + field);
 
 		final ByteBuffer key = ByteBuffer.wrap(id.getBytes(config.getEncoding()));
 		final ColumnPath column_path = new ColumnPath(columnFamily);
@@ -133,82 +125,38 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public List<String> list(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
-			UnsupportedEncodingException, NotFoundException {
-		final Iface client = getClient(keySpace);
-		logger.trace("list keyspace: " + keySpace + " columnfamily: " + columnFamily + " readlimit = " + config.getReadLimit());
-
-		final Set<String> result = new HashSet<String>();
-		final ColumnParent column_parent = new ColumnParent(columnFamily);
-		final SlicePredicate predicate = new SlicePredicate();
-		final int columnCount = 1;
-		predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, columnCount));
-
-		byte[] startKey = null;
-		final byte[] endKey = null;
-		while (true) {
-			logger.trace("startKey " + (startKey != null ? new String(startKey, config.getEncoding()) : "null"));
-			final KeyRange keyRange = new KeyRange(config.getReadLimit() + 1);
-			keyRange.setStart_key(startKey != null ? startKey : new byte[0]);
-			keyRange.setEnd_key(endKey != null ? endKey : new byte[0]);
-			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
-			final List<KeySlice> keySlices = filterWithColumns(client.get_range_slices(column_parent, predicate, keyRange, consistency_level));
-			if (keySlices.isEmpty()) {
-				logger.trace("found " + result.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
-				return new ArrayList<String>(result);
-			}
-			for (int i = 0; i < keySlices.size(); ++i) {
-				final KeySlice keySlice = keySlices.get(i);
-				final String key = new String(keySlice.getKey(), config.getEncoding());
-				if (i != 0 && result.contains(key) || keySlices.size() == 1) {
-					logger.trace("found " + result.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
-					result.add(key);
-					return new ArrayList<String>(result);
-				}
-				result.add(key);
-				startKey = keySlice.getKey();
-			}
-		}
-	}
-
-	private List<KeySlice> filterWithColumns(final List<KeySlice> keySlices) {
-		final List<KeySlice> result = new ArrayList<KeySlice>();
-		for (final KeySlice keySlice : keySlices) {
-			if (keySlice.getColumnsSize() > 0)
-				result.add(keySlice);
-		}
-		return result;
-	}
-
-	public List<String> oldlist(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
-			UnsupportedEncodingException, NotFoundException {
-		final Iface client = getClient(keySpace);
-		logger.trace("list keyspace: " + keySpace + " columnfamily: " + columnFamily + " readlimit = " + config.getReadLimit());
-
-		final List<String> result = new ArrayList<String>();
-		final ColumnParent column_parent = new ColumnParent(columnFamily);
-		final SlicePredicate predicate = new SlicePredicate();
-		predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, config.getReadLimit()));
-		final KeyRange keyRange = new KeyRange(config.getReadLimit());
-		keyRange.setStart_key(new byte[0]);
-		keyRange.setEnd_key(new byte[0]);
-		final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
-		final List<KeySlice> keySlices = client.get_range_slices(column_parent, predicate, keyRange, consistency_level);
-		for (final KeySlice keySlice : keySlices) {
-			if (keySlice.getColumnsSize() > 0) {
-				result.add(new String(keySlice.getKey(), config.getEncoding()));
-			}
-		}
-		logger.trace("found " + result.size() + " elements in keyspace: " + keySpace + " columnfamily: " + columnFamily);
-		return result;
-	}
-
-	@Override
 	public StorageKeyIterator keyIterator(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 			UnsupportedEncodingException, NotFoundException {
 		final ColumnParent column_parent = new ColumnParent(columnFamily);
 		final Iface client = getClient(keySpace);
 		return new StorageKeyIterator(client, column_parent);
+	}
+
+	@Override
+	public int count(final String keySpace, final String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
+			TException, NotFoundException, StorageException {
+		int result = 0;
+		final StorageKeyIterator i = keyIterator(keySpace, columnFamily);
+		while (i.hasNext()) {
+			i.next();
+			result++;
+		}
+		return result;
+	}
+
+	@Override
+	public int count(final String keySpace, final String columnFamily, final String field) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException,
+			TimedOutException, TException, NotFoundException, StorageException {
+		int result = 0;
+		final StorageKeyIterator i = keyIterator(keySpace, columnFamily);
+		while (i.hasNext()) {
+			final byte[] key = i.next();
+			final String value = read(keySpace, columnFamily, new String(key, config.getEncoding()), field);
+			if (value != null && value.length() > 0) {
+				result++;
+			}
+		}
+		return result;
 	}
 
 }
