@@ -3,8 +3,6 @@ package de.benjaminborbe.gallery.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -21,6 +19,7 @@ import de.benjaminborbe.gallery.gallery.GalleryDao;
 import de.benjaminborbe.gallery.image.GalleryImageBean;
 import de.benjaminborbe.gallery.image.GalleryImageDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 @Singleton
 public class GalleryServiceImpl implements GalleryService {
@@ -31,11 +30,14 @@ public class GalleryServiceImpl implements GalleryService {
 
 	private final GalleryDao galleryDao;
 
+	private final IdGeneratorUUID idGeneratorUUID;
+
 	@Inject
-	public GalleryServiceImpl(final Logger logger, final GalleryDao galleryDao, final GalleryImageDao galleryImageDao) {
+	public GalleryServiceImpl(final Logger logger, final GalleryDao galleryDao, final GalleryImageDao galleryImageDao, final IdGeneratorUUID idGeneratorUUID) {
 		this.logger = logger;
 		this.galleryDao = galleryDao;
 		this.galleryImageDao = galleryImageDao;
+		this.idGeneratorUUID = idGeneratorUUID;
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 	protected GalleryImageIdentifier createGalleryImageIdentifier(final byte[] content) throws GalleryServiceException {
 		logger.debug("createGalleryImageIdentifier");
-		return createGalleryImageIdentifier(String.valueOf(UUID.nameUUIDFromBytes(content)));
+		return createGalleryImageIdentifier(idGeneratorUUID.nextId(content));
 	}
 
 	@Override
@@ -116,8 +118,7 @@ public class GalleryServiceImpl implements GalleryService {
 	public GalleryIdentifier createGallery(final String name) throws GalleryServiceException {
 		try {
 			logger.debug("createGallery name: " + name);
-			final String id = String.valueOf(UUID.nameUUIDFromBytes(name.getBytes()));
-			final GalleryIdentifier galleryIdentifier = createGalleryIdentifier(id);
+			final GalleryIdentifier galleryIdentifier = createGalleryIdentifier(idGeneratorUUID.nextId(name));
 			final GalleryBean gallery = galleryDao.create();
 			gallery.setId(galleryIdentifier);
 			gallery.setName(name);

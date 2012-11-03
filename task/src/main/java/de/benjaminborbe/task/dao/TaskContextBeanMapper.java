@@ -1,86 +1,33 @@
 package de.benjaminborbe.task.dao;
 
-import java.util.Calendar;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.mapper.BaseMapper;
-import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.mapper.SingleMap;
+import de.benjaminborbe.tools.mapper.SingleMapCalendar;
+import de.benjaminborbe.tools.mapper.SingleMapString;
+import de.benjaminborbe.tools.mapper.SingleMappler;
 import de.benjaminborbe.tools.util.ParseUtil;
 
-@Singleton
-public class TaskContextBeanMapper extends BaseMapper<TaskContextBean> {
-
-	private static final String ID = "id";
-
-	private static final String NAME = "name";
-
-	private static final String OWNER_USERNAME = "owner";
-
-	private static final String CREATED = "created";
-
-	private static final String MODIFIED = "modified";
-
-	private final CalendarUtil calendarUtil;
-
-	private final ParseUtil parseUtil;
+public class TaskContextBeanMapper extends SingleMappler<TaskContextBean> {
 
 	@Inject
-	public TaskContextBeanMapper(final Provider<TaskContextBean> provider, final CalendarUtil calendarUtil, final ParseUtil parseUtil) {
-		super(provider);
-		this.calendarUtil = calendarUtil;
-		this.parseUtil = parseUtil;
+	public TaskContextBeanMapper(final Provider<TaskContextBean> provider, final ParseUtil parseUtil, final CalendarUtil calendarUtil) {
+		super(provider, buildMappings(parseUtil, calendarUtil));
 	}
 
-	@Override
-	public void map(final TaskContextBean object, final Map<String, String> data) {
-		data.put(ID, toString(object.getId()));
-		data.put(NAME, object.getName());
-		data.put(OWNER_USERNAME, object.getOwner() != null ? object.getOwner().getId() : null);
-		data.put(MODIFIED, toString(object.getModified()));
-		data.put(CREATED, toString(object.getCreated()));
+	private static Collection<SingleMap<TaskContextBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil) {
+		final List<SingleMap<TaskContextBean>> result = new ArrayList<SingleMap<TaskContextBean>>();
+		result.add(new SingleMapTaskContextIdentifier<TaskContextBean>("id"));
+		result.add(new SingleMapString<TaskContextBean>("name"));
+		result.add(new SingleMapUserIdentifier<TaskContextBean>("owner"));
+		result.add(new SingleMapCalendar<TaskContextBean>("created", calendarUtil, parseUtil));
+		result.add(new SingleMapCalendar<TaskContextBean>("modified", calendarUtil, parseUtil));
+		return result;
 	}
-
-	@Override
-	public void map(final Map<String, String> data, final TaskContextBean object) throws MapException {
-		object.setId(toTaskContextIdentifier(data.get(ID)));
-		object.setName(data.get(NAME));
-		object.setOwner(data.get(OWNER_USERNAME) != null ? new UserIdentifier(data.get(OWNER_USERNAME)) : null);
-		try {
-			object.setCreated(toCalendar(data.get(CREATED)));
-		}
-		catch (final ParseException e) {
-			throw new MapException("map created failed", e);
-		}
-		try {
-			object.setModified(toCalendar(data.get(MODIFIED)));
-		}
-		catch (final ParseException e) {
-			throw new MapException("map modified failed", e);
-		}
-	}
-
-	private TaskContextIdentifier toTaskContextIdentifier(final String id) {
-		return id != null ? new TaskContextIdentifier(id) : null;
-	}
-
-	private String toString(final TaskContextIdentifier id) {
-		return id != null ? id.getId() : null;
-	}
-
-	private Calendar toCalendar(final String timestamp) throws ParseException {
-		return timestamp != null ? calendarUtil.getCalendar(parseUtil.parseLong(timestamp)) : null;
-	}
-
-	private String toString(final Calendar calendar) {
-		return calendar != null ? String.valueOf(calendarUtil.getTime(calendar)) : null;
-	}
-
 }

@@ -2,7 +2,6 @@ package de.benjaminborbe.task.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 
@@ -30,6 +29,7 @@ import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 @Singleton
 public class TaskServiceImpl implements TaskService {
@@ -48,10 +48,13 @@ public class TaskServiceImpl implements TaskService {
 
 	private final TaskContextManyToManyRelation taskContextManyToManyRelation;
 
+	private final IdGeneratorUUID idGeneratorUUID;
+
 	@Inject
 	public TaskServiceImpl(
 			final Logger logger,
 			final TaskDao taskDao,
+			final IdGeneratorUUID idGeneratorUUID,
 			final TaskContextDao taskContextDao,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
@@ -59,6 +62,7 @@ public class TaskServiceImpl implements TaskService {
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.taskDao = taskDao;
+		this.idGeneratorUUID = idGeneratorUUID;
 		this.taskContextDao = taskContextDao;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
@@ -74,7 +78,7 @@ public class TaskServiceImpl implements TaskService {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskIdentifier taskIdentifier = createTaskIdentifier(sessionIdentifier, String.valueOf(UUID.nameUUIDFromBytes(name.getBytes())));
+			final TaskIdentifier taskIdentifier = createTaskIdentifier(sessionIdentifier, idGeneratorUUID.nextId(name));
 			final TaskBean task = taskDao.create();
 			task.setId(taskIdentifier);
 			task.setName(name);
@@ -226,7 +230,7 @@ public class TaskServiceImpl implements TaskService {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskContextIdentifier taskContextIdentifier = createTaskContextIdentifier(sessionIdentifier, String.valueOf(UUID.nameUUIDFromBytes(name.getBytes())));
+			final TaskContextIdentifier taskContextIdentifier = createTaskContextIdentifier(sessionIdentifier, idGeneratorUUID.nextId(name));
 			final TaskContextBean task = taskContextDao.create();
 			task.setId(taskContextIdentifier);
 			task.setName(name);
