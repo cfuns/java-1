@@ -18,19 +18,25 @@ import de.benjaminborbe.tools.util.ParseUtil;
 @Singleton
 public class TaskBeanMapper extends BaseMapper<TaskBean> {
 
-	private static final String ID = "id";
+	public static final String ID = "id";
 
-	private static final String NAME = "name";
+	public static final String NAME = "name";
 
-	private static final String COMPLETED = "completed";
+	public static final String COMPLETED = "completed";
 
-	private static final String DESCRIPTION = "description";
+	public static final String DESCRIPTION = "description";
 
-	private static final String OWNER = "owner";
+	public static final String OWNER = "owner";
 
-	private static final String CREATED = "created";
+	public static final String CREATED = "created";
 
-	private static final String MODIFIED = "modified";
+	public static final String MODIFIED = "modified";
+
+	public static final String START = "start";
+
+	public static final String DUE = "due";
+
+	public static final String DURATION = "duration";
 
 	private final CalendarUtil calendarUtil;
 
@@ -52,6 +58,9 @@ public class TaskBeanMapper extends BaseMapper<TaskBean> {
 		data.put(COMPLETED, toString(object.isCompleted()));
 		data.put(MODIFIED, toString(object.getModified()));
 		data.put(CREATED, toString(object.getCreated()));
+		data.put(START, toString(object.getStart()));
+		data.put(DUE, toString(object.getDue()));
+		data.put(DURATION, toString(object.getDuration()));
 	}
 
 	@Override
@@ -64,20 +73,42 @@ public class TaskBeanMapper extends BaseMapper<TaskBean> {
 			object.setCompleted(toBoolean(data.get(COMPLETED)));
 		}
 		catch (final ParseException e) {
-			throw new MapException("map completed failed", e);
+			object.setCompleted(null);
 		}
 		try {
 			object.setCreated(toCalendar(data.get(CREATED)));
 		}
 		catch (final ParseException e) {
-			throw new MapException("map created failed", e);
+			object.setCreated(null);
 		}
 		try {
 			object.setModified(toCalendar(data.get(MODIFIED)));
 		}
 		catch (final ParseException e) {
-			throw new MapException("map modified failed", e);
+			object.setModified(null);
 		}
+		try {
+			object.setStart(toCalendar(data.get(START)));
+		}
+		catch (final ParseException e) {
+			object.setStart(null);
+		}
+		try {
+			object.setDue(toCalendar(data.get(DUE)));
+		}
+		catch (final ParseException e) {
+			object.setDue(null);
+		}
+		try {
+			object.setDuration(toLong(data.get(DURATION)));
+		}
+		catch (final ParseException e) {
+			object.setDuration(null);
+		}
+	}
+
+	private long toLong(final String number) throws ParseException {
+		return parseUtil.parseLong(number);
 	}
 
 	private boolean toBoolean(final String string) throws ParseException {
@@ -100,8 +131,12 @@ public class TaskBeanMapper extends BaseMapper<TaskBean> {
 		return calendar != null ? String.valueOf(calendarUtil.getTime(calendar)) : null;
 	}
 
-	private String toString(final boolean completed) {
+	private String toString(final Boolean completed) {
 		return String.valueOf(completed);
+	}
+
+	private String toString(final Long d) {
+		return String.valueOf(d);
 	}
 
 }

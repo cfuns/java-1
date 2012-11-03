@@ -11,7 +11,7 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
-	private boolean completed;
+	private Boolean completed;
 
 	private TaskIdentifier id;
 
@@ -24,6 +24,12 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 	private Calendar created;
 
 	private Calendar modified;
+
+	private Calendar due;
+
+	private Calendar start;
+
+	private Long duration;
 
 	@Override
 	public String getName() {
@@ -63,11 +69,11 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 	}
 
 	@Override
-	public boolean isCompleted() {
+	public Boolean isCompleted() {
 		return completed;
 	}
 
-	public void setCompleted(final boolean completed) {
+	public void setCompleted(final Boolean completed) {
 		this.completed = completed;
 	}
 
@@ -85,6 +91,33 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	@Override
+	public Long getDuration() {
+		return duration;
+	}
+
+	@Override
+	public Calendar getStart() {
+		return start;
+	}
+
+	@Override
+	public Calendar getDue() {
+		return due;
+	}
+
+	public void setDue(final Calendar due) {
+		this.due = due;
+	}
+
+	public void setStart(final Calendar start) {
+		this.start = start;
+	}
+
+	public void setDuration(final Long duration) {
+		this.duration = duration;
 	}
 
 }

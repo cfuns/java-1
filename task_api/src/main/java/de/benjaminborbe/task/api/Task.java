@@ -1,5 +1,7 @@
 package de.benjaminborbe.task.api;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface Task {
@@ -12,5 +14,11 @@ public interface Task {
 
 	UserIdentifier getOwner();
 
-	boolean isCompleted();
+	Boolean isCompleted();
+
+	Long getDuration();
+
+	Calendar getStart();
+
+	Calendar getDue();
 }
