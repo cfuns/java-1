@@ -14,7 +14,7 @@ public interface Task {
 
 	UserIdentifier getOwner();
 
-	Boolean isCompleted();
+	Boolean getCompleted();
 
 	Long getDuration();
 

@@ -9,6 +9,6 @@ public class TaskNotCompletedPredicate implements Predicate<TaskBean> {
 
 	@Override
 	public boolean apply(final TaskBean task) {
-		return task != null && !task.isCompleted();
+		return task != null && !task.getCompleted();
 	}
 }

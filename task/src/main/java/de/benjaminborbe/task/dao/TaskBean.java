@@ -68,11 +68,6 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 		this.owner = owner;
 	}
 
-	@Override
-	public Boolean isCompleted() {
-		return completed;
-	}
-
 	public void setCompleted(final Boolean completed) {
 		this.completed = completed;
 	}
@@ -118,6 +113,10 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	public void setDuration(final Long duration) {
 		this.duration = duration;
+	}
+
+	public Boolean getCompleted() {
+		return completed;
 	}
 
 }
