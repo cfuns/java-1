@@ -45,7 +45,14 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	public StorageConnection getConnection() throws StorageConnectionPoolException {
 		try {
 			if (!freeConnections.isEmpty()) {
-				return freeConnections.take();
+				final StorageConnection connection = freeConnections.take();
+				if (isAlive(connection)) {
+					return connection;
+				}
+				else {
+					closeConnection(connection);
+					return getConnection();
+				}
 			}
 			else if (allConnections.size() == maxConnections) {
 				throw new StorageConnectionPoolException("max connections reached");
@@ -65,6 +72,23 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 		catch (final InterruptedException e) {
 			throw new StorageConnectionPoolException(e);
 		}
+	}
+
+	private boolean isAlive(final StorageConnection connection) {
+		try {
+			if (!connection.getTr().isOpen()) {
+				return false;
+			}
+			connection.getClient().set_keyspace("system");
+			return true;
+		}
+		catch (final Exception e) {
+			return false;
+		}
+	}
+
+	private void closeConnection(final StorageConnection connection) {
+		allConnections.remove(connection);
 	}
 
 	@Override
