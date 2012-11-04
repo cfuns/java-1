@@ -11,6 +11,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
 import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
+import de.benjaminborbe.tools.mapper.SingleMapInteger;
 import de.benjaminborbe.tools.mapper.SingleMapLong;
 import de.benjaminborbe.tools.mapper.SingleMapString;
 import de.benjaminborbe.tools.mapper.SingleMappler;
@@ -35,6 +36,8 @@ public class TaskBeanMapper extends SingleMappler<TaskBean> {
 		result.add(new SingleMapCalendar<TaskBean>("modified", calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<TaskBean>("start", calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<TaskBean>("due", calendarUtil, parseUtil));
+		result.add(new SingleMapTaskIdentifier<TaskBean>("parentId"));
+		result.add(new SingleMapInteger<TaskBean>("priority", parseUtil));
 		return result;
 	}
 }

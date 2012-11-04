@@ -4,7 +4,13 @@ public interface TaskGuiConstants {
 
 	String NAME = "task";
 
+	String URL_TASK_PRIO_DECREASE = "/task/prio/decrease";
+
+	String URL_TASK_PRIO_INCREASE = "/task/prio/increase";
+
 	String URL_TASK_CREATE = "/task/create";
+
+	String URL_TASK_UPDATE = "/task/update";
 
 	String URL_TASK_COMPLETE = "/task/complete";
 

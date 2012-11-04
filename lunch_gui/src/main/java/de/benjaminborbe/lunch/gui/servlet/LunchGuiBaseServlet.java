@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +33,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -53,11 +54,11 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public abstract class LunchGuiBaseServlet extends WebsiteHtmlServlet {
 
-	private final class SortLunchs implements Comparator<Lunch> {
+	private final class SortLunchs extends ComparatorBase<Lunch, Date> {
 
 		@Override
-		public int compare(final Lunch arg0, final Lunch arg1) {
-			return arg1.getDate().compareTo(arg0.getDate());
+		public Date getValue(final Lunch o) {
+			return o.getDate();
 		}
 	}
 

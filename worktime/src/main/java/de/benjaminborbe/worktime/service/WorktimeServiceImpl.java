@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +16,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
@@ -51,11 +51,11 @@ public class WorktimeServiceImpl implements WorktimeService {
 		}
 	}
 
-	private final class WorkdayComparator implements Comparator<Workday> {
+	private final class WorkdayComparator extends ComparatorBase<Workday, Calendar> {
 
 		@Override
-		public int compare(final Workday w1, final Workday w2) {
-			return w1.getDate().compareTo(w2.getDate());
+		public Calendar getValue(final Workday o) {
+			return o.getDate();
 		}
 	}
 

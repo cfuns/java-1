@@ -2,7 +2,6 @@ package de.benjaminborbe.performance.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +14,16 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.performance.api.PerformanceEntry;
 import de.benjaminborbe.performance.api.PerformanceService;
+import de.benjaminborbe.tools.util.ComparatorBase;
 
 @Singleton
 public class PerformanceServiceImpl implements PerformanceService {
 
-	private final class PerformanceEntryComparator implements Comparator<PerformanceEntry> {
+	private final class PerformanceEntryComparator extends ComparatorBase<PerformanceEntry, Long> {
 
 		@Override
-		public int compare(final PerformanceEntry p1, final PerformanceEntry p2) {
-			return new Long(p2.getDuration()).compareTo(new Long(p1.getDuration()));
+		public Long getValue(final PerformanceEntry o) {
+			return new Long(o.getDuration());
 		}
 	}
 

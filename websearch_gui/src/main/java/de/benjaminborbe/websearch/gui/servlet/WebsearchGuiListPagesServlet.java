@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +32,7 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.WebsearchService;
@@ -49,11 +49,11 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
-	private final class PageComparator implements Comparator<Page> {
+	private final class PageComparator extends ComparatorBase<Page, String> {
 
 		@Override
-		public int compare(final Page page1, final Page page2) {
-			return page1.getUrl().toExternalForm().compareTo(page2.getUrl().toExternalForm());
+		public String getValue(final Page o) {
+			return o.getUrl() != null ? o.getUrl().toExternalForm() : null;
 		}
 	}
 

@@ -16,7 +16,8 @@ import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextCreateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextDeleteServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextListServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskDeleteServlet;
-import de.benjaminborbe.task.gui.servlet.TaskGuiTasksCompletedServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUpdateServlet;
+import de.benjaminborbe.task.gui.servlet.*;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCreateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTasksUncompletedServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUncompleteServlet;
@@ -26,6 +27,15 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class TaskGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private TaskGuiTaskPrioDecreaseServlet taskGuiTaskPrioDecreaseServlet;
+
+	@Inject
+	private TaskGuiTaskPrioIncreaseServlet taskGuiTaskPrioIncreaseServlet;
+
+	@Inject
+	private TaskGuiTaskUpdateServlet taskGuiTaskUpdateServlet;
 
 	@Inject
 	private TaskGuiTaskContextCreateServlet taskGuiTaskContextCreateServlet;
@@ -66,8 +76,11 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(taskGuiTaskPrioDecreaseServlet, TaskGuiConstants.URL_TASK_PRIO_DECREASE));
+		result.add(new ServletInfo(taskGuiTaskPrioIncreaseServlet, TaskGuiConstants.URL_TASK_PRIO_INCREASE));
 		result.add(new ServletInfo(taskGuiTaskDeleteServlet, TaskGuiConstants.URL_TASK_DELETE));
 		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_TASK_CREATE));
+		result.add(new ServletInfo(taskGuiTaskUpdateServlet, TaskGuiConstants.URL_TASK_UPDATE));
 		result.add(new ServletInfo(taskGuiUncompletedTaskListServlet, TaskGuiConstants.URL_TASKS_UNCOMPLETED));
 		result.add(new ServletInfo(taskGuiCompletedTaskListServlet, TaskGuiConstants.URL_TASKS_COMPLETED));
 		result.add(new ServletInfo(taskGuiCompleteServlet, TaskGuiConstants.URL_TASK_COMPLETE));

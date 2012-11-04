@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +17,15 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.util.ComparatorBase;
 
 public class TagWidget implements Widget {
 
-	private final class EntrySetComparator implements Comparator<Entry<String, String>> {
+	private final class EntrySetComparator extends ComparatorBase<Entry<String, String>, String> {
 
 		@Override
-		public int compare(final Entry<String, String> o1, final Entry<String, String> o2) {
-			return o1.getKey().compareTo(o2.getKey());
+		public String getValue(final Entry<String, String> o) {
+			return o.getKey();
 		}
 	}
 

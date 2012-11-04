@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +20,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
@@ -28,11 +28,11 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public class NavigationGuiWidgetImpl implements NavigationWidget {
 
-	private final class NavigationEntryComparator implements Comparator<NavigationEntry> {
+	private final class NavigationEntryComparator extends ComparatorBase<NavigationEntry, String> {
 
 		@Override
-		public int compare(final NavigationEntry o1, final NavigationEntry o2) {
-			return o1.getTitle().compareTo(o2.getTitle());
+		public String getValue(final NavigationEntry o) {
+			return o.getTitle();
 		}
 	}
 

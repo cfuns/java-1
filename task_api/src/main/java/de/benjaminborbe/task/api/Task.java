@@ -21,4 +21,9 @@ public interface Task {
 	Calendar getStart();
 
 	Calendar getDue();
+
+	TaskIdentifier getParentId();
+
+	Integer getPriority();
+
 }

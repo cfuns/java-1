@@ -1,13 +1,12 @@
 package de.benjaminborbe.portfolio.gui.util;
 
-import java.util.Comparator;
-
 import de.benjaminborbe.gallery.api.Gallery;
+import de.benjaminborbe.tools.util.ComparatorBase;
 
-public class GalleryComparator implements Comparator<Gallery> {
+public class GalleryComparator extends ComparatorBase<Gallery, String> {
 
 	@Override
-	public int compare(final Gallery arg0, final Gallery arg1) {
-		return arg0.getName().compareTo(arg1.getName());
+	public String getValue(final Gallery o) {
+		return o.getName();
 	}
 }

@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,8 @@ public class TaskGuiWidgetFactory {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 		final ListWidget contextList = new ListWidget();
 		final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
+		Collections.sort(taskContexts, new TaskContextComparator());
+		contextList.add("Context: ");
 		contextList.add(taskGuiLinkFactory.switchTaskContext(request));
 		contextList.add(" ");
 		for (final TaskContext taskContext : taskContexts) {

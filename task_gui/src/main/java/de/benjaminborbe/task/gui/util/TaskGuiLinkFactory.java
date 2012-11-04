@@ -53,12 +53,12 @@ public class TaskGuiLinkFactory {
 
 	public Widget switchTaskContext(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), "switch to " + taskContext.getName());
+				TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), taskContext.getName());
 	}
 
 	public Widget switchTaskContext(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, null), "switch to none");
+				TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, null), "none");
 	}
 
 	public Widget uncompletedTasks(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -90,6 +90,18 @@ public class TaskGuiLinkFactory {
 			}
 		}
 		return result;
+	}
+
+	public String taskUpdate(final HttpServletRequest request, final Task task) {
+		return null;
+	}
+
+	public String taskPrioIncrease(final HttpServletRequest request, final Task task) {
+		return null;
+	}
+
+	public String taskPrioDecrease(final HttpServletRequest request, final Task task) {
+		return null;
 	}
 
 }

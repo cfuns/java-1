@@ -6,31 +6,24 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.tools.util.ComparatorBase;
+
 @Singleton
 public class UrlUtilImpl implements UrlUtil {
 
-	private final class Sort implements Comparator<String> {
+	private final class Sort extends ComparatorBase<String, String> {
 
 		@Override
-		public int compare(final String arg0, final String arg1) {
-			if (arg0 != null && arg1 != null) {
-				return arg0.compareTo(arg1);
-			}
-			else if (arg0 != null && arg1 == null) {
-				return 1;
-			}
-			else if (arg0 == null && arg1 != null) {
-				return -1;
-			}
-			return 0;
+		public String getValue(final String o) {
+			return o;
 		}
+
 	}
 
 	@Inject

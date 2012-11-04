@@ -32,6 +32,7 @@ import de.benjaminborbe.bookmark.api.BookmarkUpdateException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
@@ -51,16 +52,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 		}
 	}
 
-	private final class BookmarkByNameComparator implements Comparator<Bookmark> {
+	private final class BookmarkByNameComparator extends ComparatorBase<Bookmark, String> {
 
 		@Override
-		public int compare(final Bookmark a, final Bookmark b) {
-			if (a != null && b != null) {
-				return a.getName().compareTo(b.getName());
-			}
-			else {
-				return 0;
-			}
+		public String getValue(final Bookmark o) {
+			return o.getName();
 		}
 	}
 

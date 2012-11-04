@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +27,7 @@ import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -37,11 +37,11 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, RequireCssResource {
 
-	private final class CheckResultComparator implements Comparator<CheckResult> {
+	private final class CheckResultComparator extends ComparatorBase<CheckResult, String> {
 
 		@Override
-		public int compare(final CheckResult a, final CheckResult b) {
-			return a.toString().compareTo(b.toString());
+		public String getValue(final CheckResult o) {
+			return o.toString();
 		}
 	}
 

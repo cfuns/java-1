@@ -15,6 +15,8 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	private TaskIdentifier id;
 
+	private TaskIdentifier parentId;
+
 	private String name;
 
 	private String description;
@@ -30,6 +32,8 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 	private Calendar start;
 
 	private Long duration;
+
+	private Integer priority;
 
 	@Override
 	public String getName() {
@@ -115,8 +119,27 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 		this.duration = duration;
 	}
 
+	@Override
 	public Boolean getCompleted() {
 		return completed;
+	}
+
+	@Override
+	public TaskIdentifier getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(final TaskIdentifier parentId) {
+		this.parentId = parentId;
+	}
+
+	@Override
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(final Integer priority) {
+		this.priority = priority;
 	}
 
 }

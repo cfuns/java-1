@@ -29,6 +29,7 @@ import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpServletResponseBuffer;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.util.CssResourceImpl;
@@ -36,13 +37,11 @@ import de.benjaminborbe.website.util.CssResourceImpl;
 @Singleton
 public class DashboardGuiWidgetImpl implements DashboardWidget {
 
-	private final class DashboardContentWidgetComparator implements Comparator<DashboardContentWidget> {
+	private final class DashboardContentWidgetComparator extends ComparatorBase<DashboardContentWidget, Long> {
 
 		@Override
-		public int compare(final DashboardContentWidget widget1, final DashboardContentWidget widget2) {
-			final Long p1 = new Long(widget1.getPriority());
-			final Long p2 = new Long(widget2.getPriority());
-			return p2.compareTo(p1);
+		public Long getValue(final DashboardContentWidget o) {
+			return new Long(o.getPriority());
 		}
 	}
 
