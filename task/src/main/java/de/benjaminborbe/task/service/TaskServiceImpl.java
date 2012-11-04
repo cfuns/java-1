@@ -121,6 +121,10 @@ public class TaskServiceImpl implements TaskService {
 		try {
 			logger.debug("deleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
+			if (task == null) {
+				logger.debug("task already deleted");
+				return;
+			}
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			taskDao.delete(task);
 		}

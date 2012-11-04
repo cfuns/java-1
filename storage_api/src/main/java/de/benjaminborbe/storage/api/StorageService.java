@@ -29,4 +29,9 @@ public interface StorageService {
 
 	void delete(String columnFamily, String id, Collection<String> keys) throws StorageException;
 
+	int getFreeConnections();
+
+	int getConnections();
+
+	int getMaxConnections();
 }

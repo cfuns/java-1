@@ -158,4 +158,19 @@ public class StorageServiceMock implements StorageService {
 		}
 		return result;
 	}
+
+	@Override
+	public int getFreeConnections() {
+		return 0;
+	}
+
+	@Override
+	public int getConnections() {
+		return 0;
+	}
+
+	@Override
+	public int getMaxConnections() {
+		return 0;
+	}
 }

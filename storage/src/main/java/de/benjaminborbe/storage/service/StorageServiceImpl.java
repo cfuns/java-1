@@ -17,6 +17,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.util.StorageConfig;
+import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageKeyIterator;
 
@@ -78,11 +79,14 @@ public class StorageServiceImpl implements StorageService {
 
 	private final Logger logger;
 
+	private final StorageConnectionPool storageConnectionPool;
+
 	@Inject
-	public StorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil) {
+	public StorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil, final StorageConnectionPool storageConnectionPool) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
+		this.storageConnectionPool = storageConnectionPool;
 	}
 
 	@Override
@@ -178,5 +182,20 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+	}
+
+	@Override
+	public int getFreeConnections() {
+		return storageConnectionPool.getFreeConnections();
+	}
+
+	@Override
+	public int getConnections() {
+		return storageConnectionPool.getConnections();
+	}
+
+	@Override
+	public int getMaxConnections() {
+		return storageConnectionPool.getMaxConnections();
 	}
 }
