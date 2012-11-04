@@ -31,4 +31,9 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 		this.readLimit = readLimit;
 	}
 
+	@Override
+	public int getMaxConnections() {
+		return 5;
+	}
+
 }

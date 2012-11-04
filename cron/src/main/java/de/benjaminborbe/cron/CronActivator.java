@@ -48,6 +48,7 @@ public class CronActivator extends BaseBundleActivator {
 
 	@Override
 	protected void onStopped() {
+		super.onStopped();
 		// cron stoppen
 		try {
 			quartz.stop();

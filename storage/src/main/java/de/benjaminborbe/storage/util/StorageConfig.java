@@ -17,4 +17,8 @@ public interface StorageConfig {
 	String getEncoding();
 
 	Collection<ConfigurationDescription> getConfigurations();
+
+	int getMaxConnections();
+
+	int getSocketTimeout();
 }

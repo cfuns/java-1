@@ -22,6 +22,10 @@ public class StorageConfigImpl implements StorageConfig {
 
 	private final ConfigurationDescriptionInt readLimit = new ConfigurationDescriptionInt(10000, "CassandraReadLimit", "ReadLimit of CassandraServer");
 
+	private final ConfigurationDescriptionInt maxConnections = new ConfigurationDescriptionInt(50, "CassandraMaxConnections", "MaxConnections to CassandraServer");
+
+	private final ConfigurationDescriptionInt socketTimeout = new ConfigurationDescriptionInt(7000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
+
 	@Inject
 	public StorageConfigImpl() {
 	}
@@ -67,6 +71,16 @@ public class StorageConfigImpl implements StorageConfig {
 		result.add(keyspace);
 		result.add(encoding);
 		return result;
+	}
+
+	@Override
+	public int getMaxConnections() {
+		return getValue(maxConnections);
+	}
+
+	@Override
+	public int getSocketTimeout() {
+		return getValue(socketTimeout);
 	}
 
 }

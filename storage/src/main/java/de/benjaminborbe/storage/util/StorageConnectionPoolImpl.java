@@ -19,22 +19,26 @@ import com.google.inject.Singleton;
 @Singleton
 public class StorageConnectionPoolImpl implements StorageConnectionPool {
 
-	private static final int SOCKET_TIMEOUT = 7000;
-
-	private static final int MAX_CONNECTIONS = 5;
-
 	private final StorageConfig storageConfig;
 
 	private final Logger logger;
 
-	private final BlockingQueue<StorageConnection> freeConnections = new LinkedBlockingQueue<StorageConnection>(MAX_CONNECTIONS);
+	private final BlockingQueue<StorageConnection> freeConnections;
 
-	private final BlockingQueue<StorageConnection> allConnections = new LinkedBlockingQueue<StorageConnection>(MAX_CONNECTIONS);
+	private final BlockingQueue<StorageConnection> allConnections;
+
+	private final int maxConnections;
+
+	private final int socketTimeout;
 
 	@Inject
 	public StorageConnectionPoolImpl(final Logger logger, final StorageConfig storageConfig) {
 		this.logger = logger;
 		this.storageConfig = storageConfig;
+		this.maxConnections = storageConfig.getMaxConnections();
+		this.socketTimeout = storageConfig.getSocketTimeout();
+		freeConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
+		allConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
 	}
 
 	@Override
@@ -43,7 +47,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 			if (!freeConnections.isEmpty()) {
 				return freeConnections.take();
 			}
-			else if (allConnections.size() == MAX_CONNECTIONS) {
+			else if (allConnections.size() == maxConnections) {
 				throw new StorageConnectionPoolException("max connections reached");
 			}
 			else {
@@ -90,7 +94,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	private StorageConnection createNewConnection() throws TTransportException, SocketException {
 		logger.debug("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
 		final TSocket socket = new TSocket(storageConfig.getHost(), storageConfig.getPort());
-		socket.setTimeout(SOCKET_TIMEOUT);
+		socket.setTimeout(socketTimeout);
 		// socket.getSocket().setReuseAddress(true);
 		socket.getSocket().setSoLinger(true, 0);
 
@@ -114,6 +118,6 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 
 	@Override
 	public int getMaxConnections() {
-		return MAX_CONNECTIONS;
+		return maxConnections;
 	}
 }

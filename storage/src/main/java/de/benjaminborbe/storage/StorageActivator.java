@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.guice.StorageModules;
+import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -27,6 +28,9 @@ public class StorageActivator extends HttpBundleActivator {
 	@Inject
 	private StorageService persistentStorageService;
 
+	@Inject
+	private StorageConnectionPool storageConnectionPool;
+
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
@@ -42,5 +46,11 @@ public class StorageActivator extends HttpBundleActivator {
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new StorageModules(context);
+	}
+
+	@Override
+	protected void onStopped() {
+		super.onStopped();
+		storageConnectionPool.close();
 	}
 }
