@@ -29,7 +29,7 @@ import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class TaskGuiTaskPrioIncreaseServlet extends WebsiteServlet {
+public class TaskGuiTaskSwapPrioServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
@@ -40,7 +40,7 @@ public class TaskGuiTaskPrioIncreaseServlet extends WebsiteServlet {
 	private final Logger logger;
 
 	@Inject
-	public TaskGuiTaskPrioIncreaseServlet(
+	public TaskGuiTaskSwapPrioServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -58,8 +58,9 @@ public class TaskGuiTaskPrioIncreaseServlet extends WebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-			taskService.increaseTaskPrio(sessionIdentifier, taskIdentifier);
+			final TaskIdentifier taskIdentifierA = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_A));
+			final TaskIdentifier taskIdentifierB = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_B));
+			taskService.swapPrio(sessionIdentifier, taskIdentifierA, taskIdentifierB);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

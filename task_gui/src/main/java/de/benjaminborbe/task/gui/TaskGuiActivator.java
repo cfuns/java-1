@@ -29,10 +29,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private TaskGuiTaskPrioDecreaseServlet taskGuiTaskPrioDecreaseServlet;
-
-	@Inject
-	private TaskGuiTaskPrioIncreaseServlet taskGuiTaskPrioIncreaseServlet;
+	private TaskGuiTaskSwapPrioServlet taskGuiTaskSwapPrioServlet;
 
 	@Inject
 	private TaskGuiTaskUpdateServlet taskGuiTaskUpdateServlet;
@@ -76,8 +73,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(taskGuiTaskPrioDecreaseServlet, TaskGuiConstants.URL_TASK_PRIO_DECREASE));
-		result.add(new ServletInfo(taskGuiTaskPrioIncreaseServlet, TaskGuiConstants.URL_TASK_PRIO_INCREASE));
+		result.add(new ServletInfo(taskGuiTaskSwapPrioServlet, TaskGuiConstants.URL_TASK_SWAP_PRIO));
 		result.add(new ServletInfo(taskGuiTaskDeleteServlet, TaskGuiConstants.URL_TASK_DELETE));
 		result.add(new ServletInfo(taskGuiCreateServlet, TaskGuiConstants.URL_TASK_CREATE));
 		result.add(new ServletInfo(taskGuiTaskUpdateServlet, TaskGuiConstants.URL_TASK_UPDATE));

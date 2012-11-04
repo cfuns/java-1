@@ -4,9 +4,7 @@ public interface TaskGuiConstants {
 
 	String NAME = "task";
 
-	String URL_TASK_PRIO_DECREASE = "/task/prio/decrease";
-
-	String URL_TASK_PRIO_INCREASE = "/task/prio/increase";
+	String URL_TASK_SWAP_PRIO = "/task/swapprio";
 
 	String URL_TASK_CREATE = "/task/create";
 
@@ -43,5 +41,9 @@ public interface TaskGuiConstants {
 	String PARAMETER_TASK_LIMIT = "task_limit";
 
 	int DEFAULT_TASK_LIMIT = 20;
+
+	String PARAMETER_TASK_ID_A = "task_id_a";
+
+	String PARAMETER_TASK_ID_B = "task_id_b";
 
 }

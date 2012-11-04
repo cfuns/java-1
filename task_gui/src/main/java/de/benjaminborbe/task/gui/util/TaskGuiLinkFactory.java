@@ -97,14 +97,9 @@ public class TaskGuiLinkFactory {
 				String.valueOf(task.getId())), "edit");
 	}
 
-	public Widget taskPrioIncrease(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_PRIO_INCREASE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "up");
-	}
-
-	public Widget taskPrioDecrease(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_PRIO_DECREASE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "down");
+	public Widget taskSwapPrio(final HttpServletRequest request, final String name, final Task taskA, final Task taskB) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_SWAP_PRIO, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_ID_A, String.valueOf(taskA.getId())).add(TaskGuiConstants.PARAMETER_TASK_ID_B, String.valueOf(taskB.getId())), name);
 	}
 
 }

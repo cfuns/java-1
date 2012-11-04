@@ -335,30 +335,23 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void decreaseTaskPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException {
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws PermissionDeniedException,
+			LoginRequiredException, TaskServiceException {
 		try {
-			logger.debug("decreaseTaskPrio - task: " + taskIdentifier);
-			final TaskBean task = taskDao.load(taskIdentifier);
-			authorizationService.expectUser(sessionIdentifier, task.getOwner());
-
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final List<TaskBean> tasks = taskDao.getTasks(userIdentifier);
-
-			logger.debug("tasks " + tasks.size());
-
-			int pos = -1;
-			for (int i = 0; i < tasks.size(); ++i) {
-				if (tasks.get(i).getId().equals(taskIdentifier)) {
-					pos = i;
-				}
+			logger.debug("swapPrio " + taskIdentifierA + " <=> " + taskIdentifierB);
+			final TaskBean taskA = taskDao.load(taskIdentifierA);
+			final TaskBean taskB = taskDao.load(taskIdentifierB);
+			authorizationService.expectUser(sessionIdentifier, taskA.getOwner());
+			authorizationService.expectUser(sessionIdentifier, taskB.getOwner());
+			int p1 = taskA.getPriority() != null ? taskA.getPriority() : 0;
+			final int p2 = taskB.getPriority() != null ? taskB.getPriority() : 0;
+			if (p2 == p1) {
+				p1++;
 			}
-			if (pos >= 0 && pos < tasks.size() - 1) {
-				swapPrio(task, tasks.get(pos + 1));
-			}
-			else {
-				logger.debug("decreaseTaskPrio - skipped: " + taskIdentifier);
-			}
+			taskA.setPriority(p2);
+			taskB.setPriority(p1);
+			taskDao.save(taskA);
+			taskDao.save(taskB);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
@@ -366,59 +359,7 @@ public class TaskServiceImpl implements TaskService {
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-	}
 
-	@Override
-	public void increaseTaskPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException {
-		try {
-			logger.debug("increaseTaskPrio - task: " + taskIdentifier);
-			final TaskBean task = taskDao.load(taskIdentifier);
-			authorizationService.expectUser(sessionIdentifier, task.getOwner());
-
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final List<TaskBean> tasks = taskDao.getTasks(userIdentifier);
-
-			logger.debug("tasks " + tasks.size());
-
-			int pos = -1;
-			for (int i = 0; i < tasks.size(); ++i) {
-				if (tasks.get(i).getId().equals(taskIdentifier)) {
-					pos = i;
-				}
-			}
-			if (pos > 0) {
-				swapPrio(task, tasks.get(pos - 1));
-			}
-			else {
-				logger.debug("increaseTaskPrio - skipped: " + taskIdentifier);
-			}
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-	}
-
-	private void swapPrio(final TaskBean taskA, final TaskBean taskB) throws StorageException {
-		logger.debug("swapPrio " + taskA.getId() + " <=> " + taskB.getId());
-		int p1 = taskA.getPriority() != null ? taskA.getPriority() : 0;
-		final int p2 = taskB.getPriority() != null ? taskB.getPriority() : 0;
-		if (p2 == p1) {
-			p1++;
-		}
-		taskA.setPriority(p2);
-		taskB.setPriority(p1);
-		taskDao.save(taskA);
-		taskDao.save(taskB);
 	}
 
 }

@@ -91,11 +91,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void decreaseTaskPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
-	}
-
-	@Override
-	public void increaseTaskPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException {
 	}
 
 }

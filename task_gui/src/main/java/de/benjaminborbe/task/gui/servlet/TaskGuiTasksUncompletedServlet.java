@@ -1,6 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,7 +100,6 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 			widgets.add(taskGuiWidgetFactory.switchTaskContext(request));
 
-			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 			final int taskLimit = parseUtil.parseInt(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT), TaskGuiConstants.DEFAULT_TASK_LIMIT);
@@ -111,23 +112,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			else {
 				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskLimit);
 			}
+			widgets.add(taskList(tasks, request));
 
-			for (final Task task : tasks) {
-				final ListWidget row = new ListWidget();
-				row.add(task.getName());
-				row.add(" ");
-				row.add(taskGuiLinkFactory.taskUpdate(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.taskPrioIncrease(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.taskPrioDecrease(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.completeTask(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.deleteTask(request, task));
-				ul.add(row);
-			}
-			widgets.add(ul);
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.createTask(request));
 			links.add(" ");
@@ -147,5 +133,30 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	public Widget taskList(final List<Task> tasks, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		final UlWidget ul = new UlWidget();
+		for (int i = 0; i < tasks.size(); ++i) {
+			final Task task = tasks.get(i);
+			final ListWidget row = new ListWidget();
+			row.add(task.getName());
+			row.add(" ");
+			row.add(taskGuiLinkFactory.taskUpdate(request, task));
+			row.add(" ");
+			if (i > 0) {
+				row.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(i - 1)));
+				row.add(" ");
+			}
+			if (i < tasks.size() - 1) {
+				row.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(i + 1)));
+				row.add(" ");
+			}
+			row.add(taskGuiLinkFactory.completeTask(request, task));
+			row.add(" ");
+			row.add(taskGuiLinkFactory.deleteTask(request, task));
+			ul.add(row);
+		}
+		return ul;
 	}
 }
