@@ -43,6 +43,7 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 		public Long getValue(final DashboardContentWidget o) {
 			return new Long(o.getPriority());
 		}
+
 	}
 
 	private final class DashboardWidgetRenderRunnable implements Runnable {

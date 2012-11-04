@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
+import de.benjaminborbe.task.util.TaskPrioComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
@@ -185,7 +187,7 @@ public class TaskServiceImpl implements TaskService {
 			for (final TaskBean task : taskDao.getTasksNotCompleted(userIdentifier, limit)) {
 				result.add(task);
 			}
-			return result;
+			return sortAndLimit(result, limit);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -264,11 +266,16 @@ public class TaskServiceImpl implements TaskService {
 					result.add(task);
 				}
 			}
-			return result;
+			return sortAndLimit(result, limit);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
+	}
+
+	protected List<Task> sortAndLimit(final List<Task> result, final int limit) {
+		Collections.sort(result, new TaskPrioComparator());
+		return result.subList(0, Math.min(result.size(), limit));
 	}
 
 	@Override
