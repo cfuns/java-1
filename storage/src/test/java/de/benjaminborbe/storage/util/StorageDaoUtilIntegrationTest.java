@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KsDef;
+import org.apache.cassandra.thrift.SchemaDisagreementException;
+import org.apache.thrift.TException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,17 +32,11 @@ public class StorageDaoUtilIntegrationTest {
 	@Before
 	public void setUp() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
+		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		StorageConnection connection = null;
 		try {
-			// Connection zur Datenbank oeffnen
-			connection.open();
-
-			try {
-				connection.getClient().system_drop_keyspace(config.getKeySpace());
-			}
-			catch (final Exception e) {
-			}
+			connection = connectionPool.getConnection();
 
 			// Definition ders KeySpaces
 			final List<CfDef> cfDefList = new ArrayList<CfDef>();
@@ -61,32 +58,41 @@ public class StorageDaoUtilIntegrationTest {
 			catch (final InterruptedException e) {
 				throw new RuntimeException(e);
 			}
+
 		}
 		catch (final Exception e) {
-			e.printStackTrace();
+			try {
+				connection.getClient().system_drop_keyspace(config.getKeySpace());
+			}
+			catch (final InvalidRequestException e1) {
+			}
+			catch (final SchemaDisagreementException e1) {
+			}
+			catch (final TException e1) {
+			}
 		}
 		finally {
-			// Connection zur Datenbank wieder schliessen
-			connection.close();
+			connectionPool.close();
 		}
 	}
 
 	@After
 	public void tearDown() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
 
+		StorageConnection connection = null;
 		try {
-			connection.open();
+			connection = connectionPool.getConnection();
+
 			connection.getClient().system_drop_keyspace(config.getKeySpace());
 		}
 		catch (final Exception e) {
-			e.printStackTrace();
 		}
+
 		finally {
-			// Connection zur Datenbank wieder schliessen
-			connection.close();
+			connectionPool.close();
 		}
 	}
 
@@ -94,83 +100,60 @@ public class StorageDaoUtilIntegrationTest {
 	public void testCURD() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 
-		try {
-			// Connection zur Datenbank oeffnen
-			connection.open();
+		// leer db
+		assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 
-			// leer db
-			assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
+		final String id = "a";
+		final Map<String, String> data = new HashMap<String, String>();
+		final String key = FIELD_NAME;
+		final String value = "valueA\nvalueB";
+		data.put(key, value);
+		// ein eintrag schreiben
+		daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
 
-			final String id = "a";
-			final Map<String, String> data = new HashMap<String, String>();
-			final String key = FIELD_NAME;
-			final String value = "valueA\nvalueB";
-			data.put(key, value);
-			// ein eintrag schreiben
-			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+		// eintrag wieder lesen und inhalt vergleich
+		assertEquals(value, daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
-			// eintrag wieder lesen und inhalt vergleich
-			assertEquals(value, daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+		// ein eitnrag
+		assertEquals(1, daoUtil.count(config.getKeySpace(), COLUMNFAMILY, key));
 
-			// ein eitnrag
-			assertEquals(1, daoUtil.count(config.getKeySpace(), COLUMNFAMILY, key));
+		// eintrag loeschen
+		daoUtil.delete(config.getKeySpace(), COLUMNFAMILY, id, key);
 
-			// eintrag loeschen
-			daoUtil.delete(config.getKeySpace(), COLUMNFAMILY, id, key);
+		// schauen das geloeschter eintrag nicht mehr gelesen werden kann
+		assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
-			// schauen das geloeschter eintrag nicht mehr gelesen werden kann
-			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
-
-			// nach dem loeschen wieder leer
-			assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY, key));
-
-		}
-		finally {
-			// Connection zur Datenbank wieder schliessen
-			connection.close();
-		}
+		// nach dem loeschen wieder leer
+		assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY, key));
 	}
 
 	@Test
 	public void testList() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 
-		try {
-			// Connection zur Datenbank oeffnen
-			connection.open();
+		final List<String> testValues = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+				"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7",
+				"8", "9");
+		int counter = 0;
+		for (final String id : testValues) {
+			counter++;
 
-			final List<String> testValues = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-					"z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6",
-					"7", "8", "9");
-			int counter = 0;
-			for (final String id : testValues) {
-				counter++;
+			final Map<String, String> data = new HashMap<String, String>();
+			final String key = FIELD_NAME;
+			final String value = "valueA";
+			data.put(key, value);
 
-				final Map<String, String> data = new HashMap<String, String>();
-				final String key = FIELD_NAME;
-				final String value = "valueA";
-				data.put(key, value);
+			// ein eintrag schreiben
+			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
 
-				// ein eintrag schreiben
-				daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
-
-				// nach dem loeschen wieder leer
-				assertEquals(counter, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
-
-			}
-
-		}
-		finally {
-			// Connection zur Datenbank wieder schliessen
-			connection.close();
+			// nach dem loeschen wieder leer
+			assertEquals(counter, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 		}
 	}
 
@@ -178,7 +161,6 @@ public class StorageDaoUtilIntegrationTest {
 	public void testListMultiColumns() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfigMock config = injector.getInstance(StorageConfigMock.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 		final int limit = 10;
@@ -186,20 +168,14 @@ public class StorageDaoUtilIntegrationTest {
 		config.setReadLimit(limit);
 		assertEquals(limit, config.getReadLimit());
 
-		try {
-			connection.open();
-			assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
-			for (int id = 1; id <= max; ++id) {
-				final Map<String, String> data = new HashMap<String, String>();
-				final String key = FIELD_NAME;
-				data.put(key + "_a", String.valueOf(id));
-				data.put(key + "_b", String.valueOf(id));
-				daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, String.valueOf(id), data);
-				assertEquals(id, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
-			}
-		}
-		finally {
-			connection.close();
+		assertEquals(0, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
+		for (int id = 1; id <= max; ++id) {
+			final Map<String, String> data = new HashMap<String, String>();
+			final String key = FIELD_NAME;
+			data.put(key + "_a", String.valueOf(id));
+			data.put(key + "_b", String.valueOf(id));
+			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, String.valueOf(id), data);
+			assertEquals(id, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 		}
 	}
 
@@ -207,33 +183,23 @@ public class StorageDaoUtilIntegrationTest {
 	public void testLongList() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 
-		try {
-			// Connection zur Datenbank oeffnen
-			connection.open();
+		for (int i = 1; i <= 1000; ++i) {
+			final Map<String, String> data = new HashMap<String, String>();
+			final String key = FIELD_NAME;
+			final String value = "valueA";
+			data.put(key, value);
+			final String id = "key" + i;
 
-			for (int i = 1; i <= 1000; ++i) {
-				final Map<String, String> data = new HashMap<String, String>();
-				final String key = FIELD_NAME;
-				final String value = "valueA";
-				data.put(key, value);
-				final String id = "key" + i;
+			// ein eintrag schreiben
+			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
 
-				// ein eintrag schreiben
-				daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
-
-				// nach dem loeschen wieder leer
-				if (i % 1000 == 0) {
-					assertEquals(i, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
-				}
+			// nach dem loeschen wieder leer
+			if (i % 1000 == 0) {
+				assertEquals(i, daoUtil.count(config.getKeySpace(), COLUMNFAMILY));
 			}
-		}
-		finally {
-			// Connection zur Datenbank wieder schliessen
-			connection.close();
 		}
 	}
 
@@ -249,36 +215,28 @@ public class StorageDaoUtilIntegrationTest {
 	public void testNullValue() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
-		final StorageConnection connection = injector.getInstance(StorageConnection.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 
-		try {
-			// Connection zur Datenbank oeffnen
-			connection.open();
+		// Connection zur Datenbank oeffnen
 
-			final Map<String, String> data = new HashMap<String, String>();
-			final String id = "1";
-			final String key = FIELD_NAME;
+		final Map<String, String> data = new HashMap<String, String>();
+		final String id = "1";
+		final String key = FIELD_NAME;
 
-			// insert null
-			data.put(FIELD_NAME, null);
-			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
-			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+		// insert null
+		data.put(FIELD_NAME, null);
+		daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+		assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
-			// insert a
-			data.put(FIELD_NAME, "a");
-			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
-			assertEquals("a", daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+		// insert a
+		data.put(FIELD_NAME, "a");
+		daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+		assertEquals("a", daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 
-			// insert null
-			data.put(FIELD_NAME, null);
-			daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
-			assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
-		}
-		finally {
-			// Connection zur Datenbank wieder schliessen
-			connection.close();
-		}
+		// insert null
+		data.put(FIELD_NAME, null);
+		daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, data);
+		assertNull(daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
 	}
 }

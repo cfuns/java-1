@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -69,12 +70,16 @@ public class StorageListServlet extends WebsiteServlet {
 			try {
 				out.println("value=<br>");
 				out.println("<pre>");
-				final List<String> keys;
+				final StorageIterator i;
 				if (prefix != null) {
-					keys = new ArrayList<String>(persistentStorageService.findByIdPrefix(columnFamily, prefix));
+					i = persistentStorageService.findByIdPrefix(columnFamily, prefix);
 				}
 				else {
-					keys = persistentStorageService.list(columnFamily);
+					i = persistentStorageService.list(columnFamily);
+				}
+				final List<String> keys = new ArrayList<String>();
+				while (i.hasNext()) {
+					keys.add(i.nextString());
 				}
 				Collections.sort(keys);
 				out.println(StringUtils.join(keys, "\n"));

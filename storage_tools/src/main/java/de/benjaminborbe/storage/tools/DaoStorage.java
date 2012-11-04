@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
@@ -127,7 +128,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	@Override
 	public Collection<I> getIdentifiers() throws StorageException {
 		final Set<I> result = new HashSet<I>();
-		for (final String id : storageService.list(getColumnFamily())) {
+		final StorageIterator i = storageService.list(getColumnFamily());
+		while (i.hasNext()) {
+			final String id = i.nextString();
 			try {
 				final I ident = identifierBuilder.buildIdentifier(id);
 				if (exists(ident)) {
@@ -145,8 +148,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public Collection<E> getAll() throws StorageException {
 		logger.trace("getAll");
 		final Set<E> result = new HashSet<E>();
-		for (final String id : storageService.list(getColumnFamily())) {
-			result.add(load(id));
+		final StorageIterator i = storageService.list(getColumnFamily());
+		while (i.hasNext()) {
+			result.add(load(i.nextString()));
 		}
 		return result;
 	}

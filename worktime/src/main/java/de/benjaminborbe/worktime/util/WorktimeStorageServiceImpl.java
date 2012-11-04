@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -64,9 +65,9 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 		logger.trace("findByDate");
 		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
 		final String dateString = calendarUtil.toDateString(calendar);
-		final Collection<String> ids = storageService.findByIdPrefix(COLUMNFAMILY, dateString);
-		logger.trace("found " + ids.size() + " ids for worktime");
-		for (final String id : ids) {
+		final StorageIterator i = storageService.findByIdPrefix(COLUMNFAMILY, dateString);
+		while (i.hasNext()) {
+			final String id = i.nextString();
 			final String inOfficeString = storageService.get(COLUMNFAMILY, id, FIELD_IN_OFFICE);
 			final String dateTimeString = storageService.get(COLUMNFAMILY, id, FIELD_DATETIME);
 			try {

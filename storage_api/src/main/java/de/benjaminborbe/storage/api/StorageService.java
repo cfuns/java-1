@@ -6,11 +6,18 @@ import java.util.Map;
 
 public interface StorageService {
 
-	Collection<String> findByIdPrefix(String columnFamily, String prefix) throws StorageException;
+	// Collection<String> findByIdPrefix(String columnFamily, String prefix) throws
+	// StorageException;
+	//
+	// List<String> list(String columnFamily) throws StorageException;
 
-	List<String> list(String columnFamily) throws StorageException;
+	StorageIterator findByIdPrefix(String columnFamily, String prefix) throws StorageException;
+
+	StorageIterator list(String columnFamily) throws StorageException;
 
 	String get(String columnFamily, String id, String key) throws StorageException;
+
+	List<String> get(String columnFamily, String id, List<String> keys) throws StorageException;
 
 	void delete(String columnFamily, String id, String key) throws StorageException;
 

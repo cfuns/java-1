@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.util;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,8 +25,6 @@ public class StorageKeyIterator implements StorageIterator {
 	// COUNT > 1
 	private static final int COUNT = 100;
 
-	private final Iface client;
-
 	private final ColumnParent column_parent;
 
 	private final KeyRange range;
@@ -36,9 +35,17 @@ public class StorageKeyIterator implements StorageIterator {
 
 	private int currentPos;
 
-	public StorageKeyIterator(final Iface client, final ColumnParent column_parent) {
-		this.client = client;
+	private final String encoding;
+
+	private final StorageConnectionPool storageConnectionPool;
+
+	private final String keySpace;
+
+	public StorageKeyIterator(final StorageConnectionPool storageConnectionPool, final String keySpace, final ColumnParent column_parent, final String encoding) {
+		this.storageConnectionPool = storageConnectionPool;
+		this.keySpace = keySpace;
 		this.column_parent = column_parent;
+		this.encoding = encoding;
 
 		final KeyRange range = new KeyRange();
 		range.setStart_key(new byte[0]);
@@ -54,7 +61,12 @@ public class StorageKeyIterator implements StorageIterator {
 
 	@Override
 	public boolean hasNext() throws StorageException {
+
+		StorageConnection connection = null;
 		try {
+			connection = storageConnectionPool.getConnection();
+			final Iface client = connection.getClient(keySpace);
+
 			if (cols == null) {
 				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
 				currentPos = 0;
@@ -77,10 +89,16 @@ public class StorageKeyIterator implements StorageIterator {
 		catch (final TException e) {
 			throw new StorageException(e);
 		}
+		catch (final StorageConnectionPoolException e) {
+			throw new StorageException(e);
+		}
+		finally {
+			storageConnectionPool.releaseConnection(connection);
+		}
 	}
 
 	@Override
-	public byte[] next() throws StorageException {
+	public byte[] nextByte() throws StorageException {
 		if (hasNext()) {
 			final byte[] result = cols.get(currentPos).getKey();
 			range.setStart_key(result);
@@ -92,4 +110,13 @@ public class StorageKeyIterator implements StorageIterator {
 		}
 	}
 
+	@Override
+	public String nextString() throws StorageException {
+		try {
+			return new String(nextByte(), encoding);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new StorageException(e);
+		}
+	}
 }

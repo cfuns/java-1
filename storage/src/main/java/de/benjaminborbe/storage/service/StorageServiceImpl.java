@@ -1,6 +1,6 @@
 package de.benjaminborbe.storage.service;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,14 +14,63 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.util.StorageConfig;
-import de.benjaminborbe.storage.util.StorageConnection;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageKeyIterator;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
+
+	private final class StorageIteratorPrefix implements StorageIterator {
+
+		private final String idPrefix;
+
+		private final StorageKeyIterator i;
+
+		private String nextString = null;
+
+		private StorageIteratorPrefix(final String idPrefix, final StorageKeyIterator i) {
+			this.idPrefix = idPrefix;
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws StorageException {
+			if (nextString != null) {
+				return true;
+			}
+			while (i.hasNext()) {
+				final String id = i.nextString();
+				if (id.startsWith(idPrefix)) {
+					nextString = id;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		@Override
+		public byte[] nextByte() throws StorageException {
+			try {
+				return nextString().getBytes("UTF-8");
+			}
+			catch (final UnsupportedEncodingException e) {
+				throw new StorageException(e);
+			}
+		}
+
+		@Override
+		public String nextString() throws StorageException {
+			if (hasNext()) {
+				final String result = nextString;
+				nextString = null;
+				return result;
+			}
+			return null;
+		}
+	}
 
 	private final StorageConfig config;
 
@@ -29,21 +78,16 @@ public class StorageServiceImpl implements StorageService {
 
 	private final Logger logger;
 
-	private final StorageConnection storageConnection;
-
 	@Inject
-	public StorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil, final StorageConnection storageConnection) {
+	public StorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
-		this.storageConnection = storageConnection;
 	}
 
 	@Override
 	public String get(final String columnFamily, final String id, final String key) throws StorageException {
 		try {
-			storageConnection.open();
-
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, key);
 		}
 		catch (final NotFoundException e) {
@@ -52,9 +96,6 @@ public class StorageServiceImpl implements StorageService {
 		catch (final Exception e) {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
-		}
-		finally {
-			storageConnection.close();
 		}
 	}
 
@@ -73,68 +114,43 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public void set(final String columnFamily, final String id, final Map<String, String> data) throws StorageException {
 		try {
-			storageConnection.open();
-
 			storageDaoUtil.insert(config.getKeySpace(), columnFamily, id, data);
 		}
 		catch (final Exception e) {
 			logger.trace(e.getClass().getSimpleName(), e);
 			throw new StorageException(e);
 		}
-		finally {
-			storageConnection.close();
+	}
+
+	@Override
+	public StorageIterator findByIdPrefix(final String columnFamily, final String idPrefix) throws StorageException {
+		try {
+
+			final StorageKeyIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
+			return new StorageIteratorPrefix(idPrefix, i);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
 		}
 	}
 
 	@Override
-	public Collection<String> findByIdPrefix(final String columnFamily, final String idPrefix) throws StorageException {
-		final List<String> result = new ArrayList<String>();
+	public StorageIterator list(final String columnFamily) throws StorageException {
 		try {
-			storageConnection.open();
-
-			final StorageKeyIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
-			while (i.hasNext()) {
-				final String id = new String(i.next(), config.getEncoding());
-				if (id.startsWith(idPrefix)) {
-					result.add(id);
-				}
-			}
+			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
-			storageConnection.close();
 		}
-		return result;
-	}
-
-	@Override
-	public List<String> list(final String columnFamily) throws StorageException {
-		final List<String> result = new ArrayList<String>();
-		try {
-			storageConnection.open();
-
-			final StorageKeyIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
-			while (i.hasNext()) {
-				result.add(new String(i.next(), config.getEncoding()));
-			}
-		}
-		catch (final Exception e) {
-			logger.trace("Exception", e);
-			throw new StorageException(e);
-		}
-		finally {
-			storageConnection.close();
-		}
-		return result;
 	}
 
 	@Override
 	public void delete(final String columnFamily, final String id, final Collection<String> keys) throws StorageException {
 		try {
-			storageConnection.open();
 			for (final String key : keys) {
 				storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
 			}
@@ -143,13 +159,24 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
-		finally {
-			storageConnection.close();
-		}
 	}
 
 	@Override
 	public void delete(final String columnFamily, final String id, final String... keys) throws StorageException {
 		delete(columnFamily, id, Arrays.asList(keys));
+	}
+
+	@Override
+	public List<String> get(final String columnFamily, final String id, final List<String> keys) throws StorageException {
+		try {
+			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, keys);
+		}
+		catch (final NotFoundException e) {
+			return null;
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
 	}
 }

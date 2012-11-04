@@ -4,5 +4,7 @@ public interface StorageIterator {
 
 	boolean hasNext() throws StorageException;
 
-	byte[] next() throws StorageException;
+	byte[] nextByte() throws StorageException;
+
+	String nextString() throws StorageException;
 }
