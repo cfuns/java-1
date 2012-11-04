@@ -41,15 +41,29 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public List<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
 		final Collection<TaskBean> tasks = Collections2.filter(getAll(), Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate()));
-
 		return new ArrayList<TaskBean>(tasks);
 	}
 
 	@Override
 	public List<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
 		final Collection<TaskBean> tasks = Collections2.filter(getAll(), Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskCompletedPredicate()));
-
 		return new ArrayList<TaskBean>(tasks);
 	}
 
+	@Override
+	public int getMaxPriority(final UserIdentifier userIdentifier) throws StorageException {
+		int max = 0;
+		for (final TaskBean task : getTasks(userIdentifier)) {
+			if (task.getPriority() != null && task.getPriority() > max) {
+				max = task.getPriority();
+			}
+		}
+		return max;
+	}
+
+	@Override
+	public List<TaskBean> getTasks(final UserIdentifier userIdentifier) throws StorageException {
+		final Collection<TaskBean> tasks = Collections2.filter(getAll(), new TaskOwnerPredicate(userIdentifier));
+		return new ArrayList<TaskBean>(tasks);
+	}
 }

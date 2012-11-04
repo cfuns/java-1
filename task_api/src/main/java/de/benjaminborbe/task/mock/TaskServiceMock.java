@@ -90,4 +90,12 @@ public class TaskServiceMock implements TaskService {
 	public void addTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
 	}
 
+	@Override
+	public void decreaseTaskPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
+	}
+
+	@Override
+	public void increaseTaskPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
+	}
+
 }

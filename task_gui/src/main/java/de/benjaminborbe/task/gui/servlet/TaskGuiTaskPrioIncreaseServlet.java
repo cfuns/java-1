@@ -14,7 +14,9 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
@@ -57,12 +59,18 @@ public class TaskGuiTaskPrioIncreaseServlet extends WebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-			// taskService.deleteTask(sessionIdentifier, taskIdentifier);
+			taskService.increaseTaskPrio(sessionIdentifier, taskIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final TaskServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final PermissionDeniedException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final LoginRequiredException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

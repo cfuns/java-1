@@ -44,6 +44,11 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 			return new Long(o.getPriority());
 		}
 
+		@Override
+		public boolean inverted() {
+			return true;
+		}
+
 	}
 
 	private final class DashboardWidgetRenderRunnable implements Runnable {

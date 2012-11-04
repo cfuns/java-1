@@ -37,4 +37,8 @@ public interface TaskService {
 
 	void addTaskContext(TaskIdentifier taskIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException;
 
+	void decreaseTaskPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
+
+	void increaseTaskPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
+
 }
