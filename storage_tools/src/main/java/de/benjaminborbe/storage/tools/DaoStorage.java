@@ -154,4 +154,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	protected List<String> getFieldNames(final E entity) throws MapException {
 		return new ArrayList<String>(mapper.map(entity).keySet());
 	}
+
+	@Override
+	public EntityIterator<E> getIterator() throws StorageException {
+		return null;
+	}
+
+	@Override
+	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
+		return null;
+	}
 }

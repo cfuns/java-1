@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.tools;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,6 +16,44 @@ import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifier<?>> implements Dao<E, I> {
+
+	private final class EntityIteratorImpl implements EntityIterator<E> {
+
+		private final Iterator<E> iterator;
+
+		public EntityIteratorImpl() {
+			iterator = data.values().iterator();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+
+		@Override
+		public E next() {
+			return iterator.next();
+		}
+	}
+
+	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
+
+		private final Iterator<I> iterator;
+
+		public IdentifierIteratorImpl() {
+			iterator = data.keySet().iterator();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+
+		@Override
+		public I next() {
+			return iterator.next();
+		}
+	}
 
 	protected final Logger logger;
 
@@ -75,4 +114,13 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 		return data.containsKey(id);
 	}
 
+	@Override
+	public EntityIterator<E> getIterator() throws StorageException {
+		return new EntityIteratorImpl();
+	}
+
+	@Override
+	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
+		return new IdentifierIteratorImpl();
+	}
 }
