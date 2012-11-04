@@ -189,3 +189,8 @@ buildtask:
 	cd task && make all
 	cd task_gui && make all
 	cd task_test && make all
+buildcron:
+	cd cron_api && make all
+	cd cron && make all
+	cd cron_gui && make all
+	cd cron_test && make all
