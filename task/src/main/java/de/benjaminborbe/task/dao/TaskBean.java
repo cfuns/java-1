@@ -33,7 +33,7 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	private Long duration;
 
-	private Integer priority;
+	private Integer priority = 0;
 
 	@Override
 	public String getName() {

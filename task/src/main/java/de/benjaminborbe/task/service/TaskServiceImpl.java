@@ -2,6 +2,7 @@ package de.benjaminborbe.task.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,8 +30,10 @@ import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
+import de.benjaminborbe.task.util.TaskNameComparator;
 import de.benjaminborbe.task.util.TaskPrioComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.ComparatorChain;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 @Singleton
@@ -274,7 +277,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	protected List<Task> sortAndLimit(final List<Task> result, final int limit) {
-		Collections.sort(result, new TaskPrioComparator());
+		final List<Comparator<Task>> list = new ArrayList<Comparator<Task>>();
+		list.add(new TaskPrioComparator());
+		list.add(new TaskNameComparator());
+		Collections.sort(result, new ComparatorChain<Task>(list));
 		return result.subList(0, Math.min(result.size(), limit));
 	}
 

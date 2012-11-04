@@ -71,6 +71,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.expect(request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -94,6 +95,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
+		EasyMock.expect(parseUtil.parseInt(null, TaskGuiConstants.DEFAULT_TASK_LIMIT)).andReturn(TaskGuiConstants.DEFAULT_TASK_LIMIT);
 		EasyMock.replay(parseUtil);
 
 		final Map<String, String> data = new HashMap<String, String>();
@@ -131,7 +133,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final TaskService taskService = EasyMock.createMock(TaskService.class);
-		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, 1)).andReturn(new ArrayList<Task>());
+		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, TaskGuiConstants.DEFAULT_TASK_LIMIT)).andReturn(new ArrayList<Task>());
 		EasyMock.expect(taskService.getTasksContexts(sessionIdentifier)).andReturn(new ArrayList<TaskContext>());
 		EasyMock.replay(taskService);
 

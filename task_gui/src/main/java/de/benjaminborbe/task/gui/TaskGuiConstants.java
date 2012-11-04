@@ -40,4 +40,8 @@ public interface TaskGuiConstants {
 
 	String PARAMETER_SELECTED_TASKCONTEXT_ID = "selected_taskcontext_id";
 
+	String PARAMETER_TASK_LIMIT = "task_limit";
+
+	int DEFAULT_TASK_LIMIT = 20;
+
 }

@@ -47,6 +47,9 @@ public class TaskGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UPDATE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_PRIO_DECREASE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_PRIO_INCREASE);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_COMPLETED);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_UNCOMPLETED);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE);

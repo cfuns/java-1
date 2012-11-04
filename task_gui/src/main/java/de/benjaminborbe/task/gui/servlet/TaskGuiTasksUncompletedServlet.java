@@ -57,6 +57,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public TaskGuiTasksUncompletedServlet(
 			final Logger logger,
@@ -75,6 +77,7 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.taskService = taskService;
+		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
@@ -98,13 +101,15 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+			final int taskLimit = parseUtil.parseInt(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT), TaskGuiConstants.DEFAULT_TASK_LIMIT);
+
 			final List<Task> tasks;
 			if (taskContextId != null && taskContextId.length() > 0) {
 				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId);
-				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, 1);
+				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, taskLimit);
 			}
 			else {
-				tasks = taskService.getTasksNotCompleted(sessionIdentifier, 1);
+				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskLimit);
 			}
 
 			for (final Task task : tasks) {
