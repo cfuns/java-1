@@ -152,10 +152,28 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
+	public StorageIterator list(final String columnFamily, final Map<String, String> where) throws StorageException {
+		try {
+			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily, where);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+		}
+	}
+
+	@Override
 	public void delete(final String columnFamily, final String id, final Collection<String> keys) throws StorageException {
 		try {
 			for (final String key : keys) {
-				storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
+				try {
+					storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
+				}
+				catch (final NotFoundException e) {
+					// nop, already deleted
+				}
 			}
 		}
 		catch (final Exception e) {

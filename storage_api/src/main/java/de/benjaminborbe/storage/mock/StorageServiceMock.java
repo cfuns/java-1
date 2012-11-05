@@ -173,4 +173,9 @@ public class StorageServiceMock implements StorageService {
 	public int getMaxConnections() {
 		return 0;
 	}
+
+	@Override
+	public StorageIterator list(final String columnFamily, final Map<String, String> where) throws StorageException {
+		return list(columnFamily);
+	}
 }

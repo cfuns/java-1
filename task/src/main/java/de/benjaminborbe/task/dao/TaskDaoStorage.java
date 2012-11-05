@@ -23,14 +23,18 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	private static final String COLUMN_FAMILY = "task";
 
+	private final TaskContextManyToManyRelation taskContextManyToManyRelation;
+
 	@Inject
 	public TaskDaoStorage(
 			final Logger logger,
 			final StorageService storageService,
 			final Provider<TaskBean> beanProvider,
 			final TaskBeanMapper mapper,
-			final TaskIdentifierBuilder identifierBuilder) {
+			final TaskIdentifierBuilder identifierBuilder,
+			final TaskContextManyToManyRelation taskContextManyToManyRelation) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
 	}
 
 	@Override
@@ -66,4 +70,17 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		final Collection<TaskBean> tasks = Collections2.filter(getAll(), new TaskOwnerPredicate(userIdentifier));
 		return new ArrayList<TaskBean>(tasks);
 	}
+
+	@Override
+	public void delete(final TaskIdentifier id) throws StorageException {
+		super.delete(id);
+		taskContextManyToManyRelation.removeA(id);
+	}
+
+	@Override
+	public void delete(final TaskBean entity) throws StorageException {
+		super.delete(entity);
+		taskContextManyToManyRelation.removeA(entity.getId());
+	}
+
 }

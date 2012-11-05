@@ -10,7 +10,9 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.tools.map.MapChain;
 
 public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
 
@@ -53,7 +55,7 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 	public void remove(final A identifierA, final B identifierB) throws StorageException {
 		logger.trace("remove " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
-		storageService.delete(getColumnFamily(), id, KEY, KEY_A, KEY_B);
+		delete(id);
 	}
 
 	@Override
@@ -65,11 +67,22 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	@Override
 	public void removeA(final A identifierA) throws StorageException {
-		// storageService.list(columnFamily)
+		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_A, String.valueOf(identifierA)));
+		while (i.hasNext()) {
+			delete(i.nextString());
+		}
 	}
 
 	@Override
 	public void removeB(final B identifierB) throws StorageException {
+		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_B, String.valueOf(identifierB)));
+		while (i.hasNext()) {
+			delete(i.nextString());
+		}
+	}
+
+	private void delete(final String id) throws StorageException {
+		storageService.delete(getColumnFamily(), id, KEY, KEY_A, KEY_B);
 	}
 
 }

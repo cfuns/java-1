@@ -66,7 +66,11 @@ drop column family user_role;
 create column family user_role with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: key_a, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: key_b, validation_class: UTF8Type, index_type: KEYS}
+  ];
 
 drop column family permission;
 create column family permission with
@@ -78,7 +82,11 @@ drop column family permission_role;
 create column family permission_role with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: key_a, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: key_b, validation_class: UTF8Type, index_type: KEYS}
+  ];
 
 drop column family wiki_page;
 create column family wiki_page with
@@ -144,4 +152,9 @@ drop column family task_context_relation;
 create column family task_context_relation with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: key_a, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: key_b, validation_class: UTF8Type, index_type: KEYS}
+  ];
+
