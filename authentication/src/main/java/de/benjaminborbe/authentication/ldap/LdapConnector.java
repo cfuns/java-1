@@ -89,6 +89,7 @@ public class LdapConnector {
 			logger.debug(e.getClass().getName(), e);
 			throw new LdapException(e);
 		}
+
 	}
 
 	public String getFullname(final String username) throws LdapException {

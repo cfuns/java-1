@@ -17,7 +17,7 @@ public class StorageConfigIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		assertNotNull(config);
-		assertEquals("bb_test2", config.getKeySpace());
+		assertEquals("test", config.getKeySpace());
 	}
 
 }
