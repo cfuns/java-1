@@ -17,6 +17,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
+import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -35,8 +36,6 @@ public class MicroblogGuiSendConversationServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Microblog - Send Conversation";
-
-	private static final String PARAMTER_REVISION = "rev";
 
 	private final MicroblogService microblogService;
 
@@ -74,12 +73,12 @@ public class MicroblogGuiSendConversationServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		try {
-			final long rev = parseUtil.parseLong(request.getParameter(PARAMTER_REVISION));
+			final long rev = parseUtil.parseLong(request.getParameter(MicroblogGuiConstants.PARAMETER_POST_ID));
 			microblogService.mailConversation(microblogService.createMicroblogConversationIdentifier(rev));
 			widgets.add("send post with revision " + rev + " done");
 		}
 		catch (final ParseException e) {
-			widgets.add("parameter " + PARAMTER_REVISION + " missing");
+			widgets.add("parameter " + MicroblogGuiConstants.PARAMETER_POST_ID + " missing");
 		}
 		catch (final MicroblogServiceException e) {
 			logger.debug(e.getClass().getName(), e);

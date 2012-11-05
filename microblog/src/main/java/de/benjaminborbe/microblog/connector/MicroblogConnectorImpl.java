@@ -126,15 +126,70 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	protected String extractAuhor(final String pageContent) {
+		{
+			final String content = extractAuhorMessage(pageContent);
+			if (content != null && content.length() > 0) {
+				return content;
+			}
+		}
+		{
+			final String content = extractAuhorJoinGroup(pageContent);
+			if (content != null && content.length() > 0) {
+				return content;
+			}
+		}
+		return null;
+	}
+
+	protected String extractAuhorJoinGroup(final String pageContent) {
+		final String content = extract(pageContent, "<div class=\"join-activity\">", "</div>");
+		return extract(content, "<a href=\"https://micro.rp.seibert-media.net/", "\"");
+	}
+
+	protected String extractAuhorMessage(final String pageContent) {
 		final String content = extract(pageContent, "<span class=\"vcard author\">", "</span>");
 		return extract(content, "<a href=\"https://micro.rp.seibert-media.net/", "\"");
 	}
 
 	protected String extractContent(final String pageContent) {
+		{
+			final String content = extractContentMessage(pageContent);
+			if (content != null && content.length() > 0) {
+				return content;
+			}
+		}
+		{
+			final String content = extractContentJoinGroup(pageContent);
+			if (content != null && content.length() > 0) {
+				return content;
+			}
+		}
+		logger.debug("extractContent failed! return null");
+		return null;
+	}
+
+	protected String extractContentJoinGroup(final String pageContent) {
+		final String startPattern = "<div class=\"join-activity\">";
+		final String endPattern = "</div>";
+		final String content = extract(pageContent, startPattern, endPattern);
+		if (content != null && content.length() > 0) {
+			return filterContent(content);
+		}
+		else {
+			return content;
+		}
+	}
+
+	protected String extractContentMessage(final String pageContent) {
 		final String startPattern = "<p class=\"entry-content\">";
 		final String endPattern = "</p>";
 		final String content = extract(pageContent, startPattern, endPattern);
-		return filterContent(content);
+		if (content != null && content.length() > 0) {
+			return filterContent(content);
+		}
+		else {
+			return content;
+		}
 	}
 
 	protected String filterContent(final String content) {

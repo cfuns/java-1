@@ -22,7 +22,9 @@ public class HtmlListWidget implements Widget {
 	}
 
 	public HtmlListWidget add(final Widget widget) {
-		widgets.add(widget);
+		if (widget != null) {
+			widgets.add(widget);
+		}
 		return this;
 	}
 

@@ -55,6 +55,59 @@ public class MicroblogConnectorImplUnitTest {
 	}
 
 	@Test
+	public void testExtractContentJoinGroup() {
+		final StringBuffer pageContent = new StringBuffer();
+
+		pageContent.append("<div class=\"entry-title\">");
+		pageContent
+				.append("<div class=\"join-activity\"><a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>.</div>");
+		pageContent.append("</div>");
+		pageContent.append("<div class=\"entry-content\">");
+		pageContent.append("<a rel=\"bookmark\" class=\"timestamp\" href=\"https://micro.rp.seibert-media.net/notice/27693\">");
+		pageContent.append("<abbr class=\"published\" title=\"2012-11-05T10:30:32+01:00\">about 2 hours ago</abbr>");
+		pageContent.append("</a>");
+		pageContent.append("<span class=\"source\">from <span class=\"device\">activity</span>");
+		pageContent.append("</span>");
+		pageContent.append("</div>");
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final MicroblogConnector microblogConnector = EasyMock.createMock(MicroblogConnector.class);
+		EasyMock.replay(microblogConnector);
+
+		final MicroblogRevisionStorage microblogRevisionStorage = EasyMock.createMock(MicroblogRevisionStorage.class);
+		EasyMock.replay(microblogRevisionStorage);
+
+		final MailService mailService = EasyMock.createMock(MailService.class);
+		EasyMock.replay(mailService);
+
+		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);
+		EasyMock.replay(httpDownloader);
+
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createNiceMock(HttpDownloadUtil.class);
+		EasyMock.replay(httpDownloadUtil);
+
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.replay(parseUtil);
+
+		final String result = "Bill Gates joined the group HELL";
+
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock
+				.expect(
+						htmlUtil
+								.filterHtmlTages("<a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>."))
+				.andReturn(result);
+		EasyMock.expect(htmlUtil.unescapeHtml(result)).andReturn(result);
+		EasyMock.replay(htmlUtil);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, httpDownloader, httpDownloadUtil, parseUtil, htmlUtil);
+
+		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
+	}
+
+	@Test
 	public void testExtractContent() {
 		final StringBuffer pageContent = new StringBuffer();
 		pageContent.append("<h1>Bill Gates (bgates)'s status on Thursday, 19-Jan-12 12:39:37 CET</h1>");

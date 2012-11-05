@@ -12,6 +12,7 @@ import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 
 public interface StorageDaoUtil {
 
@@ -39,8 +40,11 @@ public interface StorageDaoUtil {
 	void insert(String keySpace, String columnFamily, final String key, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
 
-	StorageKeyIterator keyIterator(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+	StorageIterator keyIterator(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 			UnsupportedEncodingException, NotFoundException;
+
+	StorageIterator keyIterator(String keySpace, String columnFamily, Map<String, String> where) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException, NotFoundException, StorageConnectionPoolException;
 
 	List<String> read(String keySpace, String columnFamily, final byte[] key, final List<String> columnNames) throws InvalidRequestException, NotFoundException,
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;

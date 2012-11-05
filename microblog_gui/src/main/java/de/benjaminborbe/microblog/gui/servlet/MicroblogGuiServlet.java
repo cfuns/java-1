@@ -15,8 +15,10 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
+import de.benjaminborbe.microblog.gui.util.MicroblogGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -26,6 +28,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class MicroblogGuiServlet extends WebsiteHtmlServlet {
@@ -37,6 +40,8 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 	private final MicroblogService microblogService;
 
 	private final Logger logger;
+
+	private final MicroblogGuiLinkFactory microblogGuiLinkFactory;
 
 	@Inject
 	public MicroblogGuiServlet(
@@ -50,10 +55,12 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 			final MicroblogService microblogService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final MicroblogGuiLinkFactory microblogGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.microblogService = microblogService;
 		this.logger = logger;
+		this.microblogGuiLinkFactory = microblogGuiLinkFactory;
 	}
 
 	@Override
@@ -68,7 +75,13 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		widgets.add("latest revision: ");
 		try {
-			widgets.add(String.valueOf(microblogService.getLastRevision()));
+			final MicroblogPostIdentifier rev = microblogService.getLastRevision();
+			widgets.add(String.valueOf(rev));
+			widgets.add(new BrWidget());
+			widgets.add(microblogGuiLinkFactory.sendPost(request, rev));
+			widgets.add(new BrWidget());
+			widgets.add(microblogGuiLinkFactory.sendConversation(request, rev));
+			widgets.add(new BrWidget());
 		}
 		catch (final MicroblogServiceException e) {
 			logger.trace("MicroblogRevisionStorageException", e);

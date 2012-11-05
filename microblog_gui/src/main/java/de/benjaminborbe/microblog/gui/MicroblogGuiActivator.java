@@ -34,7 +34,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	private MicroblogGuiSendConversationServlet microblogGuiSendConversationServlet;
 
 	public MicroblogGuiActivator() {
-		super("microblog");
+		super(MicroblogGuiConstants.NAME);
 	}
 
 	@Override
@@ -45,9 +45,9 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(microblogServlet, "/"));
-		result.add(new ServletInfo(microblogGuiSendPostServlet, "/post/send"));
-		result.add(new ServletInfo(microblogGuiSendConversationServlet, "/conversation/send"));
+		result.add(new ServletInfo(microblogServlet, MicroblogGuiConstants.URL_SLASH));
+		result.add(new ServletInfo(microblogGuiSendPostServlet, MicroblogGuiConstants.URL_POST_SEND));
+		result.add(new ServletInfo(microblogGuiSendConversationServlet, MicroblogGuiConstants.URL_CONVERSATION_SEND));
 		return result;
 	}
 

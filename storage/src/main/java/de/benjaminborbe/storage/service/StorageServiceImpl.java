@@ -19,7 +19,6 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
-import de.benjaminborbe.storage.util.StorageKeyIterator;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
@@ -28,11 +27,11 @@ public class StorageServiceImpl implements StorageService {
 
 		private final String idPrefix;
 
-		private final StorageKeyIterator i;
+		private final StorageIterator i;
 
 		private String nextString = null;
 
-		private StorageIteratorPrefix(final String idPrefix, final StorageKeyIterator i) {
+		private StorageIteratorPrefix(final String idPrefix, final StorageIterator i) {
 			this.idPrefix = idPrefix;
 			this.i = i;
 		}
@@ -130,7 +129,7 @@ public class StorageServiceImpl implements StorageService {
 	public StorageIterator findByIdPrefix(final String columnFamily, final String idPrefix) throws StorageException {
 		try {
 
-			final StorageKeyIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
+			final StorageIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 			return new StorageIteratorPrefix(idPrefix, i);
 		}
 		catch (final Exception e) {

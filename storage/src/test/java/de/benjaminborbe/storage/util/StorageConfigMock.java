@@ -8,7 +8,7 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 
 	private int readLimit;
 
-	private static final String CASSANDRA_KEYSPACE = "bb_test2";
+	private static final String CASSANDRA_KEYSPACE = "test";
 
 	@Inject
 	public StorageConfigMock() {
