@@ -47,7 +47,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 		try {
 			final Predicate<TaskContextBean> p = new TaskContextOwnerPredicate(userIdentifier);
 			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();
-			final EntityIterator<TaskContextBean> i = getIterator();
+			final EntityIterator<TaskContextBean> i = getEntityIterator();
 			while (i.hasNext()) {
 				final TaskContextBean task = i.next();
 				if (p.apply(task)) {

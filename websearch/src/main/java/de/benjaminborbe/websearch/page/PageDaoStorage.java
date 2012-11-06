@@ -58,7 +58,7 @@ public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> impleme
 	@Override
 	public Collection<PageBean> findSubPages(final URL url) throws StorageException {
 		try {
-			return pageDaoSubPagesAction.findSubPages(url, getIterator());
+			return pageDaoSubPagesAction.findSubPages(url, getEntityIterator());
 		}
 		catch (final EntityIteratorException e) {
 			throw new StorageException(e);

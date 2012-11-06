@@ -93,7 +93,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 		try {
 			logger.trace("getBookmarks");
 			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
-			final EntityIterator<BookmarkBean> i = bookmarkDao.getIterator();
+			final EntityIterator<BookmarkBean> i = bookmarkDao.getEntityIterator();
 			while (i.hasNext()) {
 				bookmarks.add(i.next());
 			}

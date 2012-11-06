@@ -17,7 +17,7 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	boolean exists(I id) throws StorageException;
 
-	EntityIterator<E> getIterator() throws StorageException;
+	EntityIterator<E> getEntityIterator() throws StorageException;
 
 	IdentifierIterator<I> getIdentifierIterator() throws StorageException;
 

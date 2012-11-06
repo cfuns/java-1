@@ -41,7 +41,7 @@ public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements
 	@Override
 	public RoleBean findByRolename(final RoleIdentifier roleIdentifier) throws StorageException {
 		try {
-			final EntityIterator<RoleBean> i = getIterator();
+			final EntityIterator<RoleBean> i = getEntityIterator();
 			while (i.hasNext()) {
 				final RoleBean role = i.next();
 				if (role.getId().equals(roleIdentifier)) {

@@ -209,7 +209,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
-	public EntityIterator<E> getIterator() throws StorageException {
+	public EntityIterator<E> getEntityIterator() throws StorageException {
 		final IdentifierIterator<I> i = getIdentifierIterator();
 		return new EntityIteratorImpl(i);
 	}

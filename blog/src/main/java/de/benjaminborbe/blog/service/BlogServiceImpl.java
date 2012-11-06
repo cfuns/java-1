@@ -135,7 +135,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			logger.debug("getLatestBlogPosts");
 			final List<BlogPost> result = new ArrayList<BlogPost>();
-			final EntityIterator<BlogPostBean> i = blogPostDao.getIterator();
+			final EntityIterator<BlogPostBean> i = blogPostDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}

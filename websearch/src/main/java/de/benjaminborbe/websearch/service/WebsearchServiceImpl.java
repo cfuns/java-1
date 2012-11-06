@@ -61,7 +61,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.getPages"));
 
 			logger.debug("getPages");
-			final EntityIterator<PageBean> i = pageDao.getIterator();
+			final EntityIterator<PageBean> i = pageDao.getEntityIterator();
 			final List<Page> result = new ArrayList<Page>();
 			while (i.hasNext()) {
 				result.add(i.next());

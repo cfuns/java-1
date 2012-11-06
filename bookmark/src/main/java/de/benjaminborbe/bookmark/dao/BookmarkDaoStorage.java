@@ -51,7 +51,7 @@ public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentif
 		try {
 			final Predicate<BookmarkBean> p = new BookmarkOwnerPredicate(userIdentifier);
 			final List<BookmarkBean> result = new ArrayList<BookmarkBean>();
-			final EntityIterator<BookmarkBean> i = getIterator();
+			final EntityIterator<BookmarkBean> i = getEntityIterator();
 			while (i.hasNext()) {
 				final BookmarkBean bookmark = i.next();
 				if (p.apply(bookmark)) {

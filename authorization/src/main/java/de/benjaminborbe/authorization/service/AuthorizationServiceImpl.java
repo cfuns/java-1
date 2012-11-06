@@ -205,7 +205,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public Collection<RoleIdentifier> roleList() throws AuthorizationServiceException {
 		try {
 			final Set<RoleIdentifier> result = new HashSet<RoleIdentifier>();
-			final EntityIterator<RoleBean> i = roleDao.getIterator();
+			final EntityIterator<RoleBean> i = roleDao.getEntityIterator();
 			while (i.hasNext()) {
 				final RoleBean role = i.next();
 				result.add(role.getId());
@@ -229,7 +229,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException {
 		try {
 			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
-			final EntityIterator<PermissionBean> i = permissionDao.getIterator();
+			final EntityIterator<PermissionBean> i = permissionDao.getEntityIterator();
 			while (i.hasNext()) {
 				final PermissionBean permission = i.next();
 				result.add(permission.getId());

@@ -45,9 +45,9 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 	public Collection<PageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
 		logger.trace("determineExpiredPages");
 		final long time = calendarUtil.getTime();
-		final EntityIterator<ConfigurationBean> configurations = configurationDao.getIterator();
+		final EntityIterator<ConfigurationBean> configurations = configurationDao.getEntityIterator();
 		final Set<PageBean> result = new HashSet<PageBean>();
-		final EntityIterator<PageBean> pages = pageDao.getIterator();
+		final EntityIterator<PageBean> pages = pageDao.getEntityIterator();
 		while (pages.hasNext()) {
 			final PageBean page = pages.next();
 			// handle only pages configuration exists for

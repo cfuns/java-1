@@ -13,7 +13,7 @@ import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class BookmarkServiceIntegrationTest {
+public class BookmarkServiceImplIntegrationTest {
 
 	@Test
 	public void testSingleton() {

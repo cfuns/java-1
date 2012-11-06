@@ -85,7 +85,7 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	}
 
 	@Override
-	public EntityIterator<E> getIterator() throws StorageException {
+	public EntityIterator<E> getEntityIterator() throws StorageException {
 		return new EntityIteratorImpl<E>(data.values().iterator());
 	}
 

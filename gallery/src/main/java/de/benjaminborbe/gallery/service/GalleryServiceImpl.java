@@ -191,7 +191,7 @@ public class GalleryServiceImpl implements GalleryService {
 	public Collection<Gallery> getGalleries() throws GalleryServiceException {
 		try {
 			logger.debug("getGalleries");
-			final EntityIterator<GalleryBean> i = galleryDao.getIterator();
+			final EntityIterator<GalleryBean> i = galleryDao.getEntityIterator();
 			final List<Gallery> result = new ArrayList<Gallery>();
 			while (i.hasNext()) {
 				result.add(i.next());

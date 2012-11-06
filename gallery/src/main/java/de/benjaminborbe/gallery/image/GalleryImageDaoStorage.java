@@ -49,7 +49,7 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 		try {
 			logger.debug("getGalleryImages id: " + galleryIdentifier);
 			final Predicate<GalleryImageBean> p = new GalleryPredicate(galleryIdentifier);
-			final EntityIterator<GalleryImageBean> i = getIterator();
+			final EntityIterator<GalleryImageBean> i = getEntityIterator();
 			final List<GalleryImageBean> result = new ArrayList<GalleryImageBean>();
 			while (i.hasNext()) {
 				final GalleryImageBean image = i.next();

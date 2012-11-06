@@ -48,7 +48,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		try {
 			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate());
 			final List<TaskBean> result = new ArrayList<TaskBean>();
-			final EntityIterator<TaskBean> i = getIterator();
+			final EntityIterator<TaskBean> i = getEntityIterator();
 			while (i.hasNext()) {
 				final TaskBean task = i.next();
 				if (p.apply(task)) {
@@ -67,7 +67,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		try {
 			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskCompletedPredicate());
 			final List<TaskBean> result = new ArrayList<TaskBean>();
-			final EntityIterator<TaskBean> i = getIterator();
+			final EntityIterator<TaskBean> i = getEntityIterator();
 			while (i.hasNext()) {
 				final TaskBean task = i.next();
 				if (p.apply(task)) {
@@ -97,7 +97,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		try {
 			final Predicate<TaskBean> p = new TaskOwnerPredicate(userIdentifier);
 			final List<TaskBean> result = new ArrayList<TaskBean>();
-			final EntityIterator<TaskBean> i = getIterator();
+			final EntityIterator<TaskBean> i = getEntityIterator();
 			while (i.hasNext()) {
 				final TaskBean task = i.next();
 				if (p.apply(task)) {

@@ -58,7 +58,7 @@ public class DhlStatusCheckCronJob implements CronJob {
 	public void execute() {
 		logger.trace("execute DhlCheckCronJob");
 		try {
-			final EntityIterator<DhlBean> i = dhlDao.getIterator();
+			final EntityIterator<DhlBean> i = dhlDao.getEntityIterator();
 
 			while (i.hasNext()) {
 				final Dhl dhl = i.next();
