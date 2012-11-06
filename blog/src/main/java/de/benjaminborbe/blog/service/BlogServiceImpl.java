@@ -26,6 +26,10 @@ import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.post.BlogPostBean;
 import de.benjaminborbe.blog.post.BlogPostDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
@@ -130,9 +134,17 @@ public class BlogServiceImpl implements BlogService {
 	public List<BlogPost> getLatestBlogPosts(final SessionIdentifier sessionIdentifier) throws BlogServiceException {
 		try {
 			logger.debug("getLatestBlogPosts");
-			return new ArrayList<BlogPost>(blogPostDao.getAll());
+			final List<BlogPost> result = new ArrayList<BlogPost>();
+			final EntityIterator<BlogPostBean> i = blogPostDao.getIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final StorageException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -141,12 +153,20 @@ public class BlogServiceImpl implements BlogService {
 	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
-			return blogPostDao.getIdentifiers();
+			final List<BlogPostIdentifier> result = new ArrayList<BlogPostIdentifier>();
+			final IdentifierIterator<BlogPostIdentifier> i = blogPostDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final StorageException e) {
+			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
 			throw new BlogServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

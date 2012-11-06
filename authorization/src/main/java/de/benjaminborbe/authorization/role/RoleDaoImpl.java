@@ -12,6 +12,8 @@ import de.benjaminborbe.authorization.userrole.UserRoleManyToManyRelation;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 
 @Singleton
 public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements RoleDao {
@@ -38,12 +40,19 @@ public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements
 
 	@Override
 	public RoleBean findByRolename(final RoleIdentifier roleIdentifier) throws StorageException {
-		for (final RoleBean role : getAll()) {
-			if (role.getId().equals(roleIdentifier)) {
-				return role;
+		try {
+			final EntityIterator<RoleBean> i = getIterator();
+			while (i.hasNext()) {
+				final RoleBean role = i.next();
+				if (role.getId().equals(roleIdentifier)) {
+					return role;
+				}
 			}
+			return null;
 		}
-		return null;
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override

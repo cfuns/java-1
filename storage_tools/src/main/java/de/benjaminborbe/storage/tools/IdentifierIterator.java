@@ -2,7 +2,7 @@ package de.benjaminborbe.storage.tools;
 
 public interface IdentifierIterator<T> {
 
-	boolean hasNext();
+	boolean hasNext() throws IdentifierIteratorException;
 
-	T next();
+	T next() throws IdentifierIteratorException;
 }

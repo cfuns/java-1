@@ -23,6 +23,8 @@ import de.benjaminborbe.authentication.user.UserDao;
 import de.benjaminborbe.authentication.verifycredential.VerifyCredential;
 import de.benjaminborbe.authentication.verifycredential.VerifyCredentialRegistry;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 
 @Singleton
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -191,12 +193,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public Collection<UserIdentifier> userList() throws AuthenticationServiceException {
 		try {
 			final Set<UserIdentifier> result = new HashSet<UserIdentifier>();
-			for (final UserBean user : userDao.getAll()) {
-				result.add(user.getId());
+			final IdentifierIterator<UserIdentifier> i = userDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
 			}
 			return result;
 		}
 		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

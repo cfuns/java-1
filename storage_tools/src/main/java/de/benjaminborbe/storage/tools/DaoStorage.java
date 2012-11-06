@@ -1,14 +1,11 @@
 package de.benjaminborbe.storage.tools;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
+import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -17,6 +14,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.api.IdentifierBuilder;
+import de.benjaminborbe.api.IdentifierBuilderException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
@@ -25,6 +23,87 @@ import de.benjaminborbe.tools.mapper.Mapper;
 
 @Singleton
 public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
+
+	private final class EntityIteratorImpl implements EntityIterator<E> {
+
+		private final IdentifierIterator<I> i;
+
+		private EntityIteratorImpl(final IdentifierIterator<I> i) {
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws EntityIteratorException {
+			try {
+				return i.hasNext();
+			}
+			catch (final IdentifierIteratorException e) {
+				throw new EntityIteratorException(e);
+			}
+		}
+
+		@Override
+		public E next() throws EntityIteratorException {
+			try {
+				final I id = i.next();
+				return load(id);
+			}
+			catch (final IdentifierIteratorException e) {
+				throw new EntityIteratorException(e);
+			}
+			catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			}
+		}
+	}
+
+	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
+
+		private final StorageIterator i;
+
+		private I next;
+
+		private IdentifierIteratorImpl(final StorageIterator i) {
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws IdentifierIteratorException {
+			try {
+				if (next != null) {
+					return true;
+				}
+				else {
+					while (i.hasNext()) {
+						final I id = identifierBuilder.buildIdentifier(i.nextString());
+						if (exists(id)) {
+							next = id;
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+			catch (final StorageException e) {
+				throw new IdentifierIteratorException(e);
+			}
+			catch (final IdentifierBuilderException e) {
+				throw new IdentifierIteratorException(e);
+			}
+		}
+
+		@Override
+		public I next() throws IdentifierIteratorException {
+			if (hasNext()) {
+				final I result = next;
+				next = null;
+				return result;
+			}
+			else {
+				throw new NoSuchElementException();
+			}
+		}
+	}
 
 	private static final String ID_FIELD = "id";
 
@@ -125,47 +204,18 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	@Override
-	public Collection<I> getIdentifiers() throws StorageException {
-		final Set<I> result = new HashSet<I>();
-		final StorageIterator i = storageService.list(getColumnFamily());
-		while (i.hasNext()) {
-			final String id = i.nextString();
-			try {
-				final I ident = identifierBuilder.buildIdentifier(id);
-				if (exists(ident)) {
-					result.add(ident);
-				}
-			}
-			catch (final Exception e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public Collection<E> getAll() throws StorageException {
-		logger.trace("getAll");
-		final Set<E> result = new HashSet<E>();
-		final StorageIterator i = storageService.list(getColumnFamily());
-		while (i.hasNext()) {
-			result.add(load(i.nextString()));
-		}
-		return result;
-	}
-
 	protected List<String> getFieldNames(final E entity) throws MapException {
 		return new ArrayList<String>(mapper.map(entity).keySet());
 	}
 
 	@Override
 	public EntityIterator<E> getIterator() throws StorageException {
-		return null;
+		final IdentifierIterator<I> i = getIdentifierIterator();
+		return new EntityIteratorImpl(i);
 	}
 
 	@Override
 	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
-		return null;
+		return new IdentifierIteratorImpl(storageService.list(getColumnFamily()));
 	}
 }

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import de.benjaminborbe.storage.tools.EntityIteratorImpl;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 public class PageDaoSubPagesActionUnitTest {
@@ -43,21 +44,21 @@ public class PageDaoSubPagesActionUnitTest {
 		assertEquals(3, allPages.size());
 
 		{
-			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url1, allPages));
+			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url1, new EntityIteratorImpl<PageBean>(allPages.iterator())));
 			assertEquals(3, subPages.size());
 			assertTrue(containsUrl(subPages, url1));
 			assertTrue(containsUrl(subPages, url2));
 			assertTrue(containsUrl(subPages, url3));
 		}
 		{
-			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url2, allPages));
+			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url2, new EntityIteratorImpl<PageBean>(allPages.iterator())));
 			assertEquals(2, subPages.size());
 			assertFalse(containsUrl(subPages, url1));
 			assertTrue(containsUrl(subPages, url2));
 			assertTrue(containsUrl(subPages, url3));
 		}
 		{
-			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url3, allPages));
+			final Set<PageBean> subPages = new HashSet<PageBean>(pageDaoSubPagesAction.findSubPages(url3, new EntityIteratorImpl<PageBean>(allPages.iterator())));
 			assertEquals(1, subPages.size());
 			assertFalse(containsUrl(subPages, url1));
 			assertFalse(containsUrl(subPages, url2));

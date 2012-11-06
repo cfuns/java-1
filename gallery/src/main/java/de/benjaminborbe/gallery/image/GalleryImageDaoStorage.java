@@ -1,12 +1,14 @@
 package de.benjaminborbe.gallery.image;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
 
-import com.google.common.collect.Collections2;
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -16,6 +18,8 @@ import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 
 @Singleton
 public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, GalleryImageIdentifier> implements GalleryImageDao {
@@ -42,8 +46,22 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 
 	@Override
 	public Collection<GalleryImageBean> getGalleryImages(final GalleryIdentifier galleryIdentifier) throws StorageException {
-		final Collection<GalleryImageBean> images = getAll();
-		return Collections2.filter(images, new GalleryPredicate(galleryIdentifier));
+		try {
+			logger.debug("getGalleryImages id: " + galleryIdentifier);
+			final Predicate<GalleryImageBean> p = new GalleryPredicate(galleryIdentifier);
+			final EntityIterator<GalleryImageBean> i = getIterator();
+			final List<GalleryImageBean> result = new ArrayList<GalleryImageBean>();
+			while (i.hasNext()) {
+				final GalleryImageBean image = i.next();
+				if (p.apply(image)) {
+					result.add(image);
+				}
+			}
+			return result;
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override
@@ -53,20 +71,6 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 		for (final GalleryImageBean image : images) {
 			result.add(image.getId());
 		}
-		return result;
-	}
-
-	@Override
-	public Collection<GalleryImageIdentifier> getIdentifiers() throws StorageException {
-		final Collection<GalleryImageIdentifier> result = super.getIdentifiers();
-		logger.debug("getIdentifiers => " + result.size());
-		return result;
-	}
-
-	@Override
-	public Collection<GalleryImageBean> getAll() throws StorageException {
-		final Collection<GalleryImageBean> result = super.getAll();
-		logger.debug("getAll => " + result.size());
 		return result;
 	}
 

@@ -1,13 +1,12 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -16,6 +15,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.task.api.TaskIdentifier;
 
 @Singleton
@@ -44,14 +45,40 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	@Override
 	public List<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
-		final Collection<TaskBean> tasks = Collections2.filter(getAll(), Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate()));
-		return new ArrayList<TaskBean>(tasks);
+		try {
+			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate());
+			final List<TaskBean> result = new ArrayList<TaskBean>();
+			final EntityIterator<TaskBean> i = getIterator();
+			while (i.hasNext()) {
+				final TaskBean task = i.next();
+				if (p.apply(task)) {
+					result.add(task);
+				}
+			}
+			return result;
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override
 	public List<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
-		final Collection<TaskBean> tasks = Collections2.filter(getAll(), Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskCompletedPredicate()));
-		return new ArrayList<TaskBean>(tasks);
+		try {
+			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskCompletedPredicate());
+			final List<TaskBean> result = new ArrayList<TaskBean>();
+			final EntityIterator<TaskBean> i = getIterator();
+			while (i.hasNext()) {
+				final TaskBean task = i.next();
+				if (p.apply(task)) {
+					result.add(task);
+				}
+			}
+			return result;
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override
@@ -67,8 +94,21 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	@Override
 	public List<TaskBean> getTasks(final UserIdentifier userIdentifier) throws StorageException {
-		final Collection<TaskBean> tasks = Collections2.filter(getAll(), new TaskOwnerPredicate(userIdentifier));
-		return new ArrayList<TaskBean>(tasks);
+		try {
+			final Predicate<TaskBean> p = new TaskOwnerPredicate(userIdentifier);
+			final List<TaskBean> result = new ArrayList<TaskBean>();
+			final EntityIterator<TaskBean> i = getIterator();
+			while (i.hasNext()) {
+				final TaskBean task = i.next();
+				if (p.apply(task)) {
+					result.add(task);
+				}
+			}
+			return result;
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override

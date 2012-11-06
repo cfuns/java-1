@@ -32,6 +32,8 @@ import de.benjaminborbe.bookmark.api.BookmarkUpdateException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
@@ -90,11 +92,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
 		try {
 			logger.trace("getBookmarks");
-			final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getAll());
+			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+			final EntityIterator<BookmarkBean> i = bookmarkDao.getIterator();
+			while (i.hasNext()) {
+				bookmarks.add(i.next());
+			}
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;
 		}
 		catch (final StorageException e) {
+			throw new BookmarkServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}

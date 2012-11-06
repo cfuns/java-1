@@ -12,6 +12,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
@@ -56,7 +57,12 @@ public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> impleme
 
 	@Override
 	public Collection<PageBean> findSubPages(final URL url) throws StorageException {
-		return pageDaoSubPagesAction.findSubPages(url, getAll());
+		try {
+			return pageDaoSubPagesAction.findSubPages(url, getIterator());
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override

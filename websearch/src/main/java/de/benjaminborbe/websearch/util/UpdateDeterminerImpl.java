@@ -11,6 +11,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.configuration.ConfigurationBean;
 import de.benjaminborbe.websearch.configuration.ConfigurationDao;
@@ -40,14 +42,14 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 	}
 
 	@Override
-	public Collection<PageBean> determineExpiredPages() throws StorageException {
+	public Collection<PageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
 		logger.trace("determineExpiredPages");
 		final long time = calendarUtil.getTime();
-		final Collection<ConfigurationBean> configurations = configurationDao.getAll();
+		final EntityIterator<ConfigurationBean> configurations = configurationDao.getIterator();
 		final Set<PageBean> result = new HashSet<PageBean>();
-		final Collection<PageBean> pages = pageDao.getAll();
-		logger.trace("found " + pages.size() + " pages to analyse");
-		for (final PageBean page : pages) {
+		final EntityIterator<PageBean> pages = pageDao.getIterator();
+		while (pages.hasNext()) {
+			final PageBean page = pages.next();
 			// handle only pages configuration exists for
 			if (isSubPage(page, configurations)) {
 				logger.trace("url " + page.getId() + " is subpage");
@@ -64,7 +66,6 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 				logger.trace("url " + page.getId() + " is not subpage");
 			}
 		}
-		logger.trace("determineExpiredPages total: " + pages.size() + " result: " + result.size());
 		return result;
 	}
 
@@ -72,7 +73,7 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 		return page.getLastVisit() == null || (time - page.getLastVisit().getTime() > EXPIRE);
 	}
 
-	protected boolean isSubPage(final PageBean page, final Collection<ConfigurationBean> configurations) {
+	protected boolean isSubPage(final PageBean page, final EntityIterator<ConfigurationBean> configurations) throws EntityIteratorException {
 		if (page == null) {
 			throw new NullPointerException("parameter page is null");
 		}
@@ -81,7 +82,8 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 			throw new NullPointerException("parameter url is null at page " + page.getId());
 		}
 		final String urlString = url.toExternalForm();
-		for (final ConfigurationBean configuration : configurations) {
+		while (configurations.hasNext()) {
+			final ConfigurationBean configuration = configurations.next();
 			if (urlString.startsWith(configuration.getUrl().toExternalForm())) {
 				boolean isExcluded = false;
 				for (final String exclude : configuration.getExcludes()) {

@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.tools;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,25 +15,6 @@ import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifier<?>> implements Dao<E, I> {
-
-	private final class EntityIteratorImpl implements EntityIterator<E> {
-
-		private final Iterator<E> iterator;
-
-		public EntityIteratorImpl() {
-			iterator = data.values().iterator();
-		}
-
-		@Override
-		public boolean hasNext() {
-			return iterator.hasNext();
-		}
-
-		@Override
-		public E next() {
-			return iterator.next();
-		}
-	}
 
 	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
 
@@ -100,23 +80,13 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	}
 
 	@Override
-	public Collection<E> getAll() {
-		return data.values();
-	}
-
-	@Override
-	public Collection<I> getIdentifiers() throws StorageException {
-		return data.keySet();
-	}
-
-	@Override
 	public boolean exists(final I id) throws StorageException {
 		return data.containsKey(id);
 	}
 
 	@Override
 	public EntityIterator<E> getIterator() throws StorageException {
-		return new EntityIteratorImpl();
+		return new EntityIteratorImpl<E>(data.values().iterator());
 	}
 
 	@Override

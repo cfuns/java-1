@@ -9,7 +9,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCache;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
@@ -45,8 +47,13 @@ public class PageDaoCache extends DaoCache<PageBean, PageIdentifier> implements 
 	}
 
 	@Override
-	public Collection<PageBean> findSubPages(final URL url) {
-		return pageDaoSubPagesAction.findSubPages(url, getAll());
+	public Collection<PageBean> findSubPages(final URL url) throws StorageException {
+		try {
+			return pageDaoSubPagesAction.findSubPages(url, getIterator());
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 }

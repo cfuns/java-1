@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.status.DhlBean;
 import de.benjaminborbe.dhl.status.DhlDao;
 import de.benjaminborbe.dhl.util.DhlStatus;
@@ -15,6 +16,8 @@ import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlStatusStorage;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 
 @Singleton
 public class DhlStatusCheckCronJob implements CronJob {
@@ -55,7 +58,10 @@ public class DhlStatusCheckCronJob implements CronJob {
 	public void execute() {
 		logger.trace("execute DhlCheckCronJob");
 		try {
-			for (final DhlBean dhl : dhlDao.getAll()) {
+			final EntityIterator<DhlBean> i = dhlDao.getIterator();
+
+			while (i.hasNext()) {
+				final Dhl dhl = i.next();
 				try {
 					final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
 					logger.trace("newStatus: " + newStatus);
@@ -86,6 +92,9 @@ public class DhlStatusCheckCronJob implements CronJob {
 			}
 		}
 		catch (final StorageException e) {
+			logger.error(e.getClass().getSimpleName(), e);
+		}
+		catch (final EntityIteratorException e) {
 			logger.error(e.getClass().getSimpleName(), e);
 		}
 	}

@@ -2,7 +2,7 @@ package de.benjaminborbe.storage.tools;
 
 public interface EntityIterator<T> {
 
-	boolean hasNext();
+	boolean hasNext() throws EntityIteratorException;
 
-	T next();
+	T next() throws EntityIteratorException;
 }

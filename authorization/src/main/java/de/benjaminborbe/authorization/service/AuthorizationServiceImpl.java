@@ -26,6 +26,8 @@ import de.benjaminborbe.authorization.role.RoleBean;
 import de.benjaminborbe.authorization.role.RoleDao;
 import de.benjaminborbe.authorization.userrole.UserRoleManyToManyRelation;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 
 @Singleton
 public class AuthorizationServiceImpl implements AuthorizationService {
@@ -203,12 +205,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public Collection<RoleIdentifier> roleList() throws AuthorizationServiceException {
 		try {
 			final Set<RoleIdentifier> result = new HashSet<RoleIdentifier>();
-			for (final RoleBean role : roleDao.getAll()) {
+			final EntityIterator<RoleBean> i = roleDao.getIterator();
+			while (i.hasNext()) {
+				final RoleBean role = i.next();
 				result.add(role.getId());
 			}
 			return result;
 		}
 		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -222,12 +229,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException {
 		try {
 			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
-			for (final PermissionBean permission : permissionDao.getAll()) {
+			final EntityIterator<PermissionBean> i = permissionDao.getIterator();
+			while (i.hasNext()) {
+				final PermissionBean permission = i.next();
 				result.add(permission.getId());
 			}
 			return result;
 		}
 		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

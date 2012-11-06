@@ -12,6 +12,7 @@ import java.util.Collection;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import de.benjaminborbe.storage.tools.EntityIteratorImpl;
 import de.benjaminborbe.websearch.configuration.ConfigurationBean;
 import de.benjaminborbe.websearch.page.PageBean;
 
@@ -27,7 +28,7 @@ public class UpdateDeterminerImplUnitTest {
 
 		final Collection<ConfigurationBean> configurations = new ArrayList<ConfigurationBean>();
 
-		assertFalse(updateDeterminerImpl.isSubPage(page, configurations));
+		assertFalse(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<ConfigurationBean>(configurations.iterator())));
 	}
 
 	@Test
@@ -44,7 +45,7 @@ public class UpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<ConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertTrue(updateDeterminerImpl.isSubPage(page, configurations));
+		assertTrue(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<ConfigurationBean>(configurations.iterator())));
 	}
 
 	@Test
@@ -61,7 +62,7 @@ public class UpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<ConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertTrue(updateDeterminerImpl.isSubPage(page, configurations));
+		assertTrue(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<ConfigurationBean>(configurations.iterator())));
 	}
 
 	@Test
@@ -78,7 +79,7 @@ public class UpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<ConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertFalse(updateDeterminerImpl.isSubPage(page, configurations));
+		assertFalse(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<ConfigurationBean>(configurations.iterator())));
 	}
 
 	@Test
@@ -95,7 +96,7 @@ public class UpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<ConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertFalse(updateDeterminerImpl.isSubPage(page, configurations));
+		assertFalse(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<ConfigurationBean>(configurations.iterator())));
 	}
 
 	private URL buildUrl(final String url) throws MalformedURLException {

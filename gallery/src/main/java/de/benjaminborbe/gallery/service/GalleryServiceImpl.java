@@ -19,6 +19,10 @@ import de.benjaminborbe.gallery.gallery.GalleryDao;
 import de.benjaminborbe.gallery.image.GalleryImageBean;
 import de.benjaminborbe.gallery.image.GalleryImageDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 @Singleton
@@ -157,9 +161,17 @@ public class GalleryServiceImpl implements GalleryService {
 	public Collection<GalleryIdentifier> getGalleryIdentifiers() throws GalleryServiceException {
 		try {
 			logger.debug("getGalleryIdentifiers");
-			return galleryDao.getIdentifiers();
+			final List<GalleryIdentifier> result = new ArrayList<GalleryIdentifier>();
+			final IdentifierIterator<GalleryIdentifier> i = galleryDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -179,9 +191,17 @@ public class GalleryServiceImpl implements GalleryService {
 	public Collection<Gallery> getGalleries() throws GalleryServiceException {
 		try {
 			logger.debug("getGalleries");
-			return new ArrayList<Gallery>(galleryDao.getAll());
+			final EntityIterator<GalleryBean> i = galleryDao.getIterator();
+			final List<Gallery> result = new ArrayList<Gallery>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}

@@ -1,12 +1,11 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
 
-import com.google.common.collect.Collections2;
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -15,6 +14,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 
 @Singleton
@@ -43,8 +44,21 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 
 	@Override
 	public List<TaskContextBean> getAllByUser(final UserIdentifier userIdentifier) throws StorageException {
-		final Collection<TaskContextBean> tasks = Collections2.filter(getAll(), new TaskContextOwnerPredicate(userIdentifier));
-		return new ArrayList<TaskContextBean>(tasks);
+		try {
+			final Predicate<TaskContextBean> p = new TaskContextOwnerPredicate(userIdentifier);
+			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();
+			final EntityIterator<TaskContextBean> i = getIterator();
+			while (i.hasNext()) {
+				final TaskContextBean task = i.next();
+				if (p.apply(task)) {
+					result.add(task);
+				}
+			}
+			return result;
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 
 	@Override

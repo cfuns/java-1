@@ -2,6 +2,7 @@ package de.benjaminborbe.websearch.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 
@@ -16,6 +17,8 @@ import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.websearch.WebsearchActivator;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.PageIdentifier;
@@ -58,15 +61,22 @@ public class WebsearchServiceImpl implements WebsearchService {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.getPages"));
 
 			logger.debug("getPages");
-			final Collection<Page> result = new ArrayList<Page>(pageDao.getAll());
+			final EntityIterator<PageBean> i = pageDao.getIterator();
+			final List<Page> result = new ArrayList<Page>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
 			logger.debug("found " + result.size() + " pages");
 			return result;
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException("AuthorizationServiceException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 		catch (final StorageException e) {
-			throw new WebsearchServiceException("StorageException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
 
@@ -79,7 +89,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			refreshPagesCronJob.execute();
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException("AuthorizationServiceException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
 
@@ -97,10 +107,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 			}
 		}
 		catch (final StorageException e) {
-			throw new WebsearchServiceException("StorageException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException("AuthorizationServiceException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
 
@@ -113,10 +123,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 			indexerService.clear(indexName);
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException("AuthorizationServiceException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 		catch (final IndexerServiceException e) {
-			throw new WebsearchServiceException("IndexerServiceException", e);
+			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
 }

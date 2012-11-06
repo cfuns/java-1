@@ -1,6 +1,9 @@
 package de.benjaminborbe.wiki.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -8,6 +11,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
@@ -51,9 +56,17 @@ public class WikiServiceImpl implements WikiService {
 	public Collection<WikiSpaceIdentifier> getSpaceIdentifiers() throws WikiServiceException {
 		logger.trace("getSpaceIdentifiers");
 		try {
-			return wikiSpaceDao.getIdentifiers();
+			final List<WikiSpaceIdentifier> result = new ArrayList<WikiSpaceIdentifier>();
+			final IdentifierIterator<WikiSpaceIdentifier> i = wikiSpaceDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
 			throw new WikiServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -62,9 +75,17 @@ public class WikiServiceImpl implements WikiService {
 	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
 		logger.trace("getPageIdentifiers");
 		try {
-			return wikiPageDao.getIdentifiers();
+			final List<WikiPageIdentifier> result = new ArrayList<WikiPageIdentifier>();
+			final IdentifierIterator<WikiPageIdentifier> i = wikiPageDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final StorageException e) {
+			throw new WikiServiceException(e.getClass().getName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
 			throw new WikiServiceException(e.getClass().getName(), e);
 		}
 	}

@@ -2,7 +2,10 @@ package de.benjaminborbe.dhl.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -22,6 +25,8 @@ import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlUrlBuilder;
 import de.benjaminborbe.mail.api.MailSendException;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 
 @Singleton
 public class DhlServiceImpl implements DhlService {
@@ -73,9 +78,17 @@ public class DhlServiceImpl implements DhlService {
 	public Collection<DhlIdentifier> getRegisteredDhlIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException {
 		logger.debug("getRegisteredDhlIdentifiers");
 		try {
-			return dhlDao.getIdentifiers();
+			final List<DhlIdentifier> result = new ArrayList<DhlIdentifier>();
+			final IdentifierIterator<DhlIdentifier> i = dhlDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final StorageException e) {
+			throw new DhlServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
 			throw new DhlServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
