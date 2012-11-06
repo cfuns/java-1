@@ -25,10 +25,12 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -37,6 +39,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -61,6 +64,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
 	public TaskGuiTasksUncompletedServlet(
 			final Logger logger,
@@ -75,7 +80,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final TaskService taskService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiWidgetFactory taskGuiWidgetFactory) {
+			final TaskGuiWidgetFactory taskGuiWidgetFactory,
+			final TaskGuiUtil taskGuiUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.taskService = taskService;
@@ -83,6 +89,7 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
+		this.taskGuiUtil = taskGuiUtil;
 	}
 
 	@Override
@@ -112,7 +119,7 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			else {
 				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskLimit);
 			}
-			widgets.add(taskList(tasks, request));
+			widgets.add(taskList(tasks, null, request));
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.createTask(request));
@@ -135,29 +142,40 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	public Widget taskList(final List<Task> tasks, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+	private Widget taskList(final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		final List<Task> tasks = taskGuiUtil.getChildTasks(allTasks, parentId);
+		if (tasks.isEmpty()) {
+			return null;
+		}
 		final UlWidget ul = new UlWidget();
 		for (int i = 0; i < tasks.size(); ++i) {
 			final Task task = tasks.get(i);
-			final ListWidget row = new ListWidget();
-			row.add(task.getName());
-			row.add(" ");
-			row.add(taskGuiLinkFactory.taskUpdate(request, task));
-			row.add(" ");
-			if (i > 0) {
-				row.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(i - 1)));
+			final ListWidget widgets = new ListWidget();
+			{
+				final ListWidget row = new ListWidget();
+				row.add(task.getName());
 				row.add(" ");
-			}
-			if (i < tasks.size() - 1) {
-				row.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(i + 1)));
+				row.add(taskGuiLinkFactory.taskUpdate(request, task));
 				row.add(" ");
+				if (i > 0) {
+					row.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(i - 1)));
+					row.add(" ");
+				}
+				if (i < tasks.size() - 1) {
+					row.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(i + 1)));
+					row.add(" ");
+				}
+				row.add(taskGuiLinkFactory.createSubTask(request, task));
+				row.add(" ");
+				row.add(taskGuiLinkFactory.completeTask(request, task));
+				row.add(" ");
+				row.add(taskGuiLinkFactory.deleteTask(request, task));
+				widgets.add(new DivWidget(row));
 			}
-			row.add(taskGuiLinkFactory.createSubTask(request, task));
-			row.add(" ");
-			row.add(taskGuiLinkFactory.completeTask(request, task));
-			row.add(" ");
-			row.add(taskGuiLinkFactory.deleteTask(request, task));
-			ul.add(row);
+			{
+				widgets.add(new DivWidget(taskList(allTasks, task.getId(), request)));
+			}
+			ul.add(widgets);
 		}
 		return ul;
 	}

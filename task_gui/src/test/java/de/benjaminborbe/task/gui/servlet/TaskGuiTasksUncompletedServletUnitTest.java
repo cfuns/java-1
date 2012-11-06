@@ -32,6 +32,7 @@ import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -146,9 +147,10 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
 		EasyMock.expect(taskGuiWidgetFactory.switchTaskContext(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil();
 
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory, taskGuiWidgetFactory);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -83,6 +83,12 @@ public class TaskServiceImpl implements TaskService {
 
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
+			// check parent
+			if (taskParentIdentifier != null) {
+				final TaskBean parentTask = taskDao.load(taskParentIdentifier);
+				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+			}
+
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final TaskIdentifier taskIdentifier = createTaskIdentifier(sessionIdentifier, idGeneratorUUID.nextId(name));
 			final TaskBean task = taskDao.create();
@@ -94,16 +100,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setModified(calendarUtil.now());
 			task.setCreated(calendarUtil.now());
 			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
-
-			// check parent
-			if (taskParentIdentifier != null) {
-				final TaskBean parentTask = taskDao.load(taskParentIdentifier);
-				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
-				task.setParentId(taskParentIdentifier);
-			}
-			else {
-				task.setParentId(new TaskIdentifier("none"));
-			}
+			task.setParentId(taskParentIdentifier);
 			taskDao.save(task);
 			return taskIdentifier;
 		}
