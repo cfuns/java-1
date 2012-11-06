@@ -98,7 +98,7 @@ public class TaskGuiTaskUpdateServlet extends WebsiteHtmlServlet {
 			final String contextid = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (name != null && description != null && contextid != null) {
-				final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description);
+				final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, null);
 				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextid);
 
 				if (taskIdentifier != null && taskContextIdentifier != null) {

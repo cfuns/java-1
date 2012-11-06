@@ -36,11 +36,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description) throws TaskServiceException {
-		return null;
-	}
-
-	@Override
 	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 	}
@@ -91,8 +86,14 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier) throws TaskServiceException,
 			LoginRequiredException {
+		return null;
 	}
 
 }

@@ -10,7 +10,8 @@ public interface TaskService {
 
 	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
 
-	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description) throws TaskServiceException, LoginRequiredException;
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description, TaskIdentifier taskParentIdentifier) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException;
 
 	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 

@@ -27,6 +27,7 @@ public class TaskBeanMapper extends SingleMappler<TaskBean> {
 	private static Collection<SingleMap<TaskBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil) {
 		final List<SingleMap<TaskBean>> result = new ArrayList<SingleMap<TaskBean>>();
 		result.add(new SingleMapTaskIdentifier<TaskBean>("id"));
+		result.add(new SingleMapTaskIdentifier<TaskBean>("parentId"));
 		result.add(new SingleMapString<TaskBean>("name"));
 		result.add(new SingleMapBoolean<TaskBean>("completed", parseUtil));
 		result.add(new SingleMapString<TaskBean>("description"));

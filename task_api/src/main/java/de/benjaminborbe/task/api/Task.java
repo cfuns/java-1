@@ -8,6 +8,8 @@ public interface Task {
 
 	TaskIdentifier getId();
 
+	TaskIdentifier getParentId();
+
 	String getName();
 
 	String getDescription();
@@ -21,8 +23,6 @@ public interface Task {
 	Calendar getStart();
 
 	Calendar getDue();
-
-	TaskIdentifier getParentId();
 
 	Integer getPriority();
 

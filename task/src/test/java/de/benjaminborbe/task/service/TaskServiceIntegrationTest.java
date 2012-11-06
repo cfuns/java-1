@@ -53,7 +53,7 @@ public class TaskServiceIntegrationTest {
 
 		final String name = "nameA";
 		final String description = "descriptionA";
-		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description);
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, null);
 		assertNotNull(taskIdentifier);
 
 		assertEquals(1, taskService.getTasksNotCompleted(sessionIdentifier, 1).size());

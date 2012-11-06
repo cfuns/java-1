@@ -152,6 +152,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 				row.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(i + 1)));
 				row.add(" ");
 			}
+			row.add(taskGuiLinkFactory.createSubTask(request, task));
+			row.add(" ");
 			row.add(taskGuiLinkFactory.completeTask(request, task));
 			row.add(" ");
 			row.add(taskGuiLinkFactory.deleteTask(request, task));

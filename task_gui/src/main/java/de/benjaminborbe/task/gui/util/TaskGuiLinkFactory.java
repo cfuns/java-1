@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -30,6 +31,20 @@ public class TaskGuiLinkFactory {
 
 	public Widget createTask(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request), "create task");
+	}
+
+	public Widget createSubTask(final HttpServletRequest request, final Task parentTask) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(parentTask.getId())), "create subtask");
+	}
+
+	public String createTaskUrl(final HttpServletRequest request, final TaskIdentifier taskParentIdentifier) throws UnsupportedEncodingException {
+		final MapChain<String, String> parameter = getLoopThrough(request);
+		if (taskParentIdentifier != null) {
+			parameter.add(TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(taskParentIdentifier));
+		}
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, parameter);
+
 	}
 
 	public Widget completeTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {

@@ -76,7 +76,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description) throws TaskServiceException, LoginRequiredException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			logger.debug("createTask");
 
@@ -93,6 +94,16 @@ public class TaskServiceImpl implements TaskService {
 			task.setModified(calendarUtil.now());
 			task.setCreated(calendarUtil.now());
 			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
+
+			// check parent
+			if (taskParentIdentifier != null) {
+				final TaskBean parentTask = taskDao.load(taskParentIdentifier);
+				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+				task.setParentId(taskParentIdentifier);
+			}
+			else {
+				task.setParentId(new TaskIdentifier("none"));
+			}
 			taskDao.save(task);
 			return taskIdentifier;
 		}
@@ -100,6 +111,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 	}
@@ -224,12 +238,22 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public TaskIdentifier createTaskIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
-		return new TaskIdentifier(id);
+		if (id != null && id.length() > 0) {
+			return new TaskIdentifier(id);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
 	public TaskContextIdentifier createTaskContextIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
-		return new TaskContextIdentifier(id);
+		if (id != null && id.length() > 0) {
+			return new TaskContextIdentifier(id);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
