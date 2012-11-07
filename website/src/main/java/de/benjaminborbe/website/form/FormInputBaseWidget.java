@@ -18,6 +18,8 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 
 	private String defaultValue;
 
+	private String value;
+
 	public FormInputBaseWidget(final String type, final String name) {
 		super(TAG);
 		addAttribute("name", name);
@@ -26,7 +28,8 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		addAttribute("value", request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
+		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
+		addAttribute("value", value);
 		{
 			final ListWidget widgets = new ListWidget();
 			if (label != null) {
@@ -69,6 +72,12 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 	@Override
 	public String getName() {
 		return getAttribute("name");
+	}
+
+	@Override
+	public FormInputBaseWidget addValue(final String value) {
+		this.value = value;
+		return this;
 	}
 
 }

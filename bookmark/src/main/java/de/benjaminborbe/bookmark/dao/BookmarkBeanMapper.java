@@ -30,7 +30,7 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 
 	private static final String FAVORITE = "favorite";
 
-	private static final String OWNER_USERNAME = "owner";
+	private static final String OWNER = "owner";
 
 	private static final String KEYWORDS = "keywords";
 
@@ -49,7 +49,7 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 		data.put(URL, object.getUrl());
 		data.put(DESCRIPTION, object.getDescription());
 		data.put(FAVORITE, toString(object.isFavorite()));
-		data.put(OWNER_USERNAME, object.getOwner() != null ? object.getOwner().getId() : null);
+		data.put(OWNER, object.getOwner() != null ? object.getOwner().getId() : null);
 		data.put(KEYWORDS, toString(object.getKeywords()));
 	}
 
@@ -60,7 +60,7 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 		object.setUrl(data.get(URL));
 		object.setDescription(data.get(DESCRIPTION));
 		object.setFavorite(toBoolean(data.get(FAVORITE)));
-		object.setOwner(data.get(OWNER_USERNAME) != null ? new UserIdentifier(data.get(OWNER_USERNAME)) : null);
+		object.setOwner(data.get(OWNER) != null ? new UserIdentifier(data.get(OWNER)) : null);
 		object.setKeywords(toList(data.get(KEYWORDS)));
 	}
 

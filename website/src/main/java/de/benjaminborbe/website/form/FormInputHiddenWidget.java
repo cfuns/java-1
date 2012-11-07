@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.website.util.SingleTagWidget;
 
-public class FormInputHiddenWidget extends SingleTagWidget implements FormElementWidget {
+public class FormInputHiddenWidget extends SingleTagWidget implements FormElementWidget, HasValue<FormInputHiddenWidget> {
 
 	private static final String VALUE = "value";
 
@@ -25,11 +25,13 @@ public class FormInputHiddenWidget extends SingleTagWidget implements FormElemen
 		addAttribute(NAME, valueName);
 	}
 
+	@Override
 	public FormInputHiddenWidget addValue(final String value) {
 		addAttribute(VALUE, value);
 		return this;
 	}
 
+	@Override
 	public String getValue() {
 		return getAttribute(VALUE);
 	}

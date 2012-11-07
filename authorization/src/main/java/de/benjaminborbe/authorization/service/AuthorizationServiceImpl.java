@@ -328,11 +328,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+	public void expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
-			return userIdentifier.equals(authenticationService.getCurrentUser(sessionIdentifier));
+			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			if (userIdentifier == null || currentUser == null || !userIdentifier.equals(currentUser)) {
+				throw new PermissionDeniedException("expect user " + userIdentifier + " but was " + currentUser);
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);

@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.tools;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,39 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.map.MapChain;
 
 public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
+
+	private final class StorageIdIterator implements StorageIterator {
+
+		private final StorageIterator i;
+
+		private final String key;
+
+		private StorageIdIterator(final StorageIterator i, final String key) {
+			this.i = i;
+			this.key = key;
+		}
+
+		@Override
+		public boolean hasNext() throws StorageException {
+			return i.hasNext();
+		}
+
+		@Override
+		public byte[] nextByte() throws StorageException {
+			try {
+				return nextString().getBytes("UTF-8");
+			}
+			catch (final UnsupportedEncodingException e) {
+				throw new StorageException(e);
+			}
+		}
+
+		@Override
+		public String nextString() throws StorageException {
+			final String id = i.nextString();
+			return storageService.get(getColumnFamily(), id, key);
+		}
+	}
 
 	private static final String KEY = "exists";
 
@@ -63,6 +97,18 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 		logger.trace("exists " + identifierA + " " + identifierB);
 		final String id = buildKey(identifierA, identifierB);
 		return VALUE.equals(storageService.get(getColumnFamily(), id, KEY));
+	}
+
+	@Override
+	public StorageIterator getA(final A identifierA) throws StorageException {
+		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_A, String.valueOf(identifierA)));
+		return new StorageIdIterator(i, KEY_B);
+	}
+
+	@Override
+	public StorageIterator getB(final B identifierB) throws StorageException {
+		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_B, String.valueOf(identifierB)));
+		return new StorageIdIterator(i, KEY_A);
 	}
 
 	@Override

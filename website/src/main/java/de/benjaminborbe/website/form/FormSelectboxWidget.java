@@ -13,7 +13,7 @@ import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
 public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<FormSelectboxWidget>, HasId<FormSelectboxWidget>, HasOption<FormSelectboxWidget>,
-		HasLabel<FormSelectboxWidget>, HasValue<FormSelectboxWidget>, HasName<FormSelectboxWidget> {
+		HasLabel<FormSelectboxWidget>, HasDefaultValue<FormSelectboxWidget>, HasName<FormSelectboxWidget>, HasValue<FormSelectboxWidget> {
 
 	private final class Option {
 
@@ -43,9 +43,11 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 
 	private String id;
 
-	private String value;
+	private String defaultValue;
 
 	private String placeholder;
+
+	private String value;
 
 	public FormSelectboxWidget(final String name) {
 		this.name = name;
@@ -53,6 +55,7 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
 		final ListWidget widgets = new ListWidget();
 		if (label != null) {
 			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
@@ -76,7 +79,7 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 			final TagWidget optionWidget = new TagWidget("option");
 			optionWidget.addAttribute("value", option.getValue());
 			optionWidget.addContent(option.getName());
-			if (option.getValue().equals(value)) {
+			if (value != null && option.getValue().equals(value)) {
 				optionWidget.addAttribute("selected", "selected");
 			}
 			optionWidgets.add(optionWidget);
@@ -129,14 +132,14 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 	}
 
 	@Override
-	public FormSelectboxWidget addValue(final String value) {
-		this.value = value;
+	public FormSelectboxWidget addDefaultValue(final String defaultValue) {
+		this.defaultValue = defaultValue;
 		return this;
 	}
 
 	@Override
-	public String getValue() {
-		return value;
+	public String getDefaultValue() {
+		return defaultValue;
 	}
 
 	@Override
@@ -148,6 +151,17 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 	@Override
 	public String getPlaceholder() {
 		return placeholder;
+	}
+
+	@Override
+	public FormSelectboxWidget addValue(final String value) {
+		this.value = value;
+		return this;
+	}
+
+	@Override
+	public String getValue() {
+		return value;
 	}
 
 }

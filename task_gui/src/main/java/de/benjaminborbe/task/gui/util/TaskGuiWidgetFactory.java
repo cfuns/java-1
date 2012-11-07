@@ -18,6 +18,7 @@ import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
@@ -49,7 +50,7 @@ public class TaskGuiWidgetFactory {
 			contextList.add(taskGuiLinkFactory.switchTaskContext(request, taskContext));
 			contextList.add(" ");
 		}
-		return contextList;
+		return new DivWidget(contextList);
 	}
 
 }

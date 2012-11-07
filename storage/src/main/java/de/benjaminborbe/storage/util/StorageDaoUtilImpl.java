@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.map.MapChain;
 
 public class StorageDaoUtilImpl implements StorageDaoUtil {
 
@@ -113,6 +114,18 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	public void delete(final String keySpace, final String columnFamily, final String key, final String columnName) throws InvalidRequestException, NotFoundException,
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 		delete(keySpace, columnFamily, key, Arrays.asList(columnName));
+	}
+
+	@Override
+	public void insert(final String keySpace, final String columnFamily, final byte[] id, final String columnName, final String columnValue) throws InvalidRequestException,
+			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException {
+		insert(keySpace, columnFamily, id, new MapChain<String, String>().add(columnName, columnValue));
+	}
+
+	@Override
+	public void insert(final String keySpace, final String columnFamily, final String id, final String columnName, final String columnValue) throws InvalidRequestException,
+			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException {
+		insert(keySpace, columnFamily, id, new MapChain<String, String>().add(columnName, columnValue));
 	}
 
 	@Override

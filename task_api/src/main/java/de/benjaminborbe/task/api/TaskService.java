@@ -23,7 +23,10 @@ public interface TaskService {
 
 	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
 
-	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+	List<Task> getTasksNotCompletedWithoutContext(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+
+	List<Task> getTasksNotCompletedWithContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, int limit) throws TaskServiceException,
+			LoginRequiredException;
 
 	List<Task> getTasksCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
 
@@ -38,7 +41,15 @@ public interface TaskService {
 
 	void addTaskContext(TaskIdentifier taskIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException;
 
+	void replaceTaskContext(TaskIdentifier taskIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException;
+
 	void swapPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifierA, TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException;
+
+	void updateTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, String name, String description, TaskIdentifier taskParentIdentifier)
+			throws TaskServiceException, PermissionDeniedException, LoginRequiredException;
+
+	List<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException;
 
 }

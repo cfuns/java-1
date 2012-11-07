@@ -19,7 +19,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
-import de.benjaminborbe.bookmark.gui.util.BookmarkInit;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiInit;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -40,7 +40,7 @@ public class BookmarkGuiInitServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "BookmarkGui - Init";
 
-	private final BookmarkInit bookmarkInit;
+	private final BookmarkGuiInit bookmarkInit;
 
 	private final Logger logger;
 
@@ -55,7 +55,7 @@ public class BookmarkGuiInitServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
-			final BookmarkInit bookmarkInit,
+			final BookmarkGuiInit bookmarkInit,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService) {

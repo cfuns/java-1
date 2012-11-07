@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.tools;
 
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 
 public interface ManyToManyRelation<A extends Identifier<?>, B extends Identifier<?>> {
 
@@ -14,4 +15,8 @@ public interface ManyToManyRelation<A extends Identifier<?>, B extends Identifie
 	void removeB(B identifierB) throws StorageException;
 
 	void removeA(A identifierA) throws StorageException;
+
+	StorageIterator getB(B identifierB) throws StorageException;
+
+	StorageIterator getA(A identifierA) throws StorageException;
 }

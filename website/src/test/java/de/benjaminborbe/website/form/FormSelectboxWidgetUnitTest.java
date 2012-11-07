@@ -86,7 +86,7 @@ public class FormSelectboxWidgetUnitTest {
 
 		field.addOption("value1", "name1");
 		field.addOption("value2", "name2");
-		field.addValue("value2");
+		field.addDefaultValue("value2");
 
 		field.render(request, response, context);
 

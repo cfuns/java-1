@@ -37,7 +37,13 @@ public interface StorageDaoUtil {
 	void insert(String keySpace, String columnFamily, final byte[] key, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
 
+	void insert(String keySpace, String columnFamily, byte[] id, String columnName, String columnValue) throws InvalidRequestException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
+
 	void insert(String keySpace, String columnFamily, final String key, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
+
+	void insert(String keySpace, String columnFamily, String id, String columnName, String columnValue) throws InvalidRequestException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
 
 	StorageIterator keyIterator(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,

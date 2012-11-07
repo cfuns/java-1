@@ -35,6 +35,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormInputTextareaWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormSelectboxWidget;
 import de.benjaminborbe.website.form.FormWidget;
@@ -98,9 +99,11 @@ public class TaskGuiTaskCreateServlet extends WebsiteHtmlServlet {
 			final String description = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION);
 			final String contextId = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID);
 			final String parentId = request.getParameter(TaskGuiConstants.PARAMETER_TASK_PARENT_ID);
+			final String selectedContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final TaskContextIdentifier selectedContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, selectedContextId);
+			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			if (name != null && description != null && contextId != null && parentId != null) {
-				final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 				final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier);
 
 				// add task-context relation
@@ -115,13 +118,23 @@ public class TaskGuiTaskCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_PARENT_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addLabel("Name").addPlaceholder("name ..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description ..."));
+			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description ..."));
 			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
 			final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
 			contextSelectBox.addOption("", "none");
 			for (final TaskContext taskContext : taskContexts) {
 				contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());
 			}
+			// set context to parent if exists
+			if (taskParentIdentifier != null) {
+				for (final TaskContext taskContext : taskService.getTaskContexts(sessionIdentifier, taskParentIdentifier)) {
+					contextSelectBox.addDefaultValue(String.valueOf(taskContext.getId()));
+				}
+			}
+			else if (selectedContextIdentifier != null) {
+				contextSelectBox.addDefaultValue(String.valueOf(selectedContextIdentifier.getId()));
+			}
+
 			formWidget.addFormInputWidget(contextSelectBox);
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);

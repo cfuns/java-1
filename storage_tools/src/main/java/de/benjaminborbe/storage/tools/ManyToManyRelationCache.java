@@ -5,10 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 
 public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
 
@@ -58,6 +61,16 @@ public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifi
 		for (final String key : remove) {
 			data.remove(key);
 		}
+	}
+
+	@Override
+	public StorageIterator getB(final B identifierB) throws StorageException {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public StorageIterator getA(final A identifierA) throws StorageException {
+		throw new NotImplementedException();
 	}
 
 }

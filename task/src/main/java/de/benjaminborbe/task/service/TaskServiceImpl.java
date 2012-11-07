@@ -19,6 +19,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
@@ -280,7 +281,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
+	public List<Task> getTasksNotCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
 			throws TaskServiceException, LoginRequiredException {
 		try {
 			logger.debug("getTasksNotCompleted");
@@ -356,6 +357,40 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public void replaceTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
+		try {
+			logger.debug("addTaskContext");
+			taskContextManyToManyRelation.removeA(taskIdentifier);
+			taskContextManyToManyRelation.add(taskIdentifier, taskContextIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public List<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException {
+		try {
+			logger.debug("getTaskContexts for task: " + taskIdentifier);
+			final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
+			final List<TaskContext> result = new ArrayList<TaskContext>();
+			while (i.hasNext()) {
+				final String id = i.nextString();
+				logger.debug("add taskcontext: " + id);
+				final TaskContextBean taskContextBean = taskContextDao.load(createTaskContextIdentifier(sessionIdentifier, id));
+				if (taskContextBean != null) {
+					result.add(taskContextBean);
+				}
+			}
+			logger.debug("found " + result.size() + " contexts");
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
 	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws PermissionDeniedException,
 			LoginRequiredException, TaskServiceException {
 		try {
@@ -381,6 +416,63 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 
+	}
+
+	@Override
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description,
+			final TaskIdentifier taskParentIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+
+		try {
+			logger.debug("createTask");
+
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			// check parent
+			if (taskParentIdentifier != null) {
+				final TaskBean parentTask = taskDao.load(taskParentIdentifier);
+				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+			}
+			final TaskBean task = taskDao.load(taskIdentifier);
+			authorizationService.expectUser(sessionIdentifier, task.getOwner());
+
+			task.setName(name);
+			task.setDescription(description);
+			task.setModified(calendarUtil.now());
+			task.setParentId(taskParentIdentifier);
+			taskDao.save(task);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public List<Task> getTasksNotCompletedWithoutContext(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+		try {
+			logger.debug("getTasksNotCompletedWithoutContext");
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			logger.debug("user " + userIdentifier);
+			final List<Task> result = new ArrayList<Task>();
+			for (final TaskBean task : taskDao.getTasksNotCompleted(userIdentifier, limit)) {
+				if (!taskContextManyToManyRelation.getA(task.getId()).hasNext()) {
+					result.add(task);
+				}
+			}
+			return sortAndLimit(result, limit);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
 	}
 
 }

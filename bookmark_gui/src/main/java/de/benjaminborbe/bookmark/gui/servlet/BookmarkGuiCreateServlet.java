@@ -1,9 +1,6 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +20,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiKeywordUtil;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -63,6 +61,8 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil;
+
 	@Inject
 	public BookmarkGuiCreateServlet(
 			final Logger logger,
@@ -75,11 +75,13 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			final BookmarkService bookmarkService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
+			final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
 			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.bookmarkService = bookmarkService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.bookmarkGuiKeywordUtil = bookmarkGuiKeywordUtil;
 	}
 
 	@Override
@@ -102,7 +104,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			if (url != null && name != null && description != null && keywords != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					bookmarkService.createBookmark(sessionIdentifier, url, name, description, buildKeywords(keywords), false);
+					bookmarkService.createBookmark(sessionIdentifier, url, name, description, bookmarkGuiKeywordUtil.buildKeywords(keywords), false);
 					throw new RedirectException(request.getContextPath() + "/bookmark/list");
 				}
 				catch (final BookmarkCreationException e) {
@@ -135,16 +137,4 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	protected List<String> buildKeywords(final String keywords) {
-		final List<String> result = new ArrayList<String>();
-		if (keywords != null) {
-			final String[] parts = keywords.split("[^a-z]");
-			for (final String keyword : parts) {
-				if (keyword != null && keyword.length() > 0) {
-					result.add(keyword);
-				}
-			}
-		}
-		return result;
-	}
 }

@@ -12,14 +12,14 @@ import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 
-public class BookmarkInit {
+public class BookmarkGuiInit {
 
 	private static final String DEFAULT_DESCRIPTION = "-";
 
 	private final BookmarkService bookmarkService;
 
 	@Inject
-	public BookmarkInit(final BookmarkService bookmarkService) {
+	public BookmarkGuiInit(final BookmarkService bookmarkService) {
 		this.bookmarkService = bookmarkService;
 	}
 

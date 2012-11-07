@@ -114,10 +114,10 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final List<Task> tasks;
 			if (taskContextId != null && taskContextId.length() > 0) {
 				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId);
-				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskContextIdentifier, taskLimit);
+				tasks = taskService.getTasksNotCompletedWithContext(sessionIdentifier, taskContextIdentifier, taskLimit);
 			}
 			else {
-				tasks = taskService.getTasksNotCompleted(sessionIdentifier, taskLimit);
+				tasks = taskService.getTasksNotCompletedWithoutContext(sessionIdentifier, taskLimit);
 			}
 			widgets.add(taskList(tasks, null, request));
 
