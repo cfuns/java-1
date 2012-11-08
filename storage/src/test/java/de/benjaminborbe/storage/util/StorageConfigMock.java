@@ -8,6 +8,8 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 
 	private int readLimit;
 
+	private int maxConnections = 5;
+
 	private static final String CASSANDRA_KEYSPACE = "test";
 
 	@Inject
@@ -33,7 +35,11 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 
 	@Override
 	public int getMaxConnections() {
-		return 5;
+		return maxConnections;
+	}
+
+	public void setMaxConnections(final int maxConnections) {
+		this.maxConnections = maxConnections;
 	}
 
 }

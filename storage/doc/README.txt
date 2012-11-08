@@ -18,7 +18,10 @@ drop column family worktime;
 create column family worktime with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: date, validation_class: UTF8Type, index_type: KEYS}
+  ];
   
 drop column family microblog;
 create column family microblog with

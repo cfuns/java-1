@@ -18,4 +18,11 @@ public class StringUtilImpl implements StringUtil {
 		return string;
 	}
 
+	@Override
+	public String shortenDots(final String string, final int length) {
+		if (string != null && string.length() > length) {
+			return string.substring(0, length) + "...";
+		}
+		return string;
+	}
 }

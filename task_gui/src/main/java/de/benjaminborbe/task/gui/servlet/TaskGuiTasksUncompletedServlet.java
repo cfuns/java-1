@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -39,6 +41,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -153,6 +156,8 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			{
 				final ListWidget row = new ListWidget();
+				row.add(taskGuiLinkFactory.completeTask(request, task));
+				row.add(" ");
 				row.add(task.getName());
 				row.add(" ");
 				row.add(taskGuiLinkFactory.taskUpdate(request, task));
@@ -167,8 +172,6 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 				}
 				row.add(taskGuiLinkFactory.createSubTask(request, task));
 				row.add(" ");
-				row.add(taskGuiLinkFactory.completeTask(request, task));
-				row.add(" ");
 				row.add(taskGuiLinkFactory.deleteTask(request, task));
 				widgets.add(new DivWidget(row));
 			}
@@ -178,5 +181,12 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			ul.add(widgets);
 		}
 		return ul;
+	}
+
+	@Override
+	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final Collection<CssResource> result = super.getCssResources(request, response);
+		result.add(new CssResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS_STYLE));
+		return result;
 	}
 }

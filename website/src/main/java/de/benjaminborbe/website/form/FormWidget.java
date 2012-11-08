@@ -24,6 +24,8 @@ public class FormWidget implements Widget {
 
 	private FormEncType encType;
 
+	private String clazz;
+
 	public FormWidget(final String action) {
 		this.action = action;
 	}
@@ -52,6 +54,9 @@ public class FormWidget implements Widget {
 		if (method != null) {
 			out.print(" method=\"" + method + "\"");
 		}
+		if (clazz != null) {
+			out.print(" class=\"" + clazz + "\"");
+		}
 		if (target != null) {
 			out.print(" target=\"" + target + "\"");
 		}
@@ -77,4 +82,8 @@ public class FormWidget implements Widget {
 		return this;
 	}
 
+	public FormWidget addClass(final String clazz) {
+		this.clazz = clazz;
+		return this;
+	}
 }

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.task.gui.TaskGuiActivator;
 import de.benjaminborbe.task.gui.guice.TaskGuiModulesMock;
@@ -100,7 +101,9 @@ public class TaskGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList();
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS);
+
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -124,6 +127,7 @@ public class TaskGuiActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
+		names.add(DashboardContentWidget.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

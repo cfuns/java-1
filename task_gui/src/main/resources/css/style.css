@@ -1,0 +1,7 @@
+form.taskcompleteform,form.taskcompleteform fieldset {
+	display: inline;
+}
+
+form.taskdashboardcreate input {
+	margin-left: 0px;
+}

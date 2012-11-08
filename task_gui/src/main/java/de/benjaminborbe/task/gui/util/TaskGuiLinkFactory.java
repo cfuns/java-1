@@ -17,6 +17,8 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
 @Singleton
@@ -47,8 +49,16 @@ public class TaskGuiLinkFactory {
 	}
 
 	public Widget completeTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "complete").addConfirm("complete?");
+
+		final MapChain<String, String> parameter = getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId()));
+		final String target = urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, parameter);
+		final FormWidget formWidget = new FormWidget().addClass("taskcompleteform");
+		formWidget.addFormInputWidget(new FormCheckboxWidget("done").addOnClick("if (confirm('complete?')) {window.location.href = '" + target + "';} else { this.checked = false;}"));
+		return formWidget;
+		// return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME +
+		// TaskGuiConstants.URL_TASK_COMPLETE, getLoopThrough(request).add(
+		// TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())),
+		// "complete").addConfirm("complete?");
 	}
 
 	public Widget uncompleteTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {

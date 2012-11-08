@@ -48,4 +48,8 @@ public interface TaskGuiConstants {
 
 	String URL_TASKS_UNCOMPLETED = "/tasks/uncompletd";
 
+	String URL_CSS = "/css";
+
+	String URL_CSS_STYLE = "/css/style.css";
+
 }
