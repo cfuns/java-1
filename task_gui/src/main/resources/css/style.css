@@ -14,3 +14,11 @@ form.taskdashboardcreate input {
 .task input[type="text"] {
 	width: 800px;
 }
+
+div.dueToday {
+	color: #FFCC00;
+}
+
+div.dueExpired {
+	color: #EE0000;
+}

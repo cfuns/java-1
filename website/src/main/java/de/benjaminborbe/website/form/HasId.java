@@ -1,6 +1,8 @@
 package de.benjaminborbe.website.form;
 
-public interface HasId<E extends FormElementWidget> {
+import de.benjaminborbe.html.api.Widget;
+
+public interface HasId<E extends Widget> {
 
 	E addId(final String id);
 

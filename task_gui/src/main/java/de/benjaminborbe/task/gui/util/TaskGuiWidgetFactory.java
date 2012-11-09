@@ -9,6 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -39,16 +41,28 @@ public class TaskGuiWidgetFactory {
 
 	private final TaskGuiUtil taskGuiUtil;
 
+	private final TaskDueTodayPredicate taskDueTodayPredicate;
+
+	private final TaskDueExpiredPredicate taskDueExpiredPredicate;
+
+	private final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate;
+
 	@Inject
 	public TaskGuiWidgetFactory(
 			final AuthenticationService authenticationService,
 			final TaskService taskService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiUtil taskGuiUtil) {
+			final TaskGuiUtil taskGuiUtil,
+			final TaskDueTodayPredicate taskDueTodayPredicate,
+			final TaskDueExpiredPredicate taskDueExpiredPredicate,
+			final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate) {
 		this.authenticationService = authenticationService;
 		this.taskService = taskService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiUtil = taskGuiUtil;
+		this.taskDueTodayPredicate = taskDueTodayPredicate;
+		this.taskDueExpiredPredicate = taskDueExpiredPredicate;
+		this.taskDueNotExpiredPredicate = taskDueNotExpiredPredicate;
 	}
 
 	public Widget switchTaskContext(final HttpServletRequest request) throws AuthenticationServiceException, LoginRequiredException, TaskServiceException, MalformedURLException,
@@ -70,10 +84,12 @@ public class TaskGuiWidgetFactory {
 	}
 
 	public Widget taskListWithoutParents(final List<Task> allTasks, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		final List<Task> tasks = taskGuiUtil.getOnlyChilds(allTasks);
-		if (tasks.isEmpty()) {
+		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
+		if (childTasks.isEmpty()) {
 			return null;
 		}
+		final List<Task> tasks = groupByDueState(childTasks);
+
 		final UlWidget ul = new UlWidget();
 		for (int i = 0; i < tasks.size(); ++i) {
 			final Task task = tasks.get(i);
@@ -83,6 +99,14 @@ public class TaskGuiWidgetFactory {
 			ul.add(widgets);
 		}
 		return ul;
+	}
+
+	private List<Task> groupByDueState(final List<Task> tasks) {
+		final List<Task> result = new ArrayList<Task>();
+		result.addAll(Collections2.filter(tasks, taskDueExpiredPredicate));
+		result.addAll(Collections2.filter(tasks, taskDueTodayPredicate));
+		result.addAll(Collections2.filter(tasks, taskDueNotExpiredPredicate));
+		return result;
 	}
 
 	public Widget taskListWithChilds(final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request) throws MalformedURLException,
@@ -112,7 +136,6 @@ public class TaskGuiWidgetFactory {
 		final ListWidget row = new ListWidget();
 		row.add(taskGuiLinkFactory.completeTask(request, task));
 		row.add(" ");
-
 		final List<String> names = new ArrayList<String>();
 
 		Task parent = taskGuiUtil.getParent(allTasks, task);
@@ -128,6 +151,8 @@ public class TaskGuiWidgetFactory {
 		final ListWidget options = new ListWidget();
 		options.add(taskGuiLinkFactory.taskUpdate(request, task));
 		options.add(" ");
+		options.add(taskGuiLinkFactory.taskTomorrow(request, task));
+		options.add(" ");
 		if (position > 0) {
 			options.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(position - 1)));
 			options.add(" ");
@@ -141,7 +166,15 @@ public class TaskGuiWidgetFactory {
 		options.add(taskGuiLinkFactory.deleteTask(request, task));
 
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
-		return new DivWidget(row).addAttribute("class", "taskEntry");
+		final DivWidget div = new DivWidget(row).addClass("taskEntry");
+		if (task.getDue() != null) {
+			if (taskDueTodayPredicate.apply(task)) {
+				div.addClass("dueToday");
+			}
+			else if (taskDueExpiredPredicate.apply(task)) {
+				div.addClass("dueExpired");
+			}
+		}
+		return div;
 	}
-
 }

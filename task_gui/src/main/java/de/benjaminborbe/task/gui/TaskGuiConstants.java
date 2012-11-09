@@ -60,4 +60,6 @@ public interface TaskGuiConstants {
 
 	String PARAMETER_TASK_START = "task_start";
 
+	String URL_TASK_START_TOMORROW = "/task/tomorrow";
+
 }

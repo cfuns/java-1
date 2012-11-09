@@ -1,7 +1,6 @@
 package de.benjaminborbe.task.gui.util;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,6 @@ import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
-import de.benjaminborbe.tools.date.CalendarUtil;
 
 public class TaskGuiUtil {
 
@@ -25,13 +23,13 @@ public class TaskGuiUtil {
 
 	private final TaskService taskService;
 
-	private final CalendarUtil calendarUtil;
+	private final TaskStartReadyPredicate taskStartReadyPredicate;
 
 	@Inject
-	public TaskGuiUtil(final Logger logger, final TaskService taskService, final CalendarUtil calendarUtil) {
+	public TaskGuiUtil(final Logger logger, final TaskService taskService, final TaskStartReadyPredicate taskStartReadyPredicate) {
 		this.logger = logger;
 		this.taskService = taskService;
-		this.calendarUtil = calendarUtil;
+		this.taskStartReadyPredicate = taskStartReadyPredicate;
 	}
 
 	public Task getParent(final List<Task> allTasks, final Task task) {
@@ -97,11 +95,9 @@ public class TaskGuiUtil {
 	}
 
 	public List<Task> filterStart(final List<Task> tasks) {
-		final Calendar today = calendarUtil.today();
 		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : tasks) {
-			logger.debug(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(today));
-			if (task.getStart() == null || calendarUtil.isLE(task.getStart(), today)) {
+			if (taskStartReadyPredicate.apply(task)) {
 				result.add(task);
 			}
 		}

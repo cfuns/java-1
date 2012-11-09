@@ -142,4 +142,9 @@ public class TaskGuiLinkFactory {
 				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "uncomplete").addConfirm("uncomplete?");
 	}
 
+	public Widget taskTomorrow(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_START_TOMORROW, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "tomorrow");
+	}
+
 }
