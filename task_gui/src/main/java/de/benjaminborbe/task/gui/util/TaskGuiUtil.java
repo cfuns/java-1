@@ -29,6 +29,18 @@ public class TaskGuiUtil {
 		this.taskService = taskService;
 	}
 
+	public Task getParent(final List<Task> allTasks, final Task task) {
+		logger.debug("find parent for: " + task.getId());
+		if (task.getParentId() != null) {
+			for (final Task parent : allTasks) {
+				if (parent.getId().equals(task.getParentId())) {
+					return parent;
+				}
+			}
+		}
+		return null;
+	}
+
 	public List<Task> getChildTasks(final List<Task> allTasks, final TaskIdentifier parentId) {
 		logger.trace("getChildTasks for parent: " + parentId + " allTasks " + allTasks.size());
 		final List<Task> result = new ArrayList<Task>();

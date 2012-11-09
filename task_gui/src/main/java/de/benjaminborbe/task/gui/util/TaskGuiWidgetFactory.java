@@ -2,10 +2,15 @@ package de.benjaminborbe.task.gui.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -36,12 +41,16 @@ public class TaskGuiWidgetFactory {
 
 	private final TaskGuiUtil taskGuiUtil;
 
+	private final Logger logger;
+
 	@Inject
 	public TaskGuiWidgetFactory(
+			final Logger logger,
 			final AuthenticationService authenticationService,
 			final TaskService taskService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiUtil taskGuiUtil) {
+		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.taskService = taskService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -75,7 +84,7 @@ public class TaskGuiWidgetFactory {
 		for (int i = 0; i < tasks.size(); ++i) {
 			final Task task = tasks.get(i);
 			final ListWidget widgets = new ListWidget();
-			final Widget div = buildTaskListRow(request, tasks, i, task);
+			final Widget div = buildTaskListRow(request, tasks, i, task, allTasks);
 			widgets.add(div);
 			ul.add(widgets);
 		}
@@ -93,7 +102,7 @@ public class TaskGuiWidgetFactory {
 			final Task task = tasks.get(i);
 			final ListWidget widgets = new ListWidget();
 			{
-				final Widget div = buildTaskListRow(request, tasks, i, task);
+				final Widget div = buildTaskListRow(request, tasks, i, task, allTasks);
 				widgets.add(div);
 			}
 			{
@@ -104,12 +113,22 @@ public class TaskGuiWidgetFactory {
 		return ul;
 	}
 
-	private Widget buildTaskListRow(final HttpServletRequest request, final List<Task> tasks, final int position, final Task task) throws MalformedURLException,
-			UnsupportedEncodingException {
+	private Widget buildTaskListRow(final HttpServletRequest request, final List<Task> tasks, final int position, final Task task, final List<Task> allTasks)
+			throws MalformedURLException, UnsupportedEncodingException {
 		final ListWidget row = new ListWidget();
 		row.add(taskGuiLinkFactory.completeTask(request, task));
 		row.add(" ");
-		row.add(new SpanWidget(task.getName()).addAttribute("class", "taskTitle"));
+
+		final List<String> names = new ArrayList<String>();
+
+		Task parent = taskGuiUtil.getParent(allTasks, task);
+		while (parent != null) {
+			names.add(parent.getName());
+			parent = taskGuiUtil.getParent(allTasks, parent);
+		}
+		Collections.reverse(names);
+		names.add(task.getName());
+		row.add(new SpanWidget(StringUtils.join(names, "/")).addAttribute("class", "taskTitle"));
 		row.add(" ");
 
 		final ListWidget options = new ListWidget();
@@ -130,4 +149,5 @@ public class TaskGuiWidgetFactory {
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		return new DivWidget(row).addAttribute("class", "taskEntry");
 	}
+
 }
