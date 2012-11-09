@@ -88,7 +88,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier,
 			final Calendar start, final Calendar due) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
-			logger.debug("createTask");
+			logger.trace("createTask");
 
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
@@ -137,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
 	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		try {
-			logger.debug("getTask");
+			logger.trace("getTask");
 			final Task task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			return task;
@@ -154,10 +154,10 @@ public class TaskServiceImpl implements TaskService {
 	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, TaskServiceException,
 			PermissionDeniedException {
 		try {
-			logger.debug("deleteTask");
+			logger.trace("deleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			if (task == null) {
-				logger.debug("task already deleted");
+				logger.trace("task already deleted");
 				return;
 			}
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
@@ -175,7 +175,7 @@ public class TaskServiceImpl implements TaskService {
 	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		try {
-			logger.debug("completeTask");
+			logger.trace("completeTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			task.setModified(calendarUtil.now());
@@ -194,7 +194,7 @@ public class TaskServiceImpl implements TaskService {
 	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		try {
-			logger.debug("unCompleteTask");
+			logger.trace("unCompleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			task.setModified(calendarUtil.now());
@@ -212,10 +212,10 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
 		try {
-			logger.debug("getTasksNotCompleted");
+			logger.trace("getTasksNotCompleted");
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			logger.debug("user " + userIdentifier);
+			logger.trace("user " + userIdentifier);
 			final List<Task> result = new ArrayList<Task>();
 			for (final TaskBean task : taskDao.getTasksNotCompleted(userIdentifier, limit)) {
 				result.add(task);
@@ -233,10 +233,10 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
 		try {
-			logger.debug("getTasksCompleted");
+			logger.trace("getTasksCompleted");
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			logger.debug("user " + userIdentifier);
+			logger.trace("user " + userIdentifier);
 			final List<Task> result = new ArrayList<Task>();
 			for (final TaskBean task : taskDao.getTasksCompleted(userIdentifier, limit)) {
 				result.add(task);
@@ -274,7 +274,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException {
 		try {
-			logger.debug("createTaskContext");
+			logger.trace("createTaskContext");
 
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
@@ -301,7 +301,7 @@ public class TaskServiceImpl implements TaskService {
 	public List<Task> getTasksNotCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
 			throws TaskServiceException, LoginRequiredException {
 		try {
-			logger.debug("getTasksNotCompleted for context: " + taskContextIdentifier);
+			logger.trace("getTasksNotCompleted for context: " + taskContextIdentifier);
 			final List<Task> tasks = getTasksNotCompleted(sessionIdentifier, limit);
 			final List<Task> result = new ArrayList<Task>();
 			for (final Task task : tasks) {
@@ -309,7 +309,7 @@ public class TaskServiceImpl implements TaskService {
 					result.add(task);
 				}
 			}
-			logger.debug("getTasksNotCompleted for context: " + taskContextIdentifier + " found: " + result.size());
+			logger.trace("getTasksNotCompleted for context: " + taskContextIdentifier + " found: " + result.size());
 			return sortAndLimit(result, limit);
 		}
 		catch (final StorageException e) {
@@ -350,7 +350,7 @@ public class TaskServiceImpl implements TaskService {
 	public void deleteContextTask(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
 			PermissionDeniedException {
 		try {
-			logger.debug("deleteContextTask");
+			logger.trace("deleteContextTask");
 			final TaskContextBean taskContext = taskContextDao.load(taskContextIdentifier);
 			authorizationService.expectUser(sessionIdentifier, taskContext.getOwner());
 			taskContextDao.delete(taskContext);
@@ -366,7 +366,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void addTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
 		try {
-			logger.debug("addTaskContext");
+			logger.trace("addTaskContext");
 			taskContextManyToManyRelation.add(taskIdentifier, taskContextIdentifier);
 		}
 		catch (final StorageException e) {
@@ -377,7 +377,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void replaceTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
 		try {
-			logger.debug("addTaskContext");
+			logger.trace("addTaskContext");
 			taskContextManyToManyRelation.removeA(taskIdentifier);
 			taskContextManyToManyRelation.add(taskIdentifier, taskContextIdentifier);
 		}
@@ -389,18 +389,18 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException {
 		try {
-			logger.debug("getTaskContexts for task: " + taskIdentifier);
+			logger.trace("getTaskContexts for task: " + taskIdentifier);
 			final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
 			final List<TaskContext> result = new ArrayList<TaskContext>();
 			while (i.hasNext()) {
 				final String id = i.nextString();
-				logger.debug("add taskcontext: " + id);
+				logger.trace("add taskcontext: " + id);
 				final TaskContextBean taskContextBean = taskContextDao.load(createTaskContextIdentifier(sessionIdentifier, id));
 				if (taskContextBean != null) {
 					result.add(taskContextBean);
 				}
 			}
-			logger.debug("found " + result.size() + " contexts");
+			logger.trace("found " + result.size() + " contexts");
 			return result;
 		}
 		catch (final StorageException e) {
@@ -412,7 +412,7 @@ public class TaskServiceImpl implements TaskService {
 	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws PermissionDeniedException,
 			LoginRequiredException, TaskServiceException {
 		try {
-			logger.debug("swapPrio " + taskIdentifierA + " <=> " + taskIdentifierB);
+			logger.trace("swapPrio " + taskIdentifierA + " <=> " + taskIdentifierB);
 			final TaskBean taskA = taskDao.load(taskIdentifierA);
 			final TaskBean taskB = taskDao.load(taskIdentifierB);
 			authorizationService.expectUser(sessionIdentifier, taskA.getOwner());
@@ -441,7 +441,7 @@ public class TaskServiceImpl implements TaskService {
 			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
 
 		try {
-			logger.debug("createTask");
+			logger.trace("createTask");
 
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
@@ -475,17 +475,17 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getTasksNotCompletedWithoutContext(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
 		try {
-			logger.debug("getTasksNotCompletedWithoutContext");
+			logger.trace("getTasksNotCompletedWithoutContext");
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			logger.debug("user " + userIdentifier);
+			logger.trace("user " + userIdentifier);
 			final List<Task> result = new ArrayList<Task>();
 			for (final TaskBean task : taskDao.getTasksNotCompleted(userIdentifier, limit)) {
 				if (!taskContextManyToManyRelation.getA(task.getId()).hasNext()) {
 					result.add(task);
 				}
 			}
-			logger.debug("getTasksNotCompletedWithoutContext found " + result.size());
+			logger.trace("getTasksNotCompletedWithoutContext found " + result.size());
 			return sortAndLimit(result, limit);
 		}
 		catch (final AuthenticationServiceException e) {

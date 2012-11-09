@@ -98,7 +98,7 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 
 			final List<Task> tasks = taskGuiUtil.filterStart(allTasks);
 
-			logger.debug("found " + tasks.size() + " tasks");
+			logger.trace("found " + tasks.size() + " tasks");
 			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(tasks, request));
 
 			final ListWidget links = new ListWidget();
@@ -113,12 +113,12 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final TaskServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
