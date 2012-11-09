@@ -51,7 +51,9 @@ public class DivWidget extends TagWidget implements HasClass<DivWidget> {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		addAttribute("class", StringUtils.join(classes, " "));
+		if (classes.size() > 0) {
+			addAttribute("class", StringUtils.join(classes, " "));
+		}
 		super.render(request, response, context);
 	}
 }

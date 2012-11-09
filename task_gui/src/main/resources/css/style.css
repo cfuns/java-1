@@ -1,12 +1,14 @@
-form.taskcompleteform,form.taskcompleteform fieldset {
-	display: inline;
-}
-
+/* dashboard */
 form.taskdashboardcreate input {
 	margin-left: 0px;
 }
 
-.taskOptions {
+/* task */
+.task form.taskcompleteform,form.taskcompleteform fieldset {
+	display: inline;
+}
+
+.task .taskOptions {
 	left: 1000px;
 	position: absolute;
 }
@@ -15,10 +17,10 @@ form.taskdashboardcreate input {
 	width: 800px;
 }
 
-div.dueToday {
+.task div.dueToday {
 	color: #FFCC00;
 }
 
-div.dueExpired {
+.task div.dueExpired {
 	color: #EE0000;
 }
