@@ -12,6 +12,9 @@ import org.easymock.EasyMock;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ParseUtilImpl;
+
 public class CalendarUtilImplUnitTest {
 
 	@Test
@@ -180,4 +183,120 @@ public class CalendarUtilImplUnitTest {
 		final CalendarUtil u = new CalendarUtilImpl(null, null);
 		assertEquals("2012-12-24", u.getCalendarSmart("1d"));
 	}
+
+	@Test
+	public void testIsLE() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		assertTrue(u.isLE(u.parseDateTime(timeZone, "2012-12-24 20:15:50"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertTrue(u.isLE(u.parseDateTime(timeZone, "2012-12-24 20:15:51"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertFalse(u.isLE(u.parseDateTime(timeZone, "2012-12-24 20:15:52"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+	}
+
+	@Test
+	public void testIsGE() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		assertFalse(u.isGE(u.parseDateTime(timeZone, "2012-12-24 20:15:50"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertTrue(u.isGE(u.parseDateTime(timeZone, "2012-12-24 20:15:51"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertTrue(u.isGE(u.parseDateTime(timeZone, "2012-12-24 20:15:52"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+	}
+
+	@Test
+	public void testIsLT() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		assertTrue(u.isLT(u.parseDateTime(timeZone, "2012-12-24 20:15:50"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertFalse(u.isLT(u.parseDateTime(timeZone, "2012-12-24 20:15:51"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertFalse(u.isLT(u.parseDateTime(timeZone, "2012-12-24 20:15:52"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+	}
+
+	@Test
+	public void testIsGT() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		assertFalse(u.isGT(u.parseDateTime(timeZone, "2012-12-24 20:15:50"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertFalse(u.isGT(u.parseDateTime(timeZone, "2012-12-24 20:15:51"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertTrue(u.isGT(u.parseDateTime(timeZone, "2012-12-24 20:15:52"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+	}
+
+	@Test
+	public void testIsEQ() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		assertFalse(u.isEQ(u.parseDateTime(timeZone, "2012-12-24 20:15:50"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertTrue(u.isEQ(u.parseDateTime(timeZone, "2012-12-24 20:15:51"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+		assertFalse(u.isEQ(u.parseDateTime(timeZone, "2012-12-24 20:15:52"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
+	}
+
+	@Test
+	public void testParseDate() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		final Calendar c = u.parseDate(timeZone, "2012-11-09");
+		assertEquals(2012, c.get(Calendar.YEAR));
+		assertEquals(10, c.get(Calendar.MONTH));
+		assertEquals(9, c.get(Calendar.DAY_OF_MONTH));
+		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
+		assertEquals(0, c.get(Calendar.MINUTE));
+		assertEquals(0, c.get(Calendar.SECOND));
+		assertEquals(0, c.get(Calendar.MILLISECOND));
+	}
+
+	@Test
+	public void testParseDateToDate() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		final String dateString = "2012-11-09";
+		final Calendar c = u.parseDate(timeZone, dateString);
+		assertEquals(2012, c.get(Calendar.YEAR));
+		assertEquals(10, c.get(Calendar.MONTH));
+		assertEquals(9, c.get(Calendar.DAY_OF_MONTH));
+		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
+		assertEquals(0, c.get(Calendar.MINUTE));
+		assertEquals(0, c.get(Calendar.SECOND));
+		assertEquals(0, c.get(Calendar.MILLISECOND));
+		assertEquals(dateString, u.toDateString(c));
+	}
+
+	@Test
+	public void testParseDateToDatetime() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.replay(timeZoneUtil);
+		final CalendarUtil u = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		final String dateString = "2012-11-09 20:45:59";
+		final Calendar c = u.parseDateTime(timeZone, dateString);
+		assertEquals(2012, c.get(Calendar.YEAR));
+		assertEquals(10, c.get(Calendar.MONTH));
+		assertEquals(9, c.get(Calendar.DAY_OF_MONTH));
+		assertEquals(20, c.get(Calendar.HOUR_OF_DAY));
+		assertEquals(45, c.get(Calendar.MINUTE));
+		assertEquals(59, c.get(Calendar.SECOND));
+		assertEquals(0, c.get(Calendar.MILLISECOND));
+		assertEquals(dateString, u.toDateTimeString(c));
+	}
+
 }

@@ -19,7 +19,7 @@ public class TaskGuiUtilUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null, null);
 
 		{
 			final List<Task> allTasks = new ArrayList<Task>();

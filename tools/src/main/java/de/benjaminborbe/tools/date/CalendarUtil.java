@@ -48,4 +48,14 @@ public interface CalendarUtil {
 	Calendar getCalendar(TimeZone timeZone, int year, int month, int date, int hourOfDay, int minute, int second, int millisecond);
 
 	Calendar getCalendarSmart(String input) throws ParseException;
+
+	boolean isLE(Calendar c1, Calendar c2);
+
+	boolean isGE(Calendar c1, Calendar c2);
+
+	boolean isLT(Calendar c1, Calendar c2);
+
+	boolean isGT(Calendar c1, Calendar c2);
+
+	boolean isEQ(Calendar c1, Calendar c2);
 }
