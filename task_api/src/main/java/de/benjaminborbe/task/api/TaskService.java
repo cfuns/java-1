@@ -1,5 +1,6 @@
 package de.benjaminborbe.task.api;
 
+import java.util.Calendar;
 import java.util.List;
 
 import de.benjaminborbe.api.ValidationException;
@@ -11,8 +12,8 @@ public interface TaskService {
 
 	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
 
-	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description, TaskIdentifier taskParentIdentifier) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException;
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description, TaskIdentifier taskParentIdentifier, Calendar start, Calendar due)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
@@ -47,8 +48,8 @@ public interface TaskService {
 	void swapPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifierA, TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	void updateTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, String name, String description, TaskIdentifier taskParentIdentifier)
-			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
+	void updateTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, String name, String description, TaskIdentifier taskParentIdentifier, Calendar start,
+			Calendar due) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
 
 	List<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException;

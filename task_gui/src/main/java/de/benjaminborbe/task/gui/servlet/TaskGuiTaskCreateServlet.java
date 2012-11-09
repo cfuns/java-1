@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
@@ -63,6 +65,10 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public TaskGuiTaskCreateServlet(
 			final Logger logger,
@@ -79,6 +85,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final TaskGuiLinkFactory taskGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -103,12 +111,17 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final String parentId = request.getParameter(TaskGuiConstants.PARAMETER_TASK_PARENT_ID);
 			final String selectedContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
+			final String dueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DUE);
+			final String startString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_START);
+			final Calendar due = parseCalendar(dueString);
+			final Calendar start = parseCalendar(startString);
+
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskContextIdentifier selectedContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, selectedContextId);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
-					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier);
+					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier, start, due);
 
 					// add task-context relation
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextId);
@@ -137,6 +150,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_PARENT_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addLabel("Name").addPlaceholder("name ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_START).addLabel("Start").addPlaceholder("start ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_DUE).addLabel("Due").addPlaceholder("due ..."));
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description ..."));
 			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
 			final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
@@ -177,6 +192,15 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	private Calendar parseCalendar(final String dateString) {
+		try {
+			return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), dateString);
+		}
+		catch (final ParseException e) {
+			return null;
 		}
 	}
 }

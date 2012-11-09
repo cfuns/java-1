@@ -9,8 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -41,16 +39,12 @@ public class TaskGuiWidgetFactory {
 
 	private final TaskGuiUtil taskGuiUtil;
 
-	private final Logger logger;
-
 	@Inject
 	public TaskGuiWidgetFactory(
-			final Logger logger,
 			final AuthenticationService authenticationService,
 			final TaskService taskService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiUtil taskGuiUtil) {
-		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.taskService = taskService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -128,7 +122,7 @@ public class TaskGuiWidgetFactory {
 		}
 		Collections.reverse(names);
 		names.add(task.getName());
-		row.add(new SpanWidget(StringUtils.join(names, "/")).addAttribute("class", "taskTitle"));
+		row.add(new SpanWidget(StringUtils.join(names, " / ")).addAttribute("class", "taskTitle"));
 		row.add(" ");
 
 		final ListWidget options = new ListWidget();

@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -84,8 +85,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier,
+			final Calendar start, final Calendar due) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
 			logger.debug("createTask");
 
@@ -109,6 +110,8 @@ public class TaskServiceImpl implements TaskService {
 			task.setCreated(calendarUtil.now());
 			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
 			task.setParentId(taskParentIdentifier);
+			task.setDue(due);
+			task.setStart(start);
 			taskDao.save(task);
 
 			final ValidationResult errors = validationExecutor.validate(task);
@@ -435,7 +438,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description,
-			final TaskIdentifier taskParentIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
 
 		try {
 			logger.debug("createTask");
@@ -454,6 +457,8 @@ public class TaskServiceImpl implements TaskService {
 			task.setDescription(description);
 			task.setModified(calendarUtil.now());
 			task.setParentId(taskParentIdentifier);
+			task.setDue(due);
+			task.setStart(start);
 			taskDao.save(task);
 		}
 		catch (final AuthenticationServiceException e) {

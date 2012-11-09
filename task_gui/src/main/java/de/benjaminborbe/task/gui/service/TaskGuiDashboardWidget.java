@@ -73,7 +73,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			{
 				final String name = request.getParameter(TaskGuiConstants.PARAMETER_TASK_NAME);
 				if (name != null) {
-					taskService.createTask(sessionIdentifier, name, null, null);
+					taskService.createTask(sessionIdentifier, name, null, null, null, null);
 				}
 				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST).addClass("taskdashboardcreate");
 				formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addPlaceholder("name ...").addValue(""));

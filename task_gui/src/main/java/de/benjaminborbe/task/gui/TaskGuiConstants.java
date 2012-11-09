@@ -56,4 +56,8 @@ public interface TaskGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
+	String PARAMETER_TASK_DUE = "task_due";
+
+	String PARAMETER_TASK_START = "task_start";
+
 }
