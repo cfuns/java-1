@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -139,18 +140,25 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(taskService);
 
 		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
+		EasyMock.expect(taskGuiLinkFactory.nextTasks(request)).andReturn(new StringWidget(""));
 		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
 		EasyMock.expect(taskGuiLinkFactory.completedTasks(request)).andReturn(new StringWidget(""));
 		EasyMock.expect(taskGuiLinkFactory.listTaskContext(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
+		final List<Task> allTasks = new ArrayList<Task>();
+		;
+
+		final TaskGuiUtil taskGuiUtil = EasyMock.createMock(TaskGuiUtil.class);
+		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, null, Integer.MAX_VALUE)).andReturn(allTasks);
+		EasyMock.replay(taskGuiUtil);
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
 		EasyMock.expect(taskGuiWidgetFactory.switchTaskContext(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(allTasks, null, request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil();
 
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

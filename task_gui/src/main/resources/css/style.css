@@ -5,3 +5,12 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 form.taskdashboardcreate input {
 	margin-left: 0px;
 }
+
+.taskOptions {
+	left: 600px;
+	position: absolute;
+}
+
+.task input[type="text"] {
+	width: 800px;
+}

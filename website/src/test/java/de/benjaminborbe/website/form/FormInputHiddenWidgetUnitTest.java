@@ -39,7 +39,7 @@ public class FormInputHiddenWidgetUnitTest {
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		EasyMock.expect(request.getParameter(name)).andReturn(value);
+		EasyMock.expect(request.getParameter(name)).andReturn(value).anyTimes();
 		EasyMock.replay(request);
 
 		formInputTextareaWidget.render(request, response, context);

@@ -5,15 +5,14 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
-import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
-import de.benjaminborbe.bookmark.api.BookmarkUpdateException;
 
 @Singleton
 public class BookmarkServiceMock implements BookmarkService {
@@ -23,13 +22,13 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords, final boolean favorite)
-			throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
+	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
+			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 	}
 
 	@Override
-	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description, final List<String> keywords,
-			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkUpdateException {
+	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
+			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 	}
 
 	@Override

@@ -31,14 +31,13 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTaskContextListServlet extends WebsiteHtmlServlet {
+public class TaskGuiTaskContextListServlet extends TaskGuiHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -79,7 +78,7 @@ public class TaskGuiTaskContextListServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
@@ -97,6 +96,8 @@ public class TaskGuiTaskContextListServlet extends WebsiteHtmlServlet {
 			}
 			widgets.add(ul);
 			final ListWidget links = new ListWidget();
+			links.add(taskGuiLinkFactory.nextTasks(request));
+			links.add(" ");
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));
 			links.add(" ");
 			links.add(taskGuiLinkFactory.createTaskContext(request));

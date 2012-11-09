@@ -1,9 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,14 +18,10 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskContextIdentifier;
-import de.benjaminborbe.task.api.TaskIdentifier;
-import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
@@ -40,24 +33,18 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.CssResourceImpl;
-import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
+public class TaskGuiTasksUncompletedServlet extends TaskGuiHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Tasks";
 
 	private final Logger logger;
-
-	private final TaskService taskService;
 
 	private final AuthenticationService authenticationService;
 
@@ -81,13 +68,11 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final TaskService taskService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiUtil taskGuiUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
-		this.taskService = taskService;
 		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -101,7 +86,7 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
@@ -114,17 +99,14 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 			final int taskLimit = parseUtil.parseInt(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT), TaskGuiConstants.DEFAULT_TASK_LIMIT);
 
-			final List<Task> tasks;
-			if (taskContextId != null && taskContextId.length() > 0) {
-				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId);
-				tasks = taskService.getTasksNotCompletedWithContext(sessionIdentifier, taskContextIdentifier, taskLimit);
-			}
-			else {
-				tasks = taskService.getTasksNotCompletedWithoutContext(sessionIdentifier, taskLimit);
-			}
-			widgets.add(taskList(tasks, null, request));
+			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextId, taskLimit);
+
+			logger.debug("found " + tasks.size() + " tasks");
+			widgets.add(taskGuiWidgetFactory.taskListWithChilds(tasks, null, request));
 
 			final ListWidget links = new ListWidget();
+			links.add(taskGuiLinkFactory.nextTasks(request));
+			links.add(" ");
 			links.add(taskGuiLinkFactory.createTask(request));
 			links.add(" ");
 			links.add(taskGuiLinkFactory.completedTasks(request));
@@ -145,48 +127,4 @@ public class TaskGuiTasksUncompletedServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private Widget taskList(final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		final List<Task> tasks = taskGuiUtil.getChildTasks(allTasks, parentId);
-		if (tasks.isEmpty()) {
-			return null;
-		}
-		final UlWidget ul = new UlWidget();
-		for (int i = 0; i < tasks.size(); ++i) {
-			final Task task = tasks.get(i);
-			final ListWidget widgets = new ListWidget();
-			{
-				final ListWidget row = new ListWidget();
-				row.add(taskGuiLinkFactory.completeTask(request, task));
-				row.add(" ");
-				row.add(task.getName());
-				row.add(" ");
-				row.add(taskGuiLinkFactory.taskUpdate(request, task));
-				row.add(" ");
-				if (i > 0) {
-					row.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(i - 1)));
-					row.add(" ");
-				}
-				if (i < tasks.size() - 1) {
-					row.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(i + 1)));
-					row.add(" ");
-				}
-				row.add(taskGuiLinkFactory.createSubTask(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.deleteTask(request, task));
-				widgets.add(new DivWidget(row));
-			}
-			{
-				widgets.add(new DivWidget(taskList(allTasks, task.getId(), request)));
-			}
-			ul.add(widgets);
-		}
-		return ul;
-	}
-
-	@Override
-	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
-		final Collection<CssResource> result = super.getCssResources(request, response);
-		result.add(new CssResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS_STYLE));
-		return result;
-	}
 }

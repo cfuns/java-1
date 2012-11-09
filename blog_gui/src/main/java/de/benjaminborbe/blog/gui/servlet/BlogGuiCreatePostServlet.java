@@ -13,13 +13,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.blog.api.BlogPostCreationException;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
@@ -99,7 +99,7 @@ public class BlogGuiCreatePostServlet extends WebsiteHtmlServlet {
 					logger.debug("new BlogPost created");
 					throw new RedirectException(request.getContextPath() + "/" + BlogGuiConstants.NAME);
 				}
-				catch (final BlogPostCreationException e) {
+				catch (final ValidationException e) {
 					widgets.add("add blogPost failed!");
 					final UlWidget ul = new UlWidget();
 					for (final ValidationError validationError : e.getErrors()) {

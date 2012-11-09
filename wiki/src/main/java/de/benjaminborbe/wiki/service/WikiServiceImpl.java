@@ -10,19 +10,17 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
-import de.benjaminborbe.wiki.api.WikiPageCreateException;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
-import de.benjaminborbe.wiki.api.WikiPageUpdateException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
-import de.benjaminborbe.wiki.api.WikiSpaceCreateException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 import de.benjaminborbe.wiki.api.WikiSpaceNotFoundException;
 import de.benjaminborbe.wiki.dao.WikiPageBean;
@@ -135,21 +133,21 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiPageIdentifier createPage(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageTitle, final String pageContent) throws WikiPageCreateException,
+	public WikiPageIdentifier createPage(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageTitle, final String pageContent) throws ValidationException,
 			WikiServiceException {
 		try {
 			logger.debug("createPage");
 
 			if (!wikiSpaceDao.exists(wikiSpaceIdentifier)) {
 				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("space " + wikiSpaceIdentifier + " not found"));
-				throw new WikiPageCreateException(validationResult);
+				throw new ValidationException(validationResult);
 			}
 
 			final WikiPageIdentifier wikiPageIdentifier = getPageIdentifierByName(wikiSpaceIdentifier, pageTitle);
 
 			if (wikiPageDao.exists(wikiPageIdentifier)) {
 				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("page " + wikiPageIdentifier + " already exists"));
-				throw new WikiPageCreateException(validationResult);
+				throw new ValidationException(validationResult);
 			}
 
 			final WikiPageBean wikiPage = wikiPageDao.create();
@@ -168,13 +166,13 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) throws WikiServiceException, WikiPageUpdateException {
+	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) throws WikiServiceException, ValidationException {
 		try {
 			logger.trace("updatePage");
 
 			if (!wikiPageDao.exists(wikiPageIdentifier)) {
 				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("page " + wikiPageIdentifier + " not found"));
-				throw new WikiPageUpdateException(validationResult);
+				throw new ValidationException(validationResult);
 			}
 
 			final WikiPageBean wikiPage = wikiPageDao.load(wikiPageIdentifier);
@@ -193,13 +191,13 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException, WikiSpaceCreateException {
+	public WikiSpaceIdentifier createSpace(final String spaceIdentifier, final String spaceTitle) throws WikiServiceException, ValidationException {
 		try {
 			logger.debug("createSpace");
 
 			if (wikiSpaceDao.existsSpaceWithName(spaceIdentifier)) {
 				final ValidationResultImpl validationResult = new ValidationResultImpl(new ValidationErrorSimple("space " + spaceIdentifier + " already exists"));
-				throw new WikiSpaceCreateException(validationResult);
+				throw new ValidationException(validationResult);
 			}
 
 			final WikiSpaceIdentifier id = new WikiSpaceIdentifier(spaceIdentifier);

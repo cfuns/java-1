@@ -10,13 +10,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.blog.api.BlogPostDeleteException;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
@@ -33,6 +34,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
@@ -85,8 +87,13 @@ public class BlogGuiDeletePostServlet extends WebsiteHtmlServlet {
 					blogService.deleteBlogPost(sessionIdentifier, blogService.createBlogPostIdentifier(sessionIdentifier, id));
 					throw new RedirectException(request.getContextPath() + "/" + BlogGuiConstants.NAME);
 				}
-				catch (final BlogPostDeleteException e) {
+				catch (final ValidationException e) {
 					widgets.add("delete blogPost failed");
+					final UlWidget ul = new UlWidget();
+					for (final ValidationError validationError : e.getErrors()) {
+						ul.add(validationError.getMessage());
+					}
+					widgets.add(ul);
 				}
 			}
 			else {

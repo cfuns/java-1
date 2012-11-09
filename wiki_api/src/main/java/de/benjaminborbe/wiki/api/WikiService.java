@@ -2,15 +2,17 @@ package de.benjaminborbe.wiki.api;
 
 import java.util.Collection;
 
+import de.benjaminborbe.api.ValidationException;
+
 public interface WikiService {
 
-	WikiSpaceIdentifier createSpace(String spaceIdentifier, String spaceTitle) throws WikiServiceException, WikiSpaceCreateException;
+	WikiSpaceIdentifier createSpace(String spaceIdentifier, String spaceTitle) throws WikiServiceException, ValidationException;
 
 	void deleteSpace(WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException;
 
-	WikiPageIdentifier createPage(WikiSpaceIdentifier wikiSpaceIdentifier, String pageTitle, String pageContent) throws WikiServiceException, WikiPageCreateException;
+	WikiPageIdentifier createPage(WikiSpaceIdentifier wikiSpaceIdentifier, String pageTitle, String pageContent) throws WikiServiceException, ValidationException;
 
-	void updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent) throws WikiServiceException, WikiPageUpdateException;
+	void updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent) throws WikiServiceException, ValidationException;
 
 	void deletePage(WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException;
 

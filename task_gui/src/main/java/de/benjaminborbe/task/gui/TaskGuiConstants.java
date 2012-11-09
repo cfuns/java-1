@@ -2,7 +2,7 @@ package de.benjaminborbe.task.gui;
 
 public interface TaskGuiConstants {
 
-	int DEFAULT_TASK_LIMIT = 20;
+	int DEFAULT_TASK_LIMIT = Integer.MAX_VALUE;
 
 	String NAME = "task";
 
@@ -51,5 +51,9 @@ public interface TaskGuiConstants {
 	String URL_CSS = "/css";
 
 	String URL_CSS_STYLE = "/css/style.css";
+
+	String URL_TASKS_NEXT = "/task/next";
+
+	String PARAMETER_REFERER = "referer";
 
 }

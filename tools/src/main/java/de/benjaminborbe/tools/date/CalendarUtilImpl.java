@@ -206,4 +206,9 @@ public class CalendarUtilImpl implements CalendarUtil {
 		return calendar;
 	}
 
+	@Override
+	public Calendar getCalendarSmart(final String input) throws ParseException {
+		return null;
+	}
+
 }

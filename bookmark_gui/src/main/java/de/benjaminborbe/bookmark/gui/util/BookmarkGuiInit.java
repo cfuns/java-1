@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 
@@ -23,7 +23,7 @@ public class BookmarkGuiInit {
 		this.bookmarkService = bookmarkService;
 	}
 
-	public void init(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
+	public void init(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 		// internal
 		createBookmark(sessionIdentifier, "/bb/bookmark", "Local - BB - Bookmarks", Arrays.asList("bookmark", "lesezeichen"));
 		createBookmark(sessionIdentifier, "/bb/worktime", "Local - BB - Worktimes");
@@ -117,32 +117,32 @@ public class BookmarkGuiInit {
 	}
 
 	protected void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name) throws BookmarkServiceException, LoginRequiredException,
-			BookmarkCreationException {
+			ValidationException {
 		createBookmark(sessionIdentifier, url, name, false);
 	}
 
 	protected void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final List<String> keywords) throws BookmarkServiceException,
-			LoginRequiredException, BookmarkCreationException {
+			LoginRequiredException, ValidationException {
 		createBookmark(sessionIdentifier, url, name, keywords, false);
 	}
 
 	protected void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords)
-			throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
+			throws BookmarkServiceException, LoginRequiredException, ValidationException {
 		createBookmark(sessionIdentifier, url, name, description, keywords, false);
 	}
 
 	protected void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final boolean favorite) throws BookmarkServiceException,
-			LoginRequiredException, BookmarkCreationException {
+			LoginRequiredException, ValidationException {
 		createBookmark(sessionIdentifier, url, name, DEFAULT_DESCRIPTION, new ArrayList<String>(), favorite);
 	}
 
 	protected void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final List<String> keywords, final boolean favorite)
-			throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
+			throws BookmarkServiceException, LoginRequiredException, ValidationException {
 		createBookmark(sessionIdentifier, url, name, DEFAULT_DESCRIPTION, keywords, favorite);
 	}
 
 	protected void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
-			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
+			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 		bookmarkService.createBookmark(sessionIdentifier, url, name, description, keywords, favorite);
 	}
 }

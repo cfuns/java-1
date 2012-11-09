@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -16,11 +17,8 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPost;
-import de.benjaminborbe.blog.api.BlogPostCreationException;
-import de.benjaminborbe.blog.api.BlogPostDeleteException;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.blog.api.BlogPostNotFoundException;
-import de.benjaminborbe.blog.api.BlogPostUpdateException;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.post.BlogPostBean;
@@ -61,8 +59,8 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public BlogPostIdentifier createBlogPost(final SessionIdentifier sessionIdentifier, final String title, final String content) throws BlogServiceException,
-			BlogPostCreationException, LoginRequiredException {
+	public BlogPostIdentifier createBlogPost(final SessionIdentifier sessionIdentifier, final String title, final String content) throws BlogServiceException, ValidationException,
+			LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -79,7 +77,7 @@ public class BlogServiceImpl implements BlogService {
 			final ValidationResult errors = validationExecutor.validate(blogPost);
 			if (errors.hasErrors()) {
 				logger.warn("BlogPost " + errors.toString());
-				throw new BlogPostCreationException(errors);
+				throw new ValidationException(errors);
 			}
 			else {
 				blogPostDao.save(blogPost);
@@ -97,7 +95,7 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public void updateBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier, final String title, final String content)
-			throws BlogServiceException, BlogPostUpdateException, LoginRequiredException {
+			throws BlogServiceException, ValidationException, LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
@@ -115,7 +113,7 @@ public class BlogServiceImpl implements BlogService {
 			final ValidationResult errors = validationExecutor.validate(blogPost);
 			if (errors.hasErrors()) {
 				logger.warn("BlogPost " + errors.toString());
-				throw new BlogPostUpdateException(errors);
+				throw new ValidationException(errors);
 			}
 			else {
 				logger.debug("blogPost updated");
@@ -194,7 +192,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostDeleteException,
+	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, ValidationException,
 			LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);

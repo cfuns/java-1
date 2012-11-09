@@ -14,12 +14,16 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class TaskGuiWidgetFactory {
@@ -30,11 +34,18 @@ public class TaskGuiWidgetFactory {
 
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
-	public TaskGuiWidgetFactory(final AuthenticationService authenticationService, final TaskService taskService, final TaskGuiLinkFactory taskGuiLinkFactory) {
+	public TaskGuiWidgetFactory(
+			final AuthenticationService authenticationService,
+			final TaskService taskService,
+			final TaskGuiLinkFactory taskGuiLinkFactory,
+			final TaskGuiUtil taskGuiUtil) {
 		this.authenticationService = authenticationService;
 		this.taskService = taskService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
+		this.taskGuiUtil = taskGuiUtil;
 	}
 
 	public Widget switchTaskContext(final HttpServletRequest request) throws AuthenticationServiceException, LoginRequiredException, TaskServiceException, MalformedURLException,
@@ -44,7 +55,9 @@ public class TaskGuiWidgetFactory {
 		final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
 		Collections.sort(taskContexts, new TaskContextComparator());
 		contextList.add("Context: ");
-		contextList.add(taskGuiLinkFactory.switchTaskContext(request));
+		contextList.add(taskGuiLinkFactory.switchTaskContextNone(request));
+		contextList.add(" ");
+		contextList.add(taskGuiLinkFactory.switchTaskContextAll(request));
 		contextList.add(" ");
 		for (final TaskContext taskContext : taskContexts) {
 			contextList.add(taskGuiLinkFactory.switchTaskContext(request, taskContext));
@@ -53,4 +66,68 @@ public class TaskGuiWidgetFactory {
 		return new DivWidget(contextList);
 	}
 
+	public Widget taskListWithoutParents(final List<Task> allTasks, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		final List<Task> tasks = taskGuiUtil.getOnlyChilds(allTasks);
+		if (tasks.isEmpty()) {
+			return null;
+		}
+		final UlWidget ul = new UlWidget();
+		for (int i = 0; i < tasks.size(); ++i) {
+			final Task task = tasks.get(i);
+			final ListWidget widgets = new ListWidget();
+			final Widget div = buildTaskListRow(request, tasks, i, task);
+			widgets.add(div);
+			ul.add(widgets);
+		}
+		return ul;
+	}
+
+	public Widget taskListWithChilds(final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request) throws MalformedURLException,
+			UnsupportedEncodingException {
+		final List<Task> tasks = taskGuiUtil.getChildTasks(allTasks, parentId);
+		if (tasks.isEmpty()) {
+			return null;
+		}
+		final UlWidget ul = new UlWidget();
+		for (int i = 0; i < tasks.size(); ++i) {
+			final Task task = tasks.get(i);
+			final ListWidget widgets = new ListWidget();
+			{
+				final Widget div = buildTaskListRow(request, tasks, i, task);
+				widgets.add(div);
+			}
+			{
+				widgets.add(new DivWidget(taskListWithChilds(allTasks, task.getId(), request)));
+			}
+			ul.add(widgets);
+		}
+		return ul;
+	}
+
+	private Widget buildTaskListRow(final HttpServletRequest request, final List<Task> tasks, final int position, final Task task) throws MalformedURLException,
+			UnsupportedEncodingException {
+		final ListWidget row = new ListWidget();
+		row.add(taskGuiLinkFactory.completeTask(request, task));
+		row.add(" ");
+		row.add(new SpanWidget(task.getName()).addAttribute("class", "taskTitle"));
+		row.add(" ");
+
+		final ListWidget options = new ListWidget();
+		options.add(taskGuiLinkFactory.taskUpdate(request, task));
+		options.add(" ");
+		if (position > 0) {
+			options.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(position - 1)));
+			options.add(" ");
+		}
+		if (position < tasks.size() - 1) {
+			options.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(position + 1)));
+			options.add(" ");
+		}
+		options.add(taskGuiLinkFactory.createSubTask(request, task));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.deleteTask(request, task));
+
+		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
+		return new DivWidget(row).addAttribute("class", "taskEntry");
+	}
 }

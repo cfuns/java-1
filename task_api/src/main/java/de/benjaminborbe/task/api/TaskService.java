@@ -2,6 +2,7 @@ package de.benjaminborbe.task.api;
 
 import java.util.List;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -11,7 +12,7 @@ public interface TaskService {
 	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
 
 	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description, TaskIdentifier taskParentIdentifier) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException;
+			LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
@@ -47,7 +48,7 @@ public interface TaskService {
 			LoginRequiredException;
 
 	void updateTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, String name, String description, TaskIdentifier taskParentIdentifier)
-			throws TaskServiceException, PermissionDeniedException, LoginRequiredException;
+			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
 
 	List<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException;

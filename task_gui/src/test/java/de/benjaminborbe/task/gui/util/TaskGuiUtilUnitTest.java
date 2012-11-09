@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskIdentifier;
@@ -15,7 +16,10 @@ public class TaskGuiUtilUnitTest {
 
 	@Test
 	public void testGetChildTasks() {
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null);
 
 		{
 			final List<Task> allTasks = new ArrayList<Task>();

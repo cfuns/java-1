@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -34,7 +35,6 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
-import de.benjaminborbe.wiki.api.WikiSpaceCreateException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 import de.benjaminborbe.wiki.gui.WikiGuiConstants;
 
@@ -88,7 +88,7 @@ public class WikiGuiSpaceCreateServlet extends WebsiteHtmlServlet {
 					final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.createSpace(id, title);
 					throw new RedirectException(request.getContextPath() + "/wiki/page/list?" + WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier.getId());
 				}
-				catch (final WikiSpaceCreateException e) {
+				catch (final ValidationException e) {
 					widgets.add("add space failed!");
 					final UlWidget ul = new UlWidget();
 					for (final ValidationError validationError : e.getErrors()) {

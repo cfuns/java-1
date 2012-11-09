@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -37,7 +38,6 @@ import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
-import de.benjaminborbe.wiki.api.WikiPageUpdateException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.gui.WikiGuiConstants;
@@ -93,7 +93,7 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 					wikiService.updatePage(wikiPageIdentifier, title, content);
 					throw new RedirectException(request.getContextPath() + "/wiki/page/show?" + WikiGuiConstants.PARAMETER_PAGE_ID + "=" + wikiPageIdentifier);
 				}
-				catch (final WikiPageUpdateException e) {
+				catch (final ValidationException e) {
 					widgets.add("update page failed!");
 					final UlWidget ul = new UlWidget();
 					for (final ValidationError validationError : e.getErrors()) {

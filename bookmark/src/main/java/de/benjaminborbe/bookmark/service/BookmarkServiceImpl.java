@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -23,12 +24,10 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
-import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
-import de.benjaminborbe.bookmark.api.BookmarkUpdateException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -193,7 +192,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
-			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, BookmarkCreationException {
+			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -209,7 +208,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			final ValidationResult errors = validationExecutor.validate(bookmark);
 			if (errors.hasErrors()) {
 				logger.warn("Bookmark " + errors.toString());
-				throw new BookmarkCreationException(errors);
+				throw new ValidationException(errors);
 			}
 			bookmarkDao.save(bookmark);
 		}
@@ -254,7 +253,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
-			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException, BookmarkUpdateException {
+			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
 			logger.info("updateBookmark");
 
@@ -271,10 +270,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			throw new BookmarkServiceException(e);
 		}
 		catch (final BookmarkDeletionException e) {
-			throw new BookmarkUpdateException(e);
-		}
-		catch (final BookmarkCreationException e) {
-			throw new BookmarkUpdateException(e);
+			throw new BookmarkServiceException(e);
 		}
 	}
 

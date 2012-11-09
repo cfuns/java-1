@@ -26,6 +26,8 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	private final TaskContextManyToManyRelation taskContextManyToManyRelation;
 
+	private final Logger logger;
+
 	@Inject
 	public TaskDaoStorage(
 			final Logger logger,
@@ -36,6 +38,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 			final TaskContextManyToManyRelation taskContextManyToManyRelation) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
+		this.logger = logger;
 	}
 
 	@Override
@@ -46,6 +49,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public List<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
 		try {
+			logger.debug("getTasksNotCompleted for user: " + userIdentifier);
 			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate());
 			final List<TaskBean> result = new ArrayList<TaskBean>();
 			final EntityIterator<TaskBean> i = getEntityIterator();
@@ -55,6 +59,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 					result.add(task);
 				}
 			}
+			logger.debug("getTasksNotCompleted for user: " + userIdentifier + " found " + result.size());
 			return result;
 		}
 		catch (final EntityIteratorException e) {
@@ -65,6 +70,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public List<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
 		try {
+			logger.debug("getTasksCompleted for user: " + userIdentifier);
 			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskCompletedPredicate());
 			final List<TaskBean> result = new ArrayList<TaskBean>();
 			final EntityIterator<TaskBean> i = getEntityIterator();
@@ -74,6 +80,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 					result.add(task);
 				}
 			}
+			logger.debug("getTasksCompleted for user: " + userIdentifier + " found " + result.size());
 			return result;
 		}
 		catch (final EntityIteratorException e) {
@@ -95,6 +102,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public List<TaskBean> getTasks(final UserIdentifier userIdentifier) throws StorageException {
 		try {
+			logger.debug("getTasks for user: " + userIdentifier);
 			final Predicate<TaskBean> p = new TaskOwnerPredicate(userIdentifier);
 			final List<TaskBean> result = new ArrayList<TaskBean>();
 			final EntityIterator<TaskBean> i = getEntityIterator();
@@ -104,6 +112,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 					result.add(task);
 				}
 			}
+			logger.debug("getTasks for user: " + userIdentifier + " found " + result.size());
 			return result;
 		}
 		catch (final EntityIteratorException e) {

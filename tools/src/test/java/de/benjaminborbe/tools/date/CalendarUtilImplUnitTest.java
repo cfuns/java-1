@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.easymock.EasyMock;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CalendarUtilImplUnitTest {
@@ -171,5 +172,12 @@ public class CalendarUtilImplUnitTest {
 			assertEquals(13, calendar.get(Calendar.SECOND));
 			assertEquals(1324757713000l, calendar.getTimeInMillis());
 		}
+	}
+
+	@Ignore("TODO")
+	@Test
+	public void testGetCalendarSmart() throws Exception {
+		final CalendarUtil u = new CalendarUtilImpl(null, null);
+		assertEquals("2012-12-24", u.getCalendarSmart("1d"));
 	}
 }

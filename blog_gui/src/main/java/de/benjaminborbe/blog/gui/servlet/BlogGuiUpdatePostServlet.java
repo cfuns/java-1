@@ -13,6 +13,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -22,7 +23,6 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.blog.api.BlogPostNotFoundException;
-import de.benjaminborbe.blog.api.BlogPostUpdateException;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
@@ -106,7 +106,7 @@ public class BlogGuiUpdatePostServlet extends WebsiteHtmlServlet {
 					logger.debug("new BlogPost updated");
 					throw new RedirectException(request.getContextPath() + "/" + BlogGuiConstants.NAME);
 				}
-				catch (final BlogPostUpdateException e) {
+				catch (final ValidationException e) {
 					widgets.add("update blogPost failed!");
 					final UlWidget ul = new UlWidget();
 					for (final ValidationError validationError : e.getErrors()) {

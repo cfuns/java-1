@@ -12,6 +12,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -42,13 +44,13 @@ import de.benjaminborbe.website.form.FormSelectboxWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTaskUpdateServlet extends WebsiteHtmlServlet {
+public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -89,7 +91,7 @@ public class TaskGuiTaskUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
@@ -106,15 +108,25 @@ public class TaskGuiTaskUpdateServlet extends WebsiteHtmlServlet {
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 			if (name != null && description != null && contextId != null && parentId != null) {
-				taskService.updateTask(sessionIdentifier, taskIdentifier, name, description, taskParentIdentifier);
+				try {
+					taskService.updateTask(sessionIdentifier, taskIdentifier, name, description, taskParentIdentifier);
 
-				// add task-context relation
-				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextId);
-				if (taskIdentifier != null && taskContextIdentifier != null) {
-					taskService.replaceTaskContext(taskIdentifier, taskContextIdentifier);
+					// add task-context relation
+					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextId);
+					if (taskIdentifier != null && taskContextIdentifier != null) {
+						taskService.replaceTaskContext(taskIdentifier, taskContextIdentifier);
+					}
+
+					throw new RedirectException(taskGuiLinkFactory.uncompletedTasksUrl(request));
 				}
-
-				throw new RedirectException(taskGuiLinkFactory.uncompletedTasksUrl(request));
+				catch (final ValidationException e) {
+					widgets.add("add task failed!");
+					final UlWidget ul = new UlWidget();
+					for (final ValidationError validationError : e.getErrors()) {
+						ul.add(validationError.getMessage());
+					}
+					widgets.add(ul);
+				}
 			}
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_ID).addValue(id));
@@ -139,6 +151,8 @@ public class TaskGuiTaskUpdateServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			final ListWidget links = new ListWidget();
+			links.add(taskGuiLinkFactory.nextTasks(request));
+			links.add(" ");
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));
 			links.add(" ");
 			links.add(taskGuiLinkFactory.listTaskContext(request));

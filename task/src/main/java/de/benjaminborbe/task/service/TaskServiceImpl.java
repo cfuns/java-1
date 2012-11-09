@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -36,6 +38,7 @@ import de.benjaminborbe.task.util.TaskPrioComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.ComparatorChain;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class TaskServiceImpl implements TaskService {
@@ -56,6 +59,8 @@ public class TaskServiceImpl implements TaskService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
+	private final ValidationExecutor validationExecutor;
+
 	@Inject
 	public TaskServiceImpl(
 			final Logger logger,
@@ -64,6 +69,7 @@ public class TaskServiceImpl implements TaskService {
 			final TaskContextDao taskContextDao,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
+			final ValidationExecutor validationExecutor,
 			final TaskContextManyToManyRelation taskContextManyToManyRelation,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
@@ -72,13 +78,14 @@ public class TaskServiceImpl implements TaskService {
 		this.taskContextDao = taskContextDao;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
+		this.validationExecutor = validationExecutor;
 		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
 		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
 	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
 			logger.debug("createTask");
 
@@ -103,6 +110,13 @@ public class TaskServiceImpl implements TaskService {
 			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
 			task.setParentId(taskParentIdentifier);
 			taskDao.save(task);
+
+			final ValidationResult errors = validationExecutor.validate(task);
+			if (errors.hasErrors()) {
+				logger.warn("Bookmark " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			return taskIdentifier;
 		}
 		catch (final AuthenticationServiceException e) {
@@ -284,7 +298,7 @@ public class TaskServiceImpl implements TaskService {
 	public List<Task> getTasksNotCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
 			throws TaskServiceException, LoginRequiredException {
 		try {
-			logger.debug("getTasksNotCompleted");
+			logger.debug("getTasksNotCompleted for context: " + taskContextIdentifier);
 			final List<Task> tasks = getTasksNotCompleted(sessionIdentifier, limit);
 			final List<Task> result = new ArrayList<Task>();
 			for (final Task task : tasks) {
@@ -292,6 +306,7 @@ public class TaskServiceImpl implements TaskService {
 					result.add(task);
 				}
 			}
+			logger.debug("getTasksNotCompleted for context: " + taskContextIdentifier + " found: " + result.size());
 			return sortAndLimit(result, limit);
 		}
 		catch (final StorageException e) {
@@ -465,6 +480,7 @@ public class TaskServiceImpl implements TaskService {
 					result.add(task);
 				}
 			}
+			logger.debug("getTasksNotCompletedWithoutContext found " + result.size());
 			return sortAndLimit(result, limit);
 		}
 		catch (final AuthenticationServiceException e) {

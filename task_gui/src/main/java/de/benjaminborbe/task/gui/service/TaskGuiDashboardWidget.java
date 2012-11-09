@@ -22,6 +22,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -45,15 +46,19 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 	private final StringUtil stringUtil;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
 	public TaskGuiDashboardWidget(
 			final Logger logger,
 			final TaskService taskService,
+			final TaskGuiUtil taskGuiUtil,
 			final AuthenticationService authenticationService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final StringUtil stringUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
+		this.taskGuiUtil = taskGuiUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.stringUtil = stringUtil;
@@ -78,7 +83,9 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			// top tasks
 			{
 				final UlWidget ul = new UlWidget();
-				final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier, 5);
+				final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier, 5);
+				final List<Task> tasks = taskGuiUtil.getOnlyChilds(allTasks);
+
 				for (final Task task : tasks) {
 					final ListWidget row = new ListWidget();
 					row.add(taskGuiLinkFactory.completeTask(request, task));
@@ -87,7 +94,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 					ul.add(row);
 				}
 				widgets.add(ul);
-				widgets.add(taskGuiLinkFactory.uncompletedTasks(request));
+				widgets.add(taskGuiLinkFactory.nextTasks(request));
 			}
 			widgets.render(request, response, context);
 		}

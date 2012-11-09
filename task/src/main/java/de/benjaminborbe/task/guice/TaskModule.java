@@ -21,5 +21,7 @@ public class TaskModule extends AbstractModule {
 		bind(TaskContextDao.class).to(TaskContextDaoStorage.class).in(Singleton.class);
 		bind(TaskService.class).to(TaskServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(TaskValidatorLinker.class);
 	}
 }

@@ -11,13 +11,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.bookmark.api.BookmarkCreationException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.util.BookmarkGuiKeywordUtil;
@@ -107,7 +107,7 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 					bookmarkService.createBookmark(sessionIdentifier, url, name, description, bookmarkGuiKeywordUtil.buildKeywords(keywords), false);
 					throw new RedirectException(request.getContextPath() + "/bookmark/list");
 				}
-				catch (final BookmarkCreationException e) {
+				catch (final ValidationException e) {
 					widgets.add("add bookmark failed!");
 					final UlWidget ul = new UlWidget();
 					for (final ValidationError validationError : e.getErrors()) {
