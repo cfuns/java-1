@@ -18,6 +18,8 @@ import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiListServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiUpdateServlet;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -64,6 +66,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkGuiFavoriteDashboardWidget, bookmarkGuiFavoriteDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchBookmark, searchGuiSpecialSearchBookmark.getClass().getName()));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Bookmark", "/bb/" + BookmarkGuiConstants.NAME + BookmarkGuiConstants.URL_LIST)));
 		return result;
 	}
 
