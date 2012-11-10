@@ -83,10 +83,12 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			// top tasks
 			{
 				final UlWidget ul = new UlWidget();
-				final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier, 5);
-				final List<Task> tasks = taskGuiUtil.getOnlyChilds(allTasks);
 
-				for (final Task task : tasks) {
+				final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier, Integer.MAX_VALUE);
+				final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
+				final List<Task> tasks = taskGuiUtil.filterStart(childTasks);
+
+				for (final Task task : tasks.subList(0, Math.min(tasks.size(), 5))) {
 					final ListWidget row = new ListWidget();
 					row.add(taskGuiLinkFactory.completeTask(request, task));
 					row.add(" ");
