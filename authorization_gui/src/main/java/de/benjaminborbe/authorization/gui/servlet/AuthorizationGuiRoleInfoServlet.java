@@ -11,6 +11,8 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -75,11 +77,12 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+			PermissionDeniedException, LoginRequiredException {
 		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String rolename = request.getParameter(AuthorizationGuiParameter.PARAMETER_ROLE);
 			final RoleIdentifier roleIdentifier = authorizationSerivce.createRoleIdentifier(rolename);
 
@@ -87,7 +90,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			{
 				widgets.add(new H2Widget("Users:"));
 				final UlWidget ul = new UlWidget();
-				for (final UserIdentifier userIdentifier : authenticationService.userList()) {
+				for (final UserIdentifier userIdentifier : authenticationService.userList(sessionIdentifier)) {
 					if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
 						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapChain<String, String>().add(AuthorizationGuiParameter.PARAMETER_USER,
 								userIdentifier.getId()), userIdentifier.getId()));

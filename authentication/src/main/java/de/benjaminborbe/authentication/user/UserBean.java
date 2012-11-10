@@ -10,7 +10,9 @@ public class UserBean implements Entity<UserIdentifier>, User {
 
 	private UserIdentifier id;
 
-	private String password;
+	private byte[] password;
+
+	private byte[] passwordSalt;
 
 	private String email;
 
@@ -26,14 +28,15 @@ public class UserBean implements Entity<UserIdentifier>, User {
 		this.id = id;
 	}
 
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
-	public void setPassword(final String password) {
+	public void setPassword(final byte[] password) {
 		this.password = password;
 	}
 
+	@Override
 	public String getEmail() {
 		return email;
 	}
@@ -42,12 +45,21 @@ public class UserBean implements Entity<UserIdentifier>, User {
 		this.email = email;
 	}
 
+	@Override
 	public String getFullname() {
 		return fullname;
 	}
 
 	public void setFullname(final String fullname) {
 		this.fullname = fullname;
+	}
+
+	public byte[] getPasswordSalt() {
+		return passwordSalt;
+	}
+
+	public void setPasswordSalt(final byte[] passwordSalt) {
+		this.passwordSalt = passwordSalt;
 	}
 
 }

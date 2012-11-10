@@ -30,9 +30,11 @@ public interface AuthenticationService {
 
 	SessionIdentifier createSessionIdentifier(HttpServletRequest request) throws AuthenticationServiceException;
 
-	Collection<UserIdentifier> userList() throws AuthenticationServiceException;
+	Collection<UserIdentifier> userList(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException;
 
 	boolean existsUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
 	boolean existsSession(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
+
+	User getUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException;
 }

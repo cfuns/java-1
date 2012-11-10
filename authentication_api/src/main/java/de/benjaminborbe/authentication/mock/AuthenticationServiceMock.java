@@ -13,6 +13,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
 @Singleton
@@ -79,11 +80,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public Collection<UserIdentifier> userList() throws AuthenticationServiceException {
-		return null;
-	}
-
-	@Override
 	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		return false;
 	}
@@ -108,6 +104,16 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<UserIdentifier> userList(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		return null;
+	}
+
+	@Override
+	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		return null;
 	}
 }

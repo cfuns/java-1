@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServ
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -43,8 +44,11 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AuthenticationGuiChangePasswordServlet authenticationGuiChangePasswordServlet;
 
+	@Inject
+	private AuthenticationGuiUserListServlet authenticationGuiUserListServlet;
+
 	public AuthenticationGuiActivator() {
-		super("authentication");
+		super(AuthenticationGuiConstants.NAME);
 	}
 
 	@Override
@@ -55,13 +59,14 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(authenticationGuiServlet, "/"));
-		result.add(new ServletInfo(authenticationGuiLoginServlet, "/login"));
-		result.add(new ServletInfo(authenticationGuiStatusServlet, "/status"));
-		result.add(new ServletInfo(authenticationGuiLogoutServlet, "/logout"));
-		result.add(new ServletInfo(authenticationGuiRegisterServlet, "/register"));
-		result.add(new ServletInfo(authenticationGuiUnregisterServlet, "/unregister"));
-		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, "/changePassword"));
+		result.add(new ServletInfo(authenticationGuiServlet, AuthenticationGuiConstants.URL_SLASH));
+		result.add(new ServletInfo(authenticationGuiLoginServlet, AuthenticationGuiConstants.URL_LOGIN));
+		result.add(new ServletInfo(authenticationGuiStatusServlet, AuthenticationGuiConstants.URL_STATUS));
+		result.add(new ServletInfo(authenticationGuiLogoutServlet, AuthenticationGuiConstants.URL_LOGOUT));
+		result.add(new ServletInfo(authenticationGuiRegisterServlet, AuthenticationGuiConstants.URL_REGISTER));
+		result.add(new ServletInfo(authenticationGuiUnregisterServlet, AuthenticationGuiConstants.URL_UNREGISTER));
+		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_CHANGE_PASSWORD));
+		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
 		return result;
 	}
 

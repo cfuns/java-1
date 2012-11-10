@@ -209,6 +209,11 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	public String read(final String keySpace, final String columnFamily, final byte[] id, final String columnName) throws InvalidRequestException, NotFoundException,
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
+		if (id == null || id.length == 0) {
+			logger.info("can't read with null id");
+			return null;
+		}
+
 		StorageConnection connection = null;
 		try {
 			connection = storageConnectionPool.getConnection();

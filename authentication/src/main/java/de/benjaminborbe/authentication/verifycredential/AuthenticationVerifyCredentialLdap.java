@@ -11,14 +11,14 @@ import de.benjaminborbe.authentication.ldap.LdapConnector;
 import de.benjaminborbe.authentication.ldap.LdapException;
 
 @Singleton
-public class VerifyCredentialLdap implements VerifyCredential {
+public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyCredential {
 
 	private final LdapConnector ldapConnector;
 
 	private final Logger logger;
 
 	@Inject
-	public VerifyCredentialLdap(final Logger logger, final LdapConnector ldapConnector) {
+	public AuthenticationVerifyCredentialLdap(final Logger logger, final LdapConnector ldapConnector) {
 		this.logger = logger;
 		this.ldapConnector = ldapConnector;
 	}

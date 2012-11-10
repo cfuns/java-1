@@ -185,7 +185,11 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			final ListWidget widgets = new ListWidget();
 			final SessionIdentifier sessionId = authenticationService.createSessionIdentifier(request);
 			if (authenticationService.isLoggedIn(sessionId)) {
-				widgets.add("logged in as " + authenticationService.getCurrentUser(sessionId) + " ");
+				final ListWidget row = new ListWidget();
+				row.add("logged in as ");
+				row.add(new LinkRelativWidget(request, "/authentication/changePassword", String.valueOf(authenticationService.getCurrentUser(sessionId))));
+				row.add(" ");
+				widgets.add(row);
 				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
 			}
 			else {

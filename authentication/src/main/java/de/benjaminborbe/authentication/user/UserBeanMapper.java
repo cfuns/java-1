@@ -1,52 +1,36 @@
 package de.benjaminborbe.authentication.user;
 
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.mapper.BaseMapper;
-import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.mapper.SingleMap;
+import de.benjaminborbe.tools.mapper.SingleMapByteArray;
+import de.benjaminborbe.tools.mapper.SingleMapString;
+import de.benjaminborbe.tools.mapper.SingleMappler;
+import de.benjaminborbe.tools.util.Base64Util;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public class UserBeanMapper extends BaseMapper<UserBean> {
-
-	private static final String ID = "id";
-
-	private static final String PASSWORD = "password";
-
-	private static final String EMAIL = "email";
-
-	private static final String FULLNAME = "fullname";
+public class UserBeanMapper extends SingleMappler<UserBean> {
 
 	@Inject
-	public UserBeanMapper(final Provider<UserBean> provider) {
-		super(provider);
+	public UserBeanMapper(final Provider<UserBean> provider, final ParseUtil parseUtil, final CalendarUtil calendarUtil, final Base64Util base64Util) {
+		super(provider, buildMappings(parseUtil, calendarUtil, base64Util));
 	}
 
-	@Override
-	public void map(final UserBean object, final Map<String, String> data) {
-		data.put(ID, toString(object.getId()));
-		data.put(PASSWORD, object.getPassword());
-		data.put(EMAIL, object.getEmail());
-		data.put(FULLNAME, object.getFullname());
+	private static Collection<SingleMap<UserBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil, final Base64Util base64Util) {
+		final List<SingleMap<UserBean>> result = new ArrayList<SingleMap<UserBean>>();
+		result.add(new SingleMapUserIdentifier<UserBean>("id"));
+		result.add(new SingleMapByteArray<UserBean>("password", base64Util));
+		result.add(new SingleMapByteArray<UserBean>("passwordSalt", base64Util));
+		result.add(new SingleMapString<UserBean>("fullname"));
+		result.add(new SingleMapString<UserBean>("email"));
+		return result;
 	}
 
-	@Override
-	public void map(final Map<String, String> data, final UserBean object) throws MapException {
-		object.setId(toUserIdentifier(data.get(ID)));
-		object.setPassword(data.get(PASSWORD));
-		object.setEmail(data.get(EMAIL));
-		object.setFullname(data.get(FULLNAME));
-	}
-
-	private UserIdentifier toUserIdentifier(final String id) {
-		return id != null ? new UserIdentifier(id) : null;
-	}
-
-	private String toString(final UserIdentifier id) {
-		return id != null ? id.getId() : null;
-	}
 }

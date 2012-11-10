@@ -1,5 +1,7 @@
 package de.benjaminborbe.authentication.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,13 +17,15 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.session.SessionBean;
 import de.benjaminborbe.authentication.session.SessionDao;
 import de.benjaminborbe.authentication.user.UserBean;
 import de.benjaminborbe.authentication.user.UserDao;
-import de.benjaminborbe.authentication.verifycredential.VerifyCredential;
-import de.benjaminborbe.authentication.verifycredential.VerifyCredentialRegistry;
+import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
+import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
+import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
@@ -35,19 +39,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final UserDao userDao;
 
-	private final VerifyCredentialRegistry verifyCredentialRegistry;
+	private final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry;
+
+	private final AuthenticationPasswordEncryptionService passwordEncryptionService;
 
 	@Inject
-	public AuthenticationServiceImpl(final Logger logger, final SessionDao sessionDao, final UserDao userDao, final VerifyCredentialRegistry verifyCredentialRegistry) {
+	public AuthenticationServiceImpl(
+			final Logger logger,
+			final SessionDao sessionDao,
+			final UserDao userDao,
+			final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry,
+			final AuthenticationPasswordEncryptionService passwordEncryptionService) {
 		this.logger = logger;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
 		this.verifyCredentialRegistry = verifyCredentialRegistry;
+		this.passwordEncryptionService = passwordEncryptionService;
 	}
 
 	@Override
 	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
-		for (final VerifyCredential a : verifyCredentialRegistry.getAll()) {
+		for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
 			if (a.verifyCredential(userIdentifier, password)) {
 				return true;
 			}
@@ -127,12 +139,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
 			user.setEmail(email);
-			user.setPassword(password);
+			setNewPassword(user, password);
 			userDao.save(user);
 			logger.info("registerd user " + userIdentifier);
 			return login(sessionIdentifier, userIdentifier, password);
 		}
 		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final NoSuchAlgorithmException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -167,16 +185,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (user == null) {
 				return false;
 			}
-			if (!user.getPassword().equals(currentPassword)) {
+			if (verifyCredential(userIdentifier, currentPassword)) {
 				return false;
 			}
-			user.setPassword(newPassword);
+			setNewPassword(user, newPassword);
 			userDao.save(user);
 			return true;
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		catch (final NoSuchAlgorithmException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	private void setNewPassword(final UserBean user, final String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		final byte[] newSalt = passwordEncryptionService.generateSalt();
+		final byte[] newEncryptedPassword = passwordEncryptionService.getEncryptedPassword(newPassword, newSalt);
+		user.setPassword(newEncryptedPassword);
+		user.setPasswordSalt(newSalt);
 	}
 
 	@Override
@@ -190,8 +221,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public Collection<UserIdentifier> userList() throws AuthenticationServiceException {
+	public Collection<UserIdentifier> userList(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
 		try {
+			expectLoggedIn(sessionIdentifier);
 			final Set<UserIdentifier> result = new HashSet<UserIdentifier>();
 			final IdentifierIterator<UserIdentifier> i = userDao.getIdentifierIterator();
 			while (i.hasNext()) {
@@ -236,12 +268,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
-		for (final VerifyCredential a : verifyCredentialRegistry.getAll()) {
+		for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
 			final String username = a.getFullname(userIdentifier);
 			if (username != null && username.length() > 0) {
 				return username;
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+		expectLoggedIn(sessionIdentifier);
+		try {
+			return userDao.load(userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 }
