@@ -1,5 +1,5 @@
 package de.benjaminborbe.eventbus.api;
 
-public interface aEventHandler {
+public interface EventHandler {
 
 }

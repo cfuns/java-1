@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.eventbus.api.aEventbusService;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -64,7 +64,7 @@ public class EventbusActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(aEventbusService.class.getName());
+		final List<String> names = Arrays.asList(EventbusService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

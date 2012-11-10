@@ -25,9 +25,9 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.eventbus.api.aEvent.Type;
-import de.benjaminborbe.eventbus.api.aEventHandler;
-import de.benjaminborbe.eventbus.api.aEventbusService;
+import de.benjaminborbe.eventbus.api.Event.Type;
+import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -115,8 +115,8 @@ public class EventbusGuiServletUnitTest {
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
-		final aEventbusService EventbusService = EasyMock.createMock(aEventbusService.class);
-		EasyMock.expect(EventbusService.getHandlers()).andReturn(new HashMap<Type<aEventHandler>, List<aEventHandler>>());
+		final EventbusService EventbusService = EasyMock.createMock(EventbusService.class);
+		EasyMock.expect(EventbusService.getHandlers()).andReturn(new HashMap<Type<EventHandler>, List<EventHandler>>());
 		EasyMock.replay(EventbusService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);

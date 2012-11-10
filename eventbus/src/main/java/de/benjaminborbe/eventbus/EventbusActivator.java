@@ -8,7 +8,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.eventbus.api.aEventbusService;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class EventbusActivator extends BaseBundleActivator {
 
 	@Inject
-	private aEventbusService EventbusService;
+	private EventbusService EventbusService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -27,7 +27,7 @@ public class EventbusActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(aEventbusService.class, EventbusService));
+		result.add(new ServiceInfo(EventbusService.class, EventbusService));
 		return result;
 	}
 }

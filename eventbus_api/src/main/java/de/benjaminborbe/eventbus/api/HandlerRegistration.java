@@ -1,6 +1,6 @@
 package de.benjaminborbe.eventbus.api;
 
-public interface aHandlerRegistration {
+public interface HandlerRegistration {
 
 	void removeHandler();
 }

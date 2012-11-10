@@ -9,7 +9,7 @@ import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.eventbus.api.aEventbusService;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class EventbusGuiOsgiModule extends AbstractModule {
@@ -18,7 +18,7 @@ public class EventbusGuiOsgiModule extends AbstractModule {
 	protected void configure() {
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
-		bind(aEventbusService.class).toProvider(service(aEventbusService.class).single());
+		bind(EventbusService.class).toProvider(service(EventbusService.class).single());
 		bind(NavigationWidget.class).toProvider(service(NavigationWidget.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());

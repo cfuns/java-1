@@ -16,9 +16,9 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.eventbus.api.aEvent.Type;
-import de.benjaminborbe.eventbus.api.aEventHandler;
-import de.benjaminborbe.eventbus.api.aEventbusService;
+import de.benjaminborbe.eventbus.api.Event.Type;
+import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -40,7 +40,7 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Eventbus";
 
-	private final aEventbusService eventbusService;
+	private final EventbusService eventbusService;
 
 	private final Logger logger;
 
@@ -51,7 +51,7 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final AuthenticationService authenticationService,
-			final aEventbusService eventbusService,
+			final EventbusService eventbusService,
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
@@ -69,12 +69,12 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		widgets.add("EventHandlers:");
 		final UlWidget ul = new UlWidget();
-		for (final Entry<Type<aEventHandler>, List<aEventHandler>> e : eventbusService.getHandlers().entrySet()) {
+		for (final Entry<Type<EventHandler>, List<EventHandler>> e : eventbusService.getHandlers().entrySet()) {
 			final StringWriter content = new StringWriter();
-			final Type<aEventHandler> type = e.getKey();
-			final List<aEventHandler> eventHandlers = e.getValue();
+			final Type<EventHandler> type = e.getKey();
+			final List<EventHandler> eventHandlers = e.getValue();
 			content.append("Type: " + type.getClass().getName());
-			for (final aEventHandler eventHandler : eventHandlers) {
+			for (final EventHandler eventHandler : eventHandlers) {
 				content.append(" - " + eventHandler.getClass().getName());
 			}
 			ul.add(new LiWidget(content.toString()));
