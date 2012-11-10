@@ -17,14 +17,14 @@ import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
 
 @Singleton
-public class aEventbusServiceImpl implements EventbusService {
+public class EventbusServiceImpl implements EventbusService {
 
 	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
 
 	private final Logger logger;
 
 	@Inject
-	public aEventbusServiceImpl(final Logger logger) {
+	public EventbusServiceImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
