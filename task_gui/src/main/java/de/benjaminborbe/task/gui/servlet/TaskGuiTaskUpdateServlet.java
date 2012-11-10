@@ -164,9 +164,9 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			for (final TaskContext taskContext : taskContexts) {
 				contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());
 			}
-			logger.debug("try selected taskcontext");
+			logger.trace("try selected taskcontext");
 			for (final TaskContext taskContext : taskService.getTaskContexts(sessionIdentifier, taskIdentifier)) {
-				logger.debug("selected taskcontext id: " + taskContext.getId());
+				logger.trace("selected taskcontext id: " + taskContext.getId());
 				contextSelectBox.addDefaultValue(String.valueOf(taskContext.getId()));
 			}
 			formWidget.addFormInputWidget(contextSelectBox);
@@ -184,12 +184,12 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final TaskServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

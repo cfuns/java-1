@@ -1,10 +1,12 @@
 package de.benjaminborbe.task.gui.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -16,6 +18,8 @@ import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.tools.util.StringUtil;
 
 public class TaskGuiUtil {
 
@@ -25,11 +29,26 @@ public class TaskGuiUtil {
 
 	private final TaskStartReadyPredicate taskStartReadyPredicate;
 
+	private final StringUtil stringUtil;
+
 	@Inject
-	public TaskGuiUtil(final Logger logger, final TaskService taskService, final TaskStartReadyPredicate taskStartReadyPredicate) {
+	public TaskGuiUtil(final Logger logger, final TaskService taskService, final TaskStartReadyPredicate taskStartReadyPredicate, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
 		this.taskStartReadyPredicate = taskStartReadyPredicate;
+		this.stringUtil = stringUtil;
+	}
+
+	public String buildCompleteName(final List<Task> allTasks, final Task task) {
+		final List<String> names = new ArrayList<String>();
+		Task parent = getParent(allTasks, task);
+		while (parent != null) {
+			names.add(stringUtil.shortenDots(parent.getName(), TaskGuiConstants.PARENT_NAME_LENGTH));
+			parent = getParent(allTasks, parent);
+		}
+		Collections.reverse(names);
+		names.add(task.getName());
+		return StringUtils.join(names, " / ");
 	}
 
 	public Task getParent(final List<Task> allTasks, final Task task) {

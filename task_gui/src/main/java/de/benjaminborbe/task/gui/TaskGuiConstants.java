@@ -62,4 +62,6 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_START_TOMORROW = "/task/tomorrow";
 
+	int PARENT_NAME_LENGTH = 15;
+
 }

@@ -24,3 +24,11 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 .task div.dueExpired {
 	color: #EE0000;
 }
+
+.task .taskEntry:hover {
+	border-bottom: 1px solid #AAAAAA;
+}
+
+.task .taskEntry {
+	border-bottom: 1px solid transparent;
+}

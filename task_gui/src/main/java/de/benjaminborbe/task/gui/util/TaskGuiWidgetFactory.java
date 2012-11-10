@@ -8,8 +8,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -136,16 +134,7 @@ public class TaskGuiWidgetFactory {
 		final ListWidget row = new ListWidget();
 		row.add(taskGuiLinkFactory.completeTask(request, task));
 		row.add(" ");
-		final List<String> names = new ArrayList<String>();
-
-		Task parent = taskGuiUtil.getParent(allTasks, task);
-		while (parent != null) {
-			names.add(parent.getName());
-			parent = taskGuiUtil.getParent(allTasks, parent);
-		}
-		Collections.reverse(names);
-		names.add(task.getName());
-		row.add(new SpanWidget(StringUtils.join(names, " / ")).addAttribute("class", "taskTitle"));
+		row.add(new SpanWidget(taskGuiUtil.buildCompleteName(allTasks, task)).addAttribute("class", "taskTitle"));
 		row.add(" ");
 
 		final ListWidget options = new ListWidget();
