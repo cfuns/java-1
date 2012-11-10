@@ -25,7 +25,7 @@ public class EventbusServiceIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventbusService Eventbus = injector.getInstance(EventbusService.class);
 		assertNotNull(Eventbus);
-		assertEquals(EventbusServiceImpl.class, Eventbus.getClass());
+		assertEquals(aEventbusServiceImpl.class, Eventbus.getClass());
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class EventbusServiceIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
 		final EventbusService Eventbus = injector.getInstance(EventbusService.class);
 		assertNotNull(Eventbus);
-		assertEquals(EventbusServiceImpl.class, Eventbus.getClass());
+		assertEquals(aEventbusServiceImpl.class, Eventbus.getClass());
 
 		final List<EventbusInitializedEvent> events = new ArrayList<EventbusInitializedEvent>();
 
