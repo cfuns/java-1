@@ -3,11 +3,11 @@ form.taskdashboardcreate input {
 	margin-left: 0px;
 }
 
-/* task */
-.task form.taskcompleteform,form.taskcompleteform fieldset {
+form.taskcompleteform,form.taskcompleteform fieldset {
 	display: inline;
 }
 
+/* task */
 .task .taskOptions {
 	left: 1000px;
 	position: absolute;
