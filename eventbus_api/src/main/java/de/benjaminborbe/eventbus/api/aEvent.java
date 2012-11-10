@@ -1,13 +1,13 @@
 package de.benjaminborbe.eventbus.api;
 
-public abstract class Event<H extends EventHandler> {
+public abstract class aEvent<H extends aEventHandler> {
 
 	public static class Type<H> {
 	}
 
 	private Object source;
 
-	protected Event() {
+	protected aEvent() {
 	}
 
 	public Object getSource() {

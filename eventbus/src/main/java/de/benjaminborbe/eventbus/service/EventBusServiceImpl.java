@@ -10,16 +10,16 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.eventbus.api.Event;
-import de.benjaminborbe.eventbus.api.Event.Type;
-import de.benjaminborbe.eventbus.api.EventHandler;
-import de.benjaminborbe.eventbus.api.EventbusService;
-import de.benjaminborbe.eventbus.api.HandlerRegistration;
+import de.benjaminborbe.eventbus.api.aEvent;
+import de.benjaminborbe.eventbus.api.aEvent.Type;
+import de.benjaminborbe.eventbus.api.aEventHandler;
+import de.benjaminborbe.eventbus.api.aEventbusService;
+import de.benjaminborbe.eventbus.api.aHandlerRegistration;
 
 @Singleton
-public class EventbusServiceImpl implements EventbusService {
+public class EventbusServiceImpl implements aEventbusService {
 
-	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
+	private final Map<Type<aEventHandler>, List<aEventHandler>> handlers = new HashMap<Type<aEventHandler>, List<aEventHandler>>();
 
 	private final Logger logger;
 
@@ -30,12 +30,12 @@ public class EventbusServiceImpl implements EventbusService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <H extends EventHandler> HandlerRegistration addHandler(final Type<H> type, final H handler) {
+	public <H extends aEventHandler> aHandlerRegistration addHandler(final Type<H> type, final H handler) {
 		logger.trace("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
-		List<EventHandler> eventHandlers = handlers.get(type);
+		List<aEventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers == null) {
-			eventHandlers = new ArrayList<EventHandler>();
-			handlers.put((Type<EventHandler>) type, eventHandlers);
+			eventHandlers = new ArrayList<aEventHandler>();
+			handlers.put((Type<aEventHandler>) type, eventHandlers);
 		}
 		eventHandlers.add(handler);
 		return null;
@@ -43,14 +43,14 @@ public class EventbusServiceImpl implements EventbusService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <H extends EventHandler> H getHandler(final Type<H> type, final int index) {
-		final List<EventHandler> eventHandlers = handlers.get(type);
+	public <H extends aEventHandler> H getHandler(final Type<H> type, final int index) {
+		final List<aEventHandler> eventHandlers = handlers.get(type);
 		return (H) eventHandlers.get(index);
 	}
 
 	@Override
 	public int getHandlerCount(final Type<?> type) {
-		final List<EventHandler> eventHandlers = handlers.get(type);
+		final List<aEventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers != null) {
 			return eventHandlers.size();
 		}
@@ -64,18 +64,18 @@ public class EventbusServiceImpl implements EventbusService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <H extends EventHandler> void fireEvent(final Event<H> event) {
+	public <H extends aEventHandler> void fireEvent(final aEvent<H> event) {
 		logger.trace("CoreEventbus - event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
-		final List<EventHandler> eventHandlers = handlers.get(event.getAssociatedType());
+		final List<aEventHandler> eventHandlers = handlers.get(event.getAssociatedType());
 		if (eventHandlers != null) {
-			for (final EventHandler eventHandler : eventHandlers) {
+			for (final aEventHandler eventHandler : eventHandlers) {
 				event.dispatch((H) eventHandler);
 			}
 		}
 	}
 
 	@Override
-	public Map<Type<EventHandler>, List<EventHandler>> getHandlers() {
+	public Map<Type<aEventHandler>, List<aEventHandler>> getHandlers() {
 		return handlers;
 	}
 

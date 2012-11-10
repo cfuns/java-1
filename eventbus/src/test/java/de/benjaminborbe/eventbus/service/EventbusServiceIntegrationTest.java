@@ -12,9 +12,9 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.eventbus.api.EventbusInitializedEvent;
-import de.benjaminborbe.eventbus.api.EventbusInitializedEventHandler;
-import de.benjaminborbe.eventbus.api.EventbusService;
+import de.benjaminborbe.eventbus.api.aEventbusInitializedEvent;
+import de.benjaminborbe.eventbus.api.aEventbusInitializedEventHandler;
+import de.benjaminborbe.eventbus.api.aEventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -23,7 +23,7 @@ public class EventbusServiceIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
-		final EventbusService Eventbus = injector.getInstance(EventbusService.class);
+		final aEventbusService Eventbus = injector.getInstance(aEventbusService.class);
 		assertNotNull(Eventbus);
 		assertEquals(EventbusServiceImpl.class, Eventbus.getClass());
 	}
@@ -31,25 +31,25 @@ public class EventbusServiceIntegrationTest {
 	@Test
 	public void testEventbus() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
-		final EventbusService Eventbus = injector.getInstance(EventbusService.class);
+		final aEventbusService Eventbus = injector.getInstance(aEventbusService.class);
 		assertNotNull(Eventbus);
 		assertEquals(EventbusServiceImpl.class, Eventbus.getClass());
 
-		final List<EventbusInitializedEvent> events = new ArrayList<EventbusInitializedEvent>();
+		final List<aEventbusInitializedEvent> events = new ArrayList<aEventbusInitializedEvent>();
 
-		assertEquals(0, Eventbus.getHandlerCount(EventbusInitializedEvent.TYPE));
-		assertFalse(Eventbus.isEventHandled(EventbusInitializedEvent.TYPE));
-		Eventbus.addHandler(EventbusInitializedEvent.TYPE, new EventbusInitializedEventHandler() {
+		assertEquals(0, Eventbus.getHandlerCount(aEventbusInitializedEvent.TYPE));
+		assertFalse(Eventbus.isEventHandled(aEventbusInitializedEvent.TYPE));
+		Eventbus.addHandler(aEventbusInitializedEvent.TYPE, new aEventbusInitializedEventHandler() {
 
 			@Override
-			public void onInitialize(final EventbusInitializedEvent event) {
+			public void onInitialize(final aEventbusInitializedEvent event) {
 				events.add(event);
 			}
 		});
-		assertEquals(1, Eventbus.getHandlerCount(EventbusInitializedEvent.TYPE));
-		assertTrue(Eventbus.isEventHandled(EventbusInitializedEvent.TYPE));
+		assertEquals(1, Eventbus.getHandlerCount(aEventbusInitializedEvent.TYPE));
+		assertTrue(Eventbus.isEventHandled(aEventbusInitializedEvent.TYPE));
 		assertEquals(0, events.size());
-		Eventbus.fireEvent(new EventbusInitializedEvent());
+		Eventbus.fireEvent(new aEventbusInitializedEvent());
 		assertEquals(1, events.size());
 	}
 
