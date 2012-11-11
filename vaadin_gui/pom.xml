@@ -89,6 +89,9 @@
 					<noServer>true</noServer>
 					<port>8080</port>
 					<compileReport>false</compileReport>
+					<persistentunitcachedir>/tmp/vaadin/unitcache</persistentunitcachedir>
+					<workDir>/tmp/vaadin/workdir</workDir>
+					<localWorkers>1</localWorkers>
 				</configuration>
 				<executions>
 					<execution>
