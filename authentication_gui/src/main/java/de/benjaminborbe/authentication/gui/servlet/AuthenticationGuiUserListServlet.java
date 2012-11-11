@@ -79,8 +79,12 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 			final Collection<UserIdentifier> userList = authenticationService.userList(sessionIdentifier);
 			final UlWidget ul = new UlWidget();
 			for (final UserIdentifier userIdentifier : userList) {
+				final ListWidget row = new ListWidget();
 				final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
-				ul.add(String.valueOf(user.getId()));
+				row.add(String.valueOf(user.getId()));
+				row.add(" ");
+				row.add("change to user");
+				ul.add(row);
 			}
 			widgets.add(ul);
 			return widgets;

@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
+import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapByteArray;
 import de.benjaminborbe.tools.mapper.SingleMapString;
 import de.benjaminborbe.tools.mapper.SingleMappler;
@@ -30,6 +31,7 @@ public class UserBeanMapper extends SingleMappler<UserBean> {
 		result.add(new SingleMapByteArray<UserBean>("passwordSalt", base64Util));
 		result.add(new SingleMapString<UserBean>("fullname"));
 		result.add(new SingleMapString<UserBean>("email"));
+		result.add(new SingleMapBoolean<UserBean>("superAdmin", parseUtil));
 		return result;
 	}
 

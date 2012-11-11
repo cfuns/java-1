@@ -17,6 +17,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.session.SessionBean;
@@ -279,9 +280,48 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
-		expectLoggedIn(sessionIdentifier);
 		try {
+			expectLoggedIn(sessionIdentifier);
 			return userDao.load(userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public void switchUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
+		try {
+			expectSuperAdmin(sessionIdentifier);
+			final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
+			session.setCurrentUser(userIdentifier);
+			sessionDao.save(session);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	private void expectSuperAdmin(final SessionIdentifier sessionIdentifier) throws SuperAdminRequiredException, AuthenticationServiceException, LoginRequiredException,
+			StorageException {
+		expectLoggedIn(sessionIdentifier);
+		if (!isSuperAdmin(sessionIdentifier)) {
+			throw new SuperAdminRequiredException("no superadmin!");
+		}
+	}
+
+	@Override
+	public boolean isSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final UserIdentifier currentUser = getCurrentUser(sessionIdentifier);
+		return isSuperAdmin(currentUser);
+	}
+
+	@Override
+	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		try {
+			final UserBean user = userDao.load(userIdentifier);
+			return user.isSuperAdmin();
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);

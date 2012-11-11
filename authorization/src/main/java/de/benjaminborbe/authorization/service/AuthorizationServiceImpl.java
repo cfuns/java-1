@@ -32,8 +32,6 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 @Singleton
 public class AuthorizationServiceImpl implements AuthorizationService {
 
-	private static final String ADMIN_USERNAME = "admin";
-
 	private static final String ADMIN_ROLE = "admin";
 
 	private final Logger logger;
@@ -95,8 +93,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				}
 			}
 
-			final String username = userIdentifier.getId();
-			return ADMIN_USERNAME.equals(username);
+			return authenticationService.isSuperAdmin(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException("AuthenticationServiceException", e);
@@ -193,10 +190,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			if (role != null && userRoleManyToManyRelation.exists(userIdentifier, roleIdentifier)) {
 				return true;
 			}
-			final String username = userIdentifier.getId();
-			return ADMIN_USERNAME.equals(username);
+			return authenticationService.isSuperAdmin(userIdentifier);
 		}
 		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

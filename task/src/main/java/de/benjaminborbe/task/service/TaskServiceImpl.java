@@ -254,6 +254,10 @@ public class TaskServiceImpl implements TaskService {
 		try {
 			logger.trace("getTask");
 			final Task task = taskDao.load(taskIdentifier);
+			if (task == null) {
+				logger.info("task not found with id " + taskIdentifier);
+				return null;
+			}
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			return task;
 		}

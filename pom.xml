@@ -35,9 +35,18 @@
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<commons.collections.version>3.2.1</commons.collections.version>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>bridge</id>
+			<modules>
+				<module>bridge</module>
+			</modules>
+		</profile>
+	</profiles>
+
 	<modules>
 		<module>api</module>
-		<module>bridge</module>
 		<module>authentication</module>
 		<module>authentication_api</module>
 		<module>authentication_gui</module>

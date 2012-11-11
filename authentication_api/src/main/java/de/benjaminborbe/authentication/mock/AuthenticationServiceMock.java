@@ -116,4 +116,18 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		return null;
 	}
+
+	@Override
+	public void switchUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+	}
+
+	@Override
+	public boolean isSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		return false;
+	}
 }

@@ -39,4 +39,8 @@ public interface AuthenticationGuiConstants {
 	String URL_UNREGISTER = "/unregister";
 
 	String URL_USER_LIST = "/user/list";
+
+	String PARAMETER_USER_ID = "user_id";
+
+	String URL_SWITCH_USER = "/user/switch";
 }

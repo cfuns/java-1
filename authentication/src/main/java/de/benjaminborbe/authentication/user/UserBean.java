@@ -18,6 +18,8 @@ public class UserBean implements Entity<UserIdentifier>, User {
 
 	private String fullname;
 
+	private Boolean superAdmin;
+
 	@Override
 	public UserIdentifier getId() {
 		return id;
@@ -60,6 +62,19 @@ public class UserBean implements Entity<UserIdentifier>, User {
 
 	public void setPasswordSalt(final byte[] passwordSalt) {
 		this.passwordSalt = passwordSalt;
+	}
+
+	public Boolean getSuperAdmin() {
+		return superAdmin;
+	}
+
+	public void setSuperAdmin(final Boolean admin) {
+		this.superAdmin = admin;
+	}
+
+	@Override
+	public boolean isSuperAdmin() {
+		return Boolean.TRUE.equals(superAdmin);
 	}
 
 }

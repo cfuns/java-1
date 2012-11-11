@@ -37,4 +37,10 @@ public interface AuthenticationService {
 	boolean existsSession(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
 	User getUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException;
+
+	void switchUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
+
+	boolean isSuperAdmin(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
+
+	boolean isSuperAdmin(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 }
