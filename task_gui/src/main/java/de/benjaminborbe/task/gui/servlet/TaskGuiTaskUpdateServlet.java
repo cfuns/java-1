@@ -68,8 +68,6 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
-	private final TimeZoneUtil timeZoneUtil;
-
 	@Inject
 	public TaskGuiTaskUpdateServlet(
 			final Logger logger,
@@ -87,7 +85,6 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
-		this.timeZoneUtil = timeZoneUtil;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -115,13 +112,13 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 
 			final String dueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DUE);
 			final String startString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_START);
-			final Calendar due = parseCalendar(dueString);
-			final Calendar start = parseCalendar(startString);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, id);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			final Calendar due = parseCalendar(task.getDue(), dueString);
+			final Calendar start = parseCalendar(task.getStart(), startString);
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
 					taskService.updateTask(sessionIdentifier, taskIdentifier, name, description, taskParentIdentifier, start, due);
@@ -195,9 +192,9 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 		}
 	}
 
-	private Calendar parseCalendar(final String dateString) {
+	private Calendar parseCalendar(final Calendar calendar, final String dateString) {
 		try {
-			return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), dateString);
+			return calendarUtil.getCalendarSmart(calendar, dateString);
 		}
 		catch (final ParseException e) {
 			return null;

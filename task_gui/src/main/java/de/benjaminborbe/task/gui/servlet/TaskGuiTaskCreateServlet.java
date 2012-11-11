@@ -67,8 +67,6 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
-	private final TimeZoneUtil timeZoneUtil;
-
 	@Inject
 	public TaskGuiTaskCreateServlet(
 			final Logger logger,
@@ -86,7 +84,6 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
-		this.timeZoneUtil = timeZoneUtil;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -113,14 +110,16 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
 			final String dueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DUE);
 			final String startString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_START);
-			final Calendar due = parseCalendar(dueString);
-			final Calendar start = parseCalendar(startString);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskContextIdentifier selectedContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, selectedContextId);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
+
+					final Calendar due = parseCalendar(dueString);
+					final Calendar start = parseCalendar(startString);
+
 					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier, start, due);
 
 					// add task-context relation
@@ -197,7 +196,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 
 	private Calendar parseCalendar(final String dateString) {
 		try {
-			return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), dateString);
+			return calendarUtil.getCalendarSmart(dateString);
 		}
 		catch (final ParseException e) {
 			return null;
