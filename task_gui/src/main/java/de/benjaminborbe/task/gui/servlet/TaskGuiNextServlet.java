@@ -99,7 +99,7 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 			final List<Task> tasks = taskGuiUtil.filterStart(allTasks);
 
 			logger.trace("found " + tasks.size() + " tasks");
-			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(tasks, request));
+			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, request));
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));

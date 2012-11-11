@@ -102,7 +102,7 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiHtmlServlet {
 			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextId, taskLimit);
 
 			logger.trace("found " + tasks.size() + " tasks");
-			widgets.add(taskGuiWidgetFactory.taskListWithChilds(tasks, null, request));
+			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, tasks, null, request));
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.nextTasks(request));

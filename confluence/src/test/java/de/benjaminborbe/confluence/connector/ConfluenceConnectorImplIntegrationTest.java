@@ -22,7 +22,7 @@ public class ConfluenceConnectorImplIntegrationTest {
 	public void testGetRenderedContent() throws Exception, XmlRpcException {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfluenceModulesMock());
 		final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
-		final String confluenceBaseUrl = "http://confluence.benjamin-borbe.de/confluence";
+		final String confluenceBaseUrl = "http://confluence.benjamin-borbe.de";
 		final String username = "test";
 		final String password = "z9W7CUwY4brR";
 		final String spaceName = "DEV";

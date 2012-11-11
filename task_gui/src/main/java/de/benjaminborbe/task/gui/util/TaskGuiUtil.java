@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
@@ -39,19 +40,21 @@ public class TaskGuiUtil {
 		this.stringUtil = stringUtil;
 	}
 
-	public String buildCompleteName(final List<Task> allTasks, final Task task) {
+	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final List<String> names = new ArrayList<String>();
-		Task parent = getParent(allTasks, task);
+		Task parent = getParent(sessionIdentifier, allTasks, task);
 		while (parent != null) {
 			names.add(stringUtil.shortenDots(parent.getName(), TaskGuiConstants.PARENT_NAME_LENGTH));
-			parent = getParent(allTasks, parent);
+			parent = getParent(sessionIdentifier, allTasks, parent);
 		}
 		Collections.reverse(names);
 		names.add(task.getName());
 		return StringUtils.join(names, " / ");
 	}
 
-	public Task getParent(final List<Task> allTasks, final Task task) {
+	public Task getParent(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		logger.trace("find parent for: " + task.getId());
 		if (task.getParentId() != null) {
 			for (final Task parent : allTasks) {
@@ -59,6 +62,7 @@ public class TaskGuiUtil {
 					return parent;
 				}
 			}
+			return taskService.getTask(sessionIdentifier, task.getParentId());
 		}
 		return null;
 	}

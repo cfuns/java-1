@@ -154,7 +154,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
 		EasyMock.expect(taskGuiWidgetFactory.switchTaskContext(request)).andReturn(new StringWidget(""));
-		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(allTasks, null, request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, allTasks, null, request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
 
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,

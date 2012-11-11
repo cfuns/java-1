@@ -25,6 +25,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -34,6 +35,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -51,6 +53,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
 	public TaskGuiTasksCompletedServlet(
 			final Logger logger,
@@ -64,12 +68,14 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory) {
+			final TaskGuiLinkFactory taskGuiLinkFactory,
+			final TaskGuiUtil taskGuiUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
+		this.taskGuiUtil = taskGuiUtil;
 	}
 
 	@Override
@@ -89,11 +95,13 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 			final List<Task> tasks = taskService.getTasksCompleted(sessionIdentifier, 1);
 			for (final Task task : tasks) {
 				final ListWidget row = new ListWidget();
-				row.add(task.getName());
+				row.add(new SpanWidget(taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task)).addAttribute("class", "taskTitle"));
 				row.add(" ");
-				row.add(taskGuiLinkFactory.uncompleteTask(request, task));
-				row.add(" ");
-				row.add(taskGuiLinkFactory.deleteTask(request, task));
+				final ListWidget options = new ListWidget();
+				options.add(taskGuiLinkFactory.uncompleteTask(request, task));
+				options.add(" ");
+				options.add(taskGuiLinkFactory.deleteTask(request, task));
+				row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 				ul.add(row);
 			}
 			widgets.add(ul);
