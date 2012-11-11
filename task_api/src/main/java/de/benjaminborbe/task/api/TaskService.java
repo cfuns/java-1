@@ -32,6 +32,11 @@ public interface TaskService {
 
 	List<Task> getTasksCompleted(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
 
+	List<Task> getTasksCompletedWithoutContext(SessionIdentifier sessionIdentifier, int limit) throws TaskServiceException, LoginRequiredException;
+
+	List<Task> getTasksCompletedWithContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, int limit) throws TaskServiceException,
+			LoginRequiredException;
+
 	TaskContextIdentifier createTaskContextIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
 
 	TaskContextIdentifier createTaskContext(SessionIdentifier sessionIdentifier, String name) throws TaskServiceException, LoginRequiredException;

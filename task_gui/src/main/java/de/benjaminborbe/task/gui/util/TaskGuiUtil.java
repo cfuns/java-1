@@ -126,4 +126,23 @@ public class TaskGuiUtil {
 		}
 		return result;
 	}
+
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final String taskContextId, final int taskLimit) throws TaskServiceException,
+			LoginRequiredException {
+		if (taskContextId != null && taskContextId.length() > 0) {
+			if ("all".equals(taskContextId)) {
+				logger.trace("task list for all");
+				return taskService.getTasksCompleted(sessionIdentifier, taskLimit);
+			}
+			else {
+				logger.trace("task list for context: " + taskContextId);
+				final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId);
+				return taskService.getTasksCompletedWithContext(sessionIdentifier, taskContextIdentifier, taskLimit);
+			}
+		}
+		else {
+			logger.trace("task list without context");
+			return taskService.getTasksCompletedWithoutContext(sessionIdentifier, taskLimit);
+		}
+	}
 }
