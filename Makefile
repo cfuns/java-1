@@ -1,5 +1,5 @@
 all:
-	mvn install
+	mvn -Pbridge install
 clean:
 	mvn clean
 	find . -name target -type d -exec rm -rf "{}" \;
@@ -24,7 +24,7 @@ packageoffice:
 buildoffice:
 	make packageoffice
 installwotest:
-	mvn -Dmaven.test.skip=true install
+	mvn -Pbridge -Dmaven.test.skip=true install
 update:
 	make all deploy
 dllir:
