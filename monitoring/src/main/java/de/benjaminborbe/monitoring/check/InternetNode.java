@@ -101,5 +101,14 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 			final String contentMatch = "<span>Dashboard</span>";
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
 		}
+
+		{
+			final String name = "URL-Check on nexus.benjamin-borbe.de";
+			final String url = "http://nexus.benjamin-borbe.de/nexus/index.html";
+			final String titleMatch = "Sonatype Nexus";
+			final String contentMatch = "<p>Welcome to the ";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
+
 	}
 }
