@@ -35,6 +35,8 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	private Integer priority = 0;
 
+	private Calendar completionDate;
+
 	@Override
 	public String getName() {
 		return name;
@@ -140,6 +142,15 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	public void setPriority(final Integer priority) {
 		this.priority = priority;
+	}
+
+	public void setCompletionDate(final Calendar completionDate) {
+		this.completionDate = completionDate;
+	}
+
+	@Override
+	public Calendar getCompletionDate() {
+		return completionDate;
 	}
 
 }

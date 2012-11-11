@@ -39,7 +39,7 @@ public class VncServiceImplIntegrationTest {
 			socket.connect(endpoint, 500);
 
 			vncNotFound = !socket.isConnected();
-			vncNotFound = true;
+			vncNotFound = false;
 		}
 		catch (final IOException e) {
 			vncNotFound = true;

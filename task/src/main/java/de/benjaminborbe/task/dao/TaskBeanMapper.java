@@ -29,10 +29,11 @@ public class TaskBeanMapper extends SingleMappler<TaskBean> {
 		result.add(new SingleMapTaskIdentifier<TaskBean>("id"));
 		result.add(new SingleMapTaskIdentifier<TaskBean>("parentId"));
 		result.add(new SingleMapString<TaskBean>("name"));
-		result.add(new SingleMapBoolean<TaskBean>("completed", parseUtil));
 		result.add(new SingleMapString<TaskBean>("description"));
 		result.add(new SingleMapUserIdentifier<TaskBean>("owner"));
 		result.add(new SingleMapLong<TaskBean>("duration", parseUtil));
+		result.add(new SingleMapBoolean<TaskBean>("completed", parseUtil));
+		result.add(new SingleMapCalendar<TaskBean>("completionDate", calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<TaskBean>("created", calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<TaskBean>("modified", calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<TaskBean>("start", calendarUtil, parseUtil));

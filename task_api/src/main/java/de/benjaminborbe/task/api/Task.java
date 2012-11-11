@@ -26,4 +26,6 @@ public interface Task {
 
 	Integer getPriority();
 
+	Calendar getCompletionDate();
+
 }

@@ -1,6 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -40,6 +43,19 @@ import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
+
+	private final class CompareComletionDate extends ComparatorBase<Task, Calendar> {
+
+		@Override
+		public Calendar getValue(final Task o) {
+			return o.getCompletionDate();
+		}
+
+		@Override
+		public boolean inverted() {
+			return true;
+		}
+	}
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -92,7 +108,10 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<Task> tasks = taskService.getTasksCompleted(sessionIdentifier, 1);
+			final List<Task> tasks = taskService.getTasksCompleted(sessionIdentifier, Integer.MAX_VALUE);
+
+			Collections.sort(tasks, new CompareComletionDate());
+
 			for (final Task task : tasks) {
 				final ListWidget row = new ListWidget();
 				row.add(new SpanWidget(taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task)).addAttribute("class", "taskTitle"));

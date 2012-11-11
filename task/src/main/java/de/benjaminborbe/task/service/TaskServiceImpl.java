@@ -179,6 +179,7 @@ public class TaskServiceImpl implements TaskService {
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			task.setModified(calendarUtil.now());
+			task.setCompletionDate(calendarUtil.now());
 			task.setCompleted(true);
 			taskDao.save(task);
 		}
@@ -198,6 +199,7 @@ public class TaskServiceImpl implements TaskService {
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			task.setModified(calendarUtil.now());
+			task.setCompletionDate(null);
 			task.setCompleted(false);
 			taskDao.save(task);
 		}
