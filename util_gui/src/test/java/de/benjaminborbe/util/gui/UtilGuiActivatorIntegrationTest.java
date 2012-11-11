@@ -44,7 +44,16 @@ public class UtilGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/util", "/util/pentest", "/util/penme", "/util/passwordGenerator", "/util/timeConvert", "/util/daydiff", "/util/calc", "/util/qunit");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_CALC);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_DAY_DIFF);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_PENME);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_PENTEST);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_QUNIT);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_SLASH);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_TIME_CONVERT);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_TIME);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_PASSWORD_GENERATOR);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

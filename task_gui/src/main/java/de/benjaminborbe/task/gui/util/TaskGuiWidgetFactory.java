@@ -82,19 +82,15 @@ public class TaskGuiWidgetFactory {
 		return new DivWidget(contextList);
 	}
 
-	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final HttpServletRequest request) throws MalformedURLException,
-			UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
-		if (childTasks.isEmpty()) {
-			return null;
-		}
-		final List<Task> tasks = groupByDueState(childTasks);
+	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final List<Task> allTasks, final HttpServletRequest request)
+			throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
+		final List<Task> groupedTasks = groupByDueState(tasks);
 
 		final UlWidget ul = new UlWidget();
-		for (int i = 0; i < tasks.size(); ++i) {
-			final Task task = tasks.get(i);
+		for (int i = 0; i < groupedTasks.size(); ++i) {
+			final Task task = groupedTasks.get(i);
 			final ListWidget widgets = new ListWidget();
-			final Widget div = buildTaskListRow(sessionIdentifier, request, tasks, i, task, allTasks);
+			final Widget div = buildTaskListRow(sessionIdentifier, request, groupedTasks, i, task, allTasks);
 			widgets.add(div);
 			ul.add(widgets);
 		}

@@ -194,6 +194,11 @@ buildcron:
 	cd cron && make all
 	cd cron_gui && make all
 	cd cron_test && make all
+buildutil:
+	cd util_api && make all
+	cd util && make all
+	cd util_gui && make all
+	cd util_test && make all
 buildeventbus:
 	cd eventbus_api && make all
 	cd eventbus && make all

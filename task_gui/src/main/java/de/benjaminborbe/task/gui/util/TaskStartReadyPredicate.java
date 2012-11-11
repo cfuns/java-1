@@ -24,8 +24,8 @@ public class TaskStartReadyPredicate implements Predicate<Task> {
 
 	@Override
 	public boolean apply(final Task task) {
-		final Calendar today = calendarUtil.today();
-		logger.trace(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(today));
-		return task.getStart() == null || calendarUtil.isLE(task.getStart(), today);
+		final Calendar now = calendarUtil.now();
+		logger.trace(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(now));
+		return task.getStart() == null || calendarUtil.isLE(task.getStart(), now);
 	}
 }

@@ -95,11 +95,9 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 			final int taskLimit = parseUtil.parseInt(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT), TaskGuiConstants.DEFAULT_TASK_LIMIT);
 
 			final List<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextId, taskLimit);
-
-			final List<Task> tasks = taskGuiUtil.filterStart(allTasks);
-
-			logger.trace("found " + tasks.size() + " tasks");
-			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, request));
+			final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
+			final List<Task> tasks = taskGuiUtil.filterStart(childTasks);
+			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request));
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));

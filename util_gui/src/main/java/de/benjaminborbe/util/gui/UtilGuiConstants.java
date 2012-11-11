@@ -4,7 +4,7 @@ public interface UtilGuiConstants {
 
 	String NAME = "util";
 
-	String PASSWORD_GENERATOR = "/passwordGenerator";
+	String URL_PASSWORD_GENERATOR = "/passwordGenerator";
 
 	String URL_CALC = "/calc";
 

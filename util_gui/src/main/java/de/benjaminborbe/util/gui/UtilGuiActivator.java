@@ -67,7 +67,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(utilServlet, UtilGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(utilGuiCalcServlet, UtilGuiConstants.URL_CALC));
-		result.add(new ServletInfo(utilPasswordGeneratorServlet, UtilGuiConstants.PASSWORD_GENERATOR));
+		result.add(new ServletInfo(utilPasswordGeneratorServlet, UtilGuiConstants.URL_PASSWORD_GENERATOR));
 		result.add(new ServletInfo(utilGuiTimeConvertServlet, UtilGuiConstants.URL_TIME_CONVERT));
 		result.add(new ServletInfo(utilGuiDayDiffServlet, UtilGuiConstants.URL_DAY_DIFF));
 		result.add(new ServletInfo(utilGuiQUnitServlet, UtilGuiConstants.URL_QUNIT));

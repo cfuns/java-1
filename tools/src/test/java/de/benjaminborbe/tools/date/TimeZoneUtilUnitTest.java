@@ -11,6 +11,6 @@ public class TimeZoneUtilUnitTest {
 	public void testgetUTCTimeZone() {
 		final TimeZoneUtil t = new TimeZoneUtilImpl();
 		assertNotNull(t.getUTCTimeZone());
-		assertEquals("GMT", t.getUTCTimeZone().getID());
+		assertEquals("UTC", t.getUTCTimeZone().getID());
 	}
 }
