@@ -64,4 +64,6 @@ public interface TaskGuiConstants {
 
 	int PARENT_NAME_LENGTH = 15;
 
+	String URL_TASK_FIRST = "/task/first";
+
 }

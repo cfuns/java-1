@@ -143,6 +143,9 @@ public class TaskGuiWidgetFactory {
 		options.add(taskGuiLinkFactory.taskTomorrow(request, task));
 		options.add(" ");
 		if (position > 0) {
+			options.add(taskGuiLinkFactory.taskFirstPrio(request, "first", task));
+			options.add(" ");
+
 			options.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(position - 1)));
 			options.add(" ");
 		}
