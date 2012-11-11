@@ -65,7 +65,7 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		portfolioWidget.addTitle("Portfolio - Links");
+		portfolioWidget.addTitle("Portfolio - Benjamin Borbe - Links");
 		portfolioWidget.addContent(createContentWidget(request, response, context));
 		return portfolioWidget;
 	}

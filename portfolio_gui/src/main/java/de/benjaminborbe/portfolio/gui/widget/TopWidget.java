@@ -12,7 +12,7 @@ public class TopWidget extends DivWidget implements Widget {
 
 	@Inject
 	public TopWidget(final TopNaviWidget topNaviWidget) {
-		addAttribute("class", "header");
+		addAttribute("id", "header");
 		final ListWidget widgets = new ListWidget();
 
 		final ListWidget logoContent = new ListWidget();
@@ -32,6 +32,7 @@ public class TopWidget extends DivWidget implements Widget {
 		photography.addAttribute("class", "photography");
 		logoContent.add(photography);
 
+		widgets.add(logo);
 		widgets.add(topNaviWidget);
 		addContent(widgets);
 	}

@@ -42,6 +42,7 @@ public class TopNaviWidget implements Widget {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final UlWidget ul = new UlWidget();
+			ul.addAttribute("class", "navi");
 			final List<Gallery> galleries = getGalleries();
 			logger.debug("found " + galleries.size() + " galleries");
 			for (final Gallery gallery : galleries) {
@@ -51,7 +52,6 @@ public class TopNaviWidget implements Widget {
 		}
 		catch (final GalleryServiceException e) {
 			logger.debug(e.getClass().getName(), e);
-			// nop
 		}
 	}
 

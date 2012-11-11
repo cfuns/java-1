@@ -14,9 +14,9 @@ public class BottomNaviWidget implements Widget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final UlWidget ul = new UlWidget();
+		ul.addAttribute("class", "navi");
 		ul.add(new LinksLinkWidget());
 		ul.add(new ContactLinkWidget());
 		ul.render(request, response, context);
 	}
-
 }

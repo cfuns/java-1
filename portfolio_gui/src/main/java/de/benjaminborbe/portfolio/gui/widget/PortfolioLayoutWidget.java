@@ -56,7 +56,7 @@ public class PortfolioLayoutWidget implements Widget {
 
 		final ListWidget widgets = new ListWidget();
 		widgets.add(topWidget);
-		widgets.add(new DivWidget(getContent()).addAttribute("class", "content"));
+		widgets.add(new DivWidget(getContent()).addAttribute("id", "content"));
 		widgets.add(footerWidget);
 
 		final BodyWidget bodyWidget = new BodyWidget(widgets);
