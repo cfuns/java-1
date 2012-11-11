@@ -8,5 +8,5 @@ public interface User {
 
 	String getFullname();
 
-	boolean isSuperAdmin();
+	Boolean getSuperAdmin();
 }

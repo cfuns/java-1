@@ -77,4 +77,23 @@ public class UserBeanMapperUnitTest {
 			assertTrue(Arrays.equals(value, bean.getPassword()));
 		}
 	}
+
+	@Test
+	public void testSuperAdmin() throws Exception {
+		final UserBeanMapper mapper = getUserBeanMapper();
+		final Boolean value = true;
+		final String fieldname = "superAdmin";
+		{
+			final UserBean bean = new UserBean();
+			bean.setSuperAdmin(value);
+			final Map<String, String> data = mapper.map(bean);
+			assertEquals(data.get(fieldname), String.valueOf(value));
+		}
+		{
+			final Map<String, String> data = new HashMap<String, String>();
+			data.put(fieldname, String.valueOf(value));
+			final UserBean bean = mapper.map(data);
+			assertEquals(value, bean.getSuperAdmin());
+		}
+	}
 }

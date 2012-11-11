@@ -72,9 +72,4 @@ public class UserBean implements Entity<UserIdentifier>, User {
 		this.superAdmin = admin;
 	}
 
-	@Override
-	public boolean isSuperAdmin() {
-		return Boolean.TRUE.equals(superAdmin);
-	}
-
 }

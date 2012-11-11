@@ -321,7 +321,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		try {
 			final UserBean user = userDao.load(userIdentifier);
-			return user.isSuperAdmin();
+			return Boolean.TRUE.equals(user.getSuperAdmin());
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
