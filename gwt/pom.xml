@@ -84,6 +84,7 @@
 				</executions>
 				<!-- Plugin configuration. There are many available options, see gwt-maven-plugin documentation at codehaus.org -->
 				<configuration>
+					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
 					<runTarget>Home.html</runTarget>
 					<buildDir>war/WEB-INF</buildDir>
 				</configuration>
@@ -109,7 +110,7 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
