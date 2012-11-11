@@ -29,7 +29,7 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 
 	protected void init() {
 		try {
-			addUrl("http://confluence.benjamin-borbe.de/confluence", "bborbe");
+			addUrl("http://confluence.benjamin-borbe.de", "bborbe");
 			addUrl("http://www.hascode.com", "bborbe");
 		}
 		catch (final Exception e) {
