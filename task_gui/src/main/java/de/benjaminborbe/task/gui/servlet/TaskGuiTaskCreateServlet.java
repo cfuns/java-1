@@ -196,7 +196,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 
 	private Calendar parseCalendar(final String dateString) {
 		try {
-			return calendarUtil.getCalendarSmart(dateString);
+			return calendarUtil.parseSmart(dateString);
 		}
 		catch (final ParseException e) {
 			return null;

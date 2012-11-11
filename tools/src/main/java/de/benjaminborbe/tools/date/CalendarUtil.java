@@ -47,9 +47,9 @@ public interface CalendarUtil {
 
 	Calendar getCalendar(TimeZone timeZone, int year, int month, int date, int hourOfDay, int minute, int second, int millisecond);
 
-	Calendar getCalendarSmart(String input) throws ParseException;
+	Calendar parseSmart(String input) throws ParseException;
 
-	Calendar getCalendarSmart(Calendar oldValue, String input) throws ParseException;
+	Calendar parseSmart(Calendar oldValue, String input) throws ParseException;
 
 	boolean isLE(Calendar c1, Calendar c2);
 

@@ -231,12 +231,12 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
-	public Calendar getCalendarSmart(final String input) throws ParseException {
-		return getCalendarSmart(today(), input);
+	public Calendar parseSmart(final String input) throws ParseException {
+		return parseSmart(today(), input);
 	}
 
 	@Override
-	public Calendar getCalendarSmart(final Calendar baseValue, final String inputString) throws ParseException {
+	public Calendar parseSmart(final Calendar baseValue, final String inputString) throws ParseException {
 		if (inputString == null) {
 			return null;
 		}
@@ -259,49 +259,56 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 		// yesterday
 		if ("yesterday".equalsIgnoreCase(input)) {
-			return getCalendarSmart(onlyDay(baseValue), "-1d");
+			return parseSmart(onlyDay(baseValue), "-1d");
 		}
 
 		// today
 		if ("today".equalsIgnoreCase(input)) {
-			return getCalendarSmart(onlyDay(baseValue), "0d");
+			return parseSmart(onlyDay(baseValue), "0d");
 		}
 
 		// tomorrow
 		if ("tomorrow".equalsIgnoreCase(input)) {
-			return getCalendarSmart(onlyDay(baseValue), "+1d");
+			return parseSmart(onlyDay(baseValue), "+1d");
 		}
 
-		if ("monday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("monday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.MONDAY));
 		}
-		if ("tuesday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("tuesday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.TUESDAY));
 		}
-		if ("wednesday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("wednesday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.WEDNESDAY));
 		}
-		if ("thursday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("thursday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.THURSDAY));
 		}
-		if ("friday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("friday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.FRIDAY));
 		}
-		if ("saturday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("saturday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.SATURDAY));
 		}
-		if ("sunday".equalsIgnoreCase(input)) {
+		if (equalsWeekday("sunday", input)) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.SUNDAY));
 		}
 
 		return parseDateTime(timeZoneUtil.getUTCTimeZone(), input);
+	}
+
+	private boolean equalsWeekday(final String weekday, final String input) {
+		if (input == null || input.length() < 3) {
+			return false;
+		}
+		return weekday.indexOf(input) == 0;
 	}
 
 	private int calcDaysToAdd(final int dayOfWeek, final int weekDay) {

@@ -264,7 +264,7 @@ public class CalendarUtilImplUnitTest {
 	}
 
 	@Test
-	public void testGetCalendarSmart() throws Exception {
+	public void testParseSmart() throws Exception {
 		final long time = 1352661011123l;
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
@@ -282,74 +282,85 @@ public class CalendarUtilImplUnitTest {
 		final CalendarUtil u = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		{
-			assertEquals("2012-11-11 20:59:45", u.toDateTimeString(u.getCalendarSmart("2012-11-11 20:59:45")));
-			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.getCalendarSmart("2012-11-11")));
+			assertEquals("2012-11-11 20:59:45", u.toDateTimeString(u.parseSmart("2012-11-11 20:59:45")));
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart("2012-11-11")));
 		}
 
 		{
-			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.getCalendarSmart("0d")));
-			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.getCalendarSmart("1d")));
-			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.getCalendarSmart("2d")));
-			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.getCalendarSmart("-1d")));
-			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.getCalendarSmart("-2d")));
-		}
-
-		{
-			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
-			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "+0d")));
-			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "+1d")));
-			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "+2d")));
-			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "-1d")));
-			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "-2d")));
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart("0d")));
+			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart("1d")));
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart("2d")));
+			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.parseSmart("-1d")));
+			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.parseSmart("-2d")));
 		}
 
 		{
 			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
-			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "+0d")));
-			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "+1d")));
-			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "+2d")));
-			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "-1d")));
-			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "-2d")));
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+0d")));
+			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+1d")));
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+2d")));
+			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-1d")));
+			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-2d")));
 		}
 
 		{
 			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
-			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "yesterday")));
-			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "today")));
-			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "tomorrow")));
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+0d")));
+			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+1d")));
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+2d")));
+			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-1d")));
+			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-2d")));
 		}
 
 		{
 			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
-			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "sunday")));
-			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "monday")));
-			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "tuesday")));
-			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "wednesday")));
-			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "thursday")));
-			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "friday")));
-			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "saturday")));
+			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "yesterday")));
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "today")));
+			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "tomorrow")));
+		}
+
+		{
+			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "sunday")));
+			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "monday")));
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "tuesday")));
+			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "wednesday")));
+			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "thursday")));
+			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "friday")));
+			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "saturday")));
 		}
 
 		{
 			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-12 20:59:45");
-			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "monday")));
-			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "tuesday")));
-			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "wednesday")));
-			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "thursday")));
-			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "friday")));
-			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "saturday")));
-			assertEquals("2012-11-18 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "sunday")));
+			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "monday")));
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "tuesday")));
+			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "wednesday")));
+			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "thursday")));
+			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "friday")));
+			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "saturday")));
+			assertEquals("2012-11-18 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "sunday")));
 		}
 
 		{
 			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-13 20:59:45");
-			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "tuesday")));
-			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "wednesday")));
-			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "thursday")));
-			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "friday")));
-			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "saturday")));
-			assertEquals("2012-11-18 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "sunday")));
-			assertEquals("2012-11-19 00:00:00", u.toDateTimeString(u.getCalendarSmart(baseValue, "monday")));
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "tuesday")));
+			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "wednesday")));
+			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "thursday")));
+			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "friday")));
+			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "saturday")));
+			assertEquals("2012-11-18 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "sunday")));
+			assertEquals("2012-11-19 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "monday")));
+		}
+
+		{
+			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-13 20:59:45");
+			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "tue")));
+			assertEquals("2012-11-14 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "wed")));
+			assertEquals("2012-11-15 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "thu")));
+			assertEquals("2012-11-16 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "fri")));
+			assertEquals("2012-11-17 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "sat")));
+			assertEquals("2012-11-18 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "sun")));
+			assertEquals("2012-11-19 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "mon")));
 		}
 	}
 

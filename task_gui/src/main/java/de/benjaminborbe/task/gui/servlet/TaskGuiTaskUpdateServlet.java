@@ -194,7 +194,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 
 	private Calendar parseCalendar(final Calendar calendar, final String dateString) {
 		try {
-			return calendarUtil.getCalendarSmart(calendar, dateString);
+			return calendarUtil.parseSmart(calendar, dateString);
 		}
 		catch (final ParseException e) {
 			return null;
@@ -206,6 +206,6 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 	}
 
 	private String toValue(final Calendar calendar) {
-		return calendar != null ? calendarUtil.toDateString(calendar) : "";
+		return calendar != null ? calendarUtil.toDateTimeString(calendar) : "";
 	}
 }
