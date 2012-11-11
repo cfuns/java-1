@@ -87,6 +87,9 @@
 					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
 					<runTarget>Home.html</runTarget>
 					<buildDir>war/WEB-INF</buildDir>
+					<persistentunitcache>true</persistentunitcache>
+					<persistentunitcachedir>/tmp/gwt/</persistentunitcachedir>
+					<localWorkers>1</localWorkers>
 				</configuration>
 			</plugin>
 			<plugin>
