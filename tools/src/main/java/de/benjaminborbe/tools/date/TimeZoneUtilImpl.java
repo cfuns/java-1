@@ -14,6 +14,12 @@ public class TimeZoneUtilImpl implements TimeZoneUtil {
 
 	@Override
 	public TimeZone getUTCTimeZone() {
-		return TimeZone.getTimeZone("UTF8");
+		return TimeZone.getTimeZone("UTC");
 	}
+
+	@Override
+	public TimeZone getEuropeBerlinTimeZone() {
+		return TimeZone.getTimeZone("Europe/Berlin");
+	}
+
 }

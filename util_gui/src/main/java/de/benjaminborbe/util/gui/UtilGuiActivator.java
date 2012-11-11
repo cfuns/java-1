@@ -22,6 +22,7 @@ import de.benjaminborbe.util.gui.servlet.UtilGuiPentestServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiTimeServlet;
 
 public class UtilGuiActivator extends HttpBundleActivator {
 
@@ -49,8 +50,11 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Inject
 	private UtilGuiPenMeServlet utilGuiPenMeServlet;
 
+	@Inject
+	private UtilGuiTimeServlet utilGuiTimeServlet;
+
 	public UtilGuiActivator() {
-		super("util");
+		super(UtilGuiConstants.NAME);
 	}
 
 	@Override
@@ -61,14 +65,15 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(utilServlet, "/"));
-		result.add(new ServletInfo(utilGuiCalcServlet, "/calc"));
-		result.add(new ServletInfo(utilPasswordGeneratorServlet, "/passwordGenerator"));
-		result.add(new ServletInfo(utilGuiTimeConvertServlet, "/timeConvert"));
-		result.add(new ServletInfo(utilGuiDayDiffServlet, "/daydiff"));
-		result.add(new ServletInfo(utilGuiQUnitServlet, "/qunit"));
-		result.add(new ServletInfo(utilGuiPentestServlet, "/pentest"));
-		result.add(new ServletInfo(utilGuiPenMeServlet, "/penme"));
+		result.add(new ServletInfo(utilServlet, UtilGuiConstants.URL_SLASH));
+		result.add(new ServletInfo(utilGuiCalcServlet, UtilGuiConstants.URL_CALC));
+		result.add(new ServletInfo(utilPasswordGeneratorServlet, UtilGuiConstants.PASSWORD_GENERATOR));
+		result.add(new ServletInfo(utilGuiTimeConvertServlet, UtilGuiConstants.URL_TIME_CONVERT));
+		result.add(new ServletInfo(utilGuiDayDiffServlet, UtilGuiConstants.URL_DAY_DIFF));
+		result.add(new ServletInfo(utilGuiQUnitServlet, UtilGuiConstants.URL_QUNIT));
+		result.add(new ServletInfo(utilGuiPentestServlet, UtilGuiConstants.URL_PENTEST));
+		result.add(new ServletInfo(utilGuiPenMeServlet, UtilGuiConstants.URL_PENME));
+		result.add(new ServletInfo(utilGuiTimeServlet, UtilGuiConstants.URL_TIME));
 		return result;
 	}
 

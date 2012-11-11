@@ -6,4 +6,6 @@ public interface TimeZoneUtil {
 
 	TimeZone getUTCTimeZone();
 
+	TimeZone getEuropeBerlinTimeZone();
+
 }
