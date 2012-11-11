@@ -7,13 +7,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
+import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.util.Base64Util;
@@ -31,9 +34,16 @@ public class UserBeanMapperUnitTest {
 				return new UserBean();
 			}
 		};
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.replay(currentTime);
+
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		final CalendarUtil calendarUtil = new CalendarUtilImpl(parseUtil, timeZoneUtil);
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final Base64Util base64Util = new Base64UtilImpl();
 		return new UserBeanMapper(taskBeanProvider, parseUtil, calendarUtil, base64Util);
 	}

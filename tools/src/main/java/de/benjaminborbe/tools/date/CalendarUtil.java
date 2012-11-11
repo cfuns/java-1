@@ -17,13 +17,13 @@ public interface CalendarUtil {
 
 	Calendar parseDateTime(final TimeZone timeZone, String dateTimeString) throws ParseException;
 
-	Calendar today();
-
 	Calendar today(TimeZone timeZone);
 
-	Calendar now();
-
 	Calendar now(TimeZone timeZone);
+
+	Calendar today();
+
+	Calendar now();
 
 	Calendar addDays(Calendar now, int amountOfDays);
 
@@ -41,13 +41,15 @@ public interface CalendarUtil {
 
 	Calendar parseDate(TimeZone timeZone, String dateString) throws ParseException;
 
-	Calendar getCalendar(long time);
+	Calendar getCalendar(TimeZone timeZone, long time);
 
 	Calendar getCalendar(TimeZone timeZone, int year, int month, int date);
 
 	Calendar getCalendar(TimeZone timeZone, int year, int month, int date, int hourOfDay, int minute, int second, int millisecond);
 
 	Calendar getCalendarSmart(String input) throws ParseException;
+
+	Calendar getCalendarSmart(Calendar oldValue, String input) throws ParseException;
 
 	boolean isLE(Calendar c1, Calendar c2);
 

@@ -4,6 +4,8 @@ import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -17,10 +19,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	private final ParseUtil parseUtil;
 
+	private final CurrentTime currentTime;
+
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final Logger logger;
+
 	@Inject
-	public CalendarUtilImpl(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil) {
+	public CalendarUtilImpl(final Logger logger, final CurrentTime currentTime, final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil) {
+		this.logger = logger;
+		this.currentTime = currentTime;
 		this.parseUtil = parseUtil;
 		this.timeZoneUtil = timeZoneUtil;
 	}
@@ -90,9 +98,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 	@Override
 	public Calendar getCalendar(final TimeZone timeZone, final int year, final int month, final int date, final int hourOfDay, final int minute, final int second,
 			final int millisecond) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.clear();
-		calendar.setTimeZone(timeZone);
+		final Calendar calendar = getCalendar(timeZone);
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH, month);
 		calendar.set(Calendar.DAY_OF_MONTH, date);
@@ -108,7 +114,13 @@ public class CalendarUtilImpl implements CalendarUtil {
 		try {
 			final String[] parts = dateTime.split(" ");
 			final String[] dateParts = parts[0].split("-");
-			final String[] hourParts = parts[1].split(":");
+			final String[] hourParts;
+			if (parts.length == 2) {
+				hourParts = parts[1].split(":");
+			}
+			else {
+				hourParts = new String[] { "0", "0", "0" };
+			}
 			return getCalendar(timeZone, parseUtil.parseInt(dateParts[0]), parseUtil.parseInt(dateParts[1]) - 1, parseUtil.parseInt(dateParts[2]), parseUtil.parseInt(hourParts[0]),
 					parseUtil.parseInt(hourParts[1]), parseUtil.parseInt(hourParts[2]));
 		}
@@ -119,7 +131,9 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar now(final TimeZone timeZone) {
-		return Calendar.getInstance(timeZone);
+		final Calendar calendar = getCalendar(timeZone);
+		calendar.setTimeInMillis(currentTime.currentTimeMillis());
+		return calendar;
 	}
 
 	@Override
@@ -141,7 +155,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public long getTime() {
-		return System.currentTimeMillis();
+		return currentTime.currentTimeMillis();
 	}
 
 	@Override
@@ -179,11 +193,6 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
-	public Calendar now() {
-		return now(timeZoneUtil.getUTCTimeZone());
-	}
-
-	@Override
 	public Calendar parseDate(final TimeZone timeZone, final String dateTime) throws ParseException {
 		try {
 			final String[] dateParts = dateTime.split("-");
@@ -195,20 +204,20 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
-	public Calendar getCalendar(final long timeInMillis) {
-		final Calendar result = now();
+	public Calendar getCalendar(final TimeZone timeZone, final long timeInMillis) {
+		final Calendar result = getCalendar(timeZone);
 		result.setTimeInMillis(timeInMillis);
 		return result;
 	}
 
-	@Override
-	public Calendar today() {
-		return today(timeZoneUtil.getUTCTimeZone());
+	private Calendar getCalendar(final TimeZone timeZone) {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.setTimeZone(timeZone);
+		return calendar;
 	}
 
-	@Override
-	public Calendar today(final TimeZone timeZone) {
-		final Calendar calendar = now(timeZone);
+	public Calendar onlyDay(final Calendar calendar) {
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
@@ -217,8 +226,86 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
+	public Calendar today(final TimeZone timeZone) {
+		return onlyDay(now(timeZone));
+	}
+
+	@Override
 	public Calendar getCalendarSmart(final String input) throws ParseException {
-		return null;
+		return getCalendarSmart(today(), input);
+	}
+
+	@Override
+	public Calendar getCalendarSmart(final Calendar baseValue, final String inputString) throws ParseException {
+		if (inputString == null) {
+			return null;
+		}
+		final String input = inputString.trim();
+		if (input.length() == 0) {
+			return null;
+		}
+
+		// 0d 1d
+		if (input.length() > 1 && 'd' == input.charAt(input.length() - 1)) {
+			final String substring = input.substring(0, input.length() - 1);
+			try {
+				final int days = parseUtil.parseInt(substring);
+				return addDays(onlyDay(baseValue), days);
+			}
+			catch (final ParseException e) {
+				logger.debug("parse " + substring);
+			}
+		}
+
+		// yesterday
+		if ("yesterday".equalsIgnoreCase(input)) {
+			return getCalendarSmart(onlyDay(baseValue), "-1d");
+		}
+
+		// today
+		if ("today".equalsIgnoreCase(input)) {
+			return getCalendarSmart(onlyDay(baseValue), "0d");
+		}
+
+		// tomorrow
+		if ("tomorrow".equalsIgnoreCase(input)) {
+			return getCalendarSmart(onlyDay(baseValue), "+1d");
+		}
+
+		if ("monday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.MONDAY));
+		}
+		if ("tuesday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.TUESDAY));
+		}
+		if ("wednesday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.WEDNESDAY));
+		}
+		if ("thursday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.THURSDAY));
+		}
+		if ("friday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.FRIDAY));
+		}
+		if ("saturday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.SATURDAY));
+		}
+		if ("sunday".equalsIgnoreCase(input)) {
+			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
+			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.SUNDAY));
+		}
+
+		return parseDateTime(timeZoneUtil.getUTCTimeZone(), input);
+	}
+
+	private int calcDaysToAdd(final int dayOfWeek, final int weekDay) {
+		return (weekDay - dayOfWeek + 7) % 7;
 	}
 
 	@Override
@@ -244,6 +331,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 	@Override
 	public boolean isEQ(final Calendar c1, final Calendar c2) {
 		return c1.getTimeInMillis() == c2.getTimeInMillis();
+	}
+
+	@Override
+	public Calendar today() {
+		return today(timeZoneUtil.getUTCTimeZone());
+	}
+
+	@Override
+	public Calendar now() {
+		return now(timeZoneUtil.getUTCTimeZone());
 	}
 
 }

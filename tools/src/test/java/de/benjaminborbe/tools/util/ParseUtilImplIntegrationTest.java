@@ -8,7 +8,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ToolModules;
 
-public class ParseUtilIntegrationTest {
+public class ParseUtilImplIntegrationTest {
 
 	@Test
 	public void testSingleton() {

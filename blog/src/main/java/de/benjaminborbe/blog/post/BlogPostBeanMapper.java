@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.util.ParseException;
@@ -34,11 +35,14 @@ public class BlogPostBeanMapper extends BaseMapper<BlogPostBean> {
 
 	private final ParseUtil parseUtil;
 
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
-	public BlogPostBeanMapper(final Provider<BlogPostBean> provider, final ParseUtil parseUtil, final CalendarUtil calendarUtil) {
+	public BlogPostBeanMapper(final Provider<BlogPostBean> provider, final ParseUtil parseUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
 		super(provider);
 		this.parseUtil = parseUtil;
 		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -72,7 +76,7 @@ public class BlogPostBeanMapper extends BaseMapper<BlogPostBean> {
 	}
 
 	private Calendar toCalendar(final String timestamp) throws ParseException {
-		return timestamp != null ? calendarUtil.getCalendar(parseUtil.parseLong(timestamp)) : null;
+		return timestamp != null ? calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), parseUtil.parseLong(timestamp)) : null;
 	}
 
 	private BlogPostIdentifier toBlogPostIdentifier(final String id) {

@@ -7,6 +7,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
+import de.benjaminborbe.tools.date.CurrentTime;
+import de.benjaminborbe.tools.date.CurrentTimeImpl;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.DateUtilImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -39,6 +41,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(CurrentTime.class).to(CurrentTimeImpl.class);
 		bind(ValidatorRegistry.class).to(ValidatorRegistryImpl.class).in(Singleton.class);
 		bind(UrlUtil.class).to(UrlUtilImpl.class).in(Singleton.class);
 		bind(HtmlUtil.class).to(HtmlUtilImpl.class).in(Singleton.class);

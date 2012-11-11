@@ -6,7 +6,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
@@ -14,6 +16,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
+import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -30,10 +33,18 @@ public class TaskBeanMapperUnitTest {
 				return new TaskBean();
 			}
 		};
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		final CalendarUtil calendarUtil = new CalendarUtilImpl(parseUtil, timeZoneUtil);
-		return new TaskBeanMapper(taskBeanProvider, parseUtil, calendarUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		return new TaskBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil);
 	}
 
 	@Test

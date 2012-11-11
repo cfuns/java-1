@@ -56,7 +56,12 @@ public class ParseUtilImpl implements ParseUtil {
 	@Override
 	public long parseLong(final String number) throws ParseException {
 		try {
-			return Long.parseLong(number);
+			if (number.charAt(0) == '+') {
+				return Long.parseLong(number.substring(1));
+			}
+			else {
+				return Long.parseLong(number);
+			}
 		}
 		catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
@@ -66,7 +71,12 @@ public class ParseUtilImpl implements ParseUtil {
 	@Override
 	public long parseLong(final String number, final long defaultValue) {
 		try {
-			return Long.parseLong(number);
+			if (number.charAt(0) == '+') {
+				return Long.parseLong(number.substring(1));
+			}
+			else {
+				return Long.parseLong(number);
+			}
 		}
 		catch (final Exception e) {
 			return defaultValue;
@@ -76,7 +86,12 @@ public class ParseUtilImpl implements ParseUtil {
 	@Override
 	public int parseInt(final String number) throws ParseException {
 		try {
-			return Integer.parseInt(number);
+			if (number.charAt(0) == '+') {
+				return Integer.parseInt(number.substring(1));
+			}
+			else {
+				return Integer.parseInt(number);
+			}
 		}
 		catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
@@ -86,7 +101,12 @@ public class ParseUtilImpl implements ParseUtil {
 	@Override
 	public int parseInt(final String number, final int defaultValue) {
 		try {
-			return Integer.parseInt(number);
+			if (number.charAt(0) == '+') {
+				return Integer.parseInt(number.substring(1));
+			}
+			else {
+				return Integer.parseInt(number);
+			}
 		}
 		catch (final Exception e) {
 			return defaultValue;

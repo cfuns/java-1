@@ -9,7 +9,33 @@ import java.net.URL;
 
 import org.junit.Test;
 
-public class ParseUtilUnitTest {
+public class ParseUtilImplUnitTest {
+
+	@Test
+	public void testParseInt() throws ParseException {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		assertEquals(0, parseUtil.parseInt("0"));
+		assertEquals(1, parseUtil.parseInt("1"));
+		assertEquals(-1, parseUtil.parseInt("-1"));
+		assertEquals(1, parseUtil.parseInt("+1"));
+		assertEquals(0, parseUtil.parseInt("0", 1337));
+		assertEquals(1, parseUtil.parseInt("1", 1337));
+		assertEquals(-1, parseUtil.parseInt("-1", 1337));
+		assertEquals(1, parseUtil.parseInt("+1", 1337));
+	}
+
+	@Test
+	public void testParseLong() throws ParseException {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		assertEquals(0l, parseUtil.parseLong("0"));
+		assertEquals(1l, parseUtil.parseLong("1"));
+		assertEquals(-1l, parseUtil.parseLong("-1"));
+		assertEquals(1l, parseUtil.parseLong("+1"));
+		assertEquals(0l, parseUtil.parseLong("0", 1337));
+		assertEquals(1l, parseUtil.parseLong("1", 1337));
+		assertEquals(-1l, parseUtil.parseLong("-1", 1337));
+		assertEquals(1l, parseUtil.parseLong("+1", 1337));
+	}
 
 	@Test
 	public void testParseBoolean() throws ParseException {
