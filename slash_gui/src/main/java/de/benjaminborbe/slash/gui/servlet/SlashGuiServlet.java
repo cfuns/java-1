@@ -48,7 +48,7 @@ public class SlashGuiServlet extends WebsiteServlet {
 
 	protected String buildRedirectTargetPath(final HttpServletRequest request) {
 		final String serverName = request.getServerName();
-		if (serverName.indexOf("benjamin-borbe.de") != -1 || serverName.indexOf("benjaminborbe.de") != -1) {
+		if (serverName.indexOf("benjamin-borbe") != -1 || serverName.indexOf("benjaminborbe") != -1) {
 			return request.getContextPath() + "/portfolio";
 		}
 		else if (serverName.indexOf("harteslicht.de") != -1 || serverName.indexOf("harteslicht.com") != -1) {
@@ -57,7 +57,7 @@ public class SlashGuiServlet extends WebsiteServlet {
 		else if (serverName.indexOf("bborbe.devel") != -1) {
 			return request.getContextPath() + "/lunch";
 		}
-		else if (serverName.indexOf("rocketnews.de") != -1 || serverName.indexOf("rocketsource.de") != -1) {
+		else if (serverName.indexOf("rocketnews") != -1 || serverName.indexOf("rocketsource") != -1) {
 			return request.getContextPath() + "/wiki";
 		}
 		else {

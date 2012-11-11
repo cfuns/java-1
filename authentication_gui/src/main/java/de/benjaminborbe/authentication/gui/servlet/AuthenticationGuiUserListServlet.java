@@ -18,6 +18,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -45,6 +46,8 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final AuthenticationGuiLinkFactory authenticationGuiLinkFactory;
+
 	@Inject
 	public AuthenticationGuiUserListServlet(
 			final Logger logger,
@@ -53,12 +56,14 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
+			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authenticationGuiLinkFactory = authenticationGuiLinkFactory;
 	}
 
 	@Override
@@ -83,7 +88,7 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 				final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
 				row.add(String.valueOf(user.getId()));
 				row.add(" ");
-				row.add("change to user");
+				row.add(authenticationGuiLinkFactory.changeUser(request, userIdentifier));
 				ul.add(row);
 			}
 			widgets.add(ul);

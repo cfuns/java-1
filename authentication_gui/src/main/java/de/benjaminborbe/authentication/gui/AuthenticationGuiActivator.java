@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServle
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiSwitchUserServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
 import de.benjaminborbe.tools.guice.Modules;
@@ -47,6 +48,9 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AuthenticationGuiUserListServlet authenticationGuiUserListServlet;
 
+	@Inject
+	private AuthenticationGuiSwitchUserServlet authenticationGuiSwitchUserServlet;
+
 	public AuthenticationGuiActivator() {
 		super(AuthenticationGuiConstants.NAME);
 	}
@@ -67,6 +71,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiUnregisterServlet, AuthenticationGuiConstants.URL_UNREGISTER));
 		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_CHANGE_PASSWORD));
 		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
+		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_SWITCH_USER));
 		return result;
 	}
 
