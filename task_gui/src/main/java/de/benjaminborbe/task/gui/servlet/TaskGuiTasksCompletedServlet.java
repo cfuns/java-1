@@ -135,7 +135,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 					options.add(" ");
 					options.add(taskGuiLinkFactory.deleteTask(request, task));
 					row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
-					ul.add(new DivWidget(row).addClass("taskEntry"));
+					ul.add(new DivWidget(row).addClass("taskEntry").addClass("completed"));
 				}
 				widgets.add(ul);
 			}

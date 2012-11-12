@@ -49,6 +49,8 @@ public class TaskGuiWidgetFactory {
 
 	private final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate;
 
+	private final TaskStartReadyPredicate taskStartReadyPredicate;
+
 	@Inject
 	public TaskGuiWidgetFactory(
 			final AuthenticationService authenticationService,
@@ -57,7 +59,8 @@ public class TaskGuiWidgetFactory {
 			final TaskGuiUtil taskGuiUtil,
 			final TaskDueTodayPredicate taskDueTodayPredicate,
 			final TaskDueExpiredPredicate taskDueExpiredPredicate,
-			final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate) {
+			final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate,
+			final TaskStartReadyPredicate taskStartReadyPredicate) {
 		this.authenticationService = authenticationService;
 		this.taskService = taskService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -65,6 +68,7 @@ public class TaskGuiWidgetFactory {
 		this.taskDueTodayPredicate = taskDueTodayPredicate;
 		this.taskDueExpiredPredicate = taskDueExpiredPredicate;
 		this.taskDueNotExpiredPredicate = taskDueNotExpiredPredicate;
+		this.taskStartReadyPredicate = taskStartReadyPredicate;
 	}
 
 	public Widget switchTaskContext(final HttpServletRequest request) throws AuthenticationServiceException, LoginRequiredException, TaskServiceException, MalformedURLException,
@@ -176,6 +180,11 @@ public class TaskGuiWidgetFactory {
 			}
 			else if (taskDueExpiredPredicate.apply(task)) {
 				div.addClass("dueExpired");
+			}
+		}
+		if (task.getStart() != null) {
+			if (!taskStartReadyPredicate.apply(task)) {
+				div.addClass("startNotReached");
 			}
 		}
 		return div;

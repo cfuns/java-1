@@ -17,12 +17,20 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 	width: 800px;
 }
 
-.task div.dueToday {
+.task div.dueToday .taskTitle a {
 	color: #FFCC00;
 }
 
-.task div.dueExpired {
+.task div.dueExpired .taskTitle a {
 	color: #EE0000;
+}
+
+.task div.startNotReached .taskTitle a {
+	color: #AAAAAA;
+}
+
+.task div.completed .taskTitle {
+	text-decoration: line-through;
 }
 
 .task .taskEntry:hover {
