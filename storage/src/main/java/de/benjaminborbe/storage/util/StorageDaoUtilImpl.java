@@ -141,21 +141,22 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 			final long timestamp = calendarUtil.getTime();
 			for (final Entry<String, String> e : data.entrySet()) {
+				final String key = e.getKey();
+				final String value = e.getValue();
+				logger.debug("write " + key + " = " + value);
+				if (value != null) {
 
-				if (e.getValue() != null) {
-
-					final ByteBuffer key = ByteBuffer.wrap(id);
 					final ColumnParent column_parent = new ColumnParent(columnFamily);
 					final String encoding = config.getEncoding();
 					logger.trace("storage " + encoding);
 
-					final Column column = new Column(ByteBuffer.wrap(e.getKey().getBytes(encoding)));
-					column.setValue(ByteBuffer.wrap(e.getValue().getBytes(encoding)));
+					final Column column = new Column(ByteBuffer.wrap(key.getBytes(encoding)));
+					column.setValue(ByteBuffer.wrap(value.getBytes(encoding)));
 					column.setTimestamp(timestamp);
 					final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
 					// schreiben eines datensatzes
-					client.insert(key, column_parent, column, consistency_level);
+					client.insert(ByteBuffer.wrap(id), column_parent, column, consistency_level);
 				}
 				else {
 					try {

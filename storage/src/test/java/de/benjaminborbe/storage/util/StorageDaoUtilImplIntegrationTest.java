@@ -352,4 +352,18 @@ public class StorageDaoUtilImplIntegrationTest {
 		}
 		assertEquals(limit, counter);
 	}
+
+	@Test
+	public void testEncoding() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		final String id = "123";
+		final String key = "test";
+		final String value = "Bäm";
+		daoUtil.insert(config.getKeySpace(), COLUMNFAMILY, id, key, value);
+		assertEquals(value, daoUtil.read(config.getKeySpace(), COLUMNFAMILY, id, key));
+	}
 }

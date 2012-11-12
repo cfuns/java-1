@@ -2,9 +2,9 @@ package de.benjaminborbe.storage.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 
@@ -139,9 +139,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		try {
 			logger.trace("save");
 			final Map<String, String> data = mapper.map(entity);
-			for (final Entry<String, String> entry : data.entrySet()) {
-				storageService.set(getColumnFamily(), entity.getId().getId(), entry.getKey(), entry.getValue());
-			}
+			storageService.set(getColumnFamily(), entity.getId().getId(), data);
 		}
 		catch (final MapException e) {
 			throw new StorageException("MapException", e);
@@ -187,14 +185,15 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			logger.trace("load - id: " + id);
 			final Map<String, String> data = new HashMap<String, String>();
 			final E entity = create();
-			for (final String fieldName : getFieldNames(entity)) {
-				logger.trace("load fieldName: " + fieldName);
-				final String value = storageService.get(getColumnFamily(), id, fieldName);
-				if (ID_FIELD.equals(fieldName) && value == null) {
-					return null;
-				}
-				logger.trace("found value " + fieldName + "=" + value);
-				data.put(fieldName, value);
+			if (storageService.get(getColumnFamily(), id, ID_FIELD) == null) {
+				return null;
+			}
+			final List<String> fieldNames = getFieldNames(entity);
+			final List<String> values = storageService.get(getColumnFamily(), id, fieldNames);
+			final Iterator<String> fi = fieldNames.iterator();
+			final Iterator<String> vi = values.iterator();
+			while (fi.hasNext() && vi.hasNext()) {
+				data.put(fi.next(), vi.next());
 			}
 			mapper.map(data, entity);
 			return entity;

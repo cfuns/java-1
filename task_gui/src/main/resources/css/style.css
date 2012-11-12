@@ -17,6 +17,10 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 	width: 800px;
 }
 
+.task .taskTitle a {
+	color: #000000;
+}
+
 .task div.dueToday .taskTitle a {
 	color: #FFCC00;
 }
