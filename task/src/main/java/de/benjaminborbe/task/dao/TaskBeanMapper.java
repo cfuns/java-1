@@ -43,6 +43,7 @@ public class TaskBeanMapper extends SingleMappler<TaskBean> {
 		result.add(new SingleMapInteger<TaskBean>("priority", parseUtil));
 		result.add(new SingleMapLong<TaskBean>("repeatStart", parseUtil));
 		result.add(new SingleMapLong<TaskBean>("repeatDue", parseUtil));
+		result.add(new SingleMapString<TaskBean>("url"));
 		return result;
 	}
 }

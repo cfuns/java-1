@@ -116,6 +116,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final String startString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_START);
 			final String repeatDueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE);
 			final String repeatStartString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_START);
+			final String url = request.getParameter(TaskGuiConstants.PARAMETER_TASK_URL);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskContextIdentifier selectedContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, selectedContextId);
@@ -134,7 +135,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 						contexts.add(taskContextIdentifier);
 					}
 
-					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier, start, due, repeatStart, repeatDue, contexts);
+					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, url, taskParentIdentifier, start, due, repeatStart, repeatDue,
+							contexts);
 					logger.debug("task created " + taskIdentifier);
 
 					if (referer != null) {
@@ -158,6 +160,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_PARENT_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addLabel("Name").addPlaceholder("name ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_URL).addLabel("Url").addPlaceholder("url ..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_START).addLabel("Start").addPlaceholder("start ..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_DUE).addLabel("Due").addPlaceholder("due ..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_START).addLabel("RepeatStart").addPlaceholder("repeat ..."));

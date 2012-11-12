@@ -41,6 +41,8 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	private Long repeatDue;
 
+	private String url;
+
 	@Override
 	public String getName() {
 		return name;
@@ -173,6 +175,15 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	public void setRepeatDue(final Long repeatDue) {
 		this.repeatDue = repeatDue;
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(final String url) {
+		this.url = url;
 	}
 
 }

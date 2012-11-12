@@ -68,8 +68,8 @@ public class TaskGuiTaskTomorrowServlet extends WebsiteServlet {
 
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 			final Calendar tomorrow = calendarUtil.addDays(calendarUtil.today(), 1);
-			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getParentId(), tomorrow, task.getDue(), task.getRepeatStart(),
-					task.getRepeatDue(), null);
+			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), tomorrow, task.getDue(),
+					task.getRepeatStart(), task.getRepeatDue(), null);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

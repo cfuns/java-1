@@ -70,4 +70,6 @@ public interface TaskGuiConstants {
 
 	String URL_TASKS_UNCOMPLETED = "/tasks/uncompletd";
 
+	String PARAMETER_TASK_URL = "task_url";
+
 }

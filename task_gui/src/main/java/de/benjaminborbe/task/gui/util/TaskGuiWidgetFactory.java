@@ -24,6 +24,8 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
@@ -135,6 +137,14 @@ public class TaskGuiWidgetFactory {
 		row.add(" ");
 		row.add(new SpanWidget(taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task)).addAttribute("class", "taskTitle"));
 		row.add(" ");
+
+		if (task.getUrl() != null && task.getUrl().length() > 0) {
+			row.add(new LinkWidget(task.getUrl(), "goto ").addTarget(Target.BLANK));
+		}
+
+		if (task.getRepeatDue() != null && task.getRepeatDue() > 0 || task.getRepeatStart() != null && task.getRepeatStart() > 0) {
+			row.add("(repeat) ");
+		}
 
 		final ListWidget options = new ListWidget();
 		options.add(taskGuiLinkFactory.taskUpdate(request, task));

@@ -32,4 +32,6 @@ public interface Task {
 
 	Long getRepeatStart();
 
+	String getUrl();
+
 }

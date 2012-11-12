@@ -118,7 +118,7 @@ public class TaskServiceImpl implements TaskService {
 				while (i.hasNext()) {
 					contexts.add(createTaskContextIdentifier(sessionIdentifier, i.nextString()));
 				}
-				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue(), contexts);
+				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue(), contexts);
 			}
 			logger.debug("completeTask: " + taskIdentifier + " finished");
 		}
@@ -140,9 +140,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier,
-			final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
 			logger.trace("createTask");
 
@@ -170,6 +170,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setStart(start);
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
+			task.setUrl(url);
 			final ValidationResult errors = validationExecutor.validate(task);
 			if (errors.hasErrors()) {
 				logger.warn("Bookmark " + errors.toString());
@@ -479,7 +480,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description,
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
 			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
 			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
 
@@ -504,6 +505,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setStart(start);
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
+			task.setUrl(url);
 			taskDao.save(task);
 
 			// only update if set

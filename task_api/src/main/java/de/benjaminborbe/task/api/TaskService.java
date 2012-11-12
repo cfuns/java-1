@@ -13,7 +13,7 @@ public interface TaskService {
 
 	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException;
 
-	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description, TaskIdentifier taskParentIdentifier, Calendar start, Calendar due,
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, String name, String description, String url, TaskIdentifier taskParentIdentifier, Calendar start, Calendar due,
 			Long repeatStart, Long repeatDue, Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
 			ValidationException;
 
@@ -56,9 +56,9 @@ public interface TaskService {
 	void swapPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifierA, TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	void updateTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, String name, String description, TaskIdentifier taskParentIdentifier, Calendar start,
-			Calendar due, Long repeatStart, Long repeatDue, Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
-			ValidationException;
+	void updateTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, String name, String description, String url, TaskIdentifier taskParentIdentifier,
+			Calendar start, Calendar due, Long repeatStart, Long repeatDue, Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException, ValidationException;
 
 	List<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException;
