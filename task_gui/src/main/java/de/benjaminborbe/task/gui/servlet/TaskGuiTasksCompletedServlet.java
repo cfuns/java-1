@@ -144,9 +144,9 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 				final ListWidget links = new ListWidget();
 				links.add(taskGuiLinkFactory.nextTasks(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.createTask(request));
-				links.add(" ");
 				links.add(taskGuiLinkFactory.uncompletedTasks(request));
+				links.add(" ");
+				links.add(taskGuiLinkFactory.createTask(request));
 				links.add(" ");
 				links.add(taskGuiLinkFactory.listTaskContext(request));
 				widgets.add(links);

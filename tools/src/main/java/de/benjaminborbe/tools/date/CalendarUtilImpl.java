@@ -225,10 +225,12 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	public Calendar onlyDay(final Calendar calendar) {
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
+		if (calendar != null) {
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+		}
 		return calendar;
 	}
 
@@ -244,6 +246,9 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar parseSmart(final Calendar baseValue, final String inputString) throws ParseException {
+		if (baseValue == null) {
+			return parseSmart(inputString);
+		}
 		if (inputString == null) {
 			return null;
 		}
