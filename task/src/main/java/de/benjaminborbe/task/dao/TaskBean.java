@@ -37,6 +37,10 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 
 	private Calendar completionDate;
 
+	private Long repeatStart;
+
+	private Long repeatDue;
+
 	@Override
 	public String getName() {
 		return name;
@@ -151,6 +155,24 @@ public class TaskBean implements Entity<TaskIdentifier>, Task {
 	@Override
 	public Calendar getCompletionDate() {
 		return completionDate;
+	}
+
+	@Override
+	public Long getRepeatStart() {
+		return repeatStart;
+	}
+
+	public void setRepeatStart(final Long repeatStart) {
+		this.repeatStart = repeatStart;
+	}
+
+	@Override
+	public Long getRepeatDue() {
+		return repeatDue;
+	}
+
+	public void setRepeatDue(final Long repeatDue) {
+		this.repeatDue = repeatDue;
 	}
 
 }

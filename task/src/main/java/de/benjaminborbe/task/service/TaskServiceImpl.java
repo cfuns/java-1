@@ -97,7 +97,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
+			PermissionDeniedException, ValidationException {
 		try {
 			logger.trace("completeTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
@@ -106,6 +106,14 @@ public class TaskServiceImpl implements TaskService {
 			task.setCompletionDate(calendarUtil.now());
 			task.setCompleted(true);
 			taskDao.save(task);
+
+			// repeat
+			if (task.getRepeatDue() != null || task.getRepeatStart() != null) {
+				final Calendar due = calcRepeat(task.getRepeatDue());
+				final Calendar start = calcRepeat(task.getRepeatStart());
+				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue());
+			}
+
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
@@ -115,9 +123,19 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
+	private Calendar calcRepeat(final Long repeat) {
+		if (repeat != null && repeat > 0) {
+			return calendarUtil.addDays(calendarUtil.today(), repeat);
+		}
+		else {
+			return null;
+		}
+	}
+
 	@Override
 	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier,
-			final Calendar start, final Calendar due) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		try {
 			logger.trace("createTask");
 
@@ -143,6 +161,8 @@ public class TaskServiceImpl implements TaskService {
 			task.setParentId(taskParentIdentifier);
 			task.setDue(due);
 			task.setStart(start);
+			task.setRepeatDue(repeatDue);
+			task.setRepeatStart(repeatStart);
 			taskDao.save(task);
 
 			final ValidationResult errors = validationExecutor.validate(task);
@@ -447,7 +467,8 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
 
 		try {
 			logger.trace("createTask");
@@ -468,6 +489,8 @@ public class TaskServiceImpl implements TaskService {
 			task.setParentId(taskParentIdentifier);
 			task.setDue(due);
 			task.setStart(start);
+			task.setRepeatDue(repeatDue);
+			task.setRepeatStart(repeatStart);
 			taskDao.save(task);
 		}
 		catch (final AuthenticationServiceException e) {

@@ -60,4 +60,6 @@ public interface CalendarUtil {
 	boolean isGT(Calendar c1, Calendar c2);
 
 	boolean isEQ(Calendar c1, Calendar c2);
+
+	Calendar addDays(Calendar calendar, long amountOfDays);
 }

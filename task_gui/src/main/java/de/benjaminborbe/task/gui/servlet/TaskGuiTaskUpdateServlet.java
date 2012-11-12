@@ -68,6 +68,8 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public TaskGuiTaskUpdateServlet(
 			final Logger logger,
@@ -86,6 +88,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.taskService = taskService;
+		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 	}
@@ -109,19 +112,25 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			final String parentId = request.getParameter(TaskGuiConstants.PARAMETER_TASK_PARENT_ID);
 			final String id = request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID);
 			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
-
 			final String dueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DUE);
 			final String startString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_START);
+			final String repeatDueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE);
+			final String repeatStartString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_START);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, id);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
-			final Calendar due = parseCalendar(task.getDue(), dueString);
-			final Calendar start = parseCalendar(task.getStart(), startString);
+
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
-					taskService.updateTask(sessionIdentifier, taskIdentifier, name, description, taskParentIdentifier, start, due);
+
+					final Calendar due = parseCalendar(task.getDue(), dueString);
+					final Calendar start = parseCalendar(task.getStart(), startString);
+					final Long repeatDue = parseLong(repeatDueString);
+					final Long repeatStart = parseLong(repeatStartString);
+
+					taskService.updateTask(sessionIdentifier, taskIdentifier, name, description, taskParentIdentifier, start, due, repeatStart, repeatDue);
 
 					// add task-context relation
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextId);
@@ -150,9 +159,16 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_ID).addValue(id));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addLabel("Name").addPlaceholder("name ...").addDefaultValue(task.getName()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_PARENT_ID).addLabel("ParentId").addDefaultValue(toValue(task.getParentId())));
+
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_START).addLabel("Start").addPlaceholder("start ...")
 					.addDefaultValue(toValue(task.getStart())));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_DUE).addLabel("Due").addPlaceholder("due ...").addDefaultValue(toValue(task.getDue())));
+
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_START).addLabel("RepeatStart").addPlaceholder("repeat ...")
+					.addDefaultValue(toValue(task.getRepeatStart())));
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE).addLabel("RepearDue").addPlaceholder("repeat ...")
+					.addDefaultValue(toValue(task.getRepeatDue())));
+
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description ...")
 					.addDefaultValue(task.getDescription()));
 			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
@@ -192,6 +208,10 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 		}
 	}
 
+	private String toValue(final Long value) {
+		return value != null ? String.valueOf(value) : "";
+	}
+
 	private Calendar parseCalendar(final Calendar calendar, final String dateString) {
 		try {
 			return calendarUtil.parseSmart(calendar, dateString);
@@ -208,4 +228,14 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 	private String toValue(final Calendar calendar) {
 		return calendar != null ? calendarUtil.toDateTimeString(calendar) : "";
 	}
+
+	private Long parseLong(final String value) {
+		try {
+			return parseUtil.parseLong(value);
+		}
+		catch (final ParseException e) {
+			return null;
+		}
+	}
+
 }

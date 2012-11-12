@@ -149,6 +149,13 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
+	public Calendar addDays(final Calendar calendar, final long amountOfDays) {
+		final Calendar result = clone(calendar);
+		result.setTimeInMillis(result.getTimeInMillis() + amountOfDays * DAY_MILLISECONDS);
+		return result;
+	}
+
+	@Override
 	public Calendar subDays(final Calendar calendar, final int amountOfDays) {
 		return addDays(calendar, amountOfDays * -1);
 	}

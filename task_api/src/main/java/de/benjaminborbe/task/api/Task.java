@@ -28,4 +28,8 @@ public interface Task {
 
 	Calendar getCompletionDate();
 
+	Long getRepeatDue();
+
+	Long getRepeatStart();
+
 }

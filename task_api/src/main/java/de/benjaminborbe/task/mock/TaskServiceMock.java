@@ -108,26 +108,25 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier,
-			final Calendar start, final Calendar due) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		return null;
-	}
-
-	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
-			ValidationException {
-	}
-
-	@Override
 	public List<Task> getTasksCompletedWithoutContext(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public List<Task> getTasksCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit) throws TaskServiceException,
-			LoginRequiredException {
+	public List<Task> getTasksCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
+			throws TaskServiceException, LoginRequiredException {
 		return null;
+	}
+
+	@Override
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due,
+			final Long repeatStart, final Long repeatDue) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier, final Calendar start,
+			final Calendar due, final Long repeatStart, final Long repeatDue) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 	}
 
 }

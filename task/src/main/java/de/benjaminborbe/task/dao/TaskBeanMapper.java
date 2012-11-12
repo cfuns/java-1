@@ -41,6 +41,8 @@ public class TaskBeanMapper extends SingleMappler<TaskBean> {
 		result.add(new SingleMapCalendar<TaskBean>("due", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapTaskIdentifier<TaskBean>("parentId"));
 		result.add(new SingleMapInteger<TaskBean>("priority", parseUtil));
+		result.add(new SingleMapLong<TaskBean>("repeatStart", parseUtil));
+		result.add(new SingleMapLong<TaskBean>("repeatDue", parseUtil));
 		return result;
 	}
 }

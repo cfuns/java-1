@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -71,6 +72,9 @@ public class TaskGuiTaskCompleteServlet extends WebsiteServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final PermissionDeniedException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final ValidationException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
