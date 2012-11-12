@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -127,13 +128,14 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 					final Long repeatDue = parseLong(repeatDueString);
 					final Long repeatStart = parseLong(repeatStartString);
 
-					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier, start, due, repeatStart, repeatDue);
-
-					// add task-context relation
+					final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextId);
-					if (taskIdentifier != null && taskContextIdentifier != null) {
-						taskService.addTaskContext(taskIdentifier, taskContextIdentifier);
+					if (taskContextIdentifier != null) {
+						contexts.add(taskContextIdentifier);
 					}
+
+					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, taskParentIdentifier, start, due, repeatStart, repeatDue, contexts);
+					logger.debug("task created " + taskIdentifier);
 
 					if (referer != null) {
 						throw new RedirectException(referer);

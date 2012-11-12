@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.mock;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -120,13 +121,15 @@ public class TaskServiceMock implements TaskService {
 
 	@Override
 	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due,
-			final Long repeatStart, final Long repeatDue) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier, final Calendar start,
-			final Calendar due, final Long repeatStart, final Long repeatDue) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+			final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+			ValidationException {
 	}
 
 }

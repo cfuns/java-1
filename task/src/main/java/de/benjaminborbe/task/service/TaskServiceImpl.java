@@ -2,6 +2,7 @@ package de.benjaminborbe.task.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -111,7 +112,12 @@ public class TaskServiceImpl implements TaskService {
 			if (task.getRepeatDue() != null || task.getRepeatStart() != null) {
 				final Calendar due = calcRepeat(task.getRepeatDue());
 				final Calendar start = calcRepeat(task.getRepeatStart());
-				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue());
+				final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
+				final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
+				while (i.hasNext()) {
+					contexts.add(createTaskContextIdentifier(sessionIdentifier, i.nextString()));
+				}
+				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue(), contexts);
 			}
 
 		}
@@ -134,8 +140,8 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final TaskIdentifier taskParentIdentifier,
-			final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+			final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
 			logger.trace("createTask");
 
@@ -163,12 +169,18 @@ public class TaskServiceImpl implements TaskService {
 			task.setStart(start);
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
-			taskDao.save(task);
-
 			final ValidationResult errors = validationExecutor.validate(task);
 			if (errors.hasErrors()) {
 				logger.warn("Bookmark " + errors.toString());
 				throw new ValidationException(errors);
+			}
+			taskDao.save(task);
+
+			// only update if set
+			if (contexts != null) {
+				for (final TaskContextIdentifier taskContextIdentifier : contexts) {
+					replaceTaskContext(taskIdentifier, taskContextIdentifier);
+				}
 			}
 
 			return taskIdentifier;
@@ -467,8 +479,8 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue) throws TaskServiceException,
-			PermissionDeniedException, LoginRequiredException {
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
 
 		try {
 			logger.trace("createTask");
@@ -492,6 +504,13 @@ public class TaskServiceImpl implements TaskService {
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
 			taskDao.save(task);
+
+			// only update if set
+			if (contexts != null) {
+				for (final TaskContextIdentifier taskContextIdentifier : contexts) {
+					replaceTaskContext(taskIdentifier, taskContextIdentifier);
+				}
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
