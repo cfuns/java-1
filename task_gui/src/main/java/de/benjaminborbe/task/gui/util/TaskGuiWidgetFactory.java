@@ -23,6 +23,7 @@ import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.link.LinkWidget;
@@ -135,7 +136,8 @@ public class TaskGuiWidgetFactory {
 		final ListWidget row = new ListWidget();
 		row.add(taskGuiLinkFactory.completeTask(request, task));
 		row.add(" ");
-		row.add(new SpanWidget(taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task)).addAttribute("class", "taskTitle"));
+		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
+		row.add(new SpanWidget(taskGuiLinkFactory.viewTask(request, taskName, task)).addAttribute("class", "taskTitle"));
 		row.add(" ");
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {

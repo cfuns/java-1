@@ -152,4 +152,9 @@ public class TaskGuiLinkFactory {
 				String.valueOf(task.getId())), "first");
 	}
 
+	public Widget viewTask(final HttpServletRequest request, final String name, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+				String.valueOf(task.getId())), name);
+	}
+
 }

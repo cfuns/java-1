@@ -19,7 +19,6 @@ import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
-import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.util.StringUtil;
 
 public class TaskGuiUtil {
@@ -40,12 +39,12 @@ public class TaskGuiUtil {
 		this.stringUtil = stringUtil;
 	}
 
-	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException {
 		final List<String> names = new ArrayList<String>();
 		Task parent = getParent(sessionIdentifier, allTasks, task);
 		while (parent != null) {
-			names.add(stringUtil.shortenDots(parent.getName(), TaskGuiConstants.PARENT_NAME_LENGTH));
+			names.add(stringUtil.shortenDots(parent.getName(), nameLength));
 			parent = getParent(sessionIdentifier, allTasks, parent);
 		}
 		Collections.reverse(names);
@@ -144,5 +143,10 @@ public class TaskGuiUtil {
 			logger.trace("task list without context");
 			return taskService.getTasksCompletedWithoutContext(sessionIdentifier, taskLimit);
 		}
+	}
+
+	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final Task task, final int nameLength) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return buildCompleteName(sessionIdentifier, new ArrayList<Task>(), task, nameLength);
 	}
 }

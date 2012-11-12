@@ -72,4 +72,6 @@ public interface TaskGuiConstants {
 
 	String PARAMETER_TASK_URL = "task_url";
 
+	String URL_TASK_VIEW = "/task/view";
+
 }
