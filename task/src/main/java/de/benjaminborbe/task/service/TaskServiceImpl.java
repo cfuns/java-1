@@ -155,7 +155,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskIdentifier taskIdentifier = createTaskIdentifier(sessionIdentifier, idGeneratorUUID.nextId(name));
+			final TaskIdentifier taskIdentifier = createTaskIdentifier(sessionIdentifier, idGeneratorUUID.nextId());
 			final TaskBean task = taskDao.create();
 			task.setId(taskIdentifier);
 			task.setName(name);
@@ -205,7 +205,7 @@ public class TaskServiceImpl implements TaskService {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskContextIdentifier taskContextIdentifier = createTaskContextIdentifier(sessionIdentifier, idGeneratorUUID.nextId(name));
+			final TaskContextIdentifier taskContextIdentifier = createTaskContextIdentifier(sessionIdentifier, idGeneratorUUID.nextId());
 			final TaskContextBean task = taskContextDao.create();
 			task.setId(taskContextIdentifier);
 			task.setName(name);

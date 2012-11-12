@@ -91,7 +91,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 	protected GalleryImageIdentifier createGalleryImageIdentifier(final byte[] content) throws GalleryServiceException {
 		logger.debug("createGalleryImageIdentifier");
-		return createGalleryImageIdentifier(idGeneratorUUID.nextId(content));
+		return createGalleryImageIdentifier(idGeneratorUUID.nextId());
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class GalleryServiceImpl implements GalleryService {
 	public GalleryIdentifier createGallery(final String name) throws GalleryServiceException {
 		try {
 			logger.debug("createGallery name: " + name);
-			final GalleryIdentifier galleryIdentifier = createGalleryIdentifier(idGeneratorUUID.nextId(name));
+			final GalleryIdentifier galleryIdentifier = createGalleryIdentifier(idGeneratorUUID.nextId());
 			final GalleryBean gallery = galleryDao.create();
 			gallery.setId(galleryIdentifier);
 			gallery.setName(name);
