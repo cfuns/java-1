@@ -33,7 +33,7 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 	color: #AAAAAA;
 }
 
-.task div.completed .taskTitle {
+.task div.completed .taskTitle,.task h2.completed {
 	text-decoration: line-through;
 }
 

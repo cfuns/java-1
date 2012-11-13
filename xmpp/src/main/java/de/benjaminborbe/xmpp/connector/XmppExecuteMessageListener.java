@@ -25,7 +25,7 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 
 		private final String body;
 
-		private ExecuteCommand(Chat chat, XmppCommand command, String body) {
+		private ExecuteCommand(final Chat chat, final XmppCommand command, final String body) {
 			this.chat = chat;
 			this.command = command;
 			this.body = body;
@@ -65,13 +65,13 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 
 	@Override
 	public void onAdd(final XmppCommand t) {
-		logger.debug("onAdd " + t.getName());
+		logger.trace("onAdd " + t.getName());
 		commands.add(t);
 	}
 
 	@Override
 	public void onRemove(final XmppCommand t) {
-		logger.debug("onRemove " + t.getName());
+		logger.trace("onRemove " + t.getName());
 		commands.remove(t);
 	}
 }

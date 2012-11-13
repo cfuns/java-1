@@ -96,7 +96,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 
 			{
 				final ListWidget tasks = new ListWidget();
-				addTask(tasks, sessionIdentifier, taskIdentifier, request);
+				addTask(tasks, sessionIdentifier, taskIdentifier, request, true);
 				widgets.add(new DivWidget(tasks));
 			}
 			{
@@ -104,6 +104,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 				links.add(taskGuiLinkFactory.nextTasks(request));
 				links.add(" ");
 				links.add(taskGuiLinkFactory.uncompletedTasks(request));
+				links.add(" ");
+				links.add(taskGuiLinkFactory.createTask(request));
 				links.add(" ");
 				links.add(taskGuiLinkFactory.listTaskContext(request));
 				widgets.add(new DivWidget(links));
@@ -123,25 +125,38 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		}
 	}
 
-	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request,
+			final boolean first) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 		if (task.getParentId() != null) {
-			addTask(widgets, sessionIdentifier, task.getParentId(), request);
+			addTask(widgets, sessionIdentifier, task.getParentId(), request, false);
 		}
 
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, task, Integer.MAX_VALUE);
-		widgets.add(new H2Widget(taskName));
+		final H2Widget title = new H2Widget(taskName);
+		if (Boolean.TRUE.equals(task.getCompleted())) {
+			title.addAttribute("class", "completed");
+		}
+		widgets.add(title);
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
 		widgets.add(new PreWidget(task.getDescription()));
-		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
-		widgets.add(" ");
-		if (task.getParentId() == null) {
-			widgets.add(taskGuiLinkFactory.completeTask(request, task));
+		if (first && task.getParentId() != null) {
+			if (Boolean.TRUE.equals(task.getCompleted())) {
+				widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
+			}
+			else {
+				widgets.add(taskGuiLinkFactory.completeTask(request, task));
+			}
 			widgets.add(" ");
 		}
+		if (!first) {
+			widgets.add(taskGuiLinkFactory.viewTask(request, "view", task));
+			widgets.add(" ");
+		}
+		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
+		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.createSubTask(request, taskIdentifier));
 		widgets.add(" ");
 	}

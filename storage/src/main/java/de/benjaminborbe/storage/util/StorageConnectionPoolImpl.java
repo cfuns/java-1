@@ -94,7 +94,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	@Override
 	public void releaseConnection(final StorageConnection connection) {
 		if (connection == null) {
-			logger.debug("can't release connection null");
+			logger.info("can't release connection null");
 		}
 		else {
 			freeConnections.offer(connection);
@@ -116,7 +116,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	}
 
 	private StorageConnection createNewConnection() throws TTransportException, SocketException {
-		logger.debug("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
+		logger.trace("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
 		final TSocket socket = new TSocket(storageConfig.getHost(), storageConfig.getPort());
 		socket.setTimeout(socketTimeout);
 		// socket.getSocket().setReuseAddress(true);
