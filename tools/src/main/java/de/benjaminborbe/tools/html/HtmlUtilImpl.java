@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.tools.util.LineIterator;
+
 @Singleton
 public class HtmlUtilImpl implements HtmlUtil {
 
@@ -75,5 +77,57 @@ public class HtmlUtilImpl implements HtmlUtil {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public String addLinks(final String plainContent) {
+		if (plainContent == null) {
+			return null;
+		}
+		final StringBuffer result = new StringBuffer();
+		final LineIterator i = new LineIterator(plainContent);
+		boolean first = true;
+		while (i.hasNext()) {
+			if (first) {
+				first = false;
+			}
+			else {
+				result.append("\n");
+			}
+
+			final String line = i.next();
+
+			result.append(addLinksParse(line));
+		}
+		return result.toString();
+	}
+
+	private String addLinksParse(final String line) {
+		final String p = "http://";
+		int start = line.indexOf(p);
+		int end = 0;
+		final StringBuffer result = new StringBuffer();
+		while (start != -1) {
+			result.append(line.substring(end, start));
+			end = addLinksEnd(line, start);
+			result.append(addLinksBuild(line.substring(start, end)));
+			start = line.indexOf(p, end);
+		}
+		result.append(line.substring(end));
+		return result.toString();
+	}
+
+	private String addLinksBuild(final String link) {
+		return "<a href=\"" + link + "\">" + link + "</a>";
+	}
+
+	private int addLinksEnd(final String line, final int startPos) {
+		for (int pos = startPos; pos < line.length(); ++pos) {
+			final char c = line.charAt(pos);
+			if (c == ' ' || c == '\n') {
+				return pos;
+			}
+		}
+		return line.length();
 	}
 }

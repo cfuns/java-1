@@ -12,4 +12,6 @@ public interface HtmlUtil {
 
 	Set<String> parseLinks(final String htmlContent);
 
+	String addLinks(String plainContent);
+
 }

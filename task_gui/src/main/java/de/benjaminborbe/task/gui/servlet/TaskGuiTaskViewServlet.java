@@ -31,6 +31,7 @@ import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -40,6 +41,7 @@ import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.PreWidget;
 
@@ -60,6 +62,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
+	private final HtmlUtil htmlUtil;
+
 	@Inject
 	public TaskGuiTaskViewServlet(
 			final Logger logger,
@@ -71,11 +75,13 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
+			final HtmlUtil htmlUtil,
 			final TaskService taskService,
 			final TaskGuiUtil taskGuiUtil,
 			final TaskGuiLinkFactory taskGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.htmlUtil = htmlUtil;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.taskGuiUtil = taskGuiUtil;
@@ -141,7 +147,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
-		widgets.add(new PreWidget(task.getDescription()));
+		widgets.add(new PreWidget(buildDescription(task.getDescription())));
 		if (first && task.getParentId() != null) {
 			if (Boolean.TRUE.equals(task.getCompleted())) {
 				widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
@@ -159,6 +165,10 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.createSubTask(request, taskIdentifier));
 		widgets.add(" ");
+	}
+
+	private Widget buildDescription(final String description) {
+		return new HtmlContentWidget(htmlUtil.addLinks(htmlUtil.escapeHtml(description)));
 	}
 
 	@Override
