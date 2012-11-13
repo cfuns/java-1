@@ -28,11 +28,12 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class TaskGuiTaskTomorrowServlet extends WebsiteServlet {
+public class TaskGuiTaskStartLaterServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
@@ -45,7 +46,7 @@ public class TaskGuiTaskTomorrowServlet extends WebsiteServlet {
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public TaskGuiTaskTomorrowServlet(
+	public TaskGuiTaskStartLaterServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -67,8 +68,10 @@ public class TaskGuiTaskTomorrowServlet extends WebsiteServlet {
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
-			final Calendar tomorrow = calendarUtil.addDays(calendarUtil.today(), 1);
-			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), tomorrow, task.getDue(),
+			final Calendar now = calendarUtil.now();
+			final Calendar start = calendarUtil.parseSmart(now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
+
+			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, task.getDue(),
 					task.getRepeatStart(), task.getRepeatDue(), null);
 		}
 		catch (final AuthenticationServiceException e) {
@@ -84,6 +87,9 @@ public class TaskGuiTaskTomorrowServlet extends WebsiteServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final ValidationException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final ParseException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

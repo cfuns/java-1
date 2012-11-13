@@ -49,9 +49,9 @@ public class TaskGuiLinkFactory {
 		return formWidget;
 	}
 
-	public Widget createSubTask(final HttpServletRequest request, final Task parentTask) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget createSubTask(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(parentTask.getId())), "create subtask");
+				TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(taskIdentifier)), "create subtask");
 	}
 
 	public Widget createTask(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -145,7 +145,12 @@ public class TaskGuiLinkFactory {
 
 	public Widget taskTomorrow(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_START_TOMORROW, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "tomorrow");
+				TaskGuiConstants.PARAMETER_TASK_START_LATER, "1d").add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "tomorrow");
+	}
+
+	public Widget taskLater(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_START_TOMORROW, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_START_LATER, "2h").add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "later");
 	}
 
 	public Widget taskFirstPrio(final HttpServletRequest request, final String string, final Task task) throws MalformedURLException, UnsupportedEncodingException {

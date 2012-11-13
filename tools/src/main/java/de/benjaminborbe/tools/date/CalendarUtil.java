@@ -62,4 +62,10 @@ public interface CalendarUtil {
 	boolean isEQ(Calendar c1, Calendar c2);
 
 	Calendar addDays(Calendar calendar, long amountOfDays);
+
+	Calendar addHours(Calendar calendar, int amountOfHours);
+
+	Calendar addWeeks(Calendar calendar, int amountOfWeeks);
+
+	Calendar addMonths(Calendar calendar, int amountOfMonths);
 }

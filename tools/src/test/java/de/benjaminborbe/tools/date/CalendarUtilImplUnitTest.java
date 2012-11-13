@@ -287,11 +287,42 @@ public class CalendarUtilImplUnitTest {
 		}
 
 		{
+			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
+			assertEquals("2012-11-11 18:15:00", u.toDateTimeString(u.parseSmart("18:15")));
+			assertEquals("2012-11-11 18:15:00", u.toDateTimeString(u.parseSmart(baseValue, "18:15")));
+		}
+		{
+			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "0m")));
+			assertEquals("2012-12-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "1m")));
+			assertEquals("2013-01-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "2m")));
+			assertEquals("2012-10-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-1m")));
+			assertEquals("2012-09-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-2m")));
+			assertEquals("2011-12-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-11m")));
+		}
+
+		{
+			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
+			assertEquals("2012-11-11 20:59:45", u.toDateTimeString(u.parseSmart(baseValue, "0h")));
+			assertEquals("2012-11-11 21:59:45", u.toDateTimeString(u.parseSmart(baseValue, "1h")));
+			assertEquals("2012-11-11 22:59:45", u.toDateTimeString(u.parseSmart(baseValue, "2h")));
+			assertEquals("2012-11-11 19:59:45", u.toDateTimeString(u.parseSmart(baseValue, "-1h")));
+			assertEquals("2012-11-11 18:59:45", u.toDateTimeString(u.parseSmart(baseValue, "-2h")));
+		}
+
+		{
 			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart("0d")));
 			assertEquals("2012-11-12 00:00:00", u.toDateTimeString(u.parseSmart("1d")));
 			assertEquals("2012-11-13 00:00:00", u.toDateTimeString(u.parseSmart("2d")));
 			assertEquals("2012-11-10 00:00:00", u.toDateTimeString(u.parseSmart("-1d")));
 			assertEquals("2012-11-09 00:00:00", u.toDateTimeString(u.parseSmart("-2d")));
+		}
+
+		{
+			final Calendar baseValue = u.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
+			assertEquals("2012-11-11 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+0w")));
+			assertEquals("2012-11-18 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "+1w")));
+			assertEquals("2012-11-04 00:00:00", u.toDateTimeString(u.parseSmart(baseValue, "-1w")));
 		}
 
 		{

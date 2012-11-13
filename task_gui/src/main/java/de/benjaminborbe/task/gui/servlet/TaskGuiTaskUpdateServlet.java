@@ -128,8 +128,8 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 				try {
 					logger.trace("name: " + name);
 
-					final Calendar due = parseCalendar(task.getDue(), dueString);
-					final Calendar start = parseCalendar(task.getStart(), startString);
+					final Calendar due = parseCalendar(dueString);
+					final Calendar start = parseCalendar(startString);
 					final Long repeatDue = parseLong(repeatDueString);
 					final Long repeatStart = parseLong(repeatStartString);
 
@@ -196,6 +196,8 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			links.add(" ");
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));
 			links.add(" ");
+			links.add(taskGuiLinkFactory.createTask(request));
+			links.add(" ");
 			links.add(taskGuiLinkFactory.listTaskContext(request));
 			widgets.add(links);
 
@@ -217,9 +219,9 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 		return value != null ? String.valueOf(value) : "";
 	}
 
-	private Calendar parseCalendar(final Calendar calendar, final String dateString) {
+	private Calendar parseCalendar(final String dateString) {
 		try {
-			return calendarUtil.parseSmart(calendar, dateString);
+			return calendarUtil.parseSmart(dateString);
 		}
 		catch (final ParseException e) {
 			return null;

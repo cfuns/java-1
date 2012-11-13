@@ -17,6 +17,10 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	private static final long DAY_MILLISECONDS = 24l * 60l * 60l * 1000l;
 
+	private static final long HOUR_MILLISECONDS = 60l * 60l * 1000l;
+
+	private static final long WEEK_MILLISECONDS = 7l * 24l * 60l * 60l * 1000l;
+
 	private final ParseUtil parseUtil;
 
 	private final CurrentTime currentTime;
@@ -241,7 +245,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar parseSmart(final String input) throws ParseException {
-		return parseSmart(today(), input);
+		return parseSmart(now(), input);
 	}
 
 	@Override
@@ -258,6 +262,30 @@ public class CalendarUtilImpl implements CalendarUtil {
 		}
 
 		// 0d 1d
+		if (input.length() > 1 && 'm' == input.charAt(input.length() - 1)) {
+			final String substring = input.substring(0, input.length() - 1);
+			try {
+				final int months = parseUtil.parseInt(substring);
+				return addMonths(onlyDay(baseValue), months);
+			}
+			catch (final ParseException e) {
+				logger.debug("parse " + substring);
+			}
+		}
+
+		// 0w 1w
+		if (input.length() > 1 && 'w' == input.charAt(input.length() - 1)) {
+			final String substring = input.substring(0, input.length() - 1);
+			try {
+				final int weeks = parseUtil.parseInt(substring);
+				return addWeeks(onlyDay(baseValue), weeks);
+			}
+			catch (final ParseException e) {
+				logger.debug("parse " + substring);
+			}
+		}
+
+		// 0d 1d
 		if (input.length() > 1 && 'd' == input.charAt(input.length() - 1)) {
 			final String substring = input.substring(0, input.length() - 1);
 			try {
@@ -266,6 +294,33 @@ public class CalendarUtilImpl implements CalendarUtil {
 			}
 			catch (final ParseException e) {
 				logger.debug("parse " + substring);
+			}
+		}
+
+		// 0h 1h
+		if (input.length() > 1 && 'h' == input.charAt(input.length() - 1)) {
+			final String substring = input.substring(0, input.length() - 1);
+			try {
+				final int hours = parseUtil.parseInt(substring);
+				return addHours(baseValue, hours);
+			}
+			catch (final ParseException e) {
+				logger.debug("parse " + substring);
+			}
+		}
+
+		// 18:15
+		{
+			final String[] parts = input.split(":");
+			if (parts.length == 2) {
+				final int hour = parseUtil.parseInt(parts[0]);
+				final int minute = parseUtil.parseInt(parts[1]);
+				final Calendar calendar = clone(baseValue);
+				calendar.set(Calendar.HOUR_OF_DAY, hour);
+				calendar.set(Calendar.MINUTE, minute);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				return calendar;
 			}
 		}
 
@@ -314,6 +369,38 @@ public class CalendarUtilImpl implements CalendarUtil {
 		}
 
 		return parseDateTime(timeZoneUtil.getUTCTimeZone(), input);
+	}
+
+	@Override
+	public Calendar addMonths(final Calendar calendar, final int months) {
+		final Calendar result = clone(calendar);
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + months;
+		while (month >= 12) {
+			month = month - 12;
+			year++;
+		}
+		while (month < 0) {
+			month = month + 12;
+			year--;
+		}
+		result.set(Calendar.YEAR, year);
+		result.set(Calendar.MONTH, month);
+		return result;
+	}
+
+	@Override
+	public Calendar addWeeks(final Calendar calendar, final int amountOfWeeks) {
+		final Calendar result = clone(calendar);
+		result.setTimeInMillis(result.getTimeInMillis() + amountOfWeeks * WEEK_MILLISECONDS);
+		return result;
+	}
+
+	@Override
+	public Calendar addHours(final Calendar calendar, final int amountOfHours) {
+		final Calendar result = clone(calendar);
+		result.setTimeInMillis(result.getTimeInMillis() + amountOfHours * HOUR_MILLISECONDS);
+		return result;
 	}
 
 	private boolean equalsWeekday(final String weekday, final String input) {

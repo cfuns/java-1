@@ -32,7 +32,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	private TaskGuiTaskUpdateServlet taskGuiTaskUpdateServlet;
 
 	@Inject
-	private TaskGuiTaskTomorrowServlet taskGuiTaskTomorrowServlet;
+	private TaskGuiTaskStartLaterServlet taskGuiTaskTomorrowServlet;
 
 	@Inject
 	private TaskGuiTaskContextCreateServlet taskGuiTaskContextCreateServlet;

@@ -142,6 +142,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 			widgets.add(taskGuiLinkFactory.completeTask(request, task));
 			widgets.add(" ");
 		}
+		widgets.add(taskGuiLinkFactory.createSubTask(request, taskIdentifier));
+		widgets.add(" ");
 	}
 
 	@Override
