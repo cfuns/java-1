@@ -226,7 +226,4 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 		}
 	}
 
-	public static void main(final String[] args) {
-		TaskServiceImpl
-	}
 }
