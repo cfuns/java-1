@@ -143,12 +143,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			for (final Entry<String, String> e : data.entrySet()) {
 				final String key = e.getKey();
 				final String value = e.getValue();
-				logger.debug("write " + key + " = " + value);
+				// logger.debug("write " + key + " = " + value);
 				if (value != null) {
 
 					final ColumnParent column_parent = new ColumnParent(columnFamily);
 					final String encoding = config.getEncoding();
-					logger.trace("storage " + encoding);
+					// logger.trace("storage " + encoding);
 
 					final Column column = new Column(ByteBuffer.wrap(key.getBytes(encoding)));
 					column.setValue(ByteBuffer.wrap(value.getBytes(encoding)));
@@ -201,7 +201,9 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 		final List<String> result = new ArrayList<String>();
 		for (final String columnName : columnNames) {
-			result.add(read(keySpace, columnFamily, id, columnName));
+			final String value = read(keySpace, columnFamily, id, columnName);
+			result.add(value);
+			// logger.debug("read " + columnName + " = " + value);
 		}
 		return result;
 	}
