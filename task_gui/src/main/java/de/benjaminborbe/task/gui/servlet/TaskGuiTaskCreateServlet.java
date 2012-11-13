@@ -137,7 +137,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 
 					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, url, taskParentIdentifier, start, due, repeatStart, repeatDue,
 							contexts);
-					logger.debug("task created " + taskIdentifier);
+					logger.trace("task created " + taskIdentifier);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -224,5 +224,9 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 		catch (final ParseException e) {
 			return null;
 		}
+	}
+
+	public static void main(final String[] args) {
+		TaskServiceImpl
 	}
 }

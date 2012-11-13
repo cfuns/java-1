@@ -126,7 +126,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
-					logger.debug("name: " + name);
+					logger.trace("name: " + name);
 
 					final Calendar due = parseCalendar(task.getDue(), dueString);
 					final Calendar start = parseCalendar(task.getStart(), startString);

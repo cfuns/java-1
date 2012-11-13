@@ -138,7 +138,7 @@ public class TaskGuiWidgetFactory {
 			final List<Task> allTasks) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
 
 		final ListWidget row = new ListWidget();
-		row.add(taskGuiLinkFactory.completeTask(request, task));
+		row.add(taskGuiLinkFactory.completeTaskCheckbox(request, task));
 		row.add(" ");
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
 		row.add(new SpanWidget(taskGuiLinkFactory.viewTask(request, taskName, task)).addAttribute("class", "taskTitle"));

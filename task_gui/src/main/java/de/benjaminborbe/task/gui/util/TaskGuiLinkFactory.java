@@ -36,16 +36,17 @@ public class TaskGuiLinkFactory {
 	}
 
 	public Widget completeTask(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "complete").addConfirm("complete?");
+	}
+
+	public Widget completeTaskCheckbox(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
 
 		final MapChain<String, String> parameter = getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId()));
 		final String target = urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, parameter);
 		final FormWidget formWidget = new FormWidget().addClass("taskcompleteform");
 		formWidget.addFormInputWidget(new FormCheckboxWidget("done").addOnClick("if (confirm('complete?')) {window.location.href = '" + target + "';} else { this.checked = false;}"));
 		return formWidget;
-		// return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME +
-		// TaskGuiConstants.URL_TASK_COMPLETE, getLoopThrough(request).add(
-		// TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())),
-		// "complete").addConfirm("complete?");
 	}
 
 	public Widget createSubTask(final HttpServletRequest request, final Task parentTask) throws MalformedURLException, UnsupportedEncodingException {

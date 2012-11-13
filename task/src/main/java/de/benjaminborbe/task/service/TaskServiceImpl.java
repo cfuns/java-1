@@ -100,7 +100,7 @@ public class TaskServiceImpl implements TaskService {
 	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException, ValidationException {
 		try {
-			logger.debug("completeTask: " + taskIdentifier + " started");
+			logger.trace("completeTask: " + taskIdentifier + " started");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			task.setModified(calendarUtil.now());
@@ -110,7 +110,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// repeat
 			if (task.getRepeatDue() != null || task.getRepeatStart() != null) {
-				logger.debug("completeTask: " + taskIdentifier + " create repeat");
+				logger.trace("completeTask: " + taskIdentifier + " create repeat");
 				final Calendar due = calcRepeat(task.getRepeatDue());
 				final Calendar start = calcRepeat(task.getRepeatStart());
 				final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
@@ -120,7 +120,7 @@ public class TaskServiceImpl implements TaskService {
 				}
 				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue(), contexts);
 			}
-			logger.debug("completeTask: " + taskIdentifier + " finished");
+			logger.trace("completeTask: " + taskIdentifier + " finished");
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);

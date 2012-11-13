@@ -36,6 +36,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
@@ -93,7 +94,20 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 
-			addTask(widgets, sessionIdentifier, taskIdentifier, request);
+			{
+				final ListWidget tasks = new ListWidget();
+				addTask(tasks, sessionIdentifier, taskIdentifier, request);
+				widgets.add(new DivWidget(tasks));
+			}
+			{
+				final ListWidget links = new ListWidget();
+				links.add(taskGuiLinkFactory.nextTasks(request));
+				links.add(" ");
+				links.add(taskGuiLinkFactory.uncompletedTasks(request));
+				links.add(" ");
+				links.add(taskGuiLinkFactory.listTaskContext(request));
+				widgets.add(new DivWidget(links));
+			}
 
 			return widgets;
 		}
@@ -123,6 +137,11 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		}
 		widgets.add(new PreWidget(task.getDescription()));
 		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
+		widgets.add(" ");
+		if (task.getParentId() == null) {
+			widgets.add(taskGuiLinkFactory.completeTask(request, task));
+			widgets.add(" ");
+		}
 	}
 
 	@Override
