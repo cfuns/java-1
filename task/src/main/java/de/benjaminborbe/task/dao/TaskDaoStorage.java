@@ -1,12 +1,7 @@
 package de.benjaminborbe.task.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -17,7 +12,9 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> implements TaskDao {
@@ -47,77 +44,39 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	}
 
 	@Override
-	public List<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
-		try {
-			logger.trace("getTasksNotCompleted for user: " + userIdentifier);
-			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskNotCompletedPredicate());
-			final List<TaskBean> result = new ArrayList<TaskBean>();
-			final EntityIterator<TaskBean> i = getEntityIterator();
-			while (i.hasNext()) {
-				final TaskBean task = i.next();
-				if (p.apply(task)) {
-					result.add(task);
-				}
-			}
-			logger.trace("getTasksNotCompleted for user: " + userIdentifier + " found " + result.size());
-			return result;
-		}
-		catch (final EntityIteratorException e) {
-			throw new StorageException(e);
-		}
+	public EntityIterator<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier) throws StorageException {
+		logger.trace("getTasksNotCompleted for user: " + userIdentifier);
+		return new EntityIteratorFilter<TaskBean>(getTasks(userIdentifier), new TaskNotCompletedPredicate());
+
 	}
 
 	@Override
-	public List<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier, final int limit) throws StorageException {
-		try {
-			logger.trace("getTasksCompleted for user: " + userIdentifier);
-			final Predicate<TaskBean> p = Predicates.and(new TaskOwnerPredicate(userIdentifier), new TaskCompletedPredicate());
-			final List<TaskBean> result = new ArrayList<TaskBean>();
-			final EntityIterator<TaskBean> i = getEntityIterator();
-			while (i.hasNext()) {
-				final TaskBean task = i.next();
-				if (p.apply(task)) {
-					result.add(task);
-				}
-			}
-			logger.trace("getTasksCompleted for user: " + userIdentifier + " found " + result.size());
-			return result;
-		}
-		catch (final EntityIteratorException e) {
-			throw new StorageException(e);
-		}
+	public EntityIterator<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier) throws StorageException {
+		logger.trace("getTasksCompleted for user: " + userIdentifier);
+		return new EntityIteratorFilter<TaskBean>(getTasks(userIdentifier), new TaskCompletedPredicate());
 	}
 
 	@Override
 	public int getMaxPriority(final UserIdentifier userIdentifier) throws StorageException {
-		int max = 0;
-		for (final TaskBean task : getTasks(userIdentifier)) {
-			if (task.getPriority() != null && task.getPriority() > max) {
-				max = task.getPriority();
-			}
-		}
-		return max;
-	}
-
-	@Override
-	public List<TaskBean> getTasks(final UserIdentifier userIdentifier) throws StorageException {
 		try {
-			logger.trace("getTasks for user: " + userIdentifier);
-			final Predicate<TaskBean> p = new TaskOwnerPredicate(userIdentifier);
-			final List<TaskBean> result = new ArrayList<TaskBean>();
-			final EntityIterator<TaskBean> i = getEntityIterator();
+			int max = 0;
+			final EntityIterator<TaskBean> i = getTasks(userIdentifier);
 			while (i.hasNext()) {
 				final TaskBean task = i.next();
-				if (p.apply(task)) {
-					result.add(task);
+				if (task.getPriority() != null && task.getPriority() > max) {
+					max = task.getPriority();
 				}
 			}
-			logger.trace("getTasks for user: " + userIdentifier + " found " + result.size());
-			return result;
+			return max;
 		}
 		catch (final EntityIteratorException e) {
 			throw new StorageException(e);
 		}
+	}
+
+	@Override
+	public EntityIterator<TaskBean> getTasks(final UserIdentifier userIdentifier) throws StorageException {
+		return getEntityIterator(new MapChain<String, String>().add("owner", String.valueOf(userIdentifier)));
 	}
 
 	@Override
@@ -132,4 +91,8 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		taskContextManyToManyRelation.removeA(entity.getId());
 	}
 
+	@Override
+	public EntityIterator<TaskBean> getTaskChilds(final UserIdentifier userIdentifier, final TaskIdentifier taskIdentifier) throws StorageException {
+		return getEntityIterator(new MapChain<String, String>().add("parentId", String.valueOf(taskIdentifier)).add("owner", String.valueOf(userIdentifier)));
+	}
 }

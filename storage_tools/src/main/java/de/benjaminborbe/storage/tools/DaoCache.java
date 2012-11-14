@@ -93,4 +93,14 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
 		return new IdentifierIteratorImpl();
 	}
+
+	@Override
+	public IdentifierIterator<I> getIdentifierIterator(final Map<String, String> where) throws StorageException {
+		return getIdentifierIterator();
+	}
+
+	@Override
+	public EntityIterator<E> getEntityIterator(final Map<String, String> where) throws StorageException {
+		return getEntityIterator();
+	}
 }

@@ -63,4 +63,6 @@ public interface TaskService {
 	List<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException;
 
+	List<Task> getTaskChilds(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, int limit) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException;
 }

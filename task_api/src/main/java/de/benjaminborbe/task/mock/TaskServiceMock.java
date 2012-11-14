@@ -120,16 +120,22 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url, final TaskIdentifier taskParentIdentifier, final Calendar start,
-			final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url, final TaskIdentifier taskParentIdentifier,
-			final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException,
-			LoginRequiredException, ValidationException {
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+	}
+
+	@Override
+	public List<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final int limit) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		return null;
 	}
 
 }

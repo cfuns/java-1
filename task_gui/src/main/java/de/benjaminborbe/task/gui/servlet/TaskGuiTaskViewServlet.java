@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,7 +103,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 
 			{
 				final ListWidget tasks = new ListWidget();
-				addTask(tasks, sessionIdentifier, taskIdentifier, request, true);
+				addTask(tasks, sessionIdentifier, taskIdentifier, request);
 				widgets.add(new DivWidget(tasks));
 			}
 			{
@@ -131,12 +132,36 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		}
 	}
 
-	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request,
-			final boolean first) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 		if (task.getParentId() != null) {
-			addTask(widgets, sessionIdentifier, task.getParentId(), request, false);
+			addTaskParent(widgets, sessionIdentifier, task.getParentId(), request);
 		}
+		addTaskEntry(widgets, sessionIdentifier, task, request);
+		addChilds(widgets, sessionIdentifier, task.getId(), request);
+	}
+
+	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, taskIdentifier, Integer.MAX_VALUE);
+		for (final Task childTask : childTasks) {
+			addTaskEntry(widgets, sessionIdentifier, childTask, request);
+			addChilds(widgets, sessionIdentifier, childTask.getId(), request);
+		}
+	}
+
+	private void addTaskParent(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+		final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+		if (task.getParentId() != null) {
+			addTaskParent(widgets, sessionIdentifier, task.getParentId(), request);
+		}
+		addTaskEntry(widgets, sessionIdentifier, task, request);
+	}
+
+	private void addTaskEntry(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, task, Integer.MAX_VALUE);
 		final H2Widget title = new H2Widget(taskName);
@@ -148,7 +173,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
 		widgets.add(new PreWidget(buildDescription(task.getDescription())));
-		if (first && task.getParentId() != null) {
+		if (task.getParentId() != null) {
 			if (Boolean.TRUE.equals(task.getCompleted())) {
 				widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
 			}
@@ -157,13 +182,11 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 			}
 			widgets.add(" ");
 		}
-		if (!first) {
-			widgets.add(taskGuiLinkFactory.viewTask(request, "view", task));
-			widgets.add(" ");
-		}
+		widgets.add(taskGuiLinkFactory.viewTask(request, "view", task));
+		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
 		widgets.add(" ");
-		widgets.add(taskGuiLinkFactory.createSubTask(request, taskIdentifier));
+		widgets.add(taskGuiLinkFactory.createSubTask(request, task.getId()));
 		widgets.add(" ");
 	}
 

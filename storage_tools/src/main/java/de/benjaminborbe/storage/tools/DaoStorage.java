@@ -214,7 +214,18 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
+	public EntityIterator<E> getEntityIterator(final Map<String, String> where) throws StorageException {
+		final IdentifierIterator<I> i = getIdentifierIterator(where);
+		return new EntityIteratorImpl(i);
+	}
+
+	@Override
 	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
 		return new IdentifierIteratorImpl(storageService.list(getColumnFamily()));
+	}
+
+	@Override
+	public IdentifierIterator<I> getIdentifierIterator(final Map<String, String> where) throws StorageException {
+		return new IdentifierIteratorImpl(storageService.list(getColumnFamily(), where));
 	}
 }
