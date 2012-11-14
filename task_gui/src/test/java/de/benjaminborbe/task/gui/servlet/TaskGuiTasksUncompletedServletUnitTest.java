@@ -35,6 +35,7 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -153,12 +154,14 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(taskGuiUtil);
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
-		EasyMock.expect(taskGuiWidgetFactory.switchTaskContext(request)).andReturn(new StringWidget(""));
 		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, allTasks, null, request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
 
+		final TaskGuiSwitchWidget taskGuiSwitchWidget = EasyMock.createMock(TaskGuiSwitchWidget.class);
+		EasyMock.replay(taskGuiSwitchWidget);
+
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

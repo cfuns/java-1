@@ -27,6 +27,7 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -56,6 +57,8 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 
 	private final TaskGuiUtil taskGuiUtil;
 
+	private final TaskGuiSwitchWidget taskGuiSwitchWidget;
+
 	@Inject
 	public TaskGuiNextServlet(
 			final Logger logger,
@@ -70,7 +73,8 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 			final AuthorizationService authorizationService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
-			final TaskGuiUtil taskGuiUtil) {
+			final TaskGuiUtil taskGuiUtil,
+			final TaskGuiSwitchWidget taskGuiSwitchWidget) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.parseUtil = parseUtil;
@@ -78,6 +82,7 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 		this.taskGuiUtil = taskGuiUtil;
+		this.taskGuiSwitchWidget = taskGuiSwitchWidget;
 	}
 
 	@Override
@@ -88,7 +93,7 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			widgets.add(taskGuiWidgetFactory.switchTaskContext(request));
+			widgets.add(taskGuiSwitchWidget);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
