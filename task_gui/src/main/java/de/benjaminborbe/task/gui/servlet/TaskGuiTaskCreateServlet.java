@@ -32,6 +32,7 @@ import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -70,6 +71,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
 	public TaskGuiTaskCreateServlet(
 			final Logger logger,
@@ -83,7 +86,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory) {
+			final TaskGuiLinkFactory taskGuiLinkFactory,
+			final TaskGuiUtil taskGuiUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -91,6 +95,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
+		this.taskGuiUtil = taskGuiUtil;
 	}
 
 	@Override
@@ -110,7 +115,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final String description = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION);
 			final String contextId = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID);
 			final String parentId = request.getParameter(TaskGuiConstants.PARAMETER_TASK_PARENT_ID);
-			final String selectedContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+			final String[] selectedContextIds = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
 			final String dueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_DUE);
 			final String startString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_START);
@@ -119,7 +124,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			final String url = request.getParameter(TaskGuiConstants.PARAMETER_TASK_URL);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TaskContextIdentifier selectedContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, selectedContextId);
+			final List<TaskContextIdentifier> selectedContextIdentifiers = taskGuiUtil.createTaskContextIdentifiers(sessionIdentifier, selectedContextIds);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
@@ -178,8 +183,10 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 					contextSelectBox.addDefaultValue(String.valueOf(taskContext.getId()));
 				}
 			}
-			else if (selectedContextIdentifier != null) {
-				contextSelectBox.addDefaultValue(String.valueOf(selectedContextIdentifier.getId()));
+			else if (selectedContextIdentifiers != null) {
+				for (final TaskContextIdentifier selectedContextIdentifier : selectedContextIdentifiers) {
+					contextSelectBox.addDefaultValue(String.valueOf(selectedContextIdentifier.getId()));
+				}
 			}
 
 			formWidget.addFormInputWidget(contextSelectBox);

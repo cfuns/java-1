@@ -22,7 +22,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -90,13 +90,13 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 				widgets.add(new H2Widget("Roles"));
 				for (final RoleIdentifier roleIdentifier : authorizationSerivce.roleList()) {
 					if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
-						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/info", new MapChain<String, String>().add(AuthorizationGuiParameter.PARAMETER_ROLE,
-								roleIdentifier.getId()), roleIdentifier.getId()));
+						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_ROLE, roleIdentifier.getId()),
+								roleIdentifier.getId()));
 					}
 				}
 				widgets.add(ul);
-				widgets.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/addRole", new MapChain<String, String>().add(AuthorizationGuiParameter.PARAMETER_USER,
-						userIdentifier.getId()), "add role"));
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/addRole",
+						new MapParameter().add(AuthorizationGuiParameter.PARAMETER_USER, userIdentifier.getId()), "add role"));
 			}
 			return widgets;
 		}

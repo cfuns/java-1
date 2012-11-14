@@ -22,13 +22,13 @@ public class LinkRelativWidget extends LinkWidget {
 		this(request, path, new StringWidget(content));
 	}
 
-	public LinkRelativWidget(final UrlUtil urlUtil, final HttpServletRequest request, final String path, final Map<String, String> parameter, final Widget contentWidget)
+	public LinkRelativWidget(final UrlUtil urlUtil, final HttpServletRequest request, final String path, final Map<String, String[]> parameter, final Widget contentWidget)
 			throws MalformedURLException,
 			UnsupportedEncodingException {
 		super(buildUrl(request, urlUtil.buildUrl(path, parameter)), contentWidget);
 	}
 
-	public LinkRelativWidget(final UrlUtil urlUtil, final HttpServletRequest request, final String path, final Map<String, String> parameter, final String content)
+	public LinkRelativWidget(final UrlUtil urlUtil, final HttpServletRequest request, final String path, final Map<String, String[]> parameter, final String content)
 			throws MalformedURLException,
 			UnsupportedEncodingException {
 		this(request, urlUtil.buildUrl(path, parameter), new StringWidget(content));

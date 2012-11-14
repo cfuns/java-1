@@ -23,7 +23,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
@@ -108,7 +108,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER));
 			form.addFormInputWidget(new FormInputSubmitWidget("login"));
 			widgets.add(form);
-			widgets.add(new LinkRelativWidget(urlUtil, request, "/authentication/register", new MapChain<String, String>().add(AuthenticationGuiConstants.PARAMETER_REFERER,
+			widgets.add(new LinkRelativWidget(urlUtil, request, "/authentication/register", new MapParameter().add(AuthenticationGuiConstants.PARAMETER_REFERER,
 					request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)), "no user? register here!"));
 			return widgets;
 		}

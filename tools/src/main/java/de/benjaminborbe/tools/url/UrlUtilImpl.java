@@ -41,7 +41,7 @@ public class UrlUtilImpl implements UrlUtil {
 	}
 
 	@Override
-	public String buildUrl(final String path, final Map<String, String> parameter) throws UnsupportedEncodingException {
+	public String buildUrl(final String path, final Map<String, String[]> parameter) throws UnsupportedEncodingException {
 		final StringWriter sw = new StringWriter();
 		sw.append(path);
 		if (!parameter.isEmpty()) {
@@ -49,18 +49,22 @@ public class UrlUtilImpl implements UrlUtil {
 			Collections.sort(keys, new Sort());
 			boolean first = false;
 			for (final String key : keys) {
-				final String value = parameter.get(key);
-				if (key != null && value != null) {
-					if (!first) {
-						sw.append('?');
-						first = true;
+				final String[] values = parameter.get(key);
+				if (key != null && values != null) {
+					for (final String value : values) {
+						if (value != null) {
+							if (!first) {
+								sw.append('?');
+								first = true;
+							}
+							else {
+								sw.append('&');
+							}
+							sw.append(key);
+							sw.append('=');
+							sw.append(encode(value));
+						}
 					}
-					else {
-						sw.append('&');
-					}
-					sw.append(key);
-					sw.append('=');
-					sw.append(encode(value));
 				}
 			}
 		}

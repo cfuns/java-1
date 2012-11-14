@@ -119,8 +119,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 
 			{
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
-				final List<Task> tasks = taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextId, TaskGuiConstants.DEFAULT_TASK_LIMIT);
+				final String[] taskContextIds = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+				final List<Task> tasks = taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds, TaskGuiConstants.DEFAULT_TASK_LIMIT);
 				Collections.sort(tasks, new CompareComletionDate());
 
 				for (final Task task : tasks) {

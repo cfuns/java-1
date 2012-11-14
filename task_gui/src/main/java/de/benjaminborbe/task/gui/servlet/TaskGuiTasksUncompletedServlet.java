@@ -101,10 +101,10 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiHtmlServlet {
 			widgets.add(taskGuiSwitchWidget);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String taskContextId = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+			final String[] taskContextIds = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 			final int taskLimit = parseUtil.parseInt(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT), TaskGuiConstants.DEFAULT_TASK_LIMIT);
 
-			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextId, taskLimit);
+			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds, taskLimit);
 
 			logger.trace("found " + tasks.size() + " tasks");
 			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, tasks, null, request));

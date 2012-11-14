@@ -1,9 +1,6 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +24,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -92,13 +89,13 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE + "?" + GalleryGuiConstants.PARAMETER_IMAGE_ID + "="
 						+ imageId));
-				final Map<String, String> data = new HashMap<String, String>();
-				data.put(GalleryGuiConstants.PARAMETER_IMAGE_ID, String.valueOf(imageId));
+				final MapParameter data = new MapParameter();
+				data.add(GalleryGuiConstants.PARAMETER_IMAGE_ID, String.valueOf(imageId));
 				list.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_DELETE, data, "delete"));
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_UPLOAD, new MapChain<String, String>().add(
+			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_UPLOAD, new MapParameter().add(
 					GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(galleryIdentifier)), "upload image"));
 			return widgets;
 		}

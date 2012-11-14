@@ -44,3 +44,7 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 .task .taskEntry {
 	border-bottom: 1px solid transparent;
 }
+
+.task .taskContextSelected {
+	font-weight: bold;
+}

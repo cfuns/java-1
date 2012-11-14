@@ -73,7 +73,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
-		EasyMock.expect(request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
@@ -136,7 +136,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final TaskService taskService = EasyMock.createMock(TaskService.class);
-		EasyMock.expect(taskService.getTasksNotCompletedWithoutContext(sessionIdentifier, TaskGuiConstants.DEFAULT_TASK_LIMIT)).andReturn(new ArrayList<Task>());
+		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, TaskGuiConstants.DEFAULT_TASK_LIMIT)).andReturn(new ArrayList<Task>());
 		EasyMock.expect(taskService.getTasksContexts(sessionIdentifier)).andReturn(new ArrayList<TaskContext>());
 		EasyMock.replay(taskService);
 
@@ -157,7 +157,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, allTasks, null, request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
 
-		final TaskGuiSwitchWidget taskGuiSwitchWidget = EasyMock.createMock(TaskGuiSwitchWidget.class);
+		final TaskGuiSwitchWidget taskGuiSwitchWidget = EasyMock.createNiceMock(TaskGuiSwitchWidget.class);
 		EasyMock.replay(taskGuiSwitchWidget);
 
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,

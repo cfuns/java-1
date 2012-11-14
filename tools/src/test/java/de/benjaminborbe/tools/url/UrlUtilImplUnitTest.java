@@ -2,11 +2,7 @@ package de.benjaminborbe.tools.url;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
-
 import org.junit.Test;
-
-import de.benjaminborbe.tools.map.MapChain;
 
 public class UrlUtilImplUnitTest {
 
@@ -27,19 +23,19 @@ public class UrlUtilImplUnitTest {
 	@Test
 	public void testBuildUrl() throws Exception {
 		final UrlUtil urlUtil = new UrlUtilImpl();
-		assertEquals("path", urlUtil.buildUrl("path", new HashMap<String, String>()));
-		assertEquals("/path", urlUtil.buildUrl("/path", new HashMap<String, String>()));
-		assertEquals("/path?a=b", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", "b")));
-		assertEquals("/path?a=b&b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", "b").add("b", "c")));
+		assertEquals("path", urlUtil.buildUrl("path", new MapParameter()));
+		assertEquals("/path", urlUtil.buildUrl("/path", new MapParameter()));
+		assertEquals("/path?a=b", urlUtil.buildUrl("/path", new MapParameter().add("a", "b")));
+		assertEquals("/path?a=b&b=c", urlUtil.buildUrl("/path", new MapParameter().add("a", "b").add("b", "c")));
 	}
 
 	@Test
 	public void testBuildUrlNull() throws Exception {
 		final UrlUtil urlUtil = new UrlUtilImpl();
-		assertEquals("/path", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", null)));
-		assertEquals("/path", urlUtil.buildUrl("/path", new MapChain<String, String>().add(null, "b")));
-		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add("a", null).add("b", "c")));
-		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapChain<String, String>().add(null, "b").add("b", "c")));
+		assertEquals("/path", urlUtil.buildUrl("/path", new MapParameter().add("a", new String[] { null })));
+		assertEquals("/path", urlUtil.buildUrl("/path", new MapParameter().add(null, "b")));
+		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapParameter().add("a", new String[] { null }).add("b", "c")));
+		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapParameter().add(null, "b").add("b", "c")));
 	}
 
 	@Test

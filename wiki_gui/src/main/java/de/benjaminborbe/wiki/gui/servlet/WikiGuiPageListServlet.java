@@ -18,7 +18,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -89,12 +89,12 @@ public class WikiGuiPageListServlet extends WebsiteHtmlServlet {
 				final UlWidget ul = new UlWidget();
 				for (final WikiPageIdentifier wikiPageIdentifier : wikiService.getPageIdentifiers(wikiSpaceIdentifier)) {
 					final WikiPage page = wikiService.getPage(wikiPageIdentifier);
-					ul.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/show", new MapChain<String, String>().add(WikiGuiConstants.PARAMETER_PAGE_ID, page.getId().getId()).add(
+					ul.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/show", new MapParameter().add(WikiGuiConstants.PARAMETER_PAGE_ID, page.getId().getId()).add(
 							WikiGuiConstants.PARAMETER_SPACE_ID, wikiSpaceIdentifier.getId()), page.getTitle()));
 				}
 				widgets.add(ul);
-				widgets.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/create", new MapChain<String, String>().add(WikiGuiConstants.PARAMETER_SPACE_ID,
-						wikiSpaceIdentifier.getId()), "add page"));
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/wiki/page/create", new MapParameter().add(WikiGuiConstants.PARAMETER_SPACE_ID, wikiSpaceIdentifier.getId()),
+						"add page"));
 			}
 			return widgets;
 		}

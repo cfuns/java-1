@@ -8,7 +8,7 @@ public interface TaskGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
-	String PARAMETER_SELECTED_TASKCONTEXT_ID = "selected_taskcontext_id";
+	String PARAMETER_SELECTED_TASKCONTEXT_ID = "tc";
 
 	String PARAMETER_TASK_DESCRIPTION = "task_description";
 

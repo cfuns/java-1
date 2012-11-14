@@ -26,7 +26,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -106,7 +106,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 				widgets.add(String.valueOf(configurationService.getConfigurationValue(configuration)));
 				widgets.add("</td>");
 				widgets.add("<td>");
-				widgets.add(new LinkRelativWidget(urlUtil, request, "/" + ConfigurationGuiConstants.NAME + ConfigurationGuiConstants.URL_UPDATE, new MapChain<String, String>().add(
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/" + ConfigurationGuiConstants.NAME + ConfigurationGuiConstants.URL_UPDATE, new MapParameter().add(
 						ConfigurationGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(configuration.getId())), "edit"));
 				widgets.add("</td>");
 				widgets.add("</tr>");

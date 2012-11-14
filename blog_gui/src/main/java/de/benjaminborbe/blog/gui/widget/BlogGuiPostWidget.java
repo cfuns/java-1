@@ -10,7 +10,7 @@ import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.DivWidget;
@@ -51,9 +51,9 @@ public class BlogGuiPostWidget implements Widget {
 
 		final UlWidget options = new UlWidget();
 		options.addAttribute("class", "options");
-		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_UPDATE_URL, new MapChain<String, String>().add(
+		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_UPDATE_URL, new MapParameter().add(
 				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "edit"));
-		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL, new MapChain<String, String>().add(
+		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL, new MapParameter().add(
 				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "delete"));
 		widgets.add(options);
 

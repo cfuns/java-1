@@ -26,16 +26,31 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
+	public TaskIdentifier createTaskIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
 		return null;
 	}
 
 	@Override
-	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		return null;
 	}
 
 	@Override
-	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) {
+	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+	}
+
+	@Override
+	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 	}
 
 	@Override
@@ -44,17 +59,14 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers, final int limit)
+			throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public TaskIdentifier createTaskIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers, final int limit)
+			throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
 
@@ -65,12 +77,6 @@ public class TaskServiceMock implements TaskService {
 
 	@Override
 	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public List<Task> getTasksNotCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
-			throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
 
@@ -89,41 +95,12 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
-			PermissionDeniedException, LoginRequiredException {
-	}
-
-	@Override
-	public List<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		return null;
-	}
-
-	@Override
 	public void replaceTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
 	}
 
 	@Override
-	public List<Task> getTasksNotCompletedWithoutContext(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public List<Task> getTasksCompletedWithoutContext(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public List<Task> getTasksCompletedWithContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final int limit)
-			throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
-			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		return null;
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
@@ -133,9 +110,24 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
+	public List<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return null;
+	}
+
+	@Override
 	public List<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final int limit) throws TaskServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 
+	@Override
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+		return null;
+	}
 }

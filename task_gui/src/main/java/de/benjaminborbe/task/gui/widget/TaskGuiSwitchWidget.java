@@ -44,7 +44,7 @@ public class TaskGuiSwitchWidget extends CompositeWidget {
 		contextList.add("Context: ");
 		contextList.add(taskGuiLinkFactory.switchTaskContextNone(request));
 		contextList.add(" ");
-		contextList.add(taskGuiLinkFactory.switchTaskContextAll(request));
+		contextList.add(taskGuiLinkFactory.switchTaskContextAll(request, taskContexts));
 		contextList.add(" ");
 		for (final TaskContext taskContext : taskContexts) {
 			contextList.add(taskGuiLinkFactory.switchTaskContext(request, taskContext));

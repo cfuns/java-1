@@ -18,7 +18,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
@@ -84,7 +84,7 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier(request.getParameter(WikiGuiConstants.PARAMETER_PAGE_ID));
 			widgets.add(new HtmlContentWidget(wikiService.renderPage(wikiPageIdentifier)));
 			widgets.add(new BrWidget());
-			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + WikiGuiConstants.NAME + "/" + WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL, new MapChain<String, String>().add(
+			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + WikiGuiConstants.NAME + "/" + WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL, new MapParameter().add(
 					WikiGuiConstants.PARAMETER_PAGE_ID, wikiPageIdentifier.getId()), "edit page"));
 
 			return widgets;

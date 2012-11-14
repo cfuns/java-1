@@ -9,7 +9,7 @@ public interface UrlUtil {
 
 	String decode(String url) throws UnsupportedEncodingException;
 
-	String buildUrl(String path, Map<String, String> parameter) throws UnsupportedEncodingException;
+	String buildUrl(String path, Map<String, String[]> parameter) throws UnsupportedEncodingException;
 
 	String removeTailingSlash(String path);
 }

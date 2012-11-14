@@ -11,7 +11,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
@@ -27,12 +27,12 @@ public class MicroblogGuiLinkFactory {
 
 	public Widget sendConversation(final HttpServletRequest request, final MicroblogPostIdentifier microblogPostIdentifier) throws MalformedURLException,
 			UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_CONVERSATION_SEND, new MapChain<String, String>().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_CONVERSATION_SEND, new MapParameter().add(
 				MicroblogGuiConstants.PARAMETER_POST_ID, String.valueOf(microblogPostIdentifier)), "send as conversation");
 	}
 
 	public Widget sendPost(final HttpServletRequest request, final MicroblogPostIdentifier microblogPostIdentifier) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_SEND, new MapChain<String, String>().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_SEND, new MapParameter().add(
 				MicroblogGuiConstants.PARAMETER_POST_ID, String.valueOf(microblogPostIdentifier)), "send as post");
 	}
 

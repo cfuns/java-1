@@ -30,7 +30,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -145,7 +145,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		}
 		sw.append(" ");
 		widgets.add(sw.toString());
-		widgets.add(new LinkRelativWidget(urlUtil, request, "/websearch/expire", new MapChain<String, String>().add("url", url.toExternalForm()), "expire "));
+		widgets.add(new LinkRelativWidget(urlUtil, request, "/websearch/expire", new MapParameter().add("url", url.toExternalForm()), "expire "));
 		return widgets;
 	}
 }
