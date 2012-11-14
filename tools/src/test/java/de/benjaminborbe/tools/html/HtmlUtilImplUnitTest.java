@@ -64,6 +64,8 @@ public class HtmlUtilImplUnitTest {
 		EasyMock.replay(logger);
 
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+
+		// http
 		assertEquals("", htmlUtil.addLinks(""));
 		assertEquals("\n", htmlUtil.addLinks("\n"));
 		assertEquals("<a href=\"http://www.heise.de/\">http://www.heise.de/</a>", htmlUtil.addLinks("http://www.heise.de/"));
@@ -71,5 +73,9 @@ public class HtmlUtilImplUnitTest {
 		assertEquals("\n<a href=\"http://www.heise.de/\">http://www.heise.de/</a>\n", htmlUtil.addLinks("\nhttp://www.heise.de/\n"));
 		assertEquals("<a href=\"http://www.heise.de/\">http://www.heise.de/</a> <a href=\"http://www.google.de/\">http://www.google.de/</a>",
 				htmlUtil.addLinks("http://www.heise.de/ http://www.google.de/"));
+
+		// https
+		assertEquals("<a href=\"https://www.heise.de/\">https://www.heise.de/</a>", htmlUtil.addLinks("https://www.heise.de/"));
+
 	}
 }

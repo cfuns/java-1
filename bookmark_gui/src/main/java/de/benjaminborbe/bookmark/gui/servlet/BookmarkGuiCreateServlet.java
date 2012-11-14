@@ -21,6 +21,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.util.BookmarkGuiKeywordUtil;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -63,6 +64,8 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 
 	private final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil;
 
+	private final BookmarkGuiLinkFactory bookmarkGuiLinkFactory;
+
 	@Inject
 	public BookmarkGuiCreateServlet(
 			final Logger logger,
@@ -76,12 +79,14 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final BookmarkGuiLinkFactory bookmarkGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.bookmarkService = bookmarkService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.bookmarkGuiKeywordUtil = bookmarkGuiKeywordUtil;
+		this.bookmarkGuiLinkFactory = bookmarkGuiLinkFactory;
 	}
 
 	@Override
@@ -123,6 +128,9 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_KEYWORDS).addLabel("Keywords").addPlaceholder("keywords ..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
+
+			widgets.add(bookmarkGuiLinkFactory.listBookmarks(request));
+
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
@@ -136,5 +144,4 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }

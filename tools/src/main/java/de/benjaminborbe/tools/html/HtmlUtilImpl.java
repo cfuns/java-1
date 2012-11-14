@@ -1,6 +1,8 @@
 package de.benjaminborbe.tools.html;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -103,7 +105,15 @@ public class HtmlUtilImpl implements HtmlUtil {
 	}
 
 	private String addLinksParse(final String line) {
-		final String p = "http://";
+		final List<String> ps = Arrays.asList("http://", "https://");
+		String result = line;
+		for (final String p : ps) {
+			result = addLinksParse(result, p);
+		}
+		return result;
+	}
+
+	private String addLinksParse(final String line, final String p) {
 		int start = line.indexOf(p);
 		int end = 0;
 		final StringBuffer result = new StringBuffer();
