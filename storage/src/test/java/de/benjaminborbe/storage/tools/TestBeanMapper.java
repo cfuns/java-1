@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.tools;
 
 import java.util.Map;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.tools.mapper.BaseMapper;
@@ -9,6 +10,7 @@ import de.benjaminborbe.tools.mapper.MapException;
 
 public class TestBeanMapper extends BaseMapper<TestBean> {
 
+	@Inject
 	public TestBeanMapper(final Provider<TestBean> provider) {
 		super(provider);
 	}

@@ -62,4 +62,5 @@ public class TaskServiceIntegrationTest {
 
 		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier, 1).size());
 	}
+
 }

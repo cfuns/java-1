@@ -19,7 +19,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StorageTestDaoUnitTest {
+public class StorageDaoUnitTest {
 
 	@Test
 	public void testFields() throws Exception {
