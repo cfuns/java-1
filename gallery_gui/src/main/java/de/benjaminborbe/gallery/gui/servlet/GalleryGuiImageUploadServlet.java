@@ -39,6 +39,7 @@ import de.benjaminborbe.website.form.FormEncType;
 import de.benjaminborbe.website.form.FormInputFileWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
@@ -89,12 +90,12 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_ID));
-			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
 
-			final Map<String, FileItem> itemMap = new HashMap<String, FileItem>();
+			final Map<String, FileItem> files = new HashMap<String, FileItem>();
+			final Map<String, String> parameter = new HashMap<String, String>();
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
+				logger.info("isMultipart");
 				// Create a factory for disk-based file items
 				final FileItemFactory factory = new DiskFileItemFactory();
 
@@ -106,9 +107,14 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					@SuppressWarnings("unchecked")
 					final List<FileItem> items = upload.parseRequest(request);
 					for (final FileItem item : items) {
-
+						final String itemName = item.getFieldName();
 						if (!item.isFormField()) {
-							itemMap.put(item.getName(), item);
+							logger.info("found image: '" + itemName + "'");
+							files.put(itemName, item);
+						}
+						else {
+							logger.info("parameter " + itemName + " = " + item.getString());
+							parameter.put(itemName, item.getString());
 						}
 					}
 				}
@@ -117,27 +123,37 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					widgets.add(new ExceptionWidget(e));
 				}
 
-				if (name != null && itemMap.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT) && itemMap.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)) {
-					final FileItem imagePreviewItem = itemMap.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
+				if (parameter.containsKey(GalleryGuiConstants.PARAMETER_GALLERY_ID) && parameter.containsKey(GalleryGuiConstants.PARAMETER_GALLERY_ID)
+						&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT) && files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)
+						&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)) {
+					final FileItem imagePreviewItem = files.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
 					final String imagePreviewName = imagePreviewItem.getFieldName();
 					final byte[] imagePreviewContent = imagePreviewItem.get();
 					final String imagePreviewContentType = extractContentType(imagePreviewItem.getContentType(), imagePreviewName);
 
-					final FileItem imageItem = itemMap.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT);
+					final FileItem imageItem = files.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT);
 					final String imageName = imageItem.getFieldName();
 					final byte[] imageContent = imageItem.get();
 					final String imageContentType = extractContentType(imageItem.getContentType(), imageName);
 
+					final String galleryId = parameter.get(GalleryGuiConstants.PARAMETER_GALLERY_ID);
+					final String name = parameter.get(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
+
+					final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
 					final GalleryEntryIdentifier entryIdentifier = galleryService.createEntry(galleryIdentifier, name, imagePreviewName, imagePreviewContent, imagePreviewContentType,
 							imageName, imageContent, imageContentType);
 					widgets.add("images uploaded!");
 					logger.debug("entryIdentifier: " + entryIdentifier);
 				}
+				else {
+					logger.info("parameter missing");
+				}
 			}
 
 			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GALLERY_ID));
-			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Image"));
+			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_IMAGE_NAME).addLabel("Name").addPlaceholder("name..."));
+			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Preview"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT).addLabel("Image"));
 			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
 			widgets.add(form);

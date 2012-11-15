@@ -25,7 +25,7 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 @Singleton
 public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, GalleryEntryIdentifier> implements GalleryEntryDao {
 
-	private static final String COLUMN_FAMILY = "gallery_image";
+	private static final String COLUMN_FAMILY = "gallery_entry";
 
 	private final Logger logger;
 
