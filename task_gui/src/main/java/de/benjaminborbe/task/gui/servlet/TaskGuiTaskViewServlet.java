@@ -173,15 +173,13 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
 		widgets.add(new PreWidget(buildDescription(task.getDescription())));
-		if (task.getParentId() != null) {
-			if (Boolean.TRUE.equals(task.getCompleted())) {
-				widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
-			}
-			else {
-				widgets.add(taskGuiLinkFactory.completeTask(request, task));
-			}
-			widgets.add(" ");
+		if (Boolean.TRUE.equals(task.getCompleted())) {
+			widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
 		}
+		else {
+			widgets.add(taskGuiLinkFactory.completeTask(request, task));
+		}
+		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.viewTask(request, "view", task));
 		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
