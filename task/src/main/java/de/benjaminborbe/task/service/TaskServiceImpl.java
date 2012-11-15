@@ -623,20 +623,7 @@ public class TaskServiceImpl implements TaskService {
 			throws TaskServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final List<Task> tasks = getTasksCompleted(sessionIdentifier, limit);
-			final List<Task> result = new ArrayList<Task>();
-			for (final Task task : tasks) {
-				boolean match = false;
-				for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-					if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
-						match = true;
-					}
-				}
-				if (match) {
-					result.add(task);
-				}
-			}
-			return result;
+			return filterWithContexts(getTasksCompleted(sessionIdentifier, limit), taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
@@ -646,14 +633,16 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers, final int limit)
-			throws TaskServiceException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			final List<Task> tasks = getTasksNotCompleted(sessionIdentifier, limit);
-			final List<Task> result = new ArrayList<Task>();
-			for (final Task task : tasks) {
+	private List<Task> filterWithContexts(final List<Task> tasks, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException {
+		final List<Task> result = new ArrayList<Task>();
+		for (final Task task : tasks) {
+			if (taskContextIdentifiers.size() == 0) {
+				final StorageIterator a = taskContextManyToManyRelation.getA(task.getId());
+				if (!a.hasNext()) {
+					result.add(task);
+				}
+			}
+			else {
 				boolean match = false;
 				for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
 					if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
@@ -664,7 +653,16 @@ public class TaskServiceImpl implements TaskService {
 					result.add(task);
 				}
 			}
-			return result;
+		}
+		return result;
+	}
+
+	@Override
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers, final int limit)
+			throws TaskServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return filterWithContexts(getTasksNotCompleted(sessionIdentifier, limit), taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);

@@ -2,25 +2,28 @@ package de.benjaminborbe.storage.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.apache.cassandra.thrift.Cassandra.Iface;
+import org.apache.cassandra.thrift.Column;
+import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KeyRange;
 import org.apache.cassandra.thrift.KeySlice;
 import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
 import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageIterator;
 
-public class StorageKeyIterator implements StorageIterator {
+public class StorageRowIteratorImpl implements StorageRowIterator {
 
 	// COUNT > 1
 	private static final int COUNT = 100;
@@ -41,10 +44,15 @@ public class StorageKeyIterator implements StorageIterator {
 
 	private final String keySpace;
 
-	public StorageKeyIterator(final StorageConnectionPool storageConnectionPool, final String keySpace, final ColumnParent column_parent, final String encoding) {
+	public StorageRowIteratorImpl(
+			final StorageConnectionPool storageConnectionPool,
+			final String keySpace,
+			final String columnFamily,
+			final String encoding,
+			final List<String> columnNames) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
-		this.column_parent = column_parent;
+		this.column_parent = new ColumnParent(columnFamily);
 		this.encoding = encoding;
 
 		final KeyRange range = new KeyRange();
@@ -54,7 +62,7 @@ public class StorageKeyIterator implements StorageIterator {
 		this.range = range;
 
 		final SlicePredicate predicate = new SlicePredicate();
-		predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 0));
+		predicate.setColumn_names(buildColumnNames(columnNames));
 
 		this.predicate = predicate;
 	}
@@ -97,23 +105,31 @@ public class StorageKeyIterator implements StorageIterator {
 		}
 	}
 
-	@Override
-	public byte[] nextByte() throws StorageException {
-		if (hasNext()) {
-			final byte[] result = cols.get(currentPos).getKey();
-			range.setStart_key(result);
-			currentPos++;
-			return result;
+	private List<ByteBuffer> buildColumnNames(final List<String> columnNames) throws UnsupportedEncodingException {
+		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
+		for (final String columnName : columnNames) {
+			result.add(ByteBuffer.wrap(columnName.getBytes(encoding)));
 		}
-		else {
-			throw new NoSuchElementException();
-		}
+		return result;
 	}
 
 	@Override
-	public String nextString() throws StorageException {
+	public StorageRow next() throws StorageException {
 		try {
-			return new String(nextByte(), encoding);
+			if (hasNext()) {
+				final KeySlice keySlice = cols.get(currentPos);
+				range.setStart_key(keySlice.getKey());
+				final Map<String, byte[]> data = new HashMap<String, byte[]>();
+				for (final ColumnOrSuperColumn c : keySlice.getColumns()) {
+					final Column column = c.getColumn();
+					data.put(new String(column.getName(), encoding), column.getValue());
+				}
+				currentPos++;
+				return new StorageRowImpl(encoding, keySlice.getKey(), data);
+			}
+			else {
+				throw new NoSuchElementException();
+			}
 		}
 		catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);

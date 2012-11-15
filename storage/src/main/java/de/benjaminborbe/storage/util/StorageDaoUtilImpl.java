@@ -182,16 +182,14 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	@Override
 	public StorageIterator keyIterator(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 			UnsupportedEncodingException, NotFoundException {
-		final ColumnParent column_parent = new ColumnParent(columnFamily);
-		return new StorageKeyIterator(storageConnectionPool, keySpace, column_parent, config.getEncoding());
+		return new StorageKeyIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding());
 	}
 
 	@Override
 	public StorageIterator keyIterator(final String keySpace, final String columnFamily, final Map<String, String> where) throws InvalidRequestException, UnavailableException,
 			TimedOutException, TException, UnsupportedEncodingException, NotFoundException, StorageConnectionPoolException {
 
-		final ColumnParent column_parent = new ColumnParent(columnFamily);
-		return new StorageKeyWhereIterator(storageConnectionPool, keySpace, column_parent, config.getEncoding(), where);
+		return new StorageKeyIteratorWhere(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), where);
 
 	}
 

@@ -85,7 +85,7 @@ public class StorageConfigImpl implements StorageConfig {
 
 	@Override
 	public boolean getAliveCheck() {
-		return false;
+		return true;
 	}
 
 }

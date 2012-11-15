@@ -256,7 +256,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 		if (inputString == null) {
 			return null;
 		}
-		final String input = inputString.trim();
+		final String input = inputString.toLowerCase().trim();
 		if (input.length() == 0) {
 			return null;
 		}
@@ -339,31 +339,31 @@ public class CalendarUtilImpl implements CalendarUtil {
 			return parseSmart(onlyDay(baseValue), "+1d");
 		}
 
-		if (equalsWeekday("monday", input)) {
+		if (equalsWeekday(input, "monday", "montag")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.MONDAY));
 		}
-		if (equalsWeekday("tuesday", input)) {
+		if (equalsWeekday(input, "tuesday", "dienstag")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.TUESDAY));
 		}
-		if (equalsWeekday("wednesday", input)) {
+		if (equalsWeekday(input, "wednesday", "mittwoch")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.WEDNESDAY));
 		}
-		if (equalsWeekday("thursday", input)) {
+		if (equalsWeekday(input, "thursday", "donnerstag")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.THURSDAY));
 		}
-		if (equalsWeekday("friday", input)) {
+		if (equalsWeekday(input, "friday", "freitag")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.FRIDAY));
 		}
-		if (equalsWeekday("saturday", input)) {
+		if (equalsWeekday(input, "saturday", "samstag")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.SATURDAY));
 		}
-		if (equalsWeekday("sunday", input)) {
+		if (equalsWeekday(input, "sunday", "sonntag")) {
 			final int dayOfWeek = baseValue.get(Calendar.DAY_OF_WEEK);
 			return addDays(onlyDay(baseValue), calcDaysToAdd(dayOfWeek, Calendar.SUNDAY));
 		}
@@ -403,11 +403,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 		return result;
 	}
 
-	private boolean equalsWeekday(final String weekday, final String input) {
+	private boolean equalsWeekday(final String input, final String... weekdays) {
 		if (input == null || input.length() < 3) {
 			return false;
 		}
-		return weekday.indexOf(input) == 0;
+		for (final String weekday : weekdays) {
+			if (weekday.indexOf(input) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private int calcDaysToAdd(final int dayOfWeek, final int weekDay) {

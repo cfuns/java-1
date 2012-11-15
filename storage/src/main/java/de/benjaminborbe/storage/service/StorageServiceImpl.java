@@ -128,7 +128,6 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public StorageIterator findByIdPrefix(final String columnFamily, final String idPrefix) throws StorageException {
 		try {
-
 			final StorageIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 			return new StorageIteratorPrefix(idPrefix, i);
 		}
@@ -147,8 +146,6 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
-		finally {
-		}
 	}
 
 	@Override
@@ -159,8 +156,6 @@ public class StorageServiceImpl implements StorageService {
 		catch (final Exception e) {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
-		}
-		finally {
 		}
 	}
 
