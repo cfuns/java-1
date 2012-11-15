@@ -8,16 +8,19 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.gallery.api.Gallery;
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntry;
+import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
-import de.benjaminborbe.gallery.gallery.GalleryBean;
-import de.benjaminborbe.gallery.gallery.GalleryDao;
-import de.benjaminborbe.gallery.image.GalleryImageBean;
-import de.benjaminborbe.gallery.image.GalleryImageDao;
+import de.benjaminborbe.gallery.dao.GalleryCollectionBean;
+import de.benjaminborbe.gallery.dao.GalleryCollectionDao;
+import de.benjaminborbe.gallery.dao.GalleryEntryBean;
+import de.benjaminborbe.gallery.dao.GalleryEntryDao;
+import de.benjaminborbe.gallery.dao.GalleryImageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -30,46 +33,33 @@ public class GalleryServiceImpl implements GalleryService {
 
 	private final Logger logger;
 
-	private final GalleryImageDao galleryImageDao;
+	private final GalleryEntryDao galleryEntryDao;
 
-	private final GalleryDao galleryDao;
+	private final GalleryCollectionDao galleryCollectionDao;
+
+	private final GalleryImageDao galleryImageDao;
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
 	@Inject
-	public GalleryServiceImpl(final Logger logger, final GalleryDao galleryDao, final GalleryImageDao galleryImageDao, final IdGeneratorUUID idGeneratorUUID) {
+	public GalleryServiceImpl(
+			final Logger logger,
+			final GalleryCollectionDao galleryDao,
+			final GalleryEntryDao galleryEntryDao,
+			final IdGeneratorUUID idGeneratorUUID,
+			final GalleryImageDao galleryImageDao) {
 		this.logger = logger;
-		this.galleryDao = galleryDao;
-		this.galleryImageDao = galleryImageDao;
+		this.galleryCollectionDao = galleryDao;
+		this.galleryEntryDao = galleryEntryDao;
 		this.idGeneratorUUID = idGeneratorUUID;
+		this.galleryImageDao = galleryImageDao;
 	}
 
 	@Override
-	public GalleryImageIdentifier saveImage(final GalleryIdentifier galleryIdentifier, final String name, final String contentType, final byte[] content)
-			throws GalleryServiceException {
-		try {
-			logger.debug("saveImage");
-			final GalleryImageBean image = new GalleryImageBean();
-			final GalleryImageIdentifier id = createGalleryImageIdentifier(content);
-			image.setId(id);
-			image.setGalleryIdentifier(galleryIdentifier);
-			image.setName(name);
-			image.setContentType(contentType);
-			image.setContent(content);
-			galleryImageDao.save(image);
-			logger.debug("saveImage name: " + name + " length: " + content.length);
-			return id;
-		}
-		catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-	}
-
-	@Override
-	public List<GalleryImageIdentifier> getImageIdentifiers(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
+	public List<GalleryEntryIdentifier> getEntryIdentifiers(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier);
-			final List<GalleryImageIdentifier> result = new ArrayList<GalleryImageIdentifier>(galleryImageDao.getGalleryImageIdentifiers(galleryIdentifier));
+			final List<GalleryEntryIdentifier> result = new ArrayList<GalleryEntryIdentifier>(galleryEntryDao.getGalleryImageIdentifiers(galleryIdentifier));
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier + " => " + result.size());
 			return result;
 		}
@@ -79,38 +69,27 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void deleteImage(final GalleryImageIdentifier id) throws GalleryServiceException {
+	public void deleteEntry(final GalleryEntryIdentifier id) throws GalleryServiceException {
 		try {
 			logger.debug("deleteImage - GalleryImageIdentifier " + id);
-			galleryImageDao.delete(id);
+			galleryEntryDao.delete(id);
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}
 
-	protected GalleryImageIdentifier createGalleryImageIdentifier(final byte[] content) throws GalleryServiceException {
+	@Override
+	public GalleryEntryIdentifier createEntryIdentifier(final String id) throws GalleryServiceException {
 		logger.debug("createGalleryImageIdentifier");
-		return createGalleryImageIdentifier(idGeneratorUUID.nextId());
+		return new GalleryEntryIdentifier(id);
 	}
 
 	@Override
-	public GalleryImageIdentifier createGalleryImageIdentifier(final String id) throws GalleryServiceException {
-		logger.debug("createGalleryImageIdentifier");
-		return new GalleryImageIdentifier(id);
-	}
-
-	@Override
-	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
+	public GalleryEntry getEntry(final GalleryEntryIdentifier id) throws GalleryServiceException {
 		try {
 			logger.debug("getImage");
-			final GalleryImageBean image = galleryImageDao.load(id);
-			if (image != null) {
-				logger.debug("getImageContent name: " + image.getName() + " length: " + image.getContent().length);
-			}
-			else {
-				logger.debug("no image found for id: " + id);
-			}
+			final GalleryEntryBean image = galleryEntryDao.load(id);
 			return image;
 		}
 		catch (final StorageException e) {
@@ -119,14 +98,14 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryIdentifier createGallery(final String name) throws GalleryServiceException {
+	public GalleryCollectionIdentifier createCollection(final String name) throws GalleryServiceException {
 		try {
 			logger.debug("createGallery name: " + name);
-			final GalleryIdentifier galleryIdentifier = createGalleryIdentifier(idGeneratorUUID.nextId());
-			final GalleryBean gallery = galleryDao.create();
+			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
+			final GalleryCollectionBean gallery = galleryCollectionDao.create();
 			gallery.setId(galleryIdentifier);
 			gallery.setName(name);
-			galleryDao.save(gallery);
+			galleryCollectionDao.save(gallery);
 			return galleryIdentifier;
 		}
 		catch (final StorageException e) {
@@ -135,22 +114,22 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryIdentifier createGalleryIdentifier(final String id) {
+	public GalleryCollectionIdentifier createCollectionIdentifier(final String id) {
 		logger.debug("createGalleryIdentifier");
-		return new GalleryIdentifier(id);
+		return new GalleryCollectionIdentifier(id);
 	}
 
 	@Override
-	public void deleteGallery(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
+	public void deleteCollection(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("deleteGallery");
 			// delete all images of gallery
-			final List<GalleryImageIdentifier> images = getImageIdentifiers(galleryIdentifier);
-			for (final GalleryImageIdentifier image : images) {
-				galleryImageDao.delete(image);
+			final List<GalleryEntryIdentifier> images = getEntryIdentifiers(galleryIdentifier);
+			for (final GalleryEntryIdentifier image : images) {
+				galleryEntryDao.delete(image);
 			}
 			// delete gallery
-			galleryDao.delete(galleryIdentifier);
+			galleryCollectionDao.delete(galleryIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
@@ -158,11 +137,11 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryIdentifier> getGalleryIdentifiers() throws GalleryServiceException {
+	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers() throws GalleryServiceException {
 		try {
 			logger.debug("getGalleryIdentifiers");
-			final List<GalleryIdentifier> result = new ArrayList<GalleryIdentifier>();
-			final IdentifierIterator<GalleryIdentifier> i = galleryDao.getIdentifierIterator();
+			final List<GalleryCollectionIdentifier> result = new ArrayList<GalleryCollectionIdentifier>();
+			final IdentifierIterator<GalleryCollectionIdentifier> i = galleryCollectionDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
@@ -177,10 +156,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Gallery getGallery(final GalleryIdentifier galleryIdentifier) throws GalleryServiceException {
+	public GalleryCollection getCollection(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getGallery");
-			return galleryDao.load(galleryIdentifier);
+			return galleryCollectionDao.load(galleryIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
@@ -188,11 +167,11 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<Gallery> getGalleries() throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollections() throws GalleryServiceException {
 		try {
 			logger.debug("getGalleries");
-			final EntityIterator<GalleryBean> i = galleryDao.getEntityIterator();
-			final List<Gallery> result = new ArrayList<Gallery>();
+			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
+			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
@@ -202,6 +181,39 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		catch (final EntityIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName) throws GalleryServiceException {
+		try {
+			logger.debug("saveImage");
+			final GalleryEntryBean image = new GalleryEntryBean();
+			final GalleryEntryIdentifier id = createEntryIdentifier(idGeneratorUUID.nextId());
+			image.setId(id);
+			image.setGalleryIdentifier(galleryCollectionIdentifier);
+			image.setName(entryName);
+			galleryEntryDao.save(image);
+			logger.debug("saveImage name: " + entryName);
+			return id;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public GalleryImageIdentifier createImageIdentifier(final String id) throws GalleryServiceException {
+		return new GalleryImageIdentifier(id);
+	}
+
+	@Override
+	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
+		try {
+			return galleryImageDao.load(id);
+		}
+		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}

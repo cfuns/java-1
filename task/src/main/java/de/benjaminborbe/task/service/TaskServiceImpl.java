@@ -634,7 +634,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	private List<Task> filterWithContexts(final List<Task> tasks, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException {
-		logger.info("filterWithContexts: " + tasks.size());
+		logger.trace("filterWithContexts: " + tasks.size());
 		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : tasks) {
 			if (taskContextIdentifiers.size() == 0) {
@@ -655,7 +655,7 @@ public class TaskServiceImpl implements TaskService {
 				}
 			}
 		}
-		logger.info("filterWithContexts: " + tasks.size() + " => " + result.size());
+		logger.trace("filterWithContexts: " + tasks.size() + " => " + result.size());
 		return result;
 	}
 

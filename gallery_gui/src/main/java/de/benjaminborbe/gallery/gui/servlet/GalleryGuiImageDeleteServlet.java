@@ -15,7 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -70,8 +70,8 @@ public class GalleryGuiImageDeleteServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final String imageId = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_ID);
-			final GalleryImageIdentifier id = galleryService.createGalleryImageIdentifier(imageId);
-			galleryService.deleteImage(id);
+			final GalleryEntryIdentifier id = galleryService.createEntryIdentifier(imageId);
+			galleryService.deleteEntry(id);
 			throw new RedirectException(request.getContextPath() + "/" + GalleryGuiConstants.NAME);
 		}
 		catch (final GalleryServiceException e) {

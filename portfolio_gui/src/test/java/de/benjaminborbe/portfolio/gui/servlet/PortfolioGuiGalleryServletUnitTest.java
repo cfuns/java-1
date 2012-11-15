@@ -22,7 +22,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.gallery.api.Gallery;
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -121,7 +121,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 		EasyMock.replay(portfolioWidget);
 
 		final GalleryService galleryService = EasyMock.createNiceMock(GalleryService.class);
-		EasyMock.expect(galleryService.getGalleries()).andReturn(new HashSet<Gallery>());
+		EasyMock.expect(galleryService.getCollections()).andReturn(new HashSet<GalleryCollection>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,

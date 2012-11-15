@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.gallery.api.Gallery;
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -43,9 +43,9 @@ public class TopNaviWidget implements Widget {
 		try {
 			final UlWidget ul = new UlWidget();
 			ul.addAttribute("class", "navi");
-			final List<Gallery> galleries = getGalleries();
+			final List<GalleryCollection> galleries = getGalleries();
 			logger.debug("found " + galleries.size() + " galleries");
-			for (final Gallery gallery : galleries) {
+			for (final GalleryCollection gallery : galleries) {
 				ul.add(new GalleryLinkWidget(gallery, urlUtil));
 			}
 			ul.render(request, response, context);
@@ -55,8 +55,8 @@ public class TopNaviWidget implements Widget {
 		}
 	}
 
-	protected List<Gallery> getGalleries() throws GalleryServiceException {
-		final List<Gallery> galleries = new ArrayList<Gallery>(galleryService.getGalleries());
+	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections());
 		Collections.sort(galleries, new GalleryComparator());
 		return galleries;
 	}

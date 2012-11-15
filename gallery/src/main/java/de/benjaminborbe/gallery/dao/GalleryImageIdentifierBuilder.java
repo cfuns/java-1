@@ -1,4 +1,4 @@
-package de.benjaminborbe.gallery.image;
+package de.benjaminborbe.gallery.dao;
 
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;

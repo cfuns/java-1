@@ -1,4 +1,4 @@
-package de.benjaminborbe.gallery.gallery;
+package de.benjaminborbe.gallery.dao;
 
 import org.slf4j.Logger;
 
@@ -6,24 +6,24 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 
 @Singleton
-public class GalleryDaoStorage extends DaoStorage<GalleryBean, GalleryIdentifier> implements GalleryDao {
+public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, GalleryImageIdentifier> implements GalleryImageDao {
+
+	private static final String COLUMN_FAMILY = "gallery_image";
 
 	@Inject
-	public GalleryDaoStorage(
+	public GalleryImageDaoStorage(
 			final Logger logger,
 			final StorageService storageService,
-			final Provider<GalleryBean> beanProvider,
-			final GalleryBeanMapper mapper,
-			final GalleryIdentifierBuilder identifierBuilder) {
+			final Provider<GalleryImageBean> beanProvider,
+			final GalleryImageBeanMapper mapper,
+			final GalleryImageIdentifierBuilder identifierBuilder) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
-
-	private static final String COLUMN_FAMILY = "gallery";
 
 	@Override
 	protected String getColumnFamily() {

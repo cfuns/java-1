@@ -14,8 +14,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
-import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -82,10 +82,10 @@ public class GalleryGuiImageListServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(TITLE));
 
 			final String galleryId = request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_ID);
-			final GalleryIdentifier galleryIdentifier = galleryService.createGalleryIdentifier(galleryId);
+			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
 
 			final UlWidget ul = new UlWidget();
-			for (final GalleryImageIdentifier imageId : galleryService.getImageIdentifiers(galleryIdentifier)) {
+			for (final GalleryEntryIdentifier imageId : galleryService.getEntryIdentifiers(galleryIdentifier)) {
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE + "?" + GalleryGuiConstants.PARAMETER_IMAGE_ID + "="
 						+ imageId));

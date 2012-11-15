@@ -59,7 +59,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
 			final String imageId = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_ID);
-			final GalleryImageIdentifier id = galleryService.createGalleryImageIdentifier(imageId);
+			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final GalleryImage image = galleryService.getImage(id);
 			response.setContentType(image.getContentType());
 			final ByteArrayInputStream inputStream = new ByteArrayInputStream(image.getContent());

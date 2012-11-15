@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.benjaminborbe.gallery.api.Gallery;
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
@@ -15,11 +15,11 @@ import de.benjaminborbe.website.link.LinkRelativWidget;
 
 public class GalleryLinkWidget implements Widget {
 
-	private final Gallery gallery;
+	private final GalleryCollection gallery;
 
 	private final UrlUtil urlUtil;
 
-	public GalleryLinkWidget(final Gallery gallery, final UrlUtil urlUtil) {
+	public GalleryLinkWidget(final GalleryCollection gallery, final UrlUtil urlUtil) {
 		this.gallery = gallery;
 		this.urlUtil = urlUtil;
 	}

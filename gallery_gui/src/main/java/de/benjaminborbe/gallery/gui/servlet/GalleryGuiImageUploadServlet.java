@@ -21,7 +21,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -92,7 +92,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final GalleryIdentifier galleryIdentifier = galleryService.createGalleryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_ID));
+			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_ID));
 
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
@@ -111,7 +111,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 							final String imageName = item.getFieldName();
 							final byte[] imageContent = item.get();
 							final String imageContentType = extractContentType(item.getContentType(), imageName);
-							galleryService.saveImage(galleryIdentifier, imageName, imageContentType, imageContent);
+							galleryService.createEntry(galleryIdentifier, imageName);
 							widgets.add("file " + item.getName() + " uploaded!");
 							widgets.add(new BrWidget());
 							widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST, new MapParameter().add(

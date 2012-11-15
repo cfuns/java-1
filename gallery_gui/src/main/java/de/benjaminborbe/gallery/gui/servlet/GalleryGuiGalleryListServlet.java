@@ -15,8 +15,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.Gallery;
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
@@ -80,8 +80,8 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			for (final GalleryIdentifier galleryIdentifier : galleryService.getGalleryIdentifiers()) {
-				final Gallery gallery = galleryService.getGallery(galleryIdentifier);
+			for (final GalleryCollectionIdentifier galleryIdentifier : galleryService.getCollectionIdentifiers()) {
+				final GalleryCollection gallery = galleryService.getCollection(galleryIdentifier);
 				final ListWidget list = new ListWidget();
 				list.add(linkFactory.imageList(request, gallery));
 				list.add(" ");

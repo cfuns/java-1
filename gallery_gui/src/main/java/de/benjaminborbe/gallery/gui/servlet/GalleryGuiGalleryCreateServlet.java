@@ -68,7 +68,7 @@ public class GalleryGuiGalleryCreateServlet extends WebsiteHtmlServlet {
 		final String name = request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_NAME);
 		if (name != null) {
 			try {
-				galleryService.createGallery(name);
+				galleryService.createCollection(name);
 				throw new RedirectException(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST);
 			}
 			catch (final GalleryServiceException e) {

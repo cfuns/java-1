@@ -15,9 +15,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.gallery.api.Gallery;
-import de.benjaminborbe.gallery.api.GalleryIdentifier;
-import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -63,8 +63,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final ListWidget widgets = new ListWidget();
-			final List<GalleryImageIdentifier> images = getImages(request);
-			for (final GalleryImageIdentifier image : images) {
+			final List<GalleryEntryIdentifier> images = getImages(request);
+			for (final GalleryEntryIdentifier image : images) {
 				widgets.add(new ImageWidget(request.getContextPath() + "/gallery/image/content?image_id=" + image.getId()));
 			}
 			return widgets;
@@ -82,21 +82,21 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return portfolioWidget;
 	}
 
-	private List<GalleryImageIdentifier> getImages(final HttpServletRequest request) throws GalleryServiceException {
+	private List<GalleryEntryIdentifier> getImages(final HttpServletRequest request) throws GalleryServiceException {
 		final String galleryId = request.getParameter(PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 		if (galleryId != null) {
-			final GalleryIdentifier galleryIdentifier = galleryService.createGalleryIdentifier(galleryId);
-			return galleryService.getImageIdentifiers(galleryIdentifier);
+			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
+			return galleryService.getEntryIdentifiers(galleryIdentifier);
 		}
 		else {
-			final List<Gallery> galleries = new ArrayList<Gallery>(galleryService.getGalleries());
+			final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections());
 			Collections.sort(galleries, new GalleryComparator());
 			if (galleries.size() == 0) {
-				return new ArrayList<GalleryImageIdentifier>();
+				return new ArrayList<GalleryEntryIdentifier>();
 			}
 			else {
-				final Gallery gallery = galleries.get(0);
-				return galleryService.getImageIdentifiers(gallery.getId());
+				final GalleryCollection gallery = galleries.get(0);
+				return galleryService.getEntryIdentifiers(gallery.getId());
 			}
 		}
 	}
