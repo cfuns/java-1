@@ -10,6 +10,8 @@ import de.benjaminborbe.gallery.dao.GalleryCollectionDao;
 import de.benjaminborbe.gallery.dao.GalleryCollectionDaoStorage;
 import de.benjaminborbe.gallery.dao.GalleryEntryDao;
 import de.benjaminborbe.gallery.dao.GalleryEntryDaoStorage;
+import de.benjaminborbe.gallery.dao.GalleryImageDao;
+import de.benjaminborbe.gallery.dao.GalleryImageDaoStorage;
 import de.benjaminborbe.gallery.service.GalleryServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
@@ -20,6 +22,7 @@ public class GalleryModule extends AbstractModule {
 		bind(GalleryService.class).to(GalleryServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
 		bind(GalleryEntryDao.class).to(GalleryEntryDaoStorage.class).in(Singleton.class);
+		bind(GalleryImageDao.class).to(GalleryImageDaoStorage.class).in(Singleton.class);
 		bind(GalleryCollectionDao.class).to(GalleryCollectionDaoStorage.class).in(Singleton.class);
 	}
 }

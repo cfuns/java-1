@@ -23,7 +23,7 @@ public class GalleryCollectionDaoStorage extends DaoStorage<GalleryCollectionBea
 		super(logger, storageService, beanProvider, mapper, identifierBuilder);
 	}
 
-	private static final String COLUMN_FAMILY = "gallery";
+	private static final String COLUMN_FAMILY = "gallery_collection";
 
 	@Override
 	protected String getColumnFamily() {

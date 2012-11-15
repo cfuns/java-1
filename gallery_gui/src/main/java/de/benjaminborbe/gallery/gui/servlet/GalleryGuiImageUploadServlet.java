@@ -1,7 +1,9 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -30,7 +33,6 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormEncType;
@@ -39,14 +41,12 @@ import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
@@ -58,8 +58,6 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 	private final GalleryService galleryService;
 
 	private final Logger logger;
-
-	private final UrlUtil urlUtil;
 
 	@Inject
 	public GalleryGuiImageUploadServlet(
@@ -77,7 +75,6 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
-		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -93,7 +90,9 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_ID));
+			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
 
+			final Map<String, FileItem> itemMap = new HashMap<String, FileItem>();
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
 				// Create a factory for disk-based file items
@@ -107,15 +106,9 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					@SuppressWarnings("unchecked")
 					final List<FileItem> items = upload.parseRequest(request);
 					for (final FileItem item : items) {
+
 						if (!item.isFormField()) {
-							final String imageName = item.getFieldName();
-							final byte[] imageContent = item.get();
-							final String imageContentType = extractContentType(item.getContentType(), imageName);
-							galleryService.createEntry(galleryIdentifier, imageName);
-							widgets.add("file " + item.getName() + " uploaded!");
-							widgets.add(new BrWidget());
-							widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST, new MapParameter().add(
-									GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(galleryIdentifier)), "list"));
+							itemMap.put(item.getName(), item);
 						}
 					}
 				}
@@ -123,11 +116,29 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					logger.debug(e.getClass().getName(), e);
 					widgets.add(new ExceptionWidget(e));
 				}
+
+				if (name != null && itemMap.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT) && itemMap.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)) {
+					final FileItem imagePreviewItem = itemMap.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
+					final String imagePreviewName = imagePreviewItem.getFieldName();
+					final byte[] imagePreviewContent = imagePreviewItem.get();
+					final String imagePreviewContentType = extractContentType(imagePreviewItem.getContentType(), imagePreviewName);
+
+					final FileItem imageItem = itemMap.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT);
+					final String imageName = imageItem.getFieldName();
+					final byte[] imageContent = imageItem.get();
+					final String imageContentType = extractContentType(imageItem.getContentType(), imageName);
+
+					final GalleryEntryIdentifier entryIdentifier = galleryService.createEntry(galleryIdentifier, name, imagePreviewName, imagePreviewContent, imagePreviewContentType,
+							imageName, imageContent, imageContentType);
+					widgets.add("images uploaded!");
+					logger.debug("entryIdentifier: " + entryIdentifier);
+				}
 			}
 
 			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GALLERY_ID));
-			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_UPLOAD).addLabel("Image"));
+			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Image"));
+			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT).addLabel("Image"));
 			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
 			widgets.add(form);
 

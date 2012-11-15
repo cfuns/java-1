@@ -115,14 +115,20 @@ create column family blog_post with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
 
-drop column family gallery_image;
-create column family gallery_image with
+drop column family gallery_collection;
+create column family gallery_collection with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+  
+drop column family gallery_entry;
+create column family gallery_entry with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
 
-drop column family gallery;
-create column family gallery with
+drop column family gallery_image;
+create column family gallery_image with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;

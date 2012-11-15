@@ -36,6 +36,7 @@ public class GalleryImageBeanMapper extends SingleMappler<GalleryImageBean> {
 		final List<SingleMap<GalleryImageBean>> result = new ArrayList<SingleMap<GalleryImageBean>>();
 		result.add(new SingleMapGalleryImageIdentifier<GalleryImageBean>("id"));
 		result.add(new SingleMapString<GalleryImageBean>("contentType"));
+		result.add(new SingleMapString<GalleryImageBean>("name"));
 		result.add(new SingleMapByteArray<GalleryImageBean>("content", base64Util));
 		result.add(new SingleMapCalendar<GalleryImageBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<GalleryImageBean>("modified", timeZoneUtil, calendarUtil, parseUtil));

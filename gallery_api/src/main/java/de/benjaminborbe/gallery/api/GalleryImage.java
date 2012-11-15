@@ -14,4 +14,6 @@ public interface GalleryImage {
 
 	Calendar getModified();
 
+	String getName();
+
 }

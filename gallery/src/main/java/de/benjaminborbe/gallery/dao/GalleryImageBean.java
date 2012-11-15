@@ -20,6 +20,8 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 
 	private GalleryImageIdentifier id;
 
+	private String name;
+
 	@Override
 	public byte[] getContent() {
 		return content;
@@ -64,6 +66,15 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 	@Override
 	public void setId(final GalleryImageIdentifier id) {
 		this.id = id;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

@@ -26,7 +26,7 @@ public class GalleryGuiLinkFactory {
 	}
 
 	public Widget createGallery(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GALLERY_CREATE, "create gallery");
+		return new LinkRelativWidget(request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GALLERY_CREATE, "create");
 	}
 
 	public Widget imageList(final HttpServletRequest request, final GalleryCollection gallery) throws MalformedURLException, UnsupportedEncodingException {
@@ -36,6 +36,6 @@ public class GalleryGuiLinkFactory {
 
 	public Widget deleteGallery(final HttpServletRequest request, final GalleryCollection gallery) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GALLERY_DELETE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(gallery.getId())), "delete gallery");
+				GalleryGuiConstants.PARAMETER_GALLERY_ID, String.valueOf(gallery.getId())), "delete");
 	}
 }

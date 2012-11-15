@@ -20,12 +20,14 @@ import de.benjaminborbe.gallery.dao.GalleryCollectionBean;
 import de.benjaminborbe.gallery.dao.GalleryCollectionDao;
 import de.benjaminborbe.gallery.dao.GalleryEntryBean;
 import de.benjaminborbe.gallery.dao.GalleryEntryDao;
+import de.benjaminborbe.gallery.dao.GalleryImageBean;
 import de.benjaminborbe.gallery.dao.GalleryImageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 @Singleton
@@ -41,18 +43,22 @@ public class GalleryServiceImpl implements GalleryService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public GalleryServiceImpl(
 			final Logger logger,
 			final GalleryCollectionDao galleryDao,
 			final GalleryEntryDao galleryEntryDao,
 			final IdGeneratorUUID idGeneratorUUID,
-			final GalleryImageDao galleryImageDao) {
+			final GalleryImageDao galleryImageDao,
+			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.galleryCollectionDao = galleryDao;
 		this.galleryEntryDao = galleryEntryDao;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.galleryImageDao = galleryImageDao;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -102,10 +108,12 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("createGallery name: " + name);
 			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
-			final GalleryCollectionBean gallery = galleryCollectionDao.create();
-			gallery.setId(galleryIdentifier);
-			gallery.setName(name);
-			galleryCollectionDao.save(gallery);
+			final GalleryCollectionBean collection = galleryCollectionDao.create();
+			collection.setId(galleryIdentifier);
+			collection.setName(name);
+			collection.setModified(calendarUtil.now());
+			collection.setCreated(calendarUtil.now());
+			galleryCollectionDao.save(collection);
 			return galleryIdentifier;
 		}
 		catch (final StorageException e) {
@@ -186,24 +194,6 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName) throws GalleryServiceException {
-		try {
-			logger.debug("saveImage");
-			final GalleryEntryBean image = new GalleryEntryBean();
-			final GalleryEntryIdentifier id = createEntryIdentifier(idGeneratorUUID.nextId());
-			image.setId(id);
-			image.setGalleryIdentifier(galleryCollectionIdentifier);
-			image.setName(entryName);
-			galleryEntryDao.save(image);
-			logger.debug("saveImage name: " + entryName);
-			return id;
-		}
-		catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-	}
-
-	@Override
 	public GalleryImageIdentifier createImageIdentifier(final String id) throws GalleryServiceException {
 		return new GalleryImageIdentifier(id);
 	}
@@ -212,6 +202,54 @@ public class GalleryServiceImpl implements GalleryService {
 	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
 		try {
 			return galleryImageDao.load(id);
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final String imagePreviewName,
+			final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
+			throws GalleryServiceException {
+		try {
+
+			final GalleryImageIdentifier imageIdentifier = createImage(imageName, imageContent, imageContentType);
+			final GalleryImageIdentifier previewImageIdentifier = createImage(imagePreviewName, imagePreviewContent, imagePreviewContentType);
+
+			logger.debug("createEntry");
+			final GalleryEntryBean entry = galleryEntryDao.create();
+			final GalleryEntryIdentifier id = createEntryIdentifier(idGeneratorUUID.nextId());
+			entry.setId(id);
+			entry.setGalleryIdentifier(galleryCollectionIdentifier);
+			entry.setName(entryName);
+			entry.setPreviewImageIdentifier(previewImageIdentifier);
+			entry.setImageIdentifier(imageIdentifier);
+			entry.setModified(calendarUtil.now());
+			entry.setCreated(calendarUtil.now());
+			galleryEntryDao.save(entry);
+			logger.debug("createEntry name: " + entryName);
+			return id;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	private GalleryImageIdentifier createImage(final String imageName, final byte[] imageContent, final String imageContentType) throws GalleryServiceException {
+		try {
+			logger.debug("createImage");
+			final GalleryImageBean image = galleryImageDao.create();
+			final GalleryImageIdentifier id = createImageIdentifier(idGeneratorUUID.nextId());
+			image.setId(id);
+			image.setContentType(imageContentType);
+			image.setContent(imageContent);
+			image.setName(imageName);
+			image.setModified(calendarUtil.now());
+			image.setCreated(calendarUtil.now());
+			galleryImageDao.save(image);
+			logger.debug("createEntry name: " + imageName);
+			return id;
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);

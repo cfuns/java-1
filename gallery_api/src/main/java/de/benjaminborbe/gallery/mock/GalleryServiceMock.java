@@ -71,17 +71,19 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
 	public GalleryImageIdentifier createImageIdentifier(final String id) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
 	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final String imagePreviewName,
+			final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
+			throws GalleryServiceException {
 		return null;
 	}
 
