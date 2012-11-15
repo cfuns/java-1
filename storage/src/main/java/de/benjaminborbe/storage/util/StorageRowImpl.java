@@ -37,7 +37,8 @@ public class StorageRowImpl implements StorageRow {
 
 	@Override
 	public String getString(final String columnName) throws UnsupportedEncodingException {
-		return new String(getByte(columnName), encoding);
+		final byte[] v = getByte(columnName);
+		return v != null ? new String(v, encoding) : null;
 	}
 
 	@Override

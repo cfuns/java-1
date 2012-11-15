@@ -28,6 +28,49 @@ import de.benjaminborbe.tools.mapper.Mapper;
 @Singleton
 public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
 
+	private final class StorageRowIteratorWithId implements StorageRowIterator {
+
+		private final StorageRowIterator i;
+
+		private StorageRow next;
+
+		private StorageRowIteratorWithId(final StorageRowIterator i) {
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws StorageException {
+			try {
+				if (next != null) {
+					return true;
+				}
+				while (i.hasNext()) {
+					final StorageRow e = i.next();
+					if (e.getString(ID_FIELD) != null) {
+						next = e;
+						return true;
+					}
+				}
+				return false;
+			}
+			catch (final UnsupportedEncodingException e) {
+				throw new StorageException(e);
+			}
+		}
+
+		@Override
+		public StorageRow next() throws StorageException {
+			if (hasNext()) {
+				final StorageRow result = next;
+				next = null;
+				return result;
+			}
+			else {
+				throw new NoSuchElementException();
+			}
+		}
+	}
+
 	private final class EntityIteratorImpl implements EntityIterator<E> {
 
 		private final IdentifierIterator<I> i;
@@ -244,11 +287,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	private StorageRowIterator getRowIterator() throws StorageException, MapException {
-		return storageService.rowIterator(getColumnFamily(), getFieldNames(create()));
+		return new StorageRowIteratorWithId(storageService.rowIterator(getColumnFamily(), getFieldNames(create())));
 	}
 
 	private StorageRowIterator getRowIterator(final Map<String, String> where) throws StorageException, MapException {
-		return storageService.rowIterator(getColumnFamily(), getFieldNames(create()), where);
+		return new StorageRowIteratorWithId(storageService.rowIterator(getColumnFamily(), getFieldNames(create()), where));
 	}
 
 	@Override
