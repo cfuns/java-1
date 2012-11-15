@@ -19,6 +19,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class StorageConnectionPoolImpl implements StorageConnectionPool {
 
+	private final boolean aliveCheck;
+
 	private final StorageConfig storageConfig;
 
 	private final Logger logger;
@@ -37,8 +39,9 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 		this.storageConfig = storageConfig;
 		this.maxConnections = storageConfig.getMaxConnections();
 		this.socketTimeout = storageConfig.getSocketTimeout();
-		freeConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
-		allConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
+		this.aliveCheck = storageConfig.getAliveCheck();
+		this.freeConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
+		this.allConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 		try {
 			if (!freeConnections.isEmpty()) {
 				final StorageConnection connection = freeConnections.take();
-				if (isAlive(connection)) {
+				if (!aliveCheck || isAlive(connection)) {
 					return connection;
 				}
 				else {
@@ -79,7 +82,8 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 			if (!connection.getTr().isOpen()) {
 				return false;
 			}
-			connection.getClient().set_keyspace("system");
+			final String keyspace = connection.getKeyspace();
+			connection.getClient().set_keyspace(keyspace != null ? keyspace : "system");
 			return true;
 		}
 		catch (final Exception e) {

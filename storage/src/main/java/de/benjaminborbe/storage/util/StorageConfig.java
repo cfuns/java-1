@@ -21,4 +21,6 @@ public interface StorageConfig {
 	int getMaxConnections();
 
 	int getSocketTimeout();
+
+	boolean getAliveCheck();
 }

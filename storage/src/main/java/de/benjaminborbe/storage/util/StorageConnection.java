@@ -12,6 +12,8 @@ public class StorageConnection {
 
 	private final Client client;
 
+	private String keyspace;
+
 	public StorageConnection(final TTransport tr, final Cassandra.Client client) {
 		super();
 		this.tr = tr;
@@ -26,9 +28,20 @@ public class StorageConnection {
 		return client;
 	}
 
-	public Client getClient(final String keySpace) throws InvalidRequestException, TException {
-		client.set_keyspace(keySpace);
-		return client;
+	public Client getClient(final String keyspace) throws InvalidRequestException, TException {
+		setKeyspace(keyspace);
+		return getClient();
+	}
+
+	public void setKeyspace(final String keyspace) throws InvalidRequestException, TException {
+		if (this.keyspace == null || !this.keyspace.equals(keyspace)) {
+			client.set_keyspace(keyspace);
+			this.keyspace = keyspace;
+		}
+	}
+
+	public String getKeyspace() {
+		return keyspace;
 	}
 
 }

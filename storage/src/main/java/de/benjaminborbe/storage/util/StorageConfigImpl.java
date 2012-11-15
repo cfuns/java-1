@@ -83,4 +83,9 @@ public class StorageConfigImpl implements StorageConfig {
 		return getValue(socketTimeout);
 	}
 
+	@Override
+	public boolean getAliveCheck() {
+		return false;
+	}
+
 }
