@@ -30,7 +30,7 @@ public class StorageDaoIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final TestDao testDao = injector.getInstance(TestDao.class);
 
-		final int limit = 10000;
+		final int limit = 1;
 		for (int i = 0; i < limit; ++i) {
 
 			final TestBean testBean = testDao.create();
