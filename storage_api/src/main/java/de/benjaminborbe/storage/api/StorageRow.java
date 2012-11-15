@@ -1,6 +1,7 @@
-package de.benjaminborbe.storage.util;
+package de.benjaminborbe.storage.api;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 
 public interface StorageRow {
 
@@ -11,4 +12,6 @@ public interface StorageRow {
 	byte[] getByte(String columnName);
 
 	String getString(String columnName) throws UnsupportedEncodingException;
+
+	Collection<String> getColumnNames();
 }

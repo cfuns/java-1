@@ -13,6 +13,7 @@ import org.apache.thrift.TException;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 
 public interface StorageDaoUtil {
 
@@ -63,5 +64,11 @@ public interface StorageDaoUtil {
 
 	String read(String keySpace, String columnFamily, String key, String columnName) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
+
+	StorageRowIterator rowIterator(String keySpace, String columnFamily, List<String> columnNames) throws InvalidRequestException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException, NotFoundException;
+
+	StorageRowIterator rowIterator(String keySpace, List<String> columnNames, String columnFamily, Map<String, String> where) throws InvalidRequestException, UnavailableException,
+			TimedOutException, TException, UnsupportedEncodingException, NotFoundException;
 
 }

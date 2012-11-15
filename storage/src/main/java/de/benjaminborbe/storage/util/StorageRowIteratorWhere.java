@@ -25,6 +25,8 @@ import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 
 public class StorageRowIteratorWhere implements StorageRowIterator {
 

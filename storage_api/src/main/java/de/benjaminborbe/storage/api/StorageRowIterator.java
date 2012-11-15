@@ -1,6 +1,5 @@
-package de.benjaminborbe.storage.util;
+package de.benjaminborbe.storage.api;
 
-import de.benjaminborbe.storage.api.StorageException;
 
 public interface StorageRowIterator {
 

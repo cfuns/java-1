@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
 
@@ -188,9 +189,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	@Override
 	public StorageIterator keyIterator(final String keySpace, final String columnFamily, final Map<String, String> where) throws InvalidRequestException, UnavailableException,
 			TimedOutException, TException, UnsupportedEncodingException, NotFoundException, StorageConnectionPoolException {
-
 		return new StorageKeyIteratorWhere(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), where);
-
 	}
 
 	@Override
@@ -248,6 +247,18 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	public String read(final String keySpace, final String columnFamily, final String id, final String columnName) throws InvalidRequestException, NotFoundException,
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 		return read(keySpace, columnFamily, id.getBytes(config.getEncoding()), columnName);
+	}
+
+	@Override
+	public StorageRowIterator rowIterator(final String keySpace, final String columnFamily, final List<String> columnNames) throws InvalidRequestException, UnavailableException,
+			TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
+		return new StorageRowIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), columnNames);
+	}
+
+	@Override
+	public StorageRowIterator rowIterator(final String keySpace, final List<String> columnNames, final String columnFamily, final Map<String, String> where)
+			throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
+		return new StorageRowIteratorWhere(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), columnNames, where);
 	}
 
 }

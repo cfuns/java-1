@@ -70,7 +70,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 		logger.trace("findByDate");
 		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
 		final String dateString = calendarUtil.toDateString(calendar);
-		final StorageIterator i = storageService.list(COLUMNFAMILY, new MapChain<String, String>().add(FIELD_DATE, dateString));
+		final StorageIterator i = storageService.keyIterator(COLUMNFAMILY, new MapChain<String, String>().add(FIELD_DATE, dateString));
 		while (i.hasNext()) {
 			try {
 				final String id = i.nextString();

@@ -23,7 +23,7 @@ public class PageDaoStorageUnitTest {
 	public void testCrud() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		final StorageService b = new StorageServiceMock();
+		final StorageService b = new StorageServiceMock(logger);
 		final Provider<PageBean> c = new Provider<PageBean>() {
 
 			@Override

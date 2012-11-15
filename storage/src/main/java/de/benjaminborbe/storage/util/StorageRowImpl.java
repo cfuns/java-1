@@ -1,7 +1,10 @@
 package de.benjaminborbe.storage.util;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.Map;
+
+import de.benjaminborbe.storage.api.StorageRow;
 
 public class StorageRowImpl implements StorageRow {
 
@@ -35,6 +38,11 @@ public class StorageRowImpl implements StorageRow {
 	@Override
 	public String getString(final String columnName) throws UnsupportedEncodingException {
 		return new String(getByte(columnName), encoding);
+	}
+
+	@Override
+	public Collection<String> getColumnNames() {
+		return data.keySet();
 	}
 
 }

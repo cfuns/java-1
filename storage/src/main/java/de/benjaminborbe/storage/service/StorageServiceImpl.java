@@ -15,6 +15,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
@@ -126,7 +127,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageIterator findByIdPrefix(final String columnFamily, final String idPrefix) throws StorageException {
+	public StorageIterator keyIteratorWithPrefix(final String columnFamily, final String idPrefix) throws StorageException {
 		try {
 			final StorageIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 			return new StorageIteratorPrefix(idPrefix, i);
@@ -138,7 +139,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageIterator list(final String columnFamily) throws StorageException {
+	public StorageIterator keyIterator(final String columnFamily) throws StorageException {
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 		}
@@ -149,7 +150,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageIterator list(final String columnFamily, final Map<String, String> where) throws StorageException {
+	public StorageIterator keyIterator(final String columnFamily, final Map<String, String> where) throws StorageException {
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily, where);
 		}
@@ -209,5 +210,27 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public int getMaxConnections() {
 		return storageConnectionPool.getMaxConnections();
+	}
+
+	@Override
+	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames) throws StorageException {
+		try {
+			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames, final Map<String, String> where) throws StorageException {
+		try {
+			return storageDaoUtil.rowIterator(config.getKeySpace(), columnNames, columnFamily, where);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
 	}
 }

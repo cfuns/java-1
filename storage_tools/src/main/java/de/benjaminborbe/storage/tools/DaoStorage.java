@@ -1,6 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +19,8 @@ import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.api.IdentifierBuilderException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
@@ -52,6 +56,41 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				throw new EntityIteratorException(e);
 			}
 			catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			}
+		}
+	}
+
+	private final class EntityIteratorRow implements EntityIterator<E> {
+
+		private final StorageRowIterator r;
+
+		private EntityIteratorRow(final StorageRowIterator r) {
+			this.r = r;
+		}
+
+		@Override
+		public boolean hasNext() throws EntityIteratorException {
+			try {
+				return r.hasNext();
+			}
+			catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			}
+		}
+
+		@Override
+		public E next() throws EntityIteratorException {
+			try {
+				return rowToBean(r.next());
+			}
+			catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			}
+			catch (final UnsupportedEncodingException e) {
+				throw new EntityIteratorException(e);
+			}
+			catch (final MapException e) {
 				throw new EntityIteratorException(e);
 			}
 		}
@@ -107,15 +146,15 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	private static final String ID_FIELD = "id";
 
-	private final Logger logger;
-
-	private final StorageService storageService;
-
 	private final Provider<E> beanProvider;
+
+	private final IdentifierBuilder<String, I> identifierBuilder;
+
+	private final Logger logger;
 
 	private final Mapper<E> mapper;
 
-	private final IdentifierBuilder<String, I> identifierBuilder;
+	private final StorageService storageService;
 
 	@Inject
 	public DaoStorage(
@@ -132,25 +171,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
-	public void save(final E entity) throws StorageException {
-		if (entity.getId() == null) {
-			throw new StorageException("could not save without identifier");
-		}
-		try {
-			logger.trace("save");
-			final Map<String, String> data = mapper.map(entity);
-			storageService.set(getColumnFamily(), entity.getId().getId(), data);
-		}
-		catch (final MapException e) {
-			throw new StorageException("MapException", e);
-		}
-	}
-
-	protected abstract String getColumnFamily();
-
-	@Override
-	public void delete(final I id) throws StorageException {
-		delete(load(id));
+	public E create() {
+		logger.trace("create");
+		return beanProvider.get();
 	}
 
 	@Override
@@ -165,19 +188,72 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
-	public E create() {
-		logger.trace("create");
-		return beanProvider.get();
-	}
-
-	@Override
-	public E load(final I id) throws StorageException {
-		return load(id.getId());
+	public void delete(final I id) throws StorageException {
+		delete(load(id));
 	}
 
 	@Override
 	public boolean exists(final I id) throws StorageException {
 		return storageService.get(getColumnFamily(), id.getId(), ID_FIELD) != null;
+	}
+
+	protected abstract String getColumnFamily();
+
+	@Override
+	public EntityIterator<E> getEntityIterator() throws StorageException {
+		try {
+			return new EntityIteratorRow(getRowIterator());
+		}
+		catch (final MapException e) {
+			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public EntityIterator<E> getEntityIterator(final Map<String, String> where) throws StorageException {
+		try {
+			return new EntityIteratorRow(getRowIterator(where));
+		}
+		catch (final MapException e) {
+			throw new StorageException(e);
+		}
+	}
+
+	public EntityIterator<E> getEntityIteratorOld() throws StorageException {
+		final IdentifierIterator<I> i = getIdentifierIterator();
+		return new EntityIteratorImpl(i);
+	}
+
+	public EntityIterator<E> getEntityIteratorOld(final Map<String, String> where) throws StorageException {
+		final IdentifierIterator<I> i = getIdentifierIterator(where);
+		return new EntityIteratorImpl(i);
+	}
+
+	protected List<String> getFieldNames(final E entity) throws MapException {
+		return new ArrayList<String>(mapper.map(entity).keySet());
+	}
+
+	@Override
+	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
+		return new IdentifierIteratorImpl(storageService.keyIterator(getColumnFamily()));
+	}
+
+	@Override
+	public IdentifierIterator<I> getIdentifierIterator(final Map<String, String> where) throws StorageException {
+		return new IdentifierIteratorImpl(storageService.keyIterator(getColumnFamily(), where));
+	}
+
+	private StorageRowIterator getRowIterator() throws StorageException, MapException {
+		return storageService.rowIterator(getColumnFamily(), getFieldNames(create()));
+	}
+
+	private StorageRowIterator getRowIterator(final Map<String, String> where) throws StorageException, MapException {
+		return storageService.rowIterator(getColumnFamily(), getFieldNames(create()), where);
+	}
+
+	@Override
+	public E load(final I id) throws StorageException {
+		return load(id.getId());
 	}
 
 	protected E load(final String id) throws StorageException {
@@ -203,29 +279,31 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	protected List<String> getFieldNames(final E entity) throws MapException {
-		return new ArrayList<String>(mapper.map(entity).keySet());
+	protected E rowToBean(final StorageRow row) throws UnsupportedEncodingException, MapException {
+		final String id = row.getKeyString();
+		logger.trace("load - id: " + id);
+		final E entity = create();
+		final Collection<String> columnNames = row.getColumnNames();
+		final Map<String, String> data = new HashMap<String, String>();
+		for (final String columnName : columnNames) {
+			data.put(columnName, row.getString(columnName));
+		}
+		mapper.map(data, entity);
+		return entity;
 	}
 
 	@Override
-	public EntityIterator<E> getEntityIterator() throws StorageException {
-		final IdentifierIterator<I> i = getIdentifierIterator();
-		return new EntityIteratorImpl(i);
-	}
-
-	@Override
-	public EntityIterator<E> getEntityIterator(final Map<String, String> where) throws StorageException {
-		final IdentifierIterator<I> i = getIdentifierIterator(where);
-		return new EntityIteratorImpl(i);
-	}
-
-	@Override
-	public IdentifierIterator<I> getIdentifierIterator() throws StorageException {
-		return new IdentifierIteratorImpl(storageService.list(getColumnFamily()));
-	}
-
-	@Override
-	public IdentifierIterator<I> getIdentifierIterator(final Map<String, String> where) throws StorageException {
-		return new IdentifierIteratorImpl(storageService.list(getColumnFamily(), where));
+	public void save(final E entity) throws StorageException {
+		if (entity.getId() == null) {
+			throw new StorageException("could not save without identifier");
+		}
+		try {
+			logger.trace("save");
+			final Map<String, String> data = mapper.map(entity);
+			storageService.set(getColumnFamily(), entity.getId().getId(), data);
+		}
+		catch (final MapException e) {
+			throw new StorageException("MapException", e);
+		}
 	}
 }

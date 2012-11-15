@@ -44,6 +44,7 @@ public class TaskServiceIntegrationTest {
 		final String email = "test@test.de";
 		final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 		assertNotNull(userIdentifier);
+		assertEquals(username, userIdentifier.getId());
 		assertTrue(authenticationService.register(sessionIdentifier, userIdentifier, email, password, fullname));
 
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));

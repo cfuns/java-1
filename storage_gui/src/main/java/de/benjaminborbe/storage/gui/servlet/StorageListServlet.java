@@ -72,10 +72,10 @@ public class StorageListServlet extends WebsiteServlet {
 				out.println("<pre>");
 				final StorageIterator i;
 				if (prefix != null) {
-					i = persistentStorageService.findByIdPrefix(columnFamily, prefix);
+					i = persistentStorageService.keyIteratorWithPrefix(columnFamily, prefix);
 				}
 				else {
-					i = persistentStorageService.list(columnFamily);
+					i = persistentStorageService.keyIterator(columnFamily);
 				}
 				final List<String> keys = new ArrayList<String>();
 				while (i.hasNext()) {

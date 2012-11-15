@@ -101,19 +101,19 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	@Override
 	public StorageIterator getA(final A identifierA) throws StorageException {
-		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_A, String.valueOf(identifierA)));
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new MapChain<String, String>().add(KEY_A, String.valueOf(identifierA)));
 		return new StorageIdIterator(i, KEY_B);
 	}
 
 	@Override
 	public StorageIterator getB(final B identifierB) throws StorageException {
-		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_B, String.valueOf(identifierB)));
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new MapChain<String, String>().add(KEY_B, String.valueOf(identifierB)));
 		return new StorageIdIterator(i, KEY_A);
 	}
 
 	@Override
 	public void removeA(final A identifierA) throws StorageException {
-		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_A, String.valueOf(identifierA)));
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new MapChain<String, String>().add(KEY_A, String.valueOf(identifierA)));
 		while (i.hasNext()) {
 			delete(i.nextString());
 		}
@@ -121,7 +121,7 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	@Override
 	public void removeB(final B identifierB) throws StorageException {
-		final StorageIterator i = storageService.list(getColumnFamily(), new MapChain<String, String>().add(KEY_B, String.valueOf(identifierB)));
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new MapChain<String, String>().add(KEY_B, String.valueOf(identifierB)));
 		while (i.hasNext()) {
 			delete(i.nextString());
 		}

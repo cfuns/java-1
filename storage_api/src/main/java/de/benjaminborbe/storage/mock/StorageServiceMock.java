@@ -9,18 +9,135 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 
 @Singleton
 public class StorageServiceMock implements StorageService {
+
+	private final class StorageRowIteratorMock implements StorageRowIterator {
+
+		private final Iterator<String> i;
+
+		private final List<String> columnNames;
+
+		private final String columnFamily;
+
+		private StorageRow next;
+
+		private final Map<String, String> where;
+
+		private StorageRowIteratorMock(final Iterator<String> i, final List<String> columnNames, final String columnFamily, final Map<String, String> where) {
+			this.i = i;
+			this.columnNames = columnNames;
+			this.columnFamily = columnFamily;
+			this.where = where;
+		}
+
+		@Override
+		public boolean hasNext() throws StorageException {
+			try {
+				if (next != null) {
+					return true;
+				}
+				while (i.hasNext()) {
+					final String key = i.next();
+					final StorageRowMock row = new StorageRowMock(columnFamily, columnNames, key);
+					boolean match = true;
+					for (final Entry<String, String> e : where.entrySet()) {
+						if (!e.getValue().equals(row.getString(e.getKey()))) {
+							final String msg = "where " + e.getValue() + " != " + row.getString(e.getKey());
+							logger.info(msg);
+							match = false;
+						}
+					}
+					if (match) {
+						next = row;
+						return true;
+					}
+				}
+				return false;
+			}
+			catch (final UnsupportedEncodingException e) {
+				throw new StorageException(e);
+			}
+		}
+
+		@Override
+		public StorageRow next() throws StorageException {
+			if (hasNext()) {
+				final StorageRow result = next;
+				next = null;
+				return result;
+			}
+			else {
+				throw new NoSuchElementException();
+			}
+		}
+	}
+
+	private final class StorageRowMock implements StorageRow {
+
+		private final String columnFamily;
+
+		private final List<String> columnNames;
+
+		private final String key;
+
+		private StorageRowMock(final String columnFamily, final List<String> columnNames, final String key) {
+			logger.info("columnFamily: " + columnFamily + " columnNames: " + columnNames + " key: " + key);
+			this.columnFamily = columnFamily;
+			this.columnNames = columnNames;
+			this.key = key;
+		}
+
+		@Override
+		public String getString(final String columnName) throws UnsupportedEncodingException {
+			return get(columnFamily, key, columnName);
+		}
+
+		@Override
+		public String getKeyString() throws UnsupportedEncodingException {
+			return key;
+		}
+
+		@Override
+		public byte[] getKeyByte() {
+			try {
+				return key.getBytes("UTF8");
+			}
+			catch (final UnsupportedEncodingException e) {
+				return null;
+			}
+		}
+
+		@Override
+		public Collection<String> getColumnNames() {
+			return columnNames;
+		}
+
+		@Override
+		public byte[] getByte(final String columnName) {
+			try {
+				return getString(columnName).getBytes("UTF8");
+			}
+			catch (final UnsupportedEncodingException e) {
+				return null;
+			}
+		}
+	}
 
 	private final class StorageIteratorImpl implements StorageIterator {
 
@@ -53,18 +170,23 @@ public class StorageServiceMock implements StorageService {
 
 	protected final HashMap<String, HashMap<String, HashMap<String, String>>> storageData = new HashMap<String, HashMap<String, HashMap<String, String>>>();
 
+	private final Logger logger;
+
 	@Inject
-	public StorageServiceMock() {
+	public StorageServiceMock(final Logger logger) {
+		this.logger = logger;
 	}
 
 	@Override
 	public String get(final String columnFamily, final String id, final String key) {
+		logger.info("get " + columnFamily + " " + id + " " + key);
 		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		if (cfData == null)
 			return null;
 		final HashMap<String, String> idData = cfData.get(id);
 		if (idData == null)
 			return null;
+		logger.info("get[" + id + "][" + key + "] = " + idData.get(key));
 		return idData.get(key);
 	}
 
@@ -111,12 +233,13 @@ public class StorageServiceMock implements StorageService {
 		final HashMap<String, String> idData = new HashMap<String, String>();
 		cfData.put(id, idData);
 		for (final Entry<String, String> e : data.entrySet()) {
+			logger.info("write " + e.getKey() + " " + e.getValue());
 			idData.put(e.getKey(), e.getValue());
 		}
 	}
 
 	@Override
-	public StorageIterator findByIdPrefix(final String columnFamily, final String idStartWith) {
+	public StorageIterator keyIteratorWithPrefix(final String columnFamily, final String idStartWith) {
 
 		final Set<String> result = new HashSet<String>();
 		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
@@ -132,7 +255,7 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public StorageIterator list(final String columnFamily) {
+	public StorageIterator keyIterator(final String columnFamily) {
 		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
 		List<String> result;
 		if (cfData == null) {
@@ -175,7 +298,24 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public StorageIterator list(final String columnFamily, final Map<String, String> where) throws StorageException {
-		return list(columnFamily);
+	public StorageIterator keyIterator(final String columnFamily, final Map<String, String> where) throws StorageException {
+		return keyIterator(columnFamily);
+	}
+
+	@Override
+	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames) throws StorageException {
+		return rowIterator(columnFamily, columnNames);
+	}
+
+	@Override
+	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames, final Map<String, String> where) throws StorageException {
+		final Iterator<String> i;
+		if (storageData.containsKey(columnFamily)) {
+			i = storageData.get(columnFamily).keySet().iterator();
+		}
+		else {
+			i = new ArrayList<String>().iterator();
+		}
+		return new StorageRowIteratorMock(i, columnNames, columnFamily, where);
 	}
 }

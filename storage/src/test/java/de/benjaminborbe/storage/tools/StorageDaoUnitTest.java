@@ -38,7 +38,7 @@ public class StorageDaoUnitTest {
 		EasyMock.replay(logger);
 		// final Logger logger = LoggerFactory.getLogger(getClass());
 
-		final StorageService storageService = new StorageServiceMock();
+		final StorageService storageService = new StorageServiceMock(logger);
 		final Provider<TestBean> beanProvider = new Provider<TestBean>() {
 
 			@Override
