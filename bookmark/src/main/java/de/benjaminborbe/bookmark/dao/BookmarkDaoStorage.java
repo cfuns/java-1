@@ -19,6 +19,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentifier> implements BookmarkDao {
@@ -31,8 +32,9 @@ public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentif
 			final StorageService storageService,
 			final Provider<BookmarkBean> beanProvider,
 			final BookmarkBeanMapper mapper,
-			final BookmarkIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final BookmarkIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
@@ -32,8 +33,9 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 			final Provider<TaskBean> beanProvider,
 			final TaskBeanMapper mapper,
 			final TaskIdentifierBuilder identifierBuilder,
-			final TaskContextManyToManyRelation taskContextManyToManyRelation) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final TaskContextManyToManyRelation taskContextManyToManyRelation,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
 		this.logger = logger;
 	}

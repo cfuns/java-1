@@ -2,11 +2,14 @@ package de.benjaminborbe.websearch.configuration;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.HasCreated;
+import de.benjaminborbe.storage.tools.HasModified;
 
-public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Configuration {
+public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Configuration, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8884906884511991833L;
 
@@ -17,6 +20,10 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 	private String ownerUsername;
 
 	private List<String> excludes = new ArrayList<String>();
+
+	private Calendar modified;
+
+	private Calendar created;
 
 	@Override
 	public ConfigurationIdentifier getId() {
@@ -53,6 +60,26 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 
 	public void setExcludes(final List<String> excludes) {
 		this.excludes = excludes;
+	}
+
+	@Override
+	public Calendar getModified() {
+		return modified;
+	}
+
+	@Override
+	public void setModified(final Calendar modified) {
+		this.modified = modified;
+	}
+
+	@Override
+	public Calendar getCreated() {
+		return created;
+	}
+
+	@Override
+	public void setCreated(final Calendar created) {
+		this.created = created;
 	}
 
 }

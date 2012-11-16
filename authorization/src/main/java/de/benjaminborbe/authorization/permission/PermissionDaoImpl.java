@@ -11,6 +11,7 @@ import de.benjaminborbe.authorization.permissionrole.PermissionRoleManyToManyRel
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class PermissionDaoImpl extends DaoStorage<PermissionBean, PermissionIdentifier> implements PermissionDao {
@@ -26,8 +27,9 @@ public class PermissionDaoImpl extends DaoStorage<PermissionBean, PermissionIden
 			final Provider<PermissionBean> beanProvider,
 			final PermissionBeanMapper mapper,
 			final PermissionIdentifierBuilder identifierBuilder,
-			final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.permissionRoleManyToManyRelation = permissionRoleManyToManyRelation;
 	}
 

@@ -4,10 +4,12 @@ import java.util.Calendar;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.HasCreated;
+import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 
-public class TaskContextBean implements Entity<TaskContextIdentifier>, TaskContext {
+public class TaskContextBean implements Entity<TaskContextIdentifier>, TaskContext, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
@@ -49,18 +51,22 @@ public class TaskContextBean implements Entity<TaskContextIdentifier>, TaskConte
 		this.owner = owner;
 	}
 
+	@Override
 	public Calendar getCreated() {
 		return created;
 	}
 
+	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
 	}
 
+	@Override
 	public Calendar getModified() {
 		return modified;
 	}
 
+	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
 	}

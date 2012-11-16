@@ -5,8 +5,10 @@ import java.util.Calendar;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.HasCreated;
+import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryImageBean implements Entity<GalleryImageIdentifier>, GalleryImage {
+public class GalleryImageBean implements Entity<GalleryImageIdentifier>, GalleryImage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6353074828349973344L;
 
@@ -45,6 +47,7 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 		return created;
 	}
 
+	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
 	}
@@ -54,6 +57,7 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 		return modified;
 	}
 
+	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
 	}

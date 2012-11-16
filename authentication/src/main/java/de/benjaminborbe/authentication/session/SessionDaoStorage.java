@@ -10,6 +10,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class SessionDaoStorage extends DaoStorage<SessionBean, SessionIdentifier> implements SessionDao {
@@ -22,8 +23,9 @@ public class SessionDaoStorage extends DaoStorage<SessionBean, SessionIdentifier
 			final StorageService storageService,
 			final Provider<SessionBean> beanProvider,
 			final SessionBeanMapper mapper,
-			final SessionIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final SessionIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

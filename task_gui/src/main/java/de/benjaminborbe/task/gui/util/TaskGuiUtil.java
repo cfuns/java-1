@@ -66,6 +66,15 @@ public class TaskGuiUtil {
 		return null;
 	}
 
+	public boolean hasChildTasks(final List<Task> allTasks, final TaskIdentifier parentId) {
+		for (final Task task : allTasks) {
+			if (task.getParentId() != null && parentId != null && task.getParentId().equals(parentId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<Task> getChildTasks(final List<Task> allTasks, final TaskIdentifier parentId) {
 		logger.trace("getChildTasks for parent: " + parentId + " allTasks " + allTasks.size());
 		final List<Task> result = new ArrayList<Task>();

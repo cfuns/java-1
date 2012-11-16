@@ -22,6 +22,7 @@ import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 
@@ -199,18 +200,22 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	private final StorageService storageService;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public DaoStorage(
 			final Logger logger,
 			final StorageService storageService,
 			final Provider<E> beanProvider,
 			final Mapper<E> mapper,
-			final IdentifierBuilder<String, I> identifierBuilder) {
+			final IdentifierBuilder<String, I> identifierBuilder,
+			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.beanProvider = beanProvider;
 		this.mapper = mapper;
 		this.identifierBuilder = identifierBuilder;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -342,6 +347,18 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 		try {
 			logger.trace("save");
+
+			if (entity instanceof HasModified) {
+				final HasModified hasModified = (HasModified) entity;
+				hasModified.setModified(calendarUtil.now());
+			}
+			if (entity instanceof HasCreated) {
+				final HasCreated hasCreated = (HasCreated) entity;
+				if (hasCreated.getCreated() == null) {
+					hasCreated.setCreated(calendarUtil.now());
+				}
+			}
+
 			final Map<String, String> data = mapper.map(entity);
 			storageService.set(getColumnFamily(), entity.getId().getId(), data);
 		}

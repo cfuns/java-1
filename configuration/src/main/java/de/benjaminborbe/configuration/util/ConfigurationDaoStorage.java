@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class ConfigurationDaoStorage extends DaoStorage<ConfigurationBean, ConfigurationIdentifier> implements ConfigurationDao {
@@ -21,8 +22,9 @@ public class ConfigurationDaoStorage extends DaoStorage<ConfigurationBean, Confi
 			final StorageService storageService,
 			final Provider<ConfigurationBean> beanProvider,
 			final ConfigurationBeanMapper mapper,
-			final ConfigurationIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final ConfigurationIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

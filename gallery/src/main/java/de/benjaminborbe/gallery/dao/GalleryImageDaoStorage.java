@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, GalleryImageIdentifier> implements GalleryImageDao {
@@ -21,8 +22,9 @@ public class GalleryImageDaoStorage extends DaoStorage<GalleryImageBean, Gallery
 			final StorageService storageService,
 			final Provider<GalleryImageBean> beanProvider,
 			final GalleryImageBeanMapper mapper,
-			final GalleryImageIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final GalleryImageIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

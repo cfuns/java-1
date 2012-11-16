@@ -21,6 +21,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, GalleryEntryIdentifier> implements GalleryEntryDao {
@@ -35,8 +36,9 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 			final StorageService storageService,
 			final Provider<GalleryEntryBean> beanProvider,
 			final GalleryEntryBeanMapper mapper,
-			final GalleryEntryIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final GalleryEntryIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.logger = logger;
 	}
 

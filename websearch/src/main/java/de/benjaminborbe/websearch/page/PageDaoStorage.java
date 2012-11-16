@@ -13,6 +13,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
@@ -29,8 +30,9 @@ public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> impleme
 			final Provider<PageBean> beanProvider,
 			final PageDaoSubPagesAction pageDaoSubPagesAction,
 			final PageBeanMapper pageBeanMapper,
-			final PageIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder);
+			final PageIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 	}
 

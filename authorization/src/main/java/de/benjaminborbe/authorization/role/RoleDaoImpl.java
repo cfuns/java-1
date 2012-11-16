@@ -14,6 +14,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements RoleDao {
@@ -32,8 +33,9 @@ public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements
 			final RoleBeanMapper mapper,
 			final RoleIdentifierBuilder identifierBuilder,
 			final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation,
-			final UserRoleManyToManyRelation userRoleManyToManyRelation) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final UserRoleManyToManyRelation userRoleManyToManyRelation,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.permissionRoleManyToManyRelation = permissionRoleManyToManyRelation;
 		this.userRoleManyToManyRelation = userRoleManyToManyRelation;
 	}

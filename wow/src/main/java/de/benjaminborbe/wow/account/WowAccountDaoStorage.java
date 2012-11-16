@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class WowAccountDaoStorage extends DaoStorage<WowAccountBean, WowAccountIdentifier> implements WowAccountDao {
@@ -20,8 +21,9 @@ public class WowAccountDaoStorage extends DaoStorage<WowAccountBean, WowAccountI
 			final StorageService storageService,
 			final Provider<WowAccountBean> beanProvider,
 			final WowAccountBeanMapper mapper,
-			final WowAccountIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final WowAccountIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

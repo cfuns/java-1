@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
 @Singleton
@@ -24,8 +25,9 @@ public class WikiSpaceDaoImpl extends DaoStorage<WikiSpaceBean, WikiSpaceIdentif
 			final StorageService storageService,
 			final Provider<WikiSpaceBean> beanProvider,
 			final WikiSpaceBeanMapper mapper,
-			final WikiSpaceIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final WikiSpaceIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.identifierBuilder = identifierBuilder;
 	}
 

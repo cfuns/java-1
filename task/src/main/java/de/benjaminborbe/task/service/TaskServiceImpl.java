@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -45,6 +46,7 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class TaskServiceImpl implements TaskService {
@@ -116,7 +118,16 @@ public class TaskServiceImpl implements TaskService {
 			logger.trace("completeTask: " + taskIdentifier + " started");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
-			task.setModified(calendarUtil.now());
+
+			// update child parent
+			final EntityIterator<TaskBean> childIterator = taskDao.getTaskChilds(taskIdentifier);
+			while (childIterator.hasNext()) {
+				final TaskBean child = childIterator.next();
+				if (!Boolean.TRUE.equals(child.getCompleted())) {
+					throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not all childs are completed")));
+				}
+			}
+
 			task.setCompletionDate(calendarUtil.now());
 			task.setCompleted(true);
 			taskDao.save(task);
@@ -139,6 +150,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -179,8 +193,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setDescription(description);
 			task.setOwner(userIdentifier);
 			task.setCompleted(false);
-			task.setModified(calendarUtil.now());
-			task.setCreated(calendarUtil.now());
+
 			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
 			task.setParentId(taskParentIdentifier);
 			task.setDue(due);
@@ -232,8 +245,6 @@ public class TaskServiceImpl implements TaskService {
 			task.setId(taskContextIdentifier);
 			task.setName(name);
 			task.setOwner(userIdentifier);
-			task.setModified(calendarUtil.now());
-			task.setCreated(calendarUtil.now());
 			taskContextDao.save(task);
 			return taskContextIdentifier;
 		}
@@ -308,6 +319,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 
+			// update child parent
 			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(taskIdentifier);
 			while (i.hasNext()) {
 				final TaskBean child = i.next();
@@ -470,7 +482,7 @@ public class TaskServiceImpl implements TaskService {
 			logger.trace("unCompleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
-			task.setModified(calendarUtil.now());
+
 			task.setCompletionDate(null);
 			task.setCompleted(false);
 			taskDao.save(task);
@@ -507,7 +519,7 @@ public class TaskServiceImpl implements TaskService {
 
 			task.setName(name);
 			task.setDescription(description);
-			task.setModified(calendarUtil.now());
+
 			task.setParentId(taskParentIdentifier);
 			task.setDue(due);
 			task.setStart(start);

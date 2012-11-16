@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 
 @Singleton
@@ -21,8 +22,9 @@ public class WikiPageDaoImpl extends DaoStorage<WikiPageBean, WikiPageIdentifier
 			final StorageService storageService,
 			final Provider<WikiPageBean> beanProvider,
 			final WikiPageBeanMapper mapper,
-			final WikiPageIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final WikiPageIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

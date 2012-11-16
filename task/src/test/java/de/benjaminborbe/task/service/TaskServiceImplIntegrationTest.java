@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -18,7 +19,7 @@ import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.guice.TaskModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
-public class TaskServiceIntegrationTest {
+public class TaskServiceImplIntegrationTest {
 
 	private final String username = "username";
 
@@ -134,5 +135,55 @@ public class TaskServiceIntegrationTest {
 			final Task taskC = taskService.getTask(sessionIdentifier, taskIdentifierC);
 			assertNull(taskC.getParentId());
 		}
+	}
+
+	@Test
+	public void testComplete() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.replay(request);
+
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
+		// register
+		final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+		assertNotNull(userIdentifier);
+		assertEquals(username, userIdentifier.getId());
+		assertTrue(authenticationService.register(sessionIdentifier, userIdentifier, email, password, fullname));
+
+		// login
+		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));
+		assertEquals(userIdentifier, authenticationService.getCurrentUser(sessionIdentifier));
+
+		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+
+		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, null, null, null, null, null, null);
+		assertNotNull(taskIdentifierA);
+		final TaskIdentifier taskIdentifierB = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, taskIdentifierA, null, null, null, null, null);
+		assertNotNull(taskIdentifierB);
+
+		assertEquals(2, taskService.getTasksNotCompleted(sessionIdentifier).size());
+
+		try {
+			taskService.completeTask(sessionIdentifier, taskIdentifierA);
+			fail("ValidationException expected");
+		}
+		catch (final ValidationException e) {
+			assertNotNull(e);
+		}
+
+		assertEquals(2, taskService.getTasksNotCompleted(sessionIdentifier).size());
+
+		taskService.completeTask(sessionIdentifier, taskIdentifierB);
+
+		assertEquals(1, taskService.getTasksNotCompleted(sessionIdentifier).size());
+
+		taskService.completeTask(sessionIdentifier, taskIdentifierA);
+
+		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+
 	}
 }

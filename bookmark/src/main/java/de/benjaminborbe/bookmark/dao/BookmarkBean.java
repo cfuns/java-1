@@ -1,13 +1,16 @@
 package de.benjaminborbe.bookmark.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.HasCreated;
+import de.benjaminborbe.storage.tools.HasModified;
 
-public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
+public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
@@ -24,6 +27,10 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 	private boolean favorite;
 
 	private UserIdentifier owner;
+
+	private Calendar modified;
+
+	private Calendar created;
 
 	@Override
 	public String getName() {
@@ -86,4 +93,25 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark {
 	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
 	}
+
+	@Override
+	public Calendar getModified() {
+		return modified;
+	}
+
+	@Override
+	public void setModified(final Calendar modified) {
+		this.modified = modified;
+	}
+
+	@Override
+	public Calendar getCreated() {
+		return created;
+	}
+
+	@Override
+	public void setCreated(final Calendar created) {
+		this.created = created;
+	}
+
 }

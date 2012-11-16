@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class BlogPostDaoStorage extends DaoStorage<BlogPostBean, BlogPostIdentifier> implements BlogPostDao {
@@ -21,8 +22,9 @@ public class BlogPostDaoStorage extends DaoStorage<BlogPostBean, BlogPostIdentif
 			final StorageService storageService,
 			final Provider<BlogPostBean> beanProvider,
 			final BlogPostBeanMapper mapper,
-			final BlogPostIdentifierBuilder identifierBuilder) {
-		super(logger, storageService, beanProvider, mapper, identifierBuilder);
+			final BlogPostIdentifierBuilder identifierBuilder,
+			final CalendarUtil calendarUtil) {
+		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
 	@Override

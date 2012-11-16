@@ -17,6 +17,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 public class StorageDaoUnitTest {
@@ -49,7 +50,10 @@ public class StorageDaoUnitTest {
 
 		final Mapper<TestBean> mapper = new TestBeanMapper(beanProvider);
 		final IdentifierBuilder<String, TestIdentifier> builder = new TestIdentifierBuilder();
-		return new StorageTestDao(logger, storageService, beanProvider, mapper, builder);
+		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);
+		EasyMock.replay(calendarUtil);
+
+		return new StorageTestDao(logger, storageService, beanProvider, mapper, builder, calendarUtil);
 	}
 
 	@Test
@@ -104,8 +108,9 @@ public class StorageDaoUnitTest {
 				final StorageService storageService,
 				final Provider<TestBean> beanProvider,
 				final Mapper<TestBean> mapper,
-				final IdentifierBuilder<String, TestIdentifier> identifierBuilder) {
-			super(logger, storageService, beanProvider, mapper, identifierBuilder);
+				final IdentifierBuilder<String, TestIdentifier> identifierBuilder,
+				final CalendarUtil calendarUtil) {
+			super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		}
 
 		@Override

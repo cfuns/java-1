@@ -1,12 +1,16 @@
 package de.benjaminborbe.wiki.dao;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.HasCreated;
+import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
-public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage {
+public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
@@ -19,6 +23,10 @@ public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage {
 	private WikiSpaceIdentifier space;
 
 	private WikiPageContentType contentType;
+
+	private Calendar modified;
+
+	private Calendar created;
 
 	@Override
 	public WikiPageIdentifier getId() {
@@ -63,6 +71,26 @@ public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage {
 
 	public void setContentType(final WikiPageContentType contentType) {
 		this.contentType = contentType;
+	}
+
+	@Override
+	public Calendar getModified() {
+		return modified;
+	}
+
+	@Override
+	public void setModified(final Calendar modified) {
+		this.modified = modified;
+	}
+
+	@Override
+	public Calendar getCreated() {
+		return created;
+	}
+
+	@Override
+	public void setCreated(final Calendar created) {
+		this.created = created;
 	}
 
 }

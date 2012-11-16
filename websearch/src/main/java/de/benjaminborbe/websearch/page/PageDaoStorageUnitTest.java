@@ -14,6 +14,7 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.DateUtilImpl;
 
@@ -35,9 +36,12 @@ public class PageDaoStorageUnitTest {
 		final DateUtil f = new DateUtilImpl();
 		final PageBeanMapper e = new PageBeanMapper(c, f);
 		final PageIdentifierBuilder g = null;
-		final PageDaoStorage dao = new PageDaoStorage(logger, b, c, d, e, g);
+
+		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);
+		EasyMock.replay(calendarUtil);
 
 		final Date date = f.parseDateTime("2012-12-24 20:15:59");
+		final PageDaoStorage dao = new PageDaoStorage(logger, b, c, d, e, g, calendarUtil);
 		final URL url = new URL("http://www.heise.de");
 
 		// create
