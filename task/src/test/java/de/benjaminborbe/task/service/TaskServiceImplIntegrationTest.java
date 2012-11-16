@@ -2,6 +2,8 @@ package de.benjaminborbe.task.service;
 
 import static org.junit.Assert.*;
 
+import java.util.TimeZone;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.easymock.EasyMock;
@@ -51,7 +53,7 @@ public class TaskServiceImplIntegrationTest {
 		final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 		assertNotNull(userIdentifier);
 		assertEquals(username, userIdentifier.getId());
-		assertTrue(authenticationService.register(sessionIdentifier, userIdentifier, email, password, fullname));
+		authenticationService.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
 
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));
@@ -83,10 +85,9 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
 		assertNotNull(userIdentifier);
 		assertEquals(username, userIdentifier.getId());
-		assertTrue(authenticationService.register(sessionIdentifier, userIdentifier, email, password, fullname));
 
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));
@@ -149,11 +150,8 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
-		assertNotNull(userIdentifier);
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
 		assertEquals(username, userIdentifier.getId());
-		assertTrue(authenticationService.register(sessionIdentifier, userIdentifier, email, password, fullname));
-
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));
 		assertEquals(userIdentifier, authenticationService.getCurrentUser(sessionIdentifier));

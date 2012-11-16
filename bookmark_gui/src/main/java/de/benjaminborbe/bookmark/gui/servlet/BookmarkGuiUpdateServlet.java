@@ -11,7 +11,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -41,7 +40,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
@@ -121,11 +120,7 @@ public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
 				}
 				catch (final ValidationException e) {
 					widgets.add("update bookmark failed!");
-					final UlWidget ul = new UlWidget();
-					for (final ValidationError validationError : e.getErrors()) {
-						ul.add(validationError.getMessage());
-					}
-					widgets.add(ul);
+					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);

@@ -59,10 +59,13 @@ public class AuthenticationServiceUnitTest {
 		EasyMock.expect(verifyCredentialRegistry.getAll()).andReturn(Arrays.asList(v)).anyTimes();
 		EasyMock.replay(verifyCredentialRegistry);
 
+		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
+		EasyMock.replay(sessionIdentifier);
+
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry, p);
-		assertFalse(authenticationService.verifyCredential(userWrong, "test123"));
-		assertFalse(authenticationService.verifyCredential(userRight, "wrongPw"));
-		assertTrue(authenticationService.verifyCredential(userRight, "test123"));
+		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userWrong, "test123"));
+		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userRight, "wrongPw"));
+		assertTrue(authenticationService.verifyCredential(sessionIdentifier, userRight, "test123"));
 	}
 
 	@Test

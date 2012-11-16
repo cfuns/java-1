@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -39,6 +40,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
@@ -88,7 +90,8 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			if (username != null && password != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
-				if (authenticationService.login(sessionIdentifier, userIdentifier, password)) {
+				try {
+					authenticationService.login(sessionIdentifier, userIdentifier, password);
 					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
 							: request.getContextPath();
 					// necessary ?
@@ -96,9 +99,10 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 					logger.trace("send redirect to: " + referer);
 					throw new RedirectException(referer);
 				}
-				else {
-					widgets.add("login => failed");
+				catch (final ValidationException e) {
 					logger.info("login failed for user " + username);
+					widgets.add("login => failed");
+					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
 			final String action = request.getContextPath() + "/authentication/login";

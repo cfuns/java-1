@@ -11,10 +11,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -37,6 +37,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
@@ -48,6 +49,8 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
+
+	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
 	public AuthenticationGuiRegisterServlet(
@@ -64,6 +67,7 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -85,16 +89,18 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			final String fullname = request.getParameter(AuthenticationGuiConstants.PARAMETER_FULLNAME);
 			if (username != null && password != null && email != null && password.equals(passwordRepeat)) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
-				if (authenticationService.register(sessionIdentifier, userIdentifier, email, password, fullname)) {
+				try {
+					authenticationService.register(sessionIdentifier, username, email, password, fullname, timeZoneUtil.getUTCTimeZone());
 					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
 							: request.getContextPath();
 					logger.trace("send redirect to: " + referer);
 					throw new RedirectException(referer);
 				}
-				else {
-					widgets.add("register => failed");
+				catch (final ValidationException e) {
+					widgets.add("register failed!");
+					widgets.add(new ValidationExceptionWidget(e));
 				}
+
 			}
 			final String action = request.getContextPath() + "/authentication/register";
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);

@@ -5,6 +5,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -30,6 +33,7 @@ import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCred
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -59,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
 			if (a.verifyCredential(userIdentifier, password)) {
 				return true;
@@ -69,9 +73,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException,
+			ValidationException {
 		try {
-			if (verifyCredential(userIdentifier, password)) {
+			if (verifyCredential(sessionIdentifier, userIdentifier, password)) {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
 				sessionDao.save(session);
@@ -79,8 +84,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				return true;
 			}
 			else {
-				logger.info("login failed");
-				return false;
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("login failed")));
 			}
 		}
 		catch (final StorageException e) {
@@ -130,12 +134,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password, final String fullname)
-			throws AuthenticationServiceException {
+	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String username, final String email, final String password, final String fullname,
+			final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
 		try {
+			final UserIdentifier userIdentifier = new UserIdentifier(username);
 			if (userDao.load(userIdentifier) != null) {
 				logger.info("user " + userIdentifier + " already exists");
-				return false;
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user already exists")));
 			}
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
@@ -143,7 +148,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			setNewPassword(user, password);
 			userDao.save(user);
 			logger.info("registerd user " + userIdentifier);
-			return login(sessionIdentifier, userIdentifier, password);
+			login(sessionIdentifier, userIdentifier, password);
+
+			return userIdentifier;
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
@@ -186,7 +193,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (user == null) {
 				return false;
 			}
-			if (verifyCredential(userIdentifier, currentPassword)) {
+			if (verifyCredential(sessionIdentifier, userIdentifier, currentPassword)) {
 				return false;
 			}
 			setNewPassword(user, newPassword);
@@ -326,5 +333,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+	}
+
+	@Override
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String password, final String fullname, final TimeZone timeZone)
+			throws AuthenticationServiceException, LoginRequiredException {
+
+		expectLoggedIn(sessionIdentifier);
+
 	}
 }

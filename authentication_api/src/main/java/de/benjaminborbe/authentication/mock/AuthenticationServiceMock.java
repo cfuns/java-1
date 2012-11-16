@@ -3,6 +3,7 @@ package de.benjaminborbe.authentication.mock;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,13 +29,13 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		return userPassword.containsKey(userIdentifier) && userPassword.get(userIdentifier).equals(password);
 	}
 
 	@Override
 	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
-		if (verifyCredential(userIdentifier, password)) {
+		if (verifyCredential(sessionIdentifier, userIdentifier, password)) {
 			sessionUser.put(sessionIdentifier, userIdentifier);
 			return true;
 		}
@@ -96,10 +97,11 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean register(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email, final String password, final String fullname)
-			throws AuthenticationServiceException {
+	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String username, final String email, final String password, final String fullname,
+			final TimeZone timeZone) throws AuthenticationServiceException {
+		final UserIdentifier userIdentifier = createUserIdentifier(username);
 		userPassword.put(userIdentifier, password);
-		return true;
+		return userIdentifier;
 	}
 
 	@Override
@@ -130,4 +132,10 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		return false;
 	}
+
+	@Override
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String password, final String fullname, final TimeZone timeZone)
+			throws AuthenticationServiceException {
+	}
+
 }

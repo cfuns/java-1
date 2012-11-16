@@ -1,11 +1,14 @@
 package de.benjaminborbe.authentication.test;
 
+import java.util.TimeZone;
+
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -76,14 +79,20 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		final UserIdentifier userIdentifier = new UserIdentifier(username);
 
 		// if user already exists unregister first
-		if (service.verifyCredential(userIdentifier, password)) {
+		if (service.verifyCredential(sessionIdentifier, userIdentifier, password)) {
 			service.login(sessionIdentifier, userIdentifier, password);
 			service.unregister(sessionIdentifier);
 		}
 
-		assertFalse(service.verifyCredential(userIdentifier, password));
-		assertTrue(service.register(sessionIdentifier, userIdentifier, email, password, fullname));
-		assertFalse("must fail, because already registered", service.register(sessionIdentifier, userIdentifier, email, password, fullname));
+		assertFalse(service.verifyCredential(sessionIdentifier, userIdentifier, password));
+		service.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+		try {
+			service.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+			fail("must fail, because already registered");
+		}
+		catch (final ValidationException e) {
+			assertNotNull(e);
+		}
 	}
 
 	@Test
@@ -101,9 +110,9 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
 
-		service.register(sessionIdentifier, new UserIdentifier(username), email, password, fullname);
-		assertTrue(service.verifyCredential(new UserIdentifier(username), password));
-		assertFalse(service.verifyCredential(new UserIdentifier("wrong"), password));
-		assertFalse(service.verifyCredential(new UserIdentifier(username), "wrong"));
+		service.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+		assertTrue(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), password));
+		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier("wrong"), password));
+		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), "wrong"));
 	}
 }
