@@ -14,25 +14,25 @@ import de.benjaminborbe.task.api.Task;
 public class TaskServiceImplUnitTest {
 
 	@Test
-	public void testSortAndLimit() {
+	public void testSort() {
 		final TaskServiceImpl taskServiceImpl = new TaskServiceImpl(null, null, null, null, null, null, null, null, null, null);
 		{
 			final List<Task> list = new ArrayList<Task>();
-			final List<Task> result = taskServiceImpl.sortAndLimit(list, 1);
+			final List<Task> result = taskServiceImpl.sort(list);
 			assertNotNull(result);
 			assertEquals(0, result.size());
 		}
 		{
 			final List<Task> list = new ArrayList<Task>();
 			list.add(buildTask(1));
-			final List<Task> result = taskServiceImpl.sortAndLimit(list, 1);
+			final List<Task> result = taskServiceImpl.sort(list);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
 		{
 			final List<Task> list = new ArrayList<Task>();
 			list.add(buildTask(null));
-			final List<Task> result = taskServiceImpl.sortAndLimit(list, 1);
+			final List<Task> result = taskServiceImpl.sort(list);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
@@ -42,19 +42,21 @@ public class TaskServiceImplUnitTest {
 			list.add(buildTask(1));
 			list.add(buildTask(3));
 			list.add(buildTask(4));
-			final List<Task> result = taskServiceImpl.sortAndLimit(list, 2);
+			final List<Task> result = taskServiceImpl.sort(list);
 			assertNotNull(result);
-			assertEquals(2, result.size());
+			assertEquals(4, result.size());
 			assertEquals(new Integer(1), list.get(0).getPriority());
 			assertEquals(new Integer(2), list.get(1).getPriority());
+			assertEquals(new Integer(3), list.get(2).getPriority());
+			assertEquals(new Integer(4), list.get(3).getPriority());
 		}
 		{
 			final List<Task> list = new ArrayList<Task>();
 			list.add(buildTask(2));
 			list.add(buildTask(1));
-			final List<Task> result = taskServiceImpl.sortAndLimit(list, 1);
+			final List<Task> result = taskServiceImpl.sort(list);
 			assertNotNull(result);
-			assertEquals(1, result.size());
+			assertEquals(2, result.size());
 			assertEquals(new Integer(1), list.get(0).getPriority());
 		}
 	}

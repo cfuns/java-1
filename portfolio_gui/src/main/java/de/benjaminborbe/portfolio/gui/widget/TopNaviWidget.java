@@ -56,7 +56,7 @@ public class TopNaviWidget implements Widget {
 	}
 
 	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections());
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithEntries());
 		Collections.sort(galleries, new GalleryComparator());
 		return galleries;
 	}

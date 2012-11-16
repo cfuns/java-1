@@ -53,8 +53,6 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiHtmlServlet {
 
 	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
 
-	private final ParseUtil parseUtil;
-
 	private final TaskGuiUtil taskGuiUtil;
 
 	private final TaskGuiSwitchWidget taskGuiSwitchWidget;
@@ -77,7 +75,6 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiHtmlServlet {
 			final TaskGuiSwitchWidget taskGuiSwitchWidget) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
-		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
@@ -102,9 +99,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String[] taskContextIds = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
-			final int taskLimit = parseUtil.parseInt(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT), TaskGuiConstants.DEFAULT_TASK_LIMIT);
 
-			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds, taskLimit);
+			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
 
 			logger.trace("found " + tasks.size() + " tasks");
 			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, tasks, null, request));

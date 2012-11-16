@@ -255,4 +255,23 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithEntries() throws GalleryServiceException {
+		try {
+			logger.debug("getGalleries");
+			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
+			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
 }

@@ -307,12 +307,23 @@ public class TaskServiceImpl implements TaskService {
 				return;
 			}
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
+
+			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(taskIdentifier);
+			while (i.hasNext()) {
+				final TaskBean child = i.next();
+				child.setParentId(task.getParentId());
+				taskDao.save(child);
+			}
+
 			taskDao.delete(task);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -412,12 +423,12 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	protected List<Task> sortAndLimit(final List<Task> result, final int limit) {
+	protected List<Task> sort(final List<Task> result) {
 		final List<Comparator<Task>> list = new ArrayList<Comparator<Task>>();
 		list.add(new TaskPrioComparator());
 		list.add(new TaskNameComparator());
 		Collections.sort(result, new ComparatorChain<Task>(list));
-		return result.subList(0, Math.min(result.size(), limit));
+		return result;
 	}
 
 	@Override
@@ -527,22 +538,20 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final int limit) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException {
+	public List<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("getTaskChilds");
 			authenticationService.expectLoggedIn(sessionIdentifier);
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			logger.trace("user " + userIdentifier);
 			final List<Task> result = new ArrayList<Task>();
-			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(userIdentifier, taskIdentifier);
+			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(taskIdentifier);
 			while (i.hasNext()) {
 				final Task task = i.next();
 				result.add(task);
 			}
 			logger.trace("getTasksCompleted found " + result.size());
-			return sortAndLimit(result, limit);
+			return sort(result);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -559,7 +568,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("getTasksNotCompleted");
@@ -572,7 +581,7 @@ public class TaskServiceImpl implements TaskService {
 				final Task task = i.next();
 				result.add(task);
 			}
-			return sortAndLimit(result, limit);
+			return sort(result);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -589,7 +598,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final int limit) throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("getTasksCompleted");
@@ -602,7 +611,7 @@ public class TaskServiceImpl implements TaskService {
 				final Task task = i.next();
 				result.add(task);
 			}
-			return sortAndLimit(result, limit);
+			return sort(result);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -619,11 +628,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers, final int limit)
-			throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+			LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			return filterWithContexts(getTasksCompleted(sessionIdentifier, limit), taskContextIdentifiers);
+			return filterWithContexts(getTasksCompleted(sessionIdentifier), taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
@@ -660,11 +669,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers, final int limit)
-			throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+			LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			return filterWithContexts(getTasksNotCompleted(sessionIdentifier, limit), taskContextIdentifiers);
+			return filterWithContexts(getTasksNotCompleted(sessionIdentifier), taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);

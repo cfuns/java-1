@@ -16,5 +16,5 @@ public interface TaskDao extends Dao<TaskBean, TaskIdentifier> {
 
 	int getMaxPriority(UserIdentifier userIdentifier) throws StorageException;
 
-	EntityIterator<TaskBean> getTaskChilds(UserIdentifier userIdentifier, TaskIdentifier taskIdentifier) throws StorageException;
+	EntityIterator<TaskBean> getTaskChilds(TaskIdentifier taskIdentifier) throws StorageException;
 }

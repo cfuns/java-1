@@ -62,7 +62,7 @@ public class TaskGuiTaskFirstServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			logger.trace("move task " + taskIdentifier + " first");
-			final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier, Integer.MAX_VALUE);
+			final List<Task> tasks = taskService.getTasksNotCompleted(sessionIdentifier);
 			final int pos = findPosition(tasks, taskIdentifier);
 			logger.trace("found task at pos " + pos);
 			for (int i = pos - 1; i >= 0; i--) {

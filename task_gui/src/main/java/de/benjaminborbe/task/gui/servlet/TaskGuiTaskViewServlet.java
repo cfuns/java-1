@@ -144,7 +144,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 
 	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
-		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, taskIdentifier, Integer.MAX_VALUE);
+		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, taskIdentifier);
 		for (final Task childTask : childTasks) {
 			addTaskEntry(widgets, sessionIdentifier, childTask, request);
 			addChilds(widgets, sessionIdentifier, childTask.getId(), request);

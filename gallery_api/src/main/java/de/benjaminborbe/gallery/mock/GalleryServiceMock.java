@@ -87,4 +87,9 @@ public class GalleryServiceMock implements GalleryService {
 		return null;
 	}
 
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithEntries() {
+		return null;
+	}
+
 }

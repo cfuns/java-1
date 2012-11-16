@@ -30,9 +30,14 @@ import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
+import de.benjaminborbe.website.table.TableCellWidget;
+import de.benjaminborbe.website.table.TableRowWidget;
+import de.benjaminborbe.website.table.TableWidget;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.widget.ImageWidget;
 
 @Singleton
@@ -68,13 +73,38 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			final ListWidget widgets = new ListWidget();
+			final TableWidget table = new TableWidget();
+			table.addId("images");
+
+			final TableRowWidget row = new TableRowWidget();
+			table.addRow(row);
+			final TableCellWidget firstCell = new TableCellWidget();
+			firstCell.addClass("node");
+			firstCell.addClass("start");
+			final DivWidget content = new DivWidget();
+			content.addClass("content");
+			content.addContent(new H1Widget("Portrait"));
+			firstCell.setContent(content);
+			row.addCell(firstCell);
+
 			final List<GalleryEntryIdentifier> galleryEntryIdentifiers = getEntries(request);
+			logger.info("galleryEntryIdentifiers: " + galleryEntryIdentifiers.size());
 			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryEntryIdentifiers) {
 				final GalleryEntry entry = galleryService.getEntry(galleryEntryIdentifier);
-				widgets.add(new ImageWidget(portfolioLinkFactory.imageLink(request, entry.getPreviewImageIdentifier())));
+				final LinkWidget link = new LinkWidget(portfolioLinkFactory.imageLink(request, entry.getImageIdentifier()), new ImageWidget(portfolioLinkFactory.imageLink(request,
+						entry.getPreviewImageIdentifier())));
+				link.addAttribute("rel", "lightbox[set]");
+				final TableCellWidget cell = new TableCellWidget(link);
+				cell.addClass("node");
+				cell.addClass("image");
+				row.addCell(cell);
 			}
-			return widgets;
+			final TableCellWidget lastcell = new TableCellWidget();
+			lastcell.addClass("node");
+			lastcell.addClass("end");
+			lastcell.setContent(new DivWidget().addClass("content").addContent(new LinkWidget("javascript:resetPosition();", "end")));
+			row.addCell(lastcell);
+			return table;
 		}
 		catch (final GalleryServiceException e) {
 			logger.debug(e.getClass().getName(), e);

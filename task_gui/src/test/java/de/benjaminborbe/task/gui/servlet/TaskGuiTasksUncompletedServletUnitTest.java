@@ -98,7 +98,6 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
-		EasyMock.expect(parseUtil.parseInt(null, TaskGuiConstants.DEFAULT_TASK_LIMIT)).andReturn(TaskGuiConstants.DEFAULT_TASK_LIMIT);
 		EasyMock.replay(parseUtil);
 
 		final Map<String, String> data = new HashMap<String, String>();
@@ -136,7 +135,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final TaskService taskService = EasyMock.createMock(TaskService.class);
-		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier, TaskGuiConstants.DEFAULT_TASK_LIMIT)).andReturn(new ArrayList<Task>());
+		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier)).andReturn(new ArrayList<Task>());
 		EasyMock.expect(taskService.getTasksContexts(sessionIdentifier)).andReturn(new ArrayList<TaskContext>());
 		EasyMock.replay(taskService);
 
@@ -150,7 +149,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		;
 
 		final TaskGuiUtil taskGuiUtil = EasyMock.createMock(TaskGuiUtil.class);
-		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, null, Integer.MAX_VALUE)).andReturn(allTasks);
+		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, null)).andReturn(allTasks);
 		EasyMock.replay(taskGuiUtil);
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);

@@ -80,10 +80,9 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final String[] taskContextIds, final int taskLimit) throws TaskServiceException,
-			LoginRequiredException {
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
-		return taskService.getTasksNotCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds), taskLimit);
+		return taskService.getTasksNotCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 	}
 
 	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException {
@@ -123,10 +122,9 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final String[] taskContextIds, final int taskLimit) throws TaskServiceException,
-			LoginRequiredException {
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
-		return taskService.getTasksCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds), taskLimit);
+		return taskService.getTasksCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 
 	}
 

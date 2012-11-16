@@ -2,8 +2,6 @@ package de.benjaminborbe.task.gui;
 
 public interface TaskGuiConstants {
 
-	int DEFAULT_TASK_LIMIT = Integer.MAX_VALUE;
-
 	String NAME = "task";
 
 	String PARAMETER_REFERER = "referer";
