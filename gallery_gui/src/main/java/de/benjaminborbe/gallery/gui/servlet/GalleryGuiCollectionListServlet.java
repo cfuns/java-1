@@ -15,7 +15,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -36,7 +35,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
+public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -49,7 +48,7 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 	private final GalleryGuiLinkFactory linkFactory;
 
 	@Inject
-	public GalleryGuiGalleryListServlet(
+	public GalleryGuiCollectionListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -80,16 +79,15 @@ public class GalleryGuiGalleryListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			for (final GalleryCollectionIdentifier galleryIdentifier : galleryService.getCollectionIdentifiers()) {
-				final GalleryCollection gallery = galleryService.getCollection(galleryIdentifier);
+			for (final GalleryCollectionIdentifier galleryCollectionIdentifier : galleryService.getCollectionIdentifiers()) {
 				final ListWidget list = new ListWidget();
-				list.add(linkFactory.imageList(request, gallery));
+				list.add(linkFactory.listEntries(request, galleryCollectionIdentifier));
 				list.add(" ");
-				list.add(linkFactory.deleteGallery(request, gallery));
+				list.add(linkFactory.deleteCollection(request, galleryCollectionIdentifier));
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createGallery(request));
+			widgets.add(linkFactory.createCollection(request));
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {

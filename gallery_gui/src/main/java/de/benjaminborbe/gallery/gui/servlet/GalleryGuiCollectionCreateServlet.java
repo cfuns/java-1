@@ -14,9 +14,11 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -24,6 +26,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
@@ -33,7 +36,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class GalleryGuiGalleryCreateServlet extends WebsiteHtmlServlet {
+public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -43,8 +46,10 @@ public class GalleryGuiGalleryCreateServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final GalleryGuiLinkFactory galleryGuiLinkFactory;
+
 	@Inject
-	public GalleryGuiGalleryCreateServlet(
+	public GalleryGuiCollectionCreateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -54,10 +59,12 @@ public class GalleryGuiGalleryCreateServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
 			final GalleryService galleryService,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final GalleryGuiLinkFactory galleryGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
+		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 	}
 
 	@Override
@@ -65,21 +72,29 @@ public class GalleryGuiGalleryCreateServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-		final String name = request.getParameter(GalleryGuiConstants.PARAMETER_GALLERY_NAME);
+		final String name = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_NAME);
+		final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
 		if (name != null) {
 			try {
-				galleryService.createCollection(name);
-				throw new RedirectException(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST);
+				final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(name);
+
+				if (referer != null) {
+					throw new RedirectException(referer);
+				}
+				else {
+					throw new RedirectException(galleryGuiLinkFactory.entryListUrl(request, galleryCollectionIdentifier));
+				}
 			}
 			catch (final GalleryServiceException e) {
 				logger.debug(e.getClass().getName(), e);
-				widgets.add("create gallery failed");
+				widgets.add("create collection failed");
 			}
 		}
-		final FormWidget form = new FormWidget();
-		form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GALLERY_NAME).addLabel("Name ..."));
-		form.addFormInputWidget(new FormInputSubmitWidget("create"));
-		widgets.add(form);
+		final FormWidget formWidget = new FormWidget();
+		formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+		formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name ..."));
+		formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+		widgets.add(formWidget);
 		return widgets;
 	}
 

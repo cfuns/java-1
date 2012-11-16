@@ -9,13 +9,13 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryCreateServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryDeleteServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionCreateServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageListServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryListServlet;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageUploadServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryListServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryCreateServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
@@ -26,25 +26,25 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class GalleryGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private GalleryGuiGalleryDeleteServlet galleryGuiGalleryDeleteServlet;
+	private GalleryGuiCollectionCreateServlet galleryGuiCollectionCreateServlet;
 
 	@Inject
-	private GalleryGuiGalleryCreateServlet galleryGuiCreateServlet;
+	private GalleryGuiCollectionDeleteServlet galleryGuiCollectionDeleteServlet;
 
 	@Inject
-	private GalleryGuiGalleryListServlet galleryGuiServlet;
+	private GalleryGuiCollectionListServlet galleryGuiCollectionListServlet;
 
 	@Inject
-	private GalleryGuiImageUploadServlet galleryGuiUploadServlet;
+	private GalleryGuiEntryCreateServlet galleryGuiEntryCreateServlet;
 
 	@Inject
-	private GalleryGuiImageListServlet galleryGuiListServlet;
+	private GalleryGuiEntryDeleteServlet galleryGuiEntryDeleteServlet;
+
+	@Inject
+	private GalleryGuiEntryListServlet galleryGuiEntryListServlet;
 
 	@Inject
 	private GalleryGuiImageServlet galleryGuiImageServlet;
-
-	@Inject
-	private GalleryGuiImageDeleteServlet galleryGuiDeleteServlet;
 
 	public GalleryGuiActivator() {
 		super(GalleryGuiConstants.NAME);
@@ -58,13 +58,13 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(galleryGuiServlet, GalleryGuiConstants.URL_HOME));
-		result.add(new ServletInfo(galleryGuiUploadServlet, GalleryGuiConstants.URL_IMAGE_UPLOAD));
-		result.add(new ServletInfo(galleryGuiListServlet, GalleryGuiConstants.URL_IMAGE_LIST));
+		result.add(new ServletInfo(galleryGuiCollectionCreateServlet, GalleryGuiConstants.URL_COLLECTION_CREATE));
+		result.add(new ServletInfo(galleryGuiCollectionDeleteServlet, GalleryGuiConstants.URL_COLLECTION_DELETE));
+		result.add(new ServletInfo(galleryGuiCollectionListServlet, GalleryGuiConstants.URL_COLLECTION_LIST));
+		result.add(new ServletInfo(galleryGuiEntryCreateServlet, GalleryGuiConstants.URL_ENTRY_CREATE));
+		result.add(new ServletInfo(galleryGuiEntryDeleteServlet, GalleryGuiConstants.URL_ENTRY_DELETE));
+		result.add(new ServletInfo(galleryGuiEntryListServlet, GalleryGuiConstants.URL_ENTRY_LIST));
 		result.add(new ServletInfo(galleryGuiImageServlet, GalleryGuiConstants.URL_IMAGE));
-		result.add(new ServletInfo(galleryGuiDeleteServlet, GalleryGuiConstants.URL_IMAGE_DELETE));
-		result.add(new ServletInfo(galleryGuiCreateServlet, GalleryGuiConstants.URL_GALLERY_CREATE));
-		result.add(new ServletInfo(galleryGuiGalleryDeleteServlet, GalleryGuiConstants.URL_GALLERY_DELETE));
 		return result;
 	}
 

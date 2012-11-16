@@ -61,6 +61,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 			final String imageId = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final GalleryImage image = galleryService.getImage(id);
+			logger.info("loaded image " + image);
 			response.setContentType(image.getContentType());
 			final ByteArrayInputStream inputStream = new ByteArrayInputStream(image.getContent());
 			final OutputStream outputStream = response.getOutputStream();

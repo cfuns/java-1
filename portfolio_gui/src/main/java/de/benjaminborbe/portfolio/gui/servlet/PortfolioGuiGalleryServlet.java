@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -24,6 +25,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -44,6 +46,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final Logger logger;
 
+	private final PortfolioLinkFactory portfolioLinkFactory;
+
 	@Inject
 	public PortfolioGuiGalleryServlet(
 			final Logger logger,
@@ -53,19 +57,22 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService,
 			final PortfolioLayoutWidget portfolioWidget,
-			final GalleryService galleryService) {
+			final GalleryService galleryService,
+			final PortfolioLinkFactory portfolioLinkFactory) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.portfolioWidget = portfolioWidget;
 		this.logger = logger;
 		this.galleryService = galleryService;
+		this.portfolioLinkFactory = portfolioLinkFactory;
 	}
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final ListWidget widgets = new ListWidget();
-			final List<GalleryEntryIdentifier> images = getImages(request);
-			for (final GalleryEntryIdentifier image : images) {
-				widgets.add(new ImageWidget(request.getContextPath() + "/gallery/image/content?image_id=" + image.getId()));
+			final List<GalleryEntryIdentifier> galleryEntryIdentifiers = getEntries(request);
+			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryEntryIdentifiers) {
+				final GalleryEntry entry = galleryService.getEntry(galleryEntryIdentifier);
+				widgets.add(new ImageWidget(portfolioLinkFactory.imageLink(request, entry.getPreviewImageIdentifier())));
 			}
 			return widgets;
 		}
@@ -82,7 +89,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return portfolioWidget;
 	}
 
-	private List<GalleryEntryIdentifier> getImages(final HttpServletRequest request) throws GalleryServiceException {
+	private List<GalleryEntryIdentifier> getEntries(final HttpServletRequest request) throws GalleryServiceException {
 		final String galleryId = request.getParameter(PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 		if (galleryId != null) {
 			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);

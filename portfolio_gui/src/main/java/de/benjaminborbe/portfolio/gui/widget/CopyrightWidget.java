@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 

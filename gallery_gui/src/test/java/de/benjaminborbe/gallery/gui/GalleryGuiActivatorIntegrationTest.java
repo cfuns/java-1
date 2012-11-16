@@ -47,13 +47,13 @@ public class GalleryGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + GalleryGuiConstants.NAME);
-		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_UPLOAD);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_CREATE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_DELETE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_LIST);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_CREATE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_DELETE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE);
-		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_LIST);
-		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE_DELETE);
-		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GALLERY_CREATE);
-		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GALLERY_DELETE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

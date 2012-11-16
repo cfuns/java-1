@@ -50,7 +50,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
+public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -61,7 +61,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 	private final Logger logger;
 
 	@Inject
-	public GalleryGuiImageUploadServlet(
+	public GalleryGuiEntryCreateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -123,7 +123,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					widgets.add(new ExceptionWidget(e));
 				}
 
-				if (parameter.containsKey(GalleryGuiConstants.PARAMETER_GALLERY_ID) && parameter.containsKey(GalleryGuiConstants.PARAMETER_GALLERY_ID)
+				if (parameter.containsKey(GalleryGuiConstants.PARAMETER_COLLECTION_ID) && parameter.containsKey(GalleryGuiConstants.PARAMETER_COLLECTION_ID)
 						&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT) && files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)
 						&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)) {
 					final FileItem imagePreviewItem = files.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
@@ -136,7 +136,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 					final byte[] imageContent = imageItem.get();
 					final String imageContentType = extractContentType(imageItem.getContentType(), imageName);
 
-					final String galleryId = parameter.get(GalleryGuiConstants.PARAMETER_GALLERY_ID);
+					final String galleryId = parameter.get(GalleryGuiConstants.PARAMETER_COLLECTION_ID);
 					final String name = parameter.get(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
 
 					final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
@@ -151,7 +151,7 @@ public class GalleryGuiImageUploadServlet extends WebsiteHtmlServlet {
 			}
 
 			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GALLERY_ID));
+			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_IMAGE_NAME).addLabel("Name").addPlaceholder("name..."));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Preview"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT).addLabel("Image"));

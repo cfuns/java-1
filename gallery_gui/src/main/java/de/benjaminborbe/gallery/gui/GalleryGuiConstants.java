@@ -4,9 +4,9 @@ public interface GalleryGuiConstants {
 
 	String NAME = "gallery";
 
-	String PARAMETER_GALLERY_ID = "gallery_id";
+	String PARAMETER_COLLECTION_ID = "collection_id";
 
-	String PARAMETER_GALLERY_NAME = "gallery_name";
+	String PARAMETER_COLLECTION_NAME = "collection_name";
 
 	String PARAMETER_IMAGE_CONTENT = "image_content";
 
@@ -16,18 +16,22 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_IMAGE_NAME = "image_name";
 
-	String URL_GALLERY_CREATE = "/gallery/create";
+	String PARAMETER_ENTRY_ID = "entry_id";
 
-	String URL_GALLERY_DELETE = "/gallery/delete";
+	String URL_COLLECTION_LIST = "/";
 
-	String URL_HOME = "/";
+	String URL_COLLECTION_CREATE = "/collection/create";
+
+	String URL_COLLECTION_DELETE = "/collection/delete";
+
+	String URL_ENTRY_CREATE = "/entry/create";
+
+	String URL_ENTRY_DELETE = "/entry/delete";
+
+	String URL_ENTRY_LIST = "/entry/list";
 
 	String URL_IMAGE = "/image/content";
 
-	String URL_IMAGE_DELETE = "/image/delete";
-
-	String URL_IMAGE_LIST = "/image/list";
-
-	String URL_IMAGE_UPLOAD = "/image/upload";
+	String PARAMETER_REFERER = "referer";
 
 }

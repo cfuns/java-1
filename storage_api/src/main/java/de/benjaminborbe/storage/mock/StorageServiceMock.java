@@ -304,7 +304,7 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames) throws StorageException {
-		return rowIterator(columnFamily, columnNames);
+		return rowIterator(columnFamily, columnNames, new HashMap<String, String>());
 	}
 
 	@Override

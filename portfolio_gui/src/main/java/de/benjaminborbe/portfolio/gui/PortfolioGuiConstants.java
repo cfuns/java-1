@@ -12,4 +12,6 @@ public interface PortfolioGuiConstants {
 
 	String PARAMETER_GALLERY_ID = "gallery_id";
 
+	String PARAMETER_IMAGE_ID = "image_id";
+
 }

@@ -26,6 +26,7 @@ import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -124,8 +125,11 @@ public class PortfolioGuiGalleryServletUnitTest {
 		EasyMock.expect(galleryService.getCollections()).andReturn(new HashSet<GalleryCollection>());
 		EasyMock.replay(galleryService);
 
+		final PortfolioLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioLinkFactory.class);
+		EasyMock.replay(portfolioLinkFactory);
+
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				portfolioWidget, galleryService);
+				portfolioWidget, galleryService, portfolioLinkFactory);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

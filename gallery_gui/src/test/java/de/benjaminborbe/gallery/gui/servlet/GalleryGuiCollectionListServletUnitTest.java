@@ -27,7 +27,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGalleryListServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -40,7 +40,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.StringWidget;
 
-public class GalleryGuiGalleryListServletUnitTest {
+public class GalleryGuiCollectionListServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -128,15 +128,15 @@ public class GalleryGuiGalleryListServletUnitTest {
 		EasyMock.replay(galleryService);
 
 		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);
-		EasyMock.expect(linkFactory.createGallery(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(linkFactory.createCollection(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(linkFactory);
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.replay(authorizationService);
 
-		final GalleryGuiGalleryListServlet galleryServlet = new GalleryGuiGalleryListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService);
+		final GalleryGuiCollectionListServlet galleryServlet = new GalleryGuiCollectionListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService);
 
 		galleryServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
