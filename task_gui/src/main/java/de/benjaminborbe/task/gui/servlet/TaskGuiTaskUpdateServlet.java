@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -126,9 +127,10 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
 					logger.trace("name: " + name);
+					final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
-					final Calendar due = parseCalendar(dueString);
-					final Calendar start = parseCalendar(startString);
+					final Calendar due = parseCalendar(dueString, timeZone);
+					final Calendar start = parseCalendar(startString, timeZone);
 					final Long repeatDue = parseLong(repeatDueString);
 					final Long repeatStart = parseLong(repeatStartString);
 
@@ -214,9 +216,9 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 		return value != null ? String.valueOf(value) : "";
 	}
 
-	private Calendar parseCalendar(final String dateString) {
+	private Calendar parseCalendar(final String dateString, final TimeZone timeZone) {
 		try {
-			return calendarUtil.parseSmart(dateString);
+			return calendarUtil.parseSmart(timeZone, dateString);
 		}
 		catch (final ParseException e) {
 			return null;

@@ -33,6 +33,7 @@ import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCred
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
@@ -48,18 +49,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final AuthenticationPasswordEncryptionService passwordEncryptionService;
 
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
 			final SessionDao sessionDao,
 			final UserDao userDao,
 			final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry,
-			final AuthenticationPasswordEncryptionService passwordEncryptionService) {
+			final AuthenticationPasswordEncryptionService passwordEncryptionService,
+			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
 		this.verifyCredentialRegistry = verifyCredentialRegistry;
 		this.passwordEncryptionService = passwordEncryptionService;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -336,10 +341,37 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String password, final String fullname, final TimeZone timeZone)
-			throws AuthenticationServiceException, LoginRequiredException {
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException,
+			LoginRequiredException {
+		try {
+			expectLoggedIn(sessionIdentifier);
+			final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
+			final UserBean user = userDao.load(userIdentifier);
+			user.setEmail(email);
+			user.setFullname(fullname);
+			user.setTimeZone(timeZone);
+			userDao.save(user);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
 
-		expectLoggedIn(sessionIdentifier);
-
+	@Override
+	public TimeZone getTimeZone(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		try {
+			if (isLoggedIn(sessionIdentifier)) {
+				final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
+				final UserBean user = userDao.load(userIdentifier);
+				final TimeZone timeZone = user.getTimeZone();
+				if (timeZone != null) {
+					return timeZone;
+				}
+			}
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		return timeZoneUtil.getUTCTimeZone();
 	}
 }

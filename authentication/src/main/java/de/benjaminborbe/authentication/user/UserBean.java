@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.user;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -27,6 +28,8 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 	private Calendar modified;
 
 	private Calendar created;
+
+	private TimeZone timeZone;
 
 	@Override
 	public UserIdentifier getId() {
@@ -99,6 +102,15 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(final TimeZone timeZone) {
+		this.timeZone = timeZone;
 	}
 
 }

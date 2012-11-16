@@ -134,8 +134,13 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String password, final String fullname, final TimeZone timeZone)
-			throws AuthenticationServiceException {
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException,
+			LoginRequiredException {
+	}
+
+	@Override
+	public TimeZone getTimeZone(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		return TimeZone.getDefault();
 	}
 
 }

@@ -48,6 +48,8 @@ public interface AuthenticationService {
 
 	boolean isSuperAdmin(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
-	void updateUser(SessionIdentifier sessionIdentifier, String email, String password, String fullname, TimeZone timeZone) throws AuthenticationServiceException,
-			LoginRequiredException;
+	void updateUser(SessionIdentifier sessionIdentifier, String email, String fullname, TimeZone timeZone) throws AuthenticationServiceException, LoginRequiredException;
+
+	TimeZone getTimeZone(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
+
 }

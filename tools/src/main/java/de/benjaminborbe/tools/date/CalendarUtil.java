@@ -51,6 +51,10 @@ public interface CalendarUtil {
 
 	Calendar parseSmart(Calendar oldValue, String input) throws ParseException;
 
+	Calendar parseSmart(TimeZone timeZone, String input) throws ParseException;
+
+	Calendar parseSmart(TimeZone timeZone, Calendar oldValue, String input) throws ParseException;
+
 	boolean isLE(Calendar c1, Calendar c2);
 
 	boolean isGE(Calendar c1, Calendar c2);

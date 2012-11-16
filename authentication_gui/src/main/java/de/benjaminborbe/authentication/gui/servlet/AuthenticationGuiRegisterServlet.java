@@ -50,8 +50,6 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final TimeZoneUtil timeZoneUtil;
-
 	@Inject
 	public AuthenticationGuiRegisterServlet(
 			final Logger logger,
@@ -67,7 +65,6 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
-		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -90,7 +87,7 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			if (username != null && password != null && email != null && password.equals(passwordRepeat)) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					authenticationService.register(sessionIdentifier, username, email, password, fullname, timeZoneUtil.getUTCTimeZone());
+					authenticationService.register(sessionIdentifier, username, email, password, fullname, authenticationService.getTimeZone(sessionIdentifier));
 					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
 							: request.getContextPath();
 					logger.trace("send redirect to: " + referer);

@@ -244,14 +244,14 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
-	public Calendar parseSmart(final String input) throws ParseException {
-		return parseSmart(now(), input);
+	public Calendar parseSmart(final TimeZone timeZone, final String input) throws ParseException {
+		return parseSmart(timeZone, now(), input);
 	}
 
 	@Override
-	public Calendar parseSmart(final Calendar baseValue, final String inputString) throws ParseException {
+	public Calendar parseSmart(final TimeZone timeZone, final Calendar baseValue, final String inputString) throws ParseException {
 		if (baseValue == null) {
-			return parseSmart(inputString);
+			return parseSmart(timeZone, inputString);
 		}
 		if (inputString == null) {
 			return null;
@@ -326,17 +326,17 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 		// yesterday
 		if ("yesterday".equalsIgnoreCase(input)) {
-			return parseSmart(onlyDay(baseValue), "-1d");
+			return parseSmart(timeZone, onlyDay(baseValue), "-1d");
 		}
 
 		// today
 		if ("today".equalsIgnoreCase(input)) {
-			return parseSmart(onlyDay(baseValue), "0d");
+			return parseSmart(timeZone, onlyDay(baseValue), "0d");
 		}
 
 		// tomorrow
 		if ("tomorrow".equalsIgnoreCase(input)) {
-			return parseSmart(onlyDay(baseValue), "+1d");
+			return parseSmart(timeZone, onlyDay(baseValue), "+1d");
 		}
 
 		if (equalsWeekday(input, "monday", "montag")) {
@@ -452,6 +452,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 	@Override
 	public Calendar now() {
 		return now(timeZoneUtil.getUTCTimeZone());
+	}
+
+	@Override
+	public Calendar parseSmart(final String input) throws ParseException {
+		return parseSmart(timeZoneUtil.getUTCTimeZone(), input);
+	}
+
+	@Override
+	public Calendar parseSmart(final Calendar oldValue, final String input) throws ParseException {
+		return parseSmart(timeZoneUtil.getUTCTimeZone(), oldValue, input);
 	}
 
 }

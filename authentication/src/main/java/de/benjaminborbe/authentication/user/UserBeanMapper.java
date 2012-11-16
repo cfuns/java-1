@@ -12,6 +12,7 @@ import de.benjaminborbe.tools.mapper.SingleMap;
 import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapByteArray;
 import de.benjaminborbe.tools.mapper.SingleMapString;
+import de.benjaminborbe.tools.mapper.SingleMapTimeZone;
 import de.benjaminborbe.tools.mapper.SingleMappler;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -32,6 +33,7 @@ public class UserBeanMapper extends SingleMappler<UserBean> {
 		result.add(new SingleMapString<UserBean>("fullname"));
 		result.add(new SingleMapString<UserBean>("email"));
 		result.add(new SingleMapBoolean<UserBean>("superAdmin", parseUtil));
+		result.add(new SingleMapTimeZone<UserBean>("timeZone"));
 		return result;
 	}
 

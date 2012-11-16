@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +70,8 @@ public class TaskGuiTaskStartLaterServlet extends WebsiteServlet {
 
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 			final Calendar now = calendarUtil.now();
-			final Calendar start = calendarUtil.parseSmart(now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
+			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
+			final Calendar start = calendarUtil.parseSmart(timeZone, now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
 
 			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, task.getDue(),
 					task.getRepeatStart(), task.getRepeatDue(), null);
