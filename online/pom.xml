@@ -46,7 +46,10 @@
 						<Export-Package>de.benjaminborbe.online.*</Export-Package>
 						<Bundle-Activator></Bundle-Activator>
 						<Private-Package>de.benjaminborbe.online.*</Private-Package>
-						<Import-Package>de.benjaminborbe.api</Import-Package>
+						<Import-Package>
+						de.benjaminborbe.api; version="1.0.0-SNAPSHOT",
+						
+						</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>Benjamin Borbe - Online</Bundle-Name>

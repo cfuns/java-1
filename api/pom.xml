@@ -43,7 +43,7 @@
 						<Export-Package>de.benjaminborbe.api.*</Export-Package>
 						<Bundle-Activator></Bundle-Activator>
 						<Private-Package>de.benjaminborbe.api.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Package>*;resolution:=optional</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>Benjamin Borbe - Api</Bundle-Name>
