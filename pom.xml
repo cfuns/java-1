@@ -52,6 +52,7 @@
     <profile>
       <id>bridge</id>
       <modules>
+	<module>meta</module>
         <module>bridge</module>
       </modules>
     </profile>
@@ -196,7 +197,6 @@
     <module>navigation</module>
     <module>navigation_api</module>
     <module>navigation_gui</module>
-    <module>online</module>
     <module>performance</module>
     <module>performance_api</module>
     <module>performance_gui</module>

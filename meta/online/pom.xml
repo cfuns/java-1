@@ -2,12 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe.parent</artifactId>
+		<artifactId>de.benjaminborbe.meta</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.online</artifactId>
-	<name>Benjamin Borbe - Online</name>
-	<description>Benjamin Borbe - Online</description>
+	<artifactId>de.benjaminborbe.meta.online</artifactId>
+	<name>Benjamin Borbe - Meta - Online</name>
+	<description>Benjamin Borbe - Meta - Online</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -43,17 +43,16 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.online.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator></Bundle-Activator>
-						<Private-Package>de.benjaminborbe.online.*</Private-Package>
-						<Import-Package>
-						de.benjaminborbe.api; version="1.0.0-SNAPSHOT",
-						
-						</Import-Package>
+						<Private-Package></Private-Package>
+						<Import-Package> de.benjaminborbe.api; version="1.0.0-SNAPSHOT", de.benjaminborbe.gallery; version="1.0.0-SNAPSHOT", de.benjaminborbe.gallery.api; version="1.0.0-SNAPSHOT",
+							de.benjaminborbe.gallery.gui; version="1.0.0-SNAPSHOT", de.benjaminborbe.portfolio; version="1.0.0-SNAPSHOT", de.benjaminborbe.portfolio.api; version="1.0.0-SNAPSHOT",
+							de.benjaminborbe.portfolio.gui; version="1.0.0-SNAPSHOT"</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Online</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Online</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Meta - Online</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Meta - Online</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
