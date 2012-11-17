@@ -39,7 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.mail.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.mail.MailActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.mail.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>

@@ -39,7 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.dashboard.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.dashboard.DashboardActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.dashboard.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>

@@ -46,9 +46,7 @@
 						<Export-Package></Export-Package>
 						<Bundle-Activator></Bundle-Activator>
 						<Private-Package></Private-Package>
-						<Import-Package> de.benjaminborbe.api; version="1.0.0-SNAPSHOT", de.benjaminborbe.gallery; version="1.0.0-SNAPSHOT", de.benjaminborbe.gallery.api; version="1.0.0-SNAPSHOT",
-							de.benjaminborbe.gallery.gui; version="1.0.0-SNAPSHOT", de.benjaminborbe.portfolio; version="1.0.0-SNAPSHOT", de.benjaminborbe.portfolio.api; version="1.0.0-SNAPSHOT",
-							de.benjaminborbe.portfolio.gui; version="1.0.0-SNAPSHOT"</Import-Package>
+						<Import-Package>de.benjaminborbe.api</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>Benjamin Borbe - Meta - Online</Bundle-Name>
@@ -62,6 +60,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-	</dependencies>
 </project>

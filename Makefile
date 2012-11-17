@@ -212,3 +212,5 @@ buildeventbus:
 	cd eventbus && make all
 	cd eventbus_gui && make all
 	cd eventbus_test && make all
+buildmeta:
+	cd meta && make all

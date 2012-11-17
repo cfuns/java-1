@@ -42,7 +42,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.scala.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.scala.ScalaActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.scala.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>

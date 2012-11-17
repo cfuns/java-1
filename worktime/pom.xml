@@ -39,7 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.worktime.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.worktime.WorktimeActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.worktime.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>

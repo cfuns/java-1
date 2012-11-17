@@ -39,7 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.timetracker.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.timetracker.TimetrackerActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.timetracker.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>

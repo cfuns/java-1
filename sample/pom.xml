@@ -39,7 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.sample.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.sample.SampleActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.sample.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>

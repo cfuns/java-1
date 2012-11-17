@@ -39,7 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.task.api.*</Export-Package>
+						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.task.TaskActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.task.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
