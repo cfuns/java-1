@@ -5,9 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -16,6 +21,26 @@ import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class StorageConnectionPoolImplIntegrationTest {
+
+	private static boolean notFound;
+
+	@BeforeClass
+	public static void setUpClass() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+
+		final Socket socket = new Socket();
+		final SocketAddress endpoint = new InetSocketAddress(config.getHost(), config.getPort());
+		try {
+			socket.connect(endpoint, 500);
+
+			notFound = !socket.isConnected();
+			notFound = false;
+		}
+		catch (final IOException e) {
+			notFound = true;
+		}
+	}
 
 	@Test
 	public void testIsSingleton() {
@@ -29,6 +54,8 @@ public class StorageConnectionPoolImplIntegrationTest {
 
 	@Test
 	public void testGetConnection() throws Exception {
+		if (notFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
 		StorageConnection connection = null;
@@ -47,6 +74,8 @@ public class StorageConnectionPoolImplIntegrationTest {
 
 	@Test
 	public void testPooling() throws Exception {
+		if (notFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
 		final List<StorageConnection> connections = new ArrayList<StorageConnection>();
