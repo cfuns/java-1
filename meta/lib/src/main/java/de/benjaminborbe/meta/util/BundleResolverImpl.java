@@ -16,13 +16,21 @@ public class BundleResolverImpl implements BundleResolver {
 	@Override
 	public List<String> getBundleSymbolicNames() {
 		final ResourceBundle resourceBundle = ResourceBundle.getBundle("bundles");
-		final List<String> result = new ArrayList<String>();
 		final String value = resourceBundle.getString("bundles");
+		return parseValue(value);
+	}
 
+	protected List<String> parseValue(final String value) {
+		final List<String> result = new ArrayList<String>();
+		if (value == null) {
+			return result;
+		}
 		final String[] parts = value.split("[\\s,]");
 
-		for (final String b : parts) {
-			result.add(b.trim());
+		for (final String part : parts) {
+			if (part.length() > 0) {
+				result.add(part);
+			}
 		}
 		return result;
 	}

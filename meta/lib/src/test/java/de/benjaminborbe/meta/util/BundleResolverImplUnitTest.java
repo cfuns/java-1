@@ -17,4 +17,13 @@ public class BundleResolverImplUnitTest {
 		assertEquals(3, list.size());
 	}
 
+	@Test
+	public void testParse() {
+		final BundleResolverImpl b = new BundleResolverImpl();
+		assertEquals(0, b.parseValue(null).size());
+		assertEquals(0, b.parseValue("").size());
+		assertEquals(1, b.parseValue("  a  ").size());
+		assertEquals(2, b.parseValue("a, b ").size());
+	}
+
 }
