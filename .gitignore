@@ -201,3 +201,4 @@ scala/.cache
 scala_api/target
 scala_gui/target
 scala_test/target
+online/target
