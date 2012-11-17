@@ -41,9 +41,8 @@ public final class FrameworkService {
 
 	private void doStart() throws Exception {
 		try {
-			final Felix tmp = new Felix(createConfig());
-			tmp.start();
-			this.felix = tmp;
+			felix = new Felix(createConfig());
+			felix.start();
 			log("OSGi framework started", null);
 		}
 		catch (final RuntimeException e) {

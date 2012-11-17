@@ -36,6 +36,19 @@
 		<commons.collections.version>3.2.1</commons.collections.version>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>bbreleases</id>
+			<name>Release Repository</name>
+			<url>http://nexus.benjamin-borbe.de/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>bbsnapshots</id>
+			<name>snapshots Repository</name>
+			<url>http://nexus.benjamin-borbe.de/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<profiles>
 		<profile>
 			<id>bridge</id>
@@ -270,6 +283,11 @@
 		</testResources>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-obr-plugin</artifactId>
+					<version>1.2.0</version>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>

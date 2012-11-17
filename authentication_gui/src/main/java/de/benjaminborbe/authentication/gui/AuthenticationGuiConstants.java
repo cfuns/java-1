@@ -22,6 +22,8 @@ public interface AuthenticationGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
+	String PARAMETER_USER_ID = "user_id";
+
 	String PARAMETER_USERNAME = "username";
 
 	String URL_CHANGE_PASSWORD = "/changePassword";
@@ -36,11 +38,14 @@ public interface AuthenticationGuiConstants {
 
 	String URL_STATUS = "/status";
 
+	String URL_SWITCH_USER = "/user/switch";
+
 	String URL_UNREGISTER = "/unregister";
 
 	String URL_USER_LIST = "/user/list";
 
-	String PARAMETER_USER_ID = "user_id";
+	String URL_USER_PROFILE = "/profile";
 
-	String URL_SWITCH_USER = "/user/switch";
+	String PARAMETER_TIMEZONE = "timezone";
+
 }

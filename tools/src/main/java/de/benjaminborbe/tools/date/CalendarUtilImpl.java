@@ -245,7 +245,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar parseSmart(final TimeZone timeZone, final String input) throws ParseException {
-		return parseSmart(timeZone, now(), input);
+		return parseSmart(timeZone, now(timeZone), input);
 	}
 
 	@Override

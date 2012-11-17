@@ -28,4 +28,16 @@ public class AuthenticationGuiLinkFactory {
 				AuthenticationGuiConstants.PARAMETER_USER_ID, String.valueOf(userIdentifier)), "switch user");
 	}
 
+	public String userProfileUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE;
+	}
+
+	public Widget changePassword(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_CHANGE_PASSWORD, "change password");
+	}
+
+	public Widget userProfile(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE, "user profile");
+	}
+
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -134,13 +135,13 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException,
-			LoginRequiredException {
+	public TimeZone getTimeZone(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		return TimeZone.getDefault();
 	}
 
 	@Override
-	public TimeZone getTimeZone(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
-		return TimeZone.getDefault();
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String fullname, final String timeZone) throws AuthenticationServiceException,
+			LoginRequiredException, ValidationException {
 	}
 
 }
