@@ -52,7 +52,12 @@ public abstract class BaseBundleActivator implements BundleActivator {
 				logger.trace("register service with name: " + name + " service: " + service);
 			}
 
-			onStarted();
+			try {
+				onStarted();
+			}
+			catch (final Exception e) {
+				logger.debug("onStarted failed", e);
+			}
 
 			logger.info("starting: " + this.getClass().getName() + " done");
 		}
@@ -86,7 +91,12 @@ public abstract class BaseBundleActivator implements BundleActivator {
 			}
 			serviceRegistrations.clear();
 
-			onStopped();
+			try {
+				onStopped();
+			}
+			catch (final Exception e) {
+				logger.debug("onStopped failed", e);
+			}
 
 			logger.info("stopping: " + this.getClass().getName() + " done");
 		}
