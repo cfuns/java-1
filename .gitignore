@@ -202,4 +202,7 @@ scala_api/target
 scala_gui/target
 scala_test/target
 meta/target
+meta/lib/target
 meta/online/target
+meta/devel/target
+meta/office/target

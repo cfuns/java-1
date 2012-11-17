@@ -11,13 +11,17 @@
 	<packaging>war</packaging>
 	<properties>
 		<includeArtifactIds>org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr, org.apache.felix.configadmin,
-			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr, de.benjaminborbe.api, de.benjaminborbe.html,
-			de.benjaminborbe.authentication, de.benjaminborbe.authentication.api, de.benjaminborbe.authentication.gui, de.benjaminborbe.authorization, de.benjaminborbe.authorization.api,
-			de.benjaminborbe.authorization.gui, de.benjaminborbe.navigation, de.benjaminborbe.navigation.api, de.benjaminborbe.navigation.gui, de.benjaminborbe.storage, de.benjaminborbe.storage.api,
-			de.benjaminborbe.storage.gui, de.benjaminborbe.configuration, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration.gui, de.benjaminborbe.slash, de.benjaminborbe.slash.api,
-			de.benjaminborbe.slash.gui, de.benjaminborbe.lunch, de.benjaminborbe.lunch.api, de.benjaminborbe.lunch.gui</includeArtifactIds>
+			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr, de.benjaminborbe.meta.office</includeArtifactIds>
 	</properties>
 	<build>
 		<finalName>bridge</finalName>
 	</build>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.meta.office</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

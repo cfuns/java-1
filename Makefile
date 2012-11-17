@@ -7,30 +7,26 @@ test:
 	mvn -Pbridge,test test
 installwotest:
 	mvn -Pbridge,tes,test -Dmaven.test.skip=true install
-deploy:
-	make deploydevel
-deployforce:
-	make deploydevelforce
 package:
 	make packagedevel
-deploydevel:
-	cd bridge/war/devel && make deploy
-deploydevelforce:
-	cd bridge/war/devel && make deployforce
+deploy:
+	make deploydevel
 packagedevel:
 	cd bridge/war/devel && make installwotest
+deploydevel:
+	cd bridge/war/devel && make deployforce
 packageobr:
 	cd bridge/war/obr && make installwotest
 deployobr:
-	cd bridge/war/obr && make deploy
-deployobrforce:
 	cd bridge/war/obr && make deployforce
-deployoffice:
-	cd bridge/war/office && make deploy
 packageoffice:
 	cd bridge/war/office && make installwotest
-buildoffice:
-	make packageoffice
+deployoffice:
+	cd bridge/war/office && make deployforce
+packageonline:
+	cd bridge/war/online && make installwotest
+deployonline:
+	cd bridge/war/online && make deployforce
 update:
 	make all deploy
 dllir:

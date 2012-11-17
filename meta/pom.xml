@@ -10,6 +10,9 @@
 	<description>Benjamin Borbe - Meta</description>
 	<packaging>pom</packaging>
 	<modules>
+		<module>lib</module>
 		<module>online</module>
+		<module>office</module>
+		<module>devel</module>
 	</modules>
 </project>
