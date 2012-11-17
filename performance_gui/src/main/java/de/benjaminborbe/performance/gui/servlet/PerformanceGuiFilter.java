@@ -22,13 +22,13 @@ public class PerformanceGuiFilter extends HttpFilter {
 
 	private final DurationUtil durationUtil;
 
-	private final PerformanceService performanceTracker;
+	private final PerformanceService performanceService;
 
 	@Inject
-	public PerformanceGuiFilter(final Logger logger, final DurationUtil durationUtil, final PerformanceService performanceTracker) {
+	public PerformanceGuiFilter(final Logger logger, final DurationUtil durationUtil, final PerformanceService performanceService) {
 		super(logger);
 		this.durationUtil = durationUtil;
-		this.performanceTracker = performanceTracker;
+		this.performanceService = performanceService;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class PerformanceGuiFilter extends HttpFilter {
 		}
 		finally {
 			final long time = duration.getTime();
-			performanceTracker.track(uri, time);
+			performanceService.track(uri, time);
 		}
 	}
 

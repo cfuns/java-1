@@ -33,16 +33,15 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${maven-bundle-plugin.version}</version>				<extensions>true</extensions>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
 				<configuration>
 					<supportedProjectTypes>
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.vaadin.VaadinActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.vaadin.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>Benjamin Borbe - Vaadin</Bundle-Name>
@@ -51,6 +50,10 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Service></Import-Service>
+						<Export-Package>de.benjaminborbe.vaadin.api</Export-Package>
+						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
