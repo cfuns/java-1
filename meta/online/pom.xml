@@ -122,5 +122,11 @@
 			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.osgi.service.obr</artifactId>
+			<version>1.0.2</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>
