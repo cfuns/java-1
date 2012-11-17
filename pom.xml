@@ -46,7 +46,6 @@
       <id>bbsnapshots</id>
       <name>snapshots Repository</name>
       <url>http://nexus.benjamin-borbe.de/nexus/content/repositories/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
   <profiles>
