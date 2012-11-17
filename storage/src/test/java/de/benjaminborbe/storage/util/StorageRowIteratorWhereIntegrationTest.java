@@ -1,6 +1,11 @@
 package de.benjaminborbe.storage.util;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +13,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -17,6 +23,26 @@ import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class StorageRowIteratorWhereIntegrationTest {
+
+	private static boolean notFound;
+
+	@BeforeClass
+	public static void setUpClass() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+
+		final Socket socket = new Socket();
+		final SocketAddress endpoint = new InetSocketAddress(config.getHost(), config.getPort());
+		try {
+			socket.connect(endpoint, 500);
+
+			notFound = !socket.isConnected();
+			notFound = false;
+		}
+		catch (final IOException e) {
+			notFound = true;
+		}
+	}
 
 	@Before
 	public void setUp() {
@@ -30,6 +56,9 @@ public class StorageRowIteratorWhereIntegrationTest {
 
 	@Test
 	public void testPerformance() throws Exception {
+		if (notFound)
+			return;
+
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
@@ -51,7 +80,8 @@ public class StorageRowIteratorWhereIntegrationTest {
 		final Map<String, String> where = new HashMap<String, String>();
 		where.put(key, value);
 
-		final StorageRowIteratorWhere i = new StorageRowIteratorWhere(storageConnectionPool, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, config.getEncoding(), columnNames, where);
+		final StorageRowIteratorWhere i = new StorageRowIteratorWhere(storageConnectionPool, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, config.getEncoding(), columnNames,
+				where);
 		assertTrue(i.hasNext());
 		final StorageRow row = i.next();
 		assertEquals(id, row.getKeyString());
