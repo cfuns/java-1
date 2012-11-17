@@ -1,8 +1,12 @@
 all:
-	mvn -Pbridge install
+	mvn -Pbridge,test install
 clean:
-	mvn clean
+	mvn -Pbridge,test clean
 	find . -name target -type d -exec rm -rf "{}" \;
+test:
+	mvn -Pbridge,test test
+installwotest:
+	mvn -Pbridge,tes,test -Dmaven.test.skip=true install
 deploy:
 	make deploydevel
 deployforce:
@@ -15,20 +19,22 @@ deploydevelforce:
 	cd bridge/war/devel && make deployforce
 packagedevel:
 	cd bridge/war/devel && make installwotest
-builddevel:
-	mak packagedevel
+packageobr:
+	cd bridge/war/obr && make installwotest
+deployobr:
+	cd bridge/war/obr && make deploy
+deployobrforce:
+	cd bridge/war/obr && make deployforce
 deployoffice:
 	cd bridge/war/office && make deploy
 packageoffice:
 	cd bridge/war/office && make installwotest
 buildoffice:
 	make packageoffice
-installwotest:
-	mvn -Pbridge -Dmaven.test.skip=true install
 update:
 	make all deploy
 dllir:
-	find . -type d -d 1 -exec sh -c 'cd {} &&  make dir' \;
+	find . -type d -d 1 -exec sh -c 'cd {} && make dir' \;
 sonar:
 	mvn sonar:sonar
 help:
@@ -39,8 +45,10 @@ telnet:
 	telnet localhost 5555
 uploadoffice:
 	scp bridge/war/office/target/bridge_office.war bborbe@bborbe.devel.lf.seibert-media.net:~/
-test:
-	mvn test
+uploadnexus:
+	mvn -DremoteOBR deploy
+uploadnexusforce:
+	mvn -DremoteOBR -DignoreLock deploy
 osgitest:
 	find . -type d -d 1 -name "*_test" -exec sh -c 'cd {} && make' \;
 guitest:

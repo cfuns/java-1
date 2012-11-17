@@ -35,6 +35,6 @@
 			de.benjaminborbe.gallery, de.benjaminborbe.gallery.api, de.benjaminborbe.gallery.gui, de.benjaminborbe.portfolio, de.benjaminborbe.portfolio.api, de.benjaminborbe.portfolio.gui</includeArtifactIds>
 	</properties>
 	<build>
-		<finalName>bridge_online</finalName>
+		<finalName>bridge</finalName>
 	</build>
 </project>

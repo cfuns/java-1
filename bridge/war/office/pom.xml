@@ -18,6 +18,6 @@
 			de.benjaminborbe.slash.gui, de.benjaminborbe.lunch, de.benjaminborbe.lunch.api, de.benjaminborbe.lunch.gui</includeArtifactIds>
 	</properties>
 	<build>
-		<finalName>bridge_office</finalName>
+		<finalName>bridge</finalName>
 	</build>
 </project>

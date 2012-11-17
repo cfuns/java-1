@@ -38,6 +38,6 @@
 		</includeArtifactIds>
 	</properties>
 	<build>
-		<finalName>bridge_devel</finalName>
+		<finalName>bridge</finalName>
 	</build>
 </project>

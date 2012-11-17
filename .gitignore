@@ -16,6 +16,7 @@ bridge/war/target
 bridge/war/devel/target
 bridge/war/office/target
 bridge/war/online/target
+bridge/war/obr/target
 doc/target
 eventbus/target
 eventbus_api/target
