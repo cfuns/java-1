@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 public class BundleResolverImpl implements BundleResolver {
 
+	private final Logger logger;
+
 	@Inject
-	public BundleResolverImpl() {
-		super();
+	public BundleResolverImpl(final Logger logger) {
+		this.logger = logger;
 	}
 
 	@Override
 	public List<String> getBundleSymbolicNames() {
+		logger.info("getBundleSymbolicNames");
 		final ResourceBundle resourceBundle = ResourceBundle.getBundle("bundles");
 		final String value = resourceBundle.getString("bundles");
 		return parseValue(value);

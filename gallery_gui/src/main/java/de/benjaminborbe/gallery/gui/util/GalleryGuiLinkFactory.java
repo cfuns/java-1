@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
@@ -52,10 +53,9 @@ public class GalleryGuiLinkFactory {
 				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "create entry");
 	}
 
-	public Widget listEntries(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+	public Widget listEntries(final HttpServletRequest request, final GalleryCollection galleryCollection) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "entries");
+				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollection.getId())), galleryCollection.getName());
 	}
 
 	public String entryListUrl(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws UnsupportedEncodingException {

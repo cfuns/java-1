@@ -34,19 +34,19 @@ public class MetaActivator extends BaseBundleActivator {
 		logger.info("onStarted - start");
 		try {
 
+			final RepositoryAdmin repoAdmin = repositoryAdminProvider.get();
+			final Resolver resolver = repoAdmin.resolver();
 			for (final String bundle : bundleResolver.getBundleSymbolicNames()) {
-				deploy(bundle);
+				deploy(repoAdmin, resolver, bundle);
 			}
 		}
 		catch (final Exception e) {
-			e.printStackTrace();
+			logger.warn("deploy bunldes failed!", e);
 		}
 		logger.info("onStarted - end");
 	}
 
-	protected void deploy(final String name) {
-		final RepositoryAdmin repoAdmin = repositoryAdminProvider.get();
-		final Resolver resolver = repoAdmin.resolver();
+	protected void deploy(final RepositoryAdmin repoAdmin, final Resolver resolver, final String name) {
 		final Resource[] resources = repoAdmin.discoverResources("(symbolicname=" + name + ")");
 
 		logger.debug("found " + resources.length + " resources");

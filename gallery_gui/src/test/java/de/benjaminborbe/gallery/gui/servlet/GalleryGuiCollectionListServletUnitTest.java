@@ -124,7 +124,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.replay(urlUtil);
 
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollectionIdentifiers()).andReturn(new HashSet<GalleryCollectionIdentifier>());
+		EasyMock.expect(galleryService.getCollectionIdentifiers(sessionIdentifier)).andReturn(new HashSet<GalleryCollectionIdentifier>());
 		EasyMock.replay(galleryService);
 
 		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);

@@ -122,7 +122,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 		EasyMock.replay(portfolioWidget);
 
 		final GalleryService galleryService = EasyMock.createNiceMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollections()).andReturn(new HashSet<GalleryCollection>());
+		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(new HashSet<GalleryCollection>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioLinkFactory.class);

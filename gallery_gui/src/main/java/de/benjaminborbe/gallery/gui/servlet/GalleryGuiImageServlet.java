@@ -16,10 +16,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
-import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -39,6 +39,8 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public GalleryGuiImageServlet(
 			final Logger logger,
@@ -53,6 +55,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.streamUtil = streamUtil;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -60,14 +63,15 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 		try {
 			final String imageId = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
-			final GalleryImage image = galleryService.getImage(id);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final GalleryImage image = galleryService.getImage(sessionIdentifier, id);
 			logger.info("loaded image " + image);
 			response.setContentType(image.getContentType());
 			final ByteArrayInputStream inputStream = new ByteArrayInputStream(image.getContent());
 			final OutputStream outputStream = response.getOutputStream();
 			streamUtil.copy(inputStream, outputStream);
 		}
-		catch (final GalleryServiceException e) {
+		catch (final Exception e) {
 			response.setContentType("text/plain");
 			final PrintWriter out = response.getWriter();
 			out.println("fail");

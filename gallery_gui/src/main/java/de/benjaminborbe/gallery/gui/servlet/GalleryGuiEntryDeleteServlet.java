@@ -13,6 +13,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -33,6 +35,8 @@ public class GalleryGuiEntryDeleteServlet extends WebsiteServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public GalleryGuiEntryDeleteServlet(
 			final Logger logger,
@@ -45,15 +49,20 @@ public class GalleryGuiEntryDeleteServlet extends WebsiteServlet {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.galleryService = galleryService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryEntryIdentifier galleryEntryIdentifier = galleryService.createEntryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_ENTRY_ID));
-			galleryService.deleteEntry(galleryEntryIdentifier);
+			galleryService.deleteEntry(sessionIdentifier, galleryEntryIdentifier);
 		}
 		catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

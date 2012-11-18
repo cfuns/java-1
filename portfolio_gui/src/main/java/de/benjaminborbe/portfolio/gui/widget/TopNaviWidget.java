@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -31,19 +34,23 @@ public class TopNaviWidget implements Widget {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public TopNaviWidget(final Logger logger, final GalleryService galleryService, final UrlUtil urlUtil) {
+	public TopNaviWidget(final Logger logger, final GalleryService galleryService, final UrlUtil urlUtil, final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.urlUtil = urlUtil;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UlWidget ul = new UlWidget();
 			ul.addAttribute("class", "navi");
-			final List<GalleryCollection> galleries = getGalleries();
+			final List<GalleryCollection> galleries = getGalleries(sessionIdentifier);
 			logger.debug("found " + galleries.size() + " galleries");
 			for (final GalleryCollection gallery : galleries) {
 				ul.add(new GalleryLinkWidget(gallery, urlUtil));
@@ -53,10 +60,13 @@ public class TopNaviWidget implements Widget {
 		catch (final GalleryServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
 	}
 
-	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithEntries());
+	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithEntries(sessionIdentifier));
 		Collections.sort(galleries, new GalleryComparator());
 		return galleries;
 	}

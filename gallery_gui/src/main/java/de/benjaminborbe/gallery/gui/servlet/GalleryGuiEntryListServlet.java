@@ -11,7 +11,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -54,6 +56,8 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 
 	private final GalleryGuiLinkFactory galleryGuiLinkFactory;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public GalleryGuiEntryListServlet(
 			final Logger logger,
@@ -73,6 +77,7 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -84,6 +89,7 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 
@@ -91,8 +97,8 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
 
 			final UlWidget ul = new UlWidget();
-			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryService.getEntryIdentifiers(galleryIdentifier)) {
-				final GalleryEntry entry = galleryService.getEntry(galleryEntryIdentifier);
+			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryService.getEntryIdentifiers(sessionIdentifier, galleryIdentifier)) {
+				final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, entry.getPreviewImageIdentifier())));
 				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntryIdentifier));
@@ -104,6 +110,10 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}

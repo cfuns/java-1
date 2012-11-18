@@ -12,10 +12,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
@@ -47,6 +49,8 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 
 	private final GalleryGuiLinkFactory linkFactory;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public GalleryGuiCollectionListServlet(
 			final Logger logger,
@@ -65,6 +69,7 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 		this.linkFactory = linkFactory;
 		this.galleryService = galleryService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -76,14 +81,15 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			for (final GalleryCollectionIdentifier galleryCollectionIdentifier : galleryService.getCollectionIdentifiers()) {
+			for (final GalleryCollection galleryCollection : galleryService.getCollections(sessionIdentifier)) {
 				final ListWidget list = new ListWidget();
-				list.add(linkFactory.listEntries(request, galleryCollectionIdentifier));
+				list.add(linkFactory.listEntries(request, galleryCollection));
 				list.add(" ");
-				list.add(linkFactory.deleteCollection(request, galleryCollectionIdentifier));
+				list.add(linkFactory.deleteCollection(request, galleryCollection.getId()));
 				ul.add(list);
 			}
 			widgets.add(ul);
@@ -91,6 +97,10 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}

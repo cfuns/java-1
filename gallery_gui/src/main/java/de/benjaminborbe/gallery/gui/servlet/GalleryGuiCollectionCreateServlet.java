@@ -11,7 +11,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -32,6 +34,7 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
@@ -47,6 +50,8 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 	private final Logger logger;
 
 	private final GalleryGuiLinkFactory galleryGuiLinkFactory;
+
+	private final AuthenticationService authenticationService;
 
 	@Inject
 	public GalleryGuiCollectionCreateServlet(
@@ -65,18 +70,20 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 		this.galleryService = galleryService;
 		this.logger = logger;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final String name = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_NAME);
-		final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
-		if (name != null) {
-			try {
-				final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(name);
+		try {
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_NAME);
+			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
+			if (name != null) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, name);
 
 				if (referer != null) {
 					throw new RedirectException(referer);
@@ -85,17 +92,21 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 					throw new RedirectException(galleryGuiLinkFactory.entryListUrl(request, galleryCollectionIdentifier));
 				}
 			}
-			catch (final GalleryServiceException e) {
-				logger.debug(e.getClass().getName(), e);
-				widgets.add("create collection failed");
-			}
+			final FormWidget formWidget = new FormWidget();
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name ..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			widgets.add(formWidget);
+			return widgets;
 		}
-		final FormWidget formWidget = new FormWidget();
-		formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
-		formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name ..."));
-		formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
-		widgets.add(formWidget);
-		return widgets;
+		catch (final GalleryServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
+		}
 	}
 
 	@Override

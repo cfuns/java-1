@@ -15,6 +15,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
@@ -53,6 +55,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final PortfolioLinkFactory portfolioLinkFactory;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public PortfolioGuiGalleryServlet(
 			final Logger logger,
@@ -69,10 +73,12 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.portfolioLinkFactory = portfolioLinkFactory;
+		this.authenticationService = authenticationService;
 	}
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TableWidget table = new TableWidget();
 			table.addId("images");
 
@@ -87,10 +93,10 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			firstCell.setContent(content);
 			row.addCell(firstCell);
 
-			final List<GalleryEntryIdentifier> galleryEntryIdentifiers = getEntries(request);
+			final List<GalleryEntryIdentifier> galleryEntryIdentifiers = getEntries(request, sessionIdentifier);
 			logger.info("galleryEntryIdentifiers: " + galleryEntryIdentifiers.size());
 			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryEntryIdentifiers) {
-				final GalleryEntry entry = galleryService.getEntry(galleryEntryIdentifier);
+				final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
 				final LinkWidget link = new LinkWidget(portfolioLinkFactory.imageLink(request, entry.getImageIdentifier()), new ImageWidget(portfolioLinkFactory.imageLink(request,
 						entry.getPreviewImageIdentifier())));
 				link.addAttribute("rel", "lightbox[set]");
@@ -110,6 +116,10 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
+		}
 	}
 
 	@Override
@@ -119,21 +129,21 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return portfolioWidget;
 	}
 
-	private List<GalleryEntryIdentifier> getEntries(final HttpServletRequest request) throws GalleryServiceException {
+	private List<GalleryEntryIdentifier> getEntries(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		final String galleryId = request.getParameter(PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 		if (galleryId != null) {
 			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
-			return galleryService.getEntryIdentifiers(galleryIdentifier);
+			return galleryService.getEntryIdentifiers(sessionIdentifier, galleryIdentifier);
 		}
 		else {
-			final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections());
+			final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections(sessionIdentifier));
 			Collections.sort(galleries, new GalleryComparator());
 			if (galleries.size() == 0) {
 				return new ArrayList<GalleryEntryIdentifier>();
 			}
 			else {
 				final GalleryCollection gallery = galleries.get(0);
-				return galleryService.getEntryIdentifiers(gallery.getId());
+				return galleryService.getEntryIdentifiers(sessionIdentifier, gallery.getId());
 			}
 		}
 	}

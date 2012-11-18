@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
@@ -23,7 +24,37 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public void deleteEntry(final GalleryEntryIdentifier id) throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsWithEntries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
+	}
+
+	@Override
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String collectionName) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryCollectionIdentifier createCollectionIdentifier(final String id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
+		return null;
 	}
 
 	@Override
@@ -32,42 +63,25 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntry getEntry(final GalleryEntryIdentifier id) throws GalleryServiceException {
+	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
+			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
+			throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final String name) throws GalleryServiceException {
+	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
+			throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public void deleteCollection(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
-	}
-
-	@Override
-	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers() throws GalleryServiceException {
+	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollectionIdentifier(final String id) {
-		return null;
-	}
-
-	@Override
-	public GalleryCollection getCollection(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public List<GalleryEntryIdentifier> getEntryIdentifiers(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public Collection<GalleryCollection> getCollections() throws GalleryServiceException {
-		return null;
+	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
 	}
 
 	@Override
@@ -76,20 +90,7 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
+	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException {
 		return null;
 	}
-
-	@Override
-	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final String imagePreviewName,
-			final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
-			throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public Collection<GalleryCollection> getCollectionsWithEntries() {
-		return null;
-	}
-
 }

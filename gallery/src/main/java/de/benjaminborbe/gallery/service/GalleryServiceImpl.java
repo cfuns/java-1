@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
@@ -62,7 +63,8 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public List<GalleryEntryIdentifier> getEntryIdentifiers(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
+	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier)
+			throws GalleryServiceException {
 		try {
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier);
 			final List<GalleryEntryIdentifier> result = new ArrayList<GalleryEntryIdentifier>(galleryEntryDao.getGalleryImageIdentifiers(galleryIdentifier));
@@ -75,7 +77,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void deleteEntry(final GalleryEntryIdentifier id) throws GalleryServiceException {
+	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
 		try {
 			logger.debug("deleteImage - GalleryImageIdentifier " + id);
 			galleryEntryDao.delete(id);
@@ -92,7 +94,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntry getEntry(final GalleryEntryIdentifier id) throws GalleryServiceException {
+	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
 		try {
 			logger.debug("getImage");
 			final GalleryEntryBean image = galleryEntryDao.load(id);
@@ -104,7 +106,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final String name) throws GalleryServiceException {
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
 		try {
 			logger.debug("createGallery name: " + name);
 			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
@@ -128,11 +130,11 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void deleteCollection(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
+	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("deleteGallery");
 			// delete all images of gallery
-			final List<GalleryEntryIdentifier> images = getEntryIdentifiers(galleryIdentifier);
+			final List<GalleryEntryIdentifier> images = getEntryIdentifiers(sessionIdentifier, galleryIdentifier);
 			for (final GalleryEntryIdentifier image : images) {
 				galleryEntryDao.delete(image);
 			}
@@ -145,7 +147,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers() throws GalleryServiceException {
+	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getGalleryIdentifiers");
 			final List<GalleryCollectionIdentifier> result = new ArrayList<GalleryCollectionIdentifier>();
@@ -164,7 +166,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollection getCollection(final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
+	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getGallery");
 			return galleryCollectionDao.load(galleryIdentifier);
@@ -175,7 +177,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollections() throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getGalleries");
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
@@ -199,7 +201,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
+	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException {
 		try {
 			return galleryImageDao.load(id);
 		}
@@ -209,9 +211,9 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final String imagePreviewName,
-			final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
-			throws GalleryServiceException {
+	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
+			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent,
+			final String imageContentType) throws GalleryServiceException {
 		try {
 
 			final GalleryImageIdentifier imageIdentifier = createImage(imageName, imageContent, imageContentType);
@@ -257,7 +259,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithEntries() throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsWithEntries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getGalleries");
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();

@@ -20,7 +20,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -60,6 +62,8 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public GalleryGuiEntryCreateServlet(
 			final Logger logger,
@@ -76,6 +80,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -140,8 +145,9 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 					final String name = parameter.get(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
 
 					final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
-					final GalleryEntryIdentifier entryIdentifier = galleryService.createEntry(galleryIdentifier, name, imagePreviewName, imagePreviewContent, imagePreviewContentType,
-							imageName, imageContent, imageContentType);
+					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+					final GalleryEntryIdentifier entryIdentifier = galleryService.createEntry(sessionIdentifier, galleryIdentifier, name, imagePreviewName, imagePreviewContent,
+							imagePreviewContentType, imageName, imageContent, imageContentType);
 					widgets.add("images uploaded!");
 					logger.debug("entryIdentifier: " + entryIdentifier);
 				}
@@ -161,6 +167,10 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getSimpleName(), e);
+			return new ExceptionWidget(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getSimpleName(), e);
 			return new ExceptionWidget(e);
 		}

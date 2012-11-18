@@ -64,7 +64,10 @@ public final class FrameworkService {
 
 		final Map<String, Object> map = new HashMap<String, Object>();
 		for (final Entry<Object, Object> entry : props.entrySet()) {
-			map.put(entry.getKey().toString(), entry.getValue());
+			final String key = entry.getKey().toString();
+			final Object value = entry.getValue();
+			map.put(key, value);
+			log("props " + key + " = " + value, null);
 		}
 
 		map.put(FelixConstants.SYSTEMBUNDLE_ACTIVATORS_PROP, Arrays.asList(new ProvisionActivator(context)));

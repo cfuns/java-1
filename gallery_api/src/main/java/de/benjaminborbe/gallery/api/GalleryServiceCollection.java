@@ -2,20 +2,22 @@ package de.benjaminborbe.gallery.api;
 
 import java.util.Collection;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+
 public interface GalleryServiceCollection {
 
-	Collection<GalleryCollection> getCollectionsWithEntries() throws GalleryServiceException;
+	Collection<GalleryCollection> getCollectionsWithEntries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
-	void deleteCollection(GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
+	void deleteCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
 
-	GalleryCollectionIdentifier createCollection(String collectionName) throws GalleryServiceException;
+	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, String collectionName) throws GalleryServiceException;
 
-	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers() throws GalleryServiceException;
+	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
-	Collection<GalleryCollection> getCollections() throws GalleryServiceException;
+	Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
 	GalleryCollectionIdentifier createCollectionIdentifier(String id) throws GalleryServiceException;
 
-	GalleryCollection getCollection(GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException;
+	GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException;
 
 }
