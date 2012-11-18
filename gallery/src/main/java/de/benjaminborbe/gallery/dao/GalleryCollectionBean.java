@@ -20,6 +20,8 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 
 	private Calendar modified;
 
+	private Long priority;
+
 	@Override
 	public GalleryCollectionIdentifier getId() {
 		return id;
@@ -57,6 +59,15 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	@Override
+	public Long getPriority() {
+		return priority;
+	}
+
+	public void setPriority(final Long priority) {
+		this.priority = priority;
 	}
 
 }

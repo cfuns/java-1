@@ -6,7 +6,10 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
@@ -30,11 +33,6 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
-	}
-
-	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String collectionName) throws GalleryServiceException {
-		return null;
 	}
 
 	@Override
@@ -63,13 +61,6 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
-			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
-			throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
 	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
 			throws GalleryServiceException {
 		return null;
@@ -91,6 +82,19 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String collectionName, final Long prio) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority,
+			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 }

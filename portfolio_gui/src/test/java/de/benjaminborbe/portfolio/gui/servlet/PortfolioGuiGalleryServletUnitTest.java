@@ -3,9 +3,11 @@ package de.benjaminborbe.portfolio.gui.servlet;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -23,9 +25,14 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.GalleryComparatorName;
+import de.benjaminborbe.portfolio.gui.util.GalleryComparatorPrio;
 import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -118,18 +125,30 @@ public class PortfolioGuiGalleryServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final PortfolioLayoutWidget portfolioWidget = EasyMock.createNiceMock(PortfolioLayoutWidget.class);
-		EasyMock.replay(portfolioWidget);
+		final PortfolioLayoutWidget portfolioLayoutWidget = EasyMock.createNiceMock(PortfolioLayoutWidget.class);
+		EasyMock.replay(portfolioLayoutWidget);
 
-		final GalleryService galleryService = EasyMock.createNiceMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(new HashSet<GalleryCollection>());
+		final String id = "1337";
+		final GalleryCollectionIdentifier galleryCollectionIdentifier = new GalleryCollectionIdentifier(id);
+		final GalleryCollection collection = EasyMock.createMock(GalleryCollection.class);
+		EasyMock.expect(collection.getName()).andReturn("Portfolio").anyTimes();
+		EasyMock.expect(collection.getId()).andReturn(galleryCollectionIdentifier).anyTimes();
+		EasyMock.replay(collection);
+
+		final List<GalleryCollection> collections = Arrays.asList(collection);
+
+		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
+		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(collections);
+		EasyMock.expect(galleryService.getEntryIdentifiers(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntryIdentifier>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioLinkFactory.class);
 		EasyMock.replay(portfolioLinkFactory);
 
+		final GalleryComparator galleryComparator = new GalleryComparator(new GalleryComparatorName(), new GalleryComparatorPrio());
+
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				portfolioWidget, galleryService, portfolioLinkFactory);
+				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

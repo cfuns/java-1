@@ -11,4 +11,6 @@ public interface GalleryCollection {
 	Calendar getCreated();
 
 	Calendar getModified();
+
+	Long getPriority();
 }

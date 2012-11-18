@@ -2,7 +2,10 @@ package de.benjaminborbe.gallery.api;
 
 import java.util.Collection;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface GalleryServiceCollection {
 
@@ -10,7 +13,8 @@ public interface GalleryServiceCollection {
 
 	void deleteCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
 
-	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, String collectionName) throws GalleryServiceException;
+	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, String collectionName, Long prio) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException;
 
 	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
@@ -18,6 +22,6 @@ public interface GalleryServiceCollection {
 
 	GalleryCollectionIdentifier createCollectionIdentifier(String id) throws GalleryServiceException;
 
-	GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException;
+	GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
 
 }

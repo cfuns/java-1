@@ -16,4 +16,6 @@ public interface GalleryEntry {
 
 	Calendar getModified();
 
+	Long getPriority();
+
 }

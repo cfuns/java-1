@@ -106,15 +106,14 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String name, final Long priority) throws GalleryServiceException {
 		try {
 			logger.debug("createGallery name: " + name);
 			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
 			final GalleryCollectionBean collection = galleryCollectionDao.create();
 			collection.setId(galleryIdentifier);
 			collection.setName(name);
-			collection.setModified(calendarUtil.now());
-			collection.setCreated(calendarUtil.now());
+			collection.setPriority(priority);
 			galleryCollectionDao.save(collection);
 			return galleryIdentifier;
 		}
@@ -212,8 +211,8 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
-			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent,
-			final String imageContentType) throws GalleryServiceException {
+			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+			final byte[] imageContent, final String imageContentType) throws GalleryServiceException {
 		try {
 
 			final GalleryImageIdentifier imageIdentifier = createImage(imageName, imageContent, imageContentType);
@@ -227,8 +226,7 @@ public class GalleryServiceImpl implements GalleryService {
 			entry.setName(entryName);
 			entry.setPreviewImageIdentifier(previewImageIdentifier);
 			entry.setImageIdentifier(imageIdentifier);
-			entry.setModified(calendarUtil.now());
-			entry.setCreated(calendarUtil.now());
+			entry.setPriority(priority);
 			galleryEntryDao.save(entry);
 			logger.debug("createEntry name: " + entryName);
 			return id;

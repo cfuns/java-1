@@ -28,6 +28,8 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	private GalleryImageIdentifier imageIdentifier;
 
+	private Long priority;
+
 	@Override
 	public GalleryEntryIdentifier getId() {
 		return id;
@@ -91,6 +93,15 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	public void setImageIdentifier(final GalleryImageIdentifier imageIdentifier) {
 		this.imageIdentifier = imageIdentifier;
+	}
+
+	@Override
+	public Long getPriority() {
+		return priority;
+	}
+
+	public void setPriority(final Long priority) {
+		this.priority = priority;
 	}
 
 }

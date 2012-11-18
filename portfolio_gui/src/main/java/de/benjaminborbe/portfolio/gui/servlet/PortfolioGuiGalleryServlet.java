@@ -1,6 +1,7 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +48,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private final PortfolioLayoutWidget portfolioWidget;
+	private final Provider<PortfolioLayoutWidget> portfolioWidgetProvider;
 
 	private final GalleryService galleryService;
 
@@ -57,6 +58,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final GalleryComparator galleryComparator;
+
 	@Inject
 	public PortfolioGuiGalleryServlet(
 			final Logger logger,
@@ -65,52 +68,64 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService,
-			final PortfolioLayoutWidget portfolioWidget,
+			final Provider<PortfolioLayoutWidget> portfolioWidgetProvider,
 			final GalleryService galleryService,
-			final PortfolioLinkFactory portfolioLinkFactory) {
+			final PortfolioLinkFactory portfolioLinkFactory,
+			final GalleryComparator galleryComparator) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
-		this.portfolioWidget = portfolioWidget;
+		this.portfolioWidgetProvider = portfolioWidgetProvider;
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.portfolioLinkFactory = portfolioLinkFactory;
 		this.authenticationService = authenticationService;
+		this.galleryComparator = galleryComparator;
 	}
 
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final GalleryCollection galleryCollection)
+			throws GalleryServiceException, UnsupportedEncodingException {
+		final TableWidget table = new TableWidget();
+		table.addId("images");
+
+		final TableRowWidget row = new TableRowWidget();
+		table.addRow(row);
+		final TableCellWidget firstCell = new TableCellWidget();
+		firstCell.addClass("node");
+		firstCell.addClass("start");
+		final DivWidget content = new DivWidget();
+		content.addClass("content");
+		content.addContent(new H1Widget("Portrait"));
+		firstCell.setContent(content);
+		row.addCell(firstCell);
+
+		final List<GalleryEntryIdentifier> galleryEntryIdentifiers = galleryService.getEntryIdentifiers(sessionIdentifier, galleryCollection.getId());
+		logger.info("galleryEntryIdentifiers: " + galleryEntryIdentifiers.size());
+		for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryEntryIdentifiers) {
+			final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
+			final LinkWidget link = new LinkWidget(portfolioLinkFactory.imageLink(request, entry.getImageIdentifier()), new ImageWidget(portfolioLinkFactory.imageLink(request,
+					entry.getPreviewImageIdentifier())));
+			link.addAttribute("rel", "lightbox[set]");
+			final TableCellWidget cell = new TableCellWidget(link);
+			cell.addClass("node");
+			cell.addClass("image");
+			row.addCell(cell);
+		}
+		final TableCellWidget lastcell = new TableCellWidget();
+		lastcell.addClass("node");
+		lastcell.addClass("end");
+		lastcell.setContent(new DivWidget().addClass("content").addContent(new LinkWidget("javascript:resetPosition();", "end")));
+		row.addCell(lastcell);
+		return table;
+	}
+
+	@Override
+	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TableWidget table = new TableWidget();
-			table.addId("images");
-
-			final TableRowWidget row = new TableRowWidget();
-			table.addRow(row);
-			final TableCellWidget firstCell = new TableCellWidget();
-			firstCell.addClass("node");
-			firstCell.addClass("start");
-			final DivWidget content = new DivWidget();
-			content.addClass("content");
-			content.addContent(new H1Widget("Portrait"));
-			firstCell.setContent(content);
-			row.addCell(firstCell);
-
-			final List<GalleryEntryIdentifier> galleryEntryIdentifiers = getEntries(request, sessionIdentifier);
-			logger.info("galleryEntryIdentifiers: " + galleryEntryIdentifiers.size());
-			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryEntryIdentifiers) {
-				final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
-				final LinkWidget link = new LinkWidget(portfolioLinkFactory.imageLink(request, entry.getImageIdentifier()), new ImageWidget(portfolioLinkFactory.imageLink(request,
-						entry.getPreviewImageIdentifier())));
-				link.addAttribute("rel", "lightbox[set]");
-				final TableCellWidget cell = new TableCellWidget(link);
-				cell.addClass("node");
-				cell.addClass("image");
-				row.addCell(cell);
-			}
-			final TableCellWidget lastcell = new TableCellWidget();
-			lastcell.addClass("node");
-			lastcell.addClass("end");
-			lastcell.setContent(new DivWidget().addClass("content").addContent(new LinkWidget("javascript:resetPosition();", "end")));
-			row.addCell(lastcell);
-			return table;
+			final GalleryCollection galleryCollection = getGalleryCollection(request, sessionIdentifier);
+			final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
+			portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
+			portfolioWidget.addContent(createContentWidget(request, sessionIdentifier, galleryCollection));
+			return portfolioWidget;
 		}
 		catch (final GalleryServiceException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -122,28 +137,20 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		}
 	}
 
-	@Override
-	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		portfolioWidget.addTitle("Portfolio - Benjamin Borbe - Gallery");
-		portfolioWidget.addContent(createContentWidget(request, response, context));
-		return portfolioWidget;
-	}
-
-	private List<GalleryEntryIdentifier> getEntries(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	private GalleryCollection getGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		final String galleryId = request.getParameter(PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 		if (galleryId != null) {
-			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
-			return galleryService.getEntryIdentifiers(sessionIdentifier, galleryIdentifier);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
+			return galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier);
 		}
 		else {
 			final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections(sessionIdentifier));
-			Collections.sort(galleries, new GalleryComparator());
-			if (galleries.size() == 0) {
-				return new ArrayList<GalleryEntryIdentifier>();
+			if (galleries.size() > 0) {
+				Collections.sort(galleries, galleryComparator);
+				return galleries.get(0);
 			}
 			else {
-				final GalleryCollection gallery = galleries.get(0);
-				return galleryService.getEntryIdentifiers(sessionIdentifier, gallery.getId());
+				return null;
 			}
 		}
 	}

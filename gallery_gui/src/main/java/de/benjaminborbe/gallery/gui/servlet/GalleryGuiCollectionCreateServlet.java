@@ -10,6 +10,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -27,7 +29,9 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -37,6 +41,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
@@ -52,6 +57,8 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 	private final GalleryGuiLinkFactory galleryGuiLinkFactory;
 
 	private final AuthenticationService authenticationService;
+
+	private final ParseUtil parseUtil;
 
 	@Inject
 	public GalleryGuiCollectionCreateServlet(
@@ -71,6 +78,7 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 		this.logger = logger;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 		this.authenticationService = authenticationService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -81,20 +89,29 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_NAME);
 			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
-			if (name != null) {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, name);
+			final String prioString = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO);
+			if (name != null && prioString != null) {
+				try {
+					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-				if (referer != null) {
-					throw new RedirectException(referer);
+					final GalleryCollectionIdentifier galleryCollectionIdentifier = createCollection(sessionIdentifier, name, prioString);
+
+					if (referer != null) {
+						throw new RedirectException(referer);
+					}
+					else {
+						throw new RedirectException(galleryGuiLinkFactory.entryListUrl(request, galleryCollectionIdentifier));
+					}
 				}
-				else {
-					throw new RedirectException(galleryGuiLinkFactory.entryListUrl(request, galleryCollectionIdentifier));
+				catch (final ValidationException e) {
+					widgets.add("create collection => failed");
+					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO).addLabel("Prio ..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -107,6 +124,25 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
+	}
+
+	private GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String name, final String prioString) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException {
+		Long prio;
+		try {
+			if (prioString == null || prioString.length() == 0) {
+				prio = null;
+			}
+			else {
+				prio = parseUtil.parseLong(prioString);
+			}
+		}
+		catch (final ParseException e) {
+			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("illegal prio")));
+		}
+
+		final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, name, prio);
+		return galleryCollectionIdentifier;
 	}
 
 	@Override

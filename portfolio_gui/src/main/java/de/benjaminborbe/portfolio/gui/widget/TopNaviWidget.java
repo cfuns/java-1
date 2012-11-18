@@ -36,12 +36,20 @@ public class TopNaviWidget implements Widget {
 
 	private final AuthenticationService authenticationService;
 
+	private final GalleryComparator galleryComparator;
+
 	@Inject
-	public TopNaviWidget(final Logger logger, final GalleryService galleryService, final UrlUtil urlUtil, final AuthenticationService authenticationService) {
+	public TopNaviWidget(
+			final Logger logger,
+			final GalleryService galleryService,
+			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
+			final GalleryComparator galleryComparator) {
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
+		this.galleryComparator = galleryComparator;
 	}
 
 	@Override
@@ -67,8 +75,7 @@ public class TopNaviWidget implements Widget {
 
 	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithEntries(sessionIdentifier));
-		Collections.sort(galleries, new GalleryComparator());
+		Collections.sort(galleries, galleryComparator);
 		return galleries;
 	}
-
 }

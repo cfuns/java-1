@@ -34,4 +34,8 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
+	String PARAMETER_COLLECTION_PRIO = "collection_prio";
+
+	Object PARAMETER_ENTRY_PRIO = "entry_prio";
+
 }
