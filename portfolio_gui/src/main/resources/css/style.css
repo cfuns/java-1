@@ -156,3 +156,7 @@ td {
 .textcontent textarea {
 	height: 100px;
 }
+
+.content li {
+	margin-left: 15px;
+}

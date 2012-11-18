@@ -26,6 +26,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
@@ -126,10 +127,15 @@ public class GalleryGuiCollectionListServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final GalleryGroup group = EasyMock.createMock(GalleryGroup.class);
+		EasyMock.expect(group.getName()).andReturn("foo");
+		EasyMock.replay(group);
+
 		final GalleryGroupIdentifier galleryGroupIdentifier = new GalleryGroupIdentifier(groupId);
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
 		EasyMock.expect(galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)).andReturn(new HashSet<GalleryCollection>()).anyTimes();
 		EasyMock.expect(galleryService.createGroupIdentifier(groupId)).andReturn(galleryGroupIdentifier).anyTimes();
+		EasyMock.expect(galleryService.getGroup(sessionIdentifier, galleryGroupIdentifier)).andReturn(group);
 		EasyMock.replay(galleryService);
 
 		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);
@@ -146,6 +152,6 @@ public class GalleryGuiCollectionListServletUnitTest {
 		galleryServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Gallery</h1>") != -1);
+		assertTrue(content.indexOf("<h1>foo - Collections</h1>") != -1);
 	}
 }

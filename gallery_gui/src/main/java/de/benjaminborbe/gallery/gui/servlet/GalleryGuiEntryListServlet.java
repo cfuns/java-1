@@ -16,9 +16,11 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -90,14 +92,16 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(TITLE));
-
 			final String galleryId = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_ID);
-			final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
+			final GalleryCollection galleryCollection = galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier);
+			final GalleryGroup galleryGroup = galleryService.getGroup(sessionIdentifier, galleryCollection.getGroupId());
+
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(galleryGroup.getName() + "/" + galleryCollection.getName() + " - Images"));
 
 			final UlWidget ul = new UlWidget();
-			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryService.getEntryIdentifiers(sessionIdentifier, galleryIdentifier)) {
+			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryService.getEntryIdentifiers(sessionIdentifier, galleryCollectionIdentifier)) {
 				final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, entry.getPreviewImageIdentifier())));
@@ -106,7 +110,7 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			}
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_CREATE, new MapParameter().add(
-					GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryIdentifier)), "upload image"));
+					GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "upload image"));
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {

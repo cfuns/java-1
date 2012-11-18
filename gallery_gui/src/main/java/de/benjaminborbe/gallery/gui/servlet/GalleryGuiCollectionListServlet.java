@@ -18,6 +18,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -43,7 +44,7 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Gallery";
+	private static final String TITLE = "Gallery - Collections";
 
 	private final GalleryService galleryService;
 
@@ -85,10 +86,12 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(TITLE));
-			final UlWidget ul = new UlWidget();
 
 			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_ID));
+			final GalleryGroup galleryGroup = galleryService.getGroup(sessionIdentifier, galleryGroupIdentifier);
+
+			widgets.add(new H1Widget(galleryGroup.getName() + " - Collections"));
+			final UlWidget ul = new UlWidget();
 
 			for (final GalleryCollection galleryCollection : galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)) {
 				final ListWidget list = new ListWidget();

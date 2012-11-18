@@ -41,7 +41,7 @@ public class GalleryGuiGroupListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Gallery";
+	private static final String TITLE = "Gallery - Groups";
 
 	private final GalleryService galleryService;
 
