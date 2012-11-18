@@ -27,5 +27,7 @@ public class GalleryModule extends AbstractModule {
 		bind(GalleryImageDao.class).to(GalleryImageDaoStorage.class).in(Singleton.class);
 		bind(GalleryCollectionDao.class).to(GalleryCollectionDaoStorage.class).in(Singleton.class);
 		bind(GalleryGroupDao.class).to(GalleryGroupDaoStorage.class).in(Singleton.class);
+
+		requestStaticInjection(GalleryValidatorLinker.class);
 	}
 }

@@ -264,6 +264,7 @@ public class GalleryServiceImpl implements GalleryService {
 				logger.warn("createEntry " + errors.toString());
 				throw new ValidationException(errors);
 			}
+
 			galleryEntryDao.save(entry);
 			logger.debug("createEntry name: " + entryName);
 			return id;
