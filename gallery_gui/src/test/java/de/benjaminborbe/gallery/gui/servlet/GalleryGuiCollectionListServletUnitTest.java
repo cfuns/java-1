@@ -58,6 +58,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.replay(response);
 
 		final String sessionId = "324908234890";
+		final String groupId = "123";
 		final HttpSession session = EasyMock.createMock(HttpSession.class);
 		EasyMock.expect(session.getId()).andReturn(sessionId).anyTimes();
 		EasyMock.replay(session);
@@ -69,6 +70,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter("group_id")).andReturn(groupId).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -124,13 +126,14 @@ public class GalleryGuiCollectionListServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final GalleryGroupIdentifier galleryGroupIdentifier = new GalleryGroupIdentifier(groupId);
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(new HashSet<GalleryCollection>()).anyTimes();
+		EasyMock.expect(galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)).andReturn(new HashSet<GalleryCollection>()).anyTimes();
+		EasyMock.expect(galleryService.createGroupIdentifier(groupId)).andReturn(galleryGroupIdentifier).anyTimes();
 		EasyMock.replay(galleryService);
-		final GalleryGroupIdentifier groupId = new GalleryGroupIdentifier("123");
 
 		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);
-		EasyMock.expect(linkFactory.createCollection(request, groupId)).andReturn(new StringWidget(""));
+		EasyMock.expect(linkFactory.createCollection(request, galleryGroupIdentifier)).andReturn(new StringWidget(""));
 		EasyMock.replay(linkFactory);
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
