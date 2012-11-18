@@ -116,7 +116,7 @@ create column family blog_post with
   default_validation_class = UTF8Type;
 
 drop column family gallery_group;
-create column family gallery_group; with
+create column family gallery_group with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;

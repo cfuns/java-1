@@ -12,7 +12,6 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
-import de.benjaminborbe.tools.mapper.SingleMapLong;
 import de.benjaminborbe.tools.mapper.SingleMapString;
 import de.benjaminborbe.tools.mapper.SingleMappler;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -29,7 +28,6 @@ public class GalleryGroupBeanMapper extends SingleMappler<GalleryGroupBean> {
 		final List<SingleMap<GalleryGroupBean>> result = new ArrayList<SingleMap<GalleryGroupBean>>();
 		result.add(new SingleMapGalleryGroupIdentifier<GalleryGroupBean>("id"));
 		result.add(new SingleMapString<GalleryGroupBean>("name"));
-		result.add(new SingleMapLong<GalleryGroupBean>("priority", parseUtil));
 		result.add(new SingleMapCalendar<GalleryGroupBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<GalleryGroupBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
 		return result;

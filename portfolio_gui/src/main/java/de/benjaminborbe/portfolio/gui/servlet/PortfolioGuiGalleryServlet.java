@@ -101,8 +101,10 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		logger.info("galleryEntryIdentifiers: " + galleryEntryIdentifiers.size());
 		for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryEntryIdentifiers) {
 			final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
-			final LinkWidget link = new LinkWidget(portfolioLinkFactory.imageLink(request, entry.getImageIdentifier()), new ImageWidget(portfolioLinkFactory.imageLink(request,
-					entry.getPreviewImageIdentifier())));
+			final String imageUrl = portfolioLinkFactory.imageLink(request, entry.getImageIdentifier());
+			final ImageWidget previewImage = new ImageWidget(portfolioLinkFactory.imageLink(request, entry.getPreviewImageIdentifier()));
+			previewImage.addAlt(imageUrl);
+			final LinkWidget link = new LinkWidget(imageUrl, previewImage);
 			link.addAttribute("rel", "lightbox[set]");
 			final TableCellWidget cell = new TableCellWidget(link);
 			cell.addClass("node");

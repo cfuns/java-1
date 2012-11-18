@@ -91,11 +91,20 @@ public class GalleryServiceImpl implements GalleryService {
 	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
 		try {
 			logger.debug("deleteImage - GalleryImageIdentifier " + id);
+
+			final GalleryEntry entry = getEntry(sessionIdentifier, id);
+			deleteImage(entry.getPreviewImageIdentifier());
+			deleteImage(entry.getImageIdentifier());
+
 			galleryEntryDao.delete(id);
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
+	}
+
+	private void deleteImage(final GalleryImageIdentifier imageIdentifier) throws StorageException {
+		galleryImageDao.delete(imageIdentifier);
 	}
 
 	@Override
@@ -146,10 +155,11 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("deleteGallery");
 			// delete all images of gallery
-			final List<GalleryEntryIdentifier> images = getEntryIdentifiers(sessionIdentifier, galleryIdentifier);
-			for (final GalleryEntryIdentifier image : images) {
-				galleryEntryDao.delete(image);
+			final List<GalleryEntryIdentifier> entries = getEntryIdentifiers(sessionIdentifier, galleryIdentifier);
+			for (final GalleryEntryIdentifier entry : entries) {
+				deleteEntry(sessionIdentifier, entry);
 			}
+
 			// delete gallery
 			galleryCollectionDao.delete(galleryIdentifier);
 		}
@@ -271,6 +281,20 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
+		try {
+			logger.debug("deleteGroup");
+
+			// delete collections
+			for (final GalleryCollection collection : getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)) {
+				deleteCollection(sessionIdentifier, collection.getId());
+			}
+
+			// delete gallery
+			galleryGroupDao.delete(galleryGroupIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
 	}
 
 	@Override
