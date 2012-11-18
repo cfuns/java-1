@@ -14,6 +14,8 @@ import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroup;
+import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -24,11 +26,6 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Inject
 	public GalleryServiceMock() {
-	}
-
-	@Override
-	public Collection<GalleryCollection> getCollectionsWithEntries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		return null;
 	}
 
 	@Override
@@ -92,9 +89,50 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority,
-			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
+			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+			final byte[] imageContent, final String imageContentType) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
+	}
+
+	@Override
+	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryGroupIdentifier createGroupIdentifier(final String id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
+			throws GalleryServiceException {
 		return null;
 	}
 }

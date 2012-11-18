@@ -14,4 +14,8 @@ public interface PortfolioGuiConstants {
 
 	String PARAMETER_IMAGE_ID = "image_id";
 
+	String NAVI_TOP_GROUP_NAME = "naviTop";
+
+	String NAVI_BOTTON_GROUP_NAME = "naviBottom";
+
 }

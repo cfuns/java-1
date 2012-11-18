@@ -8,11 +8,16 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroup;
+import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -21,6 +26,8 @@ import de.benjaminborbe.gallery.dao.GalleryCollectionBean;
 import de.benjaminborbe.gallery.dao.GalleryCollectionDao;
 import de.benjaminborbe.gallery.dao.GalleryEntryBean;
 import de.benjaminborbe.gallery.dao.GalleryEntryDao;
+import de.benjaminborbe.gallery.dao.GalleryGroupBean;
+import de.benjaminborbe.gallery.dao.GalleryGroupDao;
 import de.benjaminborbe.gallery.dao.GalleryImageBean;
 import de.benjaminborbe.gallery.dao.GalleryImageDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -46,6 +53,8 @@ public class GalleryServiceImpl implements GalleryService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final GalleryGroupDao galleryGroupDao;
+
 	@Inject
 	public GalleryServiceImpl(
 			final Logger logger,
@@ -53,12 +62,14 @@ public class GalleryServiceImpl implements GalleryService {
 			final GalleryEntryDao galleryEntryDao,
 			final IdGeneratorUUID idGeneratorUUID,
 			final GalleryImageDao galleryImageDao,
+			final GalleryGroupDao galleryGroupDao,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.galleryCollectionDao = galleryDao;
 		this.galleryEntryDao = galleryEntryDao;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.galleryImageDao = galleryImageDao;
+		this.galleryGroupDao = galleryGroupDao;
 		this.calendarUtil = calendarUtil;
 	}
 
@@ -257,13 +268,115 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithEntries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
+	}
+
+	@Override
+	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
+		try {
+			logger.debug("createGallery name: " + name);
+			final GalleryGroupIdentifier galleryGroupIdentifier = createGroupIdentifier(idGeneratorUUID.nextId());
+			final GalleryGroupBean group = galleryGroupDao.create();
+			group.setId(galleryGroupIdentifier);
+			group.setName(name);
+			galleryGroupDao.save(group);
+			return galleryGroupIdentifier;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		try {
+			logger.debug("getGroupIdentifiers");
+			final List<GalleryGroupIdentifier> result = new ArrayList<GalleryGroupIdentifier>();
+			final IdentifierIterator<GalleryGroupIdentifier> i = galleryGroupDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final IdentifierIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		try {
 			logger.debug("getGalleries");
+			final EntityIterator<GalleryGroupBean> i = galleryGroupDao.getEntityIterator();
+			final List<GalleryGroup> result = new ArrayList<GalleryGroup>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public GalleryGroupIdentifier createGroupIdentifier(final String id) throws GalleryServiceException {
+		logger.debug("createGroupIdentifier");
+		return new GalleryGroupIdentifier(id);
+
+	}
+
+	@Override
+	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
+		try {
+			logger.debug("getGroup");
+			return galleryGroupDao.load(galleryGroupIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+		try {
+			logger.debug("getGroupByName: " + groupName);
+			final EntityIterator<GalleryGroupBean> i = galleryGroupDao.getEntityIterator();
+			while (i.hasNext()) {
+				final GalleryGroupBean group = i.next();
+				if (groupName.equals(group.getName())) {
+					return group.getId();
+				}
+			}
+			return null;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
+			throws GalleryServiceException {
+		try {
+			logger.debug("getCollectionsWithGroup");
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
 			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
 			while (i.hasNext()) {
-				result.add(i.next());
+				final GalleryCollectionBean collection = i.next();
+				if (galleryGroupIdentifier.equals(collection.getGroupId())) {
+					result.add(collection);
+				}
 			}
 			return result;
 		}

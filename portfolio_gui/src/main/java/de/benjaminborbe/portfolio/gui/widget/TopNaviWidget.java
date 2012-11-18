@@ -17,10 +17,12 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.UlWidget;
@@ -74,7 +76,11 @@ public class TopNaviWidget implements Widget {
 	}
 
 	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithEntries(sessionIdentifier));
+		final GalleryGroupIdentifier gi = galleryService.getGroupByName(sessionIdentifier, PortfolioGuiConstants.NAVI_TOP_GROUP_NAME);
+		if (gi == null) {
+			return new ArrayList<GalleryCollection>();
+		}
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithGroup(sessionIdentifier, gi));
 		Collections.sort(galleries, galleryComparator);
 		return galleries;
 	}

@@ -2,20 +2,17 @@ package de.benjaminborbe.gallery.dao;
 
 import java.util.Calendar;
 
-import de.benjaminborbe.gallery.api.GalleryCollection;
-import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier>, GalleryCollection, HasCreated, HasModified {
+public class GalleryGroupBean implements Entity<GalleryGroupIdentifier>, GalleryGroup, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
-	private GalleryCollectionIdentifier id;
-
-	private GalleryGroupIdentifier groupId;
+	private GalleryGroupIdentifier id;
 
 	private String name;
 
@@ -23,15 +20,13 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 
 	private Calendar modified;
 
-	private Long priority;
-
 	@Override
-	public GalleryCollectionIdentifier getId() {
+	public GalleryGroupIdentifier getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final GalleryCollectionIdentifier id) {
+	public void setId(final GalleryGroupIdentifier id) {
 		this.id = id;
 	}
 
@@ -62,24 +57,6 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
-	}
-
-	@Override
-	public Long getPriority() {
-		return priority;
-	}
-
-	public void setPriority(final Long priority) {
-		this.priority = priority;
-	}
-
-	@Override
-	public GalleryGroupIdentifier getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(final GalleryGroupIdentifier groupId) {
-		this.groupId = groupId;
 	}
 
 }

@@ -9,7 +9,9 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface GalleryServiceCollection {
 
-	Collection<GalleryCollection> getCollectionsWithEntries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
+	Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException;
+
+	Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
 	void deleteCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
 
@@ -17,8 +19,6 @@ public interface GalleryServiceCollection {
 			PermissionDeniedException, ValidationException;
 
 	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
-
-	Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
 	GalleryCollectionIdentifier createCollectionIdentifier(String id) throws GalleryServiceException;
 

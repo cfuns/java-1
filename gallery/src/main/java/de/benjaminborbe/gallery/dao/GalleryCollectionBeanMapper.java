@@ -8,6 +8,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.gallery.util.SingleMapGalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.util.SingleMapGalleryGroupIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
@@ -28,6 +29,7 @@ public class GalleryCollectionBeanMapper extends SingleMappler<GalleryCollection
 	private static Collection<SingleMap<GalleryCollectionBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil) {
 		final List<SingleMap<GalleryCollectionBean>> result = new ArrayList<SingleMap<GalleryCollectionBean>>();
 		result.add(new SingleMapGalleryCollectionIdentifier<GalleryCollectionBean>("id"));
+		result.add(new SingleMapGalleryGroupIdentifier<GalleryCollectionBean>("groupId"));
 		result.add(new SingleMapString<GalleryCollectionBean>("name"));
 		result.add(new SingleMapLong<GalleryCollectionBean>("priority", parseUtil));
 		result.add(new SingleMapCalendar<GalleryCollectionBean>("created", timeZoneUtil, calendarUtil, parseUtil));

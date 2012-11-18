@@ -2,17 +2,13 @@ package de.benjaminborbe.gallery.api;
 
 import java.util.Calendar;
 
-public interface GalleryCollection {
+public interface GalleryGroup {
 
-	GalleryCollectionIdentifier getId();
+	GalleryGroupIdentifier getId();
 
 	String getName();
 
 	Calendar getCreated();
 
 	Calendar getModified();
-
-	Long getPriority();
-
-	GalleryGroupIdentifier getGroupId();
 }
