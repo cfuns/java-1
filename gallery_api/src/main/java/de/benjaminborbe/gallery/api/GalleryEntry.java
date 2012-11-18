@@ -6,6 +6,8 @@ public interface GalleryEntry {
 
 	GalleryEntryIdentifier getId();
 
+	GalleryCollectionIdentifier getCollectionId();
+
 	String getName();
 
 	GalleryImageIdentifier getImageIdentifier();

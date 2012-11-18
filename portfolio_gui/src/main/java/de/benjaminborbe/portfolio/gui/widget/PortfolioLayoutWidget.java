@@ -1,15 +1,31 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.HashSet;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.gallery.api.GalleryEntry;
+import de.benjaminborbe.gallery.api.GalleryService;
+import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
+import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
+import de.benjaminborbe.website.link.LinkWidget;
+import de.benjaminborbe.website.table.TableCellWidget;
+import de.benjaminborbe.website.table.TableRowWidget;
+import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
@@ -19,6 +35,7 @@ import de.benjaminborbe.website.widget.BodyWidget;
 import de.benjaminborbe.website.widget.GoogleAnalyticsScriptWidget;
 import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
+import de.benjaminborbe.website.widget.ImageWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 
 public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
@@ -31,10 +48,24 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
 	private Widget content;
 
+	private final Logger logger;
+
+	private final PortfolioLinkFactory portfolioLinkFactory;
+
+	private Collection<GalleryEntry> galleryEntries = new HashSet<GalleryEntry>();
+
 	@Inject
-	public PortfolioLayoutWidget(final TopWidget topWidget, final BottomWidget footerWidget) {
+	public PortfolioLayoutWidget(
+			final TopWidget topWidget,
+			final BottomWidget footerWidget,
+			final PortfolioLinkFactory portfolioLinkFactory,
+			final AuthenticationService authenticationService,
+			final Logger logger,
+			final GalleryService galleryService) {
 		this.topWidget = topWidget;
 		this.footerWidget = footerWidget;
+		this.portfolioLinkFactory = portfolioLinkFactory;
+		this.logger = logger;
 	}
 
 	private CssResource buildCssResource(final HttpServletRequest request, final String path) {
@@ -78,10 +109,57 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
 		final ListWidget widgets = new ListWidget();
 		widgets.add(topWidget);
-		widgets.add(new DivWidget(getContent()).addAttribute("id", "content"));
+		widgets.add(new DivWidget(createContentLayoutWidget(request, response, context)).addAttribute("id", "content"));
 		widgets.add(footerWidget);
 
 		final BodyWidget bodyWidget = new BodyWidget(widgets);
 		return new HtmlWidget(headWidget, bodyWidget);
 	}
+
+	private Widget createContentLayoutWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws GalleryServiceException,
+			UnsupportedEncodingException, AuthenticationServiceException {
+
+		final TableWidget table = new TableWidget();
+		table.addId("images");
+
+		final TableRowWidget row = new TableRowWidget();
+		table.addRow(row);
+		final TableCellWidget firstCell = new TableCellWidget();
+		firstCell.addClass("node");
+		firstCell.addClass("start");
+		final DivWidget content = new DivWidget();
+		content.addClass("content");
+		content.addContent(getContent());
+		firstCell.setContent(content);
+		row.addCell(firstCell);
+
+		final Collection<GalleryEntry> entries = getGalleryEntries();
+		logger.info("entries: " + entries.size());
+		for (final GalleryEntry entry : entries) {
+			final String imageUrl = portfolioLinkFactory.imageLink(request, entry.getImageIdentifier());
+			final ImageWidget previewImage = new ImageWidget(portfolioLinkFactory.imageLink(request, entry.getPreviewImageIdentifier()));
+			previewImage.addAlt(imageUrl);
+			final LinkWidget link = new LinkWidget(imageUrl, previewImage);
+			link.addAttribute("rel", "lightbox[set]");
+			final TableCellWidget cell = new TableCellWidget(link);
+			cell.addClass("node");
+			cell.addClass("image");
+			row.addCell(cell);
+		}
+		final TableCellWidget lastcell = new TableCellWidget();
+		lastcell.addClass("node");
+		lastcell.addClass("end");
+		lastcell.setContent(new DivWidget().addClass("content").addContent(new LinkWidget("javascript:resetPosition();", "end")));
+		row.addCell(lastcell);
+		return table;
+	}
+
+	private Collection<GalleryEntry> getGalleryEntries() {
+		return galleryEntries;
+	}
+
+	public void setGalleryEntries(final Collection<GalleryEntry> galleryEntries) {
+		this.galleryEntries = galleryEntries;
+	}
+
 }

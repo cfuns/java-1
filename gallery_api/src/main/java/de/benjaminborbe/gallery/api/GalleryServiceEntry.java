@@ -1,5 +1,6 @@
 package de.benjaminborbe.gallery.api;
 
+import java.util.Collection;
 import java.util.List;
 
 import de.benjaminborbe.api.ValidationException;
@@ -21,5 +22,7 @@ public interface GalleryServiceEntry {
 	GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, GalleryEntryIdentifier id) throws GalleryServiceException;
 
 	void deleteEntry(final SessionIdentifier sessionIdentifier, GalleryEntryIdentifier id) throws GalleryServiceException;
+
+	Collection<GalleryEntry> getEntries(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException;
 
 }

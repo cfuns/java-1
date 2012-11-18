@@ -245,7 +245,7 @@ public class GalleryServiceImpl implements GalleryService {
 			final GalleryEntryBean entry = galleryEntryDao.create();
 			final GalleryEntryIdentifier id = createEntryIdentifier(idGeneratorUUID.nextId());
 			entry.setId(id);
-			entry.setGalleryIdentifier(galleryCollectionIdentifier);
+			entry.setCollectionId(galleryCollectionIdentifier);
 			entry.setName(entryName);
 			entry.setPreviewImageIdentifier(previewImageIdentifier);
 			entry.setImageIdentifier(imageIdentifier);
@@ -402,6 +402,30 @@ public class GalleryServiceImpl implements GalleryService {
 				final GalleryCollectionBean collection = i.next();
 				if (galleryGroupIdentifier.equals(collection.getGroupId())) {
 					result.add(collection);
+				}
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
+			throws GalleryServiceException {
+
+		try {
+			logger.debug("getCollectionsWithGroup");
+			final EntityIterator<GalleryEntryBean> i = galleryEntryDao.getEntityIterator();
+			final List<GalleryEntry> result = new ArrayList<GalleryEntry>();
+			while (i.hasNext()) {
+				final GalleryEntryBean entry = i.next();
+				if (galleryCollectionIdentifier.equals(entry.getCollectionId())) {
+					result.add(entry);
 				}
 			}
 			return result;

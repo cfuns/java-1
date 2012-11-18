@@ -66,7 +66,7 @@ public class GalleryEntryBeanMapperUnitTest {
 		bean.setModified(modified);
 		bean.setPreviewImageIdentifier(previewImageIdentifier);
 		bean.setImageIdentifier(imageIdentifier);
-		bean.setGalleryIdentifier(galleryIdentifier);
+		bean.setCollectionId(galleryIdentifier);
 		final Map<String, String> data = mapper.map(bean);
 		final GalleryEntryBean newBean = mapper.map(data);
 		assertEquals(id, newBean.getId());
@@ -75,7 +75,7 @@ public class GalleryEntryBeanMapperUnitTest {
 		assertEquals(modified.getTimeInMillis(), newBean.getModified().getTimeInMillis());
 		assertEquals(previewImageIdentifier, newBean.getPreviewImageIdentifier());
 		assertEquals(imageIdentifier, newBean.getImageIdentifier());
-		assertEquals(galleryIdentifier, newBean.getGalleryIdentifier());
+		assertEquals(galleryIdentifier, newBean.getCollectionId());
 
 	}
 }

@@ -36,7 +36,7 @@ public class GalleryEntryBeanMapper extends SingleMappler<GalleryEntryBean> {
 			final Base64Util base64Util) {
 		final List<SingleMap<GalleryEntryBean>> result = new ArrayList<SingleMap<GalleryEntryBean>>();
 		result.add(new SingleMapGalleryEntryIdentifier<GalleryEntryBean>("id"));
-		result.add(new SingleMapGalleryCollectionIdentifier<GalleryEntryBean>("galleryIdentifier"));
+		result.add(new SingleMapGalleryCollectionIdentifier<GalleryEntryBean>("collectionId"));
 		result.add(new SingleMapGalleryImageIdentifier<GalleryEntryBean>("previewImageIdentifier"));
 		result.add(new SingleMapGalleryImageIdentifier<GalleryEntryBean>("imageIdentifier"));
 		result.add(new SingleMapString<GalleryEntryBean>("name"));

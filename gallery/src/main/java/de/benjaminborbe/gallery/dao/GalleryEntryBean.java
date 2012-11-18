@@ -18,7 +18,7 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	private String name;
 
-	private GalleryCollectionIdentifier galleryIdentifier;
+	private GalleryCollectionIdentifier collectionId;
 
 	private Calendar created;
 
@@ -47,14 +47,6 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	public GalleryCollectionIdentifier getGalleryIdentifier() {
-		return galleryIdentifier;
-	}
-
-	public void setGalleryIdentifier(final GalleryCollectionIdentifier galleryIdentifier) {
-		this.galleryIdentifier = galleryIdentifier;
 	}
 
 	@Override
@@ -102,6 +94,15 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	public void setPriority(final Long priority) {
 		this.priority = priority;
+	}
+
+	@Override
+	public GalleryCollectionIdentifier getCollectionId() {
+		return collectionId;
+	}
+
+	public void setCollectionId(final GalleryCollectionIdentifier collectionId) {
+		this.collectionId = collectionId;
 	}
 
 }
