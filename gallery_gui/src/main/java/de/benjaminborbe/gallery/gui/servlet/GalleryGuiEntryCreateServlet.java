@@ -173,6 +173,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_IMAGE_NAME).addLabel("Name").addPlaceholder("name..."));
+			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_PRIO).addLabel("Prio").addPlaceholder("prio..."));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Preview"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT).addLabel("Image"));
 			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
