@@ -25,7 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
@@ -112,8 +112,8 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.replay(userIdentifier);
 
 		final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
-		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
+		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
@@ -124,7 +124,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.replay(urlUtil);
 
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollectionIdentifiers(sessionIdentifier)).andReturn(new HashSet<GalleryCollectionIdentifier>());
+		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(new HashSet<GalleryCollection>()).anyTimes();
 		EasyMock.replay(galleryService);
 
 		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);
