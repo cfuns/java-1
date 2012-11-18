@@ -26,7 +26,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
-import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -139,7 +139,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
 		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(collections);
-		EasyMock.expect(galleryService.getEntryIdentifiers(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntryIdentifier>());
+		EasyMock.expect(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioLinkFactory.class);
