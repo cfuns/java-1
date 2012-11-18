@@ -41,6 +41,8 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public GalleryGuiImageServlet(
 			final Logger logger,
@@ -56,17 +58,31 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 		this.galleryService = galleryService;
 		this.streamUtil = streamUtil;
 		this.authenticationService = authenticationService;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
+			// load image
 			final String imageId = request.getParameter(GalleryGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryImage image = galleryService.getImage(sessionIdentifier, id);
 			logger.info("loaded image " + image);
+
+			// set header
 			response.setContentType(image.getContentType());
+			// seconds
+			final int cacheAge = 24 * 60 * 60;
+			final long expiry = calendarUtil.getTime() + cacheAge * 1000;
+			response.setDateHeader("Expires", expiry);
+			response.setHeader("Cache-Control", "max-age=" + cacheAge);
+
+			response.setDateHeader("Last-Modified", image.getModified().getTimeInMillis());
+			response.setHeader("ETag", id.getId());
+
+			// output image content
 			final ByteArrayInputStream inputStream = new ByteArrayInputStream(image.getContent());
 			final OutputStream outputStream = response.getOutputStream();
 			streamUtil.copy(inputStream, outputStream);
