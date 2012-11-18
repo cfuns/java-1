@@ -8,7 +8,7 @@ import de.benjaminborbe.tools.validation.ValidatorRegistry;
 public class TaskValidatorLinker {
 
 	@Inject
-	public static void link(final ValidatorRegistry validatorRegistry, final TaskValidator bookmarkValidator) {
-		validatorRegistry.register(bookmarkValidator);
+	public static void link(final ValidatorRegistry validatorRegistry, final TaskValidator validator) {
+		validatorRegistry.register(validator);
 	}
 }

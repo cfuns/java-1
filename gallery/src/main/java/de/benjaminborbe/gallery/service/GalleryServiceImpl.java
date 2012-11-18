@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -35,8 +36,8 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
-import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class GalleryServiceImpl implements GalleryService {
@@ -51,9 +52,9 @@ public class GalleryServiceImpl implements GalleryService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
-	private final CalendarUtil calendarUtil;
-
 	private final GalleryGroupDao galleryGroupDao;
+
+	private final ValidationExecutor validationExecutor;
 
 	@Inject
 	public GalleryServiceImpl(
@@ -63,14 +64,14 @@ public class GalleryServiceImpl implements GalleryService {
 			final IdGeneratorUUID idGeneratorUUID,
 			final GalleryImageDao galleryImageDao,
 			final GalleryGroupDao galleryGroupDao,
-			final CalendarUtil calendarUtil) {
+			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.galleryCollectionDao = galleryDao;
 		this.galleryEntryDao = galleryEntryDao;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.galleryImageDao = galleryImageDao;
 		this.galleryGroupDao = galleryGroupDao;
-		this.calendarUtil = calendarUtil;
+		this.validationExecutor = validationExecutor;
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final Long priority) throws GalleryServiceException {
+			final Long priority) throws GalleryServiceException, ValidationException {
 		try {
 			logger.debug("createGallery name: " + name);
 			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
@@ -136,6 +137,13 @@ public class GalleryServiceImpl implements GalleryService {
 			collection.setGroupId(galleryGroupIdentifier);
 			collection.setName(name);
 			collection.setPriority(priority);
+
+			final ValidationResult errors = validationExecutor.validate(collection);
+			if (errors.hasErrors()) {
+				logger.warn("createCollection " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			galleryCollectionDao.save(collection);
 			return galleryIdentifier;
 		}
@@ -235,7 +243,7 @@ public class GalleryServiceImpl implements GalleryService {
 	@Override
 	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
 			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType) throws GalleryServiceException {
+			final byte[] imageContent, final String imageContentType) throws GalleryServiceException, ValidationException {
 		try {
 
 			final GalleryImageIdentifier imageIdentifier = createImage(imageName, imageContent, imageContentType);
@@ -250,6 +258,12 @@ public class GalleryServiceImpl implements GalleryService {
 			entry.setPreviewImageIdentifier(previewImageIdentifier);
 			entry.setImageIdentifier(imageIdentifier);
 			entry.setPriority(priority);
+
+			final ValidationResult errors = validationExecutor.validate(entry);
+			if (errors.hasErrors()) {
+				logger.warn("createEntry " + errors.toString());
+				throw new ValidationException(errors);
+			}
 			galleryEntryDao.save(entry);
 			logger.debug("createEntry name: " + entryName);
 			return id;
@@ -259,7 +273,7 @@ public class GalleryServiceImpl implements GalleryService {
 		}
 	}
 
-	private GalleryImageIdentifier createImage(final String imageName, final byte[] imageContent, final String imageContentType) throws GalleryServiceException {
+	private GalleryImageIdentifier createImage(final String imageName, final byte[] imageContent, final String imageContentType) throws GalleryServiceException, ValidationException {
 		try {
 			logger.debug("createImage");
 			final GalleryImageBean image = galleryImageDao.create();
@@ -268,8 +282,13 @@ public class GalleryServiceImpl implements GalleryService {
 			image.setContentType(imageContentType);
 			image.setContent(imageContent);
 			image.setName(imageName);
-			image.setModified(calendarUtil.now());
-			image.setCreated(calendarUtil.now());
+
+			final ValidationResult errors = validationExecutor.validate(image);
+			if (errors.hasErrors()) {
+				logger.warn("createImage " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			galleryImageDao.save(image);
 			logger.debug("createEntry name: " + imageName);
 			return id;
@@ -306,6 +325,13 @@ public class GalleryServiceImpl implements GalleryService {
 			final GalleryGroupBean group = galleryGroupDao.create();
 			group.setId(galleryGroupIdentifier);
 			group.setName(name);
+
+			final ValidationResult errors = validationExecutor.validate(group);
+			if (errors.hasErrors()) {
+				logger.warn("createGroup " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			galleryGroupDao.save(group);
 			return galleryGroupIdentifier;
 		}
