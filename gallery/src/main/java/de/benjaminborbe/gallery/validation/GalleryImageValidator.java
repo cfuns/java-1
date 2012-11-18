@@ -25,7 +25,7 @@ public class GalleryImageValidator implements Validator<GalleryImageBean> {
 		{
 			final byte[] content = bean.getContent();
 			if (content == null || content.length == 0) {
-				result.add(new ValidationErrorSimple("content missing"));
+				result.add(new ValidationErrorSimple("image-content missing"));
 			}
 		}
 
@@ -33,7 +33,7 @@ public class GalleryImageValidator implements Validator<GalleryImageBean> {
 		{
 			final String contentType = bean.getContentType();
 			if (contentType == null || contentType.length() == 0) {
-				result.add(new ValidationErrorSimple("contentType missing"));
+				result.add(new ValidationErrorSimple("image-contentType missing"));
 			}
 		}
 
