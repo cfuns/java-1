@@ -71,6 +71,7 @@ a {
 
 #logo .photography {
 	font-size: 14px;
+	margin-left: 3px;
 }
 
 #logo .name,#logo .photography {
@@ -116,7 +117,7 @@ a {
 }
 
 .navi li {
-	margin-right: 1px;
+	margin-right: 5px;
 }
 
 .navi a:hover {
