@@ -8,6 +8,10 @@ public abstract class ComparatorBase<E, T extends Comparable<T>> implements Comp
 		return false;
 	}
 
+	public boolean nullFirst() {
+		return true;
+	}
+
 	@Override
 	public int compare(final E o1, final E o2) {
 		final T arg0;
@@ -25,13 +29,24 @@ public abstract class ComparatorBase<E, T extends Comparable<T>> implements Comp
 			return arg0.compareTo(arg1);
 		}
 		else if (arg0 != null && arg1 == null) {
-			return 1;
+			if (nullFirst()) {
+				return 1;
+			}
+			else {
+				return -1;
+			}
 		}
 		else if (arg0 == null && arg1 != null) {
-			return -1;
+			if (nullFirst()) {
+				return -1;
+			}
+			else {
+				return 1;
+			}
 		}
 		return 0;
 	}
 
 	public abstract T getValue(E o);
+
 }
