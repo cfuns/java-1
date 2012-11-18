@@ -13,14 +13,38 @@ import de.benjaminborbe.meta.guice.MetaModules;
 import de.benjaminborbe.meta.util.BundleResolver;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
+import de.benjaminborbe.tools.util.ThreadPoolExecuter;
+import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
 
 public class MetaActivator extends BaseBundleActivator {
+
+	private final class DeployRunnable implements Runnable {
+
+		private final RepositoryAdmin repoAdmin;
+
+		private final String bundle;
+
+		private DeployRunnable(final RepositoryAdmin repoAdmin, final String bundle) {
+			this.repoAdmin = repoAdmin;
+			this.bundle = bundle;
+		}
+
+		@Override
+		public void run() {
+			deploy(repoAdmin, bundle);
+		}
+	}
+
+	private static final int THREAD_AMOUNT = 1;
 
 	@Inject
 	private BundleResolver bundleResolver;
 
 	@Inject
 	private Provider<RepositoryAdmin> repositoryAdminProvider;
+
+	@Inject
+	private ThreadPoolExecuterBuilder threadPoolExecuterBuilder;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -33,12 +57,14 @@ public class MetaActivator extends BaseBundleActivator {
 
 		logger.info("onStarted - start");
 		try {
+			final ThreadPoolExecuter threadPoolExecuter = threadPoolExecuterBuilder.build("obr deploy bundle", THREAD_AMOUNT);
 
 			final RepositoryAdmin repoAdmin = repositoryAdminProvider.get();
-			final Resolver resolver = repoAdmin.resolver();
 			for (final String bundle : bundleResolver.getBundleSymbolicNames()) {
-				deploy(repoAdmin, resolver, bundle);
+				threadPoolExecuter.execute(new DeployRunnable(repoAdmin, bundle));
 			}
+
+			threadPoolExecuter.shutDown();
 		}
 		catch (final Exception e) {
 			logger.warn("deploy bunldes failed!", e);
@@ -46,7 +72,8 @@ public class MetaActivator extends BaseBundleActivator {
 		logger.info("onStarted - end");
 	}
 
-	protected void deploy(final RepositoryAdmin repoAdmin, final Resolver resolver, final String name) {
+	protected void deploy(final RepositoryAdmin repoAdmin, final String name) {
+		final Resolver resolver = repoAdmin.resolver();
 		final Resource[] resources = repoAdmin.discoverResources("(symbolicname=" + name + ")");
 
 		logger.debug("found " + resources.length + " resources");
@@ -62,6 +89,5 @@ public class MetaActivator extends BaseBundleActivator {
 				}
 			}
 		}
-
 	}
 }

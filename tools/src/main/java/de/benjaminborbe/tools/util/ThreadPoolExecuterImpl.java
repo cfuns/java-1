@@ -1,27 +1,29 @@
 package de.benjaminborbe.tools.util;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class ThreadPoolExecuterImpl implements ThreadPoolExecuter {
 
-	// This is the one who manages and start the work
-	private final ThreadPoolExecutor threadPool;
+	private final class ThreadFactoryImpl implements ThreadFactory {
 
-	// Working queue for jobs (Runnable). We add them finally here
-	private final ArrayBlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(5);
+		private final String threadName;
 
-	public ThreadPoolExecuterImpl(final String threadName, final int corePoolSize, final int maxPoolSize, final long keepAliveTime) {
-		threadPool = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS, workQueue);
-		threadPool.setThreadFactory(new ThreadFactory() {
+		private ThreadFactoryImpl(String threadName) {
+			this.threadName = threadName;
+		}
 
-			@Override
-			public Thread newThread(final Runnable runnable) {
-				return new Thread(runnable, threadName);
-			}
-		});
+		@Override
+		public Thread newThread(final Runnable runnable) {
+			return new Thread(runnable, threadName);
+		}
+	}
+
+	private final ExecutorService threadPool;
+
+	public ThreadPoolExecuterImpl(final String threadName, final int threadAmount) {
+		threadPool = Executors.newFixedThreadPool(threadAmount, new ThreadFactoryImpl(threadName));
 	}
 
 	@Override

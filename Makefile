@@ -213,3 +213,5 @@ buildeventbus:
 	cd eventbus_test && make all
 buildmeta:
 	cd meta && make all
+buildbridge:
+	cd bridge && make all

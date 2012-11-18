@@ -15,7 +15,6 @@ public class LogglyServiceImpl implements LogglyService {
 	@Inject
 	public LogglyServiceImpl(final Provider<LogglyConnector> logglyConnectorProvider) {
 		this.logglyConnectorProvider = logglyConnectorProvider;
-
 	}
 
 	@Override

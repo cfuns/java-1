@@ -42,11 +42,9 @@ public class ThreadPoolExecuterBuilderIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final ThreadPoolExecuterBuilder threadPoolExecuterBuilder = injector.getInstance(ThreadPoolExecuterBuilder.class);
 		final String threadName = "test";
-		final int corePoolSize = 100;
-		final int maxPoolSize = 100;
-		final long keepAliveTime = 100;
 		final Counter counter = new Counter();
-		final ThreadPoolExecuter threadPoolExecuter = threadPoolExecuterBuilder.build(threadName, corePoolSize, maxPoolSize, keepAliveTime);
+		final int threadAmount = 10;
+		final ThreadPoolExecuter threadPoolExecuter = threadPoolExecuterBuilder.build(threadName, threadAmount);
 		final long limit = 100;
 		for (long i = 0; i < limit; ++i) {
 			threadPoolExecuter.execute(new RunnableImplementation(counter));
