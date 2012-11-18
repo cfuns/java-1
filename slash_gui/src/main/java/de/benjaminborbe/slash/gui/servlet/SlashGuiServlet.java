@@ -64,4 +64,10 @@ public class SlashGuiServlet extends WebsiteServlet {
 			return request.getContextPath() + "/" + DEFAULT_TARGET;
 		}
 	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
+	}
+
 }
