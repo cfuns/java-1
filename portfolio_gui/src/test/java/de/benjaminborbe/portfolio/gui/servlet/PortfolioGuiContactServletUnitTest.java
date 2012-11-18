@@ -3,6 +3,7 @@ package de.benjaminborbe.portfolio.gui.servlet;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +22,12 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntry;
+import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -116,8 +121,15 @@ public class PortfolioGuiContactServletUnitTest {
 		final PortfolioLayoutWidget portfolioWidget = EasyMock.createNiceMock(PortfolioLayoutWidget.class);
 		EasyMock.replay(portfolioWidget);
 
+		final String id = "123";
+		final GalleryCollectionIdentifier galleryCollectionIdentifier = new GalleryCollectionIdentifier(id);
+		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
+		EasyMock.expect(galleryService.getCollectionIdentifierByName(sessionIdentifier, PortfolioGuiConstants.COLLECTION_NAME_CONTACT)).andReturn(galleryCollectionIdentifier);
+		EasyMock.expect(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
+		EasyMock.replay(galleryService);
+
 		final PortfolioGuiContactServlet servlet = new PortfolioGuiContactServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				portfolioWidget);
+				portfolioWidget, galleryService);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

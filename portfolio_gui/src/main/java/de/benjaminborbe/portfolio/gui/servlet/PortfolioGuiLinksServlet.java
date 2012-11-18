@@ -13,14 +13,21 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryService;
+import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
@@ -32,6 +39,10 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 
 	private final PortfolioLayoutWidget portfolioWidget;
 
+	private final GalleryService galleryService;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public PortfolioGuiLinksServlet(
 			final Logger logger,
@@ -40,9 +51,12 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService,
-			final PortfolioLayoutWidget portfolioWidget) {
+			final PortfolioLayoutWidget portfolioWidget,
+			final GalleryService galleryService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.portfolioWidget = portfolioWidget;
+		this.authenticationService = authenticationService;
+		this.galleryService = galleryService;
 	}
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
@@ -65,9 +79,22 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		portfolioWidget.addTitle("Portfolio - Benjamin Borbe - Links");
-		portfolioWidget.addContent(createContentWidget(request, response, context));
-		return portfolioWidget;
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByName(sessionIdentifier, PortfolioGuiConstants.COLLECTION_NAME_LINKS);
+			if (galleryCollectionIdentifier != null) {
+				portfolioWidget.setGalleryEntries(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier));
+			}
+			portfolioWidget.addTitle("Links - Benjamin Borbe");
+			portfolioWidget.addContent(createContentWidget(request, response, context));
+			return portfolioWidget;
+		}
+		catch (final AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		}
+		catch (final GalleryServiceException e) {
+			return new ExceptionWidget(e);
+		}
 	}
 
 	@Override

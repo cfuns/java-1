@@ -140,4 +140,9 @@ public class GalleryServiceMock implements GalleryService {
 	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) {
 		return null;
 	}
+
+	@Override
+	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+		return null;
+	}
 }

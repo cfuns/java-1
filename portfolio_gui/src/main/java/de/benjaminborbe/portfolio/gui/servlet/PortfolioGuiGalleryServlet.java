@@ -72,6 +72,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryCollection galleryCollection = getGalleryCollection(request, sessionIdentifier);
 			final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
+			portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
 			portfolioWidget.addContent(new H1Widget(galleryCollection.getName()));
 			portfolioWidget.setGalleryEntries(galleryService.getEntries(sessionIdentifier, galleryCollection.getId()));
 			return portfolioWidget;

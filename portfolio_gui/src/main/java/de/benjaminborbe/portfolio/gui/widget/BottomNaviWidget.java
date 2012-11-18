@@ -43,7 +43,7 @@ public class BottomNaviWidget implements Widget {
 	}
 
 	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final GalleryGroupIdentifier gi = galleryService.getGroupByName(sessionIdentifier, PortfolioGuiConstants.NAVI_BOTTON_GROUP_NAME);
+		final GalleryGroupIdentifier gi = galleryService.getGroupByName(sessionIdentifier, PortfolioGuiConstants.GROUP_NAME_NAVI_BOTTON);
 		if (gi == null) {
 			return new ArrayList<GalleryCollection>();
 		}

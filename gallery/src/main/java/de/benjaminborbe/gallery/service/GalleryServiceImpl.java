@@ -437,4 +437,25 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}
+
+	@Override
+	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+		try {
+			logger.debug("getCollectionIdentifierByName: " + name);
+			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
+			while (i.hasNext()) {
+				final GalleryCollectionBean bean = i.next();
+				if (name.equals(bean.getName())) {
+					return bean.getId();
+				}
+			}
+			return null;
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+	}
 }

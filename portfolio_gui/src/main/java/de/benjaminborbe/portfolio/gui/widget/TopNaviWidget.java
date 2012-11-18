@@ -76,7 +76,7 @@ public class TopNaviWidget implements Widget {
 	}
 
 	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final GalleryGroupIdentifier gi = galleryService.getGroupByName(sessionIdentifier, PortfolioGuiConstants.NAVI_TOP_GROUP_NAME);
+		final GalleryGroupIdentifier gi = galleryService.getGroupByName(sessionIdentifier, PortfolioGuiConstants.GROUP_NAME_NAVI_TOP);
 		if (gi == null) {
 			return new ArrayList<GalleryCollection>();
 		}
