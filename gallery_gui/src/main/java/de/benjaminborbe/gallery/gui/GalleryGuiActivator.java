@@ -12,6 +12,9 @@ import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupCreateServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupListServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryListServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
@@ -46,6 +49,15 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Inject
 	private GalleryGuiImageServlet galleryGuiImageServlet;
 
+	@Inject
+	private GalleryGuiGroupCreateServlet galleryGuiGroupCreateServlet;
+
+	@Inject
+	private GalleryGuiGroupDeleteServlet galleryGuiGroupDeleteServlet;
+
+	@Inject
+	private GalleryGuiGroupListServlet galleryGuiGroupListServlet;
+
 	public GalleryGuiActivator() {
 		super(GalleryGuiConstants.NAME);
 	}
@@ -58,6 +70,9 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(galleryGuiGroupCreateServlet, GalleryGuiConstants.URL_GROUP_CREATE));
+		result.add(new ServletInfo(galleryGuiGroupDeleteServlet, GalleryGuiConstants.URL_GROUP_DELETE));
+		result.add(new ServletInfo(galleryGuiGroupListServlet, GalleryGuiConstants.URL_GROUP_LIST));
 		result.add(new ServletInfo(galleryGuiCollectionCreateServlet, GalleryGuiConstants.URL_COLLECTION_CREATE));
 		result.add(new ServletInfo(galleryGuiCollectionDeleteServlet, GalleryGuiConstants.URL_COLLECTION_DELETE));
 		result.add(new ServletInfo(galleryGuiCollectionListServlet, GalleryGuiConstants.URL_COLLECTION_LIST));

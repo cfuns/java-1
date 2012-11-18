@@ -15,8 +15,8 @@ public interface GalleryServiceCollection {
 
 	void deleteCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
 
-	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, String collectionName, Long prio) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException;
+	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String collectionName, Long prio)
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 

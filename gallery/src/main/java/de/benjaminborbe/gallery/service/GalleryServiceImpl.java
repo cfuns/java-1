@@ -117,12 +117,14 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String name, final Long priority) throws GalleryServiceException {
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
+			final Long priority) throws GalleryServiceException {
 		try {
 			logger.debug("createGallery name: " + name);
 			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
 			final GalleryCollectionBean collection = galleryCollectionDao.create();
 			collection.setId(galleryIdentifier);
+			collection.setGroupId(galleryGroupIdentifier);
 			collection.setName(name);
 			collection.setPriority(priority);
 			galleryCollectionDao.save(collection);

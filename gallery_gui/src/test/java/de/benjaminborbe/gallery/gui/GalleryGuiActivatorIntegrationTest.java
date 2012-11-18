@@ -47,6 +47,9 @@ public class GalleryGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_CREATE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_DELETE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_LIST);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_CREATE);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_DELETE);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_LIST);

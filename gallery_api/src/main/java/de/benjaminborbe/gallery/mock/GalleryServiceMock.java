@@ -83,8 +83,8 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final String collectionName, final Long prio) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName,
+			final Long prio) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 

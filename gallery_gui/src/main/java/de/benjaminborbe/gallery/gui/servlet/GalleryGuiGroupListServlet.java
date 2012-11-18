@@ -17,11 +17,9 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.gallery.api.GalleryCollection;
-import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
-import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -39,7 +37,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
+public class GalleryGuiGroupListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -54,7 +52,7 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public GalleryGuiCollectionListServlet(
+	public GalleryGuiGroupListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -87,18 +85,15 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-
-			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_ID));
-
-			for (final GalleryCollection galleryCollection : galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)) {
+			for (final GalleryGroup galleryGroup : galleryService.getGroups(sessionIdentifier)) {
 				final ListWidget list = new ListWidget();
-				list.add(linkFactory.listEntries(request, galleryCollection));
+				list.add(linkFactory.listCollections(request, galleryGroup));
 				list.add(" ");
-				list.add(linkFactory.deleteCollection(request, galleryCollection.getId()));
+				list.add(linkFactory.deleteGroup(request, galleryGroup.getId()));
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createCollection(request, galleryGroupIdentifier));
+			widgets.add(linkFactory.createGroup(request));
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {
