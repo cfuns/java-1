@@ -39,10 +39,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.authentication.api.*</Export-Package>
 						<Bundle-Activator>de.benjaminborbe.authentication.AuthenticationApiActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.authentication.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>Benjamin Borbe - Authentication-Api</Bundle-Name>
@@ -51,6 +48,9 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Private-Package>de.benjaminborbe.authentication.*</Private-Package>
+						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Export-Package>de.benjaminborbe.authentication.api.*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
