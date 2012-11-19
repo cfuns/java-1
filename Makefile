@@ -40,7 +40,7 @@ findwrongnamedtests:
 telnet:
 	telnet localhost 5555
 uploadoffice:
-	scp bridge/war/office/target/bridge_office.war bborbe@bborbe.devel.lf.seibert-media.net:~/
+	scp bridge/war/office/target/bridge.war bborbe@bborbe.devel.lf.seibert-media.net:~/
 uploadonline:
 	scp bridge/war/online/target/bridge.war bborbe@10.4.0.21:~/
 	scp bridge/war/online/target/bridge.war bborbe@10.4.0.22:~/

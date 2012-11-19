@@ -7,6 +7,6 @@ public class TaskContextComparator extends ComparatorBase<TaskContext, String> {
 
 	@Override
 	public String getValue(final TaskContext o) {
-		return o.getName();
+		return o.getName() != null ? o.getName().toLowerCase() : o.getName();
 	}
 }
