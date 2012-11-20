@@ -1,4 +1,4 @@
-package de.benjaminborbe.gallery.gui.servlet;
+package de.benjaminborbe.portfolio.gui.servlet;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -20,8 +20,8 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
-import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -29,7 +29,7 @@ import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 
 @Singleton
-public class GalleryGuiImageServlet extends WebsiteServlet {
+public class PortfolioGuiImageServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -46,7 +46,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 	private final UrlUtil urlUtil;
 
 	@Inject
-	public GalleryGuiImageServlet(
+	public PortfolioGuiImageServlet(
 			final Logger logger,
 			final GalleryService galleryService,
 			final StreamUtil streamUtil,
@@ -68,7 +68,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
 			// load image
-			final String imageId = urlUtil.parseId(request, GalleryGuiConstants.PARAMETER_IMAGE_ID);
+			final String imageId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryImage image = galleryService.getImage(sessionIdentifier, id);
@@ -76,11 +76,6 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 
 			// set header
 			response.setContentType(image.getContentType());
-			// seconds
-			final int cacheAge = 24 * 60 * 60;
-			final long expiry = calendarUtil.getTime() + cacheAge * 1000;
-			response.setDateHeader("Expires", expiry);
-			response.setHeader("Cache-Control", "max-age=" + cacheAge);
 
 			response.setDateHeader("Last-Modified", image.getModified().getTimeInMillis());
 			response.setHeader("ETag", id.getId());

@@ -47,6 +47,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final GalleryComparator galleryComparator;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public PortfolioGuiGalleryServlet(
 			final Logger logger,
@@ -64,6 +66,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		this.portfolioWidgetProvider = portfolioWidgetProvider;
 		this.galleryService = galleryService;
 		this.galleryComparator = galleryComparator;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -91,7 +94,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 	}
 
 	private GalleryCollection getGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final String galleryId = request.getParameter(PortfolioGuiConstants.PARAMETER_GALLERY_ID);
+		final String galleryId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 		if (galleryId != null) {
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
 			return galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier);

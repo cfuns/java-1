@@ -9,10 +9,14 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioCacheFilter;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiImageServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiLinksServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiGalleryServlet;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -20,13 +24,22 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private PortfolioGuiGalleryServlet portfolioGuiServlet;
+	private PortfolioGuiServlet portfolioGuiServlet;
+
+	@Inject
+	private PortfolioGuiGalleryServlet portfolioGuiGalleryServlet;
 
 	@Inject
 	private PortfolioGuiContactServlet portfolioGuiContactServlet;
 
 	@Inject
 	private PortfolioGuiLinksServlet portfolioGuiLinksServlet;
+
+	@Inject
+	private PortfolioGuiImageServlet portfolioGuiImageServlet;
+
+	@Inject
+	private PortfolioCacheFilter portfolioCacheFilter;
 
 	public PortfolioGuiActivator() {
 		super(PortfolioGuiConstants.NAME);
@@ -41,8 +54,17 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(portfolioGuiServlet, PortfolioGuiConstants.URL_HOME));
+		result.add(new ServletInfo(portfolioGuiGalleryServlet, PortfolioGuiConstants.URL_GALLERY));
 		result.add(new ServletInfo(portfolioGuiContactServlet, PortfolioGuiConstants.URL_CONTACT));
+		result.add(new ServletInfo(portfolioGuiImageServlet, PortfolioGuiConstants.URL_IMAGE));
 		result.add(new ServletInfo(portfolioGuiLinksServlet, PortfolioGuiConstants.URL_LINKS));
+		return result;
+	}
+
+	@Override
+	protected Collection<FilterInfo> getFilterInfos() {
+		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
+		result.add(new FilterInfo(portfolioCacheFilter, ".*", 500, true));
 		return result;
 	}
 

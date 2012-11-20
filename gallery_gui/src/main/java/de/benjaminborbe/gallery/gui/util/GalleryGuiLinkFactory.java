@@ -86,7 +86,10 @@ public class GalleryGuiLinkFactory {
 	}
 
 	public String createImage(final HttpServletRequest request, final GalleryImageIdentifier imageIdentifier) throws UnsupportedEncodingException {
-		return urlUtil.buildUrl(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE,
-				new MapParameter().add(GalleryGuiConstants.PARAMETER_IMAGE_ID, String.valueOf(imageIdentifier)));
+		// return urlUtil.buildUrl(request.getContextPath() + "/" + GalleryGuiConstants.NAME +
+		// GalleryGuiConstants.URL_IMAGE,
+		// new MapParameter().add(GalleryGuiConstants.PARAMETER_IMAGE_ID,
+		// String.valueOf(imageIdentifier)));
+		return request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE + "/" + String.valueOf(imageIdentifier);
 	}
 }

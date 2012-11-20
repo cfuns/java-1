@@ -2,6 +2,9 @@ package de.benjaminborbe.tools.url;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 public class UrlUtilImplUnitTest {
@@ -47,5 +50,31 @@ public class UrlUtilImplUnitTest {
 		assertEquals("/foo", urlUtil.removeTailingSlash("/foo"));
 		assertEquals("/foo", urlUtil.removeTailingSlash("/foo/"));
 		assertEquals("/foo", urlUtil.removeTailingSlash("/foo//"));
+	}
+
+	@Test
+	public void testParseImageId() throws Exception {
+		final UrlUtil urlUtil = new UrlUtilImpl();
+		final String parameterName = "foo";
+		{
+			final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+			EasyMock.expect(request.getParameter(parameterName)).andReturn("123");
+			EasyMock.replay(request);
+			assertEquals("123", urlUtil.parseId(request, parameterName));
+		}
+		{
+			final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+			EasyMock.expect(request.getParameter(parameterName)).andReturn(null);
+			EasyMock.expect(request.getRequestURI()).andReturn("/bla/content/123");
+			EasyMock.replay(request);
+			assertEquals("123", urlUtil.parseId(request, parameterName));
+		}
+		{
+			final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+			EasyMock.expect(request.getParameter(parameterName)).andReturn(null);
+			EasyMock.expect(request.getRequestURI()).andReturn("/bla/content/123.jpg");
+			EasyMock.replay(request);
+			assertEquals("123", urlUtil.parseId(request, parameterName));
+		}
 	}
 }

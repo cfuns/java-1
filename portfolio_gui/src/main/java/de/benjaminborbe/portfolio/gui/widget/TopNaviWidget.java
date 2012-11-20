@@ -24,7 +24,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
-import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -32,26 +32,26 @@ public class TopNaviWidget implements Widget {
 
 	private final GalleryService galleryService;
 
-	private final UrlUtil urlUtil;
-
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
 
 	private final GalleryComparator galleryComparator;
 
+	private final PortfolioLinkFactory portfolioLinkFactory;
+
 	@Inject
 	public TopNaviWidget(
 			final Logger logger,
 			final GalleryService galleryService,
-			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
-			final GalleryComparator galleryComparator) {
+			final GalleryComparator galleryComparator,
+			final PortfolioLinkFactory portfolioLinkFactory) {
 		this.logger = logger;
 		this.galleryService = galleryService;
-		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
 		this.galleryComparator = galleryComparator;
+		this.portfolioLinkFactory = portfolioLinkFactory;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class TopNaviWidget implements Widget {
 			final List<GalleryCollection> galleries = getGalleries(sessionIdentifier);
 			logger.debug("found " + galleries.size() + " galleries");
 			for (final GalleryCollection gallery : galleries) {
-				ul.add(new GalleryLinkWidget(gallery, urlUtil));
+				ul.add(portfolioLinkFactory.createGallery(request, gallery));
 			}
 			ul.render(request, response, context);
 		}

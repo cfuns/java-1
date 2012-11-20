@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -79,5 +81,27 @@ public class UrlUtilImpl implements UrlUtil {
 		else {
 			return path;
 		}
+	}
+
+	@Override
+	public String parseId(final HttpServletRequest request, final String parameterName) {
+		final String id = request.getParameter(parameterName);
+		if (id != null && id.length() > 0) {
+			return id;
+		}
+		final String uri = request.getRequestURI();
+		if (uri != null && uri.length() > 0) {
+			final int slashPos = uri.lastIndexOf('/');
+			if (slashPos != -1) {
+				final int dotPos = uri.indexOf('.', slashPos);
+				if (dotPos != -1) {
+					return uri.substring(slashPos + 1, dotPos);
+				}
+				else {
+					return uri.substring(slashPos + 1);
+				}
+			}
+		}
+		return null;
 	}
 }

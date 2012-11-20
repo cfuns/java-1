@@ -4,10 +4,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -30,6 +28,7 @@ import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
 import de.benjaminborbe.portfolio.gui.util.GalleryComparatorName;
 import de.benjaminborbe.portfolio.gui.util.GalleryComparatorPrio;
@@ -122,23 +121,23 @@ public class PortfolioGuiGalleryServletUnitTest {
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
 		EasyMock.replay(redirectUtil);
 
+		final String id = "1337";
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.expect(urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID)).andReturn(id);
 		EasyMock.replay(urlUtil);
 
 		final PortfolioLayoutWidget portfolioLayoutWidget = EasyMock.createNiceMock(PortfolioLayoutWidget.class);
 		EasyMock.replay(portfolioLayoutWidget);
 
-		final String id = "1337";
 		final GalleryCollectionIdentifier galleryCollectionIdentifier = new GalleryCollectionIdentifier(id);
 		final GalleryCollection collection = EasyMock.createMock(GalleryCollection.class);
 		EasyMock.expect(collection.getName()).andReturn("Portfolio").anyTimes();
 		EasyMock.expect(collection.getId()).andReturn(galleryCollectionIdentifier).anyTimes();
 		EasyMock.replay(collection);
 
-		final List<GalleryCollection> collections = Arrays.asList(collection);
-
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollections(sessionIdentifier)).andReturn(collections);
+		EasyMock.expect(galleryService.createCollectionIdentifier(id)).andReturn(galleryCollectionIdentifier);
+		EasyMock.expect(galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier)).andReturn(collection);
 		EasyMock.expect(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 

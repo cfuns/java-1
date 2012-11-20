@@ -47,8 +47,10 @@ public class PortfolioGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + PortfolioGuiConstants.NAME);
+		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_HOME);
+		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_GALLERY);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_CONTACT);
+		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_IMAGE);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_LINKS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
@@ -68,7 +70,9 @@ public class PortfolioGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/portfolio.*");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/portfolio.*");
+		paths.add("/portfolio.*");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterFilterCallCounter());
 		for (final String path : paths) {
 			assertTrue("no filter for path " + path + " registered", extHttpServiceMock.hasFilterPath(path));
