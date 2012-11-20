@@ -80,7 +80,7 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 		final HttpSession session = request.getSession();
 		final long counter = parseUtil.parseLong(String.valueOf(session.getAttribute(SESSION_KEY)), 0);
 		widgets.add("Counter: " + counter);
-		session.setAttribute(SESSION_KEY, String.valueOf(counter));
+		session.setAttribute(SESSION_KEY, String.valueOf(counter + 1));
 		return widgets;
 	}
 
