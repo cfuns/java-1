@@ -41,8 +41,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final CalendarUtil calendarUtil;
-
 	private final UrlUtil urlUtil;
 
 	@Inject
@@ -60,7 +58,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 		this.galleryService = galleryService;
 		this.streamUtil = streamUtil;
 		this.authenticationService = authenticationService;
-		this.calendarUtil = calendarUtil;
 		this.urlUtil = urlUtil;
 	}
 

@@ -3,6 +3,7 @@
 	version="3.0">
 	<display-name>BB Osgi-Bridge</display-name>
 	<description>BB Osgi-Bridge</description>
+	<destributable/>
 	<welcome-file-list>
 		<welcome-file>/</welcome-file>
 	</welcome-file-list>

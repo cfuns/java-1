@@ -12,6 +12,7 @@ import de.benjaminborbe.slash.gui.guice.SlashGuiModules;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiLogFilter;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiRobotsTxtServlet;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiServlet;
+import de.benjaminborbe.slash.gui.servlet.SlashGuiSessionTestServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -27,7 +28,10 @@ public class SlashGuiActivator extends HttpBundleActivator {
 	private SlashGuiLogFilter slashLogFilter;
 
 	@Inject
-	private SlashGuiRobotsTxtServlet robotsTxtServlet;
+	private SlashGuiRobotsTxtServlet slashRobotsTxtServlet;
+
+	@Inject
+	private SlashGuiSessionTestServlet slashGuiSessionTestServlet;
 
 	public SlashGuiActivator() {
 		super("");
@@ -42,7 +46,8 @@ public class SlashGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(slashServlet, "/"));
-		result.add(new ServletInfo(robotsTxtServlet, "/robots.txt"));
+		result.add(new ServletInfo(slashRobotsTxtServlet, "/robots.txt"));
+		result.add(new ServletInfo(slashGuiSessionTestServlet, "/sessionTest"));
 		return result;
 	}
 
