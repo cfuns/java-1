@@ -63,7 +63,7 @@ public class PortfolioCacheFilter extends HttpFilter {
 		try {
 			final String uri = request.getRequestURI();
 			if (isCacheable(uri)) {
-				logger.info("cache: " + uri);
+				logger.debug("cache: " + uri);
 				final int days = 7;
 				// seconds
 				final int cacheAge = days * 24 * 60 * 60;
@@ -72,7 +72,7 @@ public class PortfolioCacheFilter extends HttpFilter {
 				response.setHeader("Cache-Control", "max-age=" + cacheAge);
 			}
 			else {
-				logger.info("not cache: " + uri);
+				logger.debug("not cache: " + uri);
 			}
 		}
 		finally {
