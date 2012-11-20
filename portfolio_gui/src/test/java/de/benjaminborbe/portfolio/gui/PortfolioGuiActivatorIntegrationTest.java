@@ -47,7 +47,6 @@ public class PortfolioGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_HOME);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_GALLERY);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_CONTACT);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_IMAGE);

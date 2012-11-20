@@ -134,7 +134,7 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 		row.addCell(firstCell);
 
 		final Collection<GalleryEntry> entries = getGalleryEntries();
-		logger.info("entries: " + entries.size());
+		logger.debug("entries: " + entries.size());
 		for (final GalleryEntry entry : entries) {
 			final String imageUrl = portfolioLinkFactory.imageLink(request, entry.getImageIdentifier());
 			final ImageWidget previewImage = new ImageWidget(portfolioLinkFactory.imageLink(request, entry.getPreviewImageIdentifier()));

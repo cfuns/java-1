@@ -27,8 +27,7 @@ public class PortfolioCacheFilter extends HttpFilter {
 		this.calendarUtil = calendarUtil;
 	}
 
-	private boolean isCacheable(final HttpServletRequest request) {
-		final String uri = request.getRequestURI();
+	private boolean isCacheable(final String uri) {
 		if (uri.indexOf(PortfolioGuiConstants.URL_IMAGE) != -1) {
 			return true;
 		}
@@ -61,13 +60,23 @@ public class PortfolioCacheFilter extends HttpFilter {
 
 	@Override
 	public void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
-		filterChain.doFilter(request, response);
-		if (isCacheable(request)) {
-			// seconds
-			final int cacheAge = 24 * 60 * 60;
-			final long expiry = calendarUtil.getTime() + cacheAge * 1000;
-			response.setDateHeader("Expires", expiry);
-			response.setHeader("Cache-Control", "max-age=" + cacheAge);
+		try {
+			final String uri = request.getRequestURI();
+			if (isCacheable(uri)) {
+				logger.info("cache: " + uri);
+				final int days = 7;
+				// seconds
+				final int cacheAge = days * 24 * 60 * 60;
+				final long expiry = calendarUtil.getTime() + cacheAge * 1000;
+				response.setDateHeader("Expires", expiry);
+				response.setHeader("Cache-Control", "max-age=" + cacheAge);
+			}
+			else {
+				logger.info("not cache: " + uri);
+			}
+		}
+		finally {
+			filterChain.doFilter(request, response);
 		}
 	}
 

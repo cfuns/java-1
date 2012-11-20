@@ -14,7 +14,6 @@ import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiImageServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiLinksServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiGalleryServlet;
-import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -22,9 +21,6 @@ import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PortfolioGuiActivator extends HttpBundleActivator {
-
-	@Inject
-	private PortfolioGuiServlet portfolioGuiServlet;
 
 	@Inject
 	private PortfolioGuiGalleryServlet portfolioGuiGalleryServlet;
@@ -53,7 +49,6 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(portfolioGuiServlet, PortfolioGuiConstants.URL_HOME));
 		result.add(new ServletInfo(portfolioGuiGalleryServlet, PortfolioGuiConstants.URL_GALLERY));
 		result.add(new ServletInfo(portfolioGuiContactServlet, PortfolioGuiConstants.URL_CONTACT));
 		result.add(new ServletInfo(portfolioGuiImageServlet, PortfolioGuiConstants.URL_IMAGE));

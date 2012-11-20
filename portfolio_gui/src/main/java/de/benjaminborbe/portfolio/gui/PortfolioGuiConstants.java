@@ -18,9 +18,7 @@ public interface PortfolioGuiConstants {
 
 	String URL_CONTACT = "/contact";
 
-	String URL_GALLERY = "/gallery";
-
-	String URL_HOME = "/";
+	String URL_GALLERY = "/";
 
 	String URL_IMAGE = "/image";
 

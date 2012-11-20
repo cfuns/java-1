@@ -33,6 +33,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
 public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
@@ -48,6 +49,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 	private final GalleryComparator galleryComparator;
 
 	private final UrlUtil urlUtil;
+
+	private final PortfolioLinkFactory portfolioLinkFactory;
 
 	@Inject
 	public PortfolioGuiGalleryServlet(
@@ -67,18 +70,27 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		this.galleryService = galleryService;
 		this.galleryComparator = galleryComparator;
 		this.urlUtil = urlUtil;
+		this.portfolioLinkFactory = portfolioLinkFactory;
 	}
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
+			final String galleryId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryCollection galleryCollection = getGalleryCollection(request, sessionIdentifier);
-			final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
-			portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
-			portfolioWidget.addContent(new H1Widget(galleryCollection.getName()));
-			portfolioWidget.setGalleryEntries(galleryService.getEntries(sessionIdentifier, galleryCollection.getId()));
-			return portfolioWidget;
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
+			final GalleryCollection galleryCollection = galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier);
+			if (galleryCollection == null) {
+				final String target = portfolioLinkFactory.createGalleryUrl(request, getDefaultGalleryCollection(request, sessionIdentifier));
+				return new RedirectWidget(target);
+			}
+			else {
+				final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
+				portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
+				portfolioWidget.addContent(new H1Widget(galleryCollection.getName()));
+				portfolioWidget.setGalleryEntries(galleryService.getEntries(sessionIdentifier, galleryCollection.getId()));
+				return portfolioWidget;
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
@@ -93,22 +105,14 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return false;
 	}
 
-	private GalleryCollection getGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final String galleryId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID);
-		if (galleryId != null) {
-			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
-			return galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier);
+	private GalleryCollection getDefaultGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections(sessionIdentifier));
+		if (galleries.size() > 0) {
+			Collections.sort(galleries, galleryComparator);
+			return galleries.get(0);
 		}
 		else {
-			final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollections(sessionIdentifier));
-			if (galleries.size() > 0) {
-				Collections.sort(galleries, galleryComparator);
-				return galleries.get(0);
-			}
-			else {
-				return null;
-			}
+			return null;
 		}
 	}
-
 }

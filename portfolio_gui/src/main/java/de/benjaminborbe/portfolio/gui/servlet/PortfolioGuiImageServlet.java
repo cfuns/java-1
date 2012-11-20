@@ -69,7 +69,7 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryImage image = galleryService.getImage(sessionIdentifier, id);
-			logger.info("loaded image " + image);
+			logger.debug("loaded image " + image);
 
 			// set header
 			response.setContentType(image.getContentType());
