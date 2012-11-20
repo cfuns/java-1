@@ -40,8 +40,7 @@ public class LinkRelativWidget extends LinkWidget {
 		url.append("://");
 		url.append(request.getServerName());
 		url.append(request.getContextPath());
-		url.append(path);
+		url.append(path.replaceAll("//", "/"));
 		return new URL(url.toString());
 	}
-
 }
