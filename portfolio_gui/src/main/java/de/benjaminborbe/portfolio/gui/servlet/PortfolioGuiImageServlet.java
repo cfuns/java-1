@@ -1,11 +1,10 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +24,6 @@ import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 
 @Singleton
@@ -34,8 +32,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 	private static final long serialVersionUID = -5013723680643328782L;
 
 	private final GalleryService galleryService;
-
-	private final StreamUtil streamUtil;
 
 	private final Logger logger;
 
@@ -47,7 +43,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 	public PortfolioGuiImageServlet(
 			final Logger logger,
 			final GalleryService galleryService,
-			final StreamUtil streamUtil,
 			final UrlUtil urlUtil,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -56,7 +51,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.galleryService = galleryService;
-		this.streamUtil = streamUtil;
 		this.authenticationService = authenticationService;
 		this.urlUtil = urlUtil;
 	}
@@ -78,9 +72,10 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 			response.setHeader("ETag", id.getId());
 
 			// output image content
-			final ByteArrayInputStream inputStream = new ByteArrayInputStream(image.getContent());
-			final OutputStream outputStream = response.getOutputStream();
-			streamUtil.copy(inputStream, outputStream);
+			final byte[] content = image.getContent();
+			response.setContentLength(content.length);
+			final ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(content);
 		}
 		catch (final Exception e) {
 			response.setContentType("text/plain");
