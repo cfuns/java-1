@@ -18,17 +18,17 @@ import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
 import de.benjaminborbe.website.util.UlWidget;
 
 public class BottomNaviWidget implements Widget {
 
 	private final GalleryService galleryService;
 
-	private final GalleryComparator galleryComparator;
+	private final PortfolioGuiGalleryComparator galleryComparator;
 
 	@Inject
-	public BottomNaviWidget(final GalleryService galleryService, final GalleryComparator galleryComparator) {
+	public BottomNaviWidget(final GalleryService galleryService, final PortfolioGuiGalleryComparator galleryComparator) {
 		this.galleryService = galleryService;
 		this.galleryComparator = galleryComparator;
 	}

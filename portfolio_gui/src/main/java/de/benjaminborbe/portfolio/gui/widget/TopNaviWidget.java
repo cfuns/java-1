@@ -23,8 +23,8 @@ import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
-import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -36,17 +36,17 @@ public class TopNaviWidget implements Widget {
 
 	private final AuthenticationService authenticationService;
 
-	private final GalleryComparator galleryComparator;
+	private final PortfolioGuiGalleryComparator galleryComparator;
 
-	private final PortfolioLinkFactory portfolioLinkFactory;
+	private final PortfolioGuiLinkFactory portfolioLinkFactory;
 
 	@Inject
 	public TopNaviWidget(
 			final Logger logger,
 			final GalleryService galleryService,
 			final AuthenticationService authenticationService,
-			final GalleryComparator galleryComparator,
-			final PortfolioLinkFactory portfolioLinkFactory) {
+			final PortfolioGuiGalleryComparator galleryComparator,
+			final PortfolioGuiLinkFactory portfolioLinkFactory) {
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.authenticationService = authenticationService;

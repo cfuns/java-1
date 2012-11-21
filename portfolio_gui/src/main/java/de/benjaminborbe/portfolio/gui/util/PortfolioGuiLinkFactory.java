@@ -16,12 +16,12 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
-public class PortfolioLinkFactory {
+public class PortfolioGuiLinkFactory {
 
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public PortfolioLinkFactory(final UrlUtil urlUtil, final CalendarUtil calendarUtil) {
+	public PortfolioGuiLinkFactory(final UrlUtil urlUtil, final CalendarUtil calendarUtil) {
 		this.calendarUtil = calendarUtil;
 	}
 

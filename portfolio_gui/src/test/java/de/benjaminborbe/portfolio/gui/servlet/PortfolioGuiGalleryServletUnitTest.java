@@ -29,10 +29,10 @@ import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
-import de.benjaminborbe.portfolio.gui.util.GalleryComparatorName;
-import de.benjaminborbe.portfolio.gui.util.GalleryComparatorPrio;
-import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparatorName;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparatorPrio;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -141,10 +141,10 @@ public class PortfolioGuiGalleryServletUnitTest {
 		EasyMock.expect(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 
-		final PortfolioLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioLinkFactory.class);
+		final PortfolioGuiLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioGuiLinkFactory.class);
 		EasyMock.replay(portfolioLinkFactory);
 
-		final GalleryComparator galleryComparator = new GalleryComparator(new GalleryComparatorName(), new GalleryComparatorPrio());
+		final PortfolioGuiGalleryComparator galleryComparator = new PortfolioGuiGalleryComparator(new PortfolioGuiGalleryComparatorName(), new PortfolioGuiGalleryComparatorPrio());
 
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
 				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator);

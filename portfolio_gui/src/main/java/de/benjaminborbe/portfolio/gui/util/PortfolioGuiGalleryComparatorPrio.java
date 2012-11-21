@@ -3,7 +3,7 @@ package de.benjaminborbe.portfolio.gui.util;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.tools.util.ComparatorBase;
 
-public class GalleryComparatorPrio extends ComparatorBase<GalleryCollection, Long> {
+public class PortfolioGuiGalleryComparatorPrio extends ComparatorBase<GalleryCollection, Long> {
 
 	@Override
 	public Long getValue(final GalleryCollection o) {

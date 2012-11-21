@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
-import de.benjaminborbe.portfolio.gui.servlet.PortfolioCacheFilter;
+import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiCacheFilter;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiImageServlet;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiLinksServlet;
@@ -35,7 +35,7 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 	private PortfolioGuiImageServlet portfolioGuiImageServlet;
 
 	@Inject
-	private PortfolioCacheFilter portfolioCacheFilter;
+	private PortfolioGuiCacheFilter portfolioCacheFilter;
 
 	public PortfolioGuiActivator() {
 		super(PortfolioGuiConstants.NAME);

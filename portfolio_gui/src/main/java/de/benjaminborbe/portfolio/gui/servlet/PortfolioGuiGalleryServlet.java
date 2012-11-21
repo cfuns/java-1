@@ -24,8 +24,8 @@ import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.GalleryComparator;
-import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -46,11 +46,11 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final GalleryComparator galleryComparator;
+	private final PortfolioGuiGalleryComparator galleryComparator;
 
 	private final UrlUtil urlUtil;
 
-	private final PortfolioLinkFactory portfolioLinkFactory;
+	private final PortfolioGuiLinkFactory portfolioLinkFactory;
 
 	@Inject
 	public PortfolioGuiGalleryServlet(
@@ -62,8 +62,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final AuthenticationService authenticationService,
 			final Provider<PortfolioLayoutWidget> portfolioWidgetProvider,
 			final GalleryService galleryService,
-			final PortfolioLinkFactory portfolioLinkFactory,
-			final GalleryComparator galleryComparator) {
+			final PortfolioGuiLinkFactory portfolioLinkFactory,
+			final PortfolioGuiGalleryComparator galleryComparator) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.authenticationService = authenticationService;
 		this.portfolioWidgetProvider = portfolioWidgetProvider;

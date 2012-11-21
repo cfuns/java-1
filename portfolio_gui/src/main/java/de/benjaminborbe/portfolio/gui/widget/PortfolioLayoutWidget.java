@@ -21,7 +21,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.table.TableCellWidget;
 import de.benjaminborbe.website.table.TableRowWidget;
@@ -50,7 +50,7 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
 	private final Logger logger;
 
-	private final PortfolioLinkFactory portfolioLinkFactory;
+	private final PortfolioGuiLinkFactory portfolioLinkFactory;
 
 	private Collection<GalleryEntry> galleryEntries = new HashSet<GalleryEntry>();
 
@@ -58,7 +58,7 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 	public PortfolioLayoutWidget(
 			final TopWidget topWidget,
 			final BottomWidget footerWidget,
-			final PortfolioLinkFactory portfolioLinkFactory,
+			final PortfolioGuiLinkFactory portfolioLinkFactory,
 			final AuthenticationService authenticationService,
 			final Logger logger,
 			final GalleryService galleryService) {

@@ -11,13 +11,13 @@ import org.junit.Test;
 
 import de.benjaminborbe.gallery.api.GalleryCollection;
 
-public class GalleryComparatorUnitTest {
+public class PortfolioGuiGalleryComparatorUnitTest {
 
 	@Test
 	public void testSort() throws Exception {
-		final GalleryComparatorName galleryComparatorName = new GalleryComparatorName();
-		final GalleryComparatorPrio galleryComparatorPrio = new GalleryComparatorPrio();
-		final GalleryComparator galleryComparator = new GalleryComparator(galleryComparatorName, galleryComparatorPrio);
+		final PortfolioGuiGalleryComparatorName galleryComparatorName = new PortfolioGuiGalleryComparatorName();
+		final PortfolioGuiGalleryComparatorPrio galleryComparatorPrio = new PortfolioGuiGalleryComparatorPrio();
+		final PortfolioGuiGalleryComparator galleryComparator = new PortfolioGuiGalleryComparator(galleryComparatorName, galleryComparatorPrio);
 
 		{
 			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();

@@ -9,16 +9,16 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.portfolio.gui.util.PortfolioLinkFactory;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
 public class CopyrightWidget implements Widget {
 
-	private final PortfolioLinkFactory portfolioLinkFactory;
+	private final PortfolioGuiLinkFactory portfolioLinkFactory;
 
 	@Inject
-	public CopyrightWidget(final PortfolioLinkFactory portfolioLinkFactory) {
+	public CopyrightWidget(final PortfolioGuiLinkFactory portfolioLinkFactory) {
 		this.portfolioLinkFactory = portfolioLinkFactory;
 	}
 

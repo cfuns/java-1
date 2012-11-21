@@ -5,11 +5,11 @@ import com.google.inject.Inject;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.tools.util.ComparatorChain;
 
-public class GalleryComparator extends ComparatorChain<GalleryCollection> {
+public class PortfolioGuiGalleryComparator extends ComparatorChain<GalleryCollection> {
 
 	@SuppressWarnings("unchecked")
 	@Inject
-	public GalleryComparator(final GalleryComparatorName galleryComparatorName, final GalleryComparatorPrio galleryComparatorPrio) {
+	public PortfolioGuiGalleryComparator(final PortfolioGuiGalleryComparatorName galleryComparatorName, final PortfolioGuiGalleryComparatorPrio galleryComparatorPrio) {
 		super(galleryComparatorPrio, galleryComparatorName);
 	}
 
