@@ -32,6 +32,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
@@ -117,8 +118,7 @@ public class AuthenticationGuiLoginServletUnitTest {
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
 		EasyMock.replay(redirectUtil);
 
-		final UrlUtil urlUtil = EasyMock.createNiceMock(UrlUtil.class);
-		EasyMock.replay(urlUtil);
+		final UrlUtil urlUtil = new UrlUtilImpl();
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
