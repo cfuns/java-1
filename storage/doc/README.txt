@@ -4,7 +4,9 @@
 
 connect localhost/9160;
 
-create keyspace bb;
+CREATE KEYSPACE bb WITH
+placement_strategy = 'SimpleStrategy'
+AND strategy_options = {replication_factor:2};
 
 use bb;
 

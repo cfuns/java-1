@@ -18,7 +18,7 @@ public class RedirectWidget implements Widget {
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		response.sendRedirect(target);
+		response.sendRedirect(target.replaceAll("//", "/"));
 	}
 
 }
