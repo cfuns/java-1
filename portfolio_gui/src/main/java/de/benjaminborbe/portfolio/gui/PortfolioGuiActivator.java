@@ -59,7 +59,7 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<FilterInfo> getFilterInfos() {
 		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-		result.add(new FilterInfo(portfolioCacheFilter, ".*", 500, true));
+		result.add(new FilterInfo(portfolioCacheFilter, ".*", 500));
 		return result;
 	}
 
