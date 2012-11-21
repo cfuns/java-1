@@ -6,7 +6,7 @@ clean:
 test:
 	mvn -Pbridge,test test
 installwotest:
-	mvn -Pbridge,tes,test -Dmaven.test.skip=true install
+	mvn -Pbridge,test -Dmaven.test.skip=true install
 package:
 	make packagedevel
 deploy:

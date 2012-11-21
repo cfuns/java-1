@@ -65,6 +65,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 
 	private final HtmlUtil htmlUtil;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public TaskGuiTaskViewServlet(
 			final Logger logger,
@@ -87,6 +89,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		this.authenticationService = authenticationService;
 		this.taskGuiUtil = taskGuiUtil;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -172,6 +175,15 @@ public class TaskGuiTaskViewServlet extends TaskGuiHtmlServlet {
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
+
+		if (task.getStart() != null) {
+			widgets.add(new DivWidget("Start: " + calendarUtil.toDateTimeString(task.getStart())
+					+ (task.getRepeatStart() != null ? " (repeat in + " + task.getRepeatStart() + " days)" : "")));
+		}
+		if (task.getDue() != null) {
+			widgets.add(new DivWidget("Due: " + calendarUtil.toDateTimeString(task.getDue()) + (task.getRepeatDue() != null ? " (repeat in + " + task.getRepeatDue() + " days)" : "")));
+		}
+
 		widgets.add(new PreWidget(buildDescription(task.getDescription())));
 		if (Boolean.TRUE.equals(task.getCompleted())) {
 			widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));

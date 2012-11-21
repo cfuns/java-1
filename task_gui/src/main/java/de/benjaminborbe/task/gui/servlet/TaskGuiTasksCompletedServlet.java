@@ -129,7 +129,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
 					row.add(calendarUtil.toDateTimeString(task.getCompletionDate()));
 					row.add(" ");
 
-					row.add(new SpanWidget(taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task, TaskGuiConstants.PARENT_NAME_LENGTH)).addAttribute("class", "taskTitle"));
+					final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
+					row.add(new SpanWidget(taskGuiLinkFactory.viewTask(request, taskName, task)).addAttribute("class", "taskTitle"));
 					row.add(" ");
 
 					final ListWidget options = new ListWidget();
