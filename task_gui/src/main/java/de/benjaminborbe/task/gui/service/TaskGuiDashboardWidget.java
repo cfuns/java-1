@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,10 +84,11 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			// top tasks
 			{
 				final UlWidget ul = new UlWidget();
+				final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
 				final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
 				final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
-				final List<Task> tasks = taskGuiUtil.filterStart(childTasks);
+				final List<Task> tasks = taskGuiUtil.filterStart(childTasks, timeZone);
 
 				for (final Task task : tasks.subList(0, Math.min(tasks.size(), 5))) {
 					final ListWidget row = new ListWidget();

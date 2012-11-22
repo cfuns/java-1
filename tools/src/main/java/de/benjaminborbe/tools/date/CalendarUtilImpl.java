@@ -228,6 +228,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 		return calendar;
 	}
 
+	@Override
 	public Calendar onlyDay(final Calendar calendar) {
 		if (calendar != null) {
 			calendar.set(Calendar.HOUR_OF_DAY, 0);

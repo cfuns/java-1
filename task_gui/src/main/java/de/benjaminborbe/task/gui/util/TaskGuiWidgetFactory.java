@@ -4,8 +4,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
 
 import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
@@ -20,6 +23,7 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.DivWidget;
@@ -34,46 +38,38 @@ public class TaskGuiWidgetFactory {
 
 	private final TaskGuiUtil taskGuiUtil;
 
-	private final TaskDueTodayPredicate taskDueTodayPredicate;
+	private final CalendarUtil calendarUtil;
 
-	private final TaskDueExpiredPredicate taskDueExpiredPredicate;
-
-	private final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate;
-
-	private final TaskStartReadyPredicate taskStartReadyPredicate;
+	private final Logger logger;
 
 	@Inject
-	public TaskGuiWidgetFactory(
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiUtil taskGuiUtil,
-			final TaskDueTodayPredicate taskDueTodayPredicate,
-			final TaskDueExpiredPredicate taskDueExpiredPredicate,
-			final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate,
-			final TaskStartReadyPredicate taskStartReadyPredicate) {
+	public TaskGuiWidgetFactory(final Logger logger, final TaskGuiLinkFactory taskGuiLinkFactory, final TaskGuiUtil taskGuiUtil, final CalendarUtil calendarUtil) {
+		this.logger = logger;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiUtil = taskGuiUtil;
-		this.taskDueTodayPredicate = taskDueTodayPredicate;
-		this.taskDueExpiredPredicate = taskDueExpiredPredicate;
-		this.taskDueNotExpiredPredicate = taskDueNotExpiredPredicate;
-		this.taskStartReadyPredicate = taskStartReadyPredicate;
+		this.calendarUtil = calendarUtil;
 	}
 
-	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final List<Task> allTasks, final HttpServletRequest request)
-			throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<Task> groupedTasks = groupByDueState(tasks);
+	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final List<Task> allTasks, final HttpServletRequest request,
+			final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
+		final List<Task> groupedTasks = groupByDueState(tasks, timeZone);
 
 		final UlWidget ul = new UlWidget();
 		for (int i = 0; i < groupedTasks.size(); ++i) {
 			final Task task = groupedTasks.get(i);
 			final ListWidget widgets = new ListWidget();
-			final Widget div = buildTaskListRow(sessionIdentifier, request, groupedTasks, i, task, allTasks);
+			final Widget div = buildTaskListRow(sessionIdentifier, request, groupedTasks, i, task, allTasks, timeZone);
 			widgets.add(div);
 			ul.add(widgets);
 		}
 		return ul;
 	}
 
-	private List<Task> groupByDueState(final List<Task> tasks) {
+	private List<Task> groupByDueState(final List<Task> tasks, final TimeZone timeZone) {
+		final TaskDueTodayPredicate taskDueTodayPredicate = new TaskDueTodayPredicate(logger, calendarUtil, timeZone);
+		final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
+		final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate = new TaskDueNotExpiredPredicate(logger, calendarUtil, timeZone);
+
 		final List<Task> result = new ArrayList<Task>();
 		result.addAll(Collections2.filter(tasks, taskDueExpiredPredicate));
 		result.addAll(Collections2.filter(tasks, taskDueTodayPredicate));
@@ -81,8 +77,8 @@ public class TaskGuiWidgetFactory {
 		return result;
 	}
 
-	public Widget taskListWithChilds(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request)
-			throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Widget taskListWithChilds(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request,
+			final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<Task> tasks = taskGuiUtil.getChildTasks(allTasks, parentId);
 		if (tasks.isEmpty()) {
 			return null;
@@ -92,11 +88,11 @@ public class TaskGuiWidgetFactory {
 			final Task task = tasks.get(i);
 			final ListWidget widgets = new ListWidget();
 			{
-				final Widget div = buildTaskListRow(sessionIdentifier, request, tasks, i, task, allTasks);
+				final Widget div = buildTaskListRow(sessionIdentifier, request, tasks, i, task, allTasks, timeZone);
 				widgets.add(div);
 			}
 			{
-				widgets.add(new DivWidget(taskListWithChilds(sessionIdentifier, allTasks, task.getId(), request)));
+				widgets.add(new DivWidget(taskListWithChilds(sessionIdentifier, allTasks, task.getId(), request, timeZone)));
 			}
 			ul.add(widgets);
 		}
@@ -104,7 +100,8 @@ public class TaskGuiWidgetFactory {
 	}
 
 	private Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
-			final List<Task> allTasks) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
+			final List<Task> allTasks, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 
 		final ListWidget row = new ListWidget();
 		if (!taskGuiUtil.hasChildTasks(allTasks, task.getId())) {
@@ -148,6 +145,8 @@ public class TaskGuiWidgetFactory {
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		final DivWidget div = new DivWidget(row).addClass("taskEntry");
 		if (task.getDue() != null) {
+			final TaskDueTodayPredicate taskDueTodayPredicate = new TaskDueTodayPredicate(logger, calendarUtil, timeZone);
+			final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
 			if (taskDueTodayPredicate.apply(task)) {
 				div.addClass("dueToday");
 			}
@@ -156,6 +155,7 @@ public class TaskGuiWidgetFactory {
 			}
 		}
 		if (task.getStart() != null) {
+			final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
 			if (!taskStartReadyPredicate.apply(task)) {
 				div.addClass("startNotReached");
 			}

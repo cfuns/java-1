@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 
 public class TaskGuiUtil {
@@ -27,16 +29,16 @@ public class TaskGuiUtil {
 
 	private final TaskService taskService;
 
-	private final TaskStartReadyPredicate taskStartReadyPredicate;
-
 	private final StringUtil stringUtil;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public TaskGuiUtil(final Logger logger, final TaskService taskService, final TaskStartReadyPredicate taskStartReadyPredicate, final StringUtil stringUtil) {
+	public TaskGuiUtil(final Logger logger, final TaskService taskService, final StringUtil stringUtil, final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
-		this.taskStartReadyPredicate = taskStartReadyPredicate;
 		this.stringUtil = stringUtil;
+		this.calendarUtil = calendarUtil;
 	}
 
 	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
@@ -121,7 +123,8 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> filterStart(final List<Task> tasks) {
+	public List<Task> filterStart(final List<Task> tasks, final TimeZone timeZone) {
+		final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
 		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : tasks) {
 			if (taskStartReadyPredicate.apply(task)) {

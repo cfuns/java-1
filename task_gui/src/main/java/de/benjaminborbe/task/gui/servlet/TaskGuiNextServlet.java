@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,11 +95,12 @@ public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String[] taskContextIds = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
 			final List<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
 			final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
-			final List<Task> tasks = taskGuiUtil.filterStart(childTasks);
-			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request));
+			final List<Task> tasks = taskGuiUtil.filterStart(childTasks, timeZone);
+			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request, timeZone));
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.uncompletedTasks(request));

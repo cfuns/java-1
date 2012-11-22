@@ -72,4 +72,6 @@ public interface CalendarUtil {
 	Calendar addWeeks(Calendar calendar, int amountOfWeeks);
 
 	Calendar addMonths(Calendar calendar, int amountOfMonths);
+
+	Calendar onlyDay(Calendar calendar);
 }

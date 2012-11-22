@@ -69,8 +69,8 @@ public class TaskGuiTaskStartLaterServlet extends WebsiteServlet {
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
-			final Calendar now = calendarUtil.now();
 			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
+			final Calendar now = calendarUtil.now(timeZone);
 			final Calendar start = calendarUtil.parseSmart(timeZone, now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
 
 			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, task.getDue(),

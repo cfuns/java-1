@@ -122,6 +122,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(authenticationService.isLoggedIn(EasyMock.anyObject(SessionIdentifier.class))).andReturn(true).anyTimes();
 		EasyMock.expect(authenticationService.createSessionIdentifier(request)).andReturn(sessionIdentifier).anyTimes();
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
+		EasyMock.expect(authenticationService.getTimeZone(sessionIdentifier)).andReturn(timeZone);
 		EasyMock.replay(authenticationService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
@@ -153,7 +154,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(taskGuiUtil);
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
-		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, allTasks, null, request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, allTasks, null, request, timeZone)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
 
 		final TaskGuiSwitchWidget taskGuiSwitchWidget = EasyMock.createNiceMock(TaskGuiSwitchWidget.class);

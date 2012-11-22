@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.util;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 
@@ -16,16 +17,20 @@ public class TaskStartReadyPredicate implements Predicate<Task> {
 
 	private final Logger logger;
 
+	private final TimeZone timeZone;
+
 	@Inject
-	public TaskStartReadyPredicate(final Logger logger, final CalendarUtil calendarUtil) {
+	public TaskStartReadyPredicate(final Logger logger, final CalendarUtil calendarUtil, final TimeZone timeZone) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
+		this.timeZone = timeZone;
 	}
 
 	@Override
 	public boolean apply(final Task task) {
-		final Calendar now = calendarUtil.now();
-		logger.trace(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(now));
-		return task.getStart() == null || calendarUtil.isLE(task.getStart(), now);
+		final Calendar now = calendarUtil.now(timeZone);
+		final boolean result = task.getStart() == null || calendarUtil.isLE(task.getStart(), now);
+		logger.info(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(now) + " return: " + result);
+		return result;
 	}
 }
