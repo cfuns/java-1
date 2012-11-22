@@ -147,7 +147,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final GalleryGuiCollectionListServlet galleryServlet = new GalleryGuiCollectionListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService);
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService, null);
 
 		galleryServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

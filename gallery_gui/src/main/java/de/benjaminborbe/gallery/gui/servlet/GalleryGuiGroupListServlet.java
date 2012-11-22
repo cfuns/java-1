@@ -1,12 +1,15 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -20,6 +23,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
+import de.benjaminborbe.gallery.gui.util.GalleryGroupComparator;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -51,6 +55,8 @@ public class GalleryGuiGroupListServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final GalleryGroupComparator galleryGroupComparator;
+
 	@Inject
 	public GalleryGuiGroupListServlet(
 			final Logger logger,
@@ -64,12 +70,14 @@ public class GalleryGuiGroupListServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final GalleryGuiLinkFactory linkFactory,
 			final GalleryService galleryService,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final GalleryGroupComparator galleryGroupComparator) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.linkFactory = linkFactory;
 		this.galleryService = galleryService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.galleryGroupComparator = galleryGroupComparator;
 	}
 
 	@Override
@@ -85,7 +93,9 @@ public class GalleryGuiGroupListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			for (final GalleryGroup galleryGroup : galleryService.getGroups(sessionIdentifier)) {
+			final List<GalleryGroup> groups = Lists.newArrayList(galleryService.getGroups(sessionIdentifier));
+			Collections.sort(groups, galleryGroupComparator);
+			for (final GalleryGroup galleryGroup : groups) {
 				final ListWidget list = new ListWidget();
 				list.add(linkFactory.listCollections(request, galleryGroup));
 				list.add(" ");

@@ -12,7 +12,7 @@ public interface GalleryCollection {
 
 	Calendar getModified();
 
-	Long getPriority();
-
 	GalleryGroupIdentifier getGroupId();
+
+	Long getPriority();
 }

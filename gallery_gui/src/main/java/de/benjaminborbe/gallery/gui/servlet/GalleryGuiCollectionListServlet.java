@@ -1,12 +1,15 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -23,6 +26,7 @@ import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
+import de.benjaminborbe.gallery.gui.util.GalleryCollectionComparator;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -54,6 +58,8 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final GalleryCollectionComparator galleryCollectionComparator;
+
 	@Inject
 	public GalleryGuiCollectionListServlet(
 			final Logger logger,
@@ -67,12 +73,14 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final GalleryGuiLinkFactory linkFactory,
 			final GalleryService galleryService,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final GalleryCollectionComparator galleryCollectionComparator) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.linkFactory = linkFactory;
 		this.galleryService = galleryService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.galleryCollectionComparator = galleryCollectionComparator;
 	}
 
 	@Override
@@ -93,7 +101,10 @@ public class GalleryGuiCollectionListServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(galleryGroup.getName() + " - Collections"));
 			final UlWidget ul = new UlWidget();
 
-			for (final GalleryCollection galleryCollection : galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)) {
+			final ArrayList<GalleryCollection> collections = Lists.newArrayList(galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier));
+			Collections.sort(collections, galleryCollectionComparator);
+
+			for (final GalleryCollection galleryCollection : collections) {
 				final ListWidget list = new ListWidget();
 				list.add(linkFactory.listEntries(request, galleryCollection));
 				list.add(" ");

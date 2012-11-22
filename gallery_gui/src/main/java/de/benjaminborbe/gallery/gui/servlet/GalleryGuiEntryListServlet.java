@@ -1,11 +1,15 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -19,11 +23,11 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
-import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
+import de.benjaminborbe.gallery.gui.util.GalleryEntryComparator;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -60,6 +64,8 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final GalleryEntryComparator galleryEntryComparator;
+
 	@Inject
 	public GalleryGuiEntryListServlet(
 			final Logger logger,
@@ -73,13 +79,15 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final GalleryService galleryService,
 			final AuthorizationService authorizationService,
-			final GalleryGuiLinkFactory galleryGuiLinkFactory) {
+			final GalleryGuiLinkFactory galleryGuiLinkFactory,
+			final GalleryEntryComparator galleryEntryComparator) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 		this.authenticationService = authenticationService;
+		this.galleryEntryComparator = galleryEntryComparator;
 	}
 
 	@Override
@@ -99,13 +107,15 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(galleryGroup.getName() + "/" + galleryCollection.getName() + " - Images"));
-
 			final UlWidget ul = new UlWidget();
-			for (final GalleryEntryIdentifier galleryEntryIdentifier : galleryService.getEntryIdentifiers(sessionIdentifier, galleryCollectionIdentifier)) {
-				final GalleryEntry entry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
+
+			final List<GalleryEntry> entries = Lists.newArrayList(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier));
+			Collections.sort(entries, galleryEntryComparator);
+
+			for (final GalleryEntry galleryEntry : entries) {
 				final ListWidget list = new ListWidget();
-				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, entry.getPreviewImageIdentifier())));
-				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntryIdentifier));
+				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getPreviewImageIdentifier())));
+				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntry.getId()));
 				ul.add(list);
 			}
 			widgets.add(ul);
