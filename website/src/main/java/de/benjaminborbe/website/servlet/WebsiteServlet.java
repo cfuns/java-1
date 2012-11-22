@@ -120,7 +120,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	protected String buildRefererUrl(final HttpServletRequest request) {
 		final String referer = request.getHeader("referer");
-		logger.info("referer: " + referer);
+		logger.debug("referer: " + referer);
 		return referer;
 	}
 
