@@ -132,6 +132,13 @@ public class XmppConnectorImpl implements XmppConnector {
 		return users;
 	}
 
+	private final class MessageListenerNop implements MessageListener {
+
+		@Override
+		public void processMessage(final Chat chat, final Message message) {
+		}
+	}
+
 	private final class MyRosterListener implements RosterListener {
 
 		@Override
@@ -185,16 +192,18 @@ public class XmppConnectorImpl implements XmppConnector {
 
 	@Override
 	public void sendMessage(final XmppUser user, final String message) throws XmppConnectorException {
-
+		logger.debug("sendMessage - user: " + user + " message: " + message);
 		try {
-			final MessageListener listener = new MessageListener() {
-
-				@Override
-				public void processMessage(final Chat chat, final Message message) {
-				}
-			};
-			final Chat chat = chatManager.createChat(user.getUid(), listener);
-			chat.sendMessage(message);
+			final MessageListener listener = new MessageListenerNop();
+			if (chatManager == null) {
+				logger.debug("chatManager = null => not conentecd");
+				throw new XmppConnectorException("not connected!");
+			}
+			else {
+				final Chat chat = chatManager.createChat(user.getUid(), listener);
+				chat.sendMessage(message);
+				logger.debug("send message finished");
+			}
 		}
 		catch (final XMPPException e) {
 			throw new XmppConnectorException(e.getClass().getName(), e);

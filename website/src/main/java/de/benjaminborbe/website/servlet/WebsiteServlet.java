@@ -119,7 +119,9 @@ public abstract class WebsiteServlet extends HttpServlet {
 	}
 
 	protected String buildRefererUrl(final HttpServletRequest request) {
-		return request.getHeader("referer");
+		final String referer = request.getHeader("referer");
+		logger.info("referer: " + referer);
+		return referer;
 	}
 
 	private String buildReferer(final HttpServletRequest request) throws UnsupportedEncodingException {
