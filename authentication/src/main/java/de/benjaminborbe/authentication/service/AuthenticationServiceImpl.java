@@ -321,8 +321,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void expectSuperAdmin(final SessionIdentifier sessionIdentifier) throws SuperAdminRequiredException, AuthenticationServiceException, LoginRequiredException,
-			StorageException {
+	@Override
+	public void expectSuperAdmin(final SessionIdentifier sessionIdentifier) throws SuperAdminRequiredException, AuthenticationServiceException, LoginRequiredException {
 		expectLoggedIn(sessionIdentifier);
 		if (!isSuperAdmin(sessionIdentifier)) {
 			throw new SuperAdminRequiredException("no superadmin!");
@@ -387,5 +387,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+	}
+
+	@Override
+	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) throws AuthenticationServiceException, ValidationException {
+		return login(sessionIdentifier, createUserIdentifier(username), password);
 	}
 }

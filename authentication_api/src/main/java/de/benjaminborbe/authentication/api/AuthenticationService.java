@@ -13,6 +13,8 @@ public interface AuthenticationService {
 
 	boolean login(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String password) throws AuthenticationServiceException, ValidationException;
 
+	boolean login(SessionIdentifier sessionIdentifier, String username, String password) throws AuthenticationServiceException, ValidationException;
+
 	boolean isLoggedIn(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
 	void expectLoggedIn(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException;
@@ -52,5 +54,7 @@ public interface AuthenticationService {
 			ValidationException;
 
 	TimeZone getTimeZone(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
+
+	void expectSuperAdmin(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
 }

@@ -13,23 +13,18 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.confluence.ConfluenceTestConstants;
 import de.benjaminborbe.confluence.guice.ConfluenceModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class ConfluenceConnectorImplIntegrationTest {
-
-	private final static String confluenceHostname = "confluence.benjamin-borbe.de";
-
-	private final static String username = "test";
-
-	private final static String password = "z9W7CUwY4brR";
 
 	private static boolean notFound = true;
 
 	@BeforeClass
 	public static void setUp() {
 		final Socket socket = new Socket();
-		final SocketAddress endpoint = new InetSocketAddress(confluenceHostname, 80);
+		final SocketAddress endpoint = new InetSocketAddress(ConfluenceTestConstants.CONFLUENCE_HOSTNAME, 80);
 		try {
 			socket.connect(endpoint, 500);
 			notFound = !socket.isConnected();
@@ -54,7 +49,8 @@ public class ConfluenceConnectorImplIntegrationTest {
 		final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
 		final String spaceName = "DEV";
 		final String pageName = "Java";
-		final String content = confluenceConnector.getRenderedContent("http://" + confluenceHostname, username, password, spaceName, pageName);
+		final String content = confluenceConnector.getRenderedContent("http://" + ConfluenceTestConstants.CONFLUENCE_HOSTNAME, ConfluenceTestConstants.CONFLUENCE_USERNAME,
+				ConfluenceTestConstants.CONFLUENCE_PASSWORD, spaceName, pageName);
 		assertTrue("didn't find expected string 'Java' in  content!", content.contains("Java"));
 	}
 }

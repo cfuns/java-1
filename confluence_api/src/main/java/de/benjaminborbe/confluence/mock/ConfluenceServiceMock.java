@@ -59,4 +59,10 @@ public class ConfluenceServiceMock implements ConfluenceService {
 		return null;
 	}
 
+	@Override
+	public ConfluenceInstance getConfluenceInstance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier)
+			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
 }

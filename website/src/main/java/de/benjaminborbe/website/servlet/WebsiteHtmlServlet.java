@@ -21,6 +21,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -137,6 +138,11 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		try {
 			return createHtmlWidget(request, response, context);
 		}
+		catch (final SuperAdminRequiredException e) {
+			logger.debug(e.getClass().getName(), e);
+			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+			return widget;
+		}
 		catch (final PermissionDeniedException e) {
 			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
@@ -153,7 +159,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	}
 
 	private Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
-			PermissionDeniedException, LoginRequiredException {
+			PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException {
 		final ListWidget widgets = new ListWidget();
 		logger.trace("printHtml");
 		widgets.add(createHeadWidget(request, response, context));
@@ -162,7 +168,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	}
 
 	private Widget createBodyWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException,
-			RedirectException, LoginRequiredException {
+			RedirectException, LoginRequiredException, SuperAdminRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new DivWidget(createTopWidget(request, response, context)).addAttribute("id", "header"));
@@ -205,7 +211,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	}
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));

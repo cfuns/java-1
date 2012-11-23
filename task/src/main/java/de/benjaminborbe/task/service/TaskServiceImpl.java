@@ -201,9 +201,10 @@ public class TaskServiceImpl implements TaskService {
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
 			task.setUrl(url);
+
 			final ValidationResult errors = validationExecutor.validate(task);
 			if (errors.hasErrors()) {
-				logger.warn("Bookmark " + errors.toString());
+				logger.warn("Task " + errors.toString());
 				throw new ValidationException(errors);
 			}
 			taskDao.save(task);
@@ -501,9 +502,8 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
 			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
-			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
-
 		try {
 			logger.trace("createTask");
 
@@ -526,6 +526,12 @@ public class TaskServiceImpl implements TaskService {
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
 			task.setUrl(url);
+
+			final ValidationResult errors = validationExecutor.validate(task);
+			if (errors.hasErrors()) {
+				logger.warn("Task " + errors.toString());
+				throw new ValidationException(errors);
+			}
 			taskDao.save(task);
 
 			// only update if set

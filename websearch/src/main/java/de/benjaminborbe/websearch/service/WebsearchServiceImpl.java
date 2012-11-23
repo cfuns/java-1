@@ -24,7 +24,7 @@ import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
-import de.benjaminborbe.websearch.cron.RefreshPagesCronJob;
+import de.benjaminborbe.websearch.cron.WebsearchRefreshPagesCronJob;
 import de.benjaminborbe.websearch.page.PageBean;
 import de.benjaminborbe.websearch.page.PageDao;
 
@@ -35,7 +35,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final PageDao pageDao;
 
-	private final RefreshPagesCronJob refreshPagesCronJob;
+	private final WebsearchRefreshPagesCronJob refreshPagesCronJob;
 
 	private final AuthorizationService authorizationService;
 
@@ -45,7 +45,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	public WebsearchServiceImpl(
 			final Logger logger,
 			final PageDao pageDao,
-			final RefreshPagesCronJob refreshPagesCronJob,
+			final WebsearchRefreshPagesCronJob refreshPagesCronJob,
 			final AuthorizationService authorizationService,
 			final IndexerService indexerService) {
 		this.logger = logger;

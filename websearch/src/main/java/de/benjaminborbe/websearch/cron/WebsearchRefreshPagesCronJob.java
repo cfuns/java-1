@@ -17,7 +17,7 @@ import de.benjaminborbe.websearch.page.PageBean;
 import de.benjaminborbe.websearch.util.UpdateDeterminer;
 
 @Singleton
-public class RefreshPagesCronJob implements CronJob {
+public class WebsearchRefreshPagesCronJob implements CronJob {
 
 	private static final int TIMEOUT = 5000;
 
@@ -75,7 +75,7 @@ public class RefreshPagesCronJob implements CronJob {
 	private final ThreadRunner threadRunner;
 
 	@Inject
-	public RefreshPagesCronJob(
+	public WebsearchRefreshPagesCronJob(
 			final Logger logger,
 			final UpdateDeterminer updateDeterminer,
 			final CrawlerService crawlerService,

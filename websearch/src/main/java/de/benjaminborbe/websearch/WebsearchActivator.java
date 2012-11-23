@@ -16,7 +16,7 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.websearch.api.WebsearchService;
-import de.benjaminborbe.websearch.cron.RefreshPagesCronJob;
+import de.benjaminborbe.websearch.cron.WebsearchRefreshPagesCronJob;
 import de.benjaminborbe.websearch.guice.WebsearchModules;
 import de.benjaminborbe.websearch.service.WebsearchCrawlerNotify;
 import de.benjaminborbe.websearch.service.WebsearchSearchServiceComponent;
@@ -32,7 +32,7 @@ public class WebsearchActivator extends BaseBundleActivator {
 	private WebsearchSearchServiceComponent websearchSearchServiceComponent;
 
 	@Inject
-	private RefreshPagesCronJob refreshPagesCronJob;
+	private WebsearchRefreshPagesCronJob refreshPagesCronJob;
 
 	@Inject
 	private WebsearchService websearchService;

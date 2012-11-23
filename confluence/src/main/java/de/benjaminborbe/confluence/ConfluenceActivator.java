@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
-
 import com.google.inject.Inject;
 
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.guice.ConfluenceModules;
 import de.benjaminborbe.confluence.search.ConfluenceSearchServiceComponent;
+import de.benjaminborbe.confluence.service.ConfluenceRefreshCronJob;
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -25,6 +25,9 @@ public class ConfluenceActivator extends BaseBundleActivator {
 	@Inject
 	private ConfluenceSearchServiceComponent confluenceSearchServiceComponent;
 
+	@Inject
+	private ConfluenceRefreshCronJob confluenceRefreshCronJob;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new ConfluenceModules(context);
@@ -35,14 +38,8 @@ public class ConfluenceActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(ConfluenceService.class, confluenceService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, confluenceSearchServiceComponent, confluenceSearchServiceComponent.getClass().getName()));
+		result.add(new ServiceInfo(CronJob.class, confluenceRefreshCronJob, confluenceRefreshCronJob.getClass().getName()));
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new ConfluenceServiceTracker(confluenceRegistry, context,
-		// ConfluenceService.class));
-		return serviceTrackers;
-	}
 }

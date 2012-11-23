@@ -12,7 +12,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -25,6 +28,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.xmpp.api.XmppService;
@@ -40,6 +44,8 @@ public class XmppGuiServlet extends WebsiteHtmlServlet {
 	private final XmppService xmppService;
 
 	private final Logger logger;
+
+	private final AuthenticationService authenticationService;
 
 	@Inject
 	public XmppGuiServlet(
@@ -57,6 +63,7 @@ public class XmppGuiServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.xmppService = xmppService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -66,19 +73,23 @@ public class XmppGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 		try {
-			xmppService.send("hello world");
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			xmppService.send(sessionIdentifier, "hello world");
+			return widgets;
 		}
 		catch (final XmppServiceException e) {
 			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
 		}
-
-		return widgets;
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
+		}
 	}
 
 }

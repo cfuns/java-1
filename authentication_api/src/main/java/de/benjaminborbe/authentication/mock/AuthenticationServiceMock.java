@@ -144,4 +144,14 @@ public class AuthenticationServiceMock implements AuthenticationService {
 			LoginRequiredException, ValidationException {
 	}
 
+	@Override
+	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) throws AuthenticationServiceException, ValidationException {
+		return login(sessionIdentifier, new UserIdentifier(username), password);
+	}
+
+	@Override
+	public void expectSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+
+	}
+
 }
