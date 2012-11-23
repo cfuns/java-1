@@ -12,12 +12,12 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.index.IndexConstants;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.index.util.IndexFactory;
@@ -50,8 +50,8 @@ public class IndexerServiceImpl implements IndexerService {
 		IndexWriter indexWriter = null;
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);
-			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, analyzer);
+			final StandardAnalyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
+			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(IndexConstants.LUCENE_VERSION, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
 			// TODO only one indexwriter
@@ -94,8 +94,8 @@ public class IndexerServiceImpl implements IndexerService {
 		IndexWriter indexWriter = null;
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);
-			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, analyzer);
+			final StandardAnalyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
+			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(IndexConstants.LUCENE_VERSION, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
 			// TODO only one indexwriter

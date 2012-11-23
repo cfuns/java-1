@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.index.IndexConstants;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.util.IndexFactory;
@@ -45,10 +46,10 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final Version version = Version.LUCENE_35;
+			final Version version = IndexConstants.LUCENE_VERSION;
 			final StandardAnalyzer analyzer = new StandardAnalyzer(version);
 			// parse query over multiple fields
-			final Query q = new MultiFieldQueryParser(Version.LUCENE_35, buildFields(), analyzer).parse(searchQuery);
+			final Query q = new MultiFieldQueryParser(IndexConstants.LUCENE_VERSION, buildFields(), analyzer).parse(searchQuery);
 
 			// searching ...
 			final int hitsPerPage = 10;

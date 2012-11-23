@@ -8,9 +8,8 @@ public enum IndexField {
 
 	private final String fieldName;
 
-	IndexField(final String fieldName) {
+	private IndexField(final String fieldName) {
 		this.fieldName = fieldName;
-
 	}
 
 	public String getFieldName() {
