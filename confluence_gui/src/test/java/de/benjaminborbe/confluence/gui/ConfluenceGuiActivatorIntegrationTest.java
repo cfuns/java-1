@@ -50,6 +50,7 @@ public class ConfluenceGuiActivatorIntegrationTest {
 		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INSTANCE_LIST);
 		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INSTANCE_DELETE);
 		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INSTANCE_UPDATE);
+		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INDEX_REFRESH);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

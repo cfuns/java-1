@@ -17,7 +17,7 @@ public class WebsearchServiceMock implements WebsearchService {
 	}
 
 	@Override
-	public void refreshPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 	}
 
 	@Override

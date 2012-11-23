@@ -22,7 +22,7 @@ import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
-import de.benjaminborbe.websearch.WebsearchActivator;
+import de.benjaminborbe.websearch.WebsearchConstants;
 import de.benjaminborbe.websearch.page.PageBean;
 import de.benjaminborbe.websearch.page.PageDao;
 
@@ -171,7 +171,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			}
 		}
 		logger.trace("add url " + result.getUrl() + " to index");
-		indexerService.addToIndex(WebsearchActivator.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
+		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
 	}
 
 	protected void updateLastVisit(final CrawlerResult result) throws StorageException {

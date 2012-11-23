@@ -9,7 +9,7 @@ public interface WebsearchService {
 
 	Collection<Page> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
-	void refreshPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
+	void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
 	void expirePage(final SessionIdentifier sessionIdentifier, PageIdentifier page) throws WebsearchServiceException, PermissionDeniedException;
 

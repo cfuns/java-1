@@ -21,4 +21,6 @@ public interface ConfluenceGuiConstants {
 	String URL_INSTANCE_LIST = "/";
 
 	String URL_INSTANCE_UPDATE = "/update";
+
+	String URL_INDEX_REFRESH = "/refresh";
 }

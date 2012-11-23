@@ -13,11 +13,15 @@ import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServle
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceDeleteServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceListServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceUpdateServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiRefreshIndexServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ConfluenceGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ConfluenceGuiRefreshIndexServlet confluenceGuiRefreshIndexServlet;
 
 	@Inject
 	private ConfluenceGuiInstanceCreateServlet confluenceGuiInstanceCreateServlet;
@@ -47,6 +51,7 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(confluenceGuiInstanceListServlet, ConfluenceGuiConstants.URL_INSTANCE_LIST));
 		result.add(new ServletInfo(confluenceGuiInstanceDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
 		result.add(new ServletInfo(confluenceGuiInstanceUpdateServlet, ConfluenceGuiConstants.URL_INSTANCE_UPDATE));
+		result.add(new ServletInfo(confluenceGuiRefreshIndexServlet, ConfluenceGuiConstants.URL_INDEX_REFRESH));
 		return result;
 	}
 

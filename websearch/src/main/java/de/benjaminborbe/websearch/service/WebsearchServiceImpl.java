@@ -19,7 +19,7 @@ import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
-import de.benjaminborbe.websearch.WebsearchActivator;
+import de.benjaminborbe.websearch.WebsearchConstants;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
@@ -81,7 +81,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public void refreshPages(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
+	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPages"));
 
@@ -119,7 +119,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.clearIndex"));
 
-			final String indexName = WebsearchActivator.INDEX;
+			final String indexName = WebsearchConstants.INDEX;
 			indexerService.clear(indexName);
 		}
 		catch (final AuthorizationServiceException e) {

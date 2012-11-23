@@ -23,8 +23,6 @@ import de.benjaminborbe.websearch.service.WebsearchSearchServiceComponent;
 
 public class WebsearchActivator extends BaseBundleActivator {
 
-	public static final String INDEX = "websearch";
-
 	@Inject
 	private WebsearchCrawlerNotify websearchCrawlerNotify;
 

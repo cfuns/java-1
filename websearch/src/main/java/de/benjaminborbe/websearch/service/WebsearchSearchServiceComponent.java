@@ -16,7 +16,7 @@ import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
-import de.benjaminborbe.websearch.WebsearchActivator;
+import de.benjaminborbe.websearch.WebsearchConstants;
 
 @Singleton
 public class WebsearchSearchServiceComponent implements SearchServiceComponent {
@@ -37,7 +37,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
-		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchActivator.INDEX, StringUtils.join(words, " "));
+		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "));
 		for (final IndexSearchResult indexResult : indexResults) {
 			result.add(map(indexResult));
 		}

@@ -50,6 +50,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
+	private final ConfluenceRefreshCronJob confluenceRefreshCronJob;
+
 	@Inject
 	public ConfluenceServiceImpl(
 			final Logger logger,
@@ -57,13 +59,15 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			final ConfluenceInstanceDao confluenceInstanceDao,
 			final DurationUtil durationUtil,
 			final IdGeneratorUUID idGeneratorUUID,
-			final ValidationExecutor validationExecutor) {
+			final ValidationExecutor validationExecutor,
+			final ConfluenceRefreshCronJob confluenceRefreshCronJob) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
 		this.durationUtil = durationUtil;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.validationExecutor = validationExecutor;
+		this.confluenceRefreshCronJob = confluenceRefreshCronJob;
 	}
 
 	@Override
@@ -264,6 +268,22 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, SuperAdminRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("refreshPages");
+			authenticationService.expectSuperAdmin(sessionIdentifier);
+			confluenceRefreshCronJob.execute();
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
