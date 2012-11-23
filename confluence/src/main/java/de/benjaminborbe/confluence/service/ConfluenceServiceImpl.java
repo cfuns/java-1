@@ -1,13 +1,20 @@
 package de.benjaminborbe.confluence.service;
 
-import java.util.List;
+import java.util.Collection;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.confluence.api.ConfluenceInstance;
+import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
+import de.benjaminborbe.confluence.api.ConfluenceSpaceIdentifier;
 
 @Singleton
 public class ConfluenceServiceImpl implements ConfluenceService {
@@ -20,8 +27,40 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public List<String> getSpaceNames(final String confluenceUrl, final String username, final String password) throws ConfluenceServiceException {
-		logger.debug("getSpaceNames");
+	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password)
+			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
+			final String username, final String password) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	}
+
+	@Override
+	public void deleteConfluenceInstance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier)
+			throws ConfluenceServiceException {
+	}
+
+	@Override
+	public Collection<ConfluenceInstanceIdentifier> getConfluenceInstanceIdentifiers(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<ConfluenceSpaceIdentifier> getConfluenceSpaceIdentifiers(final SessionIdentifier sessionIdentifier, final String confluenceUrl, final String username,
+			final String password) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws ConfluenceServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<ConfluenceInstance> getConfluenceInstances(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		return null;
 	}
 

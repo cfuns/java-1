@@ -32,7 +32,6 @@ public class ConfluenceConnectorImplIntegrationTest {
 		final SocketAddress endpoint = new InetSocketAddress(confluenceHostname, 80);
 		try {
 			socket.connect(endpoint, 500);
-
 			notFound = !socket.isConnected();
 			notFound = false;
 		}

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,10 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiServlet;
+import de.benjaminborbe.confluence.api.ConfluenceInstance;
+import de.benjaminborbe.confluence.api.ConfluenceService;
+import de.benjaminborbe.confluence.gui.util.ConfluenceGuiLinkFactory;
+import de.benjaminborbe.confluence.gui.util.ConfluenceInstanceComparator;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -35,7 +39,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class ConfluenceGuiServletUnitTest {
+public class ConfluenceGuiInstanceListServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -120,14 +124,23 @@ public class ConfluenceGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.replay(authorizationService);
 
-		final ConfluenceGuiServlet confluenceServlet = new ConfluenceGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService);
+		final ConfluenceGuiLinkFactory confluenceGuiLinkFactory = EasyMock.createNiceMock(ConfluenceGuiLinkFactory.class);
+		EasyMock.replay(confluenceGuiLinkFactory);
+
+		final ConfluenceService confluenceService = EasyMock.createMock(ConfluenceService.class);
+		EasyMock.expect(confluenceService.getConfluenceInstances(sessionIdentifier)).andReturn(new ArrayList<ConfluenceInstance>());
+		EasyMock.replay(confluenceService);
+
+		final ConfluenceInstanceComparator confluenceInstanceComparator = new ConfluenceInstanceComparator();
+
+		final ConfluenceGuiInstanceListServlet confluenceServlet = new ConfluenceGuiInstanceListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, confluenceGuiLinkFactory, confluenceService, authorizationService, confluenceInstanceComparator);
 
 		confluenceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Confluence</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Confluence - Instances</h1>") != -1);
 	}
 }

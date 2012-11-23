@@ -45,7 +45,10 @@ public class ConfluenceGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/confluence");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INSTANCE_CREATE);
+		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INSTANCE_LIST);
+		paths.add("/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INSTANCE_DELETE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

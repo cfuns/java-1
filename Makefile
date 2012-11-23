@@ -215,3 +215,8 @@ buildmeta:
 	cd meta && make all
 buildbridge:
 	cd bridge && make all
+buildconfluence:
+	cd confluence_api && make all
+	cd confluence && make all
+	cd confluence_gui && make all
+	cd confluence_test && make all

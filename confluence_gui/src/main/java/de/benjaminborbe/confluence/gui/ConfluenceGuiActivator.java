@@ -9,7 +9,9 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.confluence.gui.guice.ConfluenceGuiModules;
-import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceDeleteServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceListServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -17,10 +19,16 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class ConfluenceGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private ConfluenceGuiServlet confluenceGuiServlet;
+	private ConfluenceGuiInstanceCreateServlet confluenceGuiCreateServlet;
+
+	@Inject
+	private ConfluenceGuiInstanceDeleteServlet confluenceGuiDeleteServlet;
+
+	@Inject
+	private ConfluenceGuiInstanceListServlet confluenceGuiListServlet;
 
 	public ConfluenceGuiActivator() {
-		super("confluence");
+		super(ConfluenceGuiConstants.NAME);
 	}
 
 	@Override
@@ -31,7 +39,9 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(confluenceGuiServlet, "/"));
+		result.add(new ServletInfo(confluenceGuiCreateServlet, ConfluenceGuiConstants.URL_INSTANCE_CREATE));
+		result.add(new ServletInfo(confluenceGuiDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_LIST));
+		result.add(new ServletInfo(confluenceGuiListServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
 		return result;
 	}
 
