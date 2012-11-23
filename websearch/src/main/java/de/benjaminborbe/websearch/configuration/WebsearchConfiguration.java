@@ -3,7 +3,7 @@ package de.benjaminborbe.websearch.configuration;
 import java.net.URL;
 import java.util.List;
 
-public interface Configuration {
+public interface WebsearchConfiguration {
 
 	URL getUrl();
 

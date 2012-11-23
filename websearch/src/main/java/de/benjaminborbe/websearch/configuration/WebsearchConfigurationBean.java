@@ -9,11 +9,11 @@ import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Configuration, HasCreated, HasModified {
+public class WebsearchConfigurationBean implements Entity<WebsearchConfigurationIdentifier>, WebsearchConfiguration, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8884906884511991833L;
 
-	private ConfigurationIdentifier id;
+	private WebsearchConfigurationIdentifier id;
 
 	private URL url;
 
@@ -26,12 +26,12 @@ public class ConfigurationBean implements Entity<ConfigurationIdentifier>, Confi
 	private Calendar created;
 
 	@Override
-	public ConfigurationIdentifier getId() {
+	public WebsearchConfigurationIdentifier getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final ConfigurationIdentifier id) {
+	public void setId(final WebsearchConfigurationIdentifier id) {
 		this.id = id;
 	}
 

@@ -14,7 +14,7 @@ import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
-import de.benjaminborbe.websearch.page.PageDao;
+import de.benjaminborbe.websearch.page.WebsearchPageDao;
 
 public class WebsearchCrawlerNotifyUnitTest {
 
@@ -33,7 +33,7 @@ public class WebsearchCrawlerNotifyUnitTest {
 		EasyMock.expect(stringUtil.shorten(title, 80)).andReturn(title);
 		EasyMock.replay(stringUtil);
 
-		final PageDao pageDao = EasyMock.createMock(PageDao.class);
+		final WebsearchPageDao pageDao = EasyMock.createMock(WebsearchPageDao.class);
 		EasyMock.replay(pageDao);
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);

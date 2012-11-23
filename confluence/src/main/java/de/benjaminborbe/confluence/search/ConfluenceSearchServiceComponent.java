@@ -39,7 +39,9 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(ConfluenceConstants.INDEX, StringUtils.join(words, " "));
 		for (final IndexSearchResult indexResult : indexResults) {
-			result.add(map(indexResult));
+			if (result.size() < maxResults) {
+				result.add(map(indexResult));
+			}
 		}
 		return result;
 	}

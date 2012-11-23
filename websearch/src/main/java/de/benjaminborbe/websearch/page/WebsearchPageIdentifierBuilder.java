@@ -7,7 +7,7 @@ import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.api.IdentifierBuilderException;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
-public class PageIdentifierBuilder implements IdentifierBuilder<String, PageIdentifier> {
+public class WebsearchPageIdentifierBuilder implements IdentifierBuilder<String, PageIdentifier> {
 
 	@Override
 	public PageIdentifier buildIdentifier(final String value) throws IdentifierBuilderException {

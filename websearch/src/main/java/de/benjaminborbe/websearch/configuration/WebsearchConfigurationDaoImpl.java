@@ -13,15 +13,19 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCacheAutoIncrement;
-import de.benjaminborbe.websearch.page.PageDao;
+import de.benjaminborbe.websearch.page.WebsearchPageDao;
 
 @Singleton
-public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBean, ConfigurationIdentifier> implements ConfigurationDao {
+public class WebsearchConfigurationDaoImpl extends DaoCacheAutoIncrement<WebsearchConfigurationBean, WebsearchConfigurationIdentifier> implements WebsearchConfigurationDao {
 
-	private final PageDao pageDao;
+	private final WebsearchPageDao pageDao;
 
 	@Inject
-	public ConfigurationDaoImpl(final Logger logger, final ConfigurationIdGenerator idGenerator, final Provider<ConfigurationBean> provider, final PageDao pageDao) {
+	public WebsearchConfigurationDaoImpl(
+			final Logger logger,
+			final WebsearchConfigurationIdGenerator idGenerator,
+			final Provider<WebsearchConfigurationBean> provider,
+			final WebsearchPageDao pageDao) {
 		super(logger, idGenerator, provider);
 		this.pageDao = pageDao;
 		init();
@@ -29,6 +33,7 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 
 	protected void init() {
 		try {
+			logger.info("init websearch configuration");
 			addUrl("http://confluence.benjamin-borbe.de", "bborbe");
 			addUrl("http://www.hascode.com", "bborbe");
 		}
@@ -41,7 +46,7 @@ public class ConfigurationDaoImpl extends DaoCacheAutoIncrement<ConfigurationBea
 		final URL url = new URL(urlStirng);
 		pageDao.findOrCreate(url);
 
-		final ConfigurationBean configuration = create();
+		final WebsearchConfigurationBean configuration = create();
 		configuration.setUrl(url);
 		configuration.setOwnerUsername(username);
 		final List<String> excludes = new ArrayList<String>();

@@ -16,25 +16,25 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
-public class PageBeanMapper extends BaseMapper<PageBean> {
+public class WebsearchPageBeanMapper extends BaseMapper<WebsearchPageBean> {
 
 	private final DateUtil dateUtil;
 
 	@Inject
-	public PageBeanMapper(final Provider<PageBean> provider, final DateUtil dateUtil) {
+	public WebsearchPageBeanMapper(final Provider<WebsearchPageBean> provider, final DateUtil dateUtil) {
 		super(provider);
 		this.dateUtil = dateUtil;
 	}
 
 	@Override
-	public void map(final PageBean object, final Map<String, String> data) {
+	public void map(final WebsearchPageBean object, final Map<String, String> data) {
 		data.put("id", toString(object.getId()));
 		data.put("lastvisit", toString(object.getLastVisit()));
 		data.put("url", toString(object.getUrl()));
 	}
 
 	@Override
-	public void map(final Map<String, String> data, final PageBean object) throws MapException {
+	public void map(final Map<String, String> data, final WebsearchPageBean object) throws MapException {
 		// todo null safe machen
 		object.setId(toPageIdentifier(data.get("id")));
 		object.setLastVisit(toDate(data.get("lastvisit")));

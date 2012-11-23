@@ -25,15 +25,15 @@ import de.benjaminborbe.websearch.api.PageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.cron.WebsearchRefreshPagesCronJob;
-import de.benjaminborbe.websearch.page.PageBean;
-import de.benjaminborbe.websearch.page.PageDao;
+import de.benjaminborbe.websearch.page.WebsearchPageBean;
+import de.benjaminborbe.websearch.page.WebsearchPageDao;
 
 @Singleton
 public class WebsearchServiceImpl implements WebsearchService {
 
 	private final Logger logger;
 
-	private final PageDao pageDao;
+	private final WebsearchPageDao pageDao;
 
 	private final WebsearchRefreshPagesCronJob refreshPagesCronJob;
 
@@ -44,7 +44,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Inject
 	public WebsearchServiceImpl(
 			final Logger logger,
-			final PageDao pageDao,
+			final WebsearchPageDao pageDao,
 			final WebsearchRefreshPagesCronJob refreshPagesCronJob,
 			final AuthorizationService authorizationService,
 			final IndexerService indexerService) {
@@ -61,7 +61,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.getPages"));
 
 			logger.debug("getPages");
-			final EntityIterator<PageBean> i = pageDao.getEntityIterator();
+			final EntityIterator<WebsearchPageBean> i = pageDao.getEntityIterator();
 			final List<Page> result = new ArrayList<Page>();
 			while (i.hasNext()) {
 				result.add(i.next());
@@ -83,9 +83,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Override
 	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
 		try {
+			logger.info("refreshPages");
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPages"));
 
-			logger.debug("refreshPages");
 			refreshPagesCronJob.execute();
 		}
 		catch (final AuthorizationServiceException e) {
@@ -100,7 +100,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			logger.debug("expirePage");
 
-			final PageBean page = pageDao.load(pageIdentifier.getUrl());
+			final WebsearchPageBean page = pageDao.load(pageIdentifier.getUrl());
 			if (page != null) {
 				page.setLastVisit(null);
 				pageDao.save(page);

@@ -9,12 +9,12 @@ import com.google.inject.Injector;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.websearch.guice.WebsearchModulesMock;
 
-public class ConfigurationDaoIntegrationTest {
+public class WebsearchConfigurationDaoIntegrationTest {
 
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsearchModulesMock());
-		final ConfigurationDao configurationDao = injector.getInstance(ConfigurationDao.class);
+		final WebsearchConfigurationDao configurationDao = injector.getInstance(WebsearchConfigurationDao.class);
 		assertNotNull(configurationDao);
 	}
 

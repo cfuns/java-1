@@ -15,26 +15,26 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
-public class PageDaoCache extends DaoCache<PageBean, PageIdentifier> implements PageDao {
+public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, PageIdentifier> implements WebsearchPageDao {
 
-	private final PageDaoSubPagesAction pageDaoSubPagesAction;
+	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
 	@Inject
-	public PageDaoCache(final Logger logger, final Provider<PageBean> provider, final PageDaoSubPagesAction pageDaoSubPagesAction) {
+	public WebsearchPageDaoCache(final Logger logger, final Provider<WebsearchPageBean> provider, final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction) {
 		super(logger, provider);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 	}
 
 	@Override
-	public PageBean findOrCreate(final URL url) {
+	public WebsearchPageBean findOrCreate(final URL url) {
 		{
-			final PageBean page = load(url);
+			final WebsearchPageBean page = load(url);
 			if (page != null) {
 				return page;
 			}
 		}
 		{
-			final PageBean page = create();
+			final WebsearchPageBean page = create();
 			page.setUrl(url);
 			save(page);
 			return page;
@@ -42,12 +42,12 @@ public class PageDaoCache extends DaoCache<PageBean, PageIdentifier> implements 
 	}
 
 	@Override
-	public PageBean load(final URL url) {
+	public WebsearchPageBean load(final URL url) {
 		return load(new PageIdentifier(url));
 	}
 
 	@Override
-	public Collection<PageBean> findSubPages(final URL url) throws StorageException {
+	public Collection<WebsearchPageBean> findSubPages(final URL url) throws StorageException {
 		try {
 			return pageDaoSubPagesAction.findSubPages(url, getEntityIterator());
 		}

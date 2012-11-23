@@ -10,7 +10,7 @@ import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
-public class PageBean implements Entity<PageIdentifier>, Page, HasCreated, HasModified {
+public class WebsearchPageBean implements Entity<PageIdentifier>, Page, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 

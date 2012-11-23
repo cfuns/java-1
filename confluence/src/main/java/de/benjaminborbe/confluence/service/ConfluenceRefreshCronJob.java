@@ -21,6 +21,7 @@ import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.html.HtmlUtil;
 
 @Singleton
 public class ConfluenceRefreshCronJob implements CronJob {
@@ -36,16 +37,20 @@ public class ConfluenceRefreshCronJob implements CronJob {
 
 	private final ConfluenceConnector confluenceConnector;
 
+	private final HtmlUtil htmlUtil;
+
 	@Inject
 	public ConfluenceRefreshCronJob(
 			final Logger logger,
 			final IndexerService indexerService,
 			final ConfluenceInstanceDao confluenceInstanceDao,
-			final ConfluenceConnector confluenceConnector) {
+			final ConfluenceConnector confluenceConnector,
+			final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.indexerService = indexerService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
 		this.confluenceConnector = confluenceConnector;
+		this.htmlUtil = htmlUtil;
 	}
 
 	@Override
@@ -93,7 +98,7 @@ public class ConfluenceRefreshCronJob implements CronJob {
 					final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
 					final URL url = new URL(page.getUrl());
 					final String title = page.getTitle();
-					indexerService.addToIndex(ConfluenceConstants.INDEX, url, title, content);
+					indexerService.addToIndex(ConfluenceConstants.INDEX, url, title, htmlUtil.filterHtmlTages(content));
 					logger.info("addToIndex " + url.toExternalForm());
 				}
 				catch (final IndexerServiceException e) {

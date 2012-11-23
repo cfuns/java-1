@@ -39,7 +39,9 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "));
 		for (final IndexSearchResult indexResult : indexResults) {
-			result.add(map(indexResult));
+			if (result.size() < maxResults) {
+				result.add(map(indexResult));
+			}
 		}
 		return result;
 	}

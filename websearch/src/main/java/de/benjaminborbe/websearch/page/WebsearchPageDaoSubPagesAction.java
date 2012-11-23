@@ -10,17 +10,17 @@ import com.google.inject.Inject;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 
-public class PageDaoSubPagesAction {
+public class WebsearchPageDaoSubPagesAction {
 
 	@Inject
-	public PageDaoSubPagesAction() {
+	public WebsearchPageDaoSubPagesAction() {
 	}
 
-	public Collection<PageBean> findSubPages(final URL url, final EntityIterator<PageBean> entityIterator) throws EntityIteratorException {
+	public Collection<WebsearchPageBean> findSubPages(final URL url, final EntityIterator<WebsearchPageBean> entityIterator) throws EntityIteratorException {
 		final String prefix = url.toExternalForm();
-		final Set<PageBean> result = new HashSet<PageBean>();
+		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
 		while (entityIterator.hasNext()) {
-			final PageBean page = entityIterator.next();
+			final WebsearchPageBean page = entityIterator.next();
 			if (page.getUrl().toExternalForm().startsWith(prefix)) {
 				result.add(page);
 			}

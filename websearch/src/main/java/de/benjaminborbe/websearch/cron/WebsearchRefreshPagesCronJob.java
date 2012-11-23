@@ -13,8 +13,8 @@ import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ThreadRunner;
-import de.benjaminborbe.websearch.page.PageBean;
-import de.benjaminborbe.websearch.util.UpdateDeterminer;
+import de.benjaminborbe.websearch.page.WebsearchPageBean;
+import de.benjaminborbe.websearch.util.WebsearchUpdateDeterminer;
 
 @Singleton
 public class WebsearchRefreshPagesCronJob implements CronJob {
@@ -41,11 +41,11 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		@Override
 		public void run() {
 			try {
-				logger.trace("refresh pages started");
-				for (final PageBean page : updateDeterminer.determineExpiredPages()) {
+				logger.info("refresh pages started");
+				for (final WebsearchPageBean page : updateDeterminer.determineExpiredPages()) {
 					try {
 						final URL url = page.getUrl();
-						logger.trace("trigger refresh of url " + url.toExternalForm());
+						logger.info("trigger refresh of url " + url.toExternalForm());
 						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
 						crawlerService.processCrawlerInstruction(crawlerInstruction);
 					}
@@ -53,7 +53,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 						logger.error(e.getClass().getSimpleName(), e);
 					}
 				}
-				logger.trace("refresh pages finished");
+				logger.info("refresh pages finished");
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -68,7 +68,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 
 	private final CrawlerService crawlerService;
 
-	private final UpdateDeterminer updateDeterminer;
+	private final WebsearchUpdateDeterminer updateDeterminer;
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
@@ -77,7 +77,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 	@Inject
 	public WebsearchRefreshPagesCronJob(
 			final Logger logger,
-			final UpdateDeterminer updateDeterminer,
+			final WebsearchUpdateDeterminer updateDeterminer,
 			final CrawlerService crawlerService,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final ThreadRunner threadRunner) {

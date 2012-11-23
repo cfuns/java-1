@@ -23,8 +23,8 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchConstants;
-import de.benjaminborbe.websearch.page.PageBean;
-import de.benjaminborbe.websearch.page.PageDao;
+import de.benjaminborbe.websearch.page.WebsearchPageBean;
+import de.benjaminborbe.websearch.page.WebsearchPageDao;
 
 @Singleton
 public class WebsearchCrawlerNotify implements CrawlerNotifier {
@@ -37,14 +37,14 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final StringUtil stringUtil;
 
-	private final PageDao pageDao;
+	private final WebsearchPageDao pageDao;
 
 	private final static String CONTENT_TYPE = "text/html";
 
 	private final HtmlUtil htmlUtil;
 
 	@Inject
-	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService, final StringUtil stringUtil, final PageDao pageDao, final HtmlUtil htmlUtil) {
+	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService, final StringUtil stringUtil, final WebsearchPageDao pageDao, final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.indexerService = indexerService;
 		this.stringUtil = stringUtil;
@@ -171,11 +171,11 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			}
 		}
 		logger.trace("add url " + result.getUrl() + " to index");
-		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), result.getContent());
+		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), htmlUtil.filterHtmlTages(result.getContent()));
 	}
 
 	protected void updateLastVisit(final CrawlerResult result) throws StorageException {
-		final PageBean page = pageDao.findOrCreate(result.getUrl());
+		final WebsearchPageBean page = pageDao.findOrCreate(result.getUrl());
 		page.setLastVisit(new Date());
 		pageDao.save(page);
 	}

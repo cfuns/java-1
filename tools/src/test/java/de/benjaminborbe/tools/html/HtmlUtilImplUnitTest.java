@@ -56,6 +56,7 @@ public class HtmlUtilImplUnitTest {
 		assertEquals("", htmlUtil.filterHtmlTages(" "));
 		assertEquals("", htmlUtil.filterHtmlTages("<br/>"));
 		assertEquals("", htmlUtil.filterHtmlTages(" <br/> "));
+		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World</h1></body></html>"));
 	}
 
 	@Test

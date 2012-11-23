@@ -14,27 +14,27 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.websearch.configuration.ConfigurationBean;
-import de.benjaminborbe.websearch.configuration.ConfigurationDao;
-import de.benjaminborbe.websearch.page.PageBean;
-import de.benjaminborbe.websearch.page.PageDao;
+import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
+import de.benjaminborbe.websearch.configuration.WebsearchConfigurationDao;
+import de.benjaminborbe.websearch.page.WebsearchPageBean;
+import de.benjaminborbe.websearch.page.WebsearchPageDao;
 
 @Singleton
-public class UpdateDeterminerImpl implements UpdateDeterminer {
+public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer {
 
 	// 1 day
 	private static final long EXPIRE = 24l * 60l * 60l * 1000l;
 
 	private final Logger logger;
 
-	private final PageDao pageDao;
+	private final WebsearchPageDao pageDao;
 
-	private final ConfigurationDao configurationDao;
+	private final WebsearchConfigurationDao configurationDao;
 
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public UpdateDeterminerImpl(final Logger logger, final PageDao pageDao, final ConfigurationDao configurationDao, final CalendarUtil calendarUtil) {
+	public WebsearchUpdateDeterminerImpl(final Logger logger, final WebsearchPageDao pageDao, final WebsearchConfigurationDao configurationDao, final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.pageDao = pageDao;
 		this.configurationDao = configurationDao;
@@ -42,14 +42,14 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 	}
 
 	@Override
-	public Collection<PageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
+	public Collection<WebsearchPageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
 		logger.trace("determineExpiredPages");
 		final long time = calendarUtil.getTime();
-		final EntityIterator<ConfigurationBean> configurations = configurationDao.getEntityIterator();
-		final Set<PageBean> result = new HashSet<PageBean>();
-		final EntityIterator<PageBean> pages = pageDao.getEntityIterator();
+		final EntityIterator<WebsearchConfigurationBean> configurations = configurationDao.getEntityIterator();
+		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
+		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
 		while (pages.hasNext()) {
-			final PageBean page = pages.next();
+			final WebsearchPageBean page = pages.next();
 			// handle only pages configuration exists for
 			if (isSubPage(page, configurations)) {
 				logger.trace("url " + page.getId() + " is subpage");
@@ -69,11 +69,11 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 		return result;
 	}
 
-	private boolean isExpired(final long time, final PageBean page) {
+	private boolean isExpired(final long time, final WebsearchPageBean page) {
 		return page.getLastVisit() == null || (time - page.getLastVisit().getTime() > EXPIRE);
 	}
 
-	protected boolean isSubPage(final PageBean page, final EntityIterator<ConfigurationBean> configurations) throws EntityIteratorException {
+	protected boolean isSubPage(final WebsearchPageBean page, final EntityIterator<WebsearchConfigurationBean> configurations) throws EntityIteratorException {
 		if (page == null) {
 			throw new NullPointerException("parameter page is null");
 		}
@@ -83,7 +83,7 @@ public class UpdateDeterminerImpl implements UpdateDeterminer {
 		}
 		final String urlString = url.toExternalForm();
 		while (configurations.hasNext()) {
-			final ConfigurationBean configuration = configurations.next();
+			final WebsearchConfigurationBean configuration = configurations.next();
 			if (urlString.startsWith(configuration.getUrl().toExternalForm())) {
 				boolean isExcluded = false;
 				for (final String exclude : configuration.getExcludes()) {

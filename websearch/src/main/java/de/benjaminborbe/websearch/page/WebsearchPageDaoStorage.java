@@ -17,40 +17,40 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 
 @Singleton
-public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> implements PageDao {
+public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, PageIdentifier> implements WebsearchPageDao {
 
 	private static final String COLUMNFAMILY = "page";
 
-	private final PageDaoSubPagesAction pageDaoSubPagesAction;
+	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
 	@Inject
-	public PageDaoStorage(
+	public WebsearchPageDaoStorage(
 			final Logger logger,
 			final StorageService storageService,
-			final Provider<PageBean> beanProvider,
-			final PageDaoSubPagesAction pageDaoSubPagesAction,
-			final PageBeanMapper pageBeanMapper,
-			final PageIdentifierBuilder identifierBuilder,
+			final Provider<WebsearchPageBean> beanProvider,
+			final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction,
+			final WebsearchPageBeanMapper pageBeanMapper,
+			final WebsearchPageIdentifierBuilder identifierBuilder,
 			final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 	}
 
 	@Override
-	public PageBean load(final URL url) throws StorageException {
+	public WebsearchPageBean load(final URL url) throws StorageException {
 		return load(url.toExternalForm());
 	}
 
 	@Override
-	public PageBean findOrCreate(final URL url) throws StorageException {
+	public WebsearchPageBean findOrCreate(final URL url) throws StorageException {
 		{
-			final PageBean page = load(url);
+			final WebsearchPageBean page = load(url);
 			if (page != null) {
 				return page;
 			}
 		}
 		{
-			final PageBean page = create();
+			final WebsearchPageBean page = create();
 			page.setUrl(url);
 			save(page);
 			return page;
@@ -58,7 +58,7 @@ public class PageDaoStorage extends DaoStorage<PageBean, PageIdentifier> impleme
 	}
 
 	@Override
-	public Collection<PageBean> findSubPages(final URL url) throws StorageException {
+	public Collection<WebsearchPageBean> findSubPages(final URL url) throws StorageException {
 		try {
 			return pageDaoSubPagesAction.findSubPages(url, getEntityIterator());
 		}

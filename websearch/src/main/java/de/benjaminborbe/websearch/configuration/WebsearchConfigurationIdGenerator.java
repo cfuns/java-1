@@ -7,18 +7,18 @@ import de.benjaminborbe.tools.util.IdGenerator;
 import de.benjaminborbe.tools.util.IdGeneratorLong;
 
 @Singleton
-public class ConfigurationIdGenerator implements IdGenerator<ConfigurationIdentifier> {
+public class WebsearchConfigurationIdGenerator implements IdGenerator<WebsearchConfigurationIdentifier> {
 
 	private final IdGeneratorLong idGeneratorLong;
 
 	@Inject
-	public ConfigurationIdGenerator(final IdGeneratorLong idGeneratorLong) {
+	public WebsearchConfigurationIdGenerator(final IdGeneratorLong idGeneratorLong) {
 		this.idGeneratorLong = idGeneratorLong;
 	}
 
 	@Override
-	public ConfigurationIdentifier nextId() {
-		return new ConfigurationIdentifier(idGeneratorLong.nextId());
+	public WebsearchConfigurationIdentifier nextId() {
+		return new WebsearchConfigurationIdentifier(idGeneratorLong.nextId());
 	}
 
 }
