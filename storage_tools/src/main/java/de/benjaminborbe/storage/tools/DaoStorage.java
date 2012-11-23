@@ -306,6 +306,10 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	protected E load(final String id) throws StorageException {
 		try {
+			if (id == null) {
+				throw new NullPointerException("parameter id = null");
+			}
+
 			logger.trace("load - id: " + id);
 			final Map<String, String> data = new HashMap<String, String>();
 			final E entity = create();

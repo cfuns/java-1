@@ -147,6 +147,12 @@ create column family configuration with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
 
+drop column family confluence_instance;
+create column family confluence_instance with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
 drop column family task;
 create column family task with
   comparator = UTF8Type and

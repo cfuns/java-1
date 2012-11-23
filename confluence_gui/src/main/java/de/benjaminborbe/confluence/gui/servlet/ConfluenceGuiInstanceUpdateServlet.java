@@ -19,6 +19,8 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.confluence.api.ConfluenceInstance;
+import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
 import de.benjaminborbe.confluence.gui.ConfluenceGuiConstants;
@@ -42,7 +44,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
+public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -57,7 +59,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public ConfluenceGuiInstanceCreateServlet(
+	public ConfluenceGuiInstanceUpdateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -83,14 +85,19 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final String url = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL);
+			final String id = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID);
 			final String username = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME);
 			final String password = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(sessionIdentifier, id);
+
+			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
+
 			if (url != null && username != null && password != null) {
 				try {
-					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					confluenceService.createConfluenceIntance(sessionIdentifier, url, username, password);
+					confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -106,10 +113,12 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			}
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(ConfluenceGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
-			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL).addLabel("Url:").addPlaceholder("http:// ..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username:").addPlaceholder("username ..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password:").addPlaceholder("password ..."));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID).addValue(id));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL).addLabel("Url ...").addDefaultValue(confluenceInstance.getUrl()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username ...").addDefaultValue(
+					confluenceInstance.getUsername()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password ..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
 		}

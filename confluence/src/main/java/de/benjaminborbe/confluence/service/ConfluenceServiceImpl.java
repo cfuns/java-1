@@ -1,6 +1,8 @@
 package de.benjaminborbe.confluence.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
@@ -24,6 +26,10 @@ import de.benjaminborbe.confluence.api.ConfluenceSpaceIdentifier;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
@@ -107,7 +113,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			final ConfluenceInstanceBean confluenceInstance = confluenceInstanceDao.load(confluenceInstanceIdentifier);
 			confluenceInstance.setUrl(url);
 			confluenceInstance.setUsername(username);
-			confluenceInstance.setPassword(password);
+			if (password != null && password.length() > 0) {
+				confluenceInstance.setPassword(password);
+			}
 
 			final ValidationResult errors = validationExecutor.validate(confluenceInstance);
 			if (errors.hasErrors()) {
@@ -154,9 +162,21 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		try {
 			logger.debug("getConfluenceInstanceIdentifiers");
 			authenticationService.expectSuperAdmin(sessionIdentifier);
-			return null;
+
+			final IdentifierIterator<ConfluenceInstanceIdentifier> i = confluenceInstanceDao.getIdentifierIterator();
+			final List<ConfluenceInstanceIdentifier> result = new ArrayList<ConfluenceInstanceIdentifier>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final AuthenticationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final IdentifierIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {
@@ -205,9 +225,21 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		try {
 			logger.debug("getConfluenceInstances");
 			authenticationService.expectSuperAdmin(sessionIdentifier);
-			throw new NotImplementedException();
+
+			final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getEntityIterator();
+			final List<ConfluenceInstance> result = new ArrayList<ConfluenceInstance>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
 		catch (final AuthenticationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {

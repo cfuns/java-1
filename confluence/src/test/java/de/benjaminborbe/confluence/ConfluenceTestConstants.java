@@ -10,7 +10,7 @@ public interface ConfluenceTestConstants {
 
 	String USER_EMAIL = "test@test.de";
 
-	String CONFLUENCE_HOSTNAME = "confluence.benjamin-borbe.de";
+	String CONFLUENCE_URL = "http://confluence.benjamin-borbe.de";
 
 	String CONFLUENCE_USERNAME = "test";
 

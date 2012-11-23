@@ -1,8 +1,7 @@
-package de.benjaminborbe.task.guice;
+package de.benjaminborbe.task.validation;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.task.validation.TaskValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 
 public class TaskValidatorLinker {

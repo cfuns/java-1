@@ -11,6 +11,7 @@ import de.benjaminborbe.task.dao.TaskContextDaoStorage;
 import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.task.dao.TaskDaoStorage;
 import de.benjaminborbe.task.service.TaskServiceImpl;
+import de.benjaminborbe.task.validation.TaskValidatorLinker;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class TaskModule extends AbstractModule {

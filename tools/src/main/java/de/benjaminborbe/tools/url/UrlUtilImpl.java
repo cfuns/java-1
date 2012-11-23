@@ -2,6 +2,8 @@ package de.benjaminborbe.tools.url;
 
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -103,5 +105,16 @@ public class UrlUtilImpl implements UrlUtil {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isUrl(final String url) {
+		try {
+			new URL(url);
+			return true;
+		}
+		catch (final MalformedURLException e) {
+			return false;
+		}
 	}
 }

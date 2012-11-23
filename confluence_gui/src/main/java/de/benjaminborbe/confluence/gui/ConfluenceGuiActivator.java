@@ -12,6 +12,7 @@ import de.benjaminborbe.confluence.gui.guice.ConfluenceGuiModules;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceDeleteServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceListServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceUpdateServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -19,13 +20,16 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class ConfluenceGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private ConfluenceGuiInstanceCreateServlet confluenceGuiCreateServlet;
+	private ConfluenceGuiInstanceCreateServlet confluenceGuiInstanceCreateServlet;
 
 	@Inject
-	private ConfluenceGuiInstanceDeleteServlet confluenceGuiDeleteServlet;
+	private ConfluenceGuiInstanceDeleteServlet confluenceGuiInstanceDeleteServlet;
 
 	@Inject
-	private ConfluenceGuiInstanceListServlet confluenceGuiListServlet;
+	private ConfluenceGuiInstanceListServlet confluenceGuiInstanceListServlet;
+
+	@Inject
+	private ConfluenceGuiInstanceUpdateServlet confluenceGuiInstanceUpdateServlet;
 
 	public ConfluenceGuiActivator() {
 		super(ConfluenceGuiConstants.NAME);
@@ -39,9 +43,10 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(confluenceGuiCreateServlet, ConfluenceGuiConstants.URL_INSTANCE_CREATE));
-		result.add(new ServletInfo(confluenceGuiDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_LIST));
-		result.add(new ServletInfo(confluenceGuiListServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
+		result.add(new ServletInfo(confluenceGuiInstanceCreateServlet, ConfluenceGuiConstants.URL_INSTANCE_CREATE));
+		result.add(new ServletInfo(confluenceGuiInstanceListServlet, ConfluenceGuiConstants.URL_INSTANCE_LIST));
+		result.add(new ServletInfo(confluenceGuiInstanceDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
+		result.add(new ServletInfo(confluenceGuiInstanceUpdateServlet, ConfluenceGuiConstants.URL_INSTANCE_UPDATE));
 		return result;
 	}
 

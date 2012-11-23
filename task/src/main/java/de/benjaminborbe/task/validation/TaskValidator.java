@@ -18,11 +18,11 @@ public class TaskValidator implements Validator<TaskBean> {
 
 	@Override
 	public Collection<ValidationError> validate(final Object object) {
-		final TaskBean bookmark = (TaskBean) object;
+		final TaskBean bean = (TaskBean) object;
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
-		final String name = bookmark.getName();
+		final String name = bean.getName();
 		{
 			if (name == null || name.length() == 0) {
 				result.add(new ValidationErrorSimple("name missing"));

@@ -11,6 +11,7 @@ import de.benjaminborbe.confluence.connector.ConfluenceConnectorImpl;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDaoStorage;
 import de.benjaminborbe.confluence.service.ConfluenceServiceImpl;
+import de.benjaminborbe.confluence.validation.ConfluenceInstanceValidatorLinker;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class ConfluenceModule extends AbstractModule {
@@ -21,5 +22,7 @@ public class ConfluenceModule extends AbstractModule {
 		bind(ConfluenceConnector.class).to(ConfluenceConnectorImpl.class).in(Singleton.class);
 		bind(ConfluenceService.class).to(ConfluenceServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(ConfluenceInstanceValidatorLinker.class);
 	}
 }

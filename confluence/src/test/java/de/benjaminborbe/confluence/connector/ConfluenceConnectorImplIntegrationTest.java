@@ -24,7 +24,7 @@ public class ConfluenceConnectorImplIntegrationTest {
 	@BeforeClass
 	public static void setUp() {
 		final Socket socket = new Socket();
-		final SocketAddress endpoint = new InetSocketAddress(ConfluenceTestConstants.CONFLUENCE_HOSTNAME, 80);
+		final SocketAddress endpoint = new InetSocketAddress(ConfluenceTestConstants.CONFLUENCE_URL, 80);
 		try {
 			socket.connect(endpoint, 500);
 			notFound = !socket.isConnected();
@@ -49,7 +49,7 @@ public class ConfluenceConnectorImplIntegrationTest {
 		final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
 		final String spaceName = "DEV";
 		final String pageName = "Java";
-		final String content = confluenceConnector.getRenderedContent("http://" + ConfluenceTestConstants.CONFLUENCE_HOSTNAME, ConfluenceTestConstants.CONFLUENCE_USERNAME,
+		final String content = confluenceConnector.getRenderedContent(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME,
 				ConfluenceTestConstants.CONFLUENCE_PASSWORD, spaceName, pageName);
 		assertTrue("didn't find expected string 'Java' in  content!", content.contains("Java"));
 	}

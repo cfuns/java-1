@@ -55,10 +55,18 @@ public class ConfluenceServiceImplIntegrationTest {
 		assertTrue(authenticationService.login(sessionIdentifier, ConfluenceTestConstants.USER_NAME, ConfluenceTestConstants.USER_PASSWORD));
 		assertEquals(userIdentifier, authenticationService.getCurrentUser(sessionIdentifier));
 
+		// list
+		assertEquals(0, confluenceService.getConfluenceInstances(sessionIdentifier).size());
+		assertEquals(0, confluenceService.getConfluenceInstanceIdentifiers(sessionIdentifier).size());
+
 		// create
-		final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceIntance(sessionIdentifier, ConfluenceTestConstants.CONFLUENCE_HOSTNAME,
+		final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceIntance(sessionIdentifier, ConfluenceTestConstants.CONFLUENCE_URL,
 				ConfluenceTestConstants.CONFLUENCE_USERNAME, ConfluenceTestConstants.CONFLUENCE_PASSWORD);
 		assertNotNull(confluenceInstanceIdentifier);
+
+		// list
+		assertEquals(1, confluenceService.getConfluenceInstances(sessionIdentifier).size());
+		assertEquals(1, confluenceService.getConfluenceInstanceIdentifiers(sessionIdentifier).size());
 
 		// read
 		{
@@ -67,14 +75,18 @@ public class ConfluenceServiceImplIntegrationTest {
 			assertNotNull(confluenceInstance.getId());
 			assertEquals(confluenceInstanceIdentifier, confluenceInstance.getId());
 			assertNotNull(confluenceInstance.getUrl());
-			assertEquals(ConfluenceTestConstants.CONFLUENCE_HOSTNAME, confluenceInstance.getUrl());
+			assertEquals(ConfluenceTestConstants.CONFLUENCE_URL, confluenceInstance.getUrl());
 			assertNotNull(confluenceInstance.getUsername());
 			assertEquals(ConfluenceTestConstants.CONFLUENCE_USERNAME, confluenceInstance.getUsername());
 		}
 
 		// update
-		confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, ConfluenceTestConstants.CONFLUENCE_HOSTNAME + "bla",
+		confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, ConfluenceTestConstants.CONFLUENCE_URL + "bla",
 				ConfluenceTestConstants.CONFLUENCE_USERNAME + "bla", ConfluenceTestConstants.CONFLUENCE_PASSWORD + "bla");
+
+		// list
+		assertEquals(1, confluenceService.getConfluenceInstances(sessionIdentifier).size());
+		assertEquals(1, confluenceService.getConfluenceInstanceIdentifiers(sessionIdentifier).size());
 
 		// read
 		{
@@ -83,13 +95,17 @@ public class ConfluenceServiceImplIntegrationTest {
 			assertNotNull(confluenceInstance.getId());
 			assertEquals(confluenceInstanceIdentifier, confluenceInstance.getId());
 			assertNotNull(confluenceInstance.getUrl());
-			assertEquals(ConfluenceTestConstants.CONFLUENCE_HOSTNAME + "bla", confluenceInstance.getUrl());
+			assertEquals(ConfluenceTestConstants.CONFLUENCE_URL + "bla", confluenceInstance.getUrl());
 			assertNotNull(confluenceInstance.getUsername());
 			assertEquals(ConfluenceTestConstants.CONFLUENCE_USERNAME + "bla", confluenceInstance.getUsername());
 		}
 
 		// delete
 		confluenceService.deleteConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
+
+		// list
+		assertEquals(0, confluenceService.getConfluenceInstances(sessionIdentifier).size());
+		assertEquals(0, confluenceService.getConfluenceInstanceIdentifiers(sessionIdentifier).size());
 
 		// read
 		assertNull(confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier));

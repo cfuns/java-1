@@ -17,4 +17,6 @@ public interface UrlUtil {
 
 	String parseId(HttpServletRequest request, String paramterName);
 
+	boolean isUrl(String url);
+
 }
