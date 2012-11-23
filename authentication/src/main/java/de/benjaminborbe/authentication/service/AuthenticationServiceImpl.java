@@ -71,8 +71,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
-			if (a.verifyCredential(userIdentifier, password)) {
-				return true;
+			try {
+				if (a.verifyCredential(userIdentifier, password)) {
+					return true;
+				}
+			}
+			catch (final AuthenticationServiceException e) {
+				logger.warn(e.getClass().getName(), e);
 			}
 		}
 		return false;

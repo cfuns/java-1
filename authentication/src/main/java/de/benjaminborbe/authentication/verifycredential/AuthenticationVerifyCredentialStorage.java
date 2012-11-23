@@ -47,6 +47,16 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 				return false;
 			}
 
+			if (user.getPassword() == null) {
+				logger.info("verifyCredential failed password is null for user " + userIdentifier);
+				return false;
+			}
+
+			if (user.getPasswordSalt() == null) {
+				logger.info("verifyCredential failed passwordSalt is null for user " + userIdentifier);
+				return false;
+			}
+
 			if (passwordEncryptionService.authenticate(password, user.getPassword(), user.getPasswordSalt())) {
 				logger.trace("verifyCredential password match");
 				return true;
