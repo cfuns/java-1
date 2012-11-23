@@ -8,6 +8,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
+import de.benjaminborbe.index.api.IndexSearcherService;
+import de.benjaminborbe.index.api.IndexSearcherServiceMock;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.api.IndexerServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
@@ -19,6 +21,7 @@ public class ConfluenceOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(IndexSearcherService.class).to(IndexSearcherServiceMock.class).in(Singleton.class);
 		bind(IndexerService.class).to(IndexerServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
