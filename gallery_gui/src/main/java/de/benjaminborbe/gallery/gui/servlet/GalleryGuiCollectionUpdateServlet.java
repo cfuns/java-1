@@ -23,6 +23,8 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -49,7 +51,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
+public class GalleryGuiCollectionUpdateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -66,7 +68,7 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 	private final ParseUtil parseUtil;
 
 	@Inject
-	public GalleryGuiGroupCreateServlet(
+	public GalleryGuiCollectionUpdateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -81,9 +83,9 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
-		this.parseUtil = parseUtil;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 		this.authenticationService = authenticationService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -92,20 +94,28 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_NAME);
-			final String shared = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_SHARED);
+			final String id = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_ID);
+			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_NAME);
 			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
-			if (name != null && shared != null) {
-				try {
-					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final String prio = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO);
+			final String shared = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_SHARED);
+			final String groupId = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_ID);
 
-					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name, shared);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(id);
+			final GalleryCollection galleryCollection = galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier);
+
+			if (name != null && prio != null && groupId != null && shared != null) {
+				try {
+
+					final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(groupId);
+					updateCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
 					}
 					else {
-						throw new RedirectException(galleryGuiLinkFactory.collectionListUrl(request, galleryGroupIdentifier));
+						throw new RedirectException(galleryGuiLinkFactory.entryListUrl(request, galleryCollectionIdentifier));
 					}
 				}
 				catch (final ValidationException e) {
@@ -115,9 +125,14 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 			}
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
-			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_NAME).addLabel("Name..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_SHARED).addLabel("Shared").addDefaultValue("false"));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID).addValue(String.valueOf(galleryCollection.getId())));
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GROUP_ID).addValue(String.valueOf(galleryCollection.getGroupId())));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name...").addDefaultValue(galleryCollection.getName()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO).addLabel("Prio...").addDefaultValue(
+					String.valueOf(galleryCollection.getPriority())));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_SHARED).addLabel("Shared").addPlaceholder("shared...")
+					.addDefaultValue(String.valueOf(galleryCollection.getShared())));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
 		}
@@ -131,10 +146,27 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name, final String sharedString) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+	private GalleryCollectionIdentifier updateCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
+			final String prioString, final String sharedString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException,
+			SuperAdminRequiredException {
+
+		Long prio;
 		Boolean shared;
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		{
+			try {
+				if (prioString == null || prioString.length() == 0) {
+					prio = null;
+				}
+				else {
+					prio = parseUtil.parseLong(prioString);
+				}
+			}
+			catch (final ParseException e) {
+				prio = null;
+				errors.add(new ValidationErrorSimple("illegal prio"));
+			}
+		}
 		{
 			try {
 				shared = parseUtil.parseBoolean(sharedString);
@@ -144,12 +176,13 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 				errors.add(new ValidationErrorSimple("illegal shared"));
 			}
 		}
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroup(sessionIdentifier, name, shared);
-			return galleryGroupIdentifier;
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
+			return galleryCollectionIdentifier;
 		}
 	}
 

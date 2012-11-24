@@ -32,7 +32,6 @@ public interface GalleryServiceEntry {
 	Collection<GalleryEntry> getEntriesShared(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException;
 
 	void updateEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, String entryName,
-			Long priority, String imagePreviewName, String imageName, Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
-			SuperAdminRequiredException;
+			Long priority, Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException;
 
 }

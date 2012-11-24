@@ -11,10 +11,13 @@ import com.google.inject.Inject;
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionUpdateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryUpdateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupListServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupUpdateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryListServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
@@ -27,6 +30,15 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class GalleryGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private GalleryGuiCollectionUpdateServlet galleryGuiCollectionUpdateServlet;
+
+	@Inject
+	private GalleryGuiEntryUpdateServlet galleryGuiEntryUpdateServlet;
+
+	@Inject
+	private GalleryGuiGroupUpdateServlet galleryGuiGroupUpdateServlet;
 
 	@Inject
 	private GalleryGuiCollectionCreateServlet galleryGuiCollectionCreateServlet;
@@ -80,6 +92,9 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(galleryGuiEntryDeleteServlet, GalleryGuiConstants.URL_ENTRY_DELETE));
 		result.add(new ServletInfo(galleryGuiEntryListServlet, GalleryGuiConstants.URL_ENTRY_LIST));
 		result.add(new ServletInfo(galleryGuiImageServlet, GalleryGuiConstants.URL_IMAGE));
+		result.add(new ServletInfo(galleryGuiCollectionUpdateServlet, GalleryGuiConstants.URL_COLLECTION_UPDATE));
+		result.add(new ServletInfo(galleryGuiEntryUpdateServlet, GalleryGuiConstants.URL_ENTRY_UPDATE));
+		result.add(new ServletInfo(galleryGuiGroupUpdateServlet, GalleryGuiConstants.URL_GROUP_UPDATE));
 		return result;
 	}
 

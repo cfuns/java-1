@@ -15,4 +15,6 @@ public interface GalleryCollection {
 	GalleryGroupIdentifier getGroupId();
 
 	Long getPriority();
+
+	Boolean getShared();
 }

@@ -11,4 +11,6 @@ public interface GalleryGroup {
 	Calendar getCreated();
 
 	Calendar getModified();
+
+	Boolean getShared();
 }

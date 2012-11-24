@@ -46,14 +46,14 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String groupName, final Boolean shared) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String groupName, final Boolean shared) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared)
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 	}
 
 	@Override
@@ -73,14 +73,14 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
+			LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException,
+			LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 
@@ -90,8 +90,8 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
-			LoginRequiredException, SuperAdminRequiredException {
+	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
+			throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 
@@ -102,7 +102,8 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
+	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
 	}
 
@@ -117,15 +118,15 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio,
-			final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName,
+			final Long prio, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier,
-			final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException,
-			SuperAdminRequiredException {
+	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
+			final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 	}
 
 	@Override
@@ -146,7 +147,8 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollection getCollectionShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
+	public GalleryCollection getCollectionShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
+			throws GalleryServiceException {
 		return null;
 	}
 
@@ -156,9 +158,10 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority,
-			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType, final Boolean shared)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
+			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+			final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException, SuperAdminRequiredException {
 		return null;
 	}
 
@@ -169,19 +172,19 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
-			SuperAdminRequiredException {
+	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
-			SuperAdminRequiredException {
+	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, SuperAdminRequiredException {
 	}
 
 	@Override
-	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, SuperAdminRequiredException {
+	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, SuperAdminRequiredException {
 		return null;
 	}
 
@@ -191,18 +194,18 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
-			final String entryName, final Long priority, final String imagePreviewName, final String imageName, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
-			SuperAdminRequiredException {
-	}
-
-	@Override
 	public GalleryImageIdentifier createImageIdentifier(final String id) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
+	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
+	}
+
+	@Override
+	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
+			final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException {
 	}
 }

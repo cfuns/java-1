@@ -20,4 +20,6 @@ public interface GalleryEntry {
 
 	Long getPriority();
 
+	Boolean getShared();
+
 }

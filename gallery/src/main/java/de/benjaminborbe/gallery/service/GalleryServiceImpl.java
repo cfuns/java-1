@@ -740,8 +740,8 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
-			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final String imagePreviewName, final String imageName,
-			final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException {
+			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
+			ValidationException, LoginRequiredException, SuperAdminRequiredException {
 		try {
 			authenticationService.expectSuperAdmin(sessionIdentifier);
 

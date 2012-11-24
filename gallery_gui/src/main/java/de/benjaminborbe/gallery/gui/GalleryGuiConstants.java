@@ -10,9 +10,19 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_COLLECTION_PRIO = "collection_prio";
 
+	String PARAMETER_COLLECTION_SHARED = "collection_shared";
+
 	String PARAMETER_ENTRY_ID = "entry_id";
 
 	String PARAMETER_ENTRY_PRIO = "entry_prio";
+
+	String PARAMETER_ENTRY_SHARED = "entry_shared";
+
+	String PARAMETER_GROUP_ID = "group_id";
+
+	String PARAMETER_GROUP_NAME = "group_name";
+
+	String PARAMETER_GROUP_SHARED = "group_shared";
 
 	String PARAMETER_IMAGE_CONTENT = "image_content";
 
@@ -20,7 +30,7 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_IMAGE_ID = "image_id";
 
-	String PARAMETER_IMAGE_NAME = "image_name";
+	String PARAMETER_ENTRY_NAME = "image_name";
 
 	String PARAMETER_REFERER = "referer";
 
@@ -30,11 +40,15 @@ public interface GalleryGuiConstants {
 
 	String URL_COLLECTION_LIST = "/collection/list";
 
+	String URL_COLLECTION_UPDATE = "/collection/update";
+
 	String URL_ENTRY_CREATE = "/entry/create";
 
 	String URL_ENTRY_DELETE = "/entry/delete";
 
 	String URL_ENTRY_LIST = "/entry/list";
+
+	String URL_ENTRY_UPDATE = "/entry/update";
 
 	String URL_GROUP_CREATE = "/group/create";
 
@@ -42,16 +56,8 @@ public interface GalleryGuiConstants {
 
 	String URL_GROUP_LIST = "/";
 
+	String URL_GROUP_UPDATE = "/group/update";
+
 	String URL_IMAGE = "/image/content";
-
-	String PARAMETER_GROUP_ID = "group_id";
-
-	String PARAMETER_GROUP_NAME = "group_name";
-
-	String PARAMETER_ENTRY_SHARED = "entry_shared";
-
-	String PARAMETER_GROUP_SHARED = "group_shared";
-
-	String PARAMETER_COLLECTION_SHARED = "collection_shared";
 
 }

@@ -148,7 +148,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 						final String imageContentType = extractContentType(imageItem.getContentType(), imageName);
 
 						final String galleryId = parameter.get(GalleryGuiConstants.PARAMETER_COLLECTION_ID);
-						final String name = parameter.get(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
+						final String name = parameter.get(GalleryGuiConstants.PARAMETER_ENTRY_NAME);
 						final String prio = parameter.get(GalleryGuiConstants.PARAMETER_ENTRY_PRIO);
 						final String shared = parameter.get(GalleryGuiConstants.PARAMETER_ENTRY_SHARED);
 
@@ -176,7 +176,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID));
-			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_IMAGE_NAME).addLabel("Name").addPlaceholder("name..."));
+			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_NAME).addLabel("Name").addPlaceholder("name..."));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_PRIO).addLabel("Prio").addPlaceholder("prio..."));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_SHARED).addLabel("Shared").addPlaceholder("shared...").addValue("false"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Preview"));
