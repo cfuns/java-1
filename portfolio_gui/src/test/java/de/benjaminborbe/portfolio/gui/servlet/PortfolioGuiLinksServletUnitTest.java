@@ -124,8 +124,8 @@ public class PortfolioGuiLinksServletUnitTest {
 		final String id = "123";
 		final GalleryCollectionIdentifier galleryCollectionIdentifier = new GalleryCollectionIdentifier(id);
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
-		EasyMock.expect(galleryService.getCollectionIdentifierByName(sessionIdentifier, PortfolioGuiConstants.COLLECTION_NAME_LINKS)).andReturn(galleryCollectionIdentifier);
-		EasyMock.expect(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
+		EasyMock.expect(galleryService.getCollectionIdentifierByNameShared(sessionIdentifier, PortfolioGuiConstants.COLLECTION_NAME_LINKS)).andReturn(galleryCollectionIdentifier);
+		EasyMock.expect(galleryService.getEntriesShared(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioGuiLinksServlet servlet = new PortfolioGuiLinksServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, portfolioWidget,

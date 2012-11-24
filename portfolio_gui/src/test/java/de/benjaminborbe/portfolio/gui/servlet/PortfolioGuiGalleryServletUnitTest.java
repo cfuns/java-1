@@ -137,8 +137,8 @@ public class PortfolioGuiGalleryServletUnitTest {
 
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
 		EasyMock.expect(galleryService.createCollectionIdentifier(id)).andReturn(galleryCollectionIdentifier);
-		EasyMock.expect(galleryService.getCollection(sessionIdentifier, galleryCollectionIdentifier)).andReturn(collection);
-		EasyMock.expect(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
+		EasyMock.expect(galleryService.getCollectionShared(sessionIdentifier, galleryCollectionIdentifier)).andReturn(collection);
+		EasyMock.expect(galleryService.getEntriesShared(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioGuiLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioGuiLinkFactory.class);
