@@ -99,10 +99,10 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 			}
 			final String action = request.getContextPath() + "/authentication/changePassword";
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password ..."));
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password ..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password..."));
 			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW_REPEAT).addLabel("New password repeat").addPlaceholder(
-					"New password repeat ..."));
+					"New password repeat..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("change password"));
 			widgets.add(form);
 

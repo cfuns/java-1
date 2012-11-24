@@ -69,8 +69,8 @@ public class WikiGuiSpaceEditServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 
 		final FormWidget form = new FormWidget();
-		form.addFormInputWidget(new FormInputTextWidget("title").addPlaceholder("Title ..."));
-		form.addFormInputWidget(new FormInputTextareaWidget("content").addPlaceholder("Content ..."));
+		form.addFormInputWidget(new FormInputTextWidget("title").addPlaceholder("Title..."));
+		form.addFormInputWidget(new FormInputTextareaWidget("content").addPlaceholder("Content..."));
 		form.addFormInputWidget(new FormInputSubmitWidget("update"));
 		widgets.add(form);
 

@@ -1402,7 +1402,7 @@ QUnit.equiv = (function() {
 						a.source === b.source &&
 						// and its modifers
 						a.global === b.global &&
-						// (gmi) ...
+						// (gmi)...
 						a.ignoreCase === b.ignoreCase &&
 						a.multiline === b.multiline;
 				},

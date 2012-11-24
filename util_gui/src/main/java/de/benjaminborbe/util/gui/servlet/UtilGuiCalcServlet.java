@@ -79,7 +79,7 @@ public class UtilGuiCalcServlet extends WebsiteHtmlServlet {
 		}
 
 		final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_EXPRESSION).addLabel("Expression").addPlaceholder("1 + 3 ..."));
+		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_EXPRESSION).addLabel("Expression").addPlaceholder("1 + 3..."));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("calc"));
 		widgets.add(formWidget);
 		return widgets;

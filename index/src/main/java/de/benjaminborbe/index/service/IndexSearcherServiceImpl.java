@@ -52,7 +52,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 			// parse query over multiple fields
 			final Query q = new MultiFieldQueryParser(IndexConstants.LUCENE_VERSION, buildFields(), analyzer).parse(searchQuery);
 
-			// searching ...
+			// searching...
 			final int hitsPerPage = 10;
 			final boolean readOnly = true;
 			final IndexReader indexReader = IndexReader.open(index, readOnly);

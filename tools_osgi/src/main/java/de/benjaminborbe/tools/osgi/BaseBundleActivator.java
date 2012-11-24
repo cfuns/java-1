@@ -36,7 +36,7 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	public void start(final BundleContext context) throws Exception {
 		try {
 			getInjector(context).injectMembers(this);
-			logger.info("starting: " + this.getClass().getName() + " ...");
+			logger.info("starting: " + this.getClass().getName() + "...");
 
 			// register serviceTrackers
 			for (final ServiceTracker serviceTracker : getServiceTrackers(context)) {
@@ -78,7 +78,7 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	public void stop(final BundleContext context) throws Exception {
 		try {
 			getInjector(context).injectMembers(this);
-			logger.info("stopping: " + this.getClass().getName() + " ...");
+			logger.info("stopping: " + this.getClass().getName() + "...");
 
 			// close servicetracker
 			for (final ServiceTracker serviceTracker : getServiceTrackers(context)) {

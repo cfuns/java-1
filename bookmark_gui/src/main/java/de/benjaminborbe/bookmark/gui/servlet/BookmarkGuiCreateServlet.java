@@ -117,10 +117,10 @@ public class BookmarkGuiCreateServlet extends WebsiteHtmlServlet {
 				}
 			}
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addLabel("Url").addPlaceholder("url ..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_NAME).addLabel("Name").addPlaceholder("name ..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_DESCRIPTION).addLabel("Description").addPlaceholder("description ..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_KEYWORDS).addLabel("Keywords").addPlaceholder("keywords ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addLabel("Url").addPlaceholder("url..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_NAME).addLabel("Name").addPlaceholder("name..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_DESCRIPTION).addLabel("Description").addPlaceholder("description..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_KEYWORDS).addLabel("Keywords").addPlaceholder("keywords..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 

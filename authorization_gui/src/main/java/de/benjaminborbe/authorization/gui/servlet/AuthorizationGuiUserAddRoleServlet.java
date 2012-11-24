@@ -92,8 +92,8 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 			}
 			else {
 				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNANE).addLabel("Username").addPlaceholder("Username ..."));
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ROLENANE).addLabel("Rolename").addPlaceholder("Rolename ..."));
+				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNANE).addLabel("Username").addPlaceholder("Username..."));
+				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ROLENANE).addLabel("Rolename").addPlaceholder("Rolename..."));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("grant"));
 				widgets.add(formWidget);
 				return widgets;

@@ -102,8 +102,8 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(WikiGuiConstants.PARAMETER_SPACE_ID));
-			form.addFormInputWidget(new FormInputTextWidget(WikiGuiConstants.PARAMETER_PAGE_TITLE).addLabel("Title").addPlaceholder("Title ..."));
-			form.addFormInputWidget(new FormInputTextareaWidget(WikiGuiConstants.PARAMETER_PAGE_CONTENT).addLabel("Content").addPlaceholder("Content ..."));
+			form.addFormInputWidget(new FormInputTextWidget(WikiGuiConstants.PARAMETER_PAGE_TITLE).addLabel("Title").addPlaceholder("Title..."));
+			form.addFormInputWidget(new FormInputTextareaWidget(WikiGuiConstants.PARAMETER_PAGE_CONTENT).addLabel("Content").addPlaceholder("Content..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(form);
 

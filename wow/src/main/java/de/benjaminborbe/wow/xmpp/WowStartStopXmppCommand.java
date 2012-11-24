@@ -59,7 +59,7 @@ public abstract class WowStartStopXmppCommand extends WowBaseXmppCommand {
 		final String action = parseArg(command);
 		if ("start".equals(action)) {
 			if (!running.get()) {
-				send(chat, "starting ...");
+				send(chat, "starting...");
 				running.set(true);
 				threadRunner.run("fishing thread", new RepeatThread(chat));
 				send(chat, "started");
@@ -70,7 +70,7 @@ public abstract class WowStartStopXmppCommand extends WowBaseXmppCommand {
 		}
 		else if ("stop".equals(action)) {
 			if (running.get()) {
-				send(chat, "stopping ....");
+				send(chat, "stopping....");
 				running.set(false);
 			}
 			else {

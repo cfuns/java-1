@@ -40,7 +40,7 @@ public class GoogleSearchServiceComponentUnitTest {
 			assertEquals("http://en.wikipedia.org/wiki/Foobar", result.get(pos).getUrl().toExternalForm());
 			assertEquals("Foobar - Wikipedia, the free encyclopedia", result.get(pos).getTitle());
 			assertEquals(
-					"The terms foobar /ˈfʊːbɑː/, fubar, or foo , bar, baz and qux (alternatively quux) are sometimes used as placeholder names (also referred to as metasyntactic ...",
+					"The terms foobar /ˈfʊːbɑː/, fubar, or foo , bar, baz and qux (alternatively quux) are sometimes used as placeholder names (also referred to as metasyntactic...",
 					result.get(pos).getDescription());
 		}
 		{
@@ -57,7 +57,7 @@ public class GoogleSearchServiceComponentUnitTest {
 			assertEquals("http://catb.org/jargon/html/F/foo.html", result.get(pos).getUrl().toExternalForm());
 			assertEquals("foo", result.get(pos).getTitle());
 			assertEquals(
-					"When ' foo ' is used in connection with 'bar' it has generally traced to the WWII-era Army slang acronym FUBAR ('Fucked Up Beyond All Repair' or 'Fucked Up ...", result
+					"When ' foo ' is used in connection with 'bar' it has generally traced to the WWII-era Army slang acronym FUBAR ('Fucked Up Beyond All Repair' or 'Fucked Up...", result
 							.get(pos).getDescription());
 		}
 		{

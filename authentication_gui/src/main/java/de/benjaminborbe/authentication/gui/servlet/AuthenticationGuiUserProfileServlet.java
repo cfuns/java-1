@@ -103,11 +103,11 @@ public class AuthenticationGuiUserProfileServlet extends WebsiteHtmlServlet {
 				}
 			}
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-			formWidget.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email").addPlaceholder("email ...")
+			formWidget.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email").addPlaceholder("email...")
 					.addDefaultValue(user.getEmail()));
-			formWidget.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_FULLNAME).addLabel("Fullname").addPlaceholder("fullname ...")
+			formWidget.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_FULLNAME).addLabel("Fullname").addPlaceholder("fullname...")
 					.addDefaultValue(user.getFullname()));
-			formWidget.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_TIMEZONE).addLabel("TimeZone").addPlaceholder("timeZone ...")
+			formWidget.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_TIMEZONE).addLabel("TimeZone").addPlaceholder("timeZone...")
 					.addDefaultValue(authenticationService.getTimeZone(sessionIdentifier).getID()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);

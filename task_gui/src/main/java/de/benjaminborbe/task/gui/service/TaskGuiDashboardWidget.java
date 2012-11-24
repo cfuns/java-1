@@ -77,7 +77,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 					taskService.createTask(sessionIdentifier, name, null, null, null, null, null, null, null, null);
 				}
 				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST).addClass("taskdashboardcreate");
-				formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addPlaceholder("name ...").addValue(""));
+				formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addPlaceholder("name...").addValue(""));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 				widgets.add(formWidget);
 			}

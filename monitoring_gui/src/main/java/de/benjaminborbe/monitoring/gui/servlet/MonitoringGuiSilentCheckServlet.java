@@ -85,7 +85,7 @@ public class MonitoringGuiSilentCheckServlet extends WebsiteHtmlServlet {
 			}
 			else {
 				final FormWidget form = new FormWidget();
-				form.addFormInputWidget(new FormInputTextWidget(PARAMETER_CHECK).addLabel("CheckName").addPlaceholder("CheckName ..."));
+				form.addFormInputWidget(new FormInputTextWidget(PARAMETER_CHECK).addLabel("CheckName").addPlaceholder("CheckName..."));
 				form.addFormInputWidget(new FormInputSubmitWidget("silent"));
 				widgets.add(form);
 			}

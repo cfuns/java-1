@@ -107,8 +107,8 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			}
 			final String action = request.getContextPath() + "/authentication/login";
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username ..."));
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password ..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
 			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER));
 			form.addFormInputWidget(new FormInputSubmitWidget("login"));
 			widgets.add(form);

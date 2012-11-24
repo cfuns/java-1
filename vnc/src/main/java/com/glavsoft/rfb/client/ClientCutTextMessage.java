@@ -59,6 +59,6 @@ public class ClientCutTextMessage implements ClientToServerMessage {
 
 	@Override
 	public String toString() {
-		return "ClientCutTextMessage: [length: " + bytes.length + ", text: ...]";
+		return "ClientCutTextMessage: [length: " + bytes.length + ", text:...]";
 	}
 }

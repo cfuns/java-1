@@ -35,7 +35,7 @@ public class TranslateGuiDashboardWidget implements DashboardContentWidget {
 		logger.trace("render");
 		final String action = "http://dict.leo.org/ende";
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.GET).addTarget(target);
-		formWidget.addFormInputWidget(new FormInputTextWidget("search").addPlaceholder("translate ..."));
+		formWidget.addFormInputWidget(new FormInputTextWidget("search").addPlaceholder("translate..."));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("translate"));
 		formWidget.render(request, response, context);
 	}

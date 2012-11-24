@@ -420,7 +420,7 @@ function isElement(node) {
 
 /**
  * @param str 'key1,key2,...'
- * @returns {object} in the form of {key1:true, key2:true, ...}
+ * @returns {object} in the form of {key1:true, key2:true,...}
  */
 function makeMap(str){
   var obj = {}, items = str.split(","), i;
@@ -2395,7 +2395,7 @@ function annotate(fn) {
  * <pre>
  *   // Given
  *   function MyController($scope, $route) {
- *     // ...
+ *     //...
  *   }
  *
  *   // Then
@@ -2412,7 +2412,7 @@ function annotate(fn) {
  * <pre>
  *   // Given
  *   var MyController = function(obfuscatedScope, obfuscatedRoute) {
- *     // ...
+ *     //...
  *   }
  *   // Define function dependencies
  *   MyController.$inject = ['$scope', '$route'];
@@ -2430,19 +2430,19 @@ function annotate(fn) {
  * <pre>
  *   // We wish to write this (not minification / obfuscation safe)
  *   injector.invoke(function($compile, $rootScope) {
- *     // ...
+ *     //...
  *   });
  *
  *   // We are forced to write break inlining
  *   var tmpFn = function(obfuscatedCompile, obfuscatedRootScope) {
- *     // ...
+ *     //...
  *   };
  *   tmpFn.$inject = ['$compile', '$rootScope'];
  *   injector.invoke(tempFn);
  *
  *   // To better support inline function the inline annotation is supported
  *   injector.invoke(['$compile', '$rootScope', function(obfCompile, obfRootScope) {
- *     // ...
+ *     //...
  *   }]);
  *
  *   // Therefore
@@ -3537,7 +3537,7 @@ var NON_ASSIGNABLE_MODEL_EXPRESSION = 'Non-assignable model expression: ';
  *   this case, you can access the clone via the cloneAttachFn:
  *   <pre>
  *     var templateHTML = angular.element('<p>{{total}}</p>'),
- *         scope = ....;
+ *         scope =....;
  *
  *     var clonedElement = $compile(templateHTML)(scope, function(clonedElement, scope) {
  *       //attach the clone to DOM document at the right place
@@ -4732,7 +4732,7 @@ function $InterpolateProvider() {
      *
      *
        <pre>
-         var $interpolate = ...; // injected
+         var $interpolate =...; // injected
          var exp = $interpolate('Hello {{name}}!');
          expect(exp({name:'Angular'}).toEqual('Hello Angular!');
        </pre>
@@ -7274,7 +7274,7 @@ function $RouteParamsProvider() {
  *   - Internal state needs to be stored on scope directly, which means that private state is
  *     exposed as $$____ properties
  *
- * Loop operations are optimized by using while(count--) { ... }
+ * Loop operations are optimized by using while(count--) {... }
  *   - this means that in order to keep the same order of execution as addition we have to add
  *     items to the array at the begging (shift) instead of at the end (push)
  *
@@ -7600,7 +7600,7 @@ function $RootScopeProvider(){
        *
        * # Example
        * <pre>
-           var scope = ...;
+           var scope =...;
            scope.name = 'misko';
            scope.counter = 0;
 
@@ -9203,7 +9203,7 @@ function $TimeoutProvider() {
  *   it('should be the same instance', inject(
  *     function($filterProvider) {
  *       $filterProvider.register('reverse', function(){
- *         return ...;
+ *         return...;
  *       });
  *     },
  *     function($filter, reverseFilter) {
@@ -13386,7 +13386,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  * @usageContent
  * <ANY ng-switch-when="matchValue1">...</ANY>
  *   <ANY ng-switch-when="matchValue2">...</ANY>
- *   ...
+ *  ...
  *   <ANY ng-switch-default>...</ANY>
  *
  * @scope

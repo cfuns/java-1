@@ -143,7 +143,7 @@ public abstract class LunchGuiBaseServlet extends WebsiteHtmlServlet {
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-			formWidget.addFormInputWidget(new FormInputTextWidget(LunchGuiConstants.PARAMETER_FULLNAME).addLabel("Vor und Nachname").addPlaceholder("name ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(LunchGuiConstants.PARAMETER_FULLNAME).addLabel("Vor und Nachname").addPlaceholder("name..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
 			widgets.add(formWidget);
 

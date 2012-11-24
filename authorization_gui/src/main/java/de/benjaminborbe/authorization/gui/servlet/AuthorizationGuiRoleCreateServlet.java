@@ -83,7 +83,7 @@ public class AuthorizationGuiRoleCreateServlet extends WebsiteHtmlServlet {
 			}
 			else {
 				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-				formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiParameter.PARAMETER_ROLE).addLabel("Name").addPlaceholder("name ..."));
+				formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiParameter.PARAMETER_ROLE).addLabel("Name").addPlaceholder("name..."));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 				widgets.add(formWidget);
 				return widgets;

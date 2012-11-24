@@ -51,7 +51,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 
 		final ListWidget widgets = new ListWidget();
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
-		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext ...").addId("searchBox"));
+		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext...").addId("searchBox"));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
 		widgets.add(formWidget);
 
