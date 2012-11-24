@@ -120,7 +120,7 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getImageIdentifier())));
 				list.add(new BrWidget());
 
-				if (i > 1) {
+				if (i > 0) {
 					list.add(galleryGuiLinkFactory.swapEntryPrio(request, galleryEntry.getId(), entries.get(i - 1).getId(), "up"));
 					list.add(" ");
 				}

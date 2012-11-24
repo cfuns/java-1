@@ -15,4 +15,9 @@ public class GalleryEntryComparatorPrio extends ComparatorBase<GalleryEntry, Lon
 		return false;
 	}
 
+	@Override
+	public boolean inverted() {
+		return true;
+	}
+
 }

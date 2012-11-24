@@ -2,6 +2,7 @@ package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -73,6 +75,8 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final GalleryGuiLinkFactory galleryGuiLinkFactory;
+
 	@Inject
 	public GalleryGuiEntryCreateServlet(
 			final Logger logger,
@@ -85,12 +89,14 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final GalleryService galleryService,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final GalleryGuiLinkFactory galleryGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.parseUtil = parseUtil;
+		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 	}
 
 	@Override
@@ -133,9 +139,7 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 						}
 					}
 
-					if (parameter.containsKey(GalleryGuiConstants.PARAMETER_COLLECTION_ID) && parameter.containsKey(GalleryGuiConstants.PARAMETER_COLLECTION_ID)
-							&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT) && files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)
-							&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW) && files.containsKey(GalleryGuiConstants.PARAMETER_ENTRY_SHARED)) {
+					if (containsRequireParameter(parameter) && containsRequireFiles(files)) {
 						final FileItem imagePreviewItem = files.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
 						final String imagePreviewName = imagePreviewItem.getFieldName();
 						final byte[] imagePreviewContent = imagePreviewItem.get();
@@ -177,11 +181,15 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_NAME).addLabel("Name").addPlaceholder("name..."));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_PRIO).addLabel("Prio").addPlaceholder("prio..."));
-			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_SHARED).addLabel("Shared").addPlaceholder("shared...").addValue("false"));
+			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_SHARED).addLabel("Shared").addPlaceholder("shared...").addDefaultValue("false"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Preview"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT).addLabel("Image"));
 			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
 			widgets.add(form);
+
+			final ListWidget navi = new ListWidget();
+			navi.add(galleryGuiLinkFactory.listEntries(request, galleryService.createCollectionIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_ID))));
+			widgets.add(navi);
 
 			return widgets;
 		}
@@ -193,6 +201,32 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			logger.warn(e.getClass().getSimpleName(), e);
 			return new ExceptionWidget(e);
 		}
+	}
+
+	private boolean containsRequireFiles(final Map<String, FileItem> files) {
+		final List<String> parameters = Arrays.asList(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT, GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
+
+		for (final String p : parameters) {
+			if (!files.containsKey(p)) {
+				logger.info("parameter " + p + " missing");
+				return false;
+
+			}
+		}
+		return true;
+	}
+
+	private boolean containsRequireParameter(final Map<String, String> parameter) {
+		final List<String> parameters = Arrays.asList(GalleryGuiConstants.PARAMETER_COLLECTION_ID, GalleryGuiConstants.PARAMETER_ENTRY_SHARED);
+
+		for (final String p : parameters) {
+			if (!parameter.containsKey(p)) {
+				logger.info("parameter " + p + " missing");
+				return false;
+
+			}
+		}
+		return true;
 	}
 
 	private GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier, final String name,

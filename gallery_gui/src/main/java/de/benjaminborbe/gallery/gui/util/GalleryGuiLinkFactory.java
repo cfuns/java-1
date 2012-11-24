@@ -112,7 +112,14 @@ public class GalleryGuiLinkFactory {
 	public Widget swapEntryPrio(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB,
 			final String name) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_SWAP_PRIO, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_ENTRY_ID_A, String.valueOf(galleryEntryIdentifierA)), name);
+				GalleryGuiConstants.PARAMETER_ENTRY_ID_A, String.valueOf(galleryEntryIdentifierA)).add(GalleryGuiConstants.PARAMETER_ENTRY_ID_B, String.valueOf(galleryEntryIdentifierB)),
+				name);
+	}
+
+	public Widget listEntries(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST, new MapParameter().add(
+				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "entries");
 	}
 
 }

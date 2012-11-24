@@ -978,13 +978,32 @@ public class GalleryServiceImpl implements GalleryService {
 			final GalleryEntryBean galleryEntryA = galleryEntryDao.load(galleryEntryIdentifierA);
 			final GalleryEntryBean galleryEntryB = galleryEntryDao.load(galleryEntryIdentifierB);
 
-			long p1 = galleryEntryA.getPriority() != null ? galleryEntryA.getPriority() : 0;
-			final long p2 = galleryEntryB.getPriority() != null ? galleryEntryB.getPriority() : 0;
-			if (p2 == p1) {
+			Long p1 = galleryEntryA.getPriority();
+			Long p2 = galleryEntryB.getPriority();
+			if (p1 == null && p2 == null) {
+				p1 = 0l;
+				p2 = 0l;
+			}
+			if (p1 != null && p2 == null) {
+				p2 = p1;
 				p1++;
 			}
-			galleryEntryA.setPriority(p2);
-			galleryEntryB.setPriority(p1);
+			if (p1 == null && p2 != null) {
+				p1 = p2;
+				p2++;
+			}
+			if (p1 != null && p2 != null) {
+				if (p2 == p1) {
+					p1++;
+				}
+				else {
+					final Long tmp = p1;
+					p1 = p2;
+					p2 = tmp;
+				}
+			}
+			galleryEntryA.setPriority(p1);
+			galleryEntryB.setPriority(p2);
 			galleryEntryDao.save(galleryEntryA);
 			galleryEntryDao.save(galleryEntryB);
 		}
