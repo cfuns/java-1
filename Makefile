@@ -220,3 +220,8 @@ buildconfluence:
 	cd confluence && make all
 	cd confluence_gui && make all
 	cd confluence_test && make all
+buildgooglesearch:
+	cd googlesearch_api && make all
+	cd googlesearch && make all
+	cd googlesearch_gui && make all
+	cd googlesearch_test && make all
