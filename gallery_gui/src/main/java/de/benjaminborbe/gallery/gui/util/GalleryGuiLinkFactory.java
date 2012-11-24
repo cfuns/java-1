@@ -92,4 +92,20 @@ public class GalleryGuiLinkFactory {
 		// String.valueOf(imageIdentifier)));
 		return request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE + "/" + String.valueOf(imageIdentifier);
 	}
+
+	public Widget updateCollection(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_UPDATE, new MapParameter().add(
+				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "edit");
+	}
+
+	public Widget updateGroup(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_UPDATE, new MapParameter().add(
+				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "edit");
+	}
+
+	public Widget updateEntry(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_UPDATE, new MapParameter().add(
+				GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "edit");
+	}
 }

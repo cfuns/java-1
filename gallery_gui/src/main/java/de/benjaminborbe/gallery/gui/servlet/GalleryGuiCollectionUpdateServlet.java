@@ -109,7 +109,7 @@ public class GalleryGuiCollectionUpdateServlet extends WebsiteHtmlServlet {
 				try {
 
 					final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(groupId);
-					updateCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
+					updateCollection(sessionIdentifier, galleryCollectionIdentifier, galleryGroupIdentifier, name, prio, shared);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -146,9 +146,9 @@ public class GalleryGuiCollectionUpdateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private GalleryCollectionIdentifier updateCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final String prioString, final String sharedString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException,
-			SuperAdminRequiredException {
+	private void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
+			final GalleryGroupIdentifier galleryGroupIdentifier, final String name, final String prioString, final String sharedString) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 
 		Long prio;
 		Boolean shared;
@@ -181,8 +181,7 @@ public class GalleryGuiCollectionUpdateServlet extends WebsiteHtmlServlet {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
-			return galleryCollectionIdentifier;
+			galleryService.updateCollection(sessionIdentifier, galleryCollectionIdentifier, galleryGroupIdentifier, name, prio, shared);
 		}
 	}
 

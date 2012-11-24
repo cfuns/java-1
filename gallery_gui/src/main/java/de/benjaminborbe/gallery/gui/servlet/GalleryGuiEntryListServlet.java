@@ -116,6 +116,8 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			for (final GalleryEntry galleryEntry : entries) {
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getPreviewImageIdentifier())));
+				list.add(galleryGuiLinkFactory.updateEntry(request, galleryEntry.getId()));
+				list.add(" ");
 				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntry.getId()));
 				ul.add(list);
 			}

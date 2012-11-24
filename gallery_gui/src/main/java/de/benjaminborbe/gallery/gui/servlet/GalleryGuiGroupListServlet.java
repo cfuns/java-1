@@ -100,6 +100,8 @@ public class GalleryGuiGroupListServlet extends WebsiteHtmlServlet {
 				final ListWidget list = new ListWidget();
 				list.add(linkFactory.listCollections(request, galleryGroup));
 				list.add(" ");
+				list.add(linkFactory.updateGroup(request, galleryGroup.getId()));
+				list.add(" ");
 				list.add(linkFactory.deleteGroup(request, galleryGroup.getId()));
 				ul.add(list);
 			}
