@@ -14,6 +14,10 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_ENTRY_ID = "entry_id";
 
+	String PARAMETER_ENTRY_ID_A = "entry_id_a";
+
+	String PARAMETER_ENTRY_ID_B = "entry_id_b";
+
 	String PARAMETER_ENTRY_PRIO = "entry_prio";
 
 	String PARAMETER_ENTRY_SHARED = "entry_shared";
@@ -63,5 +67,7 @@ public interface GalleryGuiConstants {
 	String URL_CSS_STYLE = "/css/style.css";
 
 	String URL_CSS = "/css";
+
+	String URL_ENTRY_SWAP_PRIO = "/entry/swapprio";
 
 }

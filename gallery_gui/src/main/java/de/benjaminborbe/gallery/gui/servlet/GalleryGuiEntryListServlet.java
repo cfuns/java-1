@@ -113,11 +113,21 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 			final List<GalleryEntry> entries = Lists.newArrayList(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier));
 			Collections.sort(entries, galleryEntryComparator);
 
-			for (final GalleryEntry galleryEntry : entries) {
+			for (int i = 0; i < entries.size(); ++i) {
+				final GalleryEntry galleryEntry = entries.get(i);
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getPreviewImageIdentifier())));
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getImageIdentifier())));
 				list.add(new BrWidget());
+
+				if (i > 1) {
+					list.add(galleryGuiLinkFactory.swapEntryPrio(request, galleryEntry.getId(), entries.get(i - 1).getId(), "up"));
+					list.add(" ");
+				}
+				if (i < entries.size() - 1) {
+					list.add(galleryGuiLinkFactory.swapEntryPrio(request, galleryEntry.getId(), entries.get(i + 1).getId(), "down"));
+					list.add(" ");
+				}
 				list.add(galleryGuiLinkFactory.updateEntry(request, galleryEntry.getId()));
 				list.add(" ");
 				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntry.getId()));

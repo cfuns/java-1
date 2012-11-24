@@ -205,7 +205,13 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
-			final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException {
+	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
+			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
+			ValidationException, LoginRequiredException, SuperAdminRequiredException {
+	}
+
+	@Override
+	public void swapEntryPrio(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB)
+			throws PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException, GalleryServiceException {
 	}
 }
