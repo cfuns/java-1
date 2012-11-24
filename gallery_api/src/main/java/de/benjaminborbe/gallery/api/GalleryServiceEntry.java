@@ -34,4 +34,7 @@ public interface GalleryServiceEntry {
 	void updateEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, String entryName,
 			Long priority, Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException;
 
+	void swapEntryPrio(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifierA, GalleryEntryIdentifier galleryEntryIdentifierB)
+			throws PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException, GalleryServiceException;
+
 }
