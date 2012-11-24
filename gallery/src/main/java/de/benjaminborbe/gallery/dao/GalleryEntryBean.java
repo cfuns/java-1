@@ -6,11 +6,12 @@ import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
+import de.benjaminborbe.gallery.util.HasShared;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, GalleryEntry, HasCreated, HasModified {
+public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, GalleryEntry, HasCreated, HasModified, HasShared {
 
 	private static final long serialVersionUID = 6353074828349973344L;
 
@@ -29,6 +30,10 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 	private GalleryImageIdentifier imageIdentifier;
 
 	private Long priority;
+
+	private Boolean enabled;
+
+	private Boolean shared;
 
 	@Override
 	public GalleryEntryIdentifier getId() {
@@ -103,6 +108,22 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	public void setCollectionId(final GalleryCollectionIdentifier collectionId) {
 		this.collectionId = collectionId;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(final Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Boolean getShared() {
+		return shared;
+	}
+
+	public void setShared(Boolean shared) {
+		this.shared = shared;
 	}
 
 }

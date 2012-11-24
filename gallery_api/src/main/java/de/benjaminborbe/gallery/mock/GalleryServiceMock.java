@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -143,6 +144,43 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
+			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final String imagePreviewName, final String imageName,
+			final boolean enabled) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException {
+	}
+
+	@Override
+	public GalleryCollectionIdentifier getCollectionIdentifierByNamePublic(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryEntry> getEntriesPublic(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryGroupIdentifier getGroupByNamePublic(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithGroupPublic(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
+			throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsPublic(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryCollection getCollectionPublic(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
 		return null;
 	}
 }

@@ -5,22 +5,28 @@ import java.util.Collection;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface GalleryServiceGroup {
 
-	GalleryGroupIdentifier getGroupByName(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException;
+	GalleryGroupIdentifier getGroupByName(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	void deleteGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException;
+	GalleryGroupIdentifier getGroupByNamePublic(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException;
+
+	void deleteGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException;
 
 	GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException;
+			PermissionDeniedException, ValidationException, SuperAdminRequiredException;
 
-	Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
+	Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException;
 
-	Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
+	Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException;
 
 	GalleryGroupIdentifier createGroupIdentifier(String id) throws GalleryServiceException;
 
-	GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException;
+	GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException;
 }

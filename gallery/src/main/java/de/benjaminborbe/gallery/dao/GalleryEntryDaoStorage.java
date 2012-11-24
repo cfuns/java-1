@@ -16,11 +16,13 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.util.GalleryPredicate;
+import de.benjaminborbe.gallery.util.SharedPredicate;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -75,6 +77,11 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 			result.add(image.getId());
 		}
 		return result;
+	}
+
+	@Override
+	public EntityIterator<GalleryEntryBean> getEntityIteratorPublic() throws StorageException {
+		return new EntityIteratorFilter<GalleryEntryBean>(getEntityIterator(), new SharedPredicate<GalleryEntryBean>());
 	}
 
 }

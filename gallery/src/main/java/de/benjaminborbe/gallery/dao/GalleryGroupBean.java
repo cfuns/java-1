@@ -4,11 +4,12 @@ import java.util.Calendar;
 
 import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
+import de.benjaminborbe.gallery.util.HasShared;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryGroupBean implements Entity<GalleryGroupIdentifier>, GalleryGroup, HasCreated, HasModified {
+public class GalleryGroupBean implements Entity<GalleryGroupIdentifier>, GalleryGroup, HasCreated, HasModified, HasShared {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
@@ -19,6 +20,8 @@ public class GalleryGroupBean implements Entity<GalleryGroupIdentifier>, Gallery
 	private Calendar created;
 
 	private Calendar modified;
+
+	private Boolean shared;
 
 	@Override
 	public GalleryGroupIdentifier getId() {
@@ -57,6 +60,14 @@ public class GalleryGroupBean implements Entity<GalleryGroupIdentifier>, Gallery
 	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	public Boolean getShared() {
+		return shared;
+	}
+
+	public void setShared(Boolean shared) {
+		this.shared = shared;
 	}
 
 }

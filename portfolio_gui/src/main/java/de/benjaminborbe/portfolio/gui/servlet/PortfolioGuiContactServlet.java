@@ -132,10 +132,10 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService
-					.getCollectionIdentifierByName(sessionIdentifier, PortfolioGuiConstants.COLLECTION_NAME_CONTACT);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNamePublic(sessionIdentifier,
+					PortfolioGuiConstants.COLLECTION_NAME_CONTACT);
 			if (galleryCollectionIdentifier != null) {
-				portfolioWidget.setGalleryEntries(galleryService.getEntries(sessionIdentifier, galleryCollectionIdentifier));
+				portfolioWidget.setGalleryEntries(galleryService.getEntriesPublic(sessionIdentifier, galleryCollectionIdentifier));
 			}
 			portfolioWidget.addTitle("Contact - Benjamin Borbe");
 			portfolioWidget.addContent(createContentWidget(request, response, context));

@@ -5,11 +5,12 @@ import java.util.Calendar;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
+import de.benjaminborbe.gallery.util.HasShared;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier>, GalleryCollection, HasCreated, HasModified {
+public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier>, GalleryCollection, HasCreated, HasModified, HasShared {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
@@ -24,6 +25,8 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 	private Calendar modified;
 
 	private Long priority;
+
+	private Boolean shared;
 
 	@Override
 	public GalleryCollectionIdentifier getId() {
@@ -80,6 +83,14 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 
 	public void setGroupId(final GalleryGroupIdentifier groupId) {
 		this.groupId = groupId;
+	}
+
+	public Boolean getShared() {
+		return shared;
+	}
+
+	public void setShared(final Boolean shared) {
+		this.shared = shared;
 	}
 
 }

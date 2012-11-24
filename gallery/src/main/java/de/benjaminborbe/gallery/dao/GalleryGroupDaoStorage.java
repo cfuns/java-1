@@ -7,8 +7,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
+import de.benjaminborbe.gallery.util.SharedPredicate;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -32,4 +36,8 @@ public class GalleryGroupDaoStorage extends DaoStorage<GalleryGroupBean, Gallery
 		return COLUMN_FAMILY;
 	}
 
+	@Override
+	public EntityIterator<GalleryGroupBean> getEntityIteratorPublic() throws StorageException {
+		return new EntityIteratorFilter<GalleryGroupBean>(getEntityIterator(), new SharedPredicate<GalleryGroupBean>());
+	}
 }

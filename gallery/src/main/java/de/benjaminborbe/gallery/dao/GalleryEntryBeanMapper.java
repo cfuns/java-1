@@ -13,6 +13,7 @@ import de.benjaminborbe.gallery.util.SingleMapGalleryImageIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
+import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
 import de.benjaminborbe.tools.mapper.SingleMapString;
 import de.benjaminborbe.tools.mapper.SingleMappler;
@@ -40,6 +41,7 @@ public class GalleryEntryBeanMapper extends SingleMappler<GalleryEntryBean> {
 		result.add(new SingleMapGalleryImageIdentifier<GalleryEntryBean>("previewImageIdentifier"));
 		result.add(new SingleMapGalleryImageIdentifier<GalleryEntryBean>("imageIdentifier"));
 		result.add(new SingleMapString<GalleryEntryBean>("name"));
+		result.add(new SingleMapBoolean<GalleryEntryBean>("enabled", parseUtil));
 		result.add(new SingleMapCalendar<GalleryEntryBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<GalleryEntryBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
 		return result;

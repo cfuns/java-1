@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -84,7 +85,7 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -131,7 +132,7 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final String prioString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String prioString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 		Long prio;
 		try {
 			if (prioString == null || prioString.length() == 0) {

@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -98,7 +99,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 
 		try {
 			final ListWidget widgets = new ListWidget();
@@ -193,7 +194,8 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 	private GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier, final String name,
 			final String prioString, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType) throws ValidationException, GalleryServiceException, LoginRequiredException, PermissionDeniedException {
+			final byte[] imageContent, final String imageContentType) throws ValidationException, GalleryServiceException, LoginRequiredException, PermissionDeniedException,
+			SuperAdminRequiredException {
 		Long prio;
 		try {
 			if (prioString == null || prioString.length() == 0) {

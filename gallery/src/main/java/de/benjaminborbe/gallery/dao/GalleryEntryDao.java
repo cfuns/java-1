@@ -6,11 +6,14 @@ import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.Dao;
+import de.benjaminborbe.storage.tools.EntityIterator;
 
 public interface GalleryEntryDao extends Dao<GalleryEntryBean, GalleryEntryIdentifier> {
 
 	Collection<GalleryEntryBean> getGalleryImages(GalleryCollectionIdentifier galleryIdentifier) throws StorageException;
 
 	Collection<GalleryEntryIdentifier> getGalleryImageIdentifiers(GalleryCollectionIdentifier galleryIdentifier) throws StorageException;
+
+	EntityIterator<GalleryEntryBean> getEntityIteratorPublic() throws StorageException;
 
 }
