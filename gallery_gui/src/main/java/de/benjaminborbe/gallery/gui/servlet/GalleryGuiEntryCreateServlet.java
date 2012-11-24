@@ -1,6 +1,7 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -134,7 +136,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 					if (parameter.containsKey(GalleryGuiConstants.PARAMETER_COLLECTION_ID) && parameter.containsKey(GalleryGuiConstants.PARAMETER_COLLECTION_ID)
 							&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT) && files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)
-							&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW)) {
+							&& files.containsKey(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW) && files.containsKey(GalleryGuiConstants.PARAMETER_ENTRY_SHARED)) {
 						final FileItem imagePreviewItem = files.get(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW);
 						final String imagePreviewName = imagePreviewItem.getFieldName();
 						final byte[] imagePreviewContent = imagePreviewItem.get();
@@ -148,11 +150,12 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 						final String galleryId = parameter.get(GalleryGuiConstants.PARAMETER_COLLECTION_ID);
 						final String name = parameter.get(GalleryGuiConstants.PARAMETER_IMAGE_NAME);
 						final String prio = parameter.get(GalleryGuiConstants.PARAMETER_ENTRY_PRIO);
+						final String shared = parameter.get(GalleryGuiConstants.PARAMETER_ENTRY_SHARED);
 
 						final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
 						final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 						final GalleryEntryIdentifier entryIdentifier = createEntry(sessionIdentifier, galleryIdentifier, name, prio, imagePreviewName, imagePreviewContent,
-								imagePreviewContentType, imageName, imageContent, imageContentType);
+								imagePreviewContentType, imageName, imageContent, imageContentType, shared);
 						widgets.add("images uploaded!");
 						logger.debug("entryIdentifier: " + entryIdentifier);
 					}
@@ -175,6 +178,7 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_IMAGE_NAME).addLabel("Name").addPlaceholder("name..."));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_PRIO).addLabel("Prio").addPlaceholder("prio..."));
+			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_SHARED).addLabel("Shared").addPlaceholder("shared...").addValue("false"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT_PREVIEW).addLabel("Preview"));
 			form.addFormInputWidget(new FormInputFileWidget(GalleryGuiConstants.PARAMETER_IMAGE_CONTENT).addLabel("Image"));
 			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
@@ -194,22 +198,43 @@ public class GalleryGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 	private GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier, final String name,
 			final String prioString, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType) throws ValidationException, GalleryServiceException, LoginRequiredException, PermissionDeniedException,
-			SuperAdminRequiredException {
+			final byte[] imageContent, final String imageContentType, final String sharedString) throws ValidationException, GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, SuperAdminRequiredException {
+
 		Long prio;
-		try {
-			if (prioString == null || prioString.length() == 0) {
+		Boolean shared;
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		{
+			try {
+				if (prioString == null || prioString.length() == 0) {
+					prio = null;
+				}
+				else {
+					prio = parseUtil.parseLong(prioString);
+				}
+			}
+			catch (final ParseException e) {
 				prio = null;
-			}
-			else {
-				prio = parseUtil.parseLong(prioString);
+				errors.add(new ValidationErrorSimple("illegal prio"));
 			}
 		}
-		catch (final ParseException e) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("illegal prio")));
+		{
+			try {
+				shared = parseUtil.parseBoolean(sharedString);
+			}
+			catch (final ParseException e) {
+				shared = null;
+				errors.add(new ValidationErrorSimple("illegal shared"));
+			}
 		}
-		return galleryService.createEntry(sessionIdentifier, galleryIdentifier, name, prio, imagePreviewName, imagePreviewContent, imagePreviewContentType, imageName, imageContent,
-				imageContentType);
+
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
+		else {
+			return galleryService.createEntry(sessionIdentifier, galleryIdentifier, name, prio, imagePreviewName, imagePreviewContent, imagePreviewContentType, imageName, imageContent,
+					imageContentType, shared);
+		}
 	}
 
 	private String extractContentType(final String contentType, final String imageName) {

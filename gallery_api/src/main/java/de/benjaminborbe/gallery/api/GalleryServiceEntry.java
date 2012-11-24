@@ -14,7 +14,7 @@ public interface GalleryServiceEntry {
 	GalleryEntryIdentifier createEntryIdentifier(String id) throws GalleryServiceException;
 
 	GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, String entryName, Long priority,
-			String imagePreviewName, byte[] imagePreviewContent, String imagePreviewContentType, String imageName, byte[] imageContent, String imageContentType)
+			String imagePreviewName, byte[] imagePreviewContent, String imagePreviewContentType, String imageName, byte[] imageContent, String imageContentType, final Boolean shared)
 			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException;
 
 	List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier)
@@ -29,10 +29,10 @@ public interface GalleryServiceEntry {
 	Collection<GalleryEntry> getEntries(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException, LoginRequiredException,
 			PermissionDeniedException, SuperAdminRequiredException;
 
-	Collection<GalleryEntry> getEntriesPublic(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException;
+	Collection<GalleryEntry> getEntriesShared(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException;
 
 	void updateEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, String entryName,
-			Long priority, String imagePreviewName, String imageName, boolean enabled) throws GalleryServiceException, ValidationException, LoginRequiredException,
+			Long priority, String imagePreviewName, String imageName, Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
 			SuperAdminRequiredException;
 
 }

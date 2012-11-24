@@ -20,6 +20,12 @@ public class ValidationResultImpl implements ValidationResult {
 		}
 	}
 
+	public ValidationResultImpl(final Collection<ValidationError> validationErrors) {
+		for (final ValidationError validationError : validationErrors) {
+			add(validationError);
+		}
+	}
+
 	@Override
 	public boolean hasErrors() {
 		return !errors.isEmpty();

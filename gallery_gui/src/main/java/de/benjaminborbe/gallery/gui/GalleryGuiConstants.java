@@ -48,4 +48,10 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_GROUP_NAME = "group_name";
 
+	String PARAMETER_ENTRY_SHARED = "entry_shared";
+
+	String PARAMETER_GROUP_SHARED = "group_shared";
+
+	String PARAMETER_COLLECTION_SHARED = "collection_shared";
+
 }

@@ -31,8 +31,6 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 
 	private Long priority;
 
-	private Boolean enabled;
-
 	private Boolean shared;
 
 	@Override
@@ -110,19 +108,12 @@ public class GalleryEntryBean implements Entity<GalleryEntryIdentifier>, Gallery
 		this.collectionId = collectionId;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(final Boolean enabled) {
-		this.enabled = enabled;
-	}
-
+	@Override
 	public Boolean getShared() {
 		return shared;
 	}
 
-	public void setShared(Boolean shared) {
+	public void setShared(final Boolean shared) {
 		this.shared = shared;
 	}
 

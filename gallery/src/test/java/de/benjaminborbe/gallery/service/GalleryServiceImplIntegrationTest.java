@@ -29,7 +29,7 @@ public class GalleryServiceImplIntegrationTest {
 		try {
 			final String groupName = null;
 			final SessionIdentifier sessionIdentifier = null;
-			galleryService.createGroup(sessionIdentifier, groupName);
+			galleryService.createGroup(sessionIdentifier, groupName, false);
 			fail("ValidationException expected");
 		}
 		catch (final ValidationException e) {
@@ -39,7 +39,7 @@ public class GalleryServiceImplIntegrationTest {
 		{
 			final String groupName = "testGroup";
 			final SessionIdentifier sessionIdentifier = null;
-			galleryService.createGroup(sessionIdentifier, groupName);
+			galleryService.createGroup(sessionIdentifier, groupName, false);
 		}
 	}
 

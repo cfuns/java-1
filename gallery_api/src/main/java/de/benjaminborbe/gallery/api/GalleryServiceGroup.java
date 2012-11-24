@@ -12,13 +12,16 @@ public interface GalleryServiceGroup {
 
 	GalleryGroupIdentifier getGroupByName(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	GalleryGroupIdentifier getGroupByNamePublic(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException;
+	GalleryGroupIdentifier getGroupByNameShared(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException;
 
 	void deleteGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
 			SuperAdminRequiredException;
 
-	GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException, LoginRequiredException,
+	GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, String groupName, Boolean shared) throws GalleryServiceException, LoginRequiredException,
 			PermissionDeniedException, ValidationException, SuperAdminRequiredException;
+
+	void updateGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String groupName, Boolean shared) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException;
 
 	Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
 			SuperAdminRequiredException;

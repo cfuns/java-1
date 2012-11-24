@@ -81,10 +81,10 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNamePublic(sessionIdentifier,
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNameShared(sessionIdentifier,
 					PortfolioGuiConstants.COLLECTION_NAME_LINKS);
 			if (galleryCollectionIdentifier != null) {
-				portfolioWidget.setGalleryEntries(galleryService.getEntriesPublic(sessionIdentifier, galleryCollectionIdentifier));
+				portfolioWidget.setGalleryEntries(galleryService.getEntriesShared(sessionIdentifier, galleryCollectionIdentifier));
 			}
 			portfolioWidget.addTitle("Links - Benjamin Borbe");
 			portfolioWidget.addContent(createContentWidget(request, response, context));

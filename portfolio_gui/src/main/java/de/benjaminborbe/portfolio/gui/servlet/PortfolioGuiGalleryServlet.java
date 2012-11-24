@@ -79,7 +79,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final String galleryId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
-			final GalleryCollection galleryCollection = galleryService.getCollectionPublic(sessionIdentifier, galleryCollectionIdentifier);
+			final GalleryCollection galleryCollection = galleryService.getCollectionShared(sessionIdentifier, galleryCollectionIdentifier);
 			if (galleryCollection == null) {
 				final String target = portfolioLinkFactory.createGalleryUrl(request, getDefaultGalleryCollection(request, sessionIdentifier));
 				return new RedirectWidget(target);
@@ -88,7 +88,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 				final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
 				portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
 				portfolioWidget.addContent(new H1Widget(galleryCollection.getName()));
-				portfolioWidget.setGalleryEntries(galleryService.getEntriesPublic(sessionIdentifier, galleryCollection.getId()));
+				portfolioWidget.setGalleryEntries(galleryService.getEntriesShared(sessionIdentifier, galleryCollection.getId()));
 				return portfolioWidget;
 			}
 		}
@@ -106,7 +106,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 	}
 
 	private GalleryCollection getDefaultGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsPublic(sessionIdentifier));
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsShared(sessionIdentifier));
 		if (galleries.size() > 0) {
 			Collections.sort(galleries, galleryComparator);
 			return galleries.get(0);

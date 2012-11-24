@@ -13,23 +13,27 @@ public interface GalleryServiceCollection {
 	GalleryCollectionIdentifier getCollectionIdentifierByName(SessionIdentifier sessionIdentifier, String name) throws GalleryServiceException, LoginRequiredException,
 			SuperAdminRequiredException;
 
-	GalleryCollectionIdentifier getCollectionIdentifierByNamePublic(SessionIdentifier sessionIdentifier, String name) throws GalleryServiceException;
+	GalleryCollectionIdentifier getCollectionIdentifierByNameShared(SessionIdentifier sessionIdentifier, String name) throws GalleryServiceException;
 
 	Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
 			LoginRequiredException, SuperAdminRequiredException;
 
-	Collection<GalleryCollection> getCollectionsWithGroupPublic(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier)
+	Collection<GalleryCollection> getCollectionsWithGroupShared(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier)
 			throws GalleryServiceException;
 
 	Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	Collection<GalleryCollection> getCollectionsPublic(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
+	Collection<GalleryCollection> getCollectionsShared(final SessionIdentifier sessionIdentifier) throws GalleryServiceException;
 
 	void deleteCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException, LoginRequiredException,
 			SuperAdminRequiredException;
 
-	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String collectionName, Long prio)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException;
+	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String collectionName, Long prio,
+			Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException;
+
+	void updateCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier,
+			String collectionName, Long prio, Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException,
+			SuperAdminRequiredException;
 
 	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
 			SuperAdminRequiredException;
@@ -39,6 +43,6 @@ public interface GalleryServiceCollection {
 	GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException,
 			LoginRequiredException, SuperAdminRequiredException;
 
-	GalleryCollection getCollectionPublic(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
+	GalleryCollection getCollectionShared(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;
 
 }

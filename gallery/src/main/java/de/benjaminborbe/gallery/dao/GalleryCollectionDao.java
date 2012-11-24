@@ -7,6 +7,6 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 
 public interface GalleryCollectionDao extends Dao<GalleryCollectionBean, GalleryCollectionIdentifier> {
 
-	EntityIterator<GalleryCollectionBean> getEntityIteratorPublic() throws StorageException;
+	EntityIterator<GalleryCollectionBean> getEntityIteratorShared() throws StorageException;
 
 }

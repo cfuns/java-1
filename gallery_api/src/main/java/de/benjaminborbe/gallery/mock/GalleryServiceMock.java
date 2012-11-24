@@ -30,89 +30,40 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
-	}
-
-	@Override
-	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public GalleryGroupIdentifier getGroupByNameShared(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollectionIdentifier(final String id) throws GalleryServiceException {
+	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
+	}
+
+	@Override
+	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String groupName, final Boolean shared) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException {
+	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+	}
+
+	@Override
+	public Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntryIdentifier(final String id) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException {
-	}
-
-	@Override
-	public GalleryImageIdentifier createImageIdentifier(final String id) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName,
-			final Long prio) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		return null;
-	}
-
-	@Override
-	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
-			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		return null;
-	}
-
-	@Override
-	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
-	}
-
-	@Override
-	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
-		return null;
-	}
-
-	@Override
-	public Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		return null;
-	}
-
-	@Override
-	public Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 
@@ -122,65 +73,136 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException {
+	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
+	public GalleryCollectionIdentifier getCollectionIdentifierByNameShared(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
+			LoginRequiredException, SuperAdminRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryCollection> getCollectionsWithGroupShared(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
 			throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) {
+	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsShared(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
-			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final String imagePreviewName, final String imageName,
-			final boolean enabled) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException {
+	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException,
+			LoginRequiredException, SuperAdminRequiredException {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier getCollectionIdentifierByNamePublic(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio,
+			final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryEntry> getEntriesPublic(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException {
+	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier,
+			final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException,
+			SuperAdminRequiredException {
+	}
+
+	@Override
+	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryGroupIdentifier getGroupByNamePublic(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+	public GalleryCollectionIdentifier createCollectionIdentifier(final String id) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithGroupPublic(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
-			throws GalleryServiceException {
+	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException,
+			LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsPublic(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public GalleryCollection getCollectionShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollection getCollectionPublic(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException {
+	public GalleryEntryIdentifier createEntryIdentifier(final String id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority,
+			final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName, final byte[] imageContent, final String imageContentType, final Boolean shared)
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+		return null;
+	}
+
+	@Override
+	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, SuperAdminRequiredException {
+		return null;
+	}
+
+	@Override
+	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
+			SuperAdminRequiredException {
+		return null;
+	}
+
+	@Override
+	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
+			SuperAdminRequiredException {
+	}
+
+	@Override
+	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException, LoginRequiredException,
+			PermissionDeniedException, SuperAdminRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<GalleryEntry> getEntriesShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
+			final String entryName, final Long priority, final String imagePreviewName, final String imageName, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
+			SuperAdminRequiredException {
+	}
+
+	@Override
+	public GalleryImageIdentifier createImageIdentifier(final String id) throws GalleryServiceException {
+		return null;
+	}
+
+	@Override
+	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
 		return null;
 	}
 }

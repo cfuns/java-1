@@ -1,6 +1,9 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -91,14 +95,15 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_NAME);
 			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
-			final String prioString = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO);
+			final String prio = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO);
+			final String shared = request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_SHARED);
 			final String groupId = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_ID);
-			if (name != null && prioString != null && groupId != null) {
+			if (name != null && prio != null && groupId != null && shared != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 					final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(groupId);
-					final GalleryCollectionIdentifier galleryCollectionIdentifier = createCollection(sessionIdentifier, galleryGroupIdentifier, name, prioString);
+					final GalleryCollectionIdentifier galleryCollectionIdentifier = createCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -117,6 +122,7 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GROUP_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name ..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO).addLabel("Prio ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_SHARED).addLabel("Shared").addPlaceholder("shared...").addValue("false"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -132,22 +138,43 @@ public class GalleryGuiCollectionCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final String prioString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+			final String prioString, final String sharedString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException,
+			SuperAdminRequiredException {
+
 		Long prio;
-		try {
-			if (prioString == null || prioString.length() == 0) {
-				prio = null;
+		Boolean shared;
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		{
+			try {
+				if (prioString == null || prioString.length() == 0) {
+					prio = null;
+				}
+				else {
+					prio = parseUtil.parseLong(prioString);
+				}
 			}
-			else {
-				prio = parseUtil.parseLong(prioString);
+			catch (final ParseException e) {
+				prio = null;
+				errors.add(new ValidationErrorSimple("illegal prio"));
 			}
 		}
-		catch (final ParseException e) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("illegal prio")));
+		{
+			try {
+				shared = parseUtil.parseBoolean(sharedString);
+			}
+			catch (final ParseException e) {
+				shared = null;
+				errors.add(new ValidationErrorSimple("illegal shared"));
+			}
 		}
 
-		final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, galleryGroupIdentifier, name, prio);
-		return galleryCollectionIdentifier;
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
+		else {
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
+			return galleryCollectionIdentifier;
+		}
 	}
 
 	@Override

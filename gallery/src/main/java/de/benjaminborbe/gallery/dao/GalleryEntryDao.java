@@ -14,6 +14,6 @@ public interface GalleryEntryDao extends Dao<GalleryEntryBean, GalleryEntryIdent
 
 	Collection<GalleryEntryIdentifier> getGalleryImageIdentifiers(GalleryCollectionIdentifier galleryIdentifier) throws StorageException;
 
-	EntityIterator<GalleryEntryBean> getEntityIteratorPublic() throws StorageException;
+	EntityIterator<GalleryEntryBean> getEntityIteratorShared() throws StorageException;
 
 }

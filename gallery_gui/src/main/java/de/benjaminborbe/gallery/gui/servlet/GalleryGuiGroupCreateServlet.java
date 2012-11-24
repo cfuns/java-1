@@ -1,6 +1,9 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +13,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -29,7 +34,9 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -56,6 +63,8 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public GalleryGuiGroupCreateServlet(
 			final Logger logger,
@@ -72,6 +81,7 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 		this.authenticationService = authenticationService;
 	}
@@ -83,12 +93,13 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_NAME);
+			final String shared = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_SHARED);
 			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
-			if (name != null) {
+			if (name != null && shared != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name);
+					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name, shared);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -105,6 +116,7 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_NAME).addLabel("Name ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_SHARED).addLabel("Shared").addPlaceholder("shared...").addValue("false"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -119,10 +131,26 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException, SuperAdminRequiredException {
-		final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroup(sessionIdentifier, name);
-		return galleryGroupIdentifier;
+	private GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name, final String sharedString) throws GalleryServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+		Boolean shared;
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		{
+			try {
+				shared = parseUtil.parseBoolean(sharedString);
+			}
+			catch (final ParseException e) {
+				shared = null;
+				errors.add(new ValidationErrorSimple("illegal shared"));
+			}
+		}
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
+		else {
+			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroup(sessionIdentifier, name, shared);
+			return galleryGroupIdentifier;
+		}
 	}
 
 	@Override

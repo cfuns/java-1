@@ -80,7 +80,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 	}
 
 	@Override
-	public EntityIterator<GalleryEntryBean> getEntityIteratorPublic() throws StorageException {
+	public EntityIterator<GalleryEntryBean> getEntityIteratorShared() throws StorageException {
 		return new EntityIteratorFilter<GalleryEntryBean>(getEntityIterator(), new SharedPredicate<GalleryEntryBean>());
 	}
 

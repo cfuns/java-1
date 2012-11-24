@@ -45,7 +45,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 public class PortfolioGuiGalleryServletUnitTest {
 
 	@Test
-	public void testPublic() throws Exception {
+	public void testShared() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
