@@ -30,8 +30,8 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 	}
 
 	@Override
-	public FormInputTextareaWidget addDefaultValue(final String defaultValue) {
-		this.defaultValue = defaultValue;
+	public FormInputTextareaWidget addDefaultValue(final Object defaultValue) {
+		this.defaultValue = defaultValue != null ? String.valueOf(defaultValue) : null;
 		return this;
 	}
 
@@ -66,8 +66,8 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 	}
 
 	@Override
-	public FormInputTextareaWidget addValue(final String value) {
-		this.value = value;
+	public FormInputTextareaWidget addValue(final Object value) {
+		this.value = value != null ? String.valueOf(value) : null;
 		return this;
 	}
 }

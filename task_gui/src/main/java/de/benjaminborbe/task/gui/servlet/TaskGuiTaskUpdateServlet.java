@@ -179,7 +179,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiHtmlServlet {
 			logger.trace("try selected taskcontext");
 			for (final TaskContext taskContext : taskService.getTaskContexts(sessionIdentifier, taskIdentifier)) {
 				logger.trace("selected taskcontext id: " + taskContext.getId());
-				contextSelectBox.addDefaultValue(String.valueOf(taskContext.getId()));
+				contextSelectBox.addDefaultValue(taskContext.getId());
 			}
 			formWidget.addFormInputWidget(contextSelectBox);
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));

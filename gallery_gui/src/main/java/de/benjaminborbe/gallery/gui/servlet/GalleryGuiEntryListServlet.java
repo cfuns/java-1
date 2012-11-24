@@ -41,15 +41,15 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ImageWidget;
 
 @Singleton
-public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
+public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -97,7 +97,7 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createGalleryContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
@@ -116,11 +116,14 @@ public class GalleryGuiEntryListServlet extends WebsiteHtmlServlet {
 			for (final GalleryEntry galleryEntry : entries) {
 				final ListWidget list = new ListWidget();
 				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getPreviewImageIdentifier())));
+				list.add(new ImageWidget(galleryGuiLinkFactory.createImage(request, galleryEntry.getImageIdentifier())));
+				list.add(new BrWidget());
 				list.add(galleryGuiLinkFactory.updateEntry(request, galleryEntry.getId()));
 				list.add(" ");
 				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntry.getId()));
 				ul.add(list);
 			}
+			ul.addAttribute("class", "entrylist");
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_CREATE, new MapParameter().add(
 					GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "upload image"));

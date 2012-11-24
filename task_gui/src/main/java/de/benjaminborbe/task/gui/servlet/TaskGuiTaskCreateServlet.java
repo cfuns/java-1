@@ -177,12 +177,12 @@ public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
 			// set context to parent if exists
 			if (taskParentIdentifier != null) {
 				for (final TaskContext taskContext : taskService.getTaskContexts(sessionIdentifier, taskParentIdentifier)) {
-					contextSelectBox.addDefaultValue(String.valueOf(taskContext.getId()));
+					contextSelectBox.addDefaultValue(taskContext.getId());
 				}
 			}
 			else if (selectedContextIdentifiers != null) {
 				for (final TaskContextIdentifier selectedContextIdentifier : selectedContextIdentifiers) {
-					contextSelectBox.addDefaultValue(String.valueOf(selectedContextIdentifier.getId()));
+					contextSelectBox.addDefaultValue(selectedContextIdentifier.getId());
 				}
 			}
 

@@ -42,14 +42,13 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
+public class GalleryGuiGroupCreateServlet extends GalleryGuiHtmlServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -87,7 +86,7 @@ public class GalleryGuiGroupCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createGalleryContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();

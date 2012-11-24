@@ -52,8 +52,8 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 	}
 
 	@Override
-	public FormInputBaseWidget addDefaultValue(final String defaultValue) {
-		this.defaultValue = defaultValue;
+	public FormInputBaseWidget addDefaultValue(final Object defaultValue) {
+		this.defaultValue = defaultValue != null ? String.valueOf(defaultValue) : null;
 		return this;
 	}
 
@@ -75,8 +75,8 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 	}
 
 	@Override
-	public FormInputBaseWidget addValue(final String value) {
-		this.value = value;
+	public FormInputBaseWidget addValue(final Object value) {
+		this.value = value != null ? String.valueOf(value) : null;
 		return this;
 	}
 

@@ -100,7 +100,7 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 
 			final WikiPage page = wikiService.getPage(wikiPageIdentifier);
 			final FormWidget form = new FormWidget();
-			form.addFormInputWidget(new FormInputHiddenWidget(WikiGuiConstants.PARAMETER_PAGE_ID).addValue(String.valueOf(page.getId())));
+			form.addFormInputWidget(new FormInputHiddenWidget(WikiGuiConstants.PARAMETER_PAGE_ID).addValue(page.getId()));
 			form.addFormInputWidget(new FormInputTextWidget(WikiGuiConstants.PARAMETER_PAGE_TITLE).addLabel("Title").addPlaceholder("Title...").addDefaultValue(page.getTitle()));
 			form.addFormInputWidget(new FormInputTextareaWidget(WikiGuiConstants.PARAMETER_PAGE_CONTENT).addLabel("Content").addPlaceholder("Content...")
 					.addDefaultValue(page.getContent()));

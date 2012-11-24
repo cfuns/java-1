@@ -4,9 +4,9 @@ public interface FormInputWidget<E extends FormElementWidget> extends FormElemen
 
 	E addLabel(final String label);
 
-	E addDefaultValue(final String defaultValue);
+	E addDefaultValue(final Object defaultValue);
 
-	E addValue(final String value);
+	E addValue(final Object value);
 
 	E addPlaceholder(final String placeholder);
 

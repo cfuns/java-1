@@ -28,8 +28,8 @@ public class FormInputHiddenWidget extends SingleTagWidget implements FormElemen
 	}
 
 	@Override
-	public FormInputHiddenWidget addValue(final String value) {
-		this.value = value;
+	public FormInputHiddenWidget addValue(final Object value) {
+		this.value = value != null ? String.valueOf(value) : null;
 		return this;
 	}
 
@@ -50,8 +50,8 @@ public class FormInputHiddenWidget extends SingleTagWidget implements FormElemen
 	}
 
 	@Override
-	public FormInputHiddenWidget addDefaultValue(final String defaultValue) {
-		this.defaultValue = defaultValue;
+	public FormInputHiddenWidget addDefaultValue(final Object defaultValue) {
+		this.defaultValue = defaultValue != null ? String.valueOf(defaultValue) : null;
 		return this;
 	}
 

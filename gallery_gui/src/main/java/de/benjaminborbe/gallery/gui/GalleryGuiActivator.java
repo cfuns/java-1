@@ -26,6 +26,7 @@ import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
@@ -113,11 +114,12 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	// }
 
 	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// // result.add(new ResourceInfo("/images", "images"));
-	// return result;
-	// }
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo(GalleryGuiConstants.URL_CSS, "css"));
+		// result.add(new ResourceInfo("/js", "js"));
+		// result.add(new ResourceInfo("/images", "images"));
+		return result;
+	}
 }

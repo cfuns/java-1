@@ -132,8 +132,8 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 	}
 
 	@Override
-	public FormSelectboxWidget addDefaultValue(final String defaultValue) {
-		this.defaultValue = defaultValue;
+	public FormSelectboxWidget addDefaultValue(final Object defaultValue) {
+		this.defaultValue = defaultValue != null ? String.valueOf(defaultValue) : null;
 		return this;
 	}
 
@@ -154,8 +154,8 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 	}
 
 	@Override
-	public FormSelectboxWidget addValue(final String value) {
-		this.value = value;
+	public FormSelectboxWidget addValue(final Object value) {
+		this.value = value != null ? String.valueOf(value) : null;
 		return this;
 	}
 

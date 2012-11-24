@@ -30,7 +30,7 @@ public interface GalleryGuiConstants {
 
 	String PARAMETER_IMAGE_ID = "image_id";
 
-	String PARAMETER_ENTRY_NAME = "image_name";
+	String PARAMETER_ENTRY_NAME = "entry_name";
 
 	String PARAMETER_REFERER = "referer";
 
@@ -59,5 +59,9 @@ public interface GalleryGuiConstants {
 	String URL_GROUP_UPDATE = "/group/update";
 
 	String URL_IMAGE = "/image/content";
+
+	String URL_CSS_STYLE = "/css/style.css";
+
+	String URL_CSS = "/css";
 
 }

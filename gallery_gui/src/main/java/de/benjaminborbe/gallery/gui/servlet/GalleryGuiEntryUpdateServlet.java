@@ -38,7 +38,6 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
-import de.benjaminborbe.website.form.FormEncType;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -46,18 +45,17 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class GalleryGuiEntryUpdateServlet extends WebsiteHtmlServlet {
+public class GalleryGuiEntryUpdateServlet extends GalleryGuiHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Gallery - Upload";
+	private static final String TITLE = "Gallery - Entry - Update";
 
 	private final GalleryService galleryService;
 
@@ -97,7 +95,7 @@ public class GalleryGuiEntryUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createGalleryContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
 
 		try {
@@ -114,6 +112,11 @@ public class GalleryGuiEntryUpdateServlet extends WebsiteHtmlServlet {
 			final GalleryEntryIdentifier galleryEntryIdentifier = galleryService.createEntryIdentifier(id);
 			final GalleryEntry galleryEntry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
 
+			logger.info("collectionId: " + collectionId);
+			logger.info("prio: " + prio);
+			logger.info("name: " + name);
+			logger.info("shared: " + shared);
+
 			if (collectionId != null && prio != null && name != null && shared != null) {
 				try {
 
@@ -128,19 +131,19 @@ public class GalleryGuiEntryUpdateServlet extends WebsiteHtmlServlet {
 					}
 				}
 				catch (final ValidationException e) {
-					widgets.add("create collection => failed");
+					widgets.add("update collection => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
+			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_ENTRY_ID));
-			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID).addValue(String.valueOf(galleryEntry.getCollectionId())));
+			form.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID).addValue(galleryEntry.getCollectionId()));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_NAME).addLabel("Name").addPlaceholder("name...").addDefaultValue(galleryEntry.getName()));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_PRIO).addLabel("Prio").addPlaceholder("prio...")
-					.addDefaultValue(String.valueOf(galleryEntry.getPriority())));
+					.addDefaultValue(galleryEntry.getPriority()));
 			form.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_ENTRY_SHARED).addLabel("Shared").addPlaceholder("shared...")
-					.addDefaultValue(String.valueOf(galleryEntry.getShared())));
-			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
+					.addDefaultValue(galleryEntry.getShared()));
+			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 
 			return widgets;
@@ -190,8 +193,8 @@ public class GalleryGuiEntryUpdateServlet extends WebsiteHtmlServlet {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
+			logger.info("updateEntry(" + sessionIdentifier + ", " + galleryEntryIdentifier + ", " + galleryCollectionIdentifier + ", " + entryName + ", " + prio + ", " + shared + ")");
 			galleryService.updateEntry(sessionIdentifier, galleryEntryIdentifier, galleryCollectionIdentifier, entryName, prio, shared);
 		}
 	}
-
 }
