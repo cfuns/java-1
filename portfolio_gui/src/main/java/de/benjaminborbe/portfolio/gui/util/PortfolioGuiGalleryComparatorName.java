@@ -9,4 +9,15 @@ public class PortfolioGuiGalleryComparatorName extends ComparatorBase<GalleryCol
 	public String getValue(final GalleryCollection o) {
 		return o.getName();
 	}
+
+	@Override
+	public boolean inverted() {
+		return false;
+	}
+
+	@Override
+	public boolean nullFirst() {
+		return false;
+	}
+
 }

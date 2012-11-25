@@ -3,13 +3,15 @@ package de.benjaminborbe.portfolio.gui.util;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 
 public class PortfolioGuiGalleryComparatorUnitTest {
 
@@ -55,9 +57,9 @@ public class PortfolioGuiGalleryComparatorUnitTest {
 			list.add(build("c", 1l));
 			list.add(build("b", 2l));
 			Collections.sort(list, galleryComparator);
-			assertEquals("c", list.get(0).getName());
-			assertEquals("a", list.get(1).getName());
-			assertEquals("b", list.get(2).getName());
+			assertEquals("a", list.get(0).getName());
+			assertEquals("b", list.get(1).getName());
+			assertEquals("c", list.get(2).getName());
 		}
 		{
 			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
@@ -71,11 +73,49 @@ public class PortfolioGuiGalleryComparatorUnitTest {
 		}
 	}
 
-	private GalleryCollection build(final String string, final Long l) {
-		final GalleryCollection galleryCollection = EasyMock.createMock(GalleryCollection.class);
-		EasyMock.expect(galleryCollection.getName()).andReturn(string).anyTimes();
-		EasyMock.expect(galleryCollection.getPriority()).andReturn(l).anyTimes();
-		EasyMock.replay(galleryCollection);
-		return galleryCollection;
+	private GalleryCollection build(final String name, final Long prio) {
+		return new GalleryCollection() {
+
+			@Override
+			public Boolean getShared() {
+				return null;
+			}
+
+			@Override
+			public Long getPriority() {
+				return prio;
+			}
+
+			@Override
+			public String getName() {
+				return name;
+			}
+
+			@Override
+			public Calendar getModified() {
+				return null;
+			}
+
+			@Override
+			public GalleryCollectionIdentifier getId() {
+				return null;
+			}
+
+			@Override
+			public GalleryGroupIdentifier getGroupId() {
+				return null;
+			}
+
+			@Override
+			public Calendar getCreated() {
+				return null;
+			}
+
+			@Override
+			public String toString() {
+				return name + " " + prio;
+			}
+
+		};
 	}
 }

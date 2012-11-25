@@ -28,9 +28,9 @@ public class PortfolioGuiGalleryComparatorPrioUnitTest {
 			list.add(build("b", 2l));
 			list.add(build("c", 3l));
 			Collections.sort(list, galleryComparatorPrio);
-			assertEquals("a", list.get(0).getName());
+			assertEquals("c", list.get(0).getName());
 			assertEquals("b", list.get(1).getName());
-			assertEquals("c", list.get(2).getName());
+			assertEquals("a", list.get(2).getName());
 		}
 
 		{
@@ -39,8 +39,8 @@ public class PortfolioGuiGalleryComparatorPrioUnitTest {
 			list.add(build("b", 2l));
 			list.add(build("c", null));
 			Collections.sort(list, galleryComparatorPrio);
-			assertEquals("a", list.get(0).getName());
-			assertEquals("b", list.get(1).getName());
+			assertEquals("b", list.get(0).getName());
+			assertEquals("a", list.get(1).getName());
 			assertEquals("c", list.get(2).getName());
 		}
 	}

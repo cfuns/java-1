@@ -15,4 +15,9 @@ public class PortfolioGuiGalleryComparatorPrio extends ComparatorBase<GalleryCol
 		return false;
 	}
 
+	@Override
+	public boolean inverted() {
+		return true;
+	}
+
 }

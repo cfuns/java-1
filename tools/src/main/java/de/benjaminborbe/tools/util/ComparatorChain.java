@@ -18,6 +18,13 @@ public class ComparatorChain<T> implements Comparator<T> {
 
 	@Override
 	public int compare(final T o1, final T o2) {
+		final int result = compareIntern(o1, o2);
+		// System.err.println(getClass().getSimpleName() + " compare " + o1 + " " + o2 +
+		// " => " + result);
+		return result;
+	}
+
+	private int compareIntern(final T o1, final T o2) {
 		for (final Comparator<T> comparator : comparators) {
 			final int result = comparator.compare(o1, o2);
 			if (result != 0) {
@@ -26,4 +33,5 @@ public class ComparatorChain<T> implements Comparator<T> {
 		}
 		return 0;
 	}
+
 }
