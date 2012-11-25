@@ -31,7 +31,7 @@ public class TaskDueTodayPredicate implements Predicate<Task> {
 		final Calendar due = calendarUtil.onlyDay(task.getDue());
 		final Calendar today = calendarUtil.today(timeZone);
 		final boolean result = task.getDue() != null && calendarUtil.isEQ(task.getDue(), today);
-		logger.info(calendarUtil.toDateTimeString(due) + " = " + calendarUtil.toDateTimeString(today) + " return: " + result);
+		logger.debug(calendarUtil.toDateTimeString(due) + " = " + calendarUtil.toDateTimeString(today) + " return: " + result);
 		return result;
 	}
 }

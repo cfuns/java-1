@@ -30,7 +30,7 @@ public class TaskStartReadyPredicate implements Predicate<Task> {
 	public boolean apply(final Task task) {
 		final Calendar now = calendarUtil.now(timeZone);
 		final boolean result = task.getStart() == null || calendarUtil.isLE(task.getStart(), now);
-		logger.info(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(now) + " return: " + result);
+		logger.debug(calendarUtil.toDateTimeString(task.getStart()) + " <= " + calendarUtil.toDateTimeString(now) + " return: " + result);
 		return result;
 	}
 }
