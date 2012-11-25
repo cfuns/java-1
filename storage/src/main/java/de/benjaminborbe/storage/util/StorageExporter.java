@@ -21,6 +21,7 @@ import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
+import org.apache.cassandra.utils.Hex;
 import org.apache.thrift.TException;
 import org.json.simple.JSONArray;
 import org.slf4j.Logger;
@@ -96,39 +97,44 @@ public class StorageExporter {
 			connection = storageConnectionPool.getConnection();
 			final Iface client = connection.getClient(keyspace);
 
-			boolean first = true;
+			boolean firstRow = true;
 			final StorageKeyIteratorImpl i = new StorageKeyIteratorImpl(storageConnectionPool, keyspace, columnFamily, "UTF-8");
 			while (i.hasNext()) {
 				final byte[] key = i.nextByte();
-
+				if (firstRow) {
+					firstRow = false;
+				}
+				else {
+					sw.append(",\n");
+				}
 				final SlicePredicate predicate = new SlicePredicate();
 				predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 10000));
 				final ColumnParent column_parent = new ColumnParent();
 				column_parent.setColumn_family(columnFamily);
 				final List<ColumnOrSuperColumn> results = client.get_slice(ByteBuffer.wrap(key), column_parent, predicate, ConsistencyLevel.ONE);
-				final JSONArray fields = new JSONArray();
+				sw.append('"');
+				sw.append(Hex.bytesToHex(key));
+				sw.append('"');
+				sw.append(": [");
+				boolean first = true;
 				for (final ColumnOrSuperColumn result : results) {
 					final Column column = result.getColumn();
 					final JSONArray field = new JSONArray();
 					field.add(new String(column.getName(), "UTF-8"));
 					field.add(new String(column.getValue(), "UTF-8"));
-					field.add(String.valueOf(column.getTimestamp()));
-					fields.add(field);
+					field.add(column.getTimestamp());
+					if (first) {
+						first = false;
+					}
+					else {
+						sw.append(", ");
+					}
+					field.writeJSONString(sw);
 					logger.trace(new String(column.getName(), "UTF-8") + " = " + new String(column.getValue(), "UTF-8"));
 				}
-				if (first) {
-					first = false;
-				}
-				else {
-					sw.append(",");
-				}
-				sw.append('"');
-				sw.append(new String(key, "UTF-8"));
-				sw.append('"');
-				sw.append(": ");
-				fields.writeJSONString(sw);
-				sw.append("\n");
+				sw.append("]");
 			}
+			sw.append("\n");
 		}
 		finally {
 			storageConnectionPool.releaseConnection(connection);
