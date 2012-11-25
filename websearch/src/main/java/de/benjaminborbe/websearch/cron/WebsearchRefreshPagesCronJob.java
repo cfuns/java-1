@@ -41,11 +41,11 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		@Override
 		public void run() {
 			try {
-				logger.info("refresh pages started");
+				logger.debug("refresh pages started");
 				for (final WebsearchPageBean page : updateDeterminer.determineExpiredPages()) {
 					try {
 						final URL url = page.getUrl();
-						logger.info("trigger refresh of url " + url.toExternalForm());
+						logger.debug("trigger refresh of url " + url.toExternalForm());
 						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
 						crawlerService.processCrawlerInstruction(crawlerInstruction);
 					}
@@ -53,7 +53,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 						logger.error(e.getClass().getSimpleName(), e);
 					}
 				}
-				logger.info("refresh pages finished");
+				logger.debug("refresh pages finished");
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
