@@ -101,7 +101,7 @@ public class StorageExporterIntegrationTest {
 			data.put("d", "\"");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
 		}
-		exporter.export(sw, config.getKeySpace());
+		exporter.export(sw, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY);
 
 		final String jsonString = sw.toString();
 		assertNotNull(jsonString);

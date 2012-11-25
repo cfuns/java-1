@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,23 +16,36 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.io.FlushPrintWriter;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.PreWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class StorageListServlet extends WebsiteServlet {
+public class StorageListServlet extends StorageHtmlServlet {
 
 	private static final long serialVersionUID = 1048276599809672509L;
 
 	private static final String PARAMETER_COLUMNFAMILY = "cf";
 
 	private static final String PARAMETER_PREFIX = "prefix";
+
+	private static final String TITLE = "Storage - List";
 
 	private final Logger logger;
 
@@ -42,34 +54,36 @@ public class StorageListServlet extends WebsiteServlet {
 	@Inject
 	public StorageListServlet(
 			final Logger logger,
-			final StorageService persistentStorageService,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
-		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final ParseUtil parseUtil,
+			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil,
+			final StorageService persistentStorageService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.persistentStorageService = persistentStorageService;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
-		logger.trace("StorageReadServlet.service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
 
-		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
-		out.println("<html><head></head><body>");
-		final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
-		final String prefix = request.getParameter(PARAMETER_PREFIX);
-		if (columnFamily == null) {
-			out.println("parameter " + PARAMETER_COLUMNFAMILY + " missing<br>");
-		}
-		if (columnFamily != null) {
-			try {
-				out.println("value=<br>");
-				out.println("<pre>");
+			final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
+			final String prefix = request.getParameter(PARAMETER_PREFIX);
+			if (columnFamily == null) {
+				widgets.add("parameter " + PARAMETER_COLUMNFAMILY + " missing<br>");
+			}
+			if (columnFamily != null) {
+				widgets.add("value=");
+				widgets.add(new BrWidget());
 				final StorageIterator i;
 				if (prefix != null) {
 					i = persistentStorageService.keyIteratorWithPrefix(columnFamily, prefix);
@@ -82,13 +96,17 @@ public class StorageListServlet extends WebsiteServlet {
 					keys.add(i.nextString());
 				}
 				Collections.sort(keys);
-				out.println(StringUtils.join(keys, "\n"));
-				out.println("</pre>");
+				widgets.add(new PreWidget(StringUtils.join(keys, "\n")));
 			}
-			catch (final Exception e) {
-				out.printStackTrace(e);
-			}
+			return widgets;
 		}
-		out.println("</body></html>");
+		catch (final Exception e) {
+			return new ExceptionWidget(e);
+		}
+	}
+
+	@Override
+	protected String getTitle() {
+		return TITLE;
 	}
 }

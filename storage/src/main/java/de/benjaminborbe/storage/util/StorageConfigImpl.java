@@ -26,6 +26,8 @@ public class StorageConfigImpl implements StorageConfig {
 
 	private final ConfigurationDescriptionInt socketTimeout = new ConfigurationDescriptionInt(7000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
 
+	private final ConfigurationDescriptionString backupDirectory = new ConfigurationDescriptionString("/tmp", "CassandraBackupDirectory", "BackupDirectory of CassandraServer");
+
 	@Inject
 	public StorageConfigImpl() {
 	}
@@ -86,6 +88,11 @@ public class StorageConfigImpl implements StorageConfig {
 	@Override
 	public boolean getAliveCheck() {
 		return true;
+	}
+
+	@Override
+	public String getBackpuDirectory() {
+		return getValue(backupDirectory);
 	}
 
 }

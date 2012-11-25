@@ -25,13 +25,12 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class StorageGuiServlet extends WebsiteHtmlServlet {
+public class StorageGuiServlet extends StorageHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 

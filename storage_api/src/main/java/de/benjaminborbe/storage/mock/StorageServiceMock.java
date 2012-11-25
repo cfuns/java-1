@@ -318,4 +318,8 @@ public class StorageServiceMock implements StorageService {
 		}
 		return new StorageRowIteratorMock(i, columnNames, columnFamily, where);
 	}
+
+	@Override
+	public void backup() throws StorageException {
+	}
 }

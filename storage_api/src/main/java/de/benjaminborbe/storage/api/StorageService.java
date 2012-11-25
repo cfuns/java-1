@@ -36,4 +36,6 @@ public interface StorageService {
 
 	void set(String columnFamily, String id, String key, String value) throws StorageException;
 
+	void backup() throws StorageException;
+
 }

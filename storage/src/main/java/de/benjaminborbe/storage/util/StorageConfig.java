@@ -23,4 +23,6 @@ public interface StorageConfig {
 	int getSocketTimeout();
 
 	boolean getAliveCheck();
+
+	String getBackpuDirectory();
 }

@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.service;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
+import de.benjaminborbe.storage.util.StorageExporter;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
@@ -81,12 +83,20 @@ public class StorageServiceImpl implements StorageService {
 
 	private final StorageConnectionPool storageConnectionPool;
 
+	private final StorageExporter storageExporter;
+
 	@Inject
-	public StorageServiceImpl(final Logger logger, final StorageConfig config, final StorageDaoUtil storageDaoUtil, final StorageConnectionPool storageConnectionPool) {
+	public StorageServiceImpl(
+			final Logger logger,
+			final StorageConfig config,
+			final StorageDaoUtil storageDaoUtil,
+			final StorageConnectionPool storageConnectionPool,
+			final StorageExporter storageExporter) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
 		this.storageConnectionPool = storageConnectionPool;
+		this.storageExporter = storageExporter;
 	}
 
 	@Override
@@ -227,6 +237,19 @@ public class StorageServiceImpl implements StorageService {
 	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames, final Map<String, String> where) throws StorageException {
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnNames, columnFamily, where);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public void backup() throws StorageException {
+
+		final File targetDirectory = new File(config.getBackpuDirectory());
+		try {
+			storageExporter.export(targetDirectory, config.getKeySpace());
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);

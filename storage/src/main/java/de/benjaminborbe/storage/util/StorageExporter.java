@@ -1,5 +1,7 @@
 package de.benjaminborbe.storage.util;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.ByteBuffer;
@@ -38,8 +40,18 @@ public class StorageExporter {
 		this.storageConnectionPool = storageConnectionPool;
 	}
 
-	public void export(final Writer sw, final String keyspace) throws StorageConnectionPoolException, InvalidRequestException, TException, NotFoundException, StorageException,
-			UnavailableException, TimedOutException, IOException {
+	public void export(final File targetDirectory, final String keyspace) throws StorageConnectionPoolException, InvalidRequestException, TException, NotFoundException,
+			StorageException, UnavailableException, TimedOutException, IOException {
+		if (!targetDirectory.exists()) {
+			throw new StorageException("targetdirectory not exists");
+		}
+		if (!targetDirectory.isDirectory()) {
+			throw new StorageException("targetdirectory not a directory");
+		}
+		if (!targetDirectory.canWrite()) {
+			throw new StorageException("targetdirectory not writeable");
+		}
+
 		StorageConnection connection = null;
 		try {
 			connection = storageConnectionPool.getConnection();
@@ -47,7 +59,10 @@ public class StorageExporter {
 
 			final KsDef ks = client.describe_keyspace(keyspace);
 			for (final CfDef cf : ks.getCf_defs()) {
-				export(sw, keyspace, cf.getName());
+				final String file = targetDirectory.getAbsolutePath() + "/" + cf.getName() + ".json";
+				final FileWriter fileWriter = new FileWriter(file);
+				export(fileWriter, keyspace, cf.getName());
+				fileWriter.close();
 			}
 		}
 		finally {
@@ -102,7 +117,6 @@ public class StorageExporter {
 					sw.append("\n");
 				}
 			}
-
 		}
 		finally {
 			storageConnectionPool.releaseConnection(connection);

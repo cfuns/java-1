@@ -2,7 +2,6 @@ package de.benjaminborbe.storage.gui.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,16 +13,27 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.io.FlushPrintWriter;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.PreWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class StorageReadServlet extends WebsiteServlet {
+public class StorageReadServlet extends StorageHtmlServlet {
 
 	private static final long serialVersionUID = 1048276599809672509L;
 
@@ -33,6 +43,8 @@ public class StorageReadServlet extends WebsiteServlet {
 
 	private static final String PARAMETER_KEY = "key";
 
+	private static final String TITLE = "Storage - Read";
+
 	private final Logger logger;
 
 	private final StorageService persistentStorageService;
@@ -40,45 +52,56 @@ public class StorageReadServlet extends WebsiteServlet {
 	@Inject
 	public StorageReadServlet(
 			final Logger logger,
-			final StorageService persistentStorageService,
-			final UrlUtil urlUtil,
 			final CalendarUtil calendarUtil,
-			final AuthenticationService authenticationService,
 			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
-		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final ParseUtil parseUtil,
+			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil,
+			final StorageService persistentStorageService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.persistentStorageService = persistentStorageService;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
-		logger.trace("StorageReadServlet.service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
 
-		final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
-		out.println("<html><head></head><body>");
-		final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
-		final String id = request.getParameter(PARAMETER_ID);
-		final String key = request.getParameter(PARAMETER_KEY);
+			final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
+			final String id = request.getParameter(PARAMETER_ID);
+			final String key = request.getParameter(PARAMETER_KEY);
 
-		if (columnFamily != null && id != null && key != null) {
-			try {
-				out.println("value=<br>");
-				out.println("<pre>");
-				out.println(StringEscapeUtils.escapeHtml(persistentStorageService.get(columnFamily, id, key)));
-				out.println("</pre>");
+			if (columnFamily != null && id != null && key != null) {
+				widgets.add("value=");
+				widgets.add(new BrWidget());
+				widgets.add(new PreWidget(StringEscapeUtils.escapeHtml(persistentStorageService.get(columnFamily, id, key))));
 			}
-			catch (final Exception e) {
-				out.printStackTrace(e);
+			else {
+				widgets.add("missing parameters.");
+				widgets.add(new BrWidget());
+				widgets.add("usage: ");
+				widgets.add(PARAMETER_COLUMNFAMILY + "=[Column_family]&" + PARAMETER_ID + "=[ID]&" + PARAMETER_KEY + "=[colname]");
+				widgets.add(new BrWidget());
+				widgets.add("example to read api-data: " + PARAMETER_COLUMNFAMILY + "=api_data&" + PARAMETER_ID + "=[content_key from database]&" + PARAMETER_KEY + "=content");
+				widgets.add(new BrWidget());
 			}
+
+			return widgets;
 		}
-		else {
-			out.println("missing parameters.<br>usage: ");
-			out.println(PARAMETER_COLUMNFAMILY + "=[Column_family]&" + PARAMETER_ID + "=[ID]&" + PARAMETER_KEY + "=[colname]<br>");
-			out.println("example to read api-data: " + PARAMETER_COLUMNFAMILY + "=api_data&" + PARAMETER_ID + "=[content_key from database]&" + PARAMETER_KEY + "=content<br>");
+		catch (final Exception e) {
+			return new ExceptionWidget(e);
 		}
-		out.println("</body></html>");
+	}
+
+	@Override
+	protected String getTitle() {
+		return TITLE;
 	}
 }

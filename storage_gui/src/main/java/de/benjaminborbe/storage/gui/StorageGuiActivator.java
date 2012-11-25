@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.gui.guice.StorageGuiModules;
+import de.benjaminborbe.storage.gui.servlet.StorageBackupServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageDeleteServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageGuiServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageListServlet;
@@ -19,6 +20,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class StorageGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private StorageBackupServlet storageBackupServlet;
 
 	@Inject
 	private StorageGuiServlet storageGuiServlet;
@@ -52,6 +56,7 @@ public class StorageGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(storageWriteServlet, "/write"));
 		result.add(new ServletInfo(storageDeleteServlet, "/delete"));
 		result.add(new ServletInfo(storageListServlet, "/list"));
+		result.add(new ServletInfo(storageBackupServlet, "/backup"));
 		return result;
 	}
 
