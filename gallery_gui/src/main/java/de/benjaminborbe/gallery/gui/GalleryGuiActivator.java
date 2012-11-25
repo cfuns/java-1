@@ -13,7 +13,9 @@ import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionUpdateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryDeleteServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryShareServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntrySwapPrioServlet;
+import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryUnshareServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiEntryUpdateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupDeleteServlet;
@@ -32,6 +34,12 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class GalleryGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private GalleryGuiEntryShareServlet galleryGuiEntryShareServlet;
+
+	@Inject
+	private GalleryGuiEntryUnshareServlet galleryGuiEntryUnshareServlet;
 
 	@Inject
 	private GalleryGuiEntrySwapPrioServlet galleryGuiEntrySwapPrioServlet;
@@ -101,7 +109,8 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(galleryGuiEntryUpdateServlet, GalleryGuiConstants.URL_ENTRY_UPDATE));
 		result.add(new ServletInfo(galleryGuiGroupUpdateServlet, GalleryGuiConstants.URL_GROUP_UPDATE));
 		result.add(new ServletInfo(galleryGuiEntrySwapPrioServlet, GalleryGuiConstants.URL_ENTRY_SWAP_PRIO));
-
+		result.add(new ServletInfo(galleryGuiEntryShareServlet, GalleryGuiConstants.URL_ENTRY_SHARE));
+		result.add(new ServletInfo(galleryGuiEntryUnshareServlet, GalleryGuiConstants.URL_ENTRY_UNSHARE));
 		return result;
 	}
 

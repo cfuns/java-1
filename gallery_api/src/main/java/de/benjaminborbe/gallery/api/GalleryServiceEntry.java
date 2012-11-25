@@ -37,4 +37,9 @@ public interface GalleryServiceEntry {
 	void swapEntryPrio(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifierA, GalleryEntryIdentifier galleryEntryIdentifierB)
 			throws PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException, GalleryServiceException;
 
+	void shareEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			SuperAdminRequiredException, GalleryServiceException;
+
+	void unshareEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			SuperAdminRequiredException, GalleryServiceException;
 }

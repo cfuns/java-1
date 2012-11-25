@@ -61,6 +61,8 @@ public class GalleryGuiActivatorIntegrationTest {
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_IMAGE);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_SWAP_PRIO);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_SHARE);
+		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_UNSHARE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

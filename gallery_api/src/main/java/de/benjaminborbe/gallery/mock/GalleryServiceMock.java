@@ -214,4 +214,14 @@ public class GalleryServiceMock implements GalleryService {
 	public void swapEntryPrio(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB)
 			throws PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException, GalleryServiceException {
 	}
+
+	@Override
+	public void shareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			SuperAdminRequiredException, GalleryServiceException {
+	}
+
+	@Override
+	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			SuperAdminRequiredException, GalleryServiceException {
+	}
 }

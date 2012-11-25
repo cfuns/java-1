@@ -112,11 +112,6 @@ public class GalleryGuiEntryUpdateServlet extends GalleryGuiHtmlServlet {
 			final GalleryEntryIdentifier galleryEntryIdentifier = galleryService.createEntryIdentifier(id);
 			final GalleryEntry galleryEntry = galleryService.getEntry(sessionIdentifier, galleryEntryIdentifier);
 
-			logger.info("collectionId: " + collectionId);
-			logger.info("prio: " + prio);
-			logger.info("name: " + name);
-			logger.info("shared: " + shared);
-
 			if (collectionId != null && prio != null && name != null && shared != null) {
 				try {
 

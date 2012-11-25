@@ -70,4 +70,8 @@ public interface GalleryGuiConstants {
 
 	String URL_ENTRY_SWAP_PRIO = "/entry/swapprio";
 
+	String URL_ENTRY_UNSHARE = "/entry/unshare";
+
+	String URL_ENTRY_SHARE = "/entry/share";
+
 }

@@ -1017,4 +1017,54 @@ public class GalleryServiceImpl implements GalleryService {
 			logger.info("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public void shareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			SuperAdminRequiredException, GalleryServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectSuperAdmin(sessionIdentifier);
+
+			logger.debug("shareEntry");
+
+			final GalleryEntryBean entry = galleryEntryDao.load(galleryEntryIdentifier);
+			entry.setShared(true);
+
+			galleryEntryDao.save(entry);
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		finally {
+			logger.info("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException,
+			LoginRequiredException, SuperAdminRequiredException, GalleryServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectSuperAdmin(sessionIdentifier);
+
+			logger.debug("unshareEntry");
+
+			final GalleryEntryBean entry = galleryEntryDao.load(galleryEntryIdentifier);
+			entry.setShared(false);
+
+			galleryEntryDao.save(entry);
+		}
+		catch (final StorageException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new GalleryServiceException(e.getClass().getName(), e);
+		}
+		finally {
+			logger.info("duration " + duration.getTime());
+		}
+	}
 }

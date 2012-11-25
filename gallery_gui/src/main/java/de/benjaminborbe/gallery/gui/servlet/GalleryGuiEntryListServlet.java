@@ -41,6 +41,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -128,10 +129,19 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 					list.add(galleryGuiLinkFactory.swapEntryPrio(request, galleryEntry.getId(), entries.get(i + 1).getId(), "down"));
 					list.add(" ");
 				}
+				final boolean shared = Boolean.TRUE.equals(galleryEntry.getShared());
+				if (shared) {
+					list.add(galleryGuiLinkFactory.unshareEntry(request, galleryEntry.getId()));
+				}
+				else {
+					list.add(galleryGuiLinkFactory.shareEntry(request, galleryEntry.getId()));
+				}
+				list.add(" ");
 				list.add(galleryGuiLinkFactory.updateEntry(request, galleryEntry.getId()));
 				list.add(" ");
 				list.add(galleryGuiLinkFactory.deleteEntry(request, galleryEntry.getId()));
-				ul.add(list);
+
+				ul.add(new DivWidget(list).addAttribute("class", shared ? "entryShared" : "entryNotShared"));
 			}
 			ul.addAttribute("class", "entrylist");
 			widgets.add(ul);
