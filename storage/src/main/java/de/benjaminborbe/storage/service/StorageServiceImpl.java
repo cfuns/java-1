@@ -22,6 +22,8 @@ import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageExporter;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
@@ -85,22 +87,27 @@ public class StorageServiceImpl implements StorageService {
 
 	private final StorageExporter storageExporter;
 
+	private final DurationUtil durationUtil;
+
 	@Inject
 	public StorageServiceImpl(
 			final Logger logger,
 			final StorageConfig config,
 			final StorageDaoUtil storageDaoUtil,
 			final StorageConnectionPool storageConnectionPool,
-			final StorageExporter storageExporter) {
+			final StorageExporter storageExporter,
+			final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
 		this.storageConnectionPool = storageConnectionPool;
 		this.storageExporter = storageExporter;
+		this.durationUtil = durationUtil;
 	}
 
 	@Override
 	public String get(final String columnFamily, final String id, final String key) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, key);
 		}
@@ -111,22 +118,38 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void delete(final String columnFamily, final String id, final String key) throws StorageException {
-		delete(columnFamily, id, Arrays.asList(key));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			delete(columnFamily, id, Arrays.asList(key));
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void set(final String columnFamily, final String id, final String key, final String value) throws StorageException {
-		final Map<String, String> data = new HashMap<String, String>();
-		data.put(key, value);
-		set(columnFamily, id, data);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			final Map<String, String> data = new HashMap<String, String>();
+			data.put(key, value);
+			set(columnFamily, id, data);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void set(final String columnFamily, final String id, final Map<String, String> data) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			storageDaoUtil.insert(config.getKeySpace(), columnFamily, id, data);
 		}
@@ -134,10 +157,14 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace(e.getClass().getSimpleName(), e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public StorageIterator keyIteratorWithPrefix(final String columnFamily, final String idPrefix) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final StorageIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 			return new StorageIteratorPrefix(idPrefix, i);
@@ -146,10 +173,14 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public StorageIterator keyIterator(final String columnFamily) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 		}
@@ -157,10 +188,14 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public StorageIterator keyIterator(final String columnFamily, final Map<String, String> where) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily, where);
 		}
@@ -168,10 +203,14 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void delete(final String columnFamily, final String id, final Collection<String> keys) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			for (final String key : keys) {
 				try {
@@ -186,15 +225,25 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void delete(final String columnFamily, final String id, final String... keys) throws StorageException {
-		delete(columnFamily, id, Arrays.asList(keys));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			delete(columnFamily, id, Arrays.asList(keys));
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public List<String> get(final String columnFamily, final String id, final List<String> keys) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, keys);
 		}
@@ -205,25 +254,47 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public int getFreeConnections() {
-		return storageConnectionPool.getFreeConnections();
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageConnectionPool.getFreeConnections();
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public int getConnections() {
-		return storageConnectionPool.getConnections();
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageConnectionPool.getConnections();
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public int getMaxConnections() {
-		return storageConnectionPool.getMaxConnections();
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageConnectionPool.getMaxConnections();
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames);
 		}
@@ -231,10 +302,14 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames, final Map<String, String> where) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnNames, columnFamily, where);
 		}
@@ -242,18 +317,24 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void backup() throws StorageException {
-
-		final File targetDirectory = new File(config.getBackpuDirectory());
+		final Duration duration = durationUtil.getDuration();
 		try {
+			final File targetDirectory = new File(config.getBackpuDirectory());
 			storageExporter.export(targetDirectory, config.getKeySpace());
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
 		}
 	}
 }

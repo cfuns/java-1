@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.cassandra.thrift.Cassandra.Iface;
@@ -27,6 +28,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 public class StorageExporter {
 
@@ -34,10 +36,13 @@ public class StorageExporter {
 
 	private final Logger logger;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public StorageExporter(final Logger logger, final StorageConnectionPool storageConnectionPool) {
+	public StorageExporter(final Logger logger, final StorageConnectionPool storageConnectionPool, final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.storageConnectionPool = storageConnectionPool;
+		this.calendarUtil = calendarUtil;
 	}
 
 	public void export(final File targetDirectory, final String keyspace) throws StorageConnectionPoolException, InvalidRequestException, TException, NotFoundException,
@@ -54,12 +59,14 @@ public class StorageExporter {
 
 		StorageConnection connection = null;
 		try {
+			final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyyMMddHHmmss");
+			final String datetime = datetimeformat.format(calendarUtil.now().getTime());
 			connection = storageConnectionPool.getConnection();
 			final Iface client = connection.getClient(keyspace);
 
 			final KsDef ks = client.describe_keyspace(keyspace);
 			for (final CfDef cf : ks.getCf_defs()) {
-				final String file = targetDirectory.getAbsolutePath() + "/" + cf.getName() + ".json";
+				final String file = targetDirectory.getAbsolutePath() + "/backup_" + datetime + "_" + cf.getName() + ".json";
 				final FileWriter fileWriter = new FileWriter(file);
 				export(fileWriter, keyspace, cf.getName());
 				fileWriter.close();
