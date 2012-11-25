@@ -29,6 +29,8 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 
 public class StorageExporter {
 
@@ -38,11 +40,14 @@ public class StorageExporter {
 
 	private final CalendarUtil calendarUtil;
 
+	private final DurationUtil durationUtil;
+
 	@Inject
-	public StorageExporter(final Logger logger, final StorageConnectionPool storageConnectionPool, final CalendarUtil calendarUtil) {
+	public StorageExporter(final Logger logger, final StorageConnectionPool storageConnectionPool, final CalendarUtil calendarUtil, final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.storageConnectionPool = storageConnectionPool;
 		this.calendarUtil = calendarUtil;
+		this.durationUtil = durationUtil;
 	}
 
 	public void export(final File targetDirectory, final String keyspace) throws StorageConnectionPoolException, InvalidRequestException, TException, NotFoundException,
@@ -66,10 +71,13 @@ public class StorageExporter {
 
 			final KsDef ks = client.describe_keyspace(keyspace);
 			for (final CfDef cf : ks.getCf_defs()) {
+				logger.debug("start backup of " + cf.getName());
+				final Duration duration = durationUtil.getDuration();
 				final String file = targetDirectory.getAbsolutePath() + "/backup_" + datetime + "_" + cf.getName() + ".json";
 				final FileWriter fileWriter = new FileWriter(file);
 				export(fileWriter, keyspace, cf.getName());
 				fileWriter.close();
+				logger.info("completed backup of " + cf.getName() + " after " + duration.getTime() + " ms");
 			}
 		}
 		finally {
@@ -98,31 +106,28 @@ public class StorageExporter {
 				final ColumnParent column_parent = new ColumnParent();
 				column_parent.setColumn_family(columnFamily);
 				final List<ColumnOrSuperColumn> results = client.get_slice(ByteBuffer.wrap(key), column_parent, predicate, ConsistencyLevel.ONE);
-
 				final JSONArray fields = new JSONArray();
 				for (final ColumnOrSuperColumn result : results) {
-
 					final Column column = result.getColumn();
-
 					final JSONArray field = new JSONArray();
 					field.add(new String(column.getName(), "UTF-8"));
 					field.add(new String(column.getValue(), "UTF-8"));
 					field.add(String.valueOf(column.getTimestamp()));
 					fields.add(field);
 					logger.trace(new String(column.getName(), "UTF-8") + " = " + new String(column.getValue(), "UTF-8"));
-					if (first) {
-						first = false;
-					}
-					else {
-						sw.append(",");
-					}
-					sw.append('"');
-					sw.append(new String(key, "UTF-8"));
-					sw.append('"');
-					sw.append(": ");
-					fields.writeJSONString(sw);
-					sw.append("\n");
 				}
+				if (first) {
+					first = false;
+				}
+				else {
+					sw.append(",");
+				}
+				sw.append('"');
+				sw.append(new String(key, "UTF-8"));
+				sw.append('"');
+				sw.append(": ");
+				fields.writeJSONString(sw);
+				sw.append("\n");
 			}
 		}
 		finally {
