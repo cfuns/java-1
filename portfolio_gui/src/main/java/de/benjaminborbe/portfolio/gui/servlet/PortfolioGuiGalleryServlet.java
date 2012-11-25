@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -19,12 +20,14 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryEntryComparator;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -46,11 +49,13 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final PortfolioGuiGalleryComparator galleryComparator;
+	private final PortfolioGuiGalleryCollectionComparator galleryComparator;
 
 	private final UrlUtil urlUtil;
 
 	private final PortfolioGuiLinkFactory portfolioLinkFactory;
+
+	private final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator;
 
 	@Inject
 	public PortfolioGuiGalleryServlet(
@@ -63,7 +68,8 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final Provider<PortfolioLayoutWidget> portfolioWidgetProvider,
 			final GalleryService galleryService,
 			final PortfolioGuiLinkFactory portfolioLinkFactory,
-			final PortfolioGuiGalleryComparator galleryComparator) {
+			final PortfolioGuiGalleryCollectionComparator galleryComparator,
+			final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
 		this.authenticationService = authenticationService;
 		this.portfolioWidgetProvider = portfolioWidgetProvider;
@@ -71,6 +77,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		this.galleryComparator = galleryComparator;
 		this.urlUtil = urlUtil;
 		this.portfolioLinkFactory = portfolioLinkFactory;
+		this.portfolioGuiGalleryEntryComparator = portfolioGuiGalleryEntryComparator;
 	}
 
 	@Override
@@ -88,7 +95,9 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 				final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
 				portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
 				portfolioWidget.addContent(new H1Widget(galleryCollection.getName()));
-				portfolioWidget.setGalleryEntries(galleryService.getEntriesShared(sessionIdentifier, galleryCollection.getId()));
+				final List<GalleryEntry> entries = Lists.newArrayList(galleryService.getEntriesShared(sessionIdentifier, galleryCollection.getId()));
+				Collections.sort(entries, portfolioGuiGalleryEntryComparator);
+				portfolioWidget.setGalleryEntries(entries);
 				return portfolioWidget;
 			}
 		}

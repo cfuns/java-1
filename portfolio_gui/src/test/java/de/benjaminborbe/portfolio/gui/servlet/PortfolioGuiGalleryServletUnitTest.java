@@ -29,9 +29,12 @@ import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
-import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparatorName;
-import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparatorPrio;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparatorName;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparatorPrio;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryEntryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryEntryComparatorName;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryEntryComparatorPrio;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -144,10 +147,13 @@ public class PortfolioGuiGalleryServletUnitTest {
 		final PortfolioGuiLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioGuiLinkFactory.class);
 		EasyMock.replay(portfolioLinkFactory);
 
-		final PortfolioGuiGalleryComparator galleryComparator = new PortfolioGuiGalleryComparator(new PortfolioGuiGalleryComparatorName(), new PortfolioGuiGalleryComparatorPrio());
+		final PortfolioGuiGalleryCollectionComparator galleryComparator = new PortfolioGuiGalleryCollectionComparator(new PortfolioGuiGalleryCollectionComparatorName(),
+				new PortfolioGuiGalleryCollectionComparatorPrio());
+		final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator = new PortfolioGuiGalleryEntryComparator(new PortfolioGuiGalleryEntryComparatorName(),
+				new PortfolioGuiGalleryEntryComparatorPrio());
 
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator);
+				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

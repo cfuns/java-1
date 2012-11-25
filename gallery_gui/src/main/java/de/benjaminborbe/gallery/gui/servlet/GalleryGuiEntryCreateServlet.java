@@ -210,7 +210,6 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			if (!files.containsKey(p)) {
 				logger.info("parameter " + p + " missing");
 				return false;
-
 			}
 		}
 		return true;
@@ -223,7 +222,6 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			if (!parameter.containsKey(p)) {
 				logger.info("parameter " + p + " missing");
 				return false;
-
 			}
 		}
 		return true;

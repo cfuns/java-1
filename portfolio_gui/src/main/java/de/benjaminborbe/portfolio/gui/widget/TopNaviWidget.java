@@ -23,7 +23,7 @@ import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
-import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryComparator;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparator;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.website.util.UlWidget;
 
@@ -36,7 +36,7 @@ public class TopNaviWidget implements Widget {
 
 	private final AuthenticationService authenticationService;
 
-	private final PortfolioGuiGalleryComparator galleryComparator;
+	private final PortfolioGuiGalleryCollectionComparator galleryComparator;
 
 	private final PortfolioGuiLinkFactory portfolioLinkFactory;
 
@@ -45,7 +45,7 @@ public class TopNaviWidget implements Widget {
 			final Logger logger,
 			final GalleryService galleryService,
 			final AuthenticationService authenticationService,
-			final PortfolioGuiGalleryComparator galleryComparator,
+			final PortfolioGuiGalleryCollectionComparator galleryComparator,
 			final PortfolioGuiLinkFactory portfolioLinkFactory) {
 		this.logger = logger;
 		this.galleryService = galleryService;

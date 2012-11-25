@@ -121,7 +121,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -133,7 +133,7 @@ public class GalleryServiceImpl implements GalleryService {
 			return new GalleryCollectionIdentifier(id);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -177,7 +177,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -189,7 +189,7 @@ public class GalleryServiceImpl implements GalleryService {
 			return new GalleryEntryIdentifier(id);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -223,7 +223,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -235,7 +235,7 @@ public class GalleryServiceImpl implements GalleryService {
 			return new GalleryGroupIdentifier(id);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -271,7 +271,7 @@ public class GalleryServiceImpl implements GalleryService {
 			return new GalleryImageIdentifier(id);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -300,7 +300,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -326,7 +326,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -354,7 +354,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -380,7 +380,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -411,7 +411,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -436,7 +436,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -466,7 +466,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -489,7 +489,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -518,7 +518,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -542,7 +542,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -574,7 +574,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -601,7 +601,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -633,7 +633,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -660,7 +660,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -683,7 +683,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -707,7 +707,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -728,7 +728,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -759,7 +759,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -784,7 +784,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -813,7 +813,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -841,7 +841,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -862,7 +862,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -897,7 +897,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -928,7 +928,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -963,7 +963,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -982,7 +982,7 @@ public class GalleryServiceImpl implements GalleryService {
 			Long p2 = galleryEntryB.getPriority();
 			if (p1 == null && p2 == null) {
 				p1 = 0l;
-				p2 = 0l;
+				p2 = 1l;
 			}
 			if (p1 != null && p2 == null) {
 				p2 = p1;
@@ -1014,7 +1014,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -1039,7 +1039,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -1064,7 +1064,7 @@ public class GalleryServiceImpl implements GalleryService {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
-			logger.info("duration " + duration.getTime());
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 }
