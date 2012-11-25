@@ -127,8 +127,7 @@ public class GalleryGuiCollectionUpdateServlet extends GalleryGuiHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_COLLECTION_ID).addValue(galleryCollection.getId()));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_GROUP_ID).addValue(galleryCollection.getGroupId()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_NAME).addLabel("Name...").addDefaultValue(galleryCollection.getName()));
-			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO).addLabel("Prio...").addDefaultValue(
-					String.valueOf(galleryCollection.getPriority())));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_PRIO).addLabel("Prio...").addDefaultValue(galleryCollection.getPriority()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_COLLECTION_SHARED).addLabel("Shared").addPlaceholder("shared...")
 					.addDefaultValue(galleryCollection.getShared()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
