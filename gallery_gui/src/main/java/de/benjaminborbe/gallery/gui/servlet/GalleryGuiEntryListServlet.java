@@ -35,10 +35,8 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.DivWidget;
@@ -57,8 +55,6 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 	private static final String TITLE = "Gallery - Images";
 
 	private final GalleryService galleryService;
-
-	private final UrlUtil urlUtil;
 
 	private final Logger logger;
 
@@ -86,7 +82,6 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.galleryService = galleryService;
 		this.logger = logger;
-		this.urlUtil = urlUtil;
 		this.galleryGuiLinkFactory = galleryGuiLinkFactory;
 		this.authenticationService = authenticationService;
 		this.galleryEntryComparator = galleryEntryComparator;
@@ -145,8 +140,16 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 			}
 			ul.addAttribute("class", "entrylist");
 			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_CREATE, new MapParameter().add(
-					GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "upload image"));
+
+			final ListWidget links = new ListWidget();
+			links.add(galleryGuiLinkFactory.listGroups(request));
+			links.add(" ");
+			links.add(galleryGuiLinkFactory.listCollections(request, galleryGroup.getId()));
+			links.add(" ");
+			links.add(galleryGuiLinkFactory.createEntry(request, galleryCollectionIdentifier));
+			links.add(" ");
+
+			widgets.add(links);
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {

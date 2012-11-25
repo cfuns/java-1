@@ -59,6 +59,11 @@ public class GalleryGuiLinkFactory {
 				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroup.getId())), galleryGroup.getName());
 	}
 
+	public Widget listCollections(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_LIST, new MapParameter().add(
+				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "collections");
+	}
+
 	public Widget deleteEntry(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_DELETE, new MapParameter().add(
 				GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "delete").addConfirm("delete?");

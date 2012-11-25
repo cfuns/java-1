@@ -114,7 +114,14 @@ public class GalleryGuiCollectionListServlet extends GalleryGuiHtmlServlet {
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createCollection(request, galleryGroupIdentifier));
+
+			final ListWidget links = new ListWidget();
+			links.add(linkFactory.listGroups(request));
+			links.add(" ");
+			links.add(linkFactory.createCollection(request, galleryGroupIdentifier));
+			links.add(" ");
+
+			widgets.add(links);
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {

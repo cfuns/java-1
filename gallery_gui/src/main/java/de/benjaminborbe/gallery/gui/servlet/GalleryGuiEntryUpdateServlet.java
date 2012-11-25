@@ -141,6 +141,11 @@ public class GalleryGuiEntryUpdateServlet extends GalleryGuiHtmlServlet {
 			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 
+			final ListWidget links = new ListWidget();
+			links.add(galleryGuiLinkFactory.listEntries(request, galleryEntry.getCollectionId()));
+			links.add(" ");
+			widgets.add(links);
+
 			return widgets;
 		}
 		catch (final GalleryServiceException e) {

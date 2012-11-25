@@ -138,7 +138,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.expect(galleryService.getGroup(sessionIdentifier, galleryGroupIdentifier)).andReturn(group);
 		EasyMock.replay(galleryService);
 
-		final GalleryGuiLinkFactory linkFactory = EasyMock.createMock(GalleryGuiLinkFactory.class);
+		final GalleryGuiLinkFactory linkFactory = EasyMock.createNiceMock(GalleryGuiLinkFactory.class);
 		EasyMock.expect(linkFactory.createCollection(request, galleryGroupIdentifier)).andReturn(new StringWidget(""));
 		EasyMock.replay(linkFactory);
 
