@@ -81,7 +81,7 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 			response.setContentType("text/plain");
 			final PrintWriter out = response.getWriter();
 			out.println("fail");
-			logger.debug(e.getClass().getSimpleName(), e);
+			logger.warn(e.getClass().getSimpleName(), e);
 		}
 	}
 

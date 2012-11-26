@@ -846,19 +846,12 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-
-			authenticationService.expectSuperAdmin(sessionIdentifier);
-
 			return galleryImageDao.load(id);
 		}
 		catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthenticationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
