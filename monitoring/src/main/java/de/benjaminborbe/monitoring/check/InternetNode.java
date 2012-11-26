@@ -79,6 +79,22 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 		}
 
 		{
+			final String name = "URL-Check on a.benjamin-borbe.de";
+			final String url = "http://a.benjamin-borbe.de/";
+			final String titleMatch = "Portrait - Benjamin Borbe";
+			final String contentMatch = "<span class=\"photography\">photography</span>";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
+
+		{
+			final String name = "URL-Check on b.benjamin-borbe.de";
+			final String url = "http://b.benjamin-borbe.de/";
+			final String titleMatch = "Portrait - Benjamin Borbe";
+			final String contentMatch = "<span class=\"photography\">photography</span>";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
+
+		{
 			final String name = "URL-Check on www.benjaminborbe.de";
 			final String url = "http://www.benjaminborbe.de/";
 			final String titleMatch = "Portrait - Benjamin Borbe";
