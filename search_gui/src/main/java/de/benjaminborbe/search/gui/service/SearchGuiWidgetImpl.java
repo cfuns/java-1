@@ -2,6 +2,8 @@ package de.benjaminborbe.search.gui.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,7 +122,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result) throws IOException {
 		final PrintWriter out = response.getWriter();
-		final String url = result.getUrl();
+		final URL url = buildUrl(request, result.getUrl());
+		final String urlString = url.toExternalForm();
 		final String type = result.getType();
 		final String title = result.getTitle();
 		final String description = result.getDescription();
@@ -131,12 +134,21 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		out.println("</a>");
 		out.println("</div>");
 		out.println("<div class=\"link\">");
-		out.println("<a href=\"" + url + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(url) + "</a>");
+		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(urlString) + "</a>");
 		out.println("</div>");
 		out.println("<div class=\"description\">");
 		out.println(StringEscapeUtils.escapeHtml(description));
 		out.println("<br/>");
 		out.println("</div>");
 		out.println("</div>");
+	}
+
+	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
+		if (url.indexOf("/") == 0) {
+			return new URL(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + url);
+		}
+		else {
+			return new URL(url);
+		}
 	}
 }
