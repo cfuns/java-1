@@ -38,4 +38,6 @@ public interface StorageService {
 
 	void backup() throws StorageException;
 
+	void restore(String columnfamily, String jsonContent) throws StorageException;
+
 }

@@ -44,7 +44,14 @@ public class StorageGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/storage", "/storage/read", "/storage/write", "/storage/list", "/storage/delete", "/storage/backup");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_BACKUP);
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_DELETE);
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_HOME);
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_LIST);
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_READ);
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_RESTORE);
+		paths.add("/" + StorageGuiConstants.NAME + StorageGuiConstants.URL_WRITE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

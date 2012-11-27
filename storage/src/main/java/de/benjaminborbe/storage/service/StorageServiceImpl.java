@@ -337,4 +337,9 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public void restore(final String columnfamily, final String jsonContent) throws StorageException {
+		logger.info("restore - columnfamily: " + columnfamily + " jsonContent: " + jsonContent);
+	}
 }
