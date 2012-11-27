@@ -22,6 +22,7 @@ import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageExporter;
+import de.benjaminborbe.storage.util.StorageImporter;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 
@@ -89,6 +90,8 @@ public class StorageServiceImpl implements StorageService {
 
 	private final DurationUtil durationUtil;
 
+	private final StorageImporter storageImporter;
+
 	@Inject
 	public StorageServiceImpl(
 			final Logger logger,
@@ -96,12 +99,14 @@ public class StorageServiceImpl implements StorageService {
 			final StorageDaoUtil storageDaoUtil,
 			final StorageConnectionPool storageConnectionPool,
 			final StorageExporter storageExporter,
+			final StorageImporter storageImporter,
 			final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
 		this.storageConnectionPool = storageConnectionPool;
 		this.storageExporter = storageExporter;
+		this.storageImporter = storageImporter;
 		this.durationUtil = durationUtil;
 	}
 
@@ -340,6 +345,18 @@ public class StorageServiceImpl implements StorageService {
 
 	@Override
 	public void restore(final String columnfamily, final String jsonContent) throws StorageException {
-		logger.info("restore - columnfamily: " + columnfamily + " jsonContent: " + jsonContent);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.info("restore - columnfamily: " + columnfamily + " jsonContent: " + jsonContent);
+
+			storageImporter.importJson(config.getKeySpace(), columnfamily, jsonContent);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 }
