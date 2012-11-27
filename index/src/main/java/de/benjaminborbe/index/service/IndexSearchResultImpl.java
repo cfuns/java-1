@@ -1,12 +1,10 @@
 package de.benjaminborbe.index.service;
 
-import java.net.URL;
-
 import de.benjaminborbe.index.api.IndexSearchResult;
 
 public class IndexSearchResultImpl implements IndexSearchResult {
 
-	private final URL url;
+	private final String url;
 
 	private final String content;
 
@@ -14,7 +12,7 @@ public class IndexSearchResultImpl implements IndexSearchResult {
 
 	private final String index;
 
-	public IndexSearchResultImpl(final String index, final URL url, final String title, final String content) {
+	public IndexSearchResultImpl(final String index, final String url, final String title, final String content) {
 		this.index = index;
 		this.url = url;
 		this.title = title;
@@ -37,7 +35,7 @@ public class IndexSearchResultImpl implements IndexSearchResult {
 	}
 
 	@Override
-	public URL getURL() {
+	public String getURL() {
 		return url;
 	}
 

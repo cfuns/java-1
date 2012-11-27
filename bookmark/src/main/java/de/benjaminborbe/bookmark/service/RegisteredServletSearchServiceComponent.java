@@ -1,7 +1,6 @@
 package de.benjaminborbe.bookmark.service;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,12 +55,7 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 	}
 
 	private SearchResult buildResult(final String path) throws MalformedURLException {
-		final URL url = buildUrl(path);
-		return new SearchResultImpl(SEARCH_TYPE, path, url, path);
-	}
-
-	private URL buildUrl(final String url) throws MalformedURLException {
-		return new URL("http://bb/bb" + url);
+		return new SearchResultImpl(SEARCH_TYPE, path, path, path);
 	}
 
 	@Override

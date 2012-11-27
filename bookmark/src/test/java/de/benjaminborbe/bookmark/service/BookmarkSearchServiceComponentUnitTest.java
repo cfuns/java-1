@@ -1,10 +1,8 @@
 package de.benjaminborbe.bookmark.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ public class BookmarkSearchServiceComponentUnitTest {
 		EasyMock.replay(bookmarkService);
 
 		final BookmarkSearchServiceComponent bookmarkSearchService = new BookmarkSearchServiceComponent(logger, bookmarkService);
-		assertEquals(new URL("http://www.heise.de"), bookmarkSearchService.buildUrl("http://www.heise.de"));
-		assertEquals(new URL("http://bb/bla"), bookmarkSearchService.buildUrl("/bla"));
+		assertNotNull(bookmarkSearchService);
 	}
 }

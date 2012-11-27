@@ -22,7 +22,7 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 }
 
 .task div.dueToday .taskTitle a {
-	color: #FFCC00;
+	color: #FFBB00;
 }
 
 .task div.dueExpired .taskTitle a {

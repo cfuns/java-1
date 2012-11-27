@@ -100,7 +100,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 			final JSONArray results = (JSONArray) responseData.get("results");
 			for (int i = 0; i < results.size(); ++i) {
 				final JSONObject result = (JSONObject) results.get(i);
-				final URL url = new URL((String) result.get("url"));
+				final String url = (String) result.get("url");
 				final String title = htmlUtil.filterHtmlTages((String) result.get("title"));
 				final String description = htmlUtil.filterHtmlTages((String) result.get("content"));
 				searchResults.add(new SearchResultImpl(SEARCH_TYPE, title, url, description));

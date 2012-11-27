@@ -1,7 +1,6 @@
 package de.benjaminborbe.bookmark.service;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,17 +57,7 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected SearchResult mapBookmark(final Bookmark bookmark) throws MalformedURLException {
-		final URL url = buildUrl(bookmark.getUrl());
-		return new SearchResultImpl(SEARCH_TYPE, bookmark.getName(), url, bookmark.getDescription());
-	}
-
-	protected URL buildUrl(final String url) throws MalformedURLException {
-		if (url.indexOf("/") == 0) {
-			return new URL("http://bb" + url);
-		}
-		else {
-			return new URL(url);
-		}
+		return new SearchResultImpl(SEARCH_TYPE, bookmark.getName(), bookmark.getUrl(), bookmark.getDescription());
 	}
 
 	@Override

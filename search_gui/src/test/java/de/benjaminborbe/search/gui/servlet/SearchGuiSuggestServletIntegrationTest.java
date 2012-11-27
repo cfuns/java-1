@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.StringWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class SearchGuiSuggestServletIntegrationTest {
 		final SearchGuiSuggestServlet searchServlet = injector.getInstance(SearchGuiSuggestServlet.class);
 		final List<SearchResult> bookmarks = new ArrayList<SearchResult>();
 		final SearchResult searchResult = EasyMock.createMock(SearchResult.class);
-		EasyMock.expect(searchResult.getUrl()).andReturn(new URL("http://www.google.com"));
+		EasyMock.expect(searchResult.getUrl()).andReturn("http://www.google.com");
 		EasyMock.expect(searchResult.getTitle()).andReturn("Google");
 		EasyMock.replay(searchResult);
 		bookmarks.add(searchResult);

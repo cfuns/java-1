@@ -120,7 +120,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result) throws IOException {
 		final PrintWriter out = response.getWriter();
-		final String url = result.getUrl().toExternalForm();
+		final String url = result.getUrl();
 		final String type = result.getType();
 		final String title = result.getTitle();
 		final String description = result.getDescription();
@@ -139,5 +139,4 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		out.println("</div>");
 		out.println("</div>");
 	}
-
 }

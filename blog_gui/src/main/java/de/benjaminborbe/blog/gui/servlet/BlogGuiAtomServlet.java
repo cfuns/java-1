@@ -74,7 +74,7 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 		final EntryBean entry = new EntryBean();
 		entry.setTitle("Title");
 		entry.setId("123");
-		entry.setLink("http://bb/123");
+		entry.setLink("http://" + request.getServerName() + request.getContextPath() + "/" + BlogGuiConstants.NAME + "/123");
 		entry.setPublished("2012-09-16T11:50:00+02:00");
 		entry.setUpdated("2012-09-16T11:50:09+02:00");
 		entry.setSummary("summary");

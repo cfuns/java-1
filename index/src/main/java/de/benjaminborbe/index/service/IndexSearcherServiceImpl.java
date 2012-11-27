@@ -2,7 +2,6 @@ package de.benjaminborbe.index.service;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 	}
 
 	private IndexSearchResult buildSearchResult(final String index, final Document d) throws MalformedURLException {
-		final URL url = new URL(d.get(IndexField.URL.getFieldName()));
+		final String url = d.get(IndexField.URL.getFieldName());
 		final String title = d.get(IndexField.TITLE.getFieldName());
 		final String content = d.get(IndexField.CONTENT.getFieldName());
 		return new IndexSearchResultImpl(index, url, title, content);

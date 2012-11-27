@@ -102,11 +102,11 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
 				final ListWidget b = new ListWidget();
-				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
+				b.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), bookmark.getName()).addTarget(target));
 				b.add(" | ");
-				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getUrl()).addTarget(target));
+				b.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), bookmark.getUrl()).addTarget(target));
 				b.add(" | [");
-				b.add(new LinkWidget(buildUrl(bookmark.getUrl()), keywordsToString(bookmark)).addTarget(target));
+				b.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), keywordsToString(bookmark)).addTarget(target));
 				b.add("] | ");
 				b.add(new LinkRelativWidget(urlUtil, request, "/bookmark/update", new MapParameter().add("url", bookmark.getUrl()), "edit"));
 				b.add(" ");
@@ -155,9 +155,9 @@ public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
 		return new HashSet<Widget>();
 	}
 
-	protected URL buildUrl(final String url) throws MalformedURLException {
+	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
 		if (url.indexOf("/") == 0) {
-			return new URL("http://bb" + url);
+			return new URL("http://" + request.getServerName() + url);
 		}
 		else {
 			return new URL(url);

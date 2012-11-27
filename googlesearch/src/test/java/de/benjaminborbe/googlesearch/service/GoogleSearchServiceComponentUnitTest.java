@@ -37,7 +37,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		{
 			final int pos = 0;
 			assertEquals("Google", result.get(pos).getType());
-			assertEquals("http://en.wikipedia.org/wiki/Foobar", result.get(pos).getUrl().toExternalForm());
+			assertEquals("http://en.wikipedia.org/wiki/Foobar", result.get(pos).getUrl());
 			assertEquals("Foobar - Wikipedia, the free encyclopedia", result.get(pos).getTitle());
 			assertEquals(
 					"The terms foobar /ˈfʊːbɑː/, fubar, or foo , bar, baz and qux (alternatively quux) are sometimes used as placeholder names (also referred to as metasyntactic ...",
@@ -46,7 +46,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		{
 			final int pos = 1;
 			assertEquals("Google", result.get(pos).getType());
-			assertEquals("http://www.foofighters.com/", result.get(pos).getUrl().toExternalForm());
+			assertEquals("http://www.foofighters.com/", result.get(pos).getUrl());
 			assertEquals("FooFighters.com", result.get(pos).getTitle());
 			assertEquals("Official site. News, touring information, store, multimedia, concert chronology, articles, interviews, discography, image gallery, and a discussion board.",
 					result.get(pos).getDescription());
@@ -54,7 +54,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		{
 			final int pos = 2;
 			assertEquals("Google", result.get(pos).getType());
-			assertEquals("http://catb.org/jargon/html/F/foo.html", result.get(pos).getUrl().toExternalForm());
+			assertEquals("http://catb.org/jargon/html/F/foo.html", result.get(pos).getUrl());
 			assertEquals("foo", result.get(pos).getTitle());
 			assertEquals(
 					"When ' foo ' is used in connection with 'bar' it has generally traced to the WWII-era Army slang acronym FUBAR ('Fucked Up Beyond All Repair' or 'Fucked Up ...", result
@@ -63,7 +63,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		{
 			final int pos = 3;
 			assertEquals("Google", result.get(pos).getType());
-			assertEquals("http://www.foopets.com/", result.get(pos).getUrl().toExternalForm());
+			assertEquals("http://www.foopets.com/", result.get(pos).getUrl());
 			assertEquals("FooPets | Real Virtual Pets Online", result.get(pos).getTitle());
 			assertEquals("Adopt the World's cutest virtual pets, and play games with these adorable cats and dogs.", result.get(pos).getDescription());
 		}

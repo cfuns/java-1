@@ -53,7 +53,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite(sessionIdentifier)) {
-				ul.add(new LinkWidget(buildUrl(bookmark.getUrl()), bookmark.getName()).addTarget(target));
+				ul.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), bookmark.getName()).addTarget(target));
 			}
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
@@ -71,9 +71,9 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 		}
 	}
 
-	protected URL buildUrl(final String url) throws MalformedURLException {
+	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
 		if (url.indexOf("/") == 0) {
-			return new URL("http://bb" + url);
+			return new URL("http://" + request.getServerName() + url);
 		}
 		else {
 			return new URL(url);

@@ -1,7 +1,5 @@
 package de.benjaminborbe.search.util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,18 +28,13 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
+		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final String urlString = "http://" + query;
-		try {
-			final String type = getName();
-			final String title = urlString;
-			final URL url = new URL(urlString);
-			final String description = urlString;
-			result.add(new SearchResultImpl(type, title, url, description));
-		}
-		catch (final MalformedURLException e) {
-			logger.trace("cant build url " + urlString);
-		}
+		final String type = getName();
+		final String title = urlString;
+		final String description = urlString;
+		result.add(new SearchResultImpl(type, title, urlString, description));
 		return result;
 	}
 }

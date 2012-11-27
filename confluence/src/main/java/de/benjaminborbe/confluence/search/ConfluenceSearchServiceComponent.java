@@ -1,6 +1,5 @@
 package de.benjaminborbe.confluence.search;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	protected SearchResult map(final IndexSearchResult indexResult) {
 		final String title = indexResult.getTitle();
-		final URL url = indexResult.getURL();
+		final String url = indexResult.getURL();
 		final String description = buildDescription(indexResult.getContent());
 		return new SearchResultImpl(SEARCH_TYPE, title, url, description);
 	}

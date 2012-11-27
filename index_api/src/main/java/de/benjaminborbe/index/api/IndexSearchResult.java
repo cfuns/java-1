@@ -1,7 +1,5 @@
 package de.benjaminborbe.index.api;
 
-import java.net.URL;
-
 public interface IndexSearchResult {
 
 	String getIndex();
@@ -10,5 +8,5 @@ public interface IndexSearchResult {
 
 	String getContent();
 
-	URL getURL();
+	String getURL();
 }
