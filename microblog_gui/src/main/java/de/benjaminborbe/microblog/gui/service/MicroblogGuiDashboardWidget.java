@@ -66,4 +66,9 @@ public class MicroblogGuiDashboardWidget implements DashboardContentWidget, Requ
 		return new ArrayList<CssResource>();
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

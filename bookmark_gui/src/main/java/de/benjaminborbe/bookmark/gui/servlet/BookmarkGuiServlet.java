@@ -38,4 +38,9 @@ public class BookmarkGuiServlet extends WebsiteRedirectServlet {
 		return TARGET;
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

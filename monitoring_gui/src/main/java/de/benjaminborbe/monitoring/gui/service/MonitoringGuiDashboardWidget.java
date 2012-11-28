@@ -53,4 +53,9 @@ public class MonitoringGuiDashboardWidget implements DashboardContentWidget, Req
 		return monitoringSummaryWidget.getCssResource(request, response);
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return true;
+	}
+
 }

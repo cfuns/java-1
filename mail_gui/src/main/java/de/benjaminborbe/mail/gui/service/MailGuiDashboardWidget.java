@@ -41,4 +41,9 @@ public class MailGuiDashboardWidget implements DashboardContentWidget {
 		return 1;
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

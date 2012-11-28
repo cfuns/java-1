@@ -88,4 +88,10 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 	public long getPriority() {
 		return 997;
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

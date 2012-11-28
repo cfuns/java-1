@@ -125,4 +125,10 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 		list.add(new CssResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS_STYLE));
 		return list;
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

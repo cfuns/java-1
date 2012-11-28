@@ -16,9 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
@@ -33,9 +40,29 @@ import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.ExceptionWidget;
 
 @Singleton
 public class DashboardGuiWidgetImpl implements DashboardWidget {
+
+	private final class HasAdminPredicate implements Predicate<DashboardContentWidget> {
+
+		private final boolean hasAdmin;
+
+		private HasAdminPredicate(final boolean hasAdmin) {
+			this.hasAdmin = hasAdmin;
+		}
+
+		@Override
+		public boolean apply(final DashboardContentWidget widget) {
+			if (widget.isAdminRequired() && !hasAdmin) {
+				return false;
+			}
+			else {
+			}
+			return true;
+		}
+	}
 
 	private final class DashboardContentWidgetComparator extends ComparatorBase<DashboardContentWidget, Long> {
 
@@ -113,63 +140,87 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 
 	private final CalendarUtil calendarUtil;
 
+	private final AuthorizationService authorizationService;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public DashboardGuiWidgetImpl(final Logger logger, final DashboardGuiWidgetRegistry dashboardWidgetRegistry, final ThreadRunner threadRunner, final CalendarUtil calendarUtil) {
+	public DashboardGuiWidgetImpl(
+			final Logger logger,
+			final DashboardGuiWidgetRegistry dashboardWidgetRegistry,
+			final ThreadRunner threadRunner,
+			final CalendarUtil calendarUtil,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService) {
 		this.logger = logger;
 		this.dashboardWidgetRegistry = dashboardWidgetRegistry;
 		this.threadRunner = threadRunner;
 		this.calendarUtil = calendarUtil;
+		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
-		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
-		Collections.sort(dashboardWidgets, new ComparatorImplementation());
-		final Set<Thread> threads = new HashSet<Thread>();
-		final List<ThreadResult<String>> results = new ArrayList<ThreadResult<String>>();
-		// render all widgets
-		for (final DashboardContentWidget dashboardWidget : sortWidgets(dashboardWidgets)) {
-			final ThreadResult<String> result = new ThreadResult<String>();
-			results.add(result);
-			threads.add(threadRunner.run("dashboard-widget-render " + dashboardWidget.getClass().getSimpleName(), new DashboardWidgetRenderRunnable(request, response, context,
-					dashboardWidget, result, calendarUtil)));
-		}
-		// wait 1 second
-		final long timeout = 1000;
-
-		// wait unitil rendering finished
-		for (final Thread thread : threads) {
-			try {
-				thread.join(timeout);
+		try {
+			final PrintWriter out = response.getWriter();
+			final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
+			Collections.sort(dashboardWidgets, new ComparatorImplementation());
+			final Set<Thread> threads = new HashSet<Thread>();
+			final List<ThreadResult<String>> results = new ArrayList<ThreadResult<String>>();
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final boolean hasAdmin = authorizationService.hasAdminRole(sessionIdentifier);
+			final Predicate<DashboardContentWidget> p = new HasAdminPredicate(hasAdmin);
+			// render all widgets
+			for (final DashboardContentWidget dashboardWidget : sortWidgets(Collections2.filter(dashboardWidgets, p))) {
+				final ThreadResult<String> result = new ThreadResult<String>();
+				results.add(result);
+				threads.add(threadRunner.run("dashboard-widget-render " + dashboardWidget.getClass().getSimpleName(), new DashboardWidgetRenderRunnable(request, response, context,
+						dashboardWidget, result, calendarUtil)));
 			}
-			catch (final InterruptedException e) {
-			}
-		}
+			// wait 1 second
+			final long timeout = 1000;
 
-		// warn not finished threads
-		for (final Thread thread : threads) {
-			if (thread.isAlive()) {
-				logger.warn("thread " + thread.getName() + " not finish in " + (timeout / 1000) + " seconds");
+			// wait unitil rendering finished
+			for (final Thread thread : threads) {
 				try {
-					thread.stop();
+					thread.join(timeout);
 				}
-				catch (final Exception e) {
+				catch (final InterruptedException e) {
 				}
 			}
-		}
 
-		// append output
-		for (final ThreadResult<String> result : results) {
-			final String content = result.get();
-			if (content != null) {
-				out.println(content);
+			// warn not finished threads
+			for (final Thread thread : threads) {
+				if (thread.isAlive()) {
+					logger.warn("thread " + thread.getName() + " not finish in " + (timeout / 1000) + " seconds");
+					try {
+						thread.stop();
+					}
+					catch (final Exception e) {
+					}
+				}
 			}
-			else {
-				logger.trace("no content found");
+
+			// append output
+			for (final ThreadResult<String> result : results) {
+				final String content = result.get();
+				if (content != null) {
+					out.println(content);
+				}
+				else {
+					logger.trace("no content found");
+				}
 			}
+			out.println("<br class=\"clear\">");
+
 		}
-		out.println("<br class=\"clear\">");
+		catch (final AuthenticationServiceException e) {
+			new ExceptionWidget(e).render(request, response, context);
+		}
+		catch (final AuthorizationServiceException e) {
+			new ExceptionWidget(e).render(request, response, context);
+		}
 	}
 
 	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final DashboardContentWidget dashboardWidget)

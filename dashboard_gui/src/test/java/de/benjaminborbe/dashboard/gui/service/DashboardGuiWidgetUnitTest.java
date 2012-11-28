@@ -15,7 +15,7 @@ public class DashboardGuiWidgetUnitTest {
 
 	@Test
 	public void testSortWidgets() {
-		final DashboardGuiWidgetImpl dashboardWidget = new DashboardGuiWidgetImpl(null, null, null, null);
+		final DashboardGuiWidgetImpl dashboardWidget = new DashboardGuiWidgetImpl(null, null, null, null, null, null);
 		final Set<DashboardContentWidget> dashboardContentWidgets = new HashSet<DashboardContentWidget>();
 		dashboardContentWidgets.add(buildDashboardWidgetWithPrio(1337));
 		dashboardContentWidgets.add(buildDashboardWidgetWithPrio(42));

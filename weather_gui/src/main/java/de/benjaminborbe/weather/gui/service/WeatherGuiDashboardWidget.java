@@ -37,4 +37,10 @@ public class WeatherGuiDashboardWidget implements DashboardContentWidget {
 	public long getPriority() {
 		return 1;
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

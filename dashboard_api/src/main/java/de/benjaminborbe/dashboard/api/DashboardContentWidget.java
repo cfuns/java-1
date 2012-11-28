@@ -8,4 +8,6 @@ public interface DashboardContentWidget extends Widget {
 
 	long getPriority();
 
+	boolean isAdminRequired();
+
 }

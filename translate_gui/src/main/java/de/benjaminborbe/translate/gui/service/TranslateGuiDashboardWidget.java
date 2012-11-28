@@ -49,4 +49,10 @@ public class TranslateGuiDashboardWidget implements DashboardContentWidget {
 	public long getPriority() {
 		return 998;
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

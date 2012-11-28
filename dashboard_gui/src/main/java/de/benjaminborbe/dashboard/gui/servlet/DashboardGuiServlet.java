@@ -77,4 +77,9 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 		return TITLE;
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

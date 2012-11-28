@@ -35,8 +35,8 @@ public class XmppServiceImpl implements XmppService {
 	@Override
 	public void send(final SessionIdentifier sessionIdentifier, final String message) throws XmppServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
-			logger.trace("send " + message);
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.trace("send " + message);
 			send(message);
 		}
 		catch (final AuthorizationServiceException e) {

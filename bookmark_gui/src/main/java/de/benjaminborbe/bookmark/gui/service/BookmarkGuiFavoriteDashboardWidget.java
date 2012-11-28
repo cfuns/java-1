@@ -96,4 +96,9 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 		return 1;
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

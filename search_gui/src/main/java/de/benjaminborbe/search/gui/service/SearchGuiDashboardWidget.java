@@ -93,4 +93,10 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	public long getPriority() {
 		return 999;
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }
