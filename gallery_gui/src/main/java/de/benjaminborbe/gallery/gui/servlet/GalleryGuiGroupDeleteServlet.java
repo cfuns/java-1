@@ -16,8 +16,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -57,7 +57,8 @@ public class GalleryGuiGroupDeleteServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_ID));
@@ -70,9 +71,6 @@ public class GalleryGuiGroupDeleteServlet extends WebsiteServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final LoginRequiredException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final SuperAdminRequiredException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

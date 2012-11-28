@@ -22,9 +22,11 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -88,7 +90,15 @@ public abstract class WebsiteServlet extends HttpServlet {
 				onPermissionDenied(request, response, context);
 			}
 			else {
-				doService(request, response, context);
+				try {
+					doService(request, response, context);
+				}
+				catch (final LoginRequiredException e) {
+					onLoginRequired(request, response, context);
+				}
+				catch (final PermissionDeniedException e) {
+					onPermissionDenied(request, response, context);
+				}
 			}
 		}
 		catch (final AuthenticationServiceException e) {
@@ -125,7 +135,8 @@ public abstract class WebsiteServlet extends HttpServlet {
 		return buildRedirectUrl(request, "/authorization/permissionDenied");
 	}
 
-	protected abstract void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException;
+	protected abstract void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException;
 
 	private String getNowAsString() {
 		return String.valueOf(getNowAsLong());

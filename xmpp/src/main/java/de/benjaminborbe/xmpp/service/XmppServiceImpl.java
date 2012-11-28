@@ -5,11 +5,11 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
 import de.benjaminborbe.xmpp.connector.XmppConnector;
@@ -23,23 +23,23 @@ public class XmppServiceImpl implements XmppService {
 
 	private final XmppConnector xmppConnector;
 
-	private final AuthenticationService authenticationService;
+	private final AuthorizationService authorizationService;
 
 	@Inject
-	public XmppServiceImpl(final Logger logger, final XmppConnector xmppConnector, final AuthenticationService authenticationService) {
+	public XmppServiceImpl(final Logger logger, final XmppConnector xmppConnector, final AuthorizationService authorizationService) {
 		this.logger = logger;
 		this.xmppConnector = xmppConnector;
-		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
-	public void send(final SessionIdentifier sessionIdentifier, final String message) throws XmppServiceException, LoginRequiredException, SuperAdminRequiredException {
+	public void send(final SessionIdentifier sessionIdentifier, final String message) throws XmppServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			logger.trace("send " + message);
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 			send(message);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new XmppServiceException(e);
 		}
 	}

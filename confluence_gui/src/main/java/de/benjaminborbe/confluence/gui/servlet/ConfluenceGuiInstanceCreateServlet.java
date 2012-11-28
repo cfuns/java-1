@@ -16,7 +16,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.confluence.api.ConfluenceService;
@@ -78,7 +77,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));

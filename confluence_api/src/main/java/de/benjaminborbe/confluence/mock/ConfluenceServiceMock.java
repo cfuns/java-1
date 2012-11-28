@@ -8,7 +8,6 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
@@ -67,7 +66,7 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, SuperAdminRequiredException, ConfluenceServiceException {
+	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException {
 	}
 
 }

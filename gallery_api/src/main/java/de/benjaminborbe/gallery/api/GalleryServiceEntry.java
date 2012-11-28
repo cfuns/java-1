@@ -6,7 +6,6 @@ import java.util.List;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface GalleryServiceEntry {
@@ -15,31 +14,29 @@ public interface GalleryServiceEntry {
 
 	GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, String entryName, Long priority,
 			String imagePreviewName, byte[] imagePreviewContent, String imagePreviewContentType, String imageName, byte[] imageContent, String imageContentType, final Boolean shared)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException;
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, SuperAdminRequiredException;
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException;
 
-	GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
-			SuperAdminRequiredException;
+	GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException;
 
-	void deleteEntry(final SessionIdentifier sessionIdentifier, GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
-			SuperAdminRequiredException;
+	void deleteEntry(final SessionIdentifier sessionIdentifier, GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Collection<GalleryEntry> getEntries(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException, SuperAdminRequiredException;
+			PermissionDeniedException;
 
 	Collection<GalleryEntry> getEntriesShared(SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier id) throws GalleryServiceException;
 
 	void updateEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, String entryName,
-			Long priority, Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException;
+			Long priority, Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, PermissionDeniedException;
 
 	void swapEntryPrio(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifierA, GalleryEntryIdentifier galleryEntryIdentifierB)
-			throws PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException, GalleryServiceException;
+			throws PermissionDeniedException, LoginRequiredException, GalleryServiceException;
 
 	void shareEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			SuperAdminRequiredException, GalleryServiceException;
+			GalleryServiceException;
 
 	void unshareEntry(SessionIdentifier sessionIdentifier, GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			SuperAdminRequiredException, GalleryServiceException;
+			GalleryServiceException;
 }

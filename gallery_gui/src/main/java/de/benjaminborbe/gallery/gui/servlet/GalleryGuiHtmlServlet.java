@@ -12,7 +12,6 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
@@ -48,12 +47,12 @@ public abstract class GalleryGuiHtmlServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		return new DivWidget(createGalleryContentWidget(request, response, context)).addAttribute("class", "gallery");
 	}
 
 	protected abstract Widget createGalleryContentWidget(HttpServletRequest request, HttpServletResponse response, HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException;
+			PermissionDeniedException, RedirectException, LoginRequiredException;
 
 	@Override
 	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {

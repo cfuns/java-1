@@ -10,11 +10,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -48,8 +47,6 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 @Singleton
 public class GalleryServiceImpl implements GalleryService {
 
-	private final AuthenticationService authenticationService;
-
 	private final GalleryCollectionDao galleryCollectionDao;
 
 	private final GalleryEntryDao galleryEntryDao;
@@ -66,10 +63,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	private final DurationUtil durationUtil;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public GalleryServiceImpl(
 			final Logger logger,
-			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final GalleryCollectionDao galleryDao,
 			final GalleryEntryDao galleryEntryDao,
 			final IdGeneratorUUID idGeneratorUUID,
@@ -78,7 +77,7 @@ public class GalleryServiceImpl implements GalleryService {
 			final ValidationExecutor validationExecutor,
 			final DurationUtil durationUtil) {
 		this.logger = logger;
-		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.galleryCollectionDao = galleryDao;
 		this.galleryEntryDao = galleryEntryDao;
 		this.idGeneratorUUID = idGeneratorUUID;
@@ -90,12 +89,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, SuperAdminRequiredException {
+			final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createGallery name: " + name);
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			final GalleryCollectionIdentifier galleryIdentifier = createCollectionIdentifier(idGeneratorUUID.nextId());
 			final GalleryCollectionBean collection = galleryCollectionDao.create();
@@ -117,7 +116,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -141,10 +140,10 @@ public class GalleryServiceImpl implements GalleryService {
 	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
 			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
 			final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			final GalleryImageIdentifier imageIdentifier = createImage(imageName, imageContent, imageContentType);
 			final GalleryImageIdentifier previewImageIdentifier = createImage(imagePreviewName, imagePreviewContent, imagePreviewContentType);
@@ -173,7 +172,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -195,10 +194,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+			LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("createGallery name: " + name);
 			final GalleryGroupIdentifier galleryGroupIdentifier = createGroupIdentifier(idGeneratorUUID.nextId());
@@ -219,7 +218,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -277,12 +276,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException,
-			LoginRequiredException, SuperAdminRequiredException {
+			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteGallery");
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			// delete all images of gallery
 			final List<GalleryEntryIdentifier> entries = getEntryIdentifiers(sessionIdentifier, galleryIdentifier);
@@ -296,7 +295,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -306,12 +305,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteImage - GalleryImageIdentifier " + id);
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			final GalleryEntry entry = getEntry(sessionIdentifier, id);
 			deleteImage(entry.getPreviewImageIdentifier());
@@ -322,7 +321,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -332,10 +331,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("deleteGroup");
 
@@ -350,7 +349,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -364,19 +363,19 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException,
-			LoginRequiredException, SuperAdminRequiredException {
+			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGallery");
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			return galleryCollectionDao.load(galleryIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -386,10 +385,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException,
-			LoginRequiredException, SuperAdminRequiredException {
+			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getCollectionIdentifierByName: " + name);
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
@@ -407,7 +406,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -442,12 +441,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGalleryIdentifiers");
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			final List<GalleryCollectionIdentifier> result = new ArrayList<GalleryCollectionIdentifier>();
 			final IdentifierIterator<GalleryCollectionIdentifier> i = galleryCollectionDao.getIdentifierIterator();
@@ -462,7 +461,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -494,11 +493,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+	public Collection<GalleryCollection> getCollections(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getGalleries");
 
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
@@ -514,7 +512,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -548,10 +546,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
-			throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getCollectionsWithGroup");
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
@@ -570,7 +568,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -607,10 +605,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getEntries");
 			final EntityIterator<GalleryEntryBean> i = galleryEntryDao.getEntityIterator();
@@ -629,7 +627,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -666,12 +664,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getImage");
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			final GalleryEntryBean image = galleryEntryDao.load(id);
 			return image;
@@ -679,7 +677,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -689,12 +687,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier)
-			throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier);
 
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			final List<GalleryEntryIdentifier> result = new ArrayList<GalleryEntryIdentifier>(galleryEntryDao.getGalleryImageIdentifiers(galleryIdentifier));
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier + " => " + result.size());
@@ -703,7 +701,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -713,10 +711,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
-			LoginRequiredException, SuperAdminRequiredException {
+			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getGroup");
 			return galleryGroupDao.load(galleryGroupIdentifier);
@@ -724,7 +722,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -734,10 +732,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getGroupByName: " + groupName);
 			final EntityIterator<GalleryGroupBean> i = galleryGroupDao.getEntityIterator();
@@ -755,7 +753,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -790,10 +788,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getGroupIdentifiers");
 			final List<GalleryGroupIdentifier> result = new ArrayList<GalleryGroupIdentifier>();
@@ -809,7 +807,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -818,10 +816,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, SuperAdminRequiredException {
+	public Collection<GalleryGroup> getGroups(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getGalleries");
 			final EntityIterator<GalleryGroupBean> i = galleryGroupDao.getEntityIterator();
@@ -837,7 +835,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -862,10 +860,10 @@ public class GalleryServiceImpl implements GalleryService {
 	@Override
 	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
 			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
-			ValidationException, LoginRequiredException, SuperAdminRequiredException {
+			ValidationException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("updateEntry");
 
@@ -886,7 +884,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -896,10 +894,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("updateGroup name: " + groupName);
 			final GalleryGroupBean group = galleryGroupDao.load(galleryGroupIdentifier);
@@ -917,7 +915,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -928,10 +926,10 @@ public class GalleryServiceImpl implements GalleryService {
 	@Override
 	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
 			final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException, SuperAdminRequiredException {
+			LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("updateCollection name: " + collectionName);
 
@@ -952,7 +950,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -962,10 +960,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void swapEntryPrio(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB)
-			throws PermissionDeniedException, LoginRequiredException, SuperAdminRequiredException, GalleryServiceException {
+			throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.trace("swapPrio " + galleryEntryIdentifierA + " <=> " + galleryEntryIdentifierB);
 			final GalleryEntryBean galleryEntryA = galleryEntryDao.load(galleryEntryIdentifierA);
@@ -1000,7 +998,7 @@ public class GalleryServiceImpl implements GalleryService {
 			galleryEntryDao.save(galleryEntryA);
 			galleryEntryDao.save(galleryEntryB);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		catch (final StorageException e) {
@@ -1013,10 +1011,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void shareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			SuperAdminRequiredException, GalleryServiceException {
+			GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("shareEntry");
 
@@ -1028,7 +1026,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {
@@ -1038,10 +1036,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException,
-			LoginRequiredException, SuperAdminRequiredException, GalleryServiceException {
+			LoginRequiredException, GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("unshareEntry");
 
@@ -1053,7 +1051,7 @@ public class GalleryServiceImpl implements GalleryService {
 		catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 		finally {

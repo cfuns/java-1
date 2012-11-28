@@ -19,7 +19,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -96,7 +95,7 @@ public class GalleryGuiEntryUpdateServlet extends GalleryGuiHtmlServlet {
 
 	@Override
 	protected Widget createGalleryContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		try {
 			final ListWidget widgets = new ListWidget();
@@ -160,7 +159,7 @@ public class GalleryGuiEntryUpdateServlet extends GalleryGuiHtmlServlet {
 
 	private void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
 			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final String prioString, final String sharedString) throws ValidationException,
-			GalleryServiceException, LoginRequiredException, PermissionDeniedException, SuperAdminRequiredException {
+			GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 
 		Long prio;
 		Boolean shared;
