@@ -1,6 +1,5 @@
 package de.benjaminborbe.bookmark.service;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,20 +41,11 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 					match = true;
 				}
 				if (match) {
-					try {
-						results.add(buildResult(path));
-					}
-					catch (final MalformedURLException e) {
-					}
+					results.add(new SearchResultImpl(SEARCH_TYPE, path, path, path));
 				}
 			}
 		}
-
 		return results;
-	}
-
-	private SearchResult buildResult(final String path) throws MalformedURLException {
-		return new SearchResultImpl(SEARCH_TYPE, path, path, path);
 	}
 
 	@Override

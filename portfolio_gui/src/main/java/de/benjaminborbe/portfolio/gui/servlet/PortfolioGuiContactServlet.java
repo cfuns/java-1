@@ -16,6 +16,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -56,8 +57,9 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService,
 			final PortfolioLayoutWidget portfolioWidget,
-			final GalleryService galleryService) {
-		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
+			final GalleryService galleryService,
+			final AuthorizationService authorizationService) {
+		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.portfolioWidget = portfolioWidget;
 		this.authenticationService = authenticationService;
 		this.galleryService = galleryService;

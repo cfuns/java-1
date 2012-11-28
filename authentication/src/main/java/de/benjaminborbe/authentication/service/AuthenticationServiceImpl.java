@@ -148,10 +148,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String username, final String email, final String password, final String fullname,
 			final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
 		try {
+			if (isLoggedIn(sessionIdentifier)) {
+				final String msg = "can't register while logged in";
+				logger.debug(msg);
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple(msg)));
+			}
 			final UserIdentifier userIdentifier = new UserIdentifier(username);
 			if (userDao.load(userIdentifier) != null) {
-				logger.info("user " + userIdentifier + " already exists");
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user already exists")));
+				final String msg = "user " + userIdentifier + " already exists";
+				logger.info(msg);
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple(msg)));
 			}
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
@@ -339,6 +345,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		try {
 			final UserBean user = userDao.load(userIdentifier);
+			if (user == null) {
+				return false;
+			}
 			return Boolean.TRUE.equals(user.getSuperAdmin());
 		}
 		catch (final StorageException e) {
@@ -352,16 +361,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (isLoggedIn(sessionIdentifier)) {
 				final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
 				final UserBean user = userDao.load(userIdentifier);
-				final TimeZone timeZone = user.getTimeZone();
-				if (timeZone != null) {
-					return timeZone;
+				if (user != null) {
+					final TimeZone timeZone = user.getTimeZone();
+					if (timeZone != null) {
+						return timeZone;
+					}
 				}
 			}
+			return timeZoneUtil.getUTCTimeZone();
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
-		return timeZoneUtil.getUTCTimeZone();
 	}
 
 	@Override

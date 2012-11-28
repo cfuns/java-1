@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.task.api.TaskIdentifier;
@@ -47,8 +48,9 @@ public class TaskGuiTaskDeleteServlet extends WebsiteServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final TaskService taskService) {
-		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final TaskService taskService,
+			final AuthorizationService authorizationService) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
 		this.logger = logger;

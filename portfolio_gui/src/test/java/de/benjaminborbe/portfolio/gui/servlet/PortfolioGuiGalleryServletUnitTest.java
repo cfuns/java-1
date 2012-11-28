@@ -153,7 +153,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 				new PortfolioGuiGalleryEntryComparatorPrio());
 
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator);
+				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator, null);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

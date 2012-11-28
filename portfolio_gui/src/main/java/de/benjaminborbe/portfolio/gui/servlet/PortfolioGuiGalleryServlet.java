@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
@@ -69,8 +70,9 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final GalleryService galleryService,
 			final PortfolioGuiLinkFactory portfolioLinkFactory,
 			final PortfolioGuiGalleryCollectionComparator galleryComparator,
-			final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator) {
-		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
+			final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator,
+			final AuthorizationService authorizationService) {
+		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.authenticationService = authenticationService;
 		this.portfolioWidgetProvider = portfolioWidgetProvider;
 		this.galleryService = galleryService;

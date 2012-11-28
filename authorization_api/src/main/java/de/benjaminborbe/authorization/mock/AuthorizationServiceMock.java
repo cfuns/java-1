@@ -118,4 +118,9 @@ public class AuthorizationServiceMock implements AuthorizationService {
 			LoginRequiredException {
 	}
 
+	@Override
+	public boolean hasAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
+		return false;
+	}
+
 }

@@ -19,6 +19,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -43,8 +44,9 @@ public class AuthenticationGuiSwitchUserServlet extends WebsiteServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService taskService) {
-		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final AuthenticationService taskService,
+			final AuthorizationService authorizationService) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.authenticationService = authenticationService;
 		this.logger = logger;
 	}

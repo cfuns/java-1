@@ -116,7 +116,7 @@ public class SlashGuiRobotsTxtServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final SlashGuiRobotsTxtServlet servlet = new SlashGuiRobotsTxtServlet(logger, authenticationService, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider);
+		final SlashGuiRobotsTxtServlet servlet = new SlashGuiRobotsTxtServlet(logger, authenticationService, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, null);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

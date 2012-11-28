@@ -50,4 +50,6 @@ public interface AuthorizationService {
 
 	void expectUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
+	boolean hasAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException;
+
 }

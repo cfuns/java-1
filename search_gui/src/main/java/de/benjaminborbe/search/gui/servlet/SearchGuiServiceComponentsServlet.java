@@ -1,10 +1,8 @@
 package de.benjaminborbe.search.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,15 +13,27 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class SearchGuiServiceComponentsServlet extends WebsiteServlet {
+public class SearchGuiServiceComponentsServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 7928536214812474981L;
 
@@ -36,50 +46,40 @@ public class SearchGuiServiceComponentsServlet extends WebsiteServlet {
 	@Inject
 	public SearchGuiServiceComponentsServlet(
 			final Logger logger,
-			final SearchService searchService,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
-		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final ParseUtil parseUtil,
+			final SearchService searchService,
+			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.searchService = searchService;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
-		logger.trace("service");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
-		final PrintWriter out = response.getWriter();
-		out.println("<html>");
-		printHeader(out);
-		printBody(out);
-		printFooter(out);
-		out.println("</html>");
+	protected String getTitle() {
+		return TITLE;
 	}
 
-	protected void printBody(final PrintWriter out) {
-		out.println("<h1>" + TITLE + "</h1>");
+	@Override
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, RedirectException, LoginRequiredException, SuperAdminRequiredException {
+		logger.trace("printContent");
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(getTitle()));
 		final Collection<String> cs = searchService.getSearchComponentNames();
-		out.println("found " + cs.size() + " SearchServiceComponents<br>");
-		out.println("<ul>");
-		for (final String s : cs) {
-			out.println("<li>");
-			out.println(s);
-			out.println("</li>");
+		widgets.add("found " + cs.size() + " SearchServiceComponents");
+		widgets.add(new BrWidget());
+		final UlWidget ul = new UlWidget();
+		for (final String c : cs) {
+			ul.add(c);
 		}
-		out.println("</ul>");
-	}
-
-	protected void printHeader(final PrintWriter out) {
-		out.println("<head>");
-		out.println("<title>" + TITLE + "</title>");
-		out.println("</head>");
-	}
-
-	protected void printFooter(final PrintWriter out) {
+		widgets.add(ul);
+		return widgets;
 	}
 
 }

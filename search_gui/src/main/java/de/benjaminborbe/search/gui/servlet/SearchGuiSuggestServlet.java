@@ -1,11 +1,10 @@
 package de.benjaminborbe.search.gui.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,18 +18,21 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.SearchUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
+import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 
 @Singleton
-public class SearchGuiSuggestServlet extends WebsiteServlet {
+public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 
 	private static final long serialVersionUID = 3708081580708674634L;
 
@@ -51,47 +53,19 @@ public class SearchGuiSuggestServlet extends WebsiteServlet {
 	@Inject
 	public SearchGuiSuggestServlet(
 			final Logger logger,
-			final SearchService searchService,
-			final SearchUtil searchUtil,
-			final AuthenticationService authenticationService,
 			final UrlUtil urlUtil,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
-		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final SearchService searchService,
+			final SearchUtil searchUtil,
+			final Provider<HttpContext> httpContextProvider,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService) {
+		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.logger = logger;
 		this.searchService = searchService;
 		this.searchUtil = searchUtil;
 		this.authenticationService = authenticationService;
-	}
-
-	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
-		logger.trace("service");
-		response.setCharacterEncoding("UTF8");
-		try {
-			response.setContentType("application/json");
-			final String queryString = request.getParameter(PARAMETER_SEARCH);
-			final PrintWriter out = response.getWriter();
-			final List<SearchResult> searchResults;
-			if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
-				final String[] words = searchUtil.buildSearchParts(queryString);
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				searchResults = searchService.search(sessionIdentifier, queryString, words, MAX_RESULTS);
-				logger.trace("found " + searchResults.size() + " searchResults");
-			}
-			else {
-				searchResults = new ArrayList<SearchResult>();
-			}
-			final JSONArray obj = buildJson(searchResults);
-			obj.writeJSONString(out);
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			response.setContentType("text/plain");
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			exceptionWidget.render(request, response, context);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -106,4 +80,35 @@ public class SearchGuiSuggestServlet extends WebsiteServlet {
 		}
 		return result;
 	}
+
+	@Override
+	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		logger.trace("service");
+		response.setCharacterEncoding("UTF8");
+		try {
+			response.setContentType("application/json");
+			final String queryString = request.getParameter(PARAMETER_SEARCH);
+			final List<SearchResult> searchResults;
+			if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
+				final String[] words = searchUtil.buildSearchParts(queryString);
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				searchResults = searchService.search(sessionIdentifier, queryString, words, MAX_RESULTS);
+				logger.trace("found " + searchResults.size() + " searchResults");
+			}
+			else {
+				searchResults = new ArrayList<SearchResult>();
+			}
+			final JSONArray obj = buildJson(searchResults);
+			final StringWriter sw = new StringWriter();
+			obj.writeJSONString(sw);
+
+			return new HtmlContentWidget(sw.toString());
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			response.setContentType("text/plain");
+			return new ExceptionWidget(e);
+		}
+	}
+
 }

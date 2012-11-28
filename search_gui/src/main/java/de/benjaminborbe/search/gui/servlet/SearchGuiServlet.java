@@ -76,4 +76,10 @@ public class SearchGuiServlet extends WebsiteHtmlServlet {
 	protected String getTitle() {
 		return TITLE;
 	}
+
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

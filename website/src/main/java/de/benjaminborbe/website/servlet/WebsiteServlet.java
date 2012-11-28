@@ -23,6 +23,8 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -37,8 +39,6 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4012833048396011494L;
 
-	private final AuthenticationService authenticationService;
-
 	private final Provider<HttpContext> httpContextProvider;
 
 	private final Logger logger;
@@ -49,24 +49,30 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	private final UrlUtil urlUtil;
 
+	private final AuthenticationService authenticationService;
+
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public WebsiteServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider) {
 		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.httpContextProvider = httpContextProvider;
 	}
 
 	@Override
-	protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected final void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		logger.trace("service start");
 		final String startTime = getNowAsString();
 		logger.trace("service startTime=" + startTime);
@@ -76,8 +82,10 @@ public abstract class WebsiteServlet extends HttpServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (isLoginRequired() && !authenticationService.isLoggedIn(sessionIdentifier)) {
-				final RedirectWidget widget = new RedirectWidget(buildLoginUrl(request));
-				widget.render(request, response, context);
+				onLoginRequired(request, response, context);
+			}
+			else if (isAdminRequired() && !authorizationService.hasAdminRole(sessionIdentifier)) {
+				onPermissionDenied(request, response, context);
 			}
 			else {
 				doService(request, response, context);
@@ -88,13 +96,24 @@ public abstract class WebsiteServlet extends HttpServlet {
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			widget.render(request, response, context);
 		}
+		catch (final AuthorizationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+			widget.render(request, response, context);
+		}
+	}
+
+	protected void onLoginRequired(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final RedirectWidget widget = new RedirectWidget(buildLoginUrl(request));
+		widget.render(request, response, context);
+	}
+
+	protected void onPermissionDenied(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final RedirectWidget widget = new RedirectWidget(buildLoginUrl(request));
+		widget.render(request, response, context);
 	}
 
 	protected abstract void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException;
-
-	protected boolean isLoginRequired() {
-		return true;
-	}
 
 	private String getNowAsString() {
 		return String.valueOf(getNowAsLong());
@@ -148,4 +167,17 @@ public abstract class WebsiteServlet extends HttpServlet {
 		return urlUtil.encode(result);
 	}
 
+	/**
+	 * default login is required for each servlet
+	 */
+	protected boolean isLoginRequired() {
+		return true;
+	}
+
+	/**
+	 * default admin-role is required for each servlet
+	 */
+	protected boolean isAdminRequired() {
+		return true;
+	}
 }

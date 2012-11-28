@@ -14,6 +14,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.blog.gui.atom.Entry;
 import de.benjaminborbe.blog.gui.atom.EntryBean;
@@ -39,8 +40,9 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 			final AuthenticationService authenticationService,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil) {
-		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService);
+			final UrlUtil urlUtil,
+			final AuthorizationService authorizationService) {
+		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 	}
 
 	@Override

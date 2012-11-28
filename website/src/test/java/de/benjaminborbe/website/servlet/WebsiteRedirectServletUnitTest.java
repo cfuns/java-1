@@ -15,7 +15,7 @@ public class WebsiteRedirectServletUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final WebsiteRedirectServlet calendarServlet = new WebsiteRedirectServlet(logger, null, null, null, null, null) {
+		final WebsiteRedirectServlet calendarServlet = new WebsiteRedirectServlet(logger, null, null, null, null, null, null) {
 
 			private static final long serialVersionUID = 1L;
 

@@ -327,6 +327,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
+	public boolean hasAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
+		return hasRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+	}
+
+	@Override
 	public void expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		try {

@@ -129,7 +129,7 @@ public class PortfolioGuiLinksServletUnitTest {
 		EasyMock.replay(galleryService);
 
 		final PortfolioGuiLinksServlet servlet = new PortfolioGuiLinksServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, portfolioWidget,
-				galleryService);
+				galleryService, null);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);
