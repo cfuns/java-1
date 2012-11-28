@@ -56,7 +56,9 @@ public class AuthenticationGuiSwitchUserServlet extends WebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
-			authenticationService.switchUser(sessionIdentifier, userIdentifier);
+			if (userIdentifier != null) {
+				authenticationService.switchUser(sessionIdentifier, userIdentifier);
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
