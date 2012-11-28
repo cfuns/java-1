@@ -60,4 +60,9 @@ public abstract class TaskGuiHtmlServlet extends WebsiteHtmlServlet {
 		result.add(new CssResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS_STYLE));
 		return result;
 	}
+
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
 }

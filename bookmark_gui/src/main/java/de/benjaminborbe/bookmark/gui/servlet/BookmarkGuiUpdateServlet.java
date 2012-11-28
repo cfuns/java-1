@@ -36,14 +36,13 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class BookmarkGuiUpdateServlet extends WebsiteHtmlServlet {
+public class BookmarkGuiUpdateServlet extends BookmarkGuiBaseServlet {
 
 	private static final String PARAMETER_KEYWORDS = "keywords";
 

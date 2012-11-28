@@ -12,5 +12,4 @@ public interface BookmarkGuiConstants {
 
 	String URL_DELETE = "/delete";
 
-	String URL_INIT = "/init";
 }

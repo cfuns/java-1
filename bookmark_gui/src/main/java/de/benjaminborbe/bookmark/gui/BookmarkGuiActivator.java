@@ -13,7 +13,6 @@ import de.benjaminborbe.bookmark.gui.service.BookmarkGuiFavoriteDashboardWidget;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiSpecialSearch;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiCreateServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiDeleteServlet;
-import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiInitServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiListServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiUpdateServlet;
@@ -49,9 +48,6 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 	@Inject
 	private BookmarkGuiSpecialSearch searchGuiSpecialSearchBookmark;
 
-	@Inject
-	private BookmarkGuiInitServlet bookmarkGuiInitServlet;
-
 	public BookmarkGuiActivator() {
 		super(BookmarkGuiConstants.NAME);
 	}
@@ -78,7 +74,6 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(bookmarkGuiCreateServlet, BookmarkGuiConstants.URL_CREATE));
 		result.add(new ServletInfo(bookmarkGuiUpdateServlet, BookmarkGuiConstants.URL_UPDATE));
 		result.add(new ServletInfo(bookmarkGuiDeleteServlet, BookmarkGuiConstants.URL_DELETE));
-		result.add(new ServletInfo(bookmarkGuiInitServlet, BookmarkGuiConstants.URL_INIT));
 		return result;
 	}
 

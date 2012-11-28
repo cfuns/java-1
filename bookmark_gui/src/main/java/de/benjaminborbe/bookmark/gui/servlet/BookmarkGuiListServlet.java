@@ -42,7 +42,6 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
@@ -50,7 +49,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class BookmarkGuiListServlet extends WebsiteHtmlServlet {
+public class BookmarkGuiListServlet extends BookmarkGuiBaseServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
