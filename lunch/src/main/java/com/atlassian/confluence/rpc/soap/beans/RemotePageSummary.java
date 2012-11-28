@@ -17,7 +17,14 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 	public RemotePageSummary() {
 	}
 
-	public RemotePageSummary(final long id, final int permissions, final java.lang.String space, final java.lang.String title, final java.lang.String url, final long parentId, final int version) {
+	public RemotePageSummary(
+			final long id,
+			final int permissions,
+			final java.lang.String space,
+			final java.lang.String title,
+			final java.lang.String url,
+			final long parentId,
+			final int version) {
 		super(id, permissions, space, title, url);
 		this.parentId = parentId;
 		this.version = version;

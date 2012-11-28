@@ -111,4 +111,14 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 		}
 	}
 
+	@Override
+	protected boolean isLoginRequired() {
+		return true;
+	}
+
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

@@ -22,6 +22,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -121,6 +122,11 @@ public class PortfolioGuiLinksServletUnitTest {
 		final PortfolioLayoutWidget portfolioWidget = EasyMock.createNiceMock(PortfolioLayoutWidget.class);
 		EasyMock.replay(portfolioWidget);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
+
 		final String id = "123";
 		final GalleryCollectionIdentifier galleryCollectionIdentifier = new GalleryCollectionIdentifier(id);
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
@@ -129,7 +135,7 @@ public class PortfolioGuiLinksServletUnitTest {
 		EasyMock.replay(galleryService);
 
 		final PortfolioGuiLinksServlet servlet = new PortfolioGuiLinksServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, portfolioWidget,
-				galleryService, null);
+				galleryService, authorizationService);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

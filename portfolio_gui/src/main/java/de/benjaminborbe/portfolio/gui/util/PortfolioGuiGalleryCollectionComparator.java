@@ -9,7 +9,9 @@ public class PortfolioGuiGalleryCollectionComparator extends ComparatorChain<Gal
 
 	@SuppressWarnings("unchecked")
 	@Inject
-	public PortfolioGuiGalleryCollectionComparator(final PortfolioGuiGalleryCollectionComparatorName galleryComparatorName, final PortfolioGuiGalleryCollectionComparatorPrio galleryComparatorPrio) {
+	public PortfolioGuiGalleryCollectionComparator(
+			final PortfolioGuiGalleryCollectionComparatorName galleryComparatorName,
+			final PortfolioGuiGalleryCollectionComparatorPrio galleryComparatorPrio) {
 		super(galleryComparatorPrio, galleryComparatorName);
 	}
 

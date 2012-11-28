@@ -18,14 +18,14 @@ public interface BookmarkService {
 	void deleteBookmark(SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException,
 			PermissionDeniedException, LoginRequiredException;
 
-	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException;
+	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException;
 
 	Bookmark getBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, String[] words) throws BookmarkServiceException;
+	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, String[] words) throws BookmarkServiceException, LoginRequiredException;
 
-	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier) throws BookmarkServiceException;
+	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException;
 
 	BookmarkIdentifier createBookmarkIdentifier(SessionIdentifier sessionIdentifier, String url) throws BookmarkServiceException;
 }

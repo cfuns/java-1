@@ -81,7 +81,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if (isLoginRequired() && !authenticationService.isLoggedIn(sessionIdentifier)) {
+			if ((isLoginRequired() || isAdminRequired()) && !authenticationService.isLoggedIn(sessionIdentifier)) {
 				onLoginRequired(request, response, context);
 			}
 			else if (isAdminRequired() && !authorizationService.hasAdminRole(sessionIdentifier)) {
@@ -104,13 +104,25 @@ public abstract class WebsiteServlet extends HttpServlet {
 	}
 
 	protected void onLoginRequired(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final RedirectWidget widget = new RedirectWidget(buildLoginUrl(request));
+		final String url = buildLoginUrl(request);
+		logger.info("loginRequired - redirect: " + url);
+		final RedirectWidget widget = new RedirectWidget(url);
 		widget.render(request, response, context);
 	}
 
 	protected void onPermissionDenied(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final RedirectWidget widget = new RedirectWidget(buildLoginUrl(request));
+		final String url = buildPermissionDeniedUrl(request);
+		logger.info("permissionDenied - redirect: " + url);
+		final RedirectWidget widget = new RedirectWidget(url);
 		widget.render(request, response, context);
+	}
+
+	protected String buildLoginUrl(final HttpServletRequest request) {
+		return buildRedirectUrl(request, "/authentication/login");
+	}
+
+	protected String buildPermissionDeniedUrl(final HttpServletRequest request) {
+		return buildRedirectUrl(request, "/authorization/permissionDenied");
 	}
 
 	protected abstract void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException;
@@ -124,10 +136,10 @@ public abstract class WebsiteServlet extends HttpServlet {
 		return now.getTimeInMillis();
 	}
 
-	protected String buildLoginUrl(final HttpServletRequest request) {
+	protected String buildRedirectUrl(final HttpServletRequest request, final String target) {
 		final StringWriter result = new StringWriter();
 		result.append(request.getContextPath());
-		result.append("/authentication/login?referer=");
+		result.append(target + "?referer=");
 		try {
 			result.append(buildReferer(request));
 		}

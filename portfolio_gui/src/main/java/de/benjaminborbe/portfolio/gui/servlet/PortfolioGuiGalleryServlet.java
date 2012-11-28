@@ -116,6 +116,11 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return false;
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 	private GalleryCollection getDefaultGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
 		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsShared(sessionIdentifier));
 		if (galleries.size() > 0) {

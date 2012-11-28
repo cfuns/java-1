@@ -22,6 +22,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -116,7 +117,13 @@ public class SlashGuiRobotsTxtServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final SlashGuiRobotsTxtServlet servlet = new SlashGuiRobotsTxtServlet(logger, authenticationService, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, null);
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
+
+		final SlashGuiRobotsTxtServlet servlet = new SlashGuiRobotsTxtServlet(logger, authenticationService, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider,
+				authorizationService);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

@@ -142,8 +142,8 @@ public class LoggerAdapter implements Logger {
 	}
 
 	@Override
-	public void info( final String msg) {
-		logger.info( msg);
+	public void info(final String msg) {
+		logger.info(msg);
 	}
 
 	@Override
@@ -262,8 +262,8 @@ public class LoggerAdapter implements Logger {
 	}
 
 	@Override
-	public void error( final String msg) {
-		logger.error( msg);
+	public void error(final String msg) {
+		logger.error(msg);
 	}
 
 	@Override

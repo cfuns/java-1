@@ -81,4 +81,14 @@ public class SearchGuiOsdServlet extends WebsiteWidgetServlet {
 
 		return new HtmlContentWidget(sw.toString());
 	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return true;
+	}
+
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
 }

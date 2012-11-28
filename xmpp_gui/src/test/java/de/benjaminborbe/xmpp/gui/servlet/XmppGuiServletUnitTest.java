@@ -118,6 +118,7 @@ public class XmppGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);

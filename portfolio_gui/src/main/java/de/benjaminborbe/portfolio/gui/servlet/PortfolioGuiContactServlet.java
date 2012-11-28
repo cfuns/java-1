@@ -156,4 +156,9 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 		return false;
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

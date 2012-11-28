@@ -22,6 +22,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
@@ -152,8 +153,14 @@ public class PortfolioGuiGalleryServletUnitTest {
 		final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator = new PortfolioGuiGalleryEntryComparator(new PortfolioGuiGalleryEntryComparatorName(),
 				new PortfolioGuiGalleryEntryComparatorPrio());
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
+
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator, null);
+				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator,
+				authorizationService);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

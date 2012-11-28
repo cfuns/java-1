@@ -128,4 +128,9 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 		return false;
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }

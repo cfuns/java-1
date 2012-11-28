@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
@@ -65,6 +66,11 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			widget.render(request, response, context);
 		}
 		catch (final BookmarkServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		}
+		catch (final LoginRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);

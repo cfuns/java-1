@@ -1,13 +1,7 @@
 package de.benjaminborbe.bookmark.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.slf4j.Logger;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -18,7 +12,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
-import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -43,28 +37,13 @@ public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentif
 	}
 
 	@Override
-	public Collection<BookmarkBean> getFavorites(final UserIdentifier userIdentifier) throws StorageException {
-		final Collection<BookmarkBean> bookmarks = getByUsername(userIdentifier);
-		return Collections2.filter(bookmarks, new BookmarkFavoritePredicate());
+	public EntityIterator<BookmarkBean> getFavorites(final UserIdentifier userIdentifier) throws StorageException {
+		return new EntityIteratorFilter<BookmarkBean>(getByUsername(userIdentifier), new BookmarkFavoritePredicate());
 	}
 
 	@Override
-	public Collection<BookmarkBean> getByUsername(final UserIdentifier userIdentifier) throws StorageException {
-		try {
-			final Predicate<BookmarkBean> p = new BookmarkOwnerPredicate(userIdentifier);
-			final List<BookmarkBean> result = new ArrayList<BookmarkBean>();
-			final EntityIterator<BookmarkBean> i = getEntityIterator();
-			while (i.hasNext()) {
-				final BookmarkBean bookmark = i.next();
-				if (p.apply(bookmark)) {
-					result.add(bookmark);
-				}
-			}
-			return result;
-		}
-		catch (final EntityIteratorException e) {
-			throw new StorageException(e);
-		}
+	public EntityIterator<BookmarkBean> getByUsername(final UserIdentifier userIdentifier) throws StorageException {
+		return new EntityIteratorFilter<BookmarkBean>(getEntityIterator(), new BookmarkOwnerPredicate(userIdentifier));
 	}
 
 }

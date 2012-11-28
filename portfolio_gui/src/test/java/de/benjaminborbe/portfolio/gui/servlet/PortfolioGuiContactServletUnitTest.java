@@ -22,6 +22,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -128,8 +129,13 @@ public class PortfolioGuiContactServletUnitTest {
 		EasyMock.expect(galleryService.getEntriesShared(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
+		authorizationService.expectAdminRole(sessionIdentifier);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(false);
+		EasyMock.replay(authorizationService);
+
 		final PortfolioGuiContactServlet servlet = new PortfolioGuiContactServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				portfolioWidget, galleryService, null);
+				portfolioWidget, galleryService, authorizationService);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);

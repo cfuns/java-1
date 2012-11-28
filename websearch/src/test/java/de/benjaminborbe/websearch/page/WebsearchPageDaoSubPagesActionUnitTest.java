@@ -44,21 +44,24 @@ public class WebsearchPageDaoSubPagesActionUnitTest {
 		assertEquals(3, allPages.size());
 
 		{
-			final Set<WebsearchPageBean> subPages = new HashSet<WebsearchPageBean>(pageDaoSubPagesAction.findSubPages(url1, new EntityIteratorImpl<WebsearchPageBean>(allPages.iterator())));
+			final Set<WebsearchPageBean> subPages = new HashSet<WebsearchPageBean>(pageDaoSubPagesAction.findSubPages(url1,
+					new EntityIteratorImpl<WebsearchPageBean>(allPages.iterator())));
 			assertEquals(3, subPages.size());
 			assertTrue(containsUrl(subPages, url1));
 			assertTrue(containsUrl(subPages, url2));
 			assertTrue(containsUrl(subPages, url3));
 		}
 		{
-			final Set<WebsearchPageBean> subPages = new HashSet<WebsearchPageBean>(pageDaoSubPagesAction.findSubPages(url2, new EntityIteratorImpl<WebsearchPageBean>(allPages.iterator())));
+			final Set<WebsearchPageBean> subPages = new HashSet<WebsearchPageBean>(pageDaoSubPagesAction.findSubPages(url2,
+					new EntityIteratorImpl<WebsearchPageBean>(allPages.iterator())));
 			assertEquals(2, subPages.size());
 			assertFalse(containsUrl(subPages, url1));
 			assertTrue(containsUrl(subPages, url2));
 			assertTrue(containsUrl(subPages, url3));
 		}
 		{
-			final Set<WebsearchPageBean> subPages = new HashSet<WebsearchPageBean>(pageDaoSubPagesAction.findSubPages(url3, new EntityIteratorImpl<WebsearchPageBean>(allPages.iterator())));
+			final Set<WebsearchPageBean> subPages = new HashSet<WebsearchPageBean>(pageDaoSubPagesAction.findSubPages(url3,
+					new EntityIteratorImpl<WebsearchPageBean>(allPages.iterator())));
 			assertEquals(1, subPages.size());
 			assertFalse(containsUrl(subPages, url1));
 			assertFalse(containsUrl(subPages, url2));

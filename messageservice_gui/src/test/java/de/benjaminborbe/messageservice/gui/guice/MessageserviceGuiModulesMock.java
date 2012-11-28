@@ -15,6 +15,7 @@ public class MessageserviceGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new MessageserviceGuiOsgiModuleMock(), new MessageserviceGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new MessageserviceGuiOsgiModuleMock(), new MessageserviceGuiModule(), new ToolModule(),
+				new WebsiteModule());
 	}
 }

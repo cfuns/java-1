@@ -117,13 +117,14 @@ public class VncGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final VncGuiServlet vncServlet = new VncGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService);
+		final VncGuiServlet vncServlet = new VncGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider, redirectUtil,
+				urlUtil, authorizationService);
 
 		vncServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

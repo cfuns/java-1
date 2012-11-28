@@ -123,7 +123,8 @@ public class CrawlerGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
 
 		final CrawlerGuiServlet crawlerServlet = new CrawlerGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, httpContextProvider,
 				crawlerService, redirectUtil, urlUtil, authorizationService);

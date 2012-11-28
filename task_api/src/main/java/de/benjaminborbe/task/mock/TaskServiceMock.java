@@ -30,14 +30,14 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url, final TaskIdentifier taskParentIdentifier, final Calendar start,
-			final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
@@ -62,11 +62,13 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 	@Override
-	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		return null;
 	}
 
@@ -114,17 +116,18 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
-	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url, final TaskIdentifier taskParentIdentifier,
-			final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException,
-			LoginRequiredException, ValidationException {
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
+			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 	}
 }

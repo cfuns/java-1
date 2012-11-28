@@ -221,7 +221,7 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			SuperAdminRequiredException, GalleryServiceException {
+	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException,
+			LoginRequiredException, SuperAdminRequiredException, GalleryServiceException {
 	}
 }

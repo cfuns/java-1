@@ -88,11 +88,13 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
+	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException {
 		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
 			logger.trace("getBookmarks");
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final EntityIterator<BookmarkBean> i = bookmarkDao.getByUsername(userIdentifier);
 			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
-			final EntityIterator<BookmarkBean> i = bookmarkDao.getEntityIterator();
 			while (i.hasNext()) {
 				bookmarks.add(i.next());
 			}
@@ -105,14 +107,22 @@ public class BookmarkServiceImpl implements BookmarkService {
 		catch (final EntityIteratorException e) {
 			throw new BookmarkServiceException(e);
 		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException(e);
+		}
 	}
 
 	@Override
-	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
+	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException {
 		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
 			logger.trace("getBookmarkFavorite");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final List<Bookmark> bookmarks = new ArrayList<Bookmark>(bookmarkDao.getFavorites(userIdentifier));
+			final EntityIterator<BookmarkBean> i = bookmarkDao.getFavorites(userIdentifier);
+			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+			while (i.hasNext()) {
+				bookmarks.add(i.next());
+			}
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;
 		}
@@ -122,10 +132,13 @@ public class BookmarkServiceImpl implements BookmarkService {
 		catch (final StorageException e) {
 			throw new BookmarkServiceException(e);
 		}
+		catch (final EntityIteratorException e) {
+			throw new BookmarkServiceException(e);
+		}
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) throws BookmarkServiceException {
+	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) throws BookmarkServiceException, LoginRequiredException {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final Bookmark bookmark : getBookmarks(sessionIdentifier)) {
 			final int counter = match(bookmark, parts);
@@ -235,6 +248,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public void deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException,
 			PermissionDeniedException, LoginRequiredException {
 		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			if (bookmark == null) {
 				logger.info("delete bookmark failed, not found");
@@ -249,12 +264,17 @@ public class BookmarkServiceImpl implements BookmarkService {
 		catch (final AuthorizationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException(e);
+		}
 	}
 
 	@Override
 	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
 			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
 			logger.info("updateBookmark");
 
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
@@ -272,13 +292,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 		catch (final BookmarkDeletionException e) {
 			throw new BookmarkServiceException(e);
 		}
+		catch (final AuthenticationServiceException e) {
+			throw new BookmarkServiceException(e);
+		}
 	}
 
 	@Override
 	public Bookmark getBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
 			LoginRequiredException {
-		logger.info("updateBookmark");
 		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.info("updateBookmark");
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			return bookmark;
@@ -287,6 +312,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 			throw new BookmarkServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}

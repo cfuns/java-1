@@ -124,7 +124,8 @@ public class EventbusGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
@@ -51,7 +52,10 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 			logger.trace("search found " + results.size() + " bookmarks");
 		}
 		catch (final BookmarkServiceException e) {
-			logger.trace("BookmarkServiceException", e);
+			logger.trace(e.getClass().getName(), e);
+		}
+		catch (final LoginRequiredException e) {
+			logger.trace(e.getClass().getName(), e);
 		}
 		return results;
 	}

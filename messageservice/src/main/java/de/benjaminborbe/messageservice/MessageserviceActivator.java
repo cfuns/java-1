@@ -35,7 +35,8 @@ public class MessageserviceActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new MessageserviceServiceTracker(messageserviceRegistry, context,
+		// serviceTrackers.add(new MessageserviceServiceTracker(messageserviceRegistry,
+		// context,
 		// MessageserviceService.class));
 		return serviceTrackers;
 	}

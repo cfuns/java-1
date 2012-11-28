@@ -44,7 +44,7 @@ public class GooglesearchGuiSpecialSearch implements SearchSpecial {
 
 	protected String buildRedirect(final String searchQuery) throws UnsupportedEncodingException {
 		final String term = searchQuery.substring(searchQuery.indexOf(":") + 1).trim();
-		
+
 		final StringWriter sw = new StringWriter();
 		sw.append("http://www.google.de/search?sourceid=bb&ie=UTF-8&q=");
 		sw.append(urlUtil.encode(term));

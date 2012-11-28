@@ -124,7 +124,8 @@ public class MonitoringGuiLiveServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
 
 		final MonitoringGuiLiveServlet monitoringServlet = new MonitoringGuiLiveServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
 				monitoringWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService);

@@ -120,7 +120,8 @@ public class AuthorizationGuiServletUnitTest {
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
-EasyMock.replay(authorizationService);
+		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
+		EasyMock.replay(authorizationService);
 
 		final AuthorizationGuiServlet authorizationServlet = new AuthorizationGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService,
 				httpContextProvider, redirectUtil, urlUtil, authorizationService);
