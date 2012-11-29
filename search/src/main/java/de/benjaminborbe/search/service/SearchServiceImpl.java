@@ -66,11 +66,18 @@ public class SearchServiceImpl implements SearchService {
 
 	private final ThreadRunner threadRunner;
 
+	private final SearchServiceSearchResultComparator searchServiceComponentComparator;
+
 	@Inject
-	public SearchServiceImpl(final Logger logger, final SearchServiceComponentRegistry searchServiceComponentRegistry, final ThreadRunner threadRunner) {
+	public SearchServiceImpl(
+			final Logger logger,
+			final SearchServiceComponentRegistry searchServiceComponentRegistry,
+			final ThreadRunner threadRunner,
+			final SearchServiceSearchResultComparator searchServiceComponentComparator) {
 		this.logger = logger;
 		this.searchServiceComponentRegistry = searchServiceComponentRegistry;
 		this.threadRunner = threadRunner;
+		this.searchServiceComponentComparator = searchServiceComponentComparator;
 	}
 
 	@Override
@@ -78,7 +85,6 @@ public class SearchServiceImpl implements SearchService {
 		logger.trace("search words: " + StringUtils.join(words, ","));
 
 		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());
-		Collections.sort(searchServiceComponents, new SearchServiceComponentComparator());
 		logger.trace("searchServiceComponents " + searchServiceComponents.size());
 
 		final List<Thread> threads = new ArrayList<Thread>();
@@ -107,7 +113,7 @@ public class SearchServiceImpl implements SearchService {
 				result.addAll(list);
 			}
 		}
-
+		Collections.sort(result, searchServiceComponentComparator);
 		logger.trace("found " + result.size() + " results");
 		return result;
 	}

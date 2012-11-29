@@ -132,28 +132,34 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	}
 
 	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final String[] words) throws IOException {
-		final PrintWriter out = response.getWriter();
-		final URL url = buildUrl(request, result.getUrl());
-		final String urlString = url.toExternalForm();
-		final String type = result.getType();
-		final String title = result.getTitle();
-		final String description = result.getDescription();
-		out.println("<div class=\"searchResult\">");
-		out.println("<div class=\"title\">");
-		out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
-		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
-				+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)), words));
-		out.println("</a>");
-		out.println("</div>");
-		out.println("<div class=\"link\">");
-		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
-				+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, 100)), words) + "</a>");
-		out.println("</div>");
-		out.println("<div class=\"description\">");
-		out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(description, 400)), words));
-		out.println("<br/>");
-		out.println("</div>");
-		out.println("</div>");
+		try {
+			final PrintWriter out = response.getWriter();
+			final URL url = buildUrl(request, result.getUrl());
+			final String urlString = url.toExternalForm();
+			final String type = result.getType();
+			final String title = result.getTitle();
+			final String description = result.getDescription();
+			out.println("<div class=\"searchResult\">");
+			out.println("<div class=\"title\">");
+			out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
+			out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)), words));
+			out.println("</a>");
+			out.println("</div>");
+			out.println("<div class=\"link\">");
+			out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, 100)), words) + "</a>");
+			out.println("</div>");
+			out.println("<div class=\"description\">");
+			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(description, 400)), words));
+			out.println("<br/>");
+			out.println("</div>");
+			out.println("</div>");
+		}
+		catch (final MalformedURLException e) {
+			logger.debug("illegal url: " + result.getUrl());
+			// nop
+		}
 	}
 
 	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
