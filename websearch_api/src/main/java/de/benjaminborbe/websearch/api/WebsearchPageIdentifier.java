@@ -4,11 +4,11 @@ import java.net.URL;
 
 import de.benjaminborbe.api.IdentifierBase;
 
-public class PageIdentifier extends IdentifierBase<String> {
+public class WebsearchPageIdentifier extends IdentifierBase<String> {
 
 	private final URL url;
 
-	public PageIdentifier(final URL url) {
+	public WebsearchPageIdentifier(final URL url) {
 		super(url.toExternalForm());
 		this.url = url;
 	}

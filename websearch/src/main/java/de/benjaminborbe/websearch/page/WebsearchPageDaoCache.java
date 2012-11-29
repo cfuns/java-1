@@ -12,10 +12,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCache;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
 @Singleton
-public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, PageIdentifier> implements WebsearchPageDao {
+public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, WebsearchPageIdentifier> implements WebsearchPageDao {
 
 	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
@@ -43,7 +43,7 @@ public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, PageIdent
 
 	@Override
 	public WebsearchPageBean load(final URL url) {
-		return load(new PageIdentifier(url));
+		return load(new WebsearchPageIdentifier(url));
 	}
 
 	@Override

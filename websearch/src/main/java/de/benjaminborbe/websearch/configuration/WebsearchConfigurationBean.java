@@ -9,6 +9,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+import de.benjaminborbe.websearch.api.WebsearchConfiguration;
+import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 
 public class WebsearchConfigurationBean implements Entity<WebsearchConfigurationIdentifier>, WebsearchConfiguration, HasCreated, HasModified {
 

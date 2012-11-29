@@ -3,9 +3,9 @@ package de.benjaminborbe.websearch.api;
 import java.net.URL;
 import java.util.Date;
 
-public interface Page {
+public interface WebsearchPage {
 
-	PageIdentifier getId();
+	WebsearchPageIdentifier getId();
 
 	Date getLastVisit();
 

@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
 @Singleton
 public class WebsearchPageBeanMapper extends BaseMapper<WebsearchPageBean> {
@@ -41,15 +41,15 @@ public class WebsearchPageBeanMapper extends BaseMapper<WebsearchPageBean> {
 		object.setUrl(toUrl(data.get("url")));
 	}
 
-	private PageIdentifier toPageIdentifier(final String url) throws MapException {
-		return new PageIdentifier(toUrl(url));
+	private WebsearchPageIdentifier toPageIdentifier(final String url) throws MapException {
+		return new WebsearchPageIdentifier(toUrl(url));
 	}
 
 	private String toString(final Date date) {
 		return date != null ? dateUtil.dateTimeString(date) : null;
 	}
 
-	private String toString(final PageIdentifier pageIdentifier) {
+	private String toString(final WebsearchPageIdentifier pageIdentifier) {
 		return pageIdentifier != null ? pageIdentifier.getId() : null;
 	}
 

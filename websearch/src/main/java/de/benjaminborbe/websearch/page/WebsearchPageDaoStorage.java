@@ -14,10 +14,10 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
 @Singleton
-public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, PageIdentifier> implements WebsearchPageDao {
+public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, WebsearchPageIdentifier> implements WebsearchPageDao {
 
 	private static final String COLUMNFAMILY = "websearch_page";
 

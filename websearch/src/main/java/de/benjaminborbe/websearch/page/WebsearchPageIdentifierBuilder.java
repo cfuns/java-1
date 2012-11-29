@@ -5,14 +5,14 @@ import java.net.URL;
 
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.api.IdentifierBuilderException;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
-public class WebsearchPageIdentifierBuilder implements IdentifierBuilder<String, PageIdentifier> {
+public class WebsearchPageIdentifierBuilder implements IdentifierBuilder<String, WebsearchPageIdentifier> {
 
 	@Override
-	public PageIdentifier buildIdentifier(final String value) throws IdentifierBuilderException {
+	public WebsearchPageIdentifier buildIdentifier(final String value) throws IdentifierBuilderException {
 		try {
-			return new PageIdentifier(new URL(value));
+			return new WebsearchPageIdentifier(new URL(value));
 		}
 		catch (final MalformedURLException e) {
 			throw new IdentifierBuilderException(e);

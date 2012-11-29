@@ -1,4 +1,4 @@
-package de.benjaminborbe.websearch.configuration;
+package de.benjaminborbe.websearch.api;
 
 import java.net.URL;
 import java.util.List;

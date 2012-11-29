@@ -6,10 +6,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 
 @Singleton
 public class WebsearchConfigurationDaoStorage extends DaoStorage<WebsearchConfigurationBean, WebsearchConfigurationIdentifier> implements WebsearchConfigurationDao {
@@ -23,7 +23,7 @@ public class WebsearchConfigurationDaoStorage extends DaoStorage<WebsearchConfig
 			final Provider<WebsearchConfigurationBean> beanProvider,
 			final WebsearchConfigurationBeanMapper pageBeanMapper,
 			final CalendarUtil calendarUtil,
-			final IdentifierBuilder<String, WebsearchConfigurationIdentifier> identifierBuilder) {
+			final WebsearchConfigurationIdentifierBuilder identifierBuilder) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
 	}
 

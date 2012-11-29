@@ -30,11 +30,11 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
-public class WebsearchGuiRefreshPagesServlet extends WebsiteHtmlServlet {
+public class WebsearchGuiIndexClearServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Websearch - Refresh Pages";
+	private static final String TITLE = "Websearch - Clear SearchIndex";
 
 	private final WebsearchService websearchService;
 
@@ -43,7 +43,7 @@ public class WebsearchGuiRefreshPagesServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public WebsearchGuiRefreshPagesServlet(
+	public WebsearchGuiIndexClearServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -74,8 +74,8 @@ public class WebsearchGuiRefreshPagesServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			websearchService.refreshSearchIndex(sessionIdentifier);
-			widgets.add("refresh triggered");
+			websearchService.clearIndex(sessionIdentifier);
+			widgets.add("index cleared");
 			return widgets;
 		}
 		catch (final WebsearchServiceException e) {

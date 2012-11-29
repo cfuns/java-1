@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
 import java.io.IOException;
-import java.net.URL;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,38 +23,33 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPage;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
-import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
-import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormInputTextWidget;
-import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
+public class WebsearchGuiPageExpireAllServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Websearch - Expire Page";
+	private static final String TITLE = "Websearch - Expire All Pages";
 
 	private final WebsearchService websearchService;
 
 	private final Logger logger;
 
-	private final ParseUtil parseUtil;
-
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public WebsearchGuiExpirePageServlet(
+	public WebsearchGuiPageExpireAllServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -69,7 +64,6 @@ public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.websearchService = websearchService;
 		this.logger = logger;
-		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 	}
 
@@ -85,20 +79,17 @@ public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
+			widgets.add("expire all pages started");
+
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-
-			try {
-				final URL url = parseUtil.parseURL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID));
-				websearchService.expirePage(sessionIdentifier, new PageIdentifier(url));
-				widgets.add("url " + url.toExternalForm() + " expired");
+			final Collection<WebsearchPage> pages = websearchService.getPages(sessionIdentifier);
+			final UlWidget ul = new UlWidget();
+			for (final WebsearchPage page : pages) {
+				websearchService.expirePage(sessionIdentifier, new WebsearchPageIdentifier(page.getUrl()));
+				ul.add("expire page " + page.getUrl().toExternalForm());
 			}
-			catch (final ParseException e) {
-				final FormWidget form = new FormWidget();
-				form.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("Url..."));
-				form.addFormInputWidget(new FormInputSubmitWidget("expire"));
-				widgets.add(form);
-			}
-
+			widgets.add(ul);
+			widgets.add("expire all pages finished");
 			return widgets;
 		}
 		catch (final WebsearchServiceException e) {

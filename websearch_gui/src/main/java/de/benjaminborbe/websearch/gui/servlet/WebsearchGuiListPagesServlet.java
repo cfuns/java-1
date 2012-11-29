@@ -32,7 +32,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.websearch.api.Page;
+import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
@@ -47,10 +47,10 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
-	private final class PageComparator extends ComparatorBase<Page, String> {
+	private final class PageComparator extends ComparatorBase<WebsearchPage, String> {
 
 		@Override
-		public String getValue(final Page o) {
+		public String getValue(final WebsearchPage o) {
 			return o.getUrl() != null ? o.getUrl().toExternalForm() : null;
 		}
 	}
@@ -106,7 +106,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			for (final Page page : sortPages(websearchService.getPages(sessionIdentifier))) {
+			for (final WebsearchPage page : sortPages(websearchService.getPages(sessionIdentifier))) {
 				ul.add(buildPageWidget(page, request));
 			}
 			widgets.add(ul);
@@ -124,13 +124,13 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	protected List<Page> sortPages(final Collection<Page> pages) {
-		final List<Page> result = new ArrayList<Page>(pages);
+	protected List<WebsearchPage> sortPages(final Collection<WebsearchPage> pages) {
+		final List<WebsearchPage> result = new ArrayList<WebsearchPage>(pages);
 		Collections.sort(result, new PageComparator());
 		return result;
 	}
 
-	protected Widget buildPageWidget(final Page page, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+	protected Widget buildPageWidget(final WebsearchPage page, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		final ListWidget widgets = new ListWidget();
 		final URL url = page.getUrl();
 		widgets.add(new LinkWidget(url, url.toExternalForm()));

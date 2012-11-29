@@ -12,7 +12,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.storage.tools.EntityIteratorImpl;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
 public class WebsearchPageDaoSubPagesActionUnitTest {
 
@@ -22,19 +22,19 @@ public class WebsearchPageDaoSubPagesActionUnitTest {
 		final URL url1 = new URL("http://www.test.de/");
 		final WebsearchPageBean page1 = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.expect(page1.getUrl()).andReturn(url1).anyTimes();
-		EasyMock.expect(page1.getId()).andReturn(new PageIdentifier(url1)).anyTimes();
+		EasyMock.expect(page1.getId()).andReturn(new WebsearchPageIdentifier(url1)).anyTimes();
 		EasyMock.replay(page1);
 
 		final URL url2 = new URL("http://www.test.de/admin/");
 		final WebsearchPageBean page2 = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.expect(page2.getUrl()).andReturn(url2).anyTimes();
-		EasyMock.expect(page2.getId()).andReturn(new PageIdentifier(url2)).anyTimes();
+		EasyMock.expect(page2.getId()).andReturn(new WebsearchPageIdentifier(url2)).anyTimes();
 		EasyMock.replay(page2);
 
 		final URL url3 = new URL("http://www.test.de/admin/list");
 		final WebsearchPageBean page3 = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.expect(page3.getUrl()).andReturn(url3).anyTimes();
-		EasyMock.expect(page3.getId()).andReturn(new PageIdentifier(url3)).anyTimes();
+		EasyMock.expect(page3.getId()).andReturn(new WebsearchPageIdentifier(url3)).anyTimes();
 		EasyMock.replay(page3);
 
 		final Set<WebsearchPageBean> allPages = new HashSet<WebsearchPageBean>();

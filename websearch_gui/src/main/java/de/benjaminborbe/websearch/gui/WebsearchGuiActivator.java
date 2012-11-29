@@ -12,12 +12,16 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.websearch.gui.guice.WebsearchGuiModules;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiClearIndexServlet;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiExpireAllPagesServlet;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiExpirePageServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationCreateServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationDeleteServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationListServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationUpdateServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiIndexClearServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireAllServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiRefreshPagesServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
@@ -26,22 +30,34 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	private WebsearchGuiServlet websearchGuiServlet;
 
 	@Inject
-	private WebsearchGuiClearIndexServlet websearchGuiClearIndexServlet;
+	private WebsearchGuiIndexClearServlet websearchGuiClearIndexServlet;
 
 	@Inject
-	private WebsearchGuiRefreshPagesServlet websearchGuiRefreshPagesServlet;
+	private WebsearchGuiPageRefreshAllServlet websearchGuiRefreshPagesServlet;
 
 	@Inject
 	private WebsearchGuiListPagesServlet websearchGuiListPagesServlet;
 
 	@Inject
-	private WebsearchGuiExpireAllPagesServlet websearchGuiExpireAllPagesServlet;
+	private WebsearchGuiPageExpireAllServlet websearchGuiExpireAllPagesServlet;
 
 	@Inject
-	private WebsearchGuiExpirePageServlet websearchGuiExpirePageServlet;
+	private WebsearchGuiPageExpireServlet websearchGuiExpirePageServlet;
 
 	@Inject
 	private WebsearchGuiPageRefreshServlet websearchGuiPageRefreshServlet;
+
+	@Inject
+	private WebsearchGuiConfigurationCreateServlet websearchGuiConfigurationCreateServlet;
+
+	@Inject
+	private WebsearchGuiConfigurationDeleteServlet websearchGuiConfigurationDeleteServlet;
+
+	@Inject
+	private WebsearchGuiConfigurationListServlet websearchGuiConfigurationListServlet;
+
+	@Inject
+	private WebsearchGuiConfigurationUpdateServlet websearchGuiConfigurationUpdateServlet;
 
 	public WebsearchGuiActivator() {
 		super(WebsearchGuiConstants.NAME);
@@ -62,6 +78,10 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiExpireAllPagesServlet, WebsearchGuiConstants.URL_EXPIRE_ALL));
 		result.add(new ServletInfo(websearchGuiClearIndexServlet, WebsearchGuiConstants.URL_CLEAR_INDEX));
 		result.add(new ServletInfo(websearchGuiPageRefreshServlet, WebsearchGuiConstants.URL_REFRESH_PAGE));
+		result.add(new ServletInfo(websearchGuiConfigurationCreateServlet, WebsearchGuiConstants.URL_CONFIGURATION_CREATE));
+		result.add(new ServletInfo(websearchGuiConfigurationDeleteServlet, WebsearchGuiConstants.URL_CONFIGURATION_DELETE));
+		result.add(new ServletInfo(websearchGuiConfigurationListServlet, WebsearchGuiConstants.URL_CONFIGURATION_LIST));
+		result.add(new ServletInfo(websearchGuiConfigurationUpdateServlet, WebsearchGuiConstants.URL_CONFIGURATION_UPDATE));
 		return result;
 	}
 

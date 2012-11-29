@@ -1,7 +1,6 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,33 +14,34 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchService;
+import de.benjaminborbe.websearch.api.WebsearchServiceException;
+import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
-import de.benjaminborbe.websearch.api.WebsearchService;
-import de.benjaminborbe.websearch.api.WebsearchServiceException;
-import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
+public class WebsearchGuiConfigurationDeleteServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
 	private final WebsearchService websearchService;
 
-	private final AuthenticationService authenticationService;
-
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public WebsearchGuiPageRefreshServlet(
+	public WebsearchGuiConfigurationDeleteServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -52,28 +52,28 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 			final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.websearchService = websearchService;
-		this.authenticationService = authenticationService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final WebsearchPageIdentifier page = websearchService.createPageIdentifier(new URL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID)));
-			websearchService.refreshPage(sessionIdentifier, page);
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
+			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID));
+			websearchService.deleteConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
 		}
 		catch (final WebsearchServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
-		catch (final PermissionDeniedException e) {
+		catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final LoginRequiredException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
 		widget.render(request, response, context);
 	}
-
 }

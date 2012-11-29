@@ -7,28 +7,28 @@ import java.util.Date;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
-import de.benjaminborbe.websearch.api.Page;
-import de.benjaminborbe.websearch.api.PageIdentifier;
+import de.benjaminborbe.websearch.api.WebsearchPage;
+import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
-public class WebsearchPageBean implements Entity<PageIdentifier>, Page, HasCreated, HasModified {
+public class WebsearchPageBean implements Entity<WebsearchPageIdentifier>, WebsearchPage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
 	private Date lastVisit;
 
-	private PageIdentifier id;
+	private WebsearchPageIdentifier id;
 
 	private Calendar modified;
 
 	private Calendar created;
 
 	@Override
-	public PageIdentifier getId() {
+	public WebsearchPageIdentifier getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final PageIdentifier id) {
+	public void setId(final WebsearchPageIdentifier id) {
 		this.id = id;
 	}
 
@@ -47,7 +47,7 @@ public class WebsearchPageBean implements Entity<PageIdentifier>, Page, HasCreat
 	}
 
 	public void setUrl(final URL url) {
-		id = new PageIdentifier(url);
+		id = new WebsearchPageIdentifier(url);
 	}
 
 	@Override
