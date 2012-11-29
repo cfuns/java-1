@@ -142,9 +142,9 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			widgets.add("-");
 		}
 		widgets.add(" ");
-		widgets.add(websearchGuiLinkFactory.expirePage(request, page.getId()));
+		widgets.add(websearchGuiLinkFactory.pageExpire(request, page.getId()));
 		widgets.add(" ");
-		widgets.add(websearchGuiLinkFactory.refreshPage(request, page.getId()));
+		widgets.add(websearchGuiLinkFactory.pageRefresh(request, page.getId()));
 		return widgets;
 	}
 }

@@ -99,13 +99,13 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = createConfiguration(sessionIdentifier, url, excludes);
+					createConfiguration(sessionIdentifier, url, excludes);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
 					}
 					else {
-						throw new RedirectException(websearchGuiLinkFactory.collectionListUrl(request, websearchConfigurationIdentifier));
+						throw new RedirectException(websearchGuiLinkFactory.configurationListUrl(request));
 					}
 				}
 				catch (final ValidationException e) {

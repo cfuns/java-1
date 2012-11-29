@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.websearch.api.WebsearchConfiguration;
 import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
@@ -25,37 +24,37 @@ public class WebsearchGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget listPages(final HttpServletRequest request) throws MalformedURLException {
+	public Widget pageList(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_LIST, "list pages");
 	}
 
-	public Widget refreshPage(final HttpServletRequest request, final WebsearchPageIdentifier pageIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget pageRefresh(final HttpServletRequest request, final WebsearchPageIdentifier pageIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_REFRESH_PAGE, new MapParameter().add(
 				WebsearchGuiConstants.PARAMETER_PAGE_ID, String.valueOf(pageIdentifier)), "refresh page");
 	}
 
-	public Widget expirePage(final HttpServletRequest request, final WebsearchPageIdentifier pageIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget pageExpire(final HttpServletRequest request, final WebsearchPageIdentifier pageIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/websearch/expire", new MapParameter().add(WebsearchGuiConstants.PARAMETER_PAGE_ID, String.valueOf(pageIdentifier)), "expire ");
 	}
 
-	public String updateConfiguration(final HttpServletRequest request, final WebsearchConfigurationIdentifier id) {
-		return null;
+	public Widget configurationUpdate(final HttpServletRequest request, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_UPDATE, new MapParameter().add(
+				WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(websearchConfigurationIdentifier)), "edit");
 	}
 
-	public String collectionListUrl(final HttpServletRequest request, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier) {
-		return null;
+	public Widget configurationDelete(final HttpServletRequest request, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_DELETE, new MapParameter().add(
+				WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(websearchConfigurationIdentifier)), "delete").addConfirm("delete?");
 	}
 
-	public String listCollections(final HttpServletRequest request, final WebsearchConfiguration websearchConfiguration) {
-		return null;
+	public Widget configurationCreate(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_CREATE, "create configuration");
 	}
 
-	public String deleteConfiguration(final HttpServletRequest request, final WebsearchConfigurationIdentifier id) {
-		return null;
-	}
-
-	public String createConfiguration(final HttpServletRequest request) {
-		return null;
+	public String configurationListUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_LIST;
 	}
 
 }

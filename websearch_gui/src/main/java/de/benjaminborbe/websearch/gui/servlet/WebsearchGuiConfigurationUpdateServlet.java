@@ -111,7 +111,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 						throw new RedirectException(referer);
 					}
 					else {
-						throw new RedirectException(websearchGuiLinkFactory.collectionListUrl(request, websearchConfigurationIdentifier));
+						throw new RedirectException(websearchGuiLinkFactory.configurationListUrl(request));
 					}
 				}
 				catch (final ValidationException e) {

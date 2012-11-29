@@ -90,15 +90,15 @@ public class WebsearchGuiConfigurationListServlet extends WebsiteHtmlServlet {
 			final List<WebsearchConfiguration> groups = Lists.newArrayList(websearchService.getConfigurations(sessionIdentifier));
 			for (final WebsearchConfiguration websearchConfiguration : groups) {
 				final ListWidget list = new ListWidget();
-				list.add(linkFactory.listCollections(request, websearchConfiguration));
+				list.add(websearchConfiguration.getUrl().toExternalForm());
 				list.add(" ");
-				list.add(linkFactory.updateConfiguration(request, websearchConfiguration.getId()));
+				list.add(linkFactory.configurationUpdate(request, websearchConfiguration.getId()));
 				list.add(" ");
-				list.add(linkFactory.deleteConfiguration(request, websearchConfiguration.getId()));
+				list.add(linkFactory.configurationDelete(request, websearchConfiguration.getId()));
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createConfiguration(request));
+			widgets.add(linkFactory.configurationCreate(request));
 			return widgets;
 		}
 		catch (final WebsearchServiceException e) {
