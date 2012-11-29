@@ -27,6 +27,7 @@ import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 
 @Singleton
@@ -50,6 +51,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final AuthenticationService authenticationService;
 
+	private final StringUtil stringUtil;
+
 	@Inject
 	public SearchGuiWidgetImpl(
 			final Logger logger,
@@ -57,13 +60,15 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final SearchService searchService,
 			final SearchGuiDashboardWidget searchDashboardWidget,
 			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
-			final AuthenticationService authenticationService) {
+			final AuthenticationService authenticationService,
+			final StringUtil stringUtil) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
 		this.searchDashboardWidget = searchDashboardWidget;
 		this.searchGuiSpecialSearchFactory = searchGuiSpecialSearchFactory;
 		this.authenticationService = authenticationService;
+		this.stringUtil = stringUtil;
 	}
 
 	@Override
@@ -130,14 +135,14 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		out.println("<div class=\"searchResult\">");
 		out.println("<div class=\"title\">");
 		out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
-		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(title));
+		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(stringUtil.shorten(title, 100)));
 		out.println("</a>");
 		out.println("</div>");
 		out.println("<div class=\"link\">");
-		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(urlString) + "</a>");
+		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(stringUtil.shorten(urlString, 100)) + "</a>");
 		out.println("</div>");
 		out.println("<div class=\"description\">");
-		out.println(StringEscapeUtils.escapeHtml(description));
+		out.println(StringEscapeUtils.escapeHtml(stringUtil.shorten(description, 400)));
 		out.println("<br/>");
 		out.println("</div>");
 		out.println("</div>");
