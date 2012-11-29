@@ -1,8 +1,10 @@
 package de.benjaminborbe.websearch.util;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -45,25 +47,30 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 	public Collection<WebsearchPageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
 		logger.trace("determineExpiredPages");
 		final long time = calendarUtil.getTime();
-		final EntityIterator<WebsearchConfigurationBean> configurations = configurationDao.getEntityIterator();
+		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getEntityIterator();
+		final List<WebsearchConfigurationBean> configurations = new ArrayList<WebsearchConfigurationBean>();
+		while (configurationsIterator.hasNext()) {
+			configurations.add(configurationsIterator.next());
+		}
+
 		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
 		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
 		while (pages.hasNext()) {
 			final WebsearchPageBean page = pages.next();
 			// handle only pages configuration exists for
 			if (isSubPage(page, configurations)) {
-				logger.trace("url " + page.getId() + " is subpage");
+				logger.debug("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
 				if (isExpired(time, page)) {
-					logger.trace("url " + page.getId() + " is expired");
+					logger.debug("url " + page.getId() + " is expired");
 					result.add(page);
 				}
 				else {
-					logger.trace("url " + page.getId() + " is not expired");
+					logger.debug("url " + page.getId() + " is not expired");
 				}
 			}
 			else {
-				logger.trace("url " + page.getId() + " is not subpage");
+				logger.debug("url " + page.getId() + " is not subpage");
 			}
 		}
 		return result;
@@ -73,7 +80,7 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		return page.getLastVisit() == null || (time - page.getLastVisit().getTime() > EXPIRE);
 	}
 
-	protected boolean isSubPage(final WebsearchPageBean page, final EntityIterator<WebsearchConfigurationBean> configurations) throws EntityIteratorException {
+	protected boolean isSubPage(final WebsearchPageBean page, final Collection<WebsearchConfigurationBean> configurations) throws EntityIteratorException {
 		if (page == null) {
 			throw new NullPointerException("parameter page is null");
 		}
@@ -82,8 +89,7 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 			throw new NullPointerException("parameter url is null at page " + page.getId());
 		}
 		final String urlString = url.toExternalForm();
-		while (configurations.hasNext()) {
-			final WebsearchConfigurationBean configuration = configurations.next();
+		for (final WebsearchConfigurationBean configuration : configurations) {
 			if (urlString.startsWith(configuration.getUrl().toExternalForm())) {
 				boolean isExcluded = false;
 				for (final String exclude : configuration.getExcludes()) {

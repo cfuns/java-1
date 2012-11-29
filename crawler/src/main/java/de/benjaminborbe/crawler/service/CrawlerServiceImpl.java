@@ -46,6 +46,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 		}
 		catch (final HttpDownloaderException e) {
 			logger.trace("HttpDownloaderException url: " + domainUrl, e);
+			logger.info("HttpDownloaderException url: " + domainUrl);
 			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, null, false));
 		}
 		catch (final UnsupportedEncodingException e) {

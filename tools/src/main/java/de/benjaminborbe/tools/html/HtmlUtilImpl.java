@@ -42,10 +42,8 @@ public class HtmlUtilImpl implements HtmlUtil {
 		if (content == null) {
 			return null;
 		}
-		else {
-			return unescapeHtml(content.replaceAll("\n", " ").replaceAll("<style[^>]*/>", " ").replaceAll("<style.*?</style>", " ").replaceAll("<script[^>]*/>", " ")
-					.replaceAll("<script.*?</script>", " ").replaceAll("<!--.*?-->", " ").replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
-		}
+		return unescapeHtml(content.replaceAll("[\n\r]+", " ").replaceAll("<style[^>]*/>", " ").replaceAll("<style.*?</style>", " ").replaceAll("<script[^>]*/>", " ")
+				.replaceAll("<script.*?</script>", " ").replaceAll("<!--.*?-->", " ").replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
 	}
 
 	@Override

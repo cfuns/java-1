@@ -12,7 +12,6 @@ import java.util.Collection;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.storage.tools.EntityIteratorImpl;
 import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.page.WebsearchPageBean;
 
@@ -28,7 +27,7 @@ public class WebsearchUpdateDeterminerImplUnitTest {
 
 		final Collection<WebsearchConfigurationBean> configurations = new ArrayList<WebsearchConfigurationBean>();
 
-		assertFalse(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<WebsearchConfigurationBean>(configurations.iterator())));
+		assertFalse(updateDeterminerImpl.isSubPage(page, configurations));
 	}
 
 	@Test
@@ -45,7 +44,7 @@ public class WebsearchUpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<WebsearchConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertTrue(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<WebsearchConfigurationBean>(configurations.iterator())));
+		assertTrue(updateDeterminerImpl.isSubPage(page, configurations));
 	}
 
 	@Test
@@ -62,7 +61,7 @@ public class WebsearchUpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<WebsearchConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertTrue(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<WebsearchConfigurationBean>(configurations.iterator())));
+		assertTrue(updateDeterminerImpl.isSubPage(page, configurations));
 	}
 
 	@Test
@@ -79,7 +78,7 @@ public class WebsearchUpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<WebsearchConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertFalse(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<WebsearchConfigurationBean>(configurations.iterator())));
+		assertFalse(updateDeterminerImpl.isSubPage(page, configurations));
 	}
 
 	@Test
@@ -96,7 +95,7 @@ public class WebsearchUpdateDeterminerImplUnitTest {
 		EasyMock.replay(configurationBean);
 		final Collection<WebsearchConfigurationBean> configurations = Arrays.asList(configurationBean);
 
-		assertFalse(updateDeterminerImpl.isSubPage(page, new EntityIteratorImpl<WebsearchConfigurationBean>(configurations.iterator())));
+		assertFalse(updateDeterminerImpl.isSubPage(page, configurations));
 	}
 
 	private URL buildUrl(final String url) throws MalformedURLException {
