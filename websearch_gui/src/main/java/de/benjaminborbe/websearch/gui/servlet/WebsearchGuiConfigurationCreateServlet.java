@@ -115,8 +115,8 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			}
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(WebsearchGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
-			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL).addLabel("Url..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL).addLabel("Url:").addPlaceholder("http://..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue("?"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;

@@ -57,4 +57,7 @@ public class WebsearchGuiLinkFactory {
 		return request.getContextPath() + "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_LIST;
 	}
 
+	public Widget configurationList(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_LIST, "list configurations");
+	}
 }

@@ -122,9 +122,9 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(WebsearchGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID).addValue(websearchConfiguration.getId()));
-			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL).addLabel("Url...").addDefaultValue(
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL).addLabel("Url:").addDefaultValue(
 					websearchConfiguration.getUrl() != null ? websearchConfiguration.getUrl().toExternalForm() : null));
-			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes...").addDefaultValue(
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue(
 					websearchConfiguration.getExcludes() != null ? StringUtils.join(websearchConfiguration.getExcludes(), ",") : null));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);

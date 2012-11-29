@@ -50,7 +50,9 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getEntityIterator();
 		final List<WebsearchConfigurationBean> configurations = new ArrayList<WebsearchConfigurationBean>();
 		while (configurationsIterator.hasNext()) {
-			configurations.add(configurationsIterator.next());
+			final WebsearchConfigurationBean configuration = configurationsIterator.next();
+			configurations.add(configuration);
+			pageDao.findOrCreate(configuration.getUrl());
 		}
 
 		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
