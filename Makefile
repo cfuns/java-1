@@ -1,12 +1,13 @@
+MVN_OPTS=-Djava.awt.headless=true
 all:
-	mvn -Pbridge,test install
+	mvn $(MVN_OPTS) -Pbridge,test install
 clean:
-	mvn -Pbridge,test clean
+	mvn $(MVN_OPTS) -Pbridge,test clean
 	find . -name target -type d -exec rm -rf "{}" \;
 test:
-	mvn -Pbridge,test test
+	mvn $(MVN_OPTS) -Pbridge,test test
 installwotest:
-	mvn -Pbridge,test -Dmaven.test.skip=true install
+	mvn $(MVN_OPTS) -Pbridge,test -Dmaven.test.skip=true install
 package:
 	make packagedevel
 deploy:
@@ -32,7 +33,7 @@ update:
 dllir:
 	find . -type d -d 1 -exec sh -c 'cd {} && make dir' \;
 sonar:
-	mvn sonar:sonar
+	mvn $(MVN_OPTS) sonar:sonar
 help:
 	echo "help"
 findwrongnamedtests:
@@ -45,9 +46,9 @@ uploadonline:
 	scp bridge/war/online/target/bridge.war bborbe@10.4.0.21:~/
 	scp bridge/war/online/target/bridge.war bborbe@10.4.0.22:~/
 uploadnexus:
-	mvn -DremoteOBR deploy
+	mvn $(MVN_OPTS) -DremoteOBR deploy
 uploadnexusforce:
-	mvn -DremoteOBR -DignoreLock deploy
+	mvn $(MVN_OPTS) -DremoteOBR -DignoreLock deploy
 osgitest:
 	find . -type d -d 1 -name "*_test" -exec sh -c 'cd {} && make' \;
 guitest:

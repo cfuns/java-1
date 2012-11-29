@@ -48,12 +48,12 @@ public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
+	protected boolean isAdminRequired() {
 		return false;
 	}
 
 	@Override
-	protected boolean isAdminRequired() {
+	protected boolean isLoginRequired() {
 		return false;
 	}
 

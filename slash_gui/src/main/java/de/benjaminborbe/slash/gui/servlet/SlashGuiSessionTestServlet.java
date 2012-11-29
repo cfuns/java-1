@@ -71,11 +71,6 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
-		return false;
-	}
-
-	@Override
 	protected String getTitle() {
 		return TITLE;
 	}
@@ -128,5 +123,15 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
+	@Override
+	protected boolean isLoginRequired() {
+		return false;
 	}
 }

@@ -68,6 +68,11 @@ public class SlashGuiServlet extends WebsiteServlet {
 	}
 
 	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
+	@Override
 	protected boolean isLoginRequired() {
 		return false;
 	}
