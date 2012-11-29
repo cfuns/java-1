@@ -25,6 +25,7 @@ import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
+import de.benjaminborbe.search.gui.util.SearchGuiTermHighlighter;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.util.SearchUtil;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -53,6 +54,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final StringUtil stringUtil;
 
+	private final SearchGuiTermHighlighter searchGuiTermHighlighter;
+
 	@Inject
 	public SearchGuiWidgetImpl(
 			final Logger logger,
@@ -61,7 +64,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final SearchGuiDashboardWidget searchDashboardWidget,
 			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
 			final AuthenticationService authenticationService,
-			final StringUtil stringUtil) {
+			final StringUtil stringUtil,
+			final SearchGuiTermHighlighter searchGuiTermHighlighter) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
@@ -69,6 +73,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		this.searchGuiSpecialSearchFactory = searchGuiSpecialSearchFactory;
 		this.authenticationService = authenticationService;
 		this.stringUtil = stringUtil;
+		this.searchGuiTermHighlighter = searchGuiTermHighlighter;
 	}
 
 	@Override
@@ -92,7 +97,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			SessionIdentifier sessionIdentifier;
 			sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, words, MAX_RESULTS);
-			printSearchResults(request, response, results);
+			printSearchResults(request, response, results, words);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -111,13 +116,14 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		return searchDashboardWidget.getCssResource(request, response);
 	}
 
-	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final List<SearchResult> results) throws IOException {
+	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final List<SearchResult> results, final String[] words)
+			throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<div>");
 		out.println("found " + results.size() + " matches");
 		out.println("</div>");
 		for (final SearchResult result : results) {
-			printSearchResult(request, response, result);
+			printSearchResult(request, response, result, words);
 		}
 	}
 
@@ -125,7 +131,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		searchDashboardWidget.render(request, response, context);
 	}
 
-	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result) throws IOException {
+	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final String[] words) throws IOException {
 		final PrintWriter out = response.getWriter();
 		final URL url = buildUrl(request, result.getUrl());
 		final String urlString = url.toExternalForm();
@@ -135,14 +141,16 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		out.println("<div class=\"searchResult\">");
 		out.println("<div class=\"title\">");
 		out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
-		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)));
+		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
+				+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)), words));
 		out.println("</a>");
 		out.println("</div>");
 		out.println("<div class=\"link\">");
-		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, 100)) + "</a>");
+		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
+				+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, 100)), words) + "</a>");
 		out.println("</div>");
 		out.println("<div class=\"description\">");
-		out.println(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(description, 400)));
+		out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(description, 400)), words));
 		out.println("<br/>");
 		out.println("</div>");
 		out.println("</div>");

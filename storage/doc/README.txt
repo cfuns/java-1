@@ -37,8 +37,14 @@ create column family test with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
 
-drop column family page;
-create column family page with
+drop column family websearch_page;
+create column family websearch_page with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
+drop column family websearch_configuration;
+create column family websearch_configuration with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;

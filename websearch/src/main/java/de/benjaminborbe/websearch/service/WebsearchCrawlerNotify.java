@@ -3,9 +3,13 @@ package de.benjaminborbe.websearch.service;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -145,13 +149,52 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	protected String cleanUpUrl(final String url) {
 		final String u = url.replaceAll("//", "/").replaceFirst(":/", "://");
-		final int pos = u.indexOf('#');
-		if (pos != -1) {
-			return u.substring(0, pos);
+
+		final int posDoubleDash = u.indexOf("://");
+		final int posHost = u.indexOf("/", posDoubleDash + 3);
+		final int posHash = u.indexOf('#', posDoubleDash + 3);
+
+		final String host;
+		final String uri;
+		if (posHash == -1) {
+			if (posHost == -1) {
+				host = u;
+				uri = "";
+			}
+			else {
+				host = u.substring(0, posHost);
+				uri = u.substring(posHost);
+			}
 		}
 		else {
-			return u;
+			if (posHost == -1) {
+				host = u.substring(0, posHash);
+				uri = "";
+			}
+			else {
+				host = u.substring(0, posHost);
+				uri = u.substring(posHost, posHash);
+			}
 		}
+
+		final String[] parts = uri.split("/");
+		final List<String> p = new ArrayList<String>();
+		for (int i = parts.length - 1; i >= 0; i--) {
+			final String part = parts[i];
+			if (part != null && !part.isEmpty()) {
+				if ("..".equals(part)) {
+					i--;
+				}
+				else {
+					p.add(part);
+				}
+			}
+		}
+
+		p.add(host);
+		Collections.reverse(p);
+
+		return StringUtils.join(p, "/");
 	}
 
 	protected void addToIndex(final CrawlerResult result) throws IndexerServiceException {

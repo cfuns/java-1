@@ -19,7 +19,7 @@ import de.benjaminborbe.websearch.api.PageIdentifier;
 @Singleton
 public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, PageIdentifier> implements WebsearchPageDao {
 
-	private static final String COLUMNFAMILY = "page";
+	private static final String COLUMNFAMILY = "websearch_page";
 
 	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 

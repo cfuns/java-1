@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -17,7 +18,7 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	private URL url;
 
-	private String ownerUsername;
+	private UserIdentifier owner;
 
 	private List<String> excludes = new ArrayList<String>();
 
@@ -42,15 +43,6 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	public void setUrl(final URL url) {
 		this.url = url;
-	}
-
-	@Override
-	public String getOwnerUsername() {
-		return ownerUsername;
-	}
-
-	public void setOwnerUsername(final String ownerUsername) {
-		this.ownerUsername = ownerUsername;
 	}
 
 	@Override
@@ -80,6 +72,15 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public UserIdentifier getOwner() {
+		return owner;
+	}
+
+	public void setOwner(final UserIdentifier owner) {
+		this.owner = owner;
 	}
 
 }
