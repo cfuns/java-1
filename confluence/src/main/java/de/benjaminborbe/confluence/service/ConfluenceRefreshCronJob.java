@@ -110,7 +110,7 @@ public class ConfluenceRefreshCronJob implements CronJob {
 
 	private String filterContent(final String orgContent) {
 		final String filteredContent = htmlUtil.filterHtmlTages(orgContent);
-		logger.info("filterContent - orgContent: " + orgContent + " filteredContent: " + filteredContent);
+		logger.trace("filterContent - orgContent: " + orgContent + " filteredContent: " + filteredContent);
 		return filteredContent;
 	}
 }
