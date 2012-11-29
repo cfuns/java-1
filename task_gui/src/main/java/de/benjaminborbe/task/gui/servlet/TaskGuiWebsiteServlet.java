@@ -27,4 +27,9 @@ public abstract class TaskGuiWebsiteServlet extends WebsiteServlet {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 	}
 
+	@Override
+	protected boolean isAdminRequired() {
+		return false;
+	}
+
 }
