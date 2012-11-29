@@ -135,14 +135,14 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		out.println("<div class=\"searchResult\">");
 		out.println("<div class=\"title\">");
 		out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
-		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(stringUtil.shorten(title, 100)));
+		out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - " + StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)));
 		out.println("</a>");
 		out.println("</div>");
 		out.println("<div class=\"link\">");
-		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(stringUtil.shorten(urlString, 100)) + "</a>");
+		out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">" + StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, 100)) + "</a>");
 		out.println("</div>");
 		out.println("<div class=\"description\">");
-		out.println(StringEscapeUtils.escapeHtml(stringUtil.shorten(description, 400)));
+		out.println(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(description, 400)));
 		out.println("<br/>");
 		out.println("</div>");
 		out.println("</div>");
