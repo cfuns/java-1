@@ -48,12 +48,8 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	protected SearchResult map(final IndexSearchResult indexResult) {
 		final String title = indexResult.getTitle();
 		final String url = indexResult.getURL();
-		final String description = buildDescription(indexResult.getContent());
+		final String description = indexResult.getContent();
 		return new SearchResultImpl(SEARCH_TYPE, title, url, description);
-	}
-
-	protected String buildDescription(final String content) {
-		return "-";
 	}
 
 	@Override

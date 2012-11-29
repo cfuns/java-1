@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.easymock.EasyMock;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -67,7 +66,6 @@ public class HtmlUtilImplUnitTest {
 		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<style>// comment</style></h1></body></html>"));
 	}
 
-	@Ignore
 	@Test
 	public void testFilterHtmlTagesSample() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
