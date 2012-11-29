@@ -1,5 +1,6 @@
 package de.benjaminborbe.websearch.service;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,10 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.crawler.api.CrawlerException;
+import de.benjaminborbe.crawler.api.CrawlerInstruction;
+import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
+import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
@@ -41,18 +46,22 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final IndexerService indexerService;
 
+	private final CrawlerService crawlerService;
+
 	@Inject
 	public WebsearchServiceImpl(
 			final Logger logger,
 			final WebsearchPageDao pageDao,
 			final WebsearchRefreshPagesCronJob refreshPagesCronJob,
 			final AuthorizationService authorizationService,
-			final IndexerService indexerService) {
+			final IndexerService indexerService,
+			final CrawlerService crawlerService) {
 		this.logger = logger;
 		this.pageDao = pageDao;
 		this.refreshPagesCronJob = refreshPagesCronJob;
 		this.authorizationService = authorizationService;
 		this.indexerService = indexerService;
+		this.crawlerService = crawlerService;
 	}
 
 	@Override
@@ -128,5 +137,28 @@ public class WebsearchServiceImpl implements WebsearchService {
 		catch (final IndexerServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
+	}
+
+	@Override
+	public void refreshPage(final SessionIdentifier sessionIdentifier, final PageIdentifier page) throws WebsearchServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPage"));
+
+			final URL url = page.getUrl();
+			logger.debug("trigger refresh of url " + url.toExternalForm());
+			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, 5000);
+			crawlerService.processCrawlerInstruction(crawlerInstruction);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+		catch (final CrawlerException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public PageIdentifier createPageIdentifier(final URL id) throws WebsearchServiceException {
+		return new PageIdentifier(id);
 	}
 }

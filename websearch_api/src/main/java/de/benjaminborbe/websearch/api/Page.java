@@ -5,6 +5,8 @@ import java.util.Date;
 
 public interface Page {
 
+	PageIdentifier getId();
+
 	Date getLastVisit();
 
 	URL getUrl();

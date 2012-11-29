@@ -30,11 +30,13 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
-		final String urlString = "http://" + query;
-		final String type = getName();
-		final String title = urlString;
-		final String description = urlString;
-		result.add(new SearchResultImpl(type, title, urlString, description));
+		if (query != null && query.trim().length() > 0) {
+			final String urlString = "http://" + query;
+			final String type = getName();
+			final String title = urlString;
+			final String description = urlString;
+			result.add(new SearchResultImpl(type, title, urlString, description));
+		}
 		return result;
 	}
 }

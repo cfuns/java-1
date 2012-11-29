@@ -28,6 +28,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.PageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
+import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
@@ -43,8 +44,6 @@ public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Websearch - Expire Page";
-
-	private static final String PARAMETER_URL = "url";
 
 	private final WebsearchService websearchService;
 
@@ -89,7 +88,7 @@ public class WebsearchGuiExpirePageServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			try {
-				final URL url = parseUtil.parseURL(request.getParameter(PARAMETER_URL));
+				final URL url = parseUtil.parseURL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID));
 				websearchService.expirePage(sessionIdentifier, new PageIdentifier(url));
 				widgets.add("url " + url.toExternalForm() + " expired");
 			}

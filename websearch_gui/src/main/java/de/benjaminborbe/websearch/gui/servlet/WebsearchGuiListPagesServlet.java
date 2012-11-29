@@ -1,7 +1,6 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,14 +29,13 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.Page;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
-import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -65,11 +63,11 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	private final DateUtil dateUtil;
 
-	private final UrlUtil urlUtil;
-
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
+
+	private final WebsearchGuiLinkFactory websearchGuiLinkFactory;
 
 	@Inject
 	public WebsearchGuiListPagesServlet(
@@ -84,13 +82,14 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			final DateUtil dateUtil,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final WebsearchGuiLinkFactory websearchGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.websearchService = websearchService;
 		this.dateUtil = dateUtil;
-		this.urlUtil = urlUtil;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.websearchGuiLinkFactory = websearchGuiLinkFactory;
 	}
 
 	@Override
@@ -135,17 +134,17 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		final URL url = page.getUrl();
 		widgets.add(new LinkWidget(url, url.toExternalForm()));
-		final StringWriter sw = new StringWriter();
-		sw.append(" ");
+		widgets.add(" ");
 		if (page.getLastVisit() != null) {
-			sw.append(dateUtil.dateTimeString(page.getLastVisit()));
+			widgets.add(dateUtil.dateTimeString(page.getLastVisit()));
 		}
 		else {
-			sw.append("-");
+			widgets.add("-");
 		}
-		sw.append(" ");
-		widgets.add(sw.toString());
-		widgets.add(new LinkRelativWidget(urlUtil, request, "/websearch/expire", new MapParameter().add("url", url.toExternalForm()), "expire "));
+		widgets.add(" ");
+		widgets.add(websearchGuiLinkFactory.expirePage(request, page.getId()));
+		widgets.add(" ");
+		widgets.add(websearchGuiLinkFactory.refreshPage(request, page.getId()));
 		return widgets;
 	}
 }

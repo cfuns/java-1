@@ -32,6 +32,7 @@ import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
 public class WebsearchGuiServletUnitTest {
@@ -122,8 +123,11 @@ public class WebsearchGuiServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final WebsearchGuiLinkFactory websearchGuiLinkFactory = EasyMock.createNiceMock(WebsearchGuiLinkFactory.class);
+		EasyMock.replay(websearchGuiLinkFactory);
+
 		final WebsearchGuiServlet websearchServlet = new WebsearchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, websearchGuiLinkFactory);
 
 		websearchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

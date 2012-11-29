@@ -1,5 +1,6 @@
 package de.benjaminborbe.websearch.api;
 
+import java.net.URL;
 import java.util.Collection;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -11,8 +12,12 @@ public interface WebsearchService {
 
 	void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
+	void refreshPage(final SessionIdentifier sessionIdentifier, PageIdentifier page) throws WebsearchServiceException, PermissionDeniedException;
+
 	void expirePage(final SessionIdentifier sessionIdentifier, PageIdentifier page) throws WebsearchServiceException, PermissionDeniedException;
 
 	void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
+
+	PageIdentifier createPageIdentifier(URL id) throws WebsearchServiceException;
 
 }

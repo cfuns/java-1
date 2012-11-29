@@ -40,7 +40,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	private WebsearchGuiExpirePageServlet websearchGuiExpirePageServlet;
 
 	public WebsearchGuiActivator() {
-		super("websearch");
+		super(WebsearchGuiConstants.NAME);
 	}
 
 	@Override
@@ -51,12 +51,12 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(websearchGuiServlet, "/"));
-		result.add(new ServletInfo(websearchGuiRefreshPagesServlet, "/refresh"));
-		result.add(new ServletInfo(websearchGuiListPagesServlet, "/list"));
-		result.add(new ServletInfo(websearchGuiExpirePageServlet, "/expire"));
-		result.add(new ServletInfo(websearchGuiExpireAllPagesServlet, "/expireAll"));
-		result.add(new ServletInfo(websearchGuiClearIndexServlet, "/clearIndex"));
+		result.add(new ServletInfo(websearchGuiServlet, WebsearchGuiConstants.URL_HOME));
+		result.add(new ServletInfo(websearchGuiRefreshPagesServlet, WebsearchGuiConstants.URL_REFRESH));
+		result.add(new ServletInfo(websearchGuiListPagesServlet, WebsearchGuiConstants.URL_LIST));
+		result.add(new ServletInfo(websearchGuiExpirePageServlet, WebsearchGuiConstants.URL_EXPIRE));
+		result.add(new ServletInfo(websearchGuiExpireAllPagesServlet, WebsearchGuiConstants.URL_EXPIRE_ALL));
+		result.add(new ServletInfo(websearchGuiClearIndexServlet, WebsearchGuiConstants.URL_CLEAR_INDEX));
 		return result;
 	}
 

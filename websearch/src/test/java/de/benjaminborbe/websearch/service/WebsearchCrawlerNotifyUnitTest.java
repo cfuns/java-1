@@ -37,6 +37,7 @@ public class WebsearchCrawlerNotifyUnitTest {
 		EasyMock.replay(pageDao);
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.expect(htmlUtil.filterHtmlTages(title)).andReturn(title);
 		EasyMock.replay(htmlUtil);
 
 		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, indexerService, stringUtil, pageDao, htmlUtil);

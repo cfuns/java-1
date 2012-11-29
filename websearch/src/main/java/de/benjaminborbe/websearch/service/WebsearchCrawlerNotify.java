@@ -184,9 +184,8 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		final Document document = Jsoup.parse(content);
 		final Elements titleElements = document.getElementsByTag("title");
 		for (final Element titleElement : titleElements) {
-			return stringUtil.shorten(titleElement.html(), TITLE_MAX_LENGTH);
+			return stringUtil.shorten(htmlUtil.filterHtmlTages(titleElement.html()), TITLE_MAX_LENGTH);
 		}
 		return "-";
 	}
-
 }
