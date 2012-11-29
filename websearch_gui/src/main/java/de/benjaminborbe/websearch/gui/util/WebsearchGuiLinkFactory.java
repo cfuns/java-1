@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.inject.Inject;
+
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -16,6 +18,7 @@ public class WebsearchGuiLinkFactory {
 
 	private final UrlUtil urlUtil;
 
+	@Inject
 	public WebsearchGuiLinkFactory(final UrlUtil urlUtil) {
 		this.urlUtil = urlUtil;
 	}
