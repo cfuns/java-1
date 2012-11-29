@@ -40,7 +40,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class TaskGuiNextServlet extends TaskGuiHtmlServlet {
+public class TaskGuiNextServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 

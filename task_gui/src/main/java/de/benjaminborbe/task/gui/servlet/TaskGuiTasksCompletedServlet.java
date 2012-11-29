@@ -45,7 +45,7 @@ import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class TaskGuiTasksCompletedServlet extends TaskGuiHtmlServlet {
+public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final class CompareComletionDate extends ComparatorBase<Task, Calendar> {
 

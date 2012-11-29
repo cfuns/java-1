@@ -26,11 +26,10 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class TaskGuiTaskDeleteServlet extends WebsiteServlet {
+public class TaskGuiTaskDeleteServlet extends TaskGuiWebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 

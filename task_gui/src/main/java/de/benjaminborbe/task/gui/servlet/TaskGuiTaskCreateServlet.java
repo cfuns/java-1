@@ -53,7 +53,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class TaskGuiTaskCreateServlet extends TaskGuiHtmlServlet {
+public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 

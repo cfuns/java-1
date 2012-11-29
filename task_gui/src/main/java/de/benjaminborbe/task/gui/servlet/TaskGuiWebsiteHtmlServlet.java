@@ -28,11 +28,11 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
 
-public abstract class TaskGuiHtmlServlet extends WebsiteHtmlServlet {
+public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 3963074728162589267L;
 
-	public TaskGuiHtmlServlet(
+	public TaskGuiWebsiteHtmlServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
