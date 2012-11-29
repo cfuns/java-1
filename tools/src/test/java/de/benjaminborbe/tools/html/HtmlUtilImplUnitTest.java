@@ -4,8 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.easymock.EasyMock;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
+
+import de.benjaminborbe.tools.util.ResourceUtil;
+import de.benjaminborbe.tools.util.ResourceUtilImpl;
+import de.benjaminborbe.tools.util.StreamUtil;
 
 public class HtmlUtilImplUnitTest {
 
@@ -57,6 +62,21 @@ public class HtmlUtilImplUnitTest {
 		assertEquals("", htmlUtil.filterHtmlTages("<br/>"));
 		assertEquals("", htmlUtil.filterHtmlTages(" <br/> "));
 		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World</h1></body></html>"));
+		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<script>// comment</script></h1></body></html>"));
+		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<!-- comment --></h1></body></html>"));
+		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<style>// comment</style></h1></body></html>"));
+	}
+
+	@Ignore
+	@Test
+	public void testFilterHtmlTagesSample() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		final StreamUtil streamUtil = new StreamUtil();
+		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final String htmlContent = resourceUtil.getResourceContentAsString("sample.html");
+		assertEquals("Home", htmlUtil.filterHtmlTages(htmlContent));
 	}
 
 	@Test
@@ -77,6 +97,6 @@ public class HtmlUtilImplUnitTest {
 
 		// https
 		assertEquals("<a href=\"https://www.heise.de/\">https://www.heise.de/</a>", htmlUtil.addLinks("https://www.heise.de/"));
-
 	}
+
 }

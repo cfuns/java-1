@@ -53,6 +53,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 	}
 
 	protected String buildDescription(final String content) {
+		logger.info("buildDescription - content: " + content);
 		return "-";
 	}
 

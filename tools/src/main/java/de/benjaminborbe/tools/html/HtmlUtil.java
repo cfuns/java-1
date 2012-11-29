@@ -8,7 +8,7 @@ public interface HtmlUtil {
 
 	String unescapeHtml(final String content);
 
-	String filterHtmlTages(final String content);
+	String filterHtmlTages(final String htmlContent);
 
 	Set<String> parseLinks(final String htmlContent);
 

@@ -98,7 +98,7 @@ public class ConfluenceRefreshCronJob implements CronJob {
 					final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
 					final URL url = new URL(page.getUrl());
 					final String title = page.getTitle();
-					indexerService.addToIndex(ConfluenceConstants.INDEX, url, title, htmlUtil.filterHtmlTages(content));
+					indexerService.addToIndex(ConfluenceConstants.INDEX, url, title, filterContent(content));
 					logger.info("addToIndex " + url.toExternalForm());
 				}
 				catch (final IndexerServiceException e) {
@@ -106,5 +106,11 @@ public class ConfluenceRefreshCronJob implements CronJob {
 				}
 			}
 		}
+	}
+
+	private String filterContent(final String orgContent) {
+		final String filteredContent = htmlUtil.filterHtmlTages(orgContent);
+		logger.info("filterContent - orgContent: " + orgContent + " filteredContent: " + filteredContent);
+		return filteredContent;
 	}
 }

@@ -39,10 +39,13 @@ public class HtmlUtilImpl implements HtmlUtil {
 
 	@Override
 	public String filterHtmlTages(final String content) {
-		if (content == null)
+		if (content == null) {
 			return null;
-		else
-			return unescapeHtml(content.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
+		}
+		else {
+			return unescapeHtml(content.replaceAll("\n", " ").replaceAll("<style.*?</style>", " ").replaceAll("<!--.*?-->", " ").replaceAll("<script.*?</script>", " ")
+					.replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
+		}
 	}
 
 	@Override
@@ -140,4 +143,5 @@ public class HtmlUtilImpl implements HtmlUtil {
 		}
 		return line.length();
 	}
+
 }
