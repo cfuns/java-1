@@ -76,7 +76,7 @@ public class MetaActivator extends BaseBundleActivator {
 		final Resolver resolver = repoAdmin.resolver();
 		final Resource[] resources = repoAdmin.discoverResources("(symbolicname=" + name + ")");
 
-		logger.debug("found " + resources.length + " resources");
+		logger.trace("found " + resources.length + " resources");
 		for (final Resource resource : resources) {
 			resolver.add(resource);
 			if (resolver.resolve()) {

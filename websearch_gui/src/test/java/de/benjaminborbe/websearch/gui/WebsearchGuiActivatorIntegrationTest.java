@@ -51,6 +51,7 @@ public class WebsearchGuiActivatorIntegrationTest {
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_HOME);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_LIST);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_REFRESH);
+		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_REFRESH_PAGE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

@@ -16,6 +16,7 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiClearIndexServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiExpireAllPagesServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiExpirePageServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiRefreshPagesServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 
@@ -39,6 +40,9 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	@Inject
 	private WebsearchGuiExpirePageServlet websearchGuiExpirePageServlet;
 
+	@Inject
+	private WebsearchGuiPageRefreshServlet websearchGuiPageRefreshServlet;
+
 	public WebsearchGuiActivator() {
 		super(WebsearchGuiConstants.NAME);
 	}
@@ -57,6 +61,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiExpirePageServlet, WebsearchGuiConstants.URL_EXPIRE));
 		result.add(new ServletInfo(websearchGuiExpireAllPagesServlet, WebsearchGuiConstants.URL_EXPIRE_ALL));
 		result.add(new ServletInfo(websearchGuiClearIndexServlet, WebsearchGuiConstants.URL_CLEAR_INDEX));
+		result.add(new ServletInfo(websearchGuiPageRefreshServlet, WebsearchGuiConstants.URL_REFRESH_PAGE));
 		return result;
 	}
 
