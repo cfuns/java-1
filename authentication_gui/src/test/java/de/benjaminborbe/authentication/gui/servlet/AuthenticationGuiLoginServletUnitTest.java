@@ -24,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
+import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -125,8 +126,12 @@ public class AuthenticationGuiLoginServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final AuthenticationGuiConfig authenticationGuiConfig = EasyMock.createMock(AuthenticationGuiConfig.class);
+		EasyMock.expect(authenticationGuiConfig.registerEnabled()).andReturn(true).anyTimes();
+		EasyMock.replay(authenticationGuiConfig);
+
 		final AuthenticationGuiLoginServlet authenticationServlet = new AuthenticationGuiLoginServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService);
+				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService, authenticationGuiConfig);
 
 		authenticationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

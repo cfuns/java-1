@@ -8,6 +8,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiChangePasswordServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
@@ -19,8 +20,10 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServle
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiSwitchUserServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
@@ -55,6 +58,9 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AuthenticationGuiUserProfileServlet authenticationGuiProfileServlet;
 
+	@Inject
+	private AuthenticationGuiConfig authenticationGuiConfig;
+
 	public AuthenticationGuiActivator() {
 		super(AuthenticationGuiConstants.NAME);
 	}
@@ -77,7 +83,15 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
 		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_SWITCH_USER));
 		result.add(new ServletInfo(authenticationGuiProfileServlet, AuthenticationGuiConstants.URL_USER_PROFILE));
+		return result;
+	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		for (final ConfigurationDescription configuration : authenticationGuiConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 

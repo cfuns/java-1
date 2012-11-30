@@ -83,7 +83,10 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if ((isLoginRequired() || isAdminRequired()) && !authenticationService.isLoggedIn(sessionIdentifier)) {
+			if (!isEnabled()) {
+				onDisabled(request, response, context);
+			}
+			else if ((isLoginRequired() || isAdminRequired()) && !authenticationService.isLoggedIn(sessionIdentifier)) {
 				onLoginRequired(request, response, context);
 			}
 			else if (isAdminRequired() && !authorizationService.hasAdminRole(sessionIdentifier)) {
@@ -111,6 +114,13 @@ public abstract class WebsiteServlet extends HttpServlet {
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			widget.render(request, response, context);
 		}
+	}
+
+	protected void onDisabled(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+		final String url = buildPermissionDeniedUrl(request);
+		logger.info("onDisabled - redirect: " + url);
+		final RedirectWidget widget = new RedirectWidget(url);
+		widget.render(request, response, context);
 	}
 
 	protected void onLoginRequired(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
@@ -201,6 +211,10 @@ public abstract class WebsiteServlet extends HttpServlet {
 	 * default admin-role is required for each servlet
 	 */
 	protected boolean isAdminRequired() {
+		return true;
+	}
+
+	protected boolean isEnabled() {
 		return true;
 	}
 }

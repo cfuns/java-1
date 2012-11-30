@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
+import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -50,6 +51,8 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final AuthenticationGuiConfig authenticationGuiConfig;
+
 	@Inject
 	public AuthenticationGuiRegisterServlet(
 			final Logger logger,
@@ -61,10 +64,12 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final AuthenticationGuiConfig authenticationGuiConfig) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authenticationGuiConfig = authenticationGuiConfig;
 	}
 
 	@Override
@@ -99,8 +104,7 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 				}
 
 			}
-			final String action = request.getContextPath() + "/authentication/register";
-			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
+			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER));
 			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username..."));
 			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email").addPlaceholder("Email..."));
@@ -122,4 +126,10 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 	protected boolean isLoginRequired() {
 		return false;
 	}
+
+	@Override
+	protected boolean isEnabled() {
+		return authenticationGuiConfig.registerEnabled();
+	}
+
 }

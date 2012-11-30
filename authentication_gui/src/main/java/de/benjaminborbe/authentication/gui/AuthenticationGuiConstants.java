@@ -48,4 +48,6 @@ public interface AuthenticationGuiConstants {
 
 	String PARAMETER_TIMEZONE = "timezone";
 
+	String CONFIG_SERVERPORT = "AuthenticationRegisterEnabled";
+
 }

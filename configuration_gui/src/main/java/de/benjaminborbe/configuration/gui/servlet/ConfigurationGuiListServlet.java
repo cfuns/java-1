@@ -3,7 +3,6 @@ package de.benjaminborbe.configuration.gui.servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +27,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -38,6 +38,14 @@ import de.benjaminborbe.website.util.HtmlListWidget;
 
 @Singleton
 public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
+
+	private final class ComparatorImplementation extends ComparatorBase<ConfigurationDescription, String> {
+
+		@Override
+		public String getValue(final ConfigurationDescription o) {
+			return o.getName() != null ? o.getName().toLowerCase() : null;
+		}
+	}
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -123,13 +131,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 
 	private List<ConfigurationDescription> getConfigurationDescriptions() {
 		final List<ConfigurationDescription> list = new ArrayList<ConfigurationDescription>(configurationService.listConfigurations());
-		Collections.sort(list, new Comparator<ConfigurationDescription>() {
-
-			@Override
-			public int compare(final ConfigurationDescription o1, final ConfigurationDescription o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+		Collections.sort(list, new ComparatorImplementation());
 		return list;
 	}
 }
