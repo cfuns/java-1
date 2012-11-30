@@ -10,6 +10,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.guice.SearchGuiModules;
@@ -50,7 +52,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 	private SearchWidget searchWidget;
 
 	public SearchGuiActivator() {
-		super("search");
+		super(SearchGuiConstants.NAME);
 	}
 
 	@Override
@@ -80,6 +82,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchWidget.class, searchWidget));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Search", "/bb/" + SearchGuiConstants.NAME)));
 		return result;
 	}
 

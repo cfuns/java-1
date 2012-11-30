@@ -15,6 +15,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.guice.SearchGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -115,7 +116,7 @@ public class SearchGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(SearchWidget.class.getName(), DashboardContentWidget.class.getName());
+		final List<String> names = Arrays.asList(SearchWidget.class.getName(), DashboardContentWidget.class.getName(), NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
