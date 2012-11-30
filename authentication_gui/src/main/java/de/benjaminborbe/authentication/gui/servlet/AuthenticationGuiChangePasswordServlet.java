@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -25,8 +26,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -34,6 +35,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
@@ -85,23 +87,19 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 
 			if (password_old != null && password_new != null && password_repeat != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				if (password_new.equals(password_repeat)) {
-					widgets.add("password not match");
+				try {
+					authenticationService.changePassword(sessionIdentifier, password_old, password_new, password_repeat);
+					widgets.add("change password successful");
 				}
-				else {
-					if (authenticationService.changePassword(sessionIdentifier, password_old, password_new)) {
-						widgets.add("change password successful");
-					}
-					else {
-						widgets.add("change password failed!");
-					}
+				catch (final ValidationException e) {
+					widgets.add("change password failed!");
+					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			final String action = request.getContextPath() + "/authentication/changePassword";
-			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password..."));
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password..."));
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW_REPEAT).addLabel("New password repeat").addPlaceholder(
+			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW_REPEAT).addLabel("New password repeat").addPlaceholder(
 					"New password repeat..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("change password"));
 			widgets.add(form);
@@ -118,4 +116,10 @@ public class AuthenticationGuiChangePasswordServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

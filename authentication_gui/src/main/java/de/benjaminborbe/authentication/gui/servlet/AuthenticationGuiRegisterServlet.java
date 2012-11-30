@@ -132,4 +132,9 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 		return authenticationGuiConfig.registerEnabled();
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

@@ -30,7 +30,8 @@ public interface AuthenticationService {
 
 	boolean unregister(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	boolean changePassword(SessionIdentifier sessionIdentifier, String currentPassword, String newPassword) throws AuthenticationServiceException, LoginRequiredException;
+	boolean changePassword(SessionIdentifier sessionIdentifier, String currentPassword, String newPassword, String newPasswordRepeat) throws AuthenticationServiceException,
+			LoginRequiredException, ValidationException;
 
 	UserIdentifier createUserIdentifier(String username) throws AuthenticationServiceException;
 

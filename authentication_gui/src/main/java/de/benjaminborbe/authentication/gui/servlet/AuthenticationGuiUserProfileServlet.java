@@ -124,4 +124,10 @@ public class AuthenticationGuiUserProfileServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

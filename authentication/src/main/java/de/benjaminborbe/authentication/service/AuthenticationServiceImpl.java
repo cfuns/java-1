@@ -200,21 +200,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword) throws AuthenticationServiceException {
+	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword, final String newPasswordRepeat)
+			throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		try {
+			expectLoggedIn(sessionIdentifier);
+			if (!newPassword.equals(newPasswordRepeat)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("passwordRepeat not matching")));
+			}
 			final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
 			if (userIdentifier == null) {
-				return false;
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("currentuser not found")));
 			}
 			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
-				return false;
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user not found")));
 			}
-			if (verifyCredential(sessionIdentifier, userIdentifier, currentPassword)) {
-				return false;
+			if (!verifyCredential(sessionIdentifier, userIdentifier, currentPassword)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("password not match currentpassword")));
 			}
+
 			setNewPassword(user, newPassword);
 			userDao.save(user);
+			logger.info("set not password => true");
 			return true;
 		}
 		catch (final StorageException e) {

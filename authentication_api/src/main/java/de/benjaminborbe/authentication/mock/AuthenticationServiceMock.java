@@ -67,11 +67,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword) throws AuthenticationServiceException {
-		return false;
-	}
-
-	@Override
 	public UserIdentifier createUserIdentifier(final String username) throws AuthenticationServiceException {
 		return new UserIdentifier(username);
 	}
@@ -152,6 +147,12 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	@Override
 	public void expectSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
 
+	}
+
+	@Override
+	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword, final String newPasswordRepeat) throws AuthenticationServiceException,
+			LoginRequiredException, ValidationException {
+		return false;
 	}
 
 }
