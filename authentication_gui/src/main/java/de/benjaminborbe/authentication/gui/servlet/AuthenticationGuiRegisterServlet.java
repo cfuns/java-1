@@ -123,12 +123,12 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
+	public boolean isLoginRequired() {
 		return false;
 	}
 
 	@Override
-	protected boolean isEnabled() {
+	public boolean isEnabled() {
 		return authenticationGuiConfig.registerEnabled();
 	}
 

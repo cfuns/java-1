@@ -92,7 +92,7 @@ public class AuthenticationGuiStatusServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
+	public boolean isLoginRequired() {
 		return false;
 	}
 

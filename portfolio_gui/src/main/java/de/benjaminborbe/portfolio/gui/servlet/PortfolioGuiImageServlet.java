@@ -88,7 +88,12 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
+	public boolean isLoginRequired() {
+		return false;
+	}
+
+	@Override
+	public boolean isAdminRequired() {
 		return false;
 	}
 

@@ -152,12 +152,12 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
+	public boolean isLoginRequired() {
 		return false;
 	}
 
 	@Override
-	protected boolean isAdminRequired() {
+	public boolean isAdminRequired() {
 		return false;
 	}
 

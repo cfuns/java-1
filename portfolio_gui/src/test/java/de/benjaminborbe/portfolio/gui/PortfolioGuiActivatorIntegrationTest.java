@@ -1,6 +1,7 @@
 package de.benjaminborbe.portfolio.gui;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.Filter;
+import javax.servlet.Servlet;
 
 import org.junit.Test;
 
@@ -23,6 +25,7 @@ import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import de.benjaminborbe.website.servlet.WebsiteServlet;
 
 public class PortfolioGuiActivatorIntegrationTest {
 
@@ -54,6 +57,15 @@ public class PortfolioGuiActivatorIntegrationTest {
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
+		}
+
+		// all public and no admin
+		for (final Servlet servlet : extHttpServiceMock.getServlets()) {
+			assertTrue(servlet instanceof WebsiteServlet);
+			final WebsiteServlet websiteServlet = (WebsiteServlet) servlet;
+			assertFalse(servlet.getClass().getName(), websiteServlet.isAdminRequired());
+			assertTrue(servlet.getClass().getName(), websiteServlet.isEnabled());
+			assertFalse(servlet.getClass().getName(), websiteServlet.isLoginRequired());
 		}
 	}
 

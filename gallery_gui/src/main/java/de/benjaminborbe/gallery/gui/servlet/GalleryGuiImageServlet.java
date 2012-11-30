@@ -101,7 +101,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected boolean isLoginRequired() {
+	public boolean isLoginRequired() {
 		return false;
 	}
 

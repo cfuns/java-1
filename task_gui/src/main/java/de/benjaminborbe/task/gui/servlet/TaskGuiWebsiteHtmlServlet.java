@@ -62,7 +62,7 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected boolean isAdminRequired() {
+	public boolean isAdminRequired() {
 		return false;
 	}
 }

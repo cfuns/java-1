@@ -203,18 +203,18 @@ public abstract class WebsiteServlet extends HttpServlet {
 	/**
 	 * default login is required for each servlet
 	 */
-	protected boolean isLoginRequired() {
+	public boolean isLoginRequired() {
 		return true;
 	}
 
 	/**
 	 * default admin-role is required for each servlet
 	 */
-	protected boolean isAdminRequired() {
+	public boolean isAdminRequired() {
 		return true;
 	}
 
-	protected boolean isEnabled() {
+	public boolean isEnabled() {
 		return true;
 	}
 }

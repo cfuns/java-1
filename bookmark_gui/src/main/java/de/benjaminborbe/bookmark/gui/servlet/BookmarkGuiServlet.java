@@ -39,7 +39,7 @@ public class BookmarkGuiServlet extends WebsiteRedirectServlet {
 	}
 
 	@Override
-	protected boolean isAdminRequired() {
+	public boolean isAdminRequired() {
 		return false;
 	}
 

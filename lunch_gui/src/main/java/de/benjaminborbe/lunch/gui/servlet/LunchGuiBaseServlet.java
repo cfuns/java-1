@@ -171,7 +171,7 @@ public abstract class LunchGuiBaseServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected boolean isAdminRequired() {
+	public boolean isAdminRequired() {
 		return false;
 	}
 
