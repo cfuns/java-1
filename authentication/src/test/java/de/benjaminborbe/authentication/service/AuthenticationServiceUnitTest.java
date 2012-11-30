@@ -62,7 +62,7 @@ public class AuthenticationServiceUnitTest {
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry, p, null);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, sessionDao, userDao, verifyCredentialRegistry, p, null);
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userWrong, "test123"));
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userRight, "wrongPw"));
 		assertTrue(authenticationService.verifyCredential(sessionIdentifier, userRight, "test123"));
@@ -102,7 +102,7 @@ public class AuthenticationServiceUnitTest {
 		final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(AuthenticationVerifyCredentialRegistry.class);
 		EasyMock.replay(verifyCredentialRegistry);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry, null, null);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, sessionDao, userDao, verifyCredentialRegistry, null, null);
 		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier).getId());
 	}
 
@@ -133,7 +133,7 @@ public class AuthenticationServiceUnitTest {
 		final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(AuthenticationVerifyCredentialRegistry.class);
 		EasyMock.replay(verifyCredentialRegistry);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, sessionDao, userDao, verifyCredentialRegistry, null, null);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, sessionDao, userDao, verifyCredentialRegistry, null, null);
 		assertNull(authenticationService.getCurrentUser(sessionIdentifier));
 	}
 }

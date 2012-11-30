@@ -1,4 +1,4 @@
-package de.benjaminborbe.util.gui.util;
+package de.benjaminborbe.tools.password;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,17 +13,17 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class UtilGuiPasswordGeneratorImpl implements UtilGuiPasswordGenerator {
+public class PasswordGeneratorImpl implements PasswordGenerator {
 
 	private final Logger logger;
 
 	@Inject
-	public UtilGuiPasswordGeneratorImpl(final Logger logger) {
+	public PasswordGeneratorImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public String generatePassword(final int length, final UtilGuiPasswordCharacter... characters) {
+	public String generatePassword(final int length, final PasswordCharacter... characters) {
 		logger.trace("generatePassword with lenght: " + length);
 		final List<Character> cs = combine(characters);
 		final StringBuffer result = new StringBuffer();
@@ -34,9 +34,9 @@ public class UtilGuiPasswordGeneratorImpl implements UtilGuiPasswordGenerator {
 		return result.toString();
 	}
 
-	protected List<Character> combine(final UtilGuiPasswordCharacter... characters) {
+	protected List<Character> combine(final PasswordCharacter... characters) {
 		final List<Character> cs = new ArrayList<Character>();
-		for (final UtilGuiPasswordCharacter character : characters) {
+		for (final PasswordCharacter character : characters) {
 			cs.addAll(toCharacter(character.getCharacters()));
 		}
 		return cs;

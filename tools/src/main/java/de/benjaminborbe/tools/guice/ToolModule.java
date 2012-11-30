@@ -20,6 +20,10 @@ import de.benjaminborbe.tools.http.HttpDownloaderImpl;
 import de.benjaminborbe.tools.jndi.JndiContext;
 import de.benjaminborbe.tools.jndi.JndiContextImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import de.benjaminborbe.tools.password.PasswordGenerator;
+import de.benjaminborbe.tools.password.PasswordGeneratorImpl;
+import de.benjaminborbe.tools.password.PasswordValidator;
+import de.benjaminborbe.tools.password.PasswordValidatorImpl;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.Base64Util;
@@ -41,6 +45,8 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(PasswordGenerator.class).to(PasswordGeneratorImpl.class).in(Singleton.class);
+		bind(PasswordValidator.class).to(PasswordValidatorImpl.class).in(Singleton.class);
 		bind(CurrentTime.class).to(CurrentTimeImpl.class);
 		bind(ValidatorRegistry.class).to(ValidatorRegistryImpl.class).in(Singleton.class);
 		bind(UrlUtil.class).to(UrlUtilImpl.class).in(Singleton.class);

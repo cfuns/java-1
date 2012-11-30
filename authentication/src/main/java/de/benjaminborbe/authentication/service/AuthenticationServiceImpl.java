@@ -2,8 +2,10 @@ package de.benjaminborbe.authentication.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -34,6 +37,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.password.PasswordValidator;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
@@ -52,15 +56,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final PasswordValidator passwordValidator;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
+			final PasswordValidator passwordValidator,
 			final SessionDao sessionDao,
 			final UserDao userDao,
 			final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry,
 			final AuthenticationPasswordEncryptionService passwordEncryptionService,
 			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
+		this.passwordValidator = passwordValidator;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
 		this.verifyCredentialRegistry = verifyCredentialRegistry;
@@ -91,7 +99,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
 				sessionDao.save(session);
-				logger.trace("login success");
+				logger.info("user " + userIdentifier + " logged in successful");
 				return true;
 			}
 			else {
@@ -159,14 +167,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				logger.info(msg);
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple(msg)));
 			}
+
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
 			user.setEmail(email);
 			setNewPassword(user, password);
 			userDao.save(user);
+
 			logger.info("registerd user " + userIdentifier);
 			login(sessionIdentifier, userIdentifier, password);
-
 			return userIdentifier;
 		}
 		catch (final StorageException e) {
@@ -211,17 +220,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (userIdentifier == null) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("currentuser not found")));
 			}
+			if (!verifyCredential(sessionIdentifier, userIdentifier, currentPassword)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("password not match currentpassword")));
+			}
 			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user not found")));
 			}
-			if (!verifyCredential(sessionIdentifier, userIdentifier, currentPassword)) {
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("password not match currentpassword")));
-			}
 
 			setNewPassword(user, newPassword);
 			userDao.save(user);
-			logger.info("set not password => true");
+			logger.info("set password => true");
 			return true;
 		}
 		catch (final StorageException e) {
@@ -235,7 +244,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void setNewPassword(final UserBean user, final String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	private void setNewPassword(final UserBean user, final String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException, ValidationException {
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		if (!passwordValidator.hasDigest(newPassword, 1)) {
+			errors.add(new ValidationErrorSimple("digest missing"));
+		}
+		if (!passwordValidator.hasLength(newPassword, 8)) {
+			errors.add(new ValidationErrorSimple("at least 8 characters"));
+		}
+		if (!passwordValidator.hasValidChars(newPassword)) {
+			errors.add(new ValidationErrorSimple("password contains invalid characters"));
+		}
+		if (!passwordValidator.hasLowerCharacter(newPassword, 1)) {
+			errors.add(new ValidationErrorSimple("at least one lower letter"));
+		}
+		if (!passwordValidator.hasSpecialCharacter(newPassword, 1)) {
+			errors.add(new ValidationErrorSimple("at least one special character"));
+		}
+		if (!passwordValidator.hasUpperCharacter(newPassword, 1)) {
+			errors.add(new ValidationErrorSimple("at least one upper letter"));
+		}
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
 		final byte[] newSalt = passwordEncryptionService.generateSalt();
 		final byte[] newEncryptedPassword = passwordEncryptionService.getEncryptedPassword(newPassword, newSalt);
 		user.setPassword(newEncryptedPassword);

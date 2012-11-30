@@ -140,7 +140,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 			logger.trace("insert keyspace: " + keySpace + " columnFamily: " + columnFamily + " id: " + id + " data: " + data);
 
-			final long timestamp = calendarUtil.getTime();
+			final long timestamp = calendarUtil.getTime() * 1000;
 			for (final Entry<String, String> e : data.entrySet()) {
 				final String key = e.getKey();
 				final String value = e.getValue();
