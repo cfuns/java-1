@@ -51,7 +51,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 
 		final ListWidget widgets = new ListWidget();
 		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
-		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext...").addId("searchBox"));
+		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext...").addId("searchBox").setBr(false));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
 		widgets.add(formWidget);
 
@@ -75,8 +75,8 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
-		result.add(new JavascriptResourceImpl("http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
-		result.add(new JavascriptResourceImpl("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"));
+		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
+		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"));
 		return result;
 	}
 
@@ -84,7 +84,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
 		final List<CssResource> result = new ArrayList<CssResource>();
-		result.add(new CssResourceImpl("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"));
+		result.add(new CssResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"));
 		result.add(new CssResourceImpl(contextPath + "/search/css/style.css"));
 		return result;
 	}

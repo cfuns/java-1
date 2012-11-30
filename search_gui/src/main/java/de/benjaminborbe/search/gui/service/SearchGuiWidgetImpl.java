@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,9 +28,13 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.util.SearchGuiTermHighlighter;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.SearchUtil;
 import de.benjaminborbe.tools.util.StringUtil;
+import de.benjaminborbe.website.servlet.WebsiteConstants;
 import de.benjaminborbe.website.util.ExceptionWidget;
 
 @Singleton
@@ -56,6 +62,12 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final SearchGuiTermHighlighter searchGuiTermHighlighter;
 
+	private final TimeZoneUtil timeZoneUtil;
+
+	private final CalendarUtil calendarUtil;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public SearchGuiWidgetImpl(
 			final Logger logger,
@@ -65,7 +77,10 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
 			final AuthenticationService authenticationService,
 			final StringUtil stringUtil,
-			final SearchGuiTermHighlighter searchGuiTermHighlighter) {
+			final SearchGuiTermHighlighter searchGuiTermHighlighter,
+			final ParseUtil parseUtil,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
@@ -74,6 +89,9 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		this.authenticationService = authenticationService;
 		this.stringUtil = stringUtil;
 		this.searchGuiTermHighlighter = searchGuiTermHighlighter;
+		this.parseUtil = parseUtil;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -97,7 +115,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			SessionIdentifier sessionIdentifier;
 			sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, words, MAX_RESULTS);
-			printSearchResults(request, response, results, words);
+			printSearchResults(request, response, context, results, words);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -116,15 +134,24 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		return searchDashboardWidget.getCssResource(request, response);
 	}
 
-	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final List<SearchResult> results, final String[] words)
-			throws IOException {
+	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final List<SearchResult> results,
+			final String[] words) throws IOException {
 		final PrintWriter out = response.getWriter();
-		out.println("<div>");
-		out.println("found " + results.size() + " matches");
+		out.println("<div class=\"resultcounter\">");
+		final long now = getNowAsLong();
+		final long startTime = parseUtil.parseLong(context.getData().get(WebsiteConstants.START_TIME), now);
+		final long duration = (now - startTime);
+		out.println("found " + results.size() + " matches in " + duration + " ms");
 		out.println("</div>");
 		for (final SearchResult result : results) {
 			printSearchResult(request, response, result, words);
 		}
+	}
+
+	private long getNowAsLong() {
+		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
+		final Calendar now = calendarUtil.now(timeZone);
+		return now.getTimeInMillis();
 	}
 
 	protected void printSearchForm(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

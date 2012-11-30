@@ -20,6 +20,8 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 
 	private String value;
 
+	private boolean br = true;
+
 	public FormInputBaseWidget(final String type, final String name) {
 		super(TAG);
 		addAttribute("name", name);
@@ -39,10 +41,17 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 		}
 		super.render(request, response, context);
 		{
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new BrWidget());
-			widgets.render(request, response, context);
+			if (br) {
+				final ListWidget widgets = new ListWidget();
+				widgets.add(new BrWidget());
+				widgets.render(request, response, context);
+			}
 		}
+	}
+
+	public FormInputBaseWidget setBr(final boolean br) {
+		this.br = br;
+		return this;
 	}
 
 	@Override

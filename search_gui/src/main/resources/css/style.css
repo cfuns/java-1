@@ -1,13 +1,27 @@
-.title,.title a {
+.search .title,.title a {
 	font-size: 16px;
 	color: #1122CC;
 }
 
-.link,.link a {
+.search .link,.link a {
 	color: #009933;
 }
 
-.link,.description {
+.search .link,.description {
 	font-size: 13px;
 	max-width: 1000px;
+}
+
+.search input[type=text] {
+	width: 800px;
+}
+
+.search input[type="submit"] {
+	margin-left: 0px;
+}
+
+.search .resultcounter {
+	color: #888888;
+	margin-top: 3px;
+	margin-bottom: 10px;
 }

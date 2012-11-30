@@ -158,7 +158,7 @@ public class BookmarkGuiListServlet extends BookmarkGuiBaseServlet {
 
 	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
 		if (url.indexOf("/") == 0) {
-			return new URL("http://" + request.getServerName() + url);
+			return new URL(request.getScheme() + "://" + request.getServerName() + url);
 		}
 		else {
 			return new URL(url);
