@@ -15,11 +15,11 @@ public class SearchServiceSearchResultComparatorPrio extends ComparatorBase<Sear
 	@Inject
 	public SearchServiceSearchResultComparatorPrio() {
 		int prio = 0;
-		add("URL", prio++);
-		add("GOOGLE", prio++);
-		add("CONFLUENCE", prio++);
-		add("BOOKMARK", prio++);
-		add("WEB", prio++);
+		add("URL", ++prio);
+		add("GOOGLE", ++prio);
+		add("CONFLUENCE", ++prio);
+		add("BOOKMARK", ++prio);
+		add("WEB", ++prio);
 	}
 
 	private void add(final String string, final int i) {
@@ -28,12 +28,12 @@ public class SearchServiceSearchResultComparatorPrio extends ComparatorBase<Sear
 
 	@Override
 	public Integer getValue(final SearchResult o) {
-		return prio.get(o.getType().toLowerCase());
+		return o.getType() != null ? prio.get(o.getType().toLowerCase()) : null;
 	}
 
 	@Override
 	public boolean inverted() {
-		return true;
+		return false;
 	}
 
 	@Override
