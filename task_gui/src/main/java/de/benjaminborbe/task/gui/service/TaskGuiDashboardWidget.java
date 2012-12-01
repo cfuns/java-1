@@ -94,7 +94,9 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 					final ListWidget row = new ListWidget();
 					row.add(taskGuiLinkFactory.completeTaskCheckbox(request, task));
 					row.add(" ");
-					row.add(stringUtil.shortenDots(task.getName(), 40));
+					row.add(taskGuiLinkFactory.viewTask(request, stringUtil.shortenDots(task.getName(), 40), task));
+					row.add(" ");
+					row.add(taskGuiLinkFactory.deleteTask(request, task));
 					ul.add(row);
 				}
 				widgets.add(ul);

@@ -139,32 +139,33 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 		if (task.getParentId() != null) {
-			addTaskParent(widgets, sessionIdentifier, task.getParentId(), request);
+			addTask(widgets, sessionIdentifier, task.getParentId(), request);
 		}
-		addTaskEntry(widgets, sessionIdentifier, task, request);
-		addChilds(widgets, sessionIdentifier, task.getId(), request);
-	}
-
-	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
-		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, taskIdentifier);
-		for (final Task childTask : childTasks) {
-			addTaskEntry(widgets, sessionIdentifier, childTask, request);
-			addChilds(widgets, sessionIdentifier, childTask.getId(), request);
+		else {
+			addChilds(widgets, sessionIdentifier, task, request);
 		}
 	}
 
-	private void addTaskParent(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
-		final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
-		if (task.getParentId() != null) {
-			addTaskParent(widgets, sessionIdentifier, task.getParentId(), request);
-		}
-		addTaskEntry(widgets, sessionIdentifier, task, request);
-	}
-
-	private void addTaskEntry(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request) throws TaskServiceException,
+	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request) throws TaskServiceException,
 			LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, task.getId());
+		addTaskEntry(widgets, sessionIdentifier, task, request, hasNotCompleted(childTasks));
+		for (final Task childTask : childTasks) {
+			addChilds(widgets, sessionIdentifier, childTask, request);
+		}
+	}
+
+	private boolean hasNotCompleted(final List<Task> tasks) {
+		for (final Task task : tasks) {
+			if (Boolean.FALSE.equals(task.getCompleted()) || task.getCompleted() == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void addTaskEntry(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request,
+			final boolean hasNotCompletedChilds) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, task, Integer.MAX_VALUE);
 		final H2Widget title = new H2Widget(taskName);
@@ -175,7 +176,6 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
-
 		if (task.getStart() != null) {
 			widgets.add(new DivWidget("Start: " + calendarUtil.toDateTimeString(task.getStart())
 					+ (task.getRepeatStart() != null ? " (repeat in + " + task.getRepeatStart() + " days)" : "")));
@@ -183,16 +183,17 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		if (task.getDue() != null) {
 			widgets.add(new DivWidget("Due: " + calendarUtil.toDateTimeString(task.getDue()) + (task.getRepeatDue() != null ? " (repeat in + " + task.getRepeatDue() + " days)" : "")));
 		}
-
-		widgets.add(new PreWidget(buildDescription(task.getDescription())));
+		if (task.getDescription() != null) {
+			widgets.add(new PreWidget(buildDescription(task.getDescription())));
+		}
 		if (Boolean.TRUE.equals(task.getCompleted())) {
 			widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
 		}
 		else {
-			widgets.add(taskGuiLinkFactory.completeTask(request, task));
+			if (hasNotCompletedChilds) {
+				widgets.add(taskGuiLinkFactory.completeTask(request, task));
+			}
 		}
-		widgets.add(" ");
-		widgets.add(taskGuiLinkFactory.viewTask(request, "view", task));
 		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
 		widgets.add(" ");
