@@ -71,14 +71,16 @@ public abstract class BeanSearcher<B> {
 		return counter;
 	}
 
-	private int match(final B bean, final String search) {
-		final String searchLower = search.toLowerCase();
+	private int match(final B bean, final String searchTerm) {
+		final String searchTermLower = searchTerm.toLowerCase();
 		int counter = 0;
-		for (final String value : getSearchValues(bean)) {
-			final String valueLower = value.toLowerCase();
-			int pos = -1;
-			while ((pos = searchLower.indexOf(valueLower, pos + 1)) != -1) {
-				return counter++;
+		for (final String content : getSearchValues(bean)) {
+			if (content != null) {
+				final String contentLower = content.toLowerCase();
+				int pos = -1;
+				while ((pos = contentLower.indexOf(searchTermLower, pos + 1)) != -1) {
+					return counter++;
+				}
 			}
 		}
 		return counter;
