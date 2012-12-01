@@ -13,6 +13,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -29,6 +31,8 @@ public class SlashGuiServlet extends WebsiteServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public SlashGuiServlet(
 			final Logger logger,
@@ -40,6 +44,7 @@ public class SlashGuiServlet extends WebsiteServlet {
 			final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -51,6 +56,15 @@ public class SlashGuiServlet extends WebsiteServlet {
 	protected String buildRedirectTargetPath(final HttpServletRequest request) {
 		final String serverName = request.getServerName();
 		if (serverName.indexOf("benjamin-borbe") != -1 || serverName.indexOf("benjaminborbe") != -1) {
+			try {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				if (authenticationService.isLoggedIn(sessionIdentifier)) {
+					return request.getContextPath() + "/dashboard";
+				}
+			}
+			catch (final AuthenticationServiceException e) {
+				logger.warn(e.getClass().getName());
+			}
 			return request.getContextPath() + "/portfolio";
 		}
 		else if (serverName.indexOf("harteslicht.de") != -1 || serverName.indexOf("harteslicht.com") != -1) {

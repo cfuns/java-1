@@ -92,17 +92,19 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME);
 			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
+			final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER);
 			if (username != null && password != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 				try {
 					authenticationService.login(sessionIdentifier, userIdentifier, password);
-					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
-							: request.getContextPath();
-					// necessary ?
 					request.getSession().setAttribute("login", "true");
-					logger.trace("send redirect to: " + referer);
-					throw new RedirectException(referer);
+					if (referer != null && referer.length() > 0) {
+						throw new RedirectException(referer);
+					}
+					else {
+						throw new RedirectException(request.getContextPath());
+					}
 				}
 				catch (final ValidationException e) {
 					logger.info("login failed for user " + username);

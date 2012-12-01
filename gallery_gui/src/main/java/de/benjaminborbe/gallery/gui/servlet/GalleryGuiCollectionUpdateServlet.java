@@ -109,7 +109,7 @@ public class GalleryGuiCollectionUpdateServlet extends GalleryGuiHtmlServlet {
 					final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(groupId);
 					updateCollection(sessionIdentifier, galleryCollectionIdentifier, galleryGroupIdentifier, name, prio, shared);
 
-					if (referer != null) {
+					if (referer != null && referer.length() > 0) {
 						throw new RedirectException(referer);
 					}
 					else {
