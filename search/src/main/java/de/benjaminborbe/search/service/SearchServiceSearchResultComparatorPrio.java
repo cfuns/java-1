@@ -16,6 +16,7 @@ public class SearchServiceSearchResultComparatorPrio extends ComparatorBase<Sear
 	public SearchServiceSearchResultComparatorPrio() {
 		int prio = 0;
 		add("URL", ++prio);
+		add("TASK", ++prio);
 		add("GOOGLE", ++prio);
 		add("CONFLUENCE", ++prio);
 		add("BOOKMARK", ++prio);
