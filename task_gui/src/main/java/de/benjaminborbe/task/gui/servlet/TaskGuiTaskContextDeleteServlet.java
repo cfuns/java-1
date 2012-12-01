@@ -59,8 +59,7 @@ public class TaskGuiTaskContextDeleteServlet extends TaskGuiWebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier,
-					request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID));
+			final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID));
 			taskService.deleteContextTask(sessionIdentifier, taskContextIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {

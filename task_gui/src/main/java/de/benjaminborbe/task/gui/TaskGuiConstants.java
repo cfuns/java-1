@@ -74,4 +74,6 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_VIEW = "/task/view";
 
+	String URL_TASKCONTEXT_UPDATE = "/taskcontext/update";
+
 }

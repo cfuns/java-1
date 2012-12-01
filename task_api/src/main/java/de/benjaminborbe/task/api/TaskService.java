@@ -21,11 +21,12 @@ public interface TaskService {
 			Long repeatStart, Long repeatDue, Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
 			ValidationException;
 
-	TaskContextIdentifier createTaskContext(SessionIdentifier sessionIdentifier, String name) throws TaskServiceException, LoginRequiredException;
+	TaskContextIdentifier createTaskContext(SessionIdentifier sessionIdentifier, String name) throws TaskServiceException, PermissionDeniedException, ValidationException,
+			LoginRequiredException;
 
-	TaskContextIdentifier createTaskContextIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException, LoginRequiredException;
+	TaskContextIdentifier createTaskContextIdentifier(String id) throws TaskServiceException;
 
-	TaskIdentifier createTaskIdentifier(SessionIdentifier sessionIdentifier, String id) throws TaskServiceException, LoginRequiredException;
+	TaskIdentifier createTaskIdentifier(String id) throws TaskServiceException;
 
 	void deleteContextTask(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
 			PermissionDeniedException;
@@ -64,5 +65,8 @@ public interface TaskService {
 
 	void updateTaskContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, String name) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException, ValidationException;
+
+	TaskContext getTaskContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
 }

@@ -92,15 +92,15 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 				for (final Task task : tasks.subList(0, Math.min(tasks.size(), 5))) {
 					final ListWidget row = new ListWidget();
-					row.add(taskGuiLinkFactory.completeTaskCheckbox(request, task));
+					row.add(taskGuiLinkFactory.taskCompleteCheckbox(request, task));
 					row.add(" ");
-					row.add(taskGuiLinkFactory.viewTask(request, stringUtil.shortenDots(task.getName(), 40), task));
+					row.add(taskGuiLinkFactory.taskView(request, stringUtil.shortenDots(task.getName(), 40), task));
 					row.add(" ");
-					row.add(taskGuiLinkFactory.deleteTask(request, task));
+					row.add(taskGuiLinkFactory.taskDelete(request, task));
 					ul.add(row);
 				}
 				widgets.add(ul);
-				widgets.add(taskGuiLinkFactory.nextTasks(request));
+				widgets.add(taskGuiLinkFactory.tasksNext(request));
 			}
 			widgets.render(request, response, context);
 		}

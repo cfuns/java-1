@@ -70,6 +70,9 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Inject
 	private TaskGuiTaskFirstServlet taskGuiTaskFirstServlet;
 
+	@Inject
+	private TaskGuiTaskContextUpdateServlet taskGuiTaskContextUpdateServlet;
+
 	public TaskGuiActivator() {
 		super(TaskGuiConstants.NAME);
 	}
@@ -97,6 +100,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(taskGuiTaskContextDeleteServlet, TaskGuiConstants.URL_TASKCONTEXT_DELETE));
 		result.add(new ServletInfo(taskGuiTaskContextListServlet, TaskGuiConstants.URL_TASKCONTEXT_LIST));
 		result.add(new ServletInfo(taskGuiTaskViewServlet, TaskGuiConstants.URL_TASK_VIEW));
+		result.add(new ServletInfo(taskGuiTaskContextUpdateServlet, TaskGuiConstants.URL_TASKCONTEXT_UPDATE));
 		return result;
 	}
 

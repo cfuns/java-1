@@ -91,16 +91,18 @@ public class TaskGuiTaskContextListServlet extends TaskGuiWebsiteHtmlServlet {
 				final ListWidget row = new ListWidget();
 				row.add(taskContext.getName());
 				row.add(" ");
-				row.add(taskGuiLinkFactory.deleteTaskContext(request, taskContext));
+				row.add(taskGuiLinkFactory.taskContextUpdate(request, taskContext));
+				row.add(" ");
+				row.add(taskGuiLinkFactory.taskContextDelete(request, taskContext));
 				ul.add(row);
 			}
 			widgets.add(ul);
 			final ListWidget links = new ListWidget();
-			links.add(taskGuiLinkFactory.nextTasks(request));
+			links.add(taskGuiLinkFactory.tasksNext(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.uncompletedTasks(request));
+			links.add(taskGuiLinkFactory.tasksUncompleted(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.createTaskContext(request));
+			links.add(taskGuiLinkFactory.taskContextCreate(request));
 			widgets.add(links);
 			return widgets;
 		}

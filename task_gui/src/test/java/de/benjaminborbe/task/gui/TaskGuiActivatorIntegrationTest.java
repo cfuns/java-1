@@ -63,6 +63,7 @@ public class TaskGuiActivatorIntegrationTest {
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_DELETE);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_LIST);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_UPDATE);
 
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {

@@ -43,16 +43,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskContextIdentifier createTaskContextIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
-		return null;
-	}
-
-	@Override
-	public TaskIdentifier createTaskIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws TaskServiceException {
-		return null;
-	}
-
-	@Override
 	public void deleteContextTask(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
 			PermissionDeniedException {
 	}
@@ -124,17 +114,33 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void addTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException {
+	public void addTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 	@Override
-	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
-			LoginRequiredException {
+	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
+			throws TaskServiceException, LoginRequiredException {
 	}
 
 	@Override
 	public void updateTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final String name) throws TaskServiceException,
 			PermissionDeniedException, LoginRequiredException, ValidationException {
+	}
+
+	@Override
+	public TaskContextIdentifier createTaskContextIdentifier(final String id) throws TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public TaskIdentifier createTaskIdentifier(final String id) throws TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		return null;
 	}
 }

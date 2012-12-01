@@ -142,10 +142,10 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.replay(taskService);
 
 		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
-		EasyMock.expect(taskGuiLinkFactory.nextTasks(request)).andReturn(new StringWidget(""));
-		EasyMock.expect(taskGuiLinkFactory.createTask(request)).andReturn(new StringWidget(""));
-		EasyMock.expect(taskGuiLinkFactory.completedTasks(request)).andReturn(new StringWidget(""));
-		EasyMock.expect(taskGuiLinkFactory.listTaskContext(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiLinkFactory.tasksNext(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiLinkFactory.taskCreate(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiLinkFactory.tasksCompleted(request)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiLinkFactory.taskContextList(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
 		final List<Task> allTasks = new ArrayList<Task>();
 		;

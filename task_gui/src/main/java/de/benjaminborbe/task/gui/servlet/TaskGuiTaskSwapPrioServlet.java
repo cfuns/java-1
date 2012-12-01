@@ -59,8 +59,8 @@ public class TaskGuiTaskSwapPrioServlet extends TaskGuiWebsiteServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TaskIdentifier taskIdentifierA = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_A));
-			final TaskIdentifier taskIdentifierB = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_B));
+			final TaskIdentifier taskIdentifierA = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_A));
+			final TaskIdentifier taskIdentifierB = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_B));
 			taskService.swapPrio(sessionIdentifier, taskIdentifierA, taskIdentifierB);
 		}
 		catch (final AuthenticationServiceException e) {

@@ -105,11 +105,11 @@ public class TaskGuiWidgetFactory {
 
 		final ListWidget row = new ListWidget();
 		if (!taskGuiUtil.hasChildTasks(allTasks, task.getId())) {
-			row.add(taskGuiLinkFactory.completeTaskCheckbox(request, task));
+			row.add(taskGuiLinkFactory.taskCompleteCheckbox(request, task));
 			row.add(" ");
 		}
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
-		row.add(new SpanWidget(taskGuiLinkFactory.viewTask(request, taskName, task)).addAttribute("class", "taskTitle"));
+		row.add(new SpanWidget(taskGuiLinkFactory.taskView(request, taskName, task)).addAttribute("class", "taskTitle"));
 		row.add(" ");
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
@@ -138,9 +138,9 @@ public class TaskGuiWidgetFactory {
 			options.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(position + 1)));
 			options.add(" ");
 		}
-		options.add(taskGuiLinkFactory.createSubTask(request, task.getId()));
+		options.add(taskGuiLinkFactory.taskCreateSubTask(request, task.getId()));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.deleteTask(request, task));
+		options.add(taskGuiLinkFactory.taskDelete(request, task));
 
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		final DivWidget div = new DivWidget(row).addClass("taskEntry");

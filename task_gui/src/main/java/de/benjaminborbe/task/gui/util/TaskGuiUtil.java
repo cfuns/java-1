@@ -101,7 +101,7 @@ public class TaskGuiUtil {
 		final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
 		if (taskContextIds != null) {
 			for (final String taskContextId : taskContextIds) {
-				result.add(taskService.createTaskContextIdentifier(sessionIdentifier, taskContextId));
+				result.add(taskService.createTaskContextIdentifier(taskContextId));
 			}
 		}
 		return result;

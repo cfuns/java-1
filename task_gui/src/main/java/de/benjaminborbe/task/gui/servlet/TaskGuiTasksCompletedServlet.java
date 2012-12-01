@@ -130,13 +130,13 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 					row.add(" ");
 
 					final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
-					row.add(new SpanWidget(taskGuiLinkFactory.viewTask(request, taskName, task)).addAttribute("class", "taskTitle"));
+					row.add(new SpanWidget(taskGuiLinkFactory.taskView(request, taskName, task)).addAttribute("class", "taskTitle"));
 					row.add(" ");
 
 					final ListWidget options = new ListWidget();
-					options.add(taskGuiLinkFactory.uncompleteTask(request, task));
+					options.add(taskGuiLinkFactory.taskUncomplete(request, task));
 					options.add(" ");
-					options.add(taskGuiLinkFactory.deleteTask(request, task));
+					options.add(taskGuiLinkFactory.taskDelete(request, task));
 					row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 					ul.add(new DivWidget(row).addClass("taskEntry").addClass("completed"));
 				}
@@ -145,13 +145,13 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 			{
 				final ListWidget links = new ListWidget();
-				links.add(taskGuiLinkFactory.nextTasks(request));
+				links.add(taskGuiLinkFactory.tasksNext(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.uncompletedTasks(request));
+				links.add(taskGuiLinkFactory.tasksUncompleted(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.createTask(request));
+				links.add(taskGuiLinkFactory.taskCreate(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.listTaskContext(request));
+				links.add(taskGuiLinkFactory.taskContextList(request));
 				widgets.add(links);
 			}
 

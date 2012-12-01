@@ -125,7 +125,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<TaskContextIdentifier> selectedContextIdentifiers = taskGuiUtil.createTaskContextIdentifiers(sessionIdentifier, selectedContextIds);
-			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(sessionIdentifier, parentId);
+			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(parentId);
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
 					final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
@@ -136,7 +136,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 					final Long repeatStart = parseLong(repeatStartString);
 
 					final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
-					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(sessionIdentifier, contextId);
+					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
 					if (taskContextIdentifier != null) {
 						contexts.add(taskContextIdentifier);
 					}
@@ -149,7 +149,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 						throw new RedirectException(referer);
 					}
 					else {
-						throw new RedirectException(taskGuiLinkFactory.createTaskUrl(request, taskParentIdentifier));
+						throw new RedirectException(taskGuiLinkFactory.taskCreateUrl(request, taskParentIdentifier));
 					}
 				}
 				catch (final ValidationException e) {
@@ -191,11 +191,11 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			final ListWidget links = new ListWidget();
-			links.add(taskGuiLinkFactory.nextTasks(request));
+			links.add(taskGuiLinkFactory.tasksNext(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.uncompletedTasks(request));
+			links.add(taskGuiLinkFactory.tasksUncompleted(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.listTaskContext(request));
+			links.add(taskGuiLinkFactory.taskContextList(request));
 			widgets.add(links);
 
 			return widgets;

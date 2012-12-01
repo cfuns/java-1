@@ -103,13 +103,13 @@ public class TaskGuiNextServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request, timeZone));
 
 			final ListWidget links = new ListWidget();
-			links.add(taskGuiLinkFactory.uncompletedTasks(request));
+			links.add(taskGuiLinkFactory.tasksUncompleted(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.createTask(request));
+			links.add(taskGuiLinkFactory.taskCreate(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.completedTasks(request));
+			links.add(taskGuiLinkFactory.tasksCompleted(request));
 			links.add(" ");
-			links.add(taskGuiLinkFactory.listTaskContext(request));
+			links.add(taskGuiLinkFactory.taskContextList(request));
 			widgets.add(links);
 			return widgets;
 		}

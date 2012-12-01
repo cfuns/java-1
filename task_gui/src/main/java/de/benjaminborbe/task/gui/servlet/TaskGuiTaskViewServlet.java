@@ -102,7 +102,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(sessionIdentifier, request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
+			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 
 			{
 				final ListWidget tasks = new ListWidget();
@@ -111,13 +111,13 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			}
 			{
 				final ListWidget links = new ListWidget();
-				links.add(taskGuiLinkFactory.nextTasks(request));
+				links.add(taskGuiLinkFactory.tasksNext(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.uncompletedTasks(request));
+				links.add(taskGuiLinkFactory.tasksUncompleted(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.createTask(request));
+				links.add(taskGuiLinkFactory.taskCreate(request));
 				links.add(" ");
-				links.add(taskGuiLinkFactory.listTaskContext(request));
+				links.add(taskGuiLinkFactory.taskContextList(request));
 				widgets.add(new DivWidget(links));
 			}
 
@@ -187,17 +187,17 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(new PreWidget(buildDescription(task.getDescription())));
 		}
 		if (Boolean.TRUE.equals(task.getCompleted())) {
-			widgets.add(taskGuiLinkFactory.uncompleteTask(request, task));
+			widgets.add(taskGuiLinkFactory.taskUncomplete(request, task));
 		}
 		else {
 			if (hasNotCompletedChilds) {
-				widgets.add(taskGuiLinkFactory.completeTask(request, task));
+				widgets.add(taskGuiLinkFactory.taskComplete(request, task));
 			}
 		}
 		widgets.add(" ");
 		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
 		widgets.add(" ");
-		widgets.add(taskGuiLinkFactory.createSubTask(request, task.getId()));
+		widgets.add(taskGuiLinkFactory.taskCreateSubTask(request, task.getId()));
 		widgets.add(" ");
 	}
 
