@@ -61,7 +61,11 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected SearchResult mapTask(final Task task) throws MalformedURLException {
-		return new SearchResultImpl(SEARCH_TYPE, task.getName(), task.getUrl(), task.getDescription());
+		return new SearchResultImpl(SEARCH_TYPE, task.getName(), buildUrl(task), task.getDescription());
+	}
+
+	private String buildUrl(final Task task) {
+		return "/bb/task/task/view?task_id=" + task.getId();
 	}
 
 	@Override

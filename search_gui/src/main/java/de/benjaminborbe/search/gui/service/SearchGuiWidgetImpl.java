@@ -190,7 +190,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	}
 
 	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
-		if (url.indexOf("/") == 0) {
+		if (url != null && url.indexOf("/") == 0) {
 			return new URL(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + url);
 		}
 		else {
