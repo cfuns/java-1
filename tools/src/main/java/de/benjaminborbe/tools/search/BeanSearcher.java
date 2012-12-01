@@ -44,7 +44,7 @@ public abstract class BeanSearcher<B> {
 
 	private static final int SEARCH_TERM_MIN_LENGTH = 2;
 
-	public List<B> search(final List<B> beans, final String[] parts) {
+	public List<B> search(final List<B> beans, final String... parts) {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final B bean : beans) {
 			final int counter = match(bean, parts);
@@ -79,7 +79,7 @@ public abstract class BeanSearcher<B> {
 				final String contentLower = content.toLowerCase();
 				int pos = -1;
 				while ((pos = contentLower.indexOf(searchTermLower, pos + 1)) != -1) {
-					return counter++;
+					counter++;
 				}
 			}
 		}
