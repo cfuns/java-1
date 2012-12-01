@@ -65,7 +65,7 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	private String buildUrl(final Task task) {
-		return "/bb/task/task/view?task_id=" + task.getId();
+		return "/task/task/view?task_id=" + task.getId();
 	}
 
 	@Override
