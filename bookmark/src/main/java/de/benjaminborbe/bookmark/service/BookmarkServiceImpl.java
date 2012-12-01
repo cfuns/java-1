@@ -33,23 +33,23 @@ import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
 
-	private final class MatchComparator implements Comparator<Match> {
+	private final class BookmarkSearcher extends BeanSearcher<Bookmark> {
 
 		@Override
-		public int compare(final Match a, final Match b) {
-			if (a.getCounter() > b.getCounter()) {
-				return -1;
-			}
-			if (a.getCounter() < b.getCounter()) {
-				return 1;
-			}
-			return 0;
+		protected Collection<String> getSearchValues(final Bookmark bookmark) {
+			final Set<String> values = new HashSet<String>();
+			values.add(bookmark.getUrl());
+			values.add(bookmark.getName());
+			values.add(bookmark.getDescription());
+			values.addAll(bookmark.getKeywords());
+			return values;
 		}
 	}
 
@@ -139,68 +139,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) throws BookmarkServiceException, LoginRequiredException {
-		final List<Match> matches = new ArrayList<Match>();
-		for (final Bookmark bookmark : getBookmarks(sessionIdentifier)) {
-			final int counter = match(bookmark, parts);
-			if (counter > 0) {
-				final Match match = new Match(bookmark, counter);
-				matches.add(match);
-			}
-		}
-		Collections.sort(matches, new MatchComparator());
-		final List<Bookmark> result = new ArrayList<Bookmark>();
-		for (final Match match : matches) {
-			result.add(match.getBookmark());
-		}
-		return result;
-	}
-
-	protected int match(final Bookmark bookmark, final String... searchTerms) {
-		int counter = 0;
-		for (final String searchTerm : searchTerms) {
-			if (searchTerm != null && searchTerm.length() > 0 && match(bookmark, searchTerm)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-
-	protected boolean match(final Bookmark bookmark, final String search) {
-		for (final String value : getSearchValues(bookmark)) {
-			if (value.toLowerCase().indexOf(search.toLowerCase()) != -1) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected Collection<String> getSearchValues(final Bookmark bookmark) {
-		final Set<String> values = new HashSet<String>();
-		values.add(bookmark.getUrl());
-		values.add(bookmark.getName());
-		values.add(bookmark.getDescription());
-		values.addAll(bookmark.getKeywords());
-		return values;
-	}
-
-	private final class Match {
-
-		private final Bookmark bookmark;
-
-		private final int counter;
-
-		public Match(final Bookmark bookmark, final int counter) {
-			this.bookmark = bookmark;
-			this.counter = counter;
-		}
-
-		public Bookmark getBookmark() {
-			return bookmark;
-		}
-
-		public int getCounter() {
-			return counter;
-		}
+		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
+		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
+		return beanSearch.search(bookmarks, parts);
 	}
 
 	@Override

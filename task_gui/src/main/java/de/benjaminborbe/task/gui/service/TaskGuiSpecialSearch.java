@@ -25,7 +25,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
-import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -82,7 +82,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 				return;
 			}
 			final String[] words = searchUtil.buildSearchParts(term);
-			final List<Task> tasks = taskService.searchTask(sessionIdentifier, words);
+			final List<Task> tasks = taskService.searchTasks(sessionIdentifier, words);
 			if (tasks.size() > 0) {
 				response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, tasks.get(0)));
 				return;

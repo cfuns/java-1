@@ -24,7 +24,7 @@ import de.benjaminborbe.bookmark.gui.widget.BookmarkCreateLink;
 import de.benjaminborbe.bookmark.gui.widget.BookmarkListLink;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
-import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
-import de.benjaminborbe.tools.util.SearchUtil;
+import de.benjaminborbe.tools.search.SearchUtil;
 
 public class SearchGuiUtilUnitTest {
 

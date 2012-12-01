@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.util;
+package de.benjaminborbe.tools.search;
 
 import com.google.inject.Inject;
 

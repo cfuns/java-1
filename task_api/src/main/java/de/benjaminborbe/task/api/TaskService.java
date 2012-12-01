@@ -69,6 +69,6 @@ public interface TaskService {
 	TaskContext getTaskContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	List<Task> searchTask(SessionIdentifier sessionIdentifier, String[] words) throws TaskServiceException;
+	List<Task> searchTasks(SessionIdentifier sessionIdentifier, String[] words) throws TaskServiceException, LoginRequiredException;
 
 }

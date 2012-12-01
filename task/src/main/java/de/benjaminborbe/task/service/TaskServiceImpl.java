@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 
@@ -41,6 +43,7 @@ import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.task.util.TaskNameComparator;
 import de.benjaminborbe.task.util.TaskPrioComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.ComparatorChain;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
@@ -50,6 +53,18 @@ import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class TaskServiceImpl implements TaskService {
+
+	private final class TaskSearcher extends BeanSearcher<Task> {
+
+		@Override
+		protected Collection<String> getSearchValues(final Task task) {
+			final Set<String> values = new HashSet<String>();
+			values.add(task.getName());
+			values.add(task.getDescription());
+			values.add(task.getUrl());
+			return values;
+		}
+	}
 
 	private final AuthenticationService authenticationService;
 
@@ -827,8 +842,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> searchTask(final SessionIdentifier sessionIdentifier, final String[] words) throws TaskServiceException {
-		final List<Task> result = new ArrayList<Task>();
-		return result;
+	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final String[] words) throws TaskServiceException, LoginRequiredException {
+		final List<Task> beans = getTasksNotCompleted(sessionIdentifier);
+		final BeanSearcher<Task> beanSearch = new TaskSearcher();
+		return beanSearch.search(beans, words);
 	}
 }
