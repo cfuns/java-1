@@ -2,7 +2,7 @@ package de.benjaminborbe.bookmark.guice;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.bookmark.validation.BookmarkValidator;
+import de.benjaminborbe.bookmark.dao.BookmarkValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 
 public class BookmarkValidatorLinker {

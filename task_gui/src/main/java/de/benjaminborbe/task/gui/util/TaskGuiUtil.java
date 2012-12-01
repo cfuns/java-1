@@ -96,7 +96,8 @@ public class TaskGuiUtil {
 		return taskService.getTasksNotCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 	}
 
-	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException {
+	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException,
+			LoginRequiredException {
 		final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
 		if (taskContextIds != null) {
 			for (final String taskContextId : taskContextIds) {

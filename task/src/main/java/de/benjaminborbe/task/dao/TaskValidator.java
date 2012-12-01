@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.validation;
+package de.benjaminborbe.task.dao;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,7 +6,6 @@ import java.util.Set;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
-import de.benjaminborbe.task.dao.TaskBean;
 import de.benjaminborbe.tools.validation.Validator;
 
 public class TaskValidator implements Validator<TaskBean> {
@@ -31,5 +30,4 @@ public class TaskValidator implements Validator<TaskBean> {
 
 		return result;
 	}
-
 }

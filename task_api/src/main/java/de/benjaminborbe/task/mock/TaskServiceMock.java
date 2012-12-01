@@ -26,10 +26,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void addTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
-	}
-
-	@Override
 	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException, ValidationException {
 	}
@@ -112,10 +108,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void replaceTaskContext(final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
-	}
-
-	@Override
 	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
 			PermissionDeniedException, LoginRequiredException {
 	}
@@ -129,5 +121,20 @@ public class TaskServiceMock implements TaskService {
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
 			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
 			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+	}
+
+	@Override
+	public void addTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
+			LoginRequiredException {
+	}
+
+	@Override
+	public void updateTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final String name) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException, ValidationException {
 	}
 }

@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.validation;
+package de.benjaminborbe.bookmark.dao;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,7 +8,6 @@ import java.util.Set;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
-import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.tools.validation.Validator;
 
 public class BookmarkValidator implements Validator<BookmarkBean> {
