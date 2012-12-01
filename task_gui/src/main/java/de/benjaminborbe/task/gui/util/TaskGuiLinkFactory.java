@@ -222,4 +222,13 @@ public class TaskGuiLinkFactory {
 				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), "edit");
 	}
 
+	public String tasksNextUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
+		final MapChain<String, String[]> parameter = getLoopThrough(request);
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT, parameter);
+	}
+
+	public String taskViewUrl(final HttpServletRequest request, final Task task) throws UnsupportedEncodingException {
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW,
+				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())));
+	}
 }

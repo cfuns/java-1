@@ -825,4 +825,10 @@ public class TaskServiceImpl implements TaskService {
 			logger.trace("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public List<Task> searchTask(final SessionIdentifier sessionIdentifier, final String[] words) throws TaskServiceException {
+		final List<Task> result = new ArrayList<Task>();
+		return result;
+	}
 }
