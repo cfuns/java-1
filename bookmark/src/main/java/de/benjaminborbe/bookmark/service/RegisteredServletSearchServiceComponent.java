@@ -41,7 +41,7 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 					match = true;
 				}
 				if (match) {
-					results.add(new SearchResultImpl(SEARCH_TYPE, path, path, path));
+					results.add(new SearchResultImpl(SEARCH_TYPE, path, path, "-"));
 				}
 			}
 		}
