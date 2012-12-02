@@ -76,4 +76,6 @@ public interface TaskGuiConstants {
 
 	String URL_TASKCONTEXT_UPDATE = "/taskcontext/update";
 
+	String EXAMPLE_SMARTDATE = "2012-12-24, 0d, 1w...";
+
 }
