@@ -3,7 +3,6 @@ package de.benjaminborbe.bookmark.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -103,11 +102,11 @@ public class BookmarkGuiListServlet extends BookmarkGuiBaseServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarks(sessionIdentifier)) {
 				final ListWidget b = new ListWidget();
-				b.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), bookmark.getName()).addTarget(target));
+				b.add(new LinkWidget(urlUtil.buildUrl(request, bookmark.getUrl()), bookmark.getName()).addTarget(target));
 				b.add(" | ");
-				b.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), bookmark.getUrl()).addTarget(target));
+				b.add(new LinkWidget(urlUtil.buildUrl(request, bookmark.getUrl()), bookmark.getUrl()).addTarget(target));
 				b.add(" | [");
-				b.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), keywordsToString(bookmark)).addTarget(target));
+				b.add(new LinkWidget(urlUtil.buildUrl(request, bookmark.getUrl()), keywordsToString(bookmark)).addTarget(target));
 				b.add("] | ");
 				b.add(new LinkRelativWidget(urlUtil, request, "/bookmark/update", new MapParameter().add("url", bookmark.getUrl()), "edit"));
 				b.add(" ");
@@ -156,12 +155,4 @@ public class BookmarkGuiListServlet extends BookmarkGuiBaseServlet {
 		return new HashSet<Widget>();
 	}
 
-	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
-		if (url.indexOf("/") == 0) {
-			return new URL(request.getScheme() + "://" + request.getServerName() + url);
-		}
-		else {
-			return new URL(url);
-		}
-	}
 }

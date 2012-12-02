@@ -117,7 +117,7 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Gallery", "/bb/" + GalleryGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Gallery", "/" + GalleryGuiConstants.NAME)));
 		return result;
 	}
 

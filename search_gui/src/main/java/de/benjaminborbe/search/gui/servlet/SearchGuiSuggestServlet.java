@@ -83,9 +83,9 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("service");
-		response.setCharacterEncoding("UTF8");
 		try {
+			logger.trace("service");
+			response.setCharacterEncoding("UTF8");
 			response.setContentType("application/json");
 			final String queryString = request.getParameter(PARAMETER_SEARCH);
 			final List<SearchResult> searchResults;

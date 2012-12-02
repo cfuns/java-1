@@ -1,8 +1,6 @@
 package de.benjaminborbe.navigation.gui.service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,6 +18,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -40,10 +39,13 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 
 	private final NavigationService navigationService;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public NavigationGuiWidgetImpl(final Logger logger, final NavigationService navigationService) {
+	public NavigationGuiWidgetImpl(final Logger logger, final NavigationService navigationService, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.navigationService = navigationService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 		final UlWidget ul = new UlWidget();
 		ul.addAttribute("id", "navi");
 		for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {
-			ul.add(new LinkWidget(buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
+			ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
 		}
 		widgets.add(ul);
 		widgets.render(request, response, context);
@@ -63,15 +65,6 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 		final List<NavigationEntry> result = new ArrayList<NavigationEntry>(all);
 		Collections.sort(result, new NavigationEntryComparator());
 		return result;
-	}
-
-	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
-		if (url.indexOf("/") == 0) {
-			return new URL(request.getScheme() + "://" + request.getServerName() + url);
-		}
-		else {
-			return new URL(url);
-		}
 	}
 
 }

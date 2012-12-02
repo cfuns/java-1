@@ -62,7 +62,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Blog", "/bb/" + BlogGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Blog", "/" + BlogGuiConstants.NAME)));
 		return result;
 	}
 

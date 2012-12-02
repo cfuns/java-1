@@ -82,7 +82,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchWidget.class, searchWidget));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Search", "/bb/" + SearchGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Search", "/" + SearchGuiConstants.NAME)));
 		return result;
 	}
 

@@ -32,6 +32,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.search.SearchUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.website.servlet.WebsiteConstants;
@@ -68,6 +69,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final ParseUtil parseUtil;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public SearchGuiWidgetImpl(
 			final Logger logger,
@@ -79,6 +82,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final StringUtil stringUtil,
 			final SearchGuiTermHighlighter searchGuiTermHighlighter,
 			final ParseUtil parseUtil,
+			final UrlUtil urlUtil,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
@@ -90,6 +94,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		this.stringUtil = stringUtil;
 		this.searchGuiTermHighlighter = searchGuiTermHighlighter;
 		this.parseUtil = parseUtil;
+		this.urlUtil = urlUtil;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 	}
@@ -161,7 +166,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final String[] words) throws IOException {
 		try {
 			final PrintWriter out = response.getWriter();
-			final URL url = buildUrl(request, result.getUrl());
+			final URL url = urlUtil.buildUrl(request, result.getUrl());
 			final String urlString = url.toExternalForm();
 			final String type = result.getType();
 			final String title = result.getTitle();
@@ -189,12 +194,4 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		}
 	}
 
-	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
-		if (url != null && url.indexOf("/") == 0) {
-			return new URL(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + url);
-		}
-		else {
-			return new URL(url);
-		}
-	}
 }

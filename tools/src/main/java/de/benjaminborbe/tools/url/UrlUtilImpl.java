@@ -117,4 +117,24 @@ public class UrlUtilImpl implements UrlUtil {
 			return false;
 		}
 	}
+
+	@Override
+	public String buildBaseUrl(final HttpServletRequest request) {
+		if ("http".equalsIgnoreCase(request.getScheme()) && request.getServerPort() == 80 || "https".equalsIgnoreCase(request.getScheme()) && request.getServerPort() == 443) {
+			return request.getScheme() + "://" + request.getServerName() + request.getContextPath();
+		}
+		else {
+			return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		}
+	}
+
+	@Override
+	public URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
+		if (url.indexOf("/") == 0) {
+			return new URL(buildBaseUrl(request) + url);
+		}
+		else {
+			return new URL(url);
+		}
+	}
 }

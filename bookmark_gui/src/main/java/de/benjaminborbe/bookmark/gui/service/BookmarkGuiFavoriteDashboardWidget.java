@@ -1,9 +1,6 @@
 package de.benjaminborbe.bookmark.gui.service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +19,7 @@ import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -39,11 +37,14 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 
 	private static final Target target = Target.BLANK;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public BookmarkGuiFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService, final AuthenticationService authenticationService) {
+	public BookmarkGuiFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService, final AuthenticationService authenticationService, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.bookmarkService = bookmarkService;
 		this.authenticationService = authenticationService;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final Bookmark bookmark : bookmarkService.getBookmarkFavorite(sessionIdentifier)) {
-				ul.add(new LinkWidget(buildUrl(request, bookmark.getUrl()), bookmark.getName()).addTarget(target));
+				ul.add(new LinkWidget(urlUtil.buildUrl(request, bookmark.getUrl()), bookmark.getName()).addTarget(target));
 			}
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
@@ -74,15 +75,6 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
-		}
-	}
-
-	protected URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
-		if (url.indexOf("/") == 0) {
-			return new URL(request.getScheme() + "://" + request.getServerName() + url);
-		}
-		else {
-			return new URL(url);
 		}
 	}
 

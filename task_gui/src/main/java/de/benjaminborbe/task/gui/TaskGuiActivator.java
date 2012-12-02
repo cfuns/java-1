@@ -112,7 +112,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Task", "/bb/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Task", "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT)));
 		result.add(new ServiceInfo(DashboardContentWidget.class, taskGuiDashboardWidget, taskGuiDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, taskGuiSpecialSearch, taskGuiSpecialSearch.getClass().getName()));
 		return result;

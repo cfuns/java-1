@@ -62,7 +62,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkGuiFavoriteDashboardWidget, bookmarkGuiFavoriteDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchBookmark, searchGuiSpecialSearchBookmark.getClass().getName()));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Bookmark", "/bb/" + BookmarkGuiConstants.NAME + BookmarkGuiConstants.URL_LIST)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Bookmark", "/" + BookmarkGuiConstants.NAME + BookmarkGuiConstants.URL_LIST)));
 		return result;
 	}
 

@@ -1,6 +1,8 @@
 package de.benjaminborbe.tools.url;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,4 +21,7 @@ public interface UrlUtil {
 
 	boolean isUrl(String url);
 
+	String buildBaseUrl(HttpServletRequest request);
+
+	URL buildUrl(HttpServletRequest request, String url) throws MalformedURLException;
 }

@@ -61,8 +61,8 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen", "/bb/" + LunchGuiConstants.NAME)));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen Archiv", "/bb/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen", "/" + LunchGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen Archiv", "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV)));
 		return result;
 	}
 }

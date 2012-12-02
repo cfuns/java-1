@@ -12,6 +12,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.tools.url.UrlUtil;
 
 public class BlogGuiFeedHeaderWidgetUnitTest {
 
@@ -33,7 +34,10 @@ public class BlogGuiFeedHeaderWidgetUnitTest {
 		final HttpContext context = EasyMock.createMock(HttpContext.class);
 		EasyMock.replay(context);
 
-		final BlogGuiFeedHeaderWidget widget = new BlogGuiFeedHeaderWidget();
+		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.replay(urlUtil);
+
+		final BlogGuiFeedHeaderWidget widget = new BlogGuiFeedHeaderWidget(urlUtil);
 		widget.render(request, response, context);
 		assertEquals("<link href=\"http://www.test.de/bb/blog/atom.xml\" title=\"bb News\" type=\"application/atom+xml\"/>", sw.toString());
 	}
