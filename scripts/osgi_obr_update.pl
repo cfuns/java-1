@@ -8,8 +8,14 @@ use Cwd;
 use File::Copy;
 use File::Basename;
 
-my $host = shift || 'localhost';
-my $port = shift || 5555;
+if ( @ARGV < 1 ) {
+	print "$0: [filter] [hostname] [port]\n";
+	exit 1;
+}
+
+my $filter = shift;
+my $host   = shift || 'localhost';
+my $port   = shift || 5555;
 my $prompt = '/->/';
 
 sub cmd {
@@ -22,8 +28,9 @@ sub get_bundle_id {
 	my ($procs) = @_;
 	my @result = ();
 	foreach my $line (@$procs) {
-		$line =~ /^\s*\[\s*(\d+)\s*\].*?Benjamin\sBorbe/;
-		if ($1) {
+		$line =~ /^\s*\[\s*(\d+)\s*\].*?Benjamin\sBorbe/i;
+		if ( $1 && index( lc($line), lc($filter) ) != -1 ) {
+#			print 'update ' . $line;
 			push( @result, $1 );
 		}
 	}
@@ -50,8 +57,6 @@ sub update_bundles {
 	return;
 }
 
-print "start.\n";
-
 my $telnet = new Net::Telnet( Timeout => 30, Errmode => 'die', Prompt => $prompt );
 $telnet->open( Host => $host, Port => $port );
 $telnet->waitfor($prompt);
@@ -61,5 +66,4 @@ print "update obr finished\n";
 print "update bundles started\n";
 update_bundles($telnet);
 print "update bundles finished\n";
-print "done.\n";
 exit(0);
