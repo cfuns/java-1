@@ -21,7 +21,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
-import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
@@ -82,9 +82,9 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 				return;
 			}
 			final String[] words = searchUtil.buildSearchParts(term);
-			final List<Task> tasks = taskService.searchTasks(sessionIdentifier, 1, words);
+			final List<TaskMatch> tasks = taskService.searchTasks(sessionIdentifier, 1, words);
 			if (tasks.size() > 0) {
-				response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, tasks.get(0)));
+				response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, tasks.get(0).getTask()));
 				return;
 			}
 			else {

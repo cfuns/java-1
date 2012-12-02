@@ -11,6 +11,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
+import de.benjaminborbe.bookmark.api.BookmarkMatch;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 
@@ -46,17 +47,17 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws BookmarkServiceException {
-		return null;
-	}
-
-	@Override
 	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException {
 		return null;
 	}
 
 	@Override
 	public BookmarkIdentifier createBookmarkIdentifier(final SessionIdentifier sessionIdentifier, final String url) throws BookmarkServiceException {
+		return null;
+	}
+
+	@Override
+	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws BookmarkServiceException, LoginRequiredException {
 		return null;
 	}
 

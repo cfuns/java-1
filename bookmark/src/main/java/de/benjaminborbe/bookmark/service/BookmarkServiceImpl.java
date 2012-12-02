@@ -26,6 +26,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
+import de.benjaminborbe.bookmark.api.BookmarkMatch;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
@@ -33,12 +34,32 @@ import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
+
+	private final class BookmarkMatchImpl implements BookmarkMatch {
+
+		private final BeanMatch<Bookmark> match;
+
+		private BookmarkMatchImpl(BeanMatch<Bookmark> match) {
+			this.match = match;
+		}
+
+		@Override
+		public Bookmark getBookmark() {
+			return match.getBean();
+		}
+
+		@Override
+		public int getMatchCounter() {
+			return match.getMatchCounter();
+		}
+	}
 
 	private final class BookmarkSearcher extends BeanSearcher<Bookmark> {
 
@@ -138,10 +159,16 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws BookmarkServiceException, LoginRequiredException {
+	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws BookmarkServiceException,
+			LoginRequiredException {
 		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
 		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
-		return beanSearch.search(bookmarks, limit, words);
+		final List<BeanMatch<Bookmark>> matches = beanSearch.search(bookmarks, limit, words);
+		final List<BookmarkMatch> result = new ArrayList<BookmarkMatch>();
+		for (final BeanMatch<Bookmark> match : matches) {
+			result.add(new BookmarkMatchImpl(match));
+		}
+		return result;
 	}
 
 	@Override

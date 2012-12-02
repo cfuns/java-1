@@ -10,8 +10,11 @@ public class SearchResultImpl implements SearchResult {
 
 	private final String type;
 
-	public SearchResultImpl(final String type, final String title, final String url, final String description) {
+	private final int matchCounter;
+
+	public SearchResultImpl(final String type, final int matchCounter, final String title, final String url, final String description) {
 		this.type = type;
+		this.matchCounter = matchCounter;
 		this.title = title;
 		this.url = url;
 		this.description = description;
@@ -35,6 +38,10 @@ public class SearchResultImpl implements SearchResult {
 	@Override
 	public String getType() {
 		return type;
+	}
+
+	public int getMatchCounter() {
+		return matchCounter;
 	}
 
 }

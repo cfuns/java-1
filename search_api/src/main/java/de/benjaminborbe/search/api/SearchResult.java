@@ -9,4 +9,6 @@ public interface SearchResult {
 	String getUrl();
 
 	String getDescription();
+
+	int getMatchCounter();
 }

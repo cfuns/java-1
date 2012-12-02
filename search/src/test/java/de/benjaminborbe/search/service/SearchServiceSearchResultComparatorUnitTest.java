@@ -17,7 +17,8 @@ public class SearchServiceSearchResultComparatorUnitTest {
 	public void testCompare() {
 		final SearchServiceSearchResultComparatorPrio b = new SearchServiceSearchResultComparatorPrio();
 		final SearchServiceSearchResultComparatorName a = new SearchServiceSearchResultComparatorName();
-		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b);
+		final SearchServiceSearchResultComparatorMatches c = new SearchServiceSearchResultComparatorMatches();
+		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b, c);
 		assertTrue(comparator.compare(createComponent("name"), createComponent("name")) == 0);
 		assertTrue(comparator.compare(createComponent("url"), createComponent("url")) == 0);
 		assertTrue(comparator.compare(createComponent("URL"), createComponent("url")) == 0);
@@ -30,11 +31,16 @@ public class SearchServiceSearchResultComparatorUnitTest {
 		assertTrue(comparator.compare(createComponent("google"), createComponent("url")) > 0);
 	}
 
-	private SearchResult createComponent(final String name) {
+	private SearchResult createComponent(final String type, final int matchCounter) {
 		final SearchResult component = EasyMock.createMock(SearchResult.class);
-		EasyMock.expect(component.getType()).andReturn(name).anyTimes();
+		EasyMock.expect(component.getType()).andReturn(type).anyTimes();
+		EasyMock.expect(component.getMatchCounter()).andReturn(matchCounter).anyTimes();
 		EasyMock.replay(component);
 		return component;
+	}
+
+	private SearchResult createComponent(final String type) {
+		return createComponent(type, 1);
 	}
 
 	@Test
@@ -42,7 +48,8 @@ public class SearchServiceSearchResultComparatorUnitTest {
 
 		final SearchServiceSearchResultComparatorPrio b = new SearchServiceSearchResultComparatorPrio();
 		final SearchServiceSearchResultComparatorName a = new SearchServiceSearchResultComparatorName();
-		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b);
+		final SearchServiceSearchResultComparatorMatches c = new SearchServiceSearchResultComparatorMatches();
+		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b, c);
 
 		final List<SearchResult> list = new ArrayList<SearchResult>();
 		list.add(createComponent("URL"));
@@ -107,5 +114,24 @@ public class SearchServiceSearchResultComparatorUnitTest {
 		assertEquals("URL", list.get(4).getType());
 		assertEquals("WEB", list.get(5).getType());
 		assertEquals(null, list.get(6).getType());
+	}
+
+	@Test
+	public void testCompareMatchCounter() {
+
+		final SearchServiceSearchResultComparatorPrio b = new SearchServiceSearchResultComparatorPrio();
+		final SearchServiceSearchResultComparatorName a = new SearchServiceSearchResultComparatorName();
+		final SearchServiceSearchResultComparatorMatches c = new SearchServiceSearchResultComparatorMatches();
+		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b, c);
+
+		final List<SearchResult> list = new ArrayList<SearchResult>();
+		list.add(createComponent("URL", 1));
+		list.add(createComponent("GOOGLE", 2));
+		list.add(createComponent("CONFLUENCE", 3));
+
+		Collections.sort(list, comparator);
+		assertEquals("CONFLUENCE", list.get(0).getType());
+		assertEquals("GOOGLE", list.get(1).getType());
+		assertEquals("URL", list.get(2).getType());
 	}
 }

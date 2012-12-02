@@ -38,7 +38,7 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 				final String type = getName();
 				final String title = urlString;
 				final String description = urlString;
-				result.add(new SearchResultImpl(type, title, urlString, description));
+				result.add(new SearchResultImpl(type, Integer.MAX_VALUE, title, urlString, description));
 			}
 		}
 		catch (final MalformedURLException e) {

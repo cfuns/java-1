@@ -104,7 +104,9 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 					final String url = (String) result.get("url");
 					final String title = htmlUtil.filterHtmlTages((String) result.get("title"));
 					final String description = htmlUtil.filterHtmlTages((String) result.get("content"));
-					searchResults.add(new SearchResultImpl(SEARCH_TYPE, title, url, description));
+					// TODO bborbe matchCounter bestimmen
+					final int matchCounter = 1;
+					searchResults.add(new SearchResultImpl(SEARCH_TYPE, matchCounter, title, url, description));
 				}
 			}
 		}

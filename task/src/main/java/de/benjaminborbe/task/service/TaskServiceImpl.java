@@ -33,6 +33,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.dao.TaskBean;
@@ -43,6 +44,7 @@ import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.task.util.TaskNameComparator;
 import de.benjaminborbe.task.util.TaskPrioComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.ComparatorChain;
 import de.benjaminborbe.tools.util.Duration;
@@ -53,6 +55,25 @@ import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class TaskServiceImpl implements TaskService {
+
+	private final class TaskMatchImpl implements TaskMatch {
+
+		private final BeanMatch<Task> match;
+
+		private TaskMatchImpl(BeanMatch<Task> match) {
+			this.match = match;
+		}
+
+		@Override
+		public Task getTask() {
+			return match.getBean();
+		}
+
+		@Override
+		public int getMatchCounter() {
+			return match.getMatchCounter();
+		}
+	}
 
 	private final class TaskSearcher extends BeanSearcher<Task> {
 
@@ -842,9 +863,14 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException, LoginRequiredException {
+	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException, LoginRequiredException {
 		final List<Task> beans = getTasksNotCompleted(sessionIdentifier);
 		final BeanSearcher<Task> beanSearch = new TaskSearcher();
-		return beanSearch.search(beans, limit, words);
+		final List<BeanMatch<Task>> matches = beanSearch.search(beans, limit, words);
+		final List<TaskMatch> result = new ArrayList<TaskMatch>();
+		for (final BeanMatch<Task> match : matches) {
+			result.add(new TaskMatchImpl(match));
+		}
+		return result;
 	}
 }

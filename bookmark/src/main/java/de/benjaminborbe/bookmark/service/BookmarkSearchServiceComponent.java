@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkMatch;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.search.api.SearchResult;
@@ -39,7 +40,7 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 		try {
-			final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, maxResults, words);
+			final List<BookmarkMatch> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, maxResults, words);
 			final int max = Math.min(maxResults, bookmarks.size());
 			for (int i = 0; i < max; ++i) {
 				try {
@@ -60,8 +61,9 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 		return results;
 	}
 
-	protected SearchResult mapBookmark(final Bookmark bookmark) throws MalformedURLException {
-		return new SearchResultImpl(SEARCH_TYPE, bookmark.getName(), bookmark.getUrl(), bookmark.getDescription());
+	protected SearchResult mapBookmark(final BookmarkMatch bookmarkMatch) throws MalformedURLException {
+		final Bookmark bookmark = bookmarkMatch.getBookmark();
+		return new SearchResultImpl(SEARCH_TYPE, bookmarkMatch.getMatchCounter(), bookmark.getName(), bookmark.getUrl(), bookmark.getDescription());
 	}
 
 	@Override

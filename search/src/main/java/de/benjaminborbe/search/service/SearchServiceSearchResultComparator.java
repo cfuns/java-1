@@ -9,7 +9,10 @@ public class SearchServiceSearchResultComparator extends ComparatorChain<SearchR
 
 	@SuppressWarnings("unchecked")
 	@Inject
-	public SearchServiceSearchResultComparator(final SearchServiceSearchResultComparatorName a, final SearchServiceSearchResultComparatorPrio b) {
-		super(b, a);
+	public SearchServiceSearchResultComparator(
+			final SearchServiceSearchResultComparatorName searchServiceSearchResultComparatorName,
+			final SearchServiceSearchResultComparatorPrio searchServiceSearchResultComparatorPrio,
+			final SearchServiceSearchResultComparatorMatches searchServiceSearchResultComparatorMatches) {
+		super(searchServiceSearchResultComparatorMatches, searchServiceSearchResultComparatorPrio, searchServiceSearchResultComparatorName);
 	}
 }

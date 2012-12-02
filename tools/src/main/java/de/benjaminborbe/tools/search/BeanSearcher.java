@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class BeanSearcher<B> {
 
-	private final class Match {
+	private final class Match implements BeanMatch<B> {
 
 		private final B bean;
 
@@ -19,11 +19,13 @@ public abstract class BeanSearcher<B> {
 			this.counter = counter;
 		}
 
-		public B getB() {
+		@Override
+		public B getBean() {
 			return bean;
 		}
 
-		public int getCounter() {
+		@Override
+		public int getMatchCounter() {
 			return counter;
 		}
 	}
@@ -32,10 +34,10 @@ public abstract class BeanSearcher<B> {
 
 		@Override
 		public int compare(final Match a, final Match b) {
-			if (a.getCounter() > b.getCounter()) {
+			if (a.getMatchCounter() > b.getMatchCounter()) {
 				return -1;
 			}
-			if (a.getCounter() < b.getCounter()) {
+			if (a.getMatchCounter() < b.getMatchCounter()) {
 				return 1;
 			}
 			return 0;
@@ -44,7 +46,7 @@ public abstract class BeanSearcher<B> {
 
 	private static final int SEARCH_TERM_MIN_LENGTH = 2;
 
-	public List<B> search(final List<B> beans, final int limit, final String... parts) {
+	public List<BeanMatch<B>> search(final Collection<B> beans, final int limit, final String... parts) {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final B bean : beans) {
 			final int counter = match(bean, parts);
@@ -54,12 +56,18 @@ public abstract class BeanSearcher<B> {
 			}
 		}
 		Collections.sort(matches, new MatchComparator());
-		final List<B> result = new ArrayList<B>();
+		final List<BeanMatch<B>> result = new ArrayList<BeanMatch<B>>();
+		int counter = 0;
 		for (final Match match : matches) {
-			result.add(match.getB());
+			if (counter < limit) {
+				result.add(match);
+				counter++;
+			}
+			else {
+				return result;
+			}
 		}
-
-		return result.subList(0, Math.max(0, Math.min(limit, result.size())));
+		return result;
 	}
 
 	private int match(final B bean, final String... searchTerms) {

@@ -47,7 +47,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final static String PARAMETER_SEARCH = "q";
 
-	private static final int MAX_RESULTS = 20;
+	private static final int MAX_RESULTS = 10;
 
 	private static final Target target = Target.BLANK;
 

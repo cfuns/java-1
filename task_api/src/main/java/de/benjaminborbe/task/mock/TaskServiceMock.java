@@ -15,6 +15,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 
@@ -145,7 +146,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException {
+	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
+
 }

@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.search.api.SearchResult;
@@ -39,7 +40,7 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 		try {
-			final List<Task> tasks = taskService.searchTasks(sessionIdentifier, maxResults, words);
+			final List<TaskMatch> tasks = taskService.searchTasks(sessionIdentifier, maxResults, words);
 			final int max = Math.min(maxResults, tasks.size());
 			for (int i = 0; i < max; ++i) {
 				try {
@@ -60,8 +61,9 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 		return results;
 	}
 
-	protected SearchResult mapTask(final Task task) throws MalformedURLException {
-		return new SearchResultImpl(SEARCH_TYPE, task.getName(), buildUrl(task), task.getDescription());
+	protected SearchResult mapTask(final TaskMatch taskMatch) throws MalformedURLException {
+		final Task task = taskMatch.getTask();
+		return new SearchResultImpl(SEARCH_TYPE, taskMatch.getMatchCounter(), task.getName(), buildUrl(task), task.getDescription());
 	}
 
 	private String buildUrl(final Task task) {

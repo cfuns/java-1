@@ -23,7 +23,7 @@ public interface BookmarkService {
 	Bookmark getBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	List<Bookmark> searchBookmarks(SessionIdentifier sessionIdentifier, int limit, String... words) throws BookmarkServiceException, LoginRequiredException;
+	List<BookmarkMatch> searchBookmarks(SessionIdentifier sessionIdentifier, int limit, String... words) throws BookmarkServiceException, LoginRequiredException;
 
 	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException;
 

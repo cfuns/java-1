@@ -17,7 +17,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.bookmark.api.Bookmark;
+import de.benjaminborbe.bookmark.api.BookmarkMatch;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.widget.BookmarkCreateLink;
@@ -64,9 +64,9 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 			final String[] words = searchUtil.buildSearchParts(searchQuery.substring(searchQuery.indexOf(":") + 1).trim());
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, 1, words);
+			final List<BookmarkMatch> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, 1, words);
 			if (bookmarks.size() > 0) {
-				response.sendRedirect(bookmarks.get(0).getUrl());
+				response.sendRedirect(bookmarks.get(0).getBookmark().getUrl());
 			}
 			else {
 				final ListWidget widgets = new ListWidget();

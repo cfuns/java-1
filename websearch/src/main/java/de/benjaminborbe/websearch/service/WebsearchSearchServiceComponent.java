@@ -40,6 +40,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 		for (final IndexSearchResult indexResult : indexResults) {
 			if (result.size() < maxResults) {
 				result.add(map(indexResult));
+				return result;
 			}
 		}
 		return result;
@@ -49,7 +50,9 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 		final String title = indexResult.getTitle();
 		final String url = indexResult.getURL();
 		final String description = indexResult.getContent();
-		return new SearchResultImpl(SEARCH_TYPE, title, url, description);
+		// TODO bborbe matchCounter bestimmen
+		final int matchCounter = 1;
+		return new SearchResultImpl(SEARCH_TYPE, matchCounter, title, url, description);
 	}
 
 	@Override
