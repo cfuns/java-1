@@ -19,6 +19,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
+import de.benjaminborbe.search.gui.SearchGuiConstants;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -97,6 +98,11 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return SearchGuiConstants.NAME;
 	}
 
 }

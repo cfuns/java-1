@@ -34,7 +34,7 @@ public class WowGuiActivator extends HttpBundleActivator {
 	private WowGuiSpecialSearchBuffed specialSearchBuffed;
 
 	public WowGuiActivator() {
-		super("wow");
+		super(WowGuiConstants.NAME);
 	}
 
 	@Override

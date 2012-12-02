@@ -25,7 +25,7 @@ public class GwtServerActivator extends HttpBundleActivator {
 	private GwtHomeServlet gwtHomeServlet;
 
 	public GwtServerActivator() {
-		super("gwt");
+		super(GwtServerConstants.NAME);
 	}
 
 	@Override

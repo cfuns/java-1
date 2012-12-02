@@ -10,4 +10,6 @@ public interface DashboardContentWidget extends Widget {
 
 	boolean isAdminRequired();
 
+	String getName();
+
 }

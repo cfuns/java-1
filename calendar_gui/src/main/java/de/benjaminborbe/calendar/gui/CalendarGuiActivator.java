@@ -26,7 +26,7 @@ public class CalendarGuiActivator extends HttpBundleActivator {
 	private CalendarGuiDashboardWidget calendarDashboardWidget;
 
 	public CalendarGuiActivator() {
-		super("calendar");
+		super(CalendarGuiConstants.NAME);
 	}
 
 	@Override

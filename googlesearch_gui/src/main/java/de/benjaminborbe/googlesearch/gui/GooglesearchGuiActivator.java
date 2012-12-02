@@ -30,7 +30,7 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 	private GooglesearchGuiMapSpecialSearch googlesearchGuiMapSpecialSearch;
 
 	public GooglesearchGuiActivator() {
-		super("googlesearch");
+		super(GooglesearchGuiConstants.NAME);
 	}
 
 	@Override

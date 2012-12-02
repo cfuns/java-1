@@ -20,7 +20,7 @@ public class GwtGuiActivator extends HttpBundleActivator {
 	private GwtGuiServlet gwtGuiServlet;
 
 	public GwtGuiActivator() {
-		super("gwt");
+		super(GwtGuiConstants.NAME);
 	}
 
 	@Override

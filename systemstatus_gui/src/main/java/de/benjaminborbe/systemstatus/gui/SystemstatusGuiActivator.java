@@ -20,7 +20,7 @@ public class SystemstatusGuiActivator extends HttpBundleActivator {
 	private SystemstatusGuiServlet systemstatusGuiServlet;
 
 	public SystemstatusGuiActivator() {
-		super("systemstatus");
+		super(SystemstatusGuiConstants.NAME);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.BookmarkGuiConstants;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
@@ -91,6 +92,11 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return BookmarkGuiConstants.NAME;
 	}
 
 }

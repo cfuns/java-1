@@ -34,7 +34,7 @@ public class SlashGuiActivator extends HttpBundleActivator {
 	private SlashGuiSessionTestServlet slashGuiSessionTestServlet;
 
 	public SlashGuiActivator() {
-		super("");
+		super(SlashGuiConstants.NAME);
 	}
 
 	@Override
@@ -45,25 +45,25 @@ public class SlashGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(slashServlet, "/"));
-		result.add(new ServletInfo(slashRobotsTxtServlet, "/robots.txt"));
-		result.add(new ServletInfo(slashGuiSessionTestServlet, "/sessionTest"));
+		result.add(new ServletInfo(slashServlet, "/", true));
+		result.add(new ServletInfo(slashRobotsTxtServlet, "/robots.txt", true));
+		result.add(new ServletInfo(slashGuiSessionTestServlet, "/sessionTest", true));
 		return result;
 	}
 
 	@Override
 	protected Collection<FilterInfo> getFilterInfos() {
 		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-		result.add(new FilterInfo(slashLogFilter, ".*", 1));
+		result.add(new FilterInfo(slashLogFilter, ".*", 1, true));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		result.add(new ResourceInfo("/css", "css"));
-		result.add(new ResourceInfo("/js", "js"));
-		result.add(new ResourceInfo("/images", "images"));
+		result.add(new ResourceInfo("/css", "css", true));
+		result.add(new ResourceInfo("/js", "js", true));
+		result.add(new ResourceInfo("/images", "images", true));
 		return result;
 	}
 

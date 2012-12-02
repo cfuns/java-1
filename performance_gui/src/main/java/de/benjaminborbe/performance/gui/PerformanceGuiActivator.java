@@ -26,7 +26,7 @@ public class PerformanceGuiActivator extends HttpBundleActivator {
 	private PerformanceGuiFilter performanceFilter;
 
 	public PerformanceGuiActivator() {
-		super("performance");
+		super(PerformanceGuiConstants.NAME);
 	}
 
 	@Override

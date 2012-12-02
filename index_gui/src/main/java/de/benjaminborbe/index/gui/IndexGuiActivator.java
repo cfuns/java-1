@@ -20,7 +20,7 @@ public class IndexGuiActivator extends HttpBundleActivator {
 	private IndexGuiServlet indexGuiServlet;
 
 	public IndexGuiActivator() {
-		super("index");
+		super(IndexGuiConstants.NAME);
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.mail.gui.MailGuiConstants;
 
 @Singleton
 public class MailGuiDashboardWidget implements DashboardContentWidget {
@@ -44,6 +45,11 @@ public class MailGuiDashboardWidget implements DashboardContentWidget {
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return MailGuiConstants.NAME;
 	}
 
 }

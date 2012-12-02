@@ -16,6 +16,7 @@ import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
+import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
 
 @Singleton
 public class MonitoringGuiDashboardWidget implements DashboardContentWidget, RequireCssResource {
@@ -56,6 +57,11 @@ public class MonitoringGuiDashboardWidget implements DashboardContentWidget, Req
 	@Override
 	public boolean isAdminRequired() {
 		return true;
+	}
+
+	@Override
+	public String getName() {
+		return MonitoringGuiConstants.NAME;
 	}
 
 }

@@ -34,13 +34,17 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
+import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpServletResponseBuffer;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H2Widget;
+import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
 public class DashboardGuiWidgetImpl implements DashboardWidget {
@@ -113,7 +117,8 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 				final long startTime = calendarUtil.getTime();
 				final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 				final StringWriter stringWriter = httpServletResponseAdapter.getStringWriter();
-				printDashboardWidget(request, httpServletResponseAdapter, context, dashboardWidget);
+				final Widget widget = createDashboardWidget(request, httpServletResponseAdapter, context, dashboardWidget);
+				widget.render(request, httpServletResponseAdapter, context);
 				final long endTime = calendarUtil.getTime();
 				stringWriter.append("<!-- render widget " + dashboardWidget.getClass().getSimpleName() + " in " + (endTime - startTime) + " ms -->");
 				threadResult.set(stringWriter.toString());
@@ -223,13 +228,17 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 		}
 	}
 
-	protected void printDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final DashboardContentWidget dashboardWidget)
-			throws IOException, PermissionDeniedException {
-		final PrintWriter out = response.getWriter();
-		out.println("<div class=\"dashboardWidget\">");
-		out.println("<h2>" + dashboardWidget.getTitle() + "</h2>");
-		dashboardWidget.render(request, response, context);
-		out.println("</div>");
+	protected Widget createDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context,
+			final DashboardContentWidget dashboardWidget) throws IOException, PermissionDeniedException {
+		final DivWidget div = new DivWidget().addClass("dashboardWidget");
+		if (dashboardWidget.getName() != null) {
+			div.addClass(dashboardWidget.getName());
+		}
+		final ListWidget content = new ListWidget();
+		content.add(new H2Widget(dashboardWidget.getTitle()));
+		content.add(dashboardWidget);
+		div.addContent(content);
+		return div;
 	}
 
 	@Override

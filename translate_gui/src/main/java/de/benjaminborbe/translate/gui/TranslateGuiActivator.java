@@ -31,7 +31,7 @@ public class TranslateGuiActivator extends HttpBundleActivator {
 	private TranslateGuiSpecialSearch translateGuiSpecialSearch;
 
 	public TranslateGuiActivator() {
-		super("translate");
+		super(TranslateGuiConstants.NAME);
 	}
 
 	@Override

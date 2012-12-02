@@ -24,7 +24,7 @@ public class GeocachingGuiActivator extends HttpBundleActivator {
 	private GeocachingGuiCurrentLocationOnGoogleMapsServlet geocachingGuiCurrentLocationOnGoogleMapsServlet;
 
 	public GeocachingGuiActivator() {
-		super("geocaching");
+		super(GeocachingGuiConstants.NAME);
 	}
 
 	@Override

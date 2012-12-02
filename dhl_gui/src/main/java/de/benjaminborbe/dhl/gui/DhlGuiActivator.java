@@ -36,7 +36,7 @@ public class DhlGuiActivator extends HttpBundleActivator {
 	private DhlGuiListServlet dhlGuiListServlet;
 
 	public DhlGuiActivator() {
-		super("dhl");
+		super(DhlGuiConstants.NAME);
 	}
 
 	@Override

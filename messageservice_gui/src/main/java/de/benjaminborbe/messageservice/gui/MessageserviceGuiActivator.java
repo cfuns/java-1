@@ -20,7 +20,7 @@ public class MessageserviceGuiActivator extends HttpBundleActivator {
 	private MessageserviceGuiServlet messageserviceGuiServlet;
 
 	public MessageserviceGuiActivator() {
-		super("messageservice");
+		super(MessageserviceGuiConstants.NAME);
 	}
 
 	@Override

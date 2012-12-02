@@ -21,7 +21,7 @@ public class VaadinGuiActivator extends HttpBundleActivator {
 	private VaadinGuiApplicationServlet vaadinGuiApplicationServlet;
 
 	public VaadinGuiActivator() {
-		super("vaadin");
+		super(VaadinGuiConstants.NAME);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class StorageActivator extends HttpBundleActivator {
 
 	public StorageActivator() {
-		super("storage");
+		super(StorageConstants.NAME);
 	}
 
 	//

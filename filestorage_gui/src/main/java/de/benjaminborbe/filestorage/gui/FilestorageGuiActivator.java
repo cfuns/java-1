@@ -28,7 +28,7 @@ public class FilestorageGuiActivator extends HttpBundleActivator {
 	private FilestorageGuiDownloadServlet filestorageGuiDownloadServlet;
 
 	public FilestorageGuiActivator() {
-		super("filestorage");
+		super(FilestorageGuiConstants.NAME);
 	}
 
 	@Override

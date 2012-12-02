@@ -28,7 +28,7 @@ public class WeatherGuiActivator extends HttpBundleActivator {
 	private WeatherGuiDashboardWidget weatherDashboardWidget;
 
 	public WeatherGuiActivator() {
-		super("weather");
+		super(WeatherGuiConstants.NAME);
 	}
 
 	@Override

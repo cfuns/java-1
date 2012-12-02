@@ -26,7 +26,7 @@ public class MailGuiActivator extends HttpBundleActivator {
 	private MailGuiDashboardWidget mailDashboardWidget;
 
 	public MailGuiActivator() {
-		super("mail");
+		super(MailGuiConstants.NAME);
 	}
 
 	@Override

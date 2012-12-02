@@ -30,7 +30,7 @@ public class WorktimeGuiActivator extends HttpBundleActivator {
 	private WorktimeGuiServlet worktimeServlet;
 
 	public WorktimeGuiActivator() {
-		super("worktime");
+		super(WorktimeGuiConstants.NAME);
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	private MonitoringGuiSendmailServlet monitoringGuiSendmailServlet;
 
 	public MonitoringGuiActivator() {
-		super("monitoring");
+		super(MonitoringGuiConstants.NAME);
 	}
 
 	@Override

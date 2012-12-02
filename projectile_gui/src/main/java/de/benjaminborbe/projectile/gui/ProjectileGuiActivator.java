@@ -20,7 +20,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 	private ProjectileGuiServlet projectileGuiServlet;
 
 	public ProjectileGuiActivator() {
-		super("projectile");
+		super(ProjectileGuiConstants.NAME);
 	}
 
 	@Override

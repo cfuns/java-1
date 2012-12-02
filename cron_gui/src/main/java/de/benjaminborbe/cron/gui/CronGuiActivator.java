@@ -24,7 +24,7 @@ public class CronGuiActivator extends HttpBundleActivator {
 	private CronGuiLatestExecutedServlet cronGuiLatestExecutedServlet;
 
 	public CronGuiActivator() {
-		super("cron");
+		super(CronGuiConstants.NAME);
 	}
 
 	@Override

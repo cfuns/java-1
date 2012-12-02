@@ -133,4 +133,9 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 		return false;
 	}
 
+	@Override
+	public String getName() {
+		return TaskGuiConstants.NAME;
+	}
+
 }

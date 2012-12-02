@@ -20,7 +20,7 @@ public class StreamcacheGuiActivator extends HttpBundleActivator {
 	private StreamcacheGuiServlet streamcacheGuiServlet;
 
 	public StreamcacheGuiActivator() {
-		super("streamcache");
+		super(StreamcacheGuiConstants.NAME);
 	}
 
 	@Override

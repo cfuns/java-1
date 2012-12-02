@@ -68,7 +68,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 	private AuthorizationGuiUserListServlet authorizationGuiUserListServlet;
 
 	public AuthorizationGuiActivator() {
-		super("authorization");
+		super(AuthorizationGuiConstants.NAME);
 	}
 
 	@Override

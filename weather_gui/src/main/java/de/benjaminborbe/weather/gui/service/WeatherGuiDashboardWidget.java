@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.weather.gui.WeatherGuiConstants;
 
 @Singleton
 public class WeatherGuiDashboardWidget implements DashboardContentWidget {
@@ -41,6 +42,11 @@ public class WeatherGuiDashboardWidget implements DashboardContentWidget {
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return WeatherGuiConstants.NAME;
 	}
 
 }

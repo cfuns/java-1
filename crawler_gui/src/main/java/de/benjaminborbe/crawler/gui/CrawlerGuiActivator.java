@@ -20,7 +20,7 @@ public class CrawlerGuiActivator extends HttpBundleActivator {
 	private CrawlerGuiServlet crawlerGuiServlet;
 
 	public CrawlerGuiActivator() {
-		super("crawler");
+		super(CrawlerGuiConstants.NAME);
 	}
 
 	@Override

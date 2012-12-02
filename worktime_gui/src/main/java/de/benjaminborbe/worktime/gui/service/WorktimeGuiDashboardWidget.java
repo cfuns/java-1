@@ -26,6 +26,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.api.WorktimeServiceException;
+import de.benjaminborbe.worktime.gui.WorktimeGuiConstants;
 import de.benjaminborbe.worktime.gui.widget.WorktimeListWidget;
 
 @Singleton
@@ -92,6 +93,11 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return WorktimeGuiConstants.NAME;
 	}
 
 }

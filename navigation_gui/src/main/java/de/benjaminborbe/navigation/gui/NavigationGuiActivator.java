@@ -25,7 +25,7 @@ public class NavigationGuiActivator extends HttpBundleActivator {
 	private NavigationWidget navigationWidget;
 
 	public NavigationGuiActivator() {
-		super("navigation");
+		super(NavigationGuiConstants.NAME);
 	}
 
 	@Override

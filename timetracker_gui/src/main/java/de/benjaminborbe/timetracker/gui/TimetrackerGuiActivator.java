@@ -20,7 +20,7 @@ public class TimetrackerGuiActivator extends HttpBundleActivator {
 	private TimetrackerGuiServlet timetrackerGuiServlet;
 
 	public TimetrackerGuiActivator() {
-		super("timetracker");
+		super(TimetrackerGuiConstants.NAME);
 	}
 
 	@Override

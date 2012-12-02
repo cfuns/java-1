@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.calendar.gui.CalendarGuiConstants;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -58,6 +59,11 @@ public class CalendarGuiDashboardWidget implements DashboardContentWidget {
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return CalendarGuiConstants.NAME;
 	}
 
 }

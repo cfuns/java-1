@@ -20,7 +20,7 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 	private ChecklistGuiServlet checklistGuiServlet;
 
 	public ChecklistGuiActivator() {
-		super("checklist");
+		super(ChecklistGui.NAME);
 	}
 
 	@Override
