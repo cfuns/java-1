@@ -842,9 +842,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final String[] words) throws TaskServiceException, LoginRequiredException {
+	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException, LoginRequiredException {
 		final List<Task> beans = getTasksNotCompleted(sessionIdentifier);
 		final BeanSearcher<Task> beanSearch = new TaskSearcher();
-		return beanSearch.search(beans, words);
+		return beanSearch.search(beans, limit, words);
 	}
 }

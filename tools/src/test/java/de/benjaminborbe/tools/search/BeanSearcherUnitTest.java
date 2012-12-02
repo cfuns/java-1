@@ -34,16 +34,20 @@ public class BeanSearcherUnitTest {
 			}
 		};
 
+		final int limit = Integer.MAX_VALUE;
+
 		final List<Bean> beans = new ArrayList<Bean>();
-		assertEquals(0, beanSearcher.search(beans, "hello", "world").size());
+		assertEquals(0, beanSearcher.search(beans, limit, "hello", "world").size());
 		beans.add(buildBean("bla"));
-		assertEquals(0, beanSearcher.search(beans, "hello", "world").size());
+		assertEquals(0, beanSearcher.search(beans, limit, "hello", "world").size());
 		beans.add(buildBean("hello"));
-		assertEquals(1, beanSearcher.search(beans, "hello", "world").size());
+		assertEquals(1, beanSearcher.search(beans, limit, "hello", "world").size());
 		beans.add(buildBean("world"));
-		assertEquals(2, beanSearcher.search(beans, "hello", "world").size());
+		assertEquals(2, beanSearcher.search(beans, limit, "hello", "world").size());
 		beans.add(buildBean("hello world"));
-		assertEquals(3, beanSearcher.search(beans, "hello", "world").size());
+		assertEquals(3, beanSearcher.search(beans, limit, "hello", "world").size());
+		assertEquals(1, beanSearcher.search(beans, 1, "hello", "world").size());
+		assertEquals(0, beanSearcher.search(beans, 0, "hello", "world").size());
 	}
 
 	private Bean buildBean(final String name) {

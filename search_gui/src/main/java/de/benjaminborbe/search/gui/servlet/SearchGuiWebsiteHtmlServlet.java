@@ -52,4 +52,5 @@ public abstract class SearchGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 
 	protected abstract Widget createSearchContentWidget(HttpServletRequest request, HttpServletResponse response, HttpContext context) throws IOException, PermissionDeniedException,
 			RedirectException, LoginRequiredException;
+
 }

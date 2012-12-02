@@ -8,5 +8,5 @@ public interface SearchServiceComponent {
 
 	String getName();
 
-	List<SearchResult> search(SessionIdentifier sessionIdentifier, String query, String[] words, int maxResults);
+	List<SearchResult> search(SessionIdentifier sessionIdentifier, String query, int maxResults, String... words);
 }

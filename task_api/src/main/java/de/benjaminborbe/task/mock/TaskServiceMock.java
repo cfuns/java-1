@@ -145,7 +145,7 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final String[] words) throws TaskServiceException {
+	public List<Task> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException {
 		return null;
 	}
 }

@@ -61,7 +61,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		// https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=foo

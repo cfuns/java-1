@@ -64,7 +64,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 			final String[] words = searchUtil.buildSearchParts(searchQuery.substring(searchQuery.indexOf(":") + 1).trim());
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, words);
+			final List<Bookmark> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, 1, words);
 			if (bookmarks.size() > 0) {
 				response.sendRedirect(bookmarks.get(0).getUrl());
 			}

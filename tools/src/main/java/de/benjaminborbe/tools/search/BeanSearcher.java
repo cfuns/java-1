@@ -44,7 +44,7 @@ public abstract class BeanSearcher<B> {
 
 	private static final int SEARCH_TERM_MIN_LENGTH = 2;
 
-	public List<B> search(final List<B> beans, final String... parts) {
+	public List<B> search(final List<B> beans, final int limit, final String... parts) {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final B bean : beans) {
 			final int counter = match(bean, parts);
@@ -58,7 +58,8 @@ public abstract class BeanSearcher<B> {
 		for (final Match match : matches) {
 			result.add(match.getB());
 		}
-		return result;
+
+		return result.subList(0, Math.max(0, Math.min(limit, result.size())));
 	}
 
 	private int match(final B bean, final String... searchTerms) {

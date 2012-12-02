@@ -52,7 +52,7 @@ public class SearchServiceImpl implements SearchService {
 		@Override
 		public void run() {
 			try {
-				threadResult.set(searchServiceComponent.search(sessionIdentifier, query, words, maxResults));
+				threadResult.set(searchServiceComponent.search(sessionIdentifier, query, maxResults, words));
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -81,7 +81,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
 		logger.trace("search words: " + StringUtils.join(words, ","));
 
 		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());

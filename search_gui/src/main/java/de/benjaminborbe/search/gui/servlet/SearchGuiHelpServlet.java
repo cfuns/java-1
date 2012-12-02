@@ -18,6 +18,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.search.gui.SearchGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -34,6 +35,8 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 
 	private static final String TITLE = "Search - Help";
 
+	private final UrlUtil urlUtil;
+
 	@Inject
 	public SearchGuiHelpServlet(
 			final Logger logger,
@@ -46,6 +49,7 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -55,7 +59,7 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(TITLE));
 		widgets.add(new H2Widget("Google Chrome"));
-		widgets.add("/search?q=%s&ie={inputEncoding}");
+		widgets.add(urlUtil.buildBaseUrl(request) + "/" + SearchGuiConstants.NAME + "?q=%s&ie={inputEncoding}");
 		return widgets;
 	}
 

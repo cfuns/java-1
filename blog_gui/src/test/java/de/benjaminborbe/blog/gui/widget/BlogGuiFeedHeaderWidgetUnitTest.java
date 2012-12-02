@@ -19,7 +19,7 @@ public class BlogGuiFeedHeaderWidgetUnitTest {
 	@Test
 	public void testRender() throws Exception {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		EasyMock.expect(request.getContextPath()).andReturn("/bb");
+		EasyMock.expect(request.getContextPath()).andReturn("/myContext");
 		EasyMock.expect(request.getScheme()).andReturn("http");
 		EasyMock.expect(request.getServerName()).andReturn("www.test.de");
 		EasyMock.replay(request);
@@ -35,10 +35,11 @@ public class BlogGuiFeedHeaderWidgetUnitTest {
 		EasyMock.replay(context);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.expect(urlUtil.buildBaseUrl(request)).andReturn("http://www.test.de/myContext");
 		EasyMock.replay(urlUtil);
 
 		final BlogGuiFeedHeaderWidget widget = new BlogGuiFeedHeaderWidget(urlUtil);
 		widget.render(request, response, context);
-		assertEquals("<link href=\"http://www.test.de/bb/blog/atom.xml\" title=\"bb News\" type=\"application/atom+xml\"/>", sw.toString());
+		assertEquals("<link href=\"http://www.test.de/myContext/blog/atom.xml\" title=\"bb News\" type=\"application/atom+xml\"/>", sw.toString());
 	}
 }

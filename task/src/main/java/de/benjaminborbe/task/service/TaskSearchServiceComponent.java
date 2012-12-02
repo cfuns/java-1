@@ -35,11 +35,11 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final String[] words, final int maxResults) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 		try {
-			final List<Task> tasks = taskService.searchTasks(sessionIdentifier, words);
+			final List<Task> tasks = taskService.searchTasks(sessionIdentifier, maxResults, words);
 			final int max = Math.min(maxResults, tasks.size());
 			for (int i = 0; i < max; ++i) {
 				try {

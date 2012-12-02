@@ -92,7 +92,7 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 			if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
 				final String[] words = searchUtil.buildSearchParts(queryString);
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				searchResults = searchService.search(sessionIdentifier, queryString, words, MAX_RESULTS);
+				searchResults = searchService.search(sessionIdentifier, queryString, MAX_RESULTS, words);
 				logger.trace("found " + searchResults.size() + " searchResults");
 			}
 			else {

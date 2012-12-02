@@ -138,10 +138,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final String[] parts) throws BookmarkServiceException, LoginRequiredException {
+	public List<Bookmark> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws BookmarkServiceException, LoginRequiredException {
 		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
 		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
-		return beanSearch.search(bookmarks, parts);
+		return beanSearch.search(bookmarks, limit, words);
 	}
 
 	@Override

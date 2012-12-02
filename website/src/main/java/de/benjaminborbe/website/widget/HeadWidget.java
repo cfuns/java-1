@@ -72,6 +72,7 @@ public class HeadWidget implements Widget {
 		list.add(new HtmlContentWidget("<meta http-equiv=\"content-language\" content=\"en\" />"));
 		list.add(new HtmlContentWidget("<meta name=\"description\" content=\"BB\" />"));
 		list.add(new HtmlContentWidget("<meta name=\"keywords\" content=\"BB\" />"));
+		list.add(new HtmlContentWidget("<link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"BB\" href=\"" + request.getContextPath() + "/search/osd.xml\" />"));
 		list.add(new HtmlContentWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
 		list.add(new JavascriptResourceWidget(javascriptResources));
 		list.add(new CssResourceWidget(cssResources));
