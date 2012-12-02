@@ -30,4 +30,6 @@
 	margin-bottom: 15px;
 }
 
-.dashboardWidget
+.searchDashboardWidget .searchBox {
+	width: 290px;
+}

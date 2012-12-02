@@ -22,6 +22,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.search.api.SearchWidget;
+import de.benjaminborbe.search.gui.util.SearchGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -39,6 +40,8 @@ public class SearchGuiServlet extends SearchGuiWebsiteHtmlServlet {
 
 	private final SearchWidget searchWidget;
 
+	private final SearchGuiLinkFactory searchGuiLinkFactory;
+
 	@Inject
 	public SearchGuiServlet(
 			final Logger logger,
@@ -50,9 +53,11 @@ public class SearchGuiServlet extends SearchGuiWebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final SearchGuiLinkFactory searchGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.searchWidget = searchWidget;
+		this.searchGuiLinkFactory = searchGuiLinkFactory;
 	}
 
 	@Override
@@ -83,6 +88,10 @@ public class SearchGuiServlet extends SearchGuiWebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		widgets.add(searchWidget);
+
+		final ListWidget links = new ListWidget();
+		links.add(searchGuiLinkFactory.searchHelp(request));
+		widgets.add(links);
 		return widgets;
 	}
 }

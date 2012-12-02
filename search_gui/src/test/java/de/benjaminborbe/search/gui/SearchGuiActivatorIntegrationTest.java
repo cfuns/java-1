@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +47,12 @@ public class SearchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/search", "/search/suggest", "/search/osd.xml", "/search/component");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_OSD);
+		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH);
+		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_COMPONENT);
+		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_HELP);
+		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_SUGGEST);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

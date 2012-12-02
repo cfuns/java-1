@@ -10,3 +10,7 @@
 .dashboardWidget h2 {
 	margin: 0px;
 }
+
+.dashboardWidget input[type="submit"] {
+    margin-left: 0px;
+}

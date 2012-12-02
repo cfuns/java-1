@@ -232,7 +232,7 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 			final DashboardContentWidget dashboardWidget) throws IOException, PermissionDeniedException {
 		final DivWidget div = new DivWidget().addClass("dashboardWidget");
 		if (dashboardWidget.getName() != null) {
-			div.addClass(dashboardWidget.getName());
+			div.addClass(dashboardWidget.getName() + "DashboardWidget");
 		}
 		final ListWidget content = new ListWidget();
 		content.add(new H2Widget(dashboardWidget.getTitle()));
