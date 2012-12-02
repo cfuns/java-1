@@ -111,6 +111,17 @@
         <module>xmpp_test</module>
       </modules>
     </profile>
+    <profile>
+      <id>slow</id>
+      <modules>
+        <module>vaadin</module>
+        <module>vaadin_api</module>
+        <module>vaadin_gui</module>
+        <module>gwt</module>
+        <module>gwt_api</module>
+        <module>gwt_gui</module>
+      </modules>
+    </profile>
   </profiles>
   <modules>
     <module>api</module>
@@ -169,9 +180,6 @@
     <module>googlesearch</module>
     <module>googlesearch_api</module>
     <module>googlesearch_gui</module>
-    <module>gwt</module>
-    <module>gwt_api</module>
-    <module>gwt_gui</module>
     <module>html</module>
     <module>index</module>
     <module>index_api</module>
@@ -242,9 +250,6 @@
     <module>util</module>
     <module>util_api</module>
     <module>util_gui</module>
-    <module>vaadin</module>
-    <module>vaadin_api</module>
-    <module>vaadin_gui</module>
     <module>vnc</module>
     <module>vnc_api</module>
     <module>vnc_gui</module>
@@ -314,7 +319,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.4.3</version>
+          <version>2.12.4</version>
           <configuration>
             <excludes>
               <exclude>**/Test*.java</exclude>

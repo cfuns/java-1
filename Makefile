@@ -1,13 +1,15 @@
 MVN_OPTS=-Djava.awt.headless=true
+fast:
+	mvn $(MVN_OPTS) -T 2C -Dmaven.test.skip=true install
 all:
-	mvn $(MVN_OPTS) -Pbridge,test install
+	mvn $(MVN_OPTS) -Pbridge,test,slow install
 clean:
-	mvn $(MVN_OPTS) -Pbridge,test clean
+	mvn $(MVN_OPTS) -Pbridge,test,slow clean
 	find . -name target -type d -exec rm -rf "{}" \;
 test:
-	mvn $(MVN_OPTS) -Pbridge,test test
+	mvn $(MVN_OPTS) -Pbridge,test,slow test
 installwotest:
-	mvn $(MVN_OPTS) -Pbridge,test -Dmaven.test.skip=true install
+	mvn $(MVN_OPTS) -Pbridge,test,slow -Dmaven.test.skip=true install
 package:
 	make packagedevel
 deploy:
