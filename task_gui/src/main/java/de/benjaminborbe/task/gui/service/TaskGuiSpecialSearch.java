@@ -40,6 +40,8 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 
 	private final static String PARAMETER_SEARCH = "q";
 
+	private static final String NEXT = "next";
+
 	private final TaskService taskService;
 
 	private final AuthenticationService authenticationService;
@@ -78,6 +80,10 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 			if (term.indexOf(ADD) == 0) {
 				final String taskName = term.substring(ADD.length());
 				taskService.createTask(sessionIdentifier, taskName, null, null, null, null, null, null, null, null);
+				response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
+				return;
+			}
+			if (term.indexOf(NEXT) == 0) {
 				response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
 				return;
 			}
