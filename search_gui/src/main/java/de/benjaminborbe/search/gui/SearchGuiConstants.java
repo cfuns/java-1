@@ -4,7 +4,7 @@ public interface SearchGuiConstants {
 
 	String NAME = "search";
 
-	String URL_SEARCH_HELP = "/search/help";
+	String URL_SEARCH_HELP = "/help";
 
 	String URL_SEARCH = "/";
 
