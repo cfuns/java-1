@@ -1,15 +1,17 @@
 MVN_OPTS=-Djava.awt.headless=true
 fast:
-	mvn $(MVN_OPTS) -T 2C -Dmaven.test.skip=true install
+	mvn $(MVN_OPTS) -Pbase -T 2C -Dmaven.test.skip=true install
 all:
-	mvn $(MVN_OPTS) -Pbridge,test,slow install
+	mvn $(MVN_OPTS) -Pbase,meta,bridge,test,slow install
 clean:
-	mvn $(MVN_OPTS) -Pbridge,test,slow clean
+	mvn $(MVN_OPTS) -Pbase,meta,bridge,test,slow clean
 	find . -name target -type d -exec rm -rf "{}" \;
 test:
-	mvn $(MVN_OPTS) -Pbridge,test,slow test
+	mvn $(MVN_OPTS) -Pbase,meta,bridge,test,slow test
 installwotest:
-	mvn $(MVN_OPTS) -Pbridge,test,slow -Dmaven.test.skip=true install
+	mvn $(MVN_OPTS) -Pbase,meta,bridge,test,slow -Dmaven.test.skip=true install
+sonar:
+	mvn $(MVN_OPTS) sonar:sonar
 package:
 	make packagedevel
 deploy:
@@ -34,8 +36,6 @@ update:
 	make all deploy
 dllir:
 	find . -type d -d 1 -exec sh -c 'cd {} && make dir' \;
-sonar:
-	mvn $(MVN_OPTS) sonar:sonar
 help:
 	echo "help"
 findwrongnamedtests:
