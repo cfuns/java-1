@@ -255,10 +255,10 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	protected MicroblogPostResult buildPost(final String conversationUrl, final String itemContent) {
 		final int titleIndexOpen = itemContent.indexOf("<title>");
 		final int titleIndexClose = itemContent.indexOf("</title>");
-		final String content = itemContent.substring(titleIndexOpen + 7, titleIndexClose);
 
 		final int authorIndexClose = itemContent.indexOf(":", titleIndexOpen);
-		final String author = itemContent.substring(titleIndexOpen + 7, authorIndexClose);
+		final String author = itemContent.substring(titleIndexOpen + 7, authorIndexClose).trim();
+		final String content = itemContent.substring(authorIndexClose + 1, titleIndexClose).trim();
 
 		final int linkIndexOpen = itemContent.indexOf("<link>");
 		final int linkIndexClose = itemContent.indexOf("</link>");

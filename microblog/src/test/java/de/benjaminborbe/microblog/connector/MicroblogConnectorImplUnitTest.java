@@ -14,6 +14,7 @@ import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationResult;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -272,13 +273,7 @@ public class MicroblogConnectorImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.replay(parseUtil);
 
-		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
-		EasyMock.expect(htmlUtil.filterHtmlTages("user1: text1")).andReturn("user1: text1").anyTimes();
-		EasyMock.expect(htmlUtil.filterHtmlTages("user2: text2")).andReturn("user2: text2").anyTimes();
-		EasyMock.expect(htmlUtil.unescapeHtml("user1: text1")).andReturn("user1: text1").anyTimes();
-		EasyMock.expect(htmlUtil.unescapeHtml("user2: text2")).andReturn("user2: text2").anyTimes();
-		EasyMock.replay(htmlUtil);
-
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 
@@ -294,13 +289,13 @@ public class MicroblogConnectorImplUnitTest {
 		assertEquals(2, result.getPosts().size());
 
 		assertNotNull(result.getPosts().get(1));
-		assertEquals("user1: text1", result.getPosts().get(1).getContent());
+		assertEquals("text1", result.getPosts().get(1).getContent());
 		assertEquals("user1", result.getPosts().get(1).getAuthor());
 		assertEquals("https://micro.rp.seibert-media.net/notice/13", result.getPosts().get(1).getPostUrl());
 		assertEquals(conversationUrl, result.getPosts().get(1).getConversationUrl());
 
 		assertNotNull(result.getPosts().get(0));
-		assertEquals("user2: text2", result.getPosts().get(0).getContent());
+		assertEquals("text2", result.getPosts().get(0).getContent());
 		assertEquals("user2", result.getPosts().get(0).getAuthor());
 		assertEquals("https://micro.rp.seibert-media.net/notice/14", result.getPosts().get(0).getPostUrl());
 		assertEquals(conversationUrl, result.getPosts().get(0).getConversationUrl());

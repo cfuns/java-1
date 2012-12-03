@@ -65,7 +65,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 		final MicroblogPostResult lastPost = posts.get(posts.size() - 1);
 		final StringBuffer mailContent = new StringBuffer();
 		for (final MicroblogPostResult post : posts) {
-			mailContent.append(post.getContent());
+			mailContent.append(post.getAuthor() + ": " + post.getContent());
 			mailContent.append("\n\n");
 		}
 		mailContent.append(microblogConversationResult.getConversationUrl());
