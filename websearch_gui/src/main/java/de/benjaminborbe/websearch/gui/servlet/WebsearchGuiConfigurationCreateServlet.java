@@ -173,8 +173,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfiguration(sessionIdentifier, url, excludes, expire);
-			return websearchConfigurationIdentifier;
+			return websearchService.createConfiguration(sessionIdentifier, url, excludes, expire);
 		}
 	}
 

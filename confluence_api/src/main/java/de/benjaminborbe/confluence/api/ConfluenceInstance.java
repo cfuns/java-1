@@ -8,4 +8,6 @@ public interface ConfluenceInstance {
 
 	String getUsername();
 
+	Integer getExpire();
+
 }

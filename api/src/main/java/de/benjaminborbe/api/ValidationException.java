@@ -22,4 +22,9 @@ public class ValidationException extends Exception implements ValidationResult {
 		return validationResult.getErrors();
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " " + validationResult;
+	}
+
 }

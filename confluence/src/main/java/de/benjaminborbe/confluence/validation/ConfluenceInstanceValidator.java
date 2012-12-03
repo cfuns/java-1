@@ -44,7 +44,7 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 
 		final Integer expire = bean.getExpire();
 		{
-			if (expire == null || expire > 0) {
+			if (expire == null || expire == 0) {
 				result.add(new ValidationErrorSimple("expire missing"));
 			}
 		}

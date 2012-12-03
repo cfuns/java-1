@@ -61,7 +61,7 @@ public class ConfluenceServiceImplIntegrationTest {
 
 		// create
 		final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceIntance(sessionIdentifier, ConfluenceTestConstants.CONFLUENCE_URL,
-				ConfluenceTestConstants.CONFLUENCE_USERNAME, ConfluenceTestConstants.CONFLUENCE_PASSWORD);
+				ConfluenceTestConstants.CONFLUENCE_USERNAME, ConfluenceTestConstants.CONFLUENCE_PASSWORD, 1);
 		assertNotNull(confluenceInstanceIdentifier);
 
 		// list
@@ -82,7 +82,7 @@ public class ConfluenceServiceImplIntegrationTest {
 
 		// update
 		confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, ConfluenceTestConstants.CONFLUENCE_URL + "bla",
-				ConfluenceTestConstants.CONFLUENCE_USERNAME + "bla", ConfluenceTestConstants.CONFLUENCE_PASSWORD + "bla");
+				ConfluenceTestConstants.CONFLUENCE_USERNAME + "bla", ConfluenceTestConstants.CONFLUENCE_PASSWORD + "bla", 1);
 
 		// list
 		assertEquals(1, confluenceService.getConfluenceInstances(sessionIdentifier).size());

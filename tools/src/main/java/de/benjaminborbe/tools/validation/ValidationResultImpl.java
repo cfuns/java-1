@@ -1,5 +1,6 @@
 package de.benjaminborbe.tools.validation;
 
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,7 +34,22 @@ public class ValidationResultImpl implements ValidationResult {
 
 	@Override
 	public String toString() {
-		return "ValidationResult has " + errors.size() + " errors";
+		final StringWriter sw = new StringWriter();
+		sw.append("ValidationResult has ");
+		sw.append(String.valueOf(errors.size()));
+		sw.append(" errors! [");
+		boolean first = true;
+		for (final ValidationError error : errors) {
+			if (first) {
+				first = false;
+			}
+			else {
+				sw.append(", ");
+			}
+			sw.append(String.valueOf(error));
+		}
+		sw.append("]");
+		return sw.toString();
 	}
 
 	@Override

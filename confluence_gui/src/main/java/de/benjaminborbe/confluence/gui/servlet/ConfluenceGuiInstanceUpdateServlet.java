@@ -1,6 +1,8 @@
 package de.benjaminborbe.confluence.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -30,7 +34,9 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
@@ -58,6 +64,8 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public ConfluenceGuiInstanceUpdateServlet(
 			final Logger logger,
@@ -72,6 +80,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final ConfluenceGuiLinkFactory confluenceGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.parseUtil = parseUtil;
 		this.confluenceService = confluenceService;
 		this.logger = logger;
 		this.confluenceGuiLinkFactory = confluenceGuiLinkFactory;
@@ -88,16 +97,17 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			final String id = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID);
 			final String username = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME);
 			final String password = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD);
+			final String expire = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(sessionIdentifier, id);
 
 			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 
-			if (url != null && username != null && password != null) {
+			if (url != null && username != null && password != null && expire != null) {
 				try {
 
-					confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password);
+					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -118,6 +128,8 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username...").addDefaultValue(
 					confluenceInstance.getUsername()));
 			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue(
+					confluenceInstance.getExpire()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
@@ -129,6 +141,27 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
+		}
+	}
+
+	private void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
+			final String username, final String password, final String expireString) throws ValidationException, ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		int expire = 0;
+		{
+			try {
+				expire = parseUtil.parseInt(expireString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal expire"));
+			}
+		}
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
+		else {
+			confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire);
 		}
 	}
 
