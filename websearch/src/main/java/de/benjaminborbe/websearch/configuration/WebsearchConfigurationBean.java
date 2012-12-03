@@ -28,6 +28,8 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	private Calendar created;
 
+	private Integer expire;
+
 	@Override
 	public WebsearchConfigurationIdentifier getId() {
 		return id;
@@ -83,6 +85,14 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
+	}
+
+	public Integer getExpire() {
+		return expire;
+	}
+
+	public void setExpire(Integer expire) {
+		this.expire = expire;
 	}
 
 }

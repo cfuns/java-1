@@ -24,6 +24,8 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 
 	private Calendar modified;
 
+	private Integer expire;
+
 	@Override
 	public ConfluenceInstanceIdentifier getId() {
 		return id;
@@ -78,6 +80,14 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 
 	public void setPassword(final String password) {
 		this.password = password;
+	}
+
+	public Integer getExpire() {
+		return expire;
+	}
+
+	public void setExpire(final Integer expire) {
+		this.expire = expire;
 	}
 
 }

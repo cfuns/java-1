@@ -11,6 +11,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
+import de.benjaminborbe.tools.mapper.SingleMapInteger;
 import de.benjaminborbe.tools.mapper.SingleMapStringList;
 import de.benjaminborbe.tools.mapper.SingleMapURL;
 import de.benjaminborbe.tools.mapper.SingleMappler;
@@ -35,6 +36,7 @@ public class WebsearchConfigurationBeanMapper extends SingleMappler<WebsearchCon
 		result.add(new SingleMapUserIdentifier<WebsearchConfigurationBean>("owner"));
 		result.add(new SingleMapURL<WebsearchConfigurationBean>("url", parseUtil));
 		result.add(new SingleMapStringList<WebsearchConfigurationBean>("excludes"));
+		result.add(new SingleMapInteger<WebsearchConfigurationBean>("expire", parseUtil));
 		result.add(new SingleMapCalendar<WebsearchConfigurationBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<WebsearchConfigurationBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
 		return result;

@@ -277,7 +277,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes)
+	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire)
 			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -290,6 +290,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			configuration.setUrl(url);
 			configuration.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
 			configuration.setExcludes(excludes);
+			configuration.setExpire(expire);
 
 			final ValidationResult errors = validationExecutor.validate(configuration);
 			if (errors.hasErrors()) {
@@ -316,7 +317,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
-			final List<String> excludes) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final List<String> excludes, final int expire) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -325,6 +326,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			final WebsearchConfigurationBean configuration = websearchConfigurationDao.load(websearchConfigurationIdentifier);
 			configuration.setUrl(url);
 			configuration.setExcludes(excludes);
+			configuration.setExpire(expire);
 
 			final ValidationResult errors = validationExecutor.validate(configuration);
 			if (errors.hasErrors()) {

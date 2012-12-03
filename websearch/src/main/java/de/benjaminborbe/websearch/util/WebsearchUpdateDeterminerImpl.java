@@ -25,7 +25,7 @@ import de.benjaminborbe.websearch.page.WebsearchPageDao;
 public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer {
 
 	// 1 day
-	private static final long EXPIRE = 24l * 60l * 60l * 1000l;
+	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
 
 	private final Logger logger;
 
@@ -59,11 +59,14 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
 		while (pages.hasNext()) {
 			final WebsearchPageBean page = pages.next();
+
+			final List<WebsearchConfigurationBean> pageConfigurations = getConfigurationForPage(page, configurations);
+
 			// handle only pages configuration exists for
-			if (isSubPage(page, configurations)) {
+			if (!pageConfigurations.isEmpty()) {
 				logger.debug("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
-				if (isExpired(time, page)) {
+				if (isExpired(time, page, pageConfigurations)) {
 					logger.debug("url " + page.getId() + " is expired");
 					result.add(page);
 				}
@@ -78,17 +81,35 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		return result;
 	}
 
-	private boolean isExpired(final long time, final WebsearchPageBean page) {
-		return page.getLastVisit() == null || (time - page.getLastVisit().getTime() > EXPIRE);
+	protected boolean isExpired(final long time, final WebsearchPageBean page, final List<WebsearchConfigurationBean> pageConfigurations) {
+		if (page.getLastVisit() == null) {
+			return true;
+		}
+		int days = 7;
+		for (final WebsearchConfigurationBean websearchConfigurationBean : pageConfigurations) {
+			final Integer expire = websearchConfigurationBean.getExpire();
+			if (expire != null && expire > 0) {
+				days = expire;
+			}
+		}
+		return time - page.getLastVisit().getTime() > days * EXPIRE_DAY;
 	}
 
 	protected boolean isSubPage(final WebsearchPageBean page, final Collection<WebsearchConfigurationBean> configurations) throws EntityIteratorException {
+		return !getConfigurationForPage(page, configurations).isEmpty();
+	}
+
+	protected List<WebsearchConfigurationBean> getConfigurationForPage(final WebsearchPageBean page, final Collection<WebsearchConfigurationBean> configurations)
+			throws EntityIteratorException {
+		final List<WebsearchConfigurationBean> result = new ArrayList<WebsearchConfigurationBean>();
 		if (page == null) {
-			throw new NullPointerException("parameter page is null");
+			logger.warn("parameter page is null");
+			return result;
 		}
 		final URL url = page.getUrl();
 		if (url == null) {
-			throw new NullPointerException("parameter url is null at page " + page.getId());
+			logger.warn("parameter url is null at page " + page.getId());
+			return result;
 		}
 		final String urlString = url.toExternalForm();
 		for (final WebsearchConfigurationBean configuration : configurations) {
@@ -100,10 +121,10 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 					}
 				}
 				if (isExcluded == false) {
-					return true;
+					result.add(configuration);
 				}
 			}
 		}
-		return false;
+		return result;
 	}
 }

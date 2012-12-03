@@ -14,4 +14,6 @@ public interface WebsearchConfiguration {
 	List<String> getExcludes();
 
 	UserIdentifier getOwner();
+
+	Integer getExpire();
 }

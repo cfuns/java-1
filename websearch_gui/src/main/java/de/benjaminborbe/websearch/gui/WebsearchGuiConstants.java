@@ -36,4 +36,6 @@ public interface WebsearchGuiConstants {
 
 	String URL_CONFIGURATION_CREATE = "/configuration/create";
 
+	String PARAMETER_CONFIGURATION_EXPIRE = "configuration_expire";
+
 }

@@ -97,15 +97,16 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 			final String id = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID);
 			final String excludes = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES);
 			final String url = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL);
+			final String expire = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE);
 			final String referer = request.getParameter(WebsearchGuiConstants.PARAMETER_REFERER);
 			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(id);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchConfiguration websearchConfiguration = websearchService.getConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
 
-			if (id != null && url != null && excludes != null) {
+			if (id != null && url != null && excludes != null && expire != null) {
 				try {
-					updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes);
+					updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -126,6 +127,8 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 					websearchConfiguration.getUrl() != null ? websearchConfiguration.getUrl().toExternalForm() : null));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue(
 					websearchConfiguration.getExcludes() != null ? StringUtils.join(websearchConfiguration.getExcludes(), ",") : null));
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire:").addDefaultValue(
+					websearchConfiguration.getExpire()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
@@ -141,7 +144,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	private void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final String urlString,
-			final String excludesString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String excludesString, final String expireString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		URL url;
 		{
@@ -167,11 +170,20 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 				errors.add(new ValidationErrorSimple("illegal excludes"));
 			}
 		}
+		int expire = 0;
+		{
+			try {
+				expire = parseUtil.parseInt(expireString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal expire"));
+			}
+		}
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			websearchService.updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes);
+			websearchService.updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire);
 		}
 	}
 
