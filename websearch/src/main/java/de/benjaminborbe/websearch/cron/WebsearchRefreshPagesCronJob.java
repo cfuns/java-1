@@ -26,9 +26,9 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		@Override
 		public void run() {
 			try {
-				logger.trace("RefreshRunnable started");
+				logger.debug("RefreshRunnable started");
 				runOnlyOnceATime.run(new RefreshPages());
-				logger.trace("RefreshRunnable finished");
+				logger.debug("RefreshRunnable finished");
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -95,8 +95,8 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.trace("execute started");
+		logger.debug("execute started");
 		threadRunner.run("refreshpages", new RefreshRunnable());
-		logger.trace("execute finished");
+		logger.debug("execute finished");
 	}
 }

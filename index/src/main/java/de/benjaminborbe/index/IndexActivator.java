@@ -8,8 +8,10 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.config.IndexConfig;
 import de.benjaminborbe.index.guice.IndexModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -23,6 +25,9 @@ public class IndexActivator extends BaseBundleActivator {
 	@Inject
 	private IndexSearcherService indexSearcherService;
 
+	@Inject
+	private IndexConfig indexConfig;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new IndexModules(context);
@@ -33,6 +38,9 @@ public class IndexActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(IndexerService.class, indexerService));
 		result.add(new ServiceInfo(IndexSearcherService.class, indexSearcherService));
+		for (final ConfigurationDescription configuration : indexConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 }

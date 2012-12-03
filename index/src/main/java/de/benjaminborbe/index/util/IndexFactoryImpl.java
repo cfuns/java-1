@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.index.config.IndexConfig;
+
 @Singleton
 public class IndexFactoryImpl implements IndexFactory {
 
@@ -18,9 +20,12 @@ public class IndexFactoryImpl implements IndexFactory {
 
 	private final Map<String, FSDirectory> indexes = new HashMap<String, FSDirectory>();
 
+	private final IndexConfig indexConfig;
+
 	@Inject
-	public IndexFactoryImpl(final Logger logger) {
+	public IndexFactoryImpl(final Logger logger, final IndexConfig indexConfig) {
 		this.logger = logger;
+		this.indexConfig = indexConfig;
 	}
 
 	@Override
@@ -34,20 +39,9 @@ public class IndexFactoryImpl implements IndexFactory {
 		return indexes.get(indexName);
 	}
 
-	protected File getTempDir() {
-		final String property = "java.io.tmpdir";
-		final File tmpDir = new File(System.getProperty(property));
-		if (tmpDir.isDirectory() && tmpDir.canWrite()) {
-			return tmpDir;
-		}
-		else {
-			return new File("/tmp");
-		}
-	}
-
 	protected File getIndexDirectory(final String indexName) throws IOException {
-		final String dirName = getTempDir().getAbsolutePath() + "/lucene_index_" + indexName;
-		logger.trace("getIndexDirectory => " + dirName);
+		final String dirName = indexConfig.getIndexDirectory() + "/lucene_index_" + indexName;
+		logger.info("getIndexDirectory => " + dirName);
 		final File dir = new File(dirName);
 		if (dir.exists()) {
 			return dir;
