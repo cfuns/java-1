@@ -1,8 +1,6 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
 import java.io.IOException;
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,8 +22,6 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.websearch.api.WebsearchPage;
-import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -33,7 +29,6 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class WebsearchGuiPageExpireAllServlet extends WebsiteHtmlServlet {
@@ -80,15 +75,8 @@ public class WebsearchGuiPageExpireAllServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			widgets.add("expire all pages started");
-
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final Collection<WebsearchPage> pages = websearchService.getPages(sessionIdentifier);
-			final UlWidget ul = new UlWidget();
-			for (final WebsearchPage page : pages) {
-				websearchService.expirePage(sessionIdentifier, new WebsearchPageIdentifier(page.getUrl()));
-				ul.add("expire page " + page.getUrl().toExternalForm());
-			}
-			widgets.add(ul);
+			websearchService.expireAllPages(sessionIdentifier);
 			widgets.add("expire all pages finished");
 			return widgets;
 		}

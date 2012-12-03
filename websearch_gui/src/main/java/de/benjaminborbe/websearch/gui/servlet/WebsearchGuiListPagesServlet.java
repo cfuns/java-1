@@ -47,6 +47,8 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
+	private static final int PAGE_LIMIT = 100;
+
 	private final class PageComparator extends ComparatorBase<WebsearchPage, String> {
 
 		@Override
@@ -106,7 +108,11 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			for (final WebsearchPage page : sortPages(websearchService.getPages(sessionIdentifier))) {
+			final List<WebsearchPage> pages = sortPages(websearchService.getPages(sessionIdentifier, PAGE_LIMIT));
+			if (pages.size() == PAGE_LIMIT) {
+				widgets.add("more than " + PAGE_LIMIT + " pages found, display only first " + PAGE_LIMIT);
+			}
+			for (final WebsearchPage page : pages) {
 				ul.add(buildPageWidget(page, request));
 			}
 			widgets.add(ul);

@@ -18,11 +18,6 @@ import de.benjaminborbe.websearch.api.WebsearchServiceException;
 public class WebsearchServiceMock implements WebsearchService {
 
 	@Override
-	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
-		return null;
-	}
-
-	@Override
 	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 	}
 
@@ -66,14 +61,23 @@ public class WebsearchServiceMock implements WebsearchService {
 	}
 
 	@Override
-	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes) throws WebsearchServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes)
+			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url, final List<String> excludes)
-			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
+			final List<String> excludes) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	}
+
+	@Override
+	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier, final int limit) throws WebsearchServiceException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public void expireAllPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 	}
 
 }

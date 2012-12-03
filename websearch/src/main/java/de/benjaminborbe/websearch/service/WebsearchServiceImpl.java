@@ -98,7 +98,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier, final int limit) throws WebsearchServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.getPages"));
 
@@ -143,16 +143,20 @@ public class WebsearchServiceImpl implements WebsearchService {
 			logger.debug("expirePage");
 
 			final WebsearchPageBean page = pageDao.load(pageIdentifier.getUrl());
-			if (page != null) {
-				page.setLastVisit(null);
-				pageDao.save(page);
-			}
+			expirePage(page);
 		}
 		catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	private void expirePage(final WebsearchPageBean page) throws StorageException {
+		if (page != null) {
+			page.setLastVisit(null);
+			pageDao.save(page);
 		}
 	}
 
@@ -334,6 +338,32 @@ public class WebsearchServiceImpl implements WebsearchService {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 		catch (final StorageException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+		finally {
+			logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void expireAllPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("expireAllPages");
+
+			final EntityIterator<WebsearchPageBean> i = pageDao.getEntityIterator();
+			while (i.hasNext()) {
+				expirePage(i.next());
+			}
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+		catch (final StorageException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 		finally {
