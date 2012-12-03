@@ -1,13 +1,12 @@
 package de.benjaminborbe.bookmark.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -46,7 +45,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		private final BeanMatch<Bookmark> match;
 
-		private BookmarkMatchImpl(BeanMatch<Bookmark> match) {
+		private BookmarkMatchImpl(final BeanMatch<Bookmark> match) {
 			this.match = match;
 		}
 
@@ -63,13 +62,31 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	private final class BookmarkSearcher extends BeanSearcher<Bookmark> {
 
+		private static final String KEYWORDS = "keywords";
+
+		private static final String DESCRIPTION = "description";
+
+		private static final String NAME = "name";
+
+		private static final String URL = "url";
+
 		@Override
-		protected Collection<String> getSearchValues(final Bookmark bookmark) {
-			final Set<String> values = new HashSet<String>();
-			values.add(bookmark.getUrl());
-			values.add(bookmark.getName());
-			values.add(bookmark.getDescription());
-			values.addAll(bookmark.getKeywords());
+		protected Map<String, String> getSearchValues(final Bookmark bookmark) {
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put(URL, bookmark.getUrl());
+			values.put(NAME, bookmark.getName());
+			values.put(DESCRIPTION, bookmark.getDescription());
+			values.put(KEYWORDS, StringUtils.join(bookmark.getKeywords(), " "));
+			return values;
+		}
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			final Map<String, Integer> values = new HashMap<String, Integer>();
+			values.put(URL, 1);
+			values.put(NAME, 1);
+			values.put(DESCRIPTION, 1);
+			values.put(KEYWORDS, 1);
 			return values;
 		}
 	}

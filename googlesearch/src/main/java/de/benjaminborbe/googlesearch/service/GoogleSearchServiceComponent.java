@@ -4,8 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONArray;
@@ -32,6 +33,33 @@ import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
 public class GoogleSearchServiceComponent implements SearchServiceComponent {
+
+	private final class BeanSearchImpl extends BeanSearcher<SearchResult> {
+
+		private static final String URL = "url";
+
+		private static final String DESCRIPTION = "description";
+
+		private static final String TITLE = "title";
+
+		@Override
+		protected Map<String, String> getSearchValues(final SearchResult bean) {
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put(TITLE, bean.getTitle());
+			values.put(DESCRIPTION, bean.getDescription());
+			values.put(URL, bean.getUrl());
+			return values;
+		}
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			final Map<String, Integer> values = new HashMap<String, Integer>();
+			values.put(TITLE, 2);
+			values.put(DESCRIPTION, 1);
+			values.put(URL, 2);
+			return values;
+		}
+	}
 
 	private static final String PREFIX = "https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
 
@@ -72,17 +100,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 			final URL url = buildQueryUrl(words);
 			final String content = downloadContent(url);
 			// sort
-			final BeanSearcher<SearchResult> searcher = new BeanSearcher<SearchResult>() {
-
-				@Override
-				protected Collection<String> getSearchValues(final SearchResult bean) {
-					final List<String> result = new ArrayList<String>();
-					result.add(bean.getDescription());
-					result.add(bean.getTitle());
-					result.add(bean.getUrl());
-					return result;
-				}
-			};
+			final BeanSearcher<SearchResult> searcher = new BeanSearchImpl();
 			final List<BeanMatch<SearchResult>> beanResults = searcher.search(buildResults(content), maxResults, words);
 			for (final BeanMatch<SearchResult> beanResult : beanResults) {
 				result.add(map(beanResult));

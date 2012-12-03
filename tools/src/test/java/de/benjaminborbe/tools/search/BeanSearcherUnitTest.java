@@ -3,13 +3,29 @@ package de.benjaminborbe.tools.search;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
+import de.benjaminborbe.tools.map.MapChain;
+
 public class BeanSearcherUnitTest {
+
+	private static final String FIELD = "field";
+
+	private final class BeanSearchImpl extends BeanSearcher<Bean> {
+
+		@Override
+		protected Map<String, String> getSearchValues(final Bean bean) {
+			return new MapChain<String, String>().add(FIELD, bean.getName());
+		}
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			return new MapChain<String, Integer>().add(FIELD, 1);
+		}
+	}
 
 	private class Bean {
 
@@ -26,16 +42,8 @@ public class BeanSearcherUnitTest {
 
 	@Test
 	public void testSearch() {
-		final BeanSearcher<Bean> beanSearcher = new BeanSearcher<Bean>() {
-
-			@Override
-			protected Collection<String> getSearchValues(final Bean bean) {
-				return Arrays.asList(bean.getName());
-			}
-		};
-
+		final BeanSearcher<Bean> beanSearcher = new BeanSearchImpl();
 		final int limit = Integer.MAX_VALUE;
-
 		final List<Bean> beans = new ArrayList<Bean>();
 		assertEquals(0, beanSearcher.search(beans, limit, "hello", "world").size());
 		beans.add(buildBean("bla"));

@@ -5,10 +5,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-
+import java.util.Map;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -60,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
 
 		private final BeanMatch<Task> match;
 
-		private TaskMatchImpl(BeanMatch<Task> match) {
+		private TaskMatchImpl(final BeanMatch<Task> match) {
 			this.match = match;
 		}
 
@@ -77,12 +76,27 @@ public class TaskServiceImpl implements TaskService {
 
 	private final class TaskSearcher extends BeanSearcher<Task> {
 
+		private static final String URL = "url";
+
+		private static final String NAME = "content";
+
+		private static final String DESCRIPTION = "title";
+
 		@Override
-		protected Collection<String> getSearchValues(final Task task) {
-			final Set<String> values = new HashSet<String>();
-			values.add(task.getName());
-			values.add(task.getDescription());
-			values.add(task.getUrl());
+		protected Map<String, String> getSearchValues(final Task bean) {
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put(DESCRIPTION, bean.getDescription());
+			values.put(NAME, bean.getName());
+			values.put(URL, bean.getUrl());
+			return values;
+		}
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			final Map<String, Integer> values = new HashMap<String, Integer>();
+			values.put(DESCRIPTION, 1);
+			values.put(NAME, 2);
+			values.put(URL, 1);
 			return values;
 		}
 	}

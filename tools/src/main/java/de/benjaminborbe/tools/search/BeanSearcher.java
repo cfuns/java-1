@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class BeanSearcher<B> {
 
@@ -80,21 +82,40 @@ public abstract class BeanSearcher<B> {
 		return counter;
 	}
 
+	/**
+	 * fieldname -> value
+	 */
 	private int match(final B bean, final String searchTerm) {
+		final Map<String, Integer> prio = getSearchPrio();
+
 		final String searchTermLower = searchTerm.toLowerCase();
 		int counter = 0;
-		for (final String content : getSearchValues(bean)) {
+		final Map<String, String> values = getSearchValues(bean);
+		for (final Entry<String, String> value : values.entrySet()) {
+			final String fieldname = value.getKey();
+			final String content = value.getValue();
 			if (content != null) {
 				final String contentLower = content.toLowerCase();
 				int pos = -1;
 				while ((pos = contentLower.indexOf(searchTermLower, pos + 1)) != -1) {
-					counter++;
+					final Integer amount = prio.get(fieldname);
+					if (amount != null && amount > 0) {
+						counter += amount;
+					}
+					else {
+						counter++;
+					}
 				}
 			}
 		}
 		return counter;
 	}
 
-	protected abstract Collection<String> getSearchValues(final B bean);
+	protected abstract Map<String, String> getSearchValues(final B bean);
+
+	/**
+	 * fieldname -> prio
+	 */
+	protected abstract Map<String, Integer> getSearchPrio();
 
 }

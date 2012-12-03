@@ -1,8 +1,10 @@
 package de.benjaminborbe.confluence.search;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -24,12 +26,27 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	private final class BeanSearcherImpl extends BeanSearcher<IndexSearchResult> {
 
+		private static final String URL = "url";
+
+		private static final String CONTENT = "content";
+
+		private static final String TITLE = "title";
+
 		@Override
-		protected Collection<String> getSearchValues(final IndexSearchResult bean) {
-			final List<String> values = new ArrayList<String>();
-			values.add(bean.getContent());
-			values.add(bean.getContent());
-			values.add(bean.getURL());
+		protected Map<String, String> getSearchValues(final IndexSearchResult bean) {
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put(TITLE, bean.getTitle());
+			values.put(CONTENT, bean.getContent());
+			values.put(URL, bean.getURL());
+			return values;
+		}
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			final Map<String, Integer> values = new HashMap<String, Integer>();
+			values.put(TITLE, 2);
+			values.put(CONTENT, 1);
+			values.put(URL, 2);
 			return values;
 		}
 	}
