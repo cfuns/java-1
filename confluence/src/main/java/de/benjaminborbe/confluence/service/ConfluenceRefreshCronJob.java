@@ -1,5 +1,6 @@
 package de.benjaminborbe.confluence.service;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -41,6 +42,9 @@ public class ConfluenceRefreshCronJob implements CronJob {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final StorageException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final XmlRpcException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 	}

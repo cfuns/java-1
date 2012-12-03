@@ -115,7 +115,7 @@ public class ConfluenceRefresher {
 		return filteredContent;
 	}
 
-	public void refresh() throws EntityIteratorException, StorageException {
+	public void refresh() throws EntityIteratorException, StorageException, XmlRpcException {
 		logger.info("execute");
 		final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getEntityIterator();
 		while (i.hasNext()) {
@@ -124,9 +124,6 @@ public class ConfluenceRefresher {
 				handle(confluenceInstance);
 			}
 			catch (final MalformedURLException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final XmlRpcException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}

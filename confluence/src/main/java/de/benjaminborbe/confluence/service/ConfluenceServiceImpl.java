@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -288,7 +289,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("refreshPages");
+			logger.debug("refreshSearchIndex");
 			authorizationService.expectAdminRole(sessionIdentifier);
 			confluenceRefresher.refresh();
 		}
@@ -301,6 +302,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
 		}
+		catch (final XmlRpcException e) {
+			throw new ConfluenceServiceException(e);
+		}
 		finally {
 			logger.trace("duration " + duration.getTime());
 		}
@@ -310,7 +314,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	public void expireAll(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("refreshPages");
+			logger.debug("expireAll");
 			authorizationService.expectAdminRole(sessionIdentifier);
 			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getEntityIterator();
 			while (i.hasNext()) {
