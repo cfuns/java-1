@@ -178,7 +178,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)), words));
 			out.println("</a>");
 			if (result.getMatchCounter() > 0 && result.getMatchCounter() < Integer.MAX_VALUE) {
-				out.println(" - <span class=\"matchCounter\">( " + result.getMatchCounter() + ") </span>");
+				out.println("<span class=\"matchCounter\">( hitrate: " + result.getMatchCounter() + " )</span>");
 			}
 			out.println("</div>");
 			out.println("<div class=\"link\">");
