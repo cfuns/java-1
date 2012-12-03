@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.confluence.gui.guice.ConfluenceGuiModules;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiExpireAllServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceDeleteServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceListServlet;
@@ -19,6 +20,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ConfluenceGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ConfluenceGuiExpireAllServlet confluenceGuiExpireAllServlet;
 
 	@Inject
 	private ConfluenceGuiRefreshIndexServlet confluenceGuiRefreshIndexServlet;
@@ -52,6 +56,7 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(confluenceGuiInstanceDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
 		result.add(new ServletInfo(confluenceGuiInstanceUpdateServlet, ConfluenceGuiConstants.URL_INSTANCE_UPDATE));
 		result.add(new ServletInfo(confluenceGuiRefreshIndexServlet, ConfluenceGuiConstants.URL_INDEX_REFRESH));
+		result.add(new ServletInfo(confluenceGuiExpireAllServlet, ConfluenceGuiConstants.URL_EXPIRE_ALL));
 		return result;
 	}
 

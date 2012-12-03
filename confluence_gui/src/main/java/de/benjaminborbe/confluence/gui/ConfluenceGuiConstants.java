@@ -23,4 +23,6 @@ public interface ConfluenceGuiConstants {
 	String URL_INSTANCE_UPDATE = "/update";
 
 	String URL_INDEX_REFRESH = "/refresh";
+
+	String URL_EXPIRE_ALL = "/expireAll";
 }

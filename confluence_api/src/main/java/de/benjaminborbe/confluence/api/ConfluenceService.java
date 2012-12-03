@@ -8,4 +8,6 @@ public interface ConfluenceService extends ConfluenceServiceInstance, Confluence
 
 	void refreshSearchIndex(SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException, PermissionDeniedException;
 
+	void expireAll(SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException;
+
 }

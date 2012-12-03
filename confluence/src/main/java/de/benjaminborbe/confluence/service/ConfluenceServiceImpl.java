@@ -24,6 +24,8 @@ import de.benjaminborbe.confluence.api.ConfluenceServiceException;
 import de.benjaminborbe.confluence.api.ConfluenceSpaceIdentifier;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
+import de.benjaminborbe.confluence.dao.ConfluencePageBean;
+import de.benjaminborbe.confluence.dao.ConfluencePageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -51,17 +53,21 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final AuthorizationService authorizationService;
 
+	private final ConfluencePageDao confluencePageDao;
+
 	@Inject
 	public ConfluenceServiceImpl(
 			final Logger logger,
 			final AuthorizationService authorizationService,
 			final ConfluenceInstanceDao confluenceInstanceDao,
+			final ConfluencePageDao confluencePageDao,
 			final DurationUtil durationUtil,
 			final IdGeneratorUUID idGeneratorUUID,
 			final ValidationExecutor validationExecutor,
 			final ConfluenceRefreshCronJob confluenceRefreshCronJob) {
 		this.logger = logger;
 		this.confluenceInstanceDao = confluenceInstanceDao;
+		this.confluencePageDao = confluencePageDao;
 		this.durationUtil = durationUtil;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.validationExecutor = validationExecutor;
@@ -284,6 +290,33 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceRefreshCronJob.execute();
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void expireAll(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("refreshPages");
+			authorizationService.expectAdminRole(sessionIdentifier);
+			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getEntityIterator();
+			while (i.hasNext()) {
+				final ConfluencePageBean bean = i.next();
+				bean.setLastVisit(null);
+				confluencePageDao.save(bean);
+			}
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {

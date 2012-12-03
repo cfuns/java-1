@@ -69,4 +69,8 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException {
 	}
 
+	@Override
+	public void expireAll(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
 }

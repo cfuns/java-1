@@ -40,7 +40,13 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			else if (!urlUtil.isUrl(url)) {
 				result.add(new ValidationErrorSimple("url invalid"));
 			}
+		}
 
+		final Integer expire = bean.getExpire();
+		{
+			if (expire == null || expire > 0) {
+				result.add(new ValidationErrorSimple("expire missing"));
+			}
 		}
 
 		return result;

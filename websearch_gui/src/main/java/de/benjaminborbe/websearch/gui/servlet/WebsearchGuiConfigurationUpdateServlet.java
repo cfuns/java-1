@@ -127,8 +127,8 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 					websearchConfiguration.getUrl() != null ? websearchConfiguration.getUrl().toExternalForm() : null));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue(
 					websearchConfiguration.getExcludes() != null ? StringUtils.join(websearchConfiguration.getExcludes(), ",") : null));
-			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire:").addDefaultValue(
-					websearchConfiguration.getExpire()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire in days:")
+					.addDefaultValue(websearchConfiguration.getExpire()).addPlaceholder("1"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
