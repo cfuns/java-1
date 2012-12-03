@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
+import java.util.Arrays;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -77,6 +78,31 @@ public class WebsearchCrawlerNotifyUnitTest {
 		assertEquals("http://www.heise.de/index.html", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de/foo/../index.html#bla"));
 		assertEquals("http://www.heise.de/index.html", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de/../index.html#bla"));
 		assertEquals("http://www.heise.de/index.html", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de/foo/../foo/../index.html#bla"));
+	}
+
+	@Test
+	public void testParseLinks() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final String content = "foo";
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		EasyMock.expect(htmlUtil.parseLinks(content)).andReturn(Arrays.asList("links", "javascript:alert();", " javascript:alert(); "));
+		EasyMock.replay(htmlUtil);
+
+		final CrawlerResult crawlerResult = EasyMock.createMock(CrawlerResult.class);
+		EasyMock.expect(crawlerResult.getContent()).andReturn(content);
+		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://test.de"));
+		EasyMock.replay(crawlerResult);
+
+		final WebsearchPageDao pageDao = EasyMock.createMock(WebsearchPageDao.class);
+		EasyMock.expect(pageDao.findOrCreate(new URL("http://test.de/links"))).andReturn(null);
+		EasyMock.replay(pageDao);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, pageDao, htmlUtil);
+		websearchCrawlerNotify.parseLinks(crawlerResult);
+
+		EasyMock.verify(logger, htmlUtil, crawlerResult, pageDao);
 	}
 
 	@Test

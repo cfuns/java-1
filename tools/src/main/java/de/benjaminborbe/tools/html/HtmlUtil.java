@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.html;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface HtmlUtil {
 
@@ -10,7 +10,7 @@ public interface HtmlUtil {
 
 	String filterHtmlTages(final String htmlContent);
 
-	Set<String> parseLinks(final String htmlContent);
+	Collection<String> parseLinks(final String htmlContent);
 
 	String addLinks(String plainContent);
 

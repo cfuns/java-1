@@ -4,11 +4,10 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -88,13 +87,16 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected void parseLinks(final CrawlerResult result) {
-		final Set<String> links = htmlUtil.parseLinks(result.getContent());
+		final Collection<String> links = htmlUtil.parseLinks(result.getContent());
 		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
+			final String linkLower = link.toLowerCase().trim();
 			try {
-				final URL url = buildUrl(result.getUrl(), link);
-				logger.trace("found page: " + url.toExternalForm());
-				pageDao.findOrCreate(url);
+				if (!linkLower.startsWith("javascript:")) {
+					final URL url = buildUrl(result.getUrl(), link);
+					logger.trace("found page: " + url.toExternalForm());
+					pageDao.findOrCreate(url);
+				}
 			}
 			catch (final MalformedURLException e) {
 				logger.debug("MalformedURLException", e);

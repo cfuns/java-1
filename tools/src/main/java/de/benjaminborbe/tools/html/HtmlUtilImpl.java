@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.html;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 	}
 
 	@Override
-	public Set<String> parseLinks(final String htmlContent) {
+	public Collection<String> parseLinks(final String htmlContent) {
 		final Set<String> result = new HashSet<String>();
 		if (htmlContent == null || htmlContent.length() == 0) {
 			logger.trace("no htmlcontent to parse");
