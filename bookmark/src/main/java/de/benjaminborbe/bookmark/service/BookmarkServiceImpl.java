@@ -83,10 +83,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
 			final Map<String, Integer> values = new HashMap<String, Integer>();
-			values.put(URL, 1);
-			values.put(NAME, 1);
+			values.put(URL, 2);
+			values.put(NAME, 2);
 			values.put(DESCRIPTION, 1);
-			values.put(KEYWORDS, 1);
+			values.put(KEYWORDS, 5);
 			return values;
 		}
 	}
