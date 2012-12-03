@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +26,8 @@ import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.tools.search.BeanMatch;
+import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
@@ -68,7 +71,22 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		try {
 			final URL url = buildQueryUrl(words);
 			final String content = downloadContent(url);
-			result.addAll(buildResults(content));
+			// sort
+			final BeanSearcher<SearchResult> searcher = new BeanSearcher<SearchResult>() {
+
+				@Override
+				protected Collection<String> getSearchValues(final SearchResult bean) {
+					final List<String> result = new ArrayList<String>();
+					result.add(bean.getDescription());
+					result.add(bean.getTitle());
+					result.add(bean.getUrl());
+					return result;
+				}
+			};
+			final List<BeanMatch<SearchResult>> beanResults = searcher.search(buildResults(content), maxResults, words);
+			for (final BeanMatch<SearchResult> beanResult : beanResults) {
+				result.add(map(beanResult));
+			}
 		}
 		catch (final HttpDownloaderException e) {
 			logger.error("HttpDownloaderException", e);
@@ -82,7 +100,13 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		catch (final ParseException e) {
 			logger.error("ParseException", e);
 		}
+
 		return result;
+	}
+
+	private SearchResult map(final BeanMatch<SearchResult> beanResult) {
+		final SearchResult bean = beanResult.getBean();
+		return new SearchResultImpl(SEARCH_TYPE, beanResult.getMatchCounter(), bean.getTitle(), bean.getUrl(), bean.getDescription());
 	}
 
 	protected String downloadContent(final URL url) throws HttpDownloaderException, UnsupportedEncodingException {
@@ -104,7 +128,6 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 					final String url = (String) result.get("url");
 					final String title = htmlUtil.filterHtmlTages((String) result.get("title"));
 					final String description = htmlUtil.filterHtmlTages((String) result.get("content"));
-					// TODO bborbe matchCounter bestimmen
 					final int matchCounter = 1;
 					searchResults.add(new SearchResultImpl(SEARCH_TYPE, matchCounter, title, url, description));
 				}

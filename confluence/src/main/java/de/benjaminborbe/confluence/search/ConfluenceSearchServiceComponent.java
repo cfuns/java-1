@@ -1,8 +1,8 @@
 package de.benjaminborbe.confluence.search;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -16,9 +16,23 @@ import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.tools.search.BeanMatch;
+import de.benjaminborbe.tools.search.BeanSearcher;
 
 @Singleton
 public class ConfluenceSearchServiceComponent implements SearchServiceComponent {
+
+	private final class BeanSearcherImpl extends BeanSearcher<IndexSearchResult> {
+
+		@Override
+		protected Collection<String> getSearchValues(final IndexSearchResult bean) {
+			final List<String> values = new ArrayList<String>();
+			values.add(bean.getContent());
+			values.add(bean.getContent());
+			values.add(bean.getURL());
+			return values;
+		}
+	}
 
 	private static final String SEARCH_TYPE = "Confluence";
 
@@ -35,22 +49,24 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
 		logger.trace("search");
-		final List<SearchResult> result = new ArrayList<SearchResult>();
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(ConfluenceConstants.INDEX, StringUtils.join(words, " "));
-		for (final IndexSearchResult indexResult : indexResults) {
+		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
+		final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
+		final List<SearchResult> result = new ArrayList<SearchResult>();
+		for (final BeanMatch<IndexSearchResult> beanResult : beanResults) {
 			if (result.size() < maxResults) {
-				result.add(map(indexResult));
+				result.add(map(beanResult));
 			}
 		}
 		return result;
 	}
 
-	protected SearchResult map(final IndexSearchResult indexResult) {
-		final String title = indexResult.getTitle();
-		final String url = indexResult.getURL();
-		final String description = indexResult.getContent();
-		// TODO bborbe matchCounter bestimmen
-		final int matchCounter = 1;
+	protected SearchResult map(final BeanMatch<IndexSearchResult> beanResult) {
+		final IndexSearchResult bean = beanResult.getBean();
+		final String title = bean.getTitle();
+		final String url = bean.getURL();
+		final String description = bean.getContent();
+		final int matchCounter = beanResult.getMatchCounter();
 		return new SearchResultImpl(SEARCH_TYPE, matchCounter, title, url, description);
 	}
 
