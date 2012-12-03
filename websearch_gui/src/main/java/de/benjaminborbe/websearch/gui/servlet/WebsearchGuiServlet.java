@@ -74,6 +74,8 @@ public class WebsearchGuiServlet extends WebsiteHtmlServlet {
 		final UlWidget ul = new UlWidget();
 		ul.add(websearchGuiLinkFactory.pageList(request));
 		ul.add(websearchGuiLinkFactory.configurationList(request));
+		ul.add(websearchGuiLinkFactory.clearIndex(request));
+		ul.add(websearchGuiLinkFactory.refreshAll(request));
 		widgets.add(ul);
 
 		return widgets;

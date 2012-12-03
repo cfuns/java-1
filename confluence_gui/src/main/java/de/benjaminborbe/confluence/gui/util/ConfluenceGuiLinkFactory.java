@@ -41,4 +41,12 @@ public class ConfluenceGuiLinkFactory {
 				ConfluenceGuiConstants.PARAMETER_INSTANCE_ID, String.valueOf(id)), "edit");
 	}
 
+	public Widget expireAll(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_EXPIRE_ALL, "expire all");
+	}
+
+	public Widget refreshIndex(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INDEX_REFRESH, "refresh index");
+	}
+
 }

@@ -26,6 +26,7 @@ import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
 import de.benjaminborbe.confluence.dao.ConfluencePageDao;
+import de.benjaminborbe.confluence.util.ConfluenceRefresher;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -49,7 +50,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
-	private final ConfluenceRefreshCronJob confluenceRefreshCronJob;
+	private final ConfluenceRefresher confluenceRefresher;
 
 	private final AuthorizationService authorizationService;
 
@@ -64,20 +65,20 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			final DurationUtil durationUtil,
 			final IdGeneratorUUID idGeneratorUUID,
 			final ValidationExecutor validationExecutor,
-			final ConfluenceRefreshCronJob confluenceRefreshCronJob) {
+			final ConfluenceRefresher confluenceRefresher) {
 		this.logger = logger;
 		this.confluenceInstanceDao = confluenceInstanceDao;
 		this.confluencePageDao = confluencePageDao;
 		this.durationUtil = durationUtil;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.validationExecutor = validationExecutor;
-		this.confluenceRefreshCronJob = confluenceRefreshCronJob;
+		this.confluenceRefresher = confluenceRefresher;
 		this.authorizationService = authorizationService;
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password, final int expire)
-			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
+			final int expire) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createConfluenceIntance");
@@ -289,9 +290,15 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		try {
 			logger.debug("refreshPages");
 			authorizationService.expectAdminRole(sessionIdentifier);
-			confluenceRefreshCronJob.execute();
+			confluenceRefresher.refresh();
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {
@@ -308,6 +315,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getEntityIterator();
 			while (i.hasNext()) {
 				final ConfluencePageBean bean = i.next();
+				logger.debug("expire: " + bean.getId());
 				bean.setLastVisit(null);
 				confluencePageDao.save(bean);
 			}

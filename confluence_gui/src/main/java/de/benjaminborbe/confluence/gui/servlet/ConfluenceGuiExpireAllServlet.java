@@ -35,7 +35,7 @@ public class ConfluenceGuiExpireAllServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Confluence - Refresh Pages";
+	private static final String TITLE = "Confluence - Expire Pages";
 
 	private final ConfluenceService confluenceService;
 

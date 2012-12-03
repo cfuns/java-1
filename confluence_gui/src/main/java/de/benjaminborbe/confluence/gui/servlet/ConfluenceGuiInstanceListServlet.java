@@ -105,7 +105,14 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createInstance(request));
+
+			final ListWidget links = new ListWidget();
+			links.add(linkFactory.createInstance(request));
+			links.add(" ");
+			links.add(linkFactory.refreshIndex(request));
+			links.add(" ");
+			links.add(linkFactory.expireAll(request));
+			widgets.add(links);
 			return widgets;
 		}
 		catch (final ConfluenceServiceException e) {
