@@ -48,6 +48,8 @@ public abstract class BeanSearcher<B> {
 
 	private static final int SEARCH_TERM_MIN_LENGTH = 2;
 
+	private static final int COUNTER_LIMIT = 5;
+
 	public List<BeanMatch<B>> search(final Collection<B> beans, final int limit, final String... parts) {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final B bean : beans) {
@@ -79,7 +81,14 @@ public abstract class BeanSearcher<B> {
 				counter += match(bean, searchTerm);
 			}
 		}
-		return counter;
+
+		final Map<String, Integer> prio = getSearchPrio();
+		int totalPrio = 0;
+		for (final Integer p : prio.values()) {
+			totalPrio += p;
+		}
+
+		return (counter * 1000) / totalPrio;
 	}
 
 	/**
@@ -87,9 +96,8 @@ public abstract class BeanSearcher<B> {
 	 */
 	private int match(final B bean, final String searchTerm) {
 		final Map<String, Integer> prio = getSearchPrio();
-
 		final String searchTermLower = searchTerm.toLowerCase();
-		int counter = 0;
+		int rating = 0;
 		final Map<String, String> values = getSearchValues(bean);
 		for (final Entry<String, String> value : values.entrySet()) {
 			final String fieldname = value.getKey();
@@ -97,18 +105,20 @@ public abstract class BeanSearcher<B> {
 			if (content != null) {
 				final String contentLower = content.toLowerCase();
 				int pos = -1;
-				while ((pos = contentLower.indexOf(searchTermLower, pos + 1)) != -1) {
+				int counter = 0;
+				while (counter < COUNTER_LIMIT && (pos = contentLower.indexOf(searchTermLower, pos + 1)) != -1) {
+					counter++;
 					final Integer amount = prio.get(fieldname);
 					if (amount != null && amount > 0) {
-						counter += amount;
+						rating += amount;
 					}
 					else {
-						counter++;
+						rating++;
 					}
 				}
 			}
 		}
-		return counter;
+		return rating;
 	}
 
 	protected abstract Map<String, String> getSearchValues(final B bean);

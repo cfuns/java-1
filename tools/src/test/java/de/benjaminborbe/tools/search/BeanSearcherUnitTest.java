@@ -12,18 +12,20 @@ import de.benjaminborbe.tools.map.MapChain;
 
 public class BeanSearcherUnitTest {
 
-	private static final String FIELD = "field";
+	private static final String FIELD_NAME = "name";
+
+	private static final String FIELD_TITLE = "title";
 
 	private final class BeanSearchImpl extends BeanSearcher<Bean> {
 
 		@Override
 		protected Map<String, String> getSearchValues(final Bean bean) {
-			return new MapChain<String, String>().add(FIELD, bean.getName());
+			return new MapChain<String, String>().add(FIELD_NAME, bean.getName()).add(FIELD_TITLE, bean.getTitle());
 		}
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			return new MapChain<String, Integer>().add(FIELD, 1);
+			return new MapChain<String, Integer>().add(FIELD_NAME, 1).add(FIELD_TITLE, 2);
 		}
 	}
 
@@ -31,12 +33,22 @@ public class BeanSearcherUnitTest {
 
 		private String name;
 
+		private String title;
+
 		public String getName() {
 			return name;
 		}
 
 		public void setName(final String name) {
 			this.name = name;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(final String title) {
+			this.title = title;
 		}
 	}
 
@@ -46,20 +58,55 @@ public class BeanSearcherUnitTest {
 		final int limit = Integer.MAX_VALUE;
 		final List<Bean> beans = new ArrayList<Bean>();
 		assertEquals(0, beanSearcher.search(beans, limit, "hello", "world").size());
-		beans.add(buildBean("bla"));
+		beans.add(buildBean("test", "bla"));
 		assertEquals(0, beanSearcher.search(beans, limit, "hello", "world").size());
-		beans.add(buildBean("hello"));
+		beans.add(buildBean("test", "hello"));
 		assertEquals(1, beanSearcher.search(beans, limit, "hello", "world").size());
-		beans.add(buildBean("world"));
+		beans.add(buildBean("test", "world"));
 		assertEquals(2, beanSearcher.search(beans, limit, "hello", "world").size());
-		beans.add(buildBean("hello world"));
+		beans.add(buildBean("test", "hello world"));
 		assertEquals(3, beanSearcher.search(beans, limit, "hello", "world").size());
 		assertEquals(1, beanSearcher.search(beans, 1, "hello", "world").size());
 		assertEquals(0, beanSearcher.search(beans, 0, "hello", "world").size());
 	}
 
-	private Bean buildBean(final String name) {
+	@Test
+	public void testRating() {
+		final BeanSearcher<Bean> beanSearcher = new BeanSearchImpl();
+		final int limit = Integer.MAX_VALUE;
+		{
+			final List<Bean> beans = new ArrayList<Bean>();
+			beans.add(buildBean("hello", "world"));
+			assertEquals(1, beanSearcher.search(beans, limit, "hello").size());
+			assertEquals(2 * 1000 / 3, beanSearcher.search(beans, limit, "hello").get(0).getMatchCounter());
+			assertEquals(1, beanSearcher.search(beans, limit, "world").size());
+			assertEquals(1 * 1000 / 3, beanSearcher.search(beans, limit, "world").get(0).getMatchCounter());
+		}
+		{
+			final List<Bean> beans = new ArrayList<Bean>();
+			beans.add(buildBean("hello", "world"));
+			assertEquals(1, beanSearcher.search(beans, limit, "hello", "world").size());
+			assertEquals(3 * 1000 / 3, beanSearcher.search(beans, limit, "hello", "world").get(0).getMatchCounter());
+		}
+
+		{
+			final List<Bean> beans = new ArrayList<Bean>();
+			beans.add(buildBean("hello", "world world world world world"));
+			assertEquals(1, beanSearcher.search(beans, limit, "world").size());
+			assertEquals(5 * 1000 / 3, beanSearcher.search(beans, limit, "world").get(0).getMatchCounter());
+		}
+
+		{
+			final List<Bean> beans = new ArrayList<Bean>();
+			beans.add(buildBean("hello", "world world world world world world"));
+			assertEquals(1, beanSearcher.search(beans, limit, "world").size());
+			assertEquals(5 * 1000 / 3, beanSearcher.search(beans, limit, "world").get(0).getMatchCounter());
+		}
+	}
+
+	private Bean buildBean(final String title, final String name) {
 		final Bean bean = new Bean();
+		bean.setTitle(title);
 		bean.setName(name);
 		return bean;
 	}
