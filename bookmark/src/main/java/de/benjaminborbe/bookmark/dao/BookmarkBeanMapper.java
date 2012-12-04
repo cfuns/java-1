@@ -84,7 +84,7 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 	}
 
 	private String toString(final List<String> keywords) {
-		if (keywords.isEmpty()) {
+		if (keywords == null || keywords.isEmpty()) {
 			return null;
 		}
 		else {
