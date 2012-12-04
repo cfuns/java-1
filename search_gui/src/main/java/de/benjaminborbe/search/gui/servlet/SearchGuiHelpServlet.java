@@ -99,4 +99,13 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 		return TITLE;
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
+	@Override
+	public boolean isLoginRequired() {
+		return true;
+	}
 }
