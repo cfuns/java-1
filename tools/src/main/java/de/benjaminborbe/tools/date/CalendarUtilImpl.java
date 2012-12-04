@@ -465,4 +465,24 @@ public class CalendarUtilImpl implements CalendarUtil {
 		return parseSmart(timeZoneUtil.getUTCTimeZone(), oldValue, input);
 	}
 
+	@Override
+	public Calendar max(final Calendar c1, final Calendar c2) {
+		if (c1 == null || c2 != null && isLE(c1, c2)) {
+			return c2;
+		}
+		else {
+			return c1;
+		}
+	}
+
+	@Override
+	public Calendar min(final Calendar c1, final Calendar c2) {
+		if (c1 == null || c2 != null && isGT(c1, c2)) {
+			return c2;
+		}
+		else {
+			return c1;
+		}
+	}
+
 }

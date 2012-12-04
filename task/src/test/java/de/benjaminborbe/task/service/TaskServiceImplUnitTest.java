@@ -1,14 +1,11 @@
 package de.benjaminborbe.task.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
-
 import de.benjaminborbe.task.api.Task;
 
 public class TaskServiceImplUnitTest {
@@ -67,4 +64,5 @@ public class TaskServiceImplUnitTest {
 		EasyMock.replay(task);
 		return task;
 	}
+
 }

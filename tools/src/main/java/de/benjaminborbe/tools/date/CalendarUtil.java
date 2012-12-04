@@ -74,4 +74,8 @@ public interface CalendarUtil {
 	Calendar addMonths(Calendar calendar, int amountOfMonths);
 
 	Calendar onlyDay(Calendar calendar);
+
+	Calendar max(Calendar c1, Calendar c2);
+
+	Calendar min(Calendar c1, Calendar c2);
 }

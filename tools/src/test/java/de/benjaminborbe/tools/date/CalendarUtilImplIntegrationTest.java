@@ -18,4 +18,5 @@ public class CalendarUtilImplIntegrationTest {
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 	}
+
 }

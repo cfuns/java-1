@@ -234,35 +234,39 @@ public class TaskServiceImpl implements TaskService {
 
 			logger.trace("createTask");
 
+			final TaskBean parentTask;
 			// check parent
 			if (taskParentIdentifier != null) {
-				final TaskBean parentTask = taskDao.load(taskParentIdentifier);
+				parentTask = taskDao.load(taskParentIdentifier);
 				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+			}
+			else {
+				parentTask = null;
 			}
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
 			final TaskBean task = taskDao.create();
+
 			task.setId(taskIdentifier);
 			task.setName(name);
 			task.setDescription(description);
 			task.setOwner(userIdentifier);
 			task.setCompleted(false);
-
-			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
-			task.setParentId(taskParentIdentifier);
-			task.setDue(due);
-			task.setStart(start);
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
 			task.setUrl(url);
+			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
+			task.setParentId(taskParentIdentifier);
+			task.setStart(start);
+			task.setDue(due);
 
 			final ValidationResult errors = validationExecutor.validate(task);
 			if (errors.hasErrors()) {
 				logger.warn("Task " + errors.toString());
 				throw new ValidationException(errors);
 			}
-			taskDao.save(task);
+			updateTaskStartDueChildAndSave(parentTask, task);
 
 			// only update if set
 			if (contexts != null) {
@@ -280,6 +284,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -598,32 +605,39 @@ public class TaskServiceImpl implements TaskService {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
+			if (taskIdentifier.equals(taskParentIdentifier)) {
+				throw new TaskServiceException("taskId = parentId");
+			}
+
 			logger.trace("createTask");
 
 			// check parent
+			final TaskBean parentTask;
 			if (taskParentIdentifier != null) {
-				final TaskBean parentTask = taskDao.load(taskParentIdentifier);
+				parentTask = taskDao.load(taskParentIdentifier);
 				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+			}
+			else {
+				parentTask = null;
 			}
 			final TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 
 			task.setName(name);
 			task.setDescription(description);
-
-			task.setParentId(taskParentIdentifier);
-			task.setDue(due);
-			task.setStart(start);
 			task.setRepeatDue(repeatDue);
 			task.setRepeatStart(repeatStart);
 			task.setUrl(url);
+			task.setParentId(taskParentIdentifier);
+			task.setStart(start);
+			task.setDue(due);
 
 			final ValidationResult errors = validationExecutor.validate(task);
 			if (errors.hasErrors()) {
 				logger.warn("Task " + errors.toString());
 				throw new ValidationException(errors);
 			}
-			taskDao.save(task);
+			updateTaskStartDueChildAndSave(parentTask, task);
 
 			// only update if set
 			if (contexts != null) {
@@ -631,6 +645,7 @@ public class TaskServiceImpl implements TaskService {
 					replaceTaskContext(sessionIdentifier, taskIdentifier, taskContextIdentifier);
 				}
 			}
+
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -641,8 +656,26 @@ public class TaskServiceImpl implements TaskService {
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
+		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
 		finally {
 			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	private void updateTaskStartDueChildAndSave(final TaskBean parentTask, final TaskBean task) throws StorageException, EntityIteratorException {
+		if (parentTask != null) {
+			task.setStart(calendarUtil.max(task.getStart(), parentTask.getStart()));
+			task.setDue(calendarUtil.min(task.getDue(), parentTask.getDue()));
+		}
+		taskDao.save(task);
+
+		// update childs
+		final EntityIterator<TaskBean> i = taskDao.getTaskChilds(task.getId());
+		while (i.hasNext()) {
+			final TaskBean child = i.next();
+			updateTaskStartDueChildAndSave(task, child);
 		}
 	}
 

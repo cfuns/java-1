@@ -3,6 +3,7 @@ package de.benjaminborbe.tools.date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
@@ -423,10 +424,13 @@ public class CalendarUtilImplUnitTest {
 
 		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
 		EasyMock.replay(currentTime);
+
 		final TimeZone timeZone = TimeZone.getDefault();
 		final ParseUtil parseUtil = new ParseUtilImpl();
+
 		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
 		EasyMock.replay(timeZoneUtil);
+
 		final CalendarUtil u = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		assertFalse(u.isGE(u.parseDateTime(timeZone, "2012-12-24 20:15:50"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
 		assertTrue(u.isGE(u.parseDateTime(timeZone, "2012-12-24 20:15:51"), u.parseDateTime(timeZone, "2012-12-24 20:15:51")));
@@ -563,4 +567,83 @@ public class CalendarUtilImplUnitTest {
 		assertEquals(dateString, u.toDateTimeString(c));
 	}
 
+	@Test
+	public void testMin() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(System.currentTimeMillis()).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil u = new CalendarUtilImpl(null, currentTime, parseUtil, timeZoneUtil);
+
+		{
+			assertNull(u.min(null, null));
+		}
+		{
+			final Calendar c1 = u.parseSmart("1d");
+			final Calendar c2 = u.parseSmart("2d");
+			assertEquals(c1, u.min(c1, c2));
+		}
+		{
+			final Calendar c1 = u.parseSmart("2d");
+			final Calendar c2 = u.parseSmart("1d");
+			assertEquals(c2, u.min(c1, c2));
+		}
+		{
+			final Calendar c1 = null;
+			final Calendar c2 = u.parseSmart("1d");
+			assertEquals(c2, u.min(c1, c2));
+		}
+		{
+			final Calendar c1 = u.parseSmart("1d");
+			final Calendar c2 = null;
+			assertEquals(c1, u.min(c1, c2));
+		}
+	}
+
+	@Test
+	public void testMax() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(System.currentTimeMillis()).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil u = new CalendarUtilImpl(null, currentTime, parseUtil, timeZoneUtil);
+
+		{
+			assertNull(u.min(null, null));
+		}
+		{
+			final Calendar c1 = u.parseSmart("1d");
+			final Calendar c2 = u.parseSmart("2d");
+			assertEquals(c2, u.max(c1, c2));
+		}
+		{
+			final Calendar c1 = u.parseSmart("2d");
+			final Calendar c2 = u.parseSmart("1d");
+			assertEquals(c1, u.max(c1, c2));
+		}
+		{
+			final Calendar c1 = null;
+			final Calendar c2 = u.parseSmart("1d");
+			assertEquals(c2, u.max(c1, c2));
+		}
+		{
+			final Calendar c1 = u.parseSmart("1d");
+			final Calendar c2 = null;
+			assertEquals(c1, u.max(c1, c2));
+		}
+	}
 }
