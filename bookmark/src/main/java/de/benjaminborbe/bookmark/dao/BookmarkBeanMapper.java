@@ -1,5 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,12 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 	}
 
 	private List<String> toList(final String string) {
-		return Arrays.asList(string.split(","));
+		if (string == null) {
+			return new ArrayList<String>();
+		}
+		else {
+			return Arrays.asList(string.split(","));
+		}
 	}
 
 	private boolean toBoolean(final String string) throws MapException {
@@ -78,7 +84,12 @@ public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
 	}
 
 	private String toString(final List<String> keywords) {
-		return StringUtils.join(keywords, ",");
+		if (keywords.isEmpty()) {
+			return null;
+		}
+		else {
+			return StringUtils.join(keywords, ",");
+		}
 	}
 
 	private String toString(final boolean bool) {

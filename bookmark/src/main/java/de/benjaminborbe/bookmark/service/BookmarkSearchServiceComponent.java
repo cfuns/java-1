@@ -1,7 +1,9 @@
 package de.benjaminborbe.bookmark.service;
 
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,6 +21,7 @@ import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.tools.util.ComparatorStringCaseInsensitive;
 
 @Singleton
 public class BookmarkSearchServiceComponent implements SearchServiceComponent {
@@ -63,7 +66,19 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 
 	protected SearchResult mapBookmark(final BookmarkMatch bookmarkMatch) throws MalformedURLException {
 		final Bookmark bookmark = bookmarkMatch.getBookmark();
-		return new SearchResultImpl(SEARCH_TYPE, bookmarkMatch.getMatchCounter(), bookmark.getName(), bookmark.getUrl(), bookmark.getDescription());
+		final StringWriter description = new StringWriter();
+		final List<String> keywords = bookmark.getKeywords();
+		if (keywords != null && !keywords.isEmpty()) {
+			Collections.sort(keywords, new ComparatorStringCaseInsensitive());
+			description.append("[");
+			description.append(StringUtils.join(keywords, ","));
+			description.append("]");
+			if (bookmark.getDescription() != null && bookmark.getDescription().length() > 0) {
+				description.append(" - ");
+			}
+		}
+		description.append(bookmark.getDescription());
+		return new SearchResultImpl(SEARCH_TYPE, bookmarkMatch.getMatchCounter(), bookmark.getName(), bookmark.getUrl(), description.toString());
 	}
 
 	@Override

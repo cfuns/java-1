@@ -1,5 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -75,7 +76,16 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCr
 
 	@Override
 	public List<String> getKeywords() {
-		return keywords;
+		if (keywords == null) {
+			return null;
+		}
+		final List<String> result = new ArrayList<String>();
+		for (final String keyword : keywords) {
+			if (keyword != null && !keyword.isEmpty()) {
+				result.add(keyword);
+			}
+		}
+		return result;
 	}
 
 	public boolean isFavorite() {
