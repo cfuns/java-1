@@ -39,4 +39,24 @@ public class IndexSearchResultImpl implements IndexSearchResult {
 		return url;
 	}
 
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other)
+			return true;
+		if (other == null)
+			return false;
+		if (url == null)
+			return false;
+		if (!(other instanceof IndexSearchResultImpl))
+			return false;
+		if (!getClass().equals(other.getClass()))
+			return false;
+		return url.equals(((IndexSearchResultImpl) other).url);
+	}
+
+	@Override
+	public int hashCode() {
+		return url != null ? url.hashCode() : super.hashCode();
+	}
+
 }

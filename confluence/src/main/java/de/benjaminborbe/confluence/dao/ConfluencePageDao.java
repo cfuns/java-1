@@ -7,6 +7,6 @@ import de.benjaminborbe.storage.tools.Dao;
 
 public interface ConfluencePageDao extends Dao<ConfluencePageBean, ConfluencePageIdentifier> {
 
-	ConfluencePageBean findOrCreate(ConfluenceInstanceIdentifier id, String pageId) throws StorageException;
+	ConfluencePageBean findOrCreate(ConfluenceInstanceIdentifier id, String indexName, String pageId) throws StorageException;
 
 }

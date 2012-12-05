@@ -8,7 +8,7 @@ public class ConfluencePageIdentifier extends IdentifierBase<String> {
 		super(id);
 	}
 
-	public ConfluencePageIdentifier(final ConfluenceInstanceIdentifier instanceId, final String pageId) {
-		this(instanceId.getId() + "-" + pageId);
+	public ConfluencePageIdentifier(final ConfluenceInstanceIdentifier instanceId, final String indexName, final String pageId) {
+		this(instanceId.getId() + "-" + indexName + "-" + pageId);
 	}
 }

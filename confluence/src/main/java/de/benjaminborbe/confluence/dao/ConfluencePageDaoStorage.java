@@ -35,8 +35,8 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 	}
 
 	@Override
-	public ConfluencePageBean findOrCreate(final ConfluenceInstanceIdentifier instanceId, final String pageId) throws StorageException {
-		final ConfluencePageIdentifier id = new ConfluencePageIdentifier(instanceId, pageId);
+	public ConfluencePageBean findOrCreate(final ConfluenceInstanceIdentifier instanceId, final String indexName, final String pageId) throws StorageException {
+		final ConfluencePageIdentifier id = new ConfluencePageIdentifier(instanceId, indexName, pageId);
 		{
 			final ConfluencePageBean bean = load(id);
 			if (bean != null) {

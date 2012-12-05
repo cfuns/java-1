@@ -104,6 +104,7 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 		this.owner = owner;
 	}
 
+	@Override
 	public Boolean getShared() {
 		return shared;
 	}

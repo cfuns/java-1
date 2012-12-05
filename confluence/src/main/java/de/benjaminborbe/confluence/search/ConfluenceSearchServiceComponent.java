@@ -11,7 +11,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.ConfluenceConstants;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexSearcherService;
@@ -57,16 +60,29 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	private final IndexSearcherService indexSearcherService;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public ConfluenceSearchServiceComponent(final Logger logger, final IndexSearcherService indexSearcherService) {
+	public ConfluenceSearchServiceComponent(final Logger logger, final IndexSearcherService indexSearcherService, final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.indexSearcherService = indexSearcherService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
 		logger.trace("search");
-		final List<IndexSearchResult> indexResults = indexSearcherService.search(ConfluenceConstants.INDEX, StringUtils.join(words, " "));
+		final String searchString = StringUtils.join(words, " ");
+		final List<IndexSearchResult> indexResults = new ArrayList<IndexSearchResult>();
+		indexResults.addAll(indexSearcherService.search(ConfluenceConstants.INDEX, searchString));
+		try {
+			final UserIdentifier user = authenticationService.getCurrentUser(sessionIdentifier);
+			indexResults.addAll(indexSearcherService.search(ConfluenceConstants.INDEX + "_" + user.getId(), searchString));
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+
 		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
 		final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
 		final List<SearchResult> result = new ArrayList<SearchResult>();

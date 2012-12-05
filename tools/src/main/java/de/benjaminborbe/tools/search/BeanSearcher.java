@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,6 +31,7 @@ public abstract class BeanSearcher<B> {
 		public int getMatchCounter() {
 			return counter;
 		}
+
 	}
 
 	private final class MatchComparator implements Comparator<Match> {
@@ -52,13 +54,14 @@ public abstract class BeanSearcher<B> {
 
 	public List<BeanMatch<B>> search(final Collection<B> beans, final int limit, final String... parts) {
 		final List<Match> matches = new ArrayList<Match>();
-		for (final B bean : beans) {
+		for (final B bean : new HashSet<B>(beans)) {
 			final int counter = match(bean, parts);
 			if (counter > 0) {
 				final Match match = new Match(bean, counter);
 				matches.add(match);
 			}
 		}
+
 		Collections.sort(matches, new MatchComparator());
 		final List<BeanMatch<B>> result = new ArrayList<BeanMatch<B>>();
 		int counter = 0;

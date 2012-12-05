@@ -64,6 +64,14 @@ public class ConfluenceRefresher {
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
 
+		final String indexName;
+		if (Boolean.TRUE.equals(confluenceInstanceBean.getShared())) {
+			indexName = ConfluenceConstants.INDEX;
+		}
+		else {
+			indexName = ConfluenceConstants.INDEX + "_" + confluenceInstanceBean.getOwner().getId();
+		}
+
 		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
 		final String username = confluenceInstanceBean.getUsername();
 		final String password = confluenceInstanceBean.getPassword();
@@ -74,12 +82,14 @@ public class ConfluenceRefresher {
 			for (final ConfluenceConnectorPage page : pages) {
 				try {
 					// check expire
-					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), page.getPageId());
+					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), indexName, page.getPageId());
 					if (isExpired(confluenceInstanceBean, pageBean)) {
 						final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
 						final URL url = new URL(page.getUrl());
 						final String title = page.getTitle();
-						indexerService.addToIndex(ConfluenceConstants.INDEX, url, title, filterContent(content));
+
+						indexerService.addToIndex(indexName, url, title, filterContent(content));
+
 						logger.info("addToIndex " + url.toExternalForm());
 
 						// update lastVisit
