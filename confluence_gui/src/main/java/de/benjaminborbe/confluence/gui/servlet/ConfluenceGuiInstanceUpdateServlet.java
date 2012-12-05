@@ -42,6 +42,7 @@ import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -57,7 +58,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
-	private static final String TITLE = "Confluence - Instance - Create";
+	private static final String TITLE = "Confluence - Instance - Update";
 
 	private final ConfluenceService confluenceService;
 
@@ -108,7 +109,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 
 			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 
-			if (url != null && username != null && password != null && expire != null && shared != null) {
+			if (url != null && username != null && password != null && expire != null) {
 				try {
 
 					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, PASSWORD_FAKE.equals(password) ? "" : password, expire, shared);
@@ -121,20 +122,20 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 					}
 				}
 				catch (final ValidationException e) {
-					widgets.add("create instance => failed");
+					widgets.add("update instance => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			final FormWidget formWidget = new FormWidget();
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(ConfluenceGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID).addValue(id));
-			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL).addLabel("Url...").addDefaultValue(confluenceInstance.getUrl()));
-			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username...").addDefaultValue(
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL).addLabel("Url:").addDefaultValue(confluenceInstance.getUrl()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username:").addDefaultValue(
 					confluenceInstance.getUsername()));
-			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password...").addDefaultValue(PASSWORD_FAKE));
+			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password:").addDefaultValue(PASSWORD_FAKE));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue(
 					confluenceInstance.getExpire()));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addDefaultValue(confluenceInstance.getShared()));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addLabel("Shared:").addDefaultValue(confluenceInstance.getShared()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
@@ -164,15 +165,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
-		boolean shared = false;
-		{
-			try {
-				shared = parseUtil.parseBoolean(sharedString);
-			}
-			catch (final ParseException e) {
-				errors.add(new ValidationErrorSimple("illegal shared"));
-			}
-		}
+		final boolean shared = parseUtil.parseBoolean(sharedString, false);
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));

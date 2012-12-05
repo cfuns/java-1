@@ -6,10 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SingleTagWidget;
+import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormCheckboxWidget implements FormElementWidget, HasName<FormCheckboxWidget>, HasValue<FormCheckboxWidget>, HasDefaultValue<FormCheckboxWidget>,
-		HasOnClick<FormCheckboxWidget> {
+public class FormCheckboxWidget implements FormElementWidget, HasLabel<FormCheckboxWidget>, HasName<FormCheckboxWidget>, HasValue<FormCheckboxWidget>,
+		HasDefaultValue<FormCheckboxWidget>, HasOnClick<FormCheckboxWidget> {
 
 	private String name;
 
@@ -19,6 +22,8 @@ public class FormCheckboxWidget implements FormElementWidget, HasName<FormCheckb
 
 	private String defaultValue;
 
+	private String label;
+
 	public FormCheckboxWidget(final String name) {
 		this.name = name;
 	}
@@ -27,22 +32,25 @@ public class FormCheckboxWidget implements FormElementWidget, HasName<FormCheckb
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
 		final boolean checked = "true".equals(value);
-
-		final SingleTagWidget widget = new SingleTagWidget("input");
-		widget.addAttribute("type", "checkbox");
+		final ListWidget widgets = new ListWidget();
+		if (label != null) {
+			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
+		}
+		final SingleTagWidget inputTag = new SingleTagWidget("input");
+		inputTag.addAttribute("type", "checkbox");
 		if (name != null) {
-			widget.addAttribute("name", name);
+			inputTag.addAttribute("name", name);
 		}
 		if (onclick != null) {
-			widget.addAttribute("onclick", onclick);
+			inputTag.addAttribute("onclick", onclick);
 		}
-		if (value != null) {
-			widget.addAttribute("value", "true");
-		}
+		inputTag.addAttribute("value", "true");
 		if (checked) {
-			widget.addAttribute("checked", "checked");
+			inputTag.addAttribute("checked", "checked");
 		}
-		widget.render(request, response, context);
+		widgets.add(inputTag);
+		widgets.add(new BrWidget());
+		widgets.render(request, response, context);
 	}
 
 	@Override
@@ -87,5 +95,16 @@ public class FormCheckboxWidget implements FormElementWidget, HasName<FormCheckb
 	@Override
 	public String getDefaultValue() {
 		return defaultValue;
+	}
+
+	@Override
+	public FormCheckboxWidget addLabel(final String label) {
+		this.label = label;
+		return this;
+	}
+
+	@Override
+	public String getLabel() {
+		return label;
 	}
 }

@@ -41,6 +41,7 @@ import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -99,7 +100,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			final String expire = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE);
 			final String shared = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
-			if (url != null && username != null && password != null && expire != null && shared != null) {
+			if (url != null && username != null && password != null && expire != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
@@ -117,13 +118,13 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			final FormWidget formWidget = new FormWidget();
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(ConfluenceGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL).addLabel("Url:").addPlaceholder("http://..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username:").addPlaceholder("username..."));
 			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password:").addPlaceholder("password..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue("7"));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addValue(Boolean.TRUE));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addDefaultValue(Boolean.TRUE));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -151,16 +152,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
-		boolean shared = false;
-		{
-			try {
-				shared = parseUtil.parseBoolean(sharedString);
-			}
-			catch (final ParseException e) {
-				logger.debug("shared: " + sharedString + " => " + shared);
-				errors.add(new ValidationErrorSimple("illegal shared"));
-			}
-		}
+		final boolean shared = parseUtil.parseBoolean(sharedString, false);
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));

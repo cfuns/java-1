@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
+import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
 import de.benjaminborbe.tools.mapper.SingleMapInteger;
 import de.benjaminborbe.tools.mapper.SingleMapString;
@@ -31,6 +32,7 @@ public class ConfluenceInstanceBeanMapper extends SingleMappler<ConfluenceInstan
 		result.add(new SingleMapString<ConfluenceInstanceBean>("url"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("username"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("password"));
+		result.add(new SingleMapBoolean<ConfluenceInstanceBean>("shared", parseUtil));
 		result.add(new SingleMapInteger<ConfluenceInstanceBean>("expire", parseUtil));
 		result.add(new SingleMapCalendar<ConfluenceInstanceBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<ConfluenceInstanceBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
