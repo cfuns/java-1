@@ -97,6 +97,8 @@ public class ConfluenceRefresher {
 
 						// update lastVisit
 						pageBean.setLastVisit(calendarUtil.now());
+						pageBean.setPageId(page.getPageId());
+						pageBean.setOwner(confluenceInstanceBean.getOwner());
 						confluencePageDao.save(pageBean);
 					}
 				}

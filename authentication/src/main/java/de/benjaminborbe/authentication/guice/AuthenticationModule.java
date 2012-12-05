@@ -24,5 +24,7 @@ public class AuthenticationModule extends AbstractModule {
 		bind(SessionDao.class).to(SessionDaoStorage.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestInjection(AuthenticationValidatorLinker.class);
 	}
 }

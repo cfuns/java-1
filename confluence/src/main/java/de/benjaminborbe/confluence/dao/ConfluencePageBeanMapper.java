@@ -26,6 +26,7 @@ public class ConfluencePageBeanMapper extends SingleMappler<ConfluencePageBean> 
 	private static Collection<SingleMap<ConfluencePageBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil) {
 		final List<SingleMap<ConfluencePageBean>> result = new ArrayList<SingleMap<ConfluencePageBean>>();
 		result.add(new ConfluencePageIdentifierMapper<ConfluencePageBean>("id"));
+		result.add(new SingleMapUserIdentifier<ConfluencePageBean>("owner"));
 		result.add(new ConfluenceInstanceIdentifierMapper<ConfluencePageBean>("instanceId"));
 		result.add(new SingleMapInteger<ConfluencePageBean>("pageId", parseUtil));
 		result.add(new SingleMapCalendar<ConfluencePageBean>("lastVisit", timeZoneUtil, calendarUtil, parseUtil));

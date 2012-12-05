@@ -19,6 +19,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -39,6 +40,7 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.password.PasswordValidator;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
@@ -58,6 +60,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final PasswordValidator passwordValidator;
 
+	private final ValidationExecutor validationExecutor;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
@@ -66,7 +70,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final UserDao userDao,
 			final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry,
 			final AuthenticationPasswordEncryptionService passwordEncryptionService,
-			final TimeZoneUtil timeZoneUtil) {
+			final TimeZoneUtil timeZoneUtil,
+			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.passwordValidator = passwordValidator;
 		this.sessionDao = sessionDao;
@@ -74,6 +79,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.verifyCredentialRegistry = verifyCredentialRegistry;
 		this.passwordEncryptionService = passwordEncryptionService;
 		this.timeZoneUtil = timeZoneUtil;
+		this.validationExecutor = validationExecutor;
 	}
 
 	@Override
@@ -172,6 +178,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			user.setId(userIdentifier);
 			user.setEmail(email);
 			setNewPassword(user, password);
+
+			final ValidationResult errors = validationExecutor.validate(user);
+			if (errors.hasErrors()) {
+				logger.warn("User " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			userDao.save(user);
 
 			logger.info("registerd user " + userIdentifier);

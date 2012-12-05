@@ -2,6 +2,7 @@ package de.benjaminborbe.confluence.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluencePage;
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
@@ -24,6 +25,8 @@ public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, Con
 	private ConfluenceInstanceIdentifier instanceId;
 
 	private String pageId;
+
+	private UserIdentifier owner;
 
 	@Override
 	public ConfluencePageIdentifier getId() {
@@ -80,6 +83,14 @@ public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, Con
 
 	public void setPageId(final String pageId) {
 		this.pageId = pageId;
+	}
+
+	public UserIdentifier getOwner() {
+		return owner;
+	}
+
+	public void setOwner(final UserIdentifier owner) {
+		this.owner = owner;
 	}
 
 }
