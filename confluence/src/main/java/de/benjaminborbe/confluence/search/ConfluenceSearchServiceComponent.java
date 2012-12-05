@@ -15,7 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.confluence.ConfluenceConstants;
+import de.benjaminborbe.confluence.util.ConfluenceIndexUtil;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.search.api.SearchResult;
@@ -62,11 +62,18 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	private final AuthenticationService authenticationService;
 
+	private final ConfluenceIndexUtil confluenceIndexUtil;
+
 	@Inject
-	public ConfluenceSearchServiceComponent(final Logger logger, final IndexSearcherService indexSearcherService, final AuthenticationService authenticationService) {
+	public ConfluenceSearchServiceComponent(
+			final Logger logger,
+			final IndexSearcherService indexSearcherService,
+			final AuthenticationService authenticationService,
+			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
 		this.indexSearcherService = indexSearcherService;
 		this.authenticationService = authenticationService;
+		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
 
 	@Override
@@ -74,10 +81,10 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 		logger.trace("search");
 		final String searchString = StringUtils.join(words, " ");
 		final List<IndexSearchResult> indexResults = new ArrayList<IndexSearchResult>();
-		indexResults.addAll(indexSearcherService.search(ConfluenceConstants.INDEX, searchString));
+		indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexShared(), searchString));
 		try {
 			final UserIdentifier user = authenticationService.getCurrentUser(sessionIdentifier);
-			indexResults.addAll(indexSearcherService.search(ConfluenceConstants.INDEX + "_" + user.getId(), searchString));
+			indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexPrivate(user), searchString));
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.confluence.ConfluenceConstants;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPage;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
@@ -44,6 +43,8 @@ public class ConfluenceRefresher {
 
 	private final CalendarUtil calendarUtil;
 
+	private final ConfluenceIndexUtil confluenceIndexUtil;
+
 	@Inject
 	public ConfluenceRefresher(
 			final Logger logger,
@@ -52,7 +53,8 @@ public class ConfluenceRefresher {
 			final ConfluenceInstanceDao confluenceInstanceDao,
 			final ConfluencePageDao confluencePageDao,
 			final ConfluenceConnector confluenceConnector,
-			final HtmlUtil htmlUtil) {
+			final HtmlUtil htmlUtil,
+			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.indexerService = indexerService;
@@ -60,16 +62,17 @@ public class ConfluenceRefresher {
 		this.confluencePageDao = confluencePageDao;
 		this.confluenceConnector = confluenceConnector;
 		this.htmlUtil = htmlUtil;
+		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
 
 		final String indexName;
 		if (Boolean.TRUE.equals(confluenceInstanceBean.getShared())) {
-			indexName = ConfluenceConstants.INDEX;
+			indexName = confluenceIndexUtil.indexShared();
 		}
 		else {
-			indexName = ConfluenceConstants.INDEX + "_" + confluenceInstanceBean.getOwner().getId();
+			indexName = confluenceIndexUtil.indexPrivate(confluenceInstanceBean.getOwner());
 		}
 
 		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
