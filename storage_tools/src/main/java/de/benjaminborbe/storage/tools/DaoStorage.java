@@ -72,39 +72,6 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	private final class EntityIteratorImpl implements EntityIterator<E> {
-
-		private final IdentifierIterator<I> i;
-
-		private EntityIteratorImpl(final IdentifierIterator<I> i) {
-			this.i = i;
-		}
-
-		@Override
-		public boolean hasNext() throws EntityIteratorException {
-			try {
-				return i.hasNext();
-			}
-			catch (final IdentifierIteratorException e) {
-				throw new EntityIteratorException(e);
-			}
-		}
-
-		@Override
-		public E next() throws EntityIteratorException {
-			try {
-				final I id = i.next();
-				return load(id);
-			}
-			catch (final IdentifierIteratorException e) {
-				throw new EntityIteratorException(e);
-			}
-			catch (final StorageException e) {
-				throw new EntityIteratorException(e);
-			}
-		}
-	}
-
 	private final class EntityIteratorRow implements EntityIterator<E> {
 
 		private final StorageRowIterator r;
@@ -265,16 +232,6 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		catch (final MapException e) {
 			throw new StorageException(e);
 		}
-	}
-
-	public EntityIterator<E> getEntityIteratorOld() throws StorageException {
-		final IdentifierIterator<I> i = getIdentifierIterator();
-		return new EntityIteratorImpl(i);
-	}
-
-	public EntityIterator<E> getEntityIteratorOld(final Map<String, String> where) throws StorageException {
-		final IdentifierIterator<I> i = getIdentifierIterator(where);
-		return new EntityIteratorImpl(i);
 	}
 
 	protected List<String> getFieldNames(final E entity) throws MapException {

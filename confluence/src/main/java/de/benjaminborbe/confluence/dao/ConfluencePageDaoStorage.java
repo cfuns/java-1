@@ -11,7 +11,9 @@ import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, ConfluencePageIdentifier> implements ConfluencePageDao {
@@ -49,4 +51,10 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 			return bean;
 		}
 	}
+
+	@Override
+	public EntityIterator<ConfluencePageBean> getPagesOfInstance(final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws StorageException {
+		return getEntityIterator(new MapChain<String, String>().add("instanceId", String.valueOf(confluenceInstanceIdentifier)));
+	}
+
 }

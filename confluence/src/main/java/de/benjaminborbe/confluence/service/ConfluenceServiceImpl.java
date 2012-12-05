@@ -153,6 +153,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 				throw new ValidationException(errors);
 			}
 			confluenceInstanceDao.save(confluenceInstance);
+
+			clearIndex(confluenceInstance.getId());
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
@@ -162,6 +164,27 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	private void clearIndex(final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws EntityIteratorException, StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("clearIndex");
+
+			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getPagesOfInstance(confluenceInstanceIdentifier);
+			while (i.hasNext()) {
+				final ConfluencePageBean bean = i.next();
+				confluencePageDao.delete(bean);
+			}
+
+			// TODO delete from indexService
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
@@ -176,11 +199,15 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			logger.debug("deleteConfluenceInstance");
 			authorizationService.expectAdminRole(sessionIdentifier);
 			confluenceInstanceDao.delete(confluenceInstanceIdentifier);
+			clearIndex(confluenceInstanceIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {

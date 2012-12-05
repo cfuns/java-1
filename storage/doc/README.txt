@@ -163,7 +163,10 @@ drop column family confluence_page;
 create column family confluence_page with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: instanceId, validation_class: UTF8Type, index_type: KEYS}
+  ];
 
 drop column family task;
 create column family task with
