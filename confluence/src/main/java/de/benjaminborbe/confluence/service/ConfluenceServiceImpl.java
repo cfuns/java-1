@@ -13,6 +13,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -57,9 +59,12 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final ConfluencePageDao confluencePageDao;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public ConfluenceServiceImpl(
 			final Logger logger,
+			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final ConfluenceInstanceDao confluenceInstanceDao,
 			final ConfluencePageDao confluencePageDao,
@@ -68,6 +73,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			final ValidationExecutor validationExecutor,
 			final ConfluenceRefresher confluenceRefresher) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
 		this.confluencePageDao = confluencePageDao;
 		this.durationUtil = durationUtil;
@@ -93,6 +99,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setPassword(password);
 			confluenceInstance.setExpire(expire);
 			confluenceInstance.setShared(shared);
+			confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
 
 			final ValidationResult errors = validationExecutor.validate(confluenceInstance);
 			if (errors.hasErrors()) {
@@ -107,6 +114,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {
@@ -128,6 +138,11 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setUsername(username);
 			confluenceInstance.setExpire(expire);
 			confluenceInstance.setShared(shared);
+
+			if (confluenceInstance.getOwner() == null) {
+				confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
+			}
+
 			if (password != null && password.length() > 0) {
 				confluenceInstance.setPassword(password);
 			}
@@ -143,6 +158,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {
