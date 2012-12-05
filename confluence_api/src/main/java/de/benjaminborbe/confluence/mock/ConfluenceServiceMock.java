@@ -63,14 +63,15 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password, final int expire)
-			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
+			final int expire, final boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url, final String username, final String password,
-			final int expire) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
+			final String username, final String password, final int expire, final boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 	}
 
 }

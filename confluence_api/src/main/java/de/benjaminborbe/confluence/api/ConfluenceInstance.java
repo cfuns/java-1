@@ -10,4 +10,6 @@ public interface ConfluenceInstance {
 
 	Integer getExpire();
 
+	Boolean getShared();
+
 }

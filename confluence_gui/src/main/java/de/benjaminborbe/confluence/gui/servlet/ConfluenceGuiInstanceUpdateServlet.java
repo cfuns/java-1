@@ -37,6 +37,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
@@ -51,6 +52,8 @@ import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
+
+	private static final String PASSWORD_FAKE = "*****";
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -98,16 +101,17 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			final String username = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME);
 			final String password = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD);
 			final String expire = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE);
+			final String shared = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(sessionIdentifier, id);
 
 			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 
-			if (url != null && username != null && password != null && expire != null) {
+			if (url != null && username != null && password != null && expire != null && shared != null) {
 				try {
 
-					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire);
+					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, PASSWORD_FAKE.equals(password) ? "" : password, expire, shared);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -127,9 +131,10 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_URL).addLabel("Url...").addDefaultValue(confluenceInstance.getUrl()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username...").addDefaultValue(
 					confluenceInstance.getUsername()));
-			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password..."));
+			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password...").addDefaultValue(PASSWORD_FAKE));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue(
 					confluenceInstance.getExpire()));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addDefaultValue(confluenceInstance.getShared()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
@@ -145,9 +150,10 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	private void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final String expireString) throws ValidationException, ConfluenceServiceException, LoginRequiredException,
-			PermissionDeniedException {
+			final String username, final String password, final String expireString, final String sharedString) throws ValidationException, ConfluenceServiceException,
+			LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
+
 		int expire = 0;
 		{
 			try {
@@ -157,11 +163,22 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 				errors.add(new ValidationErrorSimple("illegal expire"));
 			}
 		}
+
+		boolean shared = false;
+		{
+			try {
+				shared = parseUtil.parseBoolean(sharedString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal shared"));
+			}
+		}
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire);
+			confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire, shared);
 		}
 	}
 

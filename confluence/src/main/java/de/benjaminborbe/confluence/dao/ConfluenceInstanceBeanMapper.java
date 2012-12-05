@@ -27,6 +27,7 @@ public class ConfluenceInstanceBeanMapper extends SingleMappler<ConfluenceInstan
 	private static Collection<SingleMap<ConfluenceInstanceBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil) {
 		final List<SingleMap<ConfluenceInstanceBean>> result = new ArrayList<SingleMap<ConfluenceInstanceBean>>();
 		result.add(new ConfluenceInstanceIdentifierMapper<ConfluenceInstanceBean>("id"));
+		result.add(new SingleMapUserIdentifier<ConfluenceInstanceBean>("owner"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("url"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("username"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("password"));

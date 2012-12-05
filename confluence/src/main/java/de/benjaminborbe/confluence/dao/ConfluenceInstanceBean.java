@@ -2,6 +2,7 @@ package de.benjaminborbe.confluence.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
@@ -25,6 +26,10 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 	private Calendar modified;
 
 	private Integer expire;
+
+	private Boolean shared;
+
+	private UserIdentifier owner;
 
 	@Override
 	public ConfluenceInstanceIdentifier getId() {
@@ -82,12 +87,29 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 		this.password = password;
 	}
 
+	@Override
 	public Integer getExpire() {
 		return expire;
 	}
 
 	public void setExpire(final Integer expire) {
 		this.expire = expire;
+	}
+
+	public UserIdentifier getOwner() {
+		return owner;
+	}
+
+	public void setOwner(final UserIdentifier owner) {
+		this.owner = owner;
+	}
+
+	public Boolean getShared() {
+		return shared;
+	}
+
+	public void setShared(final Boolean shared) {
+		this.shared = shared;
 	}
 
 }

@@ -79,7 +79,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final int expire) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final int expire, final boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createConfluenceIntance");
@@ -92,6 +92,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setUsername(username);
 			confluenceInstance.setPassword(password);
 			confluenceInstance.setExpire(expire);
+			confluenceInstance.setShared(shared);
 
 			final ValidationResult errors = validationExecutor.validate(confluenceInstance);
 			if (errors.hasErrors()) {
@@ -115,7 +116,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final int expire) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String username, final String password, final int expire, final boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateConfluenceIntance");
@@ -125,6 +127,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setUrl(url);
 			confluenceInstance.setUsername(username);
 			confluenceInstance.setExpire(expire);
+			confluenceInstance.setShared(shared);
 			if (password != null && password.length() > 0) {
 				confluenceInstance.setPassword(password);
 			}

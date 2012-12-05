@@ -27,4 +27,6 @@ public interface ConfluenceGuiConstants {
 	String URL_EXPIRE_ALL = "/expireAll";
 
 	String PARAMETER_INSTANCE_EXPIRE = "instance_expire";
+
+	String PARAMETER_INSTANCE_SHARED = "instance_shared";
 }
