@@ -68,14 +68,13 @@ public class TaskGuiTaskStartLaterServlet extends TaskGuiWebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 			final Calendar now = calendarUtil.now(timeZone);
 			final Calendar start = calendarUtil.parseSmart(timeZone, now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
-
-			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, task.getDue(),
-					task.getRepeatStart(), task.getRepeatDue(), null);
+			final Calendar due = calcDue(start, task.getDue());
+			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, due, task.getRepeatStart(),
+					task.getRepeatDue(), null);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -97,5 +96,14 @@ public class TaskGuiTaskStartLaterServlet extends TaskGuiWebsiteServlet {
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
 		widget.render(request, response, context);
+	}
+
+	private Calendar calcDue(final Calendar start, final Calendar due) {
+		if (due != null && calendarUtil.isLE(due, start)) {
+			return start;
+		}
+		else {
+			return due;
+		}
 	}
 }

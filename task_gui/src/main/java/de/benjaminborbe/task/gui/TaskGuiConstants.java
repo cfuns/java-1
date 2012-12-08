@@ -50,7 +50,7 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_FIRST = "/task/first";
 
-	String URL_TASK_START_TOMORROW = "/task/tomorrow";
+	String URL_TASK_START_TOMORROW = "/task/startLater";
 
 	String URL_TASK_SWAP_PRIO = "/task/swapprio";
 
