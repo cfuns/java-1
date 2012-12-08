@@ -20,6 +20,7 @@ import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
+import de.benjaminborbe.authentication.AuthenticationConstants;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -84,15 +85,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
-		for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
-			try {
-				if (a.verifyCredential(userIdentifier, password)) {
-					return true;
+		try {
+			// delay login
+			Thread.sleep(AuthenticationConstants.LOGIN_DELAY);
+
+			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
+				try {
+					if (a.verifyCredential(userIdentifier, password)) {
+						return true;
+					}
+				}
+				catch (final AuthenticationServiceException e) {
+					logger.warn(e.getClass().getName(), e);
 				}
 			}
-			catch (final AuthenticationServiceException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
+		}
+		catch (final InterruptedException e1) {
 		}
 		return false;
 	}
