@@ -2,6 +2,7 @@ package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,26 +16,17 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.servlet.WebsiteServlet;
+import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
+public class AuthenticationGuiLogoutServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
-
-	private static final String TITLE = "Authentication - Logout";
 
 	private final Logger logger;
 
@@ -43,46 +35,28 @@ public class AuthenticationGuiLogoutServlet extends WebsiteHtmlServlet {
 	@Inject
 	public AuthenticationGuiLogoutServlet(
 			final Logger logger,
+			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 	}
 
 	@Override
-	protected String getTitle() {
-		return TITLE;
-	}
-
-	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
 		try {
-			logger.trace("printContent");
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if (authenticationService.logout(sessionIdentifier)) {
-				widgets.add("Logout success");
-			}
-			else {
-				widgets.add("Logout failed! Already logged out?");
-			}
-			return widgets;
+			authenticationService.logout(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+			logger.warn(e.getClass().getName(), e);
 		}
+		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
+		widget.render(request, response, context);
 	}
 
 	@Override
