@@ -1,37 +1,38 @@
 package de.benjaminborbe.website.link;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
-public class LinkMailtoWidget extends TagWidget implements Widget {
-
-	private static final String TAG = "a";
+public class LinkMailtoWidget extends CompositeWidget implements Widget {
 
 	private final String email;
 
+	private final Widget content;
+
 	public LinkMailtoWidget(final String email) {
-		this(email, email);
+		this(email, new StringWidget(email));
 	}
 
 	public LinkMailtoWidget(final String email, final String content) {
-		super(TAG, content);
-		this.email = email;
+		this(email, new StringWidget(content));
 	}
 
 	public LinkMailtoWidget(final String email, final Widget content) {
-		super(TAG, content);
 		this.email = email;
+		this.content = content;
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		addAttribute("href", "mailto:" + email);
-		super.render(request, response, context);
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final TagWidget a = new TagWidget("a", content);
+		a.addAttribute("href", "mailto:" + email);
+		a.render(request, response, context);
+		return a;
 	}
 }

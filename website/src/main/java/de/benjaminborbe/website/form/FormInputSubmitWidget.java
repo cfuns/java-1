@@ -1,14 +1,14 @@
 package de.benjaminborbe.website.form;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.SingleTagWidget;
 
-public class FormInputSubmitWidget implements FormElementWidget {
+public class FormInputSubmitWidget extends CompositeWidget implements FormElementWidget {
 
 	private final String buttonName;
 
@@ -17,9 +17,10 @@ public class FormInputSubmitWidget implements FormElementWidget {
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.println("<input type=\"submit\" value=\"" + buttonName + "\">");
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final SingleTagWidget input = new SingleTagWidget("input");
+		input.addAttribute("type", "submit");
+		input.addAttribute("value", buttonName);
+		return input;
 	}
-
 }

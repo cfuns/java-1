@@ -1,22 +1,26 @@
 package de.benjaminborbe.website.form;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.TagWidget;
 
-public class FormWidget implements Widget {
+public class FormWidget extends CompositeWidget implements Widget, HasClass<FormWidget> {
 
 	private final String action;
 
-	private final List<FormElementWidget> formInputWidgets = new ArrayList<FormElementWidget>();
+	private final ListWidget formInputWidgets = new ListWidget();
 
 	private FormMethod method;
 
@@ -24,7 +28,7 @@ public class FormWidget implements Widget {
 
 	private FormEncType encType;
 
-	private String clazz;
+	private final Set<String> classes = new HashSet<String>();
 
 	public FormWidget(final String action) {
 		this.action = action;
@@ -47,31 +51,6 @@ public class FormWidget implements Widget {
 		return this;
 	}
 
-	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
-		out.print("<form action=\"" + action + "\"");
-		if (method != null) {
-			out.print(" method=\"" + method + "\"");
-		}
-		if (clazz != null) {
-			out.print(" class=\"" + clazz + "\"");
-		}
-		if (target != null) {
-			out.print(" target=\"" + target + "\"");
-		}
-		if (encType != null) {
-			out.print(" enctype=\"" + encType + "\"");
-		}
-		out.println(">");
-		out.println("<fieldset>");
-		for (final FormElementWidget formInputWidget : formInputWidgets) {
-			formInputWidget.render(request, response, context);
-		}
-		out.println("</fieldset>");
-		out.println("</form>");
-	}
-
 	public FormWidget addTarget(final Target target) {
 		this.target = target;
 		return this;
@@ -82,8 +61,43 @@ public class FormWidget implements Widget {
 		return this;
 	}
 
+	@Override
 	public FormWidget addClass(final String clazz) {
-		this.clazz = clazz;
+		classes.add(clazz);
 		return this;
+	}
+
+	@Override
+	public FormWidget removeClass(final String clazz) {
+		classes.remove(clazz);
+		return this;
+	}
+
+	@Override
+	public Collection<String> getClasses() {
+		return classes;
+	}
+
+	@Override
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final TagWidget form = new TagWidget("form");
+		if (encType != null) {
+			form.addAttribute("enctype", encType);
+		}
+		if (target != null) {
+			form.addAttribute("target", target);
+		}
+		if (method != null) {
+			form.addAttribute("method", method);
+		}
+		if (action != null) {
+			form.addAttribute("action", action);
+		}
+		if (classes.size() > 0) {
+			form.addAttribute("class", StringUtils.join(classes, " "));
+		}
+		final TagWidget fieldset = new TagWidget("fieldset", formInputWidgets);
+		form.addContent(fieldset);
+		return form;
 	}
 }

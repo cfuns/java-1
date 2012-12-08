@@ -1,16 +1,17 @@
 package de.benjaminborbe.website.form;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormInputTextareaWidget extends TagWidget implements FormInputWidget<FormInputTextareaWidget> {
+public class FormInputTextareaWidget extends CompositeWidget implements FormInputWidget<FormInputTextareaWidget> {
 
 	private String label;
 
@@ -18,9 +19,12 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	private String value;
 
+	private final String name;
+
+	private String id;
+
 	public FormInputTextareaWidget(final String name) {
-		super("textarea");
-		addAttribute("name", name);
+		this.name = name;
 	}
 
 	@Override
@@ -42,32 +46,40 @@ public class FormInputTextareaWidget extends TagWidget implements FormInputWidge
 
 	@Override
 	public FormInputTextareaWidget addId(final String id) {
-		addAttribute("id", id);
+		this.id = id;
 		return this;
 	}
 
 	@Override
 	public String getName() {
-		return getAttribute("name");
-	}
-
-	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
-		if (value != null) {
-			addContent(new StringWidget(value));
-		}
-		final PrintWriter out = response.getWriter();
-		if (label != null) {
-			out.println("<label for=\"" + getName() + "\">" + label + "</label>");
-		}
-		super.render(request, response, context);
-		out.print("<br/>");
+		return name;
 	}
 
 	@Override
 	public FormInputTextareaWidget addValue(final Object value) {
 		this.value = value != null ? String.valueOf(value) : null;
 		return this;
+	}
+
+	@Override
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final ListWidget widgets = new ListWidget();
+
+		if (label != null) {
+			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
+		}
+
+		final TagWidget textarea = new TagWidget("textarea");
+		textarea.addAttribute("name", name);
+		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
+		if (value != null) {
+			textarea.addContent(new StringWidget(value));
+		}
+		if (id != null) {
+			textarea.addAttribute("id", id);
+		}
+		widgets.add(textarea);
+		widgets.add(new BrWidget());
+		return widgets;
 	}
 }

@@ -48,8 +48,8 @@ public class TagWidget implements Widget {
 		this(tag, new StringWidget(content));
 	}
 
-	public TagWidget addAttribute(final String key, final String value) {
-		attributes.put(key, value);
+	public TagWidget addAttribute(final String key, final Object value) {
+		attributes.put(key, value != null ? String.valueOf(value) : "");
 		return this;
 	}
 

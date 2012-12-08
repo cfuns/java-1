@@ -1,18 +1,17 @@
 package de.benjaminborbe.website.form;
 
-import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SingleTagWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormInputBaseWidget extends SingleTagWidget implements FormInputWidget<FormInputBaseWidget> {
-
-	private static final String TAG = "input";
+public class FormInputBaseWidget extends CompositeWidget implements FormInputWidget<FormInputBaseWidget> {
 
 	private String label;
 
@@ -22,31 +21,17 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 
 	private boolean br = true;
 
-	public FormInputBaseWidget(final String type, final String name) {
-		super(TAG);
-		addAttribute("name", name);
-		addAttribute("type", type);
-	}
+	private final String type;
 
-	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
-		addAttribute("value", value);
-		{
-			final ListWidget widgets = new ListWidget();
-			if (label != null) {
-				widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
-			}
-			widgets.render(request, response, context);
-		}
-		super.render(request, response, context);
-		{
-			if (br) {
-				final ListWidget widgets = new ListWidget();
-				widgets.add(new BrWidget());
-				widgets.render(request, response, context);
-			}
-		}
+	private final String name;
+
+	private String id;
+
+	private String placeholder;
+
+	public FormInputBaseWidget(final String type, final String name) {
+		this.type = type;
+		this.name = name;
 	}
 
 	public FormInputBaseWidget setBr(final boolean br) {
@@ -68,25 +53,59 @@ public class FormInputBaseWidget extends SingleTagWidget implements FormInputWid
 
 	@Override
 	public FormInputBaseWidget addPlaceholder(final String placeholder) {
-		addAttribute("placeholder", placeholder);
+		this.placeholder = placeholder;
 		return this;
 	}
 
 	@Override
 	public FormInputBaseWidget addId(final String id) {
-		addAttribute("id", id);
+		this.id = id;
 		return this;
 	}
 
 	@Override
 	public String getName() {
-		return getAttribute("name");
+		return name;
 	}
 
 	@Override
 	public FormInputBaseWidget addValue(final Object value) {
 		this.value = value != null ? String.valueOf(value) : null;
 		return this;
+	}
+
+	@Override
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final ListWidget widgets = new ListWidget();
+		if (label != null) {
+			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
+		}
+		widgets.add(createInputWidget(request));
+		if (br) {
+			widgets.add(new BrWidget());
+		}
+		return widgets;
+	}
+
+	protected SingleTagWidget createInputWidget(final HttpServletRequest request) {
+		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
+		final SingleTagWidget input = new SingleTagWidget("input");
+		if (value != null) {
+			input.addAttribute("value", value);
+		}
+		if (name != null) {
+			input.addAttribute("name", name);
+		}
+		if (type != null) {
+			input.addAttribute("type", type);
+		}
+		if (placeholder != null) {
+			input.addAttribute("placeholder", placeholder);
+		}
+		if (id != null) {
+			input.addAttribute("id", id);
+		}
+		return input;
 	}
 
 }

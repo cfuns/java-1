@@ -35,7 +35,7 @@ public class FormInputBaseWidgetTest {
 		final FormInputBaseWidget form = new FormInputBaseWidget("text", name);
 		form.render(request, response, context);
 
-		assertEquals("<input name=\"" + name + "\" type=\"text\" value=\"\"/><br/>", stringWriter.toString());
+		assertEquals("<input name=\"" + name + "\" type=\"text\"/><br/>", stringWriter.toString());
 	}
 
 	@Test
@@ -60,6 +60,6 @@ public class FormInputBaseWidgetTest {
 		final FormInputBaseWidget form = new FormInputBaseWidget("text", name).addLabel(label);
 		form.render(request, response, context);
 
-		assertEquals("<label for=\"" + name + "\">User</label><input name=\"" + name + "\" type=\"text\" value=\"\"/><br/>", stringWriter.toString());
+		assertEquals("<label for=\"" + name + "\">User</label><input name=\"" + name + "\" type=\"text\"/><br/>", stringWriter.toString());
 	}
 }

@@ -1,6 +1,5 @@
 package de.benjaminborbe.website.form;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
-public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<FormSelectboxWidget>, HasId<FormSelectboxWidget>, HasOption<FormSelectboxWidget>,
-		HasLabel<FormSelectboxWidget>, HasDefaultValue<FormSelectboxWidget>, HasName<FormSelectboxWidget>, HasValue<FormSelectboxWidget> {
+public class FormSelectboxWidget extends CompositeWidget implements FormElementWidget, HasPaceholder<FormSelectboxWidget>, HasId<FormSelectboxWidget>,
+		HasOption<FormSelectboxWidget>, HasLabel<FormSelectboxWidget>, HasDefaultValue<FormSelectboxWidget>, HasName<FormSelectboxWidget>, HasValue<FormSelectboxWidget> {
 
 	private final class Option {
 
@@ -51,45 +52,6 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 
 	public FormSelectboxWidget(final String name) {
 		this.name = name;
-	}
-
-	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
-		final ListWidget widgets = new ListWidget();
-		if (label != null) {
-			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
-		}
-		final TagWidget select = new TagWidget("select");
-		if (id != null) {
-			select.addAttribute("id", id);
-		}
-		if (name != null) {
-			select.addAttribute("name", name);
-		}
-		final ListWidget optionWidgets = new ListWidget();
-
-		if (placeholder != null) {
-			final TagWidget optionWidget = new TagWidget("option");
-			optionWidget.addContent(placeholder);
-			optionWidgets.add(optionWidget);
-		}
-
-		for (final Option option : options) {
-			final TagWidget optionWidget = new TagWidget("option");
-			optionWidget.addAttribute("value", option.getValue());
-			optionWidget.addContent(option.getName());
-			if (value != null && option.getValue().equals(value)) {
-				optionWidget.addAttribute("selected", "selected");
-			}
-			optionWidgets.add(optionWidget);
-		}
-
-		select.addContent(optionWidgets);
-
-		widgets.add(select);
-		widgets.add(new BrWidget());
-		widgets.render(request, response, context);
 	}
 
 	@Override
@@ -162,6 +124,45 @@ public class FormSelectboxWidget implements FormElementWidget, HasPaceholder<For
 	@Override
 	public String getValue() {
 		return value;
+	}
+
+	@Override
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
+		final ListWidget widgets = new ListWidget();
+		if (label != null) {
+			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
+		}
+		final TagWidget select = new TagWidget("select");
+		if (id != null) {
+			select.addAttribute("id", id);
+		}
+		if (name != null) {
+			select.addAttribute("name", name);
+		}
+		final ListWidget optionWidgets = new ListWidget();
+
+		if (placeholder != null) {
+			final TagWidget optionWidget = new TagWidget("option");
+			optionWidget.addContent(placeholder);
+			optionWidgets.add(optionWidget);
+		}
+
+		for (final Option option : options) {
+			final TagWidget optionWidget = new TagWidget("option");
+			optionWidget.addAttribute("value", option.getValue());
+			optionWidget.addContent(option.getName());
+			if (value != null && option.getValue().equals(value)) {
+				optionWidget.addAttribute("selected", "selected");
+			}
+			optionWidgets.add(optionWidget);
+		}
+
+		select.addContent(optionWidgets);
+
+		widgets.add(select);
+		widgets.add(new BrWidget());
+		return widgets;
 	}
 
 }
