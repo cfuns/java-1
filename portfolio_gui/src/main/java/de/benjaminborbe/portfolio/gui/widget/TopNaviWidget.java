@@ -59,7 +59,7 @@ public class TopNaviWidget implements Widget {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UlWidget ul = new UlWidget();
-			ul.addAttribute("class", "navi");
+			ul.addClass("navi");
 			final List<GalleryCollection> galleries = getGalleries(sessionIdentifier);
 			logger.debug("found " + galleries.size() + " galleries");
 			for (final GalleryCollection gallery : galleries) {

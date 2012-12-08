@@ -28,8 +28,9 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
-import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
+import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
@@ -67,9 +68,12 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
+	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
+
 	@Inject
 	public TaskGuiTaskViewServlet(
 			final Logger logger,
+			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -84,6 +88,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiLinkFactory taskGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 		this.htmlUtil = htmlUtil;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
@@ -121,7 +126,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 				widgets.add(new DivWidget(links));
 			}
 
-			return widgets;
+			return new DivWidget(widgets).addClass("taskView");
 		}
 		catch (final TaskServiceException e) {
 			logger.trace(e.getClass().getName(), e);
@@ -173,6 +178,23 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			title.addAttribute("class", "completed");
 		}
 		widgets.add(title);
+
+		final ListWidget options = new ListWidget();
+		if (Boolean.TRUE.equals(task.getCompleted())) {
+			options.add(taskGuiLinkFactory.taskUncomplete(request, task));
+		}
+		else {
+			if (hasNotCompletedChilds) {
+				options.add(taskGuiLinkFactory.taskComplete(request, taskGuiWidgetFactory.buildImage(request, "complete"), task));
+			}
+		}
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdate(request, taskGuiWidgetFactory.buildImage(request, "update"), task));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskCreateSubTask(request, taskGuiWidgetFactory.buildImage(request, "subtask"), task.getId()));
+		options.add(" ");
+		widgets.add(options);
+
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
@@ -186,19 +208,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		if (task.getDescription() != null) {
 			widgets.add(new PreWidget(buildDescription(task.getDescription())));
 		}
-		if (Boolean.TRUE.equals(task.getCompleted())) {
-			widgets.add(taskGuiLinkFactory.taskUncomplete(request, task));
-		}
-		else {
-			if (hasNotCompletedChilds) {
-				widgets.add(taskGuiLinkFactory.taskComplete(request, task));
-			}
-		}
-		widgets.add(" ");
-		widgets.add(taskGuiLinkFactory.taskUpdate(request, task));
-		widgets.add(" ");
-		widgets.add(taskGuiLinkFactory.taskCreateSubTask(request, task.getId()));
-		widgets.add(" ");
+
 	}
 
 	private Widget buildDescription(final String description) {

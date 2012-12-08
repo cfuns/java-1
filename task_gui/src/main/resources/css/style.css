@@ -1,10 +1,18 @@
 /* dashboard */
-form.taskdashboardcreate input {
+.taskDashboardWidget input {
 	margin-left: 0px;
 }
 
-form.taskcompleteform,form.taskcompleteform fieldset {
+.taskDashboardWidget .taskcompleteform,.taskDashboardWidget .taskcompleteform fieldset {
 	display: inline;
+}
+
+.taskDashboardWidget  ul {
+	margin: 0px;
+}
+
+.taskDashboardWidget  li {
+	list-style-type: none;
 }
 
 /* task */
@@ -47,4 +55,16 @@ form.taskcompleteform,form.taskcompleteform fieldset {
 
 .task .taskContextSelected {
 	font-weight: bold;
+}
+
+.task ul.taskList {
+	margin: 0px;
+}
+
+.task .taskList li {
+	list-style-type: none;
+}
+.task .taskView h2 {
+	margin-top: 10px;
+	border-bottom: 1px solid #AAAAAA;
 }

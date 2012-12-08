@@ -137,7 +137,7 @@ public class GalleryGuiEntryListServlet extends GalleryGuiHtmlServlet {
 
 				ul.add(new DivWidget(list).addAttribute("class", shared ? "entryShared" : "entryNotShared"));
 			}
-			ul.addAttribute("class", "entrylist");
+			ul.addClass("entrylist");
 			widgets.add(ul);
 
 			final ListWidget links = new ListWidget();

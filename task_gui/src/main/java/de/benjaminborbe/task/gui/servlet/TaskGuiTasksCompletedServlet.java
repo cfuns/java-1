@@ -42,6 +42,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -130,13 +131,11 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 					row.add(" ");
 
 					final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
-					row.add(new SpanWidget(taskGuiLinkFactory.taskView(request, taskName, task)).addAttribute("class", "taskTitle"));
+					row.add(new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle"));
 					row.add(" ");
 
 					final ListWidget options = new ListWidget();
 					options.add(taskGuiLinkFactory.taskUncomplete(request, task));
-					options.add(" ");
-					options.add(taskGuiLinkFactory.taskDelete(request, task));
 					row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 					ul.add(new DivWidget(row).addClass("taskEntry").addClass("completed"));
 				}

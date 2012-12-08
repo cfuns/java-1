@@ -15,7 +15,23 @@ import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
 import de.benjaminborbe.task.gui.service.TaskGuiDashboardWidget;
 import de.benjaminborbe.task.gui.service.TaskGuiSpecialSearch;
-import de.benjaminborbe.task.gui.servlet.*;
+import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextCreateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextDeleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextListServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextUpdateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCreateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskDeleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskFirstServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskLastServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskStartLaterServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskSwapPrioServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUncompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUpdateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskViewServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTasksCompletedServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTasksUncompletedServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -125,7 +141,8 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo(TaskGuiConstants.URL_CSS, "css"));
+		result.add(new ResourceInfo(TaskGuiConstants.URL_IMAGES, "images"));
 		return result;
 	}
 

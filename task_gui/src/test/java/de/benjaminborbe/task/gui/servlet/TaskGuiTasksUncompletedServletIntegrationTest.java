@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.task.gui.guice.TaskGuiModulesMock;
-import de.benjaminborbe.task.gui.servlet.TaskGuiTasksUncompletedServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class TaskGuiTasksUncompletedServletIntegrationTest {

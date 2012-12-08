@@ -53,7 +53,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 		logger.trace("render");
 		final ListWidget widgets = new ListWidget();
 		final UlWidget ul = new UlWidget();
-		ul.addAttribute("id", "navi");
+		ul.addId("navi");
 		for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {
 			ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
 		}

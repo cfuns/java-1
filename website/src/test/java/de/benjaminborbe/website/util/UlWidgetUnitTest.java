@@ -73,9 +73,9 @@ public class UlWidgetUnitTest {
 		EasyMock.replay(context);
 
 		final UlWidget ul = new UlWidget();
+		ul.addId("testId");
 		ul.add("l1");
 		ul.add("l2");
-		ul.addAttribute("id", "testId");
 		ul.render(request, response, context);
 		assertEquals("<ul id=\"testId\"><li>l1</li><li>l2</li></ul>", sw.toString());
 	}

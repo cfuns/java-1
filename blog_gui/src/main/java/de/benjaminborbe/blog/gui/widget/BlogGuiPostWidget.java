@@ -50,7 +50,7 @@ public class BlogGuiPostWidget implements Widget {
 		}
 
 		final UlWidget options = new UlWidget();
-		options.addAttribute("class", "options");
+		options.addClass("options");
 		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_UPDATE_URL, new MapParameter().add(
 				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "edit"));
 		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL, new MapParameter().add(

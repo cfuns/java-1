@@ -58,8 +58,8 @@ public class SingleTagWidget implements Widget {
 		return result;
 	}
 
-	public SingleTagWidget addAttribute(final String name, final String value) {
-		attributes.put(name, value);
+	public SingleTagWidget addAttribute(final String name, final Object value) {
+		attributes.put(name, value != null ? String.valueOf(value) : "");
 		return this;
 	}
 

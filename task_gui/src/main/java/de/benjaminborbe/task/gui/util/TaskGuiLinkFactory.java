@@ -21,8 +21,6 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.form.FormCheckboxWidget;
-import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 
@@ -36,53 +34,10 @@ public class TaskGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget tasksCompleted(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_COMPLETED, getLoopThrough(request), "completed");
-	}
-
-	public Widget taskComplete(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "complete").addConfirm("complete?");
-	}
-
-	public Widget taskCompleteCheckbox(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-
-		final MapChain<String, String[]> parameter = getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId()));
-		final String target = urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, parameter);
-		final FormWidget formWidget = new FormWidget().addClass("taskcompleteform");
-		formWidget.addFormInputWidget(new FormCheckboxWidget("done").addOnClick("if (confirm('complete?')) {window.location.href = '" + target + "';} else { this.checked = false;}"));
-		return formWidget;
-	}
-
-	public Widget taskCreateSubTask(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(taskIdentifier)), "create subtask");
-	}
-
-	public Widget taskCreate(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request), "create");
-	}
-
-	public Widget taskContextCreate(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_CREATE, getLoopThrough(request), "create context");
-	}
-
-	public String taskCreateUrl(final HttpServletRequest request, final TaskIdentifier taskParentIdentifier) throws UnsupportedEncodingException {
-		final MapParameter parameter = getLoopThrough(request);
-		if (taskParentIdentifier != null) {
-			parameter.add(TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(taskParentIdentifier));
-		}
-		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, parameter);
-	}
-
-	public Widget taskDelete(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_DELETE, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
-				String.valueOf(task.getId())), "delete").addConfirm("delete?");
-	}
-
-	public Widget taskContextDelete(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_DELETE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), "delete").addConfirm("delete?");
+	private Widget buildStartLater(final HttpServletRequest request, final TaskIdentifier taskIdentifier, final String time, final String name) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_START_TOMORROW, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_START_LATER, time).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(taskIdentifier)), name);
 	}
 
 	private String getCurrentUri(final HttpServletRequest request) {
@@ -103,12 +58,27 @@ public class TaskGuiLinkFactory {
 		return result;
 	}
 
+	public Widget taskComplete(final HttpServletRequest request, final Widget name, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_COMPLETE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), name).addConfirm("complete");
+	}
+
+	public Widget taskContextCreate(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_CREATE, getLoopThrough(request), "create context");
+	}
+
+	public Widget taskContextDelete(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_DELETE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), "delete").addConfirm("delete?");
+	}
+
 	public Widget taskContextList(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_LIST, "contexts");
 	}
 
-	public Widget tasksNext(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT, getLoopThrough(request), "next");
+	public String taskContextListUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
+		final MapChain<String, String[]> parameter = getLoopThrough(request);
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_LIST, parameter);
 	}
 
 	public Widget taskContextSwitch(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
@@ -168,33 +138,69 @@ public class TaskGuiLinkFactory {
 				content);
 	}
 
-	public Widget taskFirstPrio(final HttpServletRequest request, final String string, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_FIRST, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
-				String.valueOf(task.getId())), "first");
+	public Widget taskContextUpdate(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_UPDATE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), "edit");
 	}
 
-	public Widget taskLater(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget taskCreate(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request), "create");
+	}
+
+	public Widget taskCreateSubTask(final HttpServletRequest request, final Widget name, final TaskIdentifier taskIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(taskIdentifier)), name);
+	}
+
+	public String taskCreateUrl(final HttpServletRequest request, final TaskIdentifier taskParentIdentifier) throws UnsupportedEncodingException {
+		final MapParameter parameter = getLoopThrough(request);
+		if (taskParentIdentifier != null) {
+			parameter.add(TaskGuiConstants.PARAMETER_TASK_PARENT_ID, String.valueOf(taskParentIdentifier));
+		}
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_CREATE, parameter);
+	}
+
+	public Widget taskDelete(final HttpServletRequest request, final Widget name, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_DELETE, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+				String.valueOf(task.getId())), name).addConfirm("delete?");
+	}
+
+	public Widget taskPrioFirst(final HttpServletRequest request, final Widget name, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_FIRST, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+				String.valueOf(taskIdentifier)), name);
+	}
+
+	public Widget taskPrioLast(final HttpServletRequest request, final Widget name, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_LAST, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+				String.valueOf(taskIdentifier)), name);
+	}
+
+	public Widget taskPrioSwap(final HttpServletRequest request, final Widget name, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB)
+			throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_SWAP_PRIO, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASK_ID_A, String.valueOf(taskIdentifierA)).add(TaskGuiConstants.PARAMETER_TASK_ID_B, String.valueOf(taskIdentifierB)), name);
+	}
+
+	public Widget tasksCompleted(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_COMPLETED, getLoopThrough(request), "completed");
+	}
+
+	public Widget tasksNext(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT, getLoopThrough(request), "next");
+	}
+
+	public String tasksNextUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
+		final MapChain<String, String[]> parameter = getLoopThrough(request);
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT, parameter);
+	}
+
+	public Widget taskStartLater(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return buildStartLater(request, taskIdentifier, "2h", "+2h");
 	}
 
-	public Widget taskTomorrow(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget taskStartTomorrow(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return buildStartLater(request, taskIdentifier, "1d", "+1d");
-	}
-
-	private Widget buildStartLater(final HttpServletRequest request, final TaskIdentifier taskIdentifier, final String time, final String name) throws MalformedURLException,
-			UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_START_TOMORROW, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_START_LATER, time).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(taskIdentifier)), name);
-	}
-
-	public Widget taskSwapPrio(final HttpServletRequest request, final String name, final Task taskA, final Task taskB) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_SWAP_PRIO, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID_A, String.valueOf(taskA.getId())).add(TaskGuiConstants.PARAMETER_TASK_ID_B, String.valueOf(taskB.getId())), name);
-	}
-
-	public Widget taskUpdate(final HttpServletRequest request, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UPDATE, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
-				String.valueOf(task.getId())), "edit");
 	}
 
 	public Widget tasksUncompleted(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -211,33 +217,18 @@ public class TaskGuiLinkFactory {
 				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())), "uncomplete").addConfirm("uncomplete?");
 	}
 
-	public Widget taskView(final HttpServletRequest request, final String name, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+	public Widget taskUpdate(final HttpServletRequest request, final Widget name, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UPDATE, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
 				String.valueOf(task.getId())), name);
 	}
 
-	public String taskContextListUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
-		final MapChain<String, String[]> parameter = getLoopThrough(request);
-		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_LIST, parameter);
-	}
-
-	public Widget taskContextUpdate(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_UPDATE, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContext.getId())), "edit");
-	}
-
-	public String tasksNextUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
-		final MapChain<String, String[]> parameter = getLoopThrough(request);
-		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT, parameter);
+	public Widget taskView(final HttpServletRequest request, final Widget name, final Task task) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+				String.valueOf(task.getId())), name);
 	}
 
 	public String taskViewUrl(final HttpServletRequest request, final Task task) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW,
 				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())));
-	}
-
-	public Widget taskLastPrio(final HttpServletRequest request, final String string, final Task task) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_LAST, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
-				String.valueOf(task.getId())), "last");
 	}
 }

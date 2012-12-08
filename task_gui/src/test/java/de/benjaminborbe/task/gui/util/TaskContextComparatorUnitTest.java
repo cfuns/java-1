@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.util;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

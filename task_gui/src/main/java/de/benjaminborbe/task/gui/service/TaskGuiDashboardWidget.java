@@ -24,6 +24,7 @@ import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
+import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -32,6 +33,7 @@ import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -49,18 +51,22 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 	private final TaskGuiUtil taskGuiUtil;
 
+	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
+
 	@Inject
 	public TaskGuiDashboardWidget(
 			final Logger logger,
 			final TaskService taskService,
 			final TaskGuiUtil taskGuiUtil,
 			final AuthenticationService authenticationService,
+			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final StringUtil stringUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
 		this.taskGuiUtil = taskGuiUtil;
 		this.authenticationService = authenticationService;
+		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.stringUtil = stringUtil;
 	}
@@ -92,12 +98,12 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 				for (final Task task : tasks.subList(0, Math.min(tasks.size(), 5))) {
 					final ListWidget row = new ListWidget();
-					row.add(taskGuiLinkFactory.taskCompleteCheckbox(request, task));
+					row.add(taskGuiLinkFactory.taskComplete(request, taskGuiWidgetFactory.buildImage(request, "complete"), task));
 					row.add(" ");
-					row.add(taskGuiLinkFactory.taskView(request, stringUtil.shortenDots(task.getName(), 40), task));
-					row.add(" ");
-					row.add(taskGuiLinkFactory.taskDelete(request, task));
+					row.add(taskGuiLinkFactory.taskDelete(request, taskGuiWidgetFactory.buildImage(request, "delete"), task));
 					ul.add(row);
+					row.add(taskGuiLinkFactory.taskView(request, new StringWidget(stringUtil.shortenDots(task.getName(), 40)), task));
+					row.add(" ");
 				}
 				widgets.add(ul);
 				widgets.add(taskGuiLinkFactory.tasksNext(request));

@@ -22,14 +22,15 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
-import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.ImageWidget;
 
 @Singleton
 public class TaskGuiWidgetFactory {
@@ -62,6 +63,7 @@ public class TaskGuiWidgetFactory {
 			widgets.add(div);
 			ul.add(widgets);
 		}
+		ul.addClass("taskList");
 		return ul;
 	}
 
@@ -88,8 +90,7 @@ public class TaskGuiWidgetFactory {
 			final Task task = tasks.get(i);
 			final ListWidget widgets = new ListWidget();
 			{
-				final Widget div = buildTaskListRow(sessionIdentifier, request, tasks, i, task, allTasks, timeZone);
-				widgets.add(div);
+				widgets.add(buildTaskName(sessionIdentifier, request, task, allTasks));
 			}
 			{
 				widgets.add(new DivWidget(taskListWithChilds(sessionIdentifier, allTasks, task.getId(), request, timeZone)));
@@ -104,12 +105,41 @@ public class TaskGuiWidgetFactory {
 			PermissionDeniedException {
 
 		final ListWidget row = new ListWidget();
-		if (!taskGuiUtil.hasChildTasks(allTasks, task.getId())) {
-			row.add(taskGuiLinkFactory.taskCompleteCheckbox(request, task));
+		if (position > 0) {
+			row.add(taskGuiLinkFactory.taskPrioFirst(request, buildImage(request, "first"), task.getId()));
+			row.add(" ");
+			row.add(taskGuiLinkFactory.taskPrioSwap(request, buildImage(request, "up"), task.getId(), tasks.get(position - 1).getId()));
 			row.add(" ");
 		}
-		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
-		row.add(new SpanWidget(taskGuiLinkFactory.taskView(request, taskName, task)).addAttribute("class", "taskTitle"));
+		else {
+			row.add(buildImage(request, "empty"));
+			row.add(" ");
+			row.add(buildImage(request, "empty"));
+			row.add(" ");
+		}
+		if (position < tasks.size() - 1) {
+			row.add(taskGuiLinkFactory.taskPrioSwap(request, buildImage(request, "down"), task.getId(), tasks.get(position + 1).getId()));
+			row.add(" ");
+			row.add(taskGuiLinkFactory.taskPrioLast(request, buildImage(request, "last"), task.getId()));
+			row.add(" ");
+		}
+		else {
+			row.add(buildImage(request, "empty"));
+			row.add(" ");
+			row.add(buildImage(request, "empty"));
+			row.add(" ");
+		}
+		row.add(taskGuiLinkFactory.taskUpdate(request, buildImage(request, "update"), task));
+		row.add(" ");
+		row.add(taskGuiLinkFactory.taskView(request, buildImage(request, "view"), task));
+		row.add(" ");
+		row.add(taskGuiLinkFactory.taskCreateSubTask(request, buildImage(request, "subtask"), task.getId()));
+		row.add(" ");
+		row.add(taskGuiLinkFactory.taskDelete(request, buildImage(request, "delete"), task));
+		row.add(" ");
+		row.add(taskGuiLinkFactory.taskComplete(request, buildImage(request, "complete"), task));
+		row.add(" ");
+		row.add(buildTaskName(sessionIdentifier, request, task, allTasks));
 		row.add(" ");
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
@@ -121,30 +151,10 @@ public class TaskGuiWidgetFactory {
 		}
 
 		final ListWidget options = new ListWidget();
-		options.add(taskGuiLinkFactory.taskUpdate(request, task));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskLater(request, task.getId()));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskTomorrow(request, task.getId()));
-		options.add(" ");
-		if (position > 0) {
-			options.add(taskGuiLinkFactory.taskFirstPrio(request, "first", task));
-			options.add(" ");
 
-			options.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(position - 1)));
-			options.add(" ");
-		}
-
-		if (position < tasks.size() - 1) {
-			options.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(position + 1)));
-			options.add(" ");
-
-			options.add(taskGuiLinkFactory.taskLastPrio(request, "last", task));
-			options.add(" ");
-		}
-		options.add(taskGuiLinkFactory.taskCreateSubTask(request, task.getId()));
+		options.add(taskGuiLinkFactory.taskStartLater(request, task.getId()));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskDelete(request, task));
+		options.add(taskGuiLinkFactory.taskStartTomorrow(request, task.getId()));
 
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		final DivWidget div = new DivWidget(row).addClass("taskEntry");
@@ -165,5 +175,15 @@ public class TaskGuiWidgetFactory {
 			}
 		}
 		return div;
+	}
+
+	private Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final List<Task> allTasks)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
+		return new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle");
+	}
+
+	public Widget buildImage(final HttpServletRequest request, final String name) {
+		return new ImageWidget(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_IMAGES + "/" + name + "-icon.png", 20, 20).addAlt(name).addClass("icon");
 	}
 }

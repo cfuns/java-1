@@ -18,7 +18,6 @@ import com.google.inject.Injector;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;
-import de.benjaminborbe.task.gui.TaskGuiActivator;
 import de.benjaminborbe.task.gui.guice.TaskGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
@@ -110,6 +109,7 @@ public class TaskGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_IMAGES);
 
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {

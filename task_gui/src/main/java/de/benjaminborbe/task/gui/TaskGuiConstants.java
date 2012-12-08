@@ -80,4 +80,6 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_LAST = "/task/last";
 
+	String URL_IMAGES = "/images";
+
 }
