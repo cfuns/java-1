@@ -123,9 +123,9 @@ public class TaskGuiWidgetFactory {
 		final ListWidget options = new ListWidget();
 		options.add(taskGuiLinkFactory.taskUpdate(request, task));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskLater(request, task));
+		options.add(taskGuiLinkFactory.taskLater(request, task.getId()));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskTomorrow(request, task));
+		options.add(taskGuiLinkFactory.taskTomorrow(request, task.getId()));
 		options.add(" ");
 		if (position > 0) {
 			options.add(taskGuiLinkFactory.taskFirstPrio(request, "first", task));
@@ -134,8 +134,12 @@ public class TaskGuiWidgetFactory {
 			options.add(taskGuiLinkFactory.taskSwapPrio(request, "up", task, tasks.get(position - 1)));
 			options.add(" ");
 		}
+
 		if (position < tasks.size() - 1) {
 			options.add(taskGuiLinkFactory.taskSwapPrio(request, "down", task, tasks.get(position + 1)));
+			options.add(" ");
+
+			options.add(taskGuiLinkFactory.taskLastPrio(request, "last", task));
 			options.add(" ");
 		}
 		options.add(taskGuiLinkFactory.taskCreateSubTask(request, task.getId()));

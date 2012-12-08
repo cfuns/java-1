@@ -78,4 +78,6 @@ public interface TaskGuiConstants {
 
 	String EXAMPLE_SMARTDATE = "2012-12-24, 0d, 1w...";
 
+	String URL_TASK_LAST = "/task/last";
+
 }

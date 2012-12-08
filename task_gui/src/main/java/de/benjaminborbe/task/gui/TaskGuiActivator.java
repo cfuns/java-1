@@ -73,6 +73,9 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	private TaskGuiTaskFirstServlet taskGuiTaskFirstServlet;
 
 	@Inject
+	private TaskGuiTaskLastServlet taskGuiTaskLastServlet;
+
+	@Inject
 	private TaskGuiTaskContextUpdateServlet taskGuiTaskContextUpdateServlet;
 
 	@Inject
@@ -91,6 +94,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(taskGuiTaskFirstServlet, TaskGuiConstants.URL_TASK_FIRST));
+		result.add(new ServletInfo(taskGuiTaskLastServlet, TaskGuiConstants.URL_TASK_LAST));
 		result.add(new ServletInfo(taskGuiTaskStartLaterServlet, TaskGuiConstants.URL_TASK_START_TOMORROW));
 		result.add(new ServletInfo(taskGuiNextServlet, TaskGuiConstants.URL_TASKS_NEXT));
 		result.add(new ServletInfo(taskGuiTaskSwapPrioServlet, TaskGuiConstants.URL_TASK_SWAP_PRIO));
