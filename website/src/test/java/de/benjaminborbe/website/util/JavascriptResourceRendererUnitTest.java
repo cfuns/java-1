@@ -56,13 +56,13 @@ public class JavascriptResourceRendererUnitTest {
 		final List<JavascriptResource> resources = new ArrayList<JavascriptResource>();
 		{
 			final JavascriptResource resource = EasyMock.createMock(JavascriptResource.class);
-			EasyMock.expect(resource.getUrl()).andReturn("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js");
+			EasyMock.expect(resource.getUrl()).andReturn("http://testhost.de/scripts.js");
 			EasyMock.replay(resource);
 			resources.add(resource);
 		}
 		{
 			final JavascriptResource resource = EasyMock.createMock(JavascriptResource.class);
-			EasyMock.expect(resource.getUrl()).andReturn("http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js");
+			EasyMock.expect(resource.getUrl()).andReturn("http://testhost.de/otherscripts.js");
 			EasyMock.replay(resource);
 			resources.add(resource);
 		}
@@ -73,7 +73,7 @@ public class JavascriptResourceRendererUnitTest {
 		final JavascriptResourceWidget link = new JavascriptResourceWidget(resources);
 		link.render(request, response, context);
 		assertEquals(
-				"<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js\"></script>\n<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js\"></script>\n",
+				"<script type=\"text/javascript\" src=\"http://testhost.de/scripts.js\"></script>\n<script type=\"text/javascript\" src=\"http://testhost.de/otherscripts.js\"></script>\n",
 				sw.toString());
 	}
 }
