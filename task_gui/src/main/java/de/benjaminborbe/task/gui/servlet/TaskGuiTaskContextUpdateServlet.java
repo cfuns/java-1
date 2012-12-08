@@ -99,7 +99,7 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskContext taskContext = taskService.getTaskContext(sessionIdentifier, taskContextIdentifier);
 			if (name != null) {
 				try {
-					taskService.updateTaskContext(sessionIdentifier, taskContextIdentifier, name);
+					taskService.updateTaskContext(sessionIdentifier, taskContextIdentifier, name.trim());
 					throw new RedirectException(taskGuiLinkFactory.taskContextListUrl(request));
 				}
 				catch (final ValidationException e) {

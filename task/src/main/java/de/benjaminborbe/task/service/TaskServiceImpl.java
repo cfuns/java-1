@@ -261,11 +261,6 @@ public class TaskServiceImpl implements TaskService {
 			task.setStart(start);
 			task.setDue(due);
 
-			final ValidationResult errors = validationExecutor.validate(task);
-			if (errors.hasErrors()) {
-				logger.warn("Task " + errors.toString());
-				throw new ValidationException(errors);
-			}
 			updateTaskStartDueChildAndSave(parentTask, task);
 
 			// only update if set
@@ -632,11 +627,6 @@ public class TaskServiceImpl implements TaskService {
 			task.setStart(start);
 			task.setDue(due);
 
-			final ValidationResult errors = validationExecutor.validate(task);
-			if (errors.hasErrors()) {
-				logger.warn("Task " + errors.toString());
-				throw new ValidationException(errors);
-			}
 			updateTaskStartDueChildAndSave(parentTask, task);
 
 			// only update if set
@@ -664,11 +654,18 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	private void updateTaskStartDueChildAndSave(final TaskBean parentTask, final TaskBean task) throws StorageException, EntityIteratorException {
+	private void updateTaskStartDueChildAndSave(final TaskBean parentTask, final TaskBean task) throws StorageException, EntityIteratorException, ValidationException {
 		if (parentTask != null) {
 			task.setStart(calendarUtil.max(task.getStart(), parentTask.getStart()));
 			task.setDue(calendarUtil.min(task.getDue(), parentTask.getDue()));
 		}
+
+		final ValidationResult errors = validationExecutor.validate(task);
+		if (errors.hasErrors()) {
+			logger.warn("Task " + errors.toString());
+			throw new ValidationException(errors);
+		}
+
 		taskDao.save(task);
 
 		// update childs

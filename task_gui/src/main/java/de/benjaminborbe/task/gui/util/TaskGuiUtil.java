@@ -124,7 +124,7 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> filterStart(final List<Task> tasks, final TimeZone timeZone) {
+	public List<Task> filterNotStarted(final List<Task> tasks, final TimeZone timeZone) {
 		final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
 		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : tasks) {

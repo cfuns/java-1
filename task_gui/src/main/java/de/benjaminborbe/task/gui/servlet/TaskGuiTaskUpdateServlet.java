@@ -126,7 +126,6 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 			if (name != null && description != null && contextId != null && parentId != null) {
 				try {
-					logger.trace("name: " + name);
 					final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
 					final Calendar due = parseCalendar(dueString, timeZone);
@@ -140,7 +139,8 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 						contexts.add(taskContextIdentifier);
 					}
 
-					taskService.updateTask(sessionIdentifier, taskIdentifier, name, description, url, taskParentIdentifier, start, due, repeatStart, repeatDue, contexts);
+					taskService
+							.updateTask(sessionIdentifier, taskIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart, repeatDue, contexts);
 
 					if (referer != null) {
 						throw new RedirectException(referer);

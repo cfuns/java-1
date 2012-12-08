@@ -88,7 +88,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 				final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
 				final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
-				final List<Task> tasks = taskGuiUtil.filterStart(childTasks, timeZone);
+				final List<Task> tasks = taskGuiUtil.filterNotStarted(childTasks, timeZone);
 
 				for (final Task task : tasks.subList(0, Math.min(tasks.size(), 5))) {
 					final ListWidget row = new ListWidget();

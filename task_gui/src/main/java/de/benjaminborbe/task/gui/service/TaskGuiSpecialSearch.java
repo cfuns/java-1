@@ -78,7 +78,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 			final String term = searchQuery.substring(searchQuery.indexOf(":") + 1).trim();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (term.indexOf(ADD) == 0) {
-				final String taskName = term.substring(ADD.length());
+				final String taskName = term.substring(ADD.length()).trim();
 				taskService.createTask(sessionIdentifier, taskName, null, null, null, null, null, null, null, null);
 				response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
 				return;

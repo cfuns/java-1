@@ -93,7 +93,7 @@ public class TaskGuiTaskContextCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			if (name != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-					taskService.createTaskContext(sessionIdentifier, name);
+					taskService.createTaskContext(sessionIdentifier, name.trim());
 					throw new RedirectException(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_CREATE);
 				}
 				catch (final ValidationException e) {

@@ -245,16 +245,16 @@ public class TaskServiceImplIntegrationTest {
 
 		// child change
 		{
-			final Calendar parentStart = calendarUtil.parseSmart("2d");
-			final Calendar parentDue = calendarUtil.parseSmart("3d");
+			final Calendar parentStart = calendarUtil.parseSmart("1d");
+			final Calendar parentDue = calendarUtil.parseSmart("5d");
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, parentStart, parentDue, null, null, null);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(parentStart, parent.getStart());
 			assertEquals(parentDue, parent.getDue());
 
-			final Calendar childStart = calendarUtil.parseSmart("3d");
-			final Calendar childDue = calendarUtil.parseSmart("1d");
+			final Calendar childStart = calendarUtil.parseSmart("2d");
+			final Calendar childDue = calendarUtil.parseSmart("4d");
 			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
@@ -345,16 +345,16 @@ public class TaskServiceImplIntegrationTest {
 
 		// child change
 		{
-			final Calendar parentStart = calendarUtil.parseSmart("2d");
-			final Calendar parentDue = calendarUtil.parseSmart("3d");
+			final Calendar parentStart = calendarUtil.parseSmart("1d");
+			final Calendar parentDue = calendarUtil.parseSmart("4d");
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, parentStart, parentDue, null, null, null);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(parentStart, parent.getStart());
 			assertEquals(parentDue, parent.getDue());
 
-			final Calendar childStart = calendarUtil.parseSmart("3d");
-			final Calendar childDue = calendarUtil.parseSmart("1d");
+			final Calendar childStart = calendarUtil.parseSmart("2d");
+			final Calendar childDue = calendarUtil.parseSmart("3d");
 			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
 			taskService.updateTask(sessionIdentifier, childTaskIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
 			assertNotNull(childTaskIdentifier);
@@ -448,13 +448,13 @@ public class TaskServiceImplIntegrationTest {
 
 		// child change
 		{
-			final Calendar parentStart = calendarUtil.parseSmart("2d");
-			final Calendar parentDue = calendarUtil.parseSmart("3d");
+			final Calendar parentStart = calendarUtil.parseSmart("1d");
+			final Calendar parentDue = calendarUtil.parseSmart("5d");
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
 			assertNotNull(parentTaskIdentifier);
 
 			final Calendar childStart = calendarUtil.parseSmart("3d");
-			final Calendar childDue = calendarUtil.parseSmart("1d");
+			final Calendar childDue = calendarUtil.parseSmart("4d");
 			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
 			assertNotNull(childTaskIdentifier);
 
