@@ -21,6 +21,9 @@ public interface TaskService {
 			Long repeatStart, Long repeatDue, Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
 			ValidationException;
 
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, TaskDto taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException;
+
 	TaskContextIdentifier createTaskContext(SessionIdentifier sessionIdentifier, String name) throws TaskServiceException, PermissionDeniedException, ValidationException,
 			LoginRequiredException;
 
@@ -70,5 +73,7 @@ public interface TaskService {
 			LoginRequiredException;
 
 	List<TaskMatch> searchTasks(SessionIdentifier sessionIdentifier, int limit, String... words) throws TaskServiceException, LoginRequiredException;
+
+	TaskContext getTaskContextByName(SessionIdentifier sessionIdentifier, String taskContextName) throws TaskServiceException, LoginRequiredException;
 
 }

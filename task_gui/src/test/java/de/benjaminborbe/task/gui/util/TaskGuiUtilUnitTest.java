@@ -1,6 +1,9 @@
 package de.benjaminborbe.task.gui.util;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +12,21 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContext;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.api.TaskService;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.CalendarUtilImpl;
+import de.benjaminborbe.tools.date.CurrentTime;
+import de.benjaminborbe.tools.date.CurrentTimeImpl;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ParseUtilImpl;
+import de.benjaminborbe.tools.util.StringUtil;
 
 public class TaskGuiUtilUnitTest {
 
@@ -51,4 +67,52 @@ public class TaskGuiUtilUnitTest {
 		return task;
 	}
 
+	@Test
+	public void testQuickStringToTask() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+		final SessionIdentifier sessionIdentifier = null;
+		final StringUtil stringUtil = null;
+
+		final TaskContextIdentifier id = EasyMock.createMock(TaskContextIdentifier.class);
+		EasyMock.replay(id);
+
+		final TaskContext taskContext = EasyMock.createMock(TaskContext.class);
+		EasyMock.expect(taskContext.getId()).andReturn(id).anyTimes();
+		EasyMock.expect(taskContext.getName()).andReturn("home").anyTimes();
+		EasyMock.replay(taskContext);
+
+		final TaskService taskService = EasyMock.createMock(TaskService.class);
+		EasyMock.expect(taskService.getTaskContextByName(sessionIdentifier, "home")).andReturn(taskContext).anyTimes();
+		EasyMock.replay(taskService);
+
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final CurrentTime currentTime = new CurrentTimeImpl();
+		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, taskService, stringUtil, calendarUtil);
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, null).getName(), is(nullValue()));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, "bla").getName(), is("bla"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla ").getName(), is("bla"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla: ").getName(), is("bla:"));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getName(), is("bla foo"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContexts().size(), is(1));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContexts().iterator().next(), is(taskContext.getId()));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla due: 0d foo ").getName(), is("bla foo"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla due: 0d foo ").getDue(), is(notNullValue()));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla start: 0d foo ").getName(), is("bla foo"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla start: 0d foo ").getStart(), is(notNullValue()));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getName(), is("bla foo"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getContexts().size(), is(1));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getContexts().iterator().next(), is(taskContext.getId()));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getName(), is("bla foo"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getDue(), is(notNullValue()));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getName(), is("bla foo"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getStart(), is(notNullValue()));
+
+	}
 }

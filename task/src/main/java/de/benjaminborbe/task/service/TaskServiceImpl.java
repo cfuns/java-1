@@ -30,6 +30,7 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
@@ -229,65 +230,17 @@ public class TaskServiceImpl implements TaskService {
 	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
 			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
 			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-
-			logger.trace("createTask");
-
-			final TaskBean parentTask;
-			// check parent
-			if (taskParentIdentifier != null) {
-				parentTask = taskDao.load(taskParentIdentifier);
-				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
-			}
-			else {
-				parentTask = null;
-			}
-
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
-			final TaskBean task = taskDao.create();
-
-			task.setId(taskIdentifier);
-			task.setName(name);
-			task.setDescription(description);
-			task.setOwner(userIdentifier);
-			task.setCompleted(false);
-			task.setRepeatDue(repeatDue);
-			task.setRepeatStart(repeatStart);
-			task.setUrl(url);
-			task.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
-			task.setParentId(taskParentIdentifier);
-			task.setStart(start);
-			task.setDue(due);
-
-			updateTaskStartDueChildAndSave(parentTask, task);
-
-			// only update if set
-			if (contexts != null) {
-				for (final TaskContextIdentifier taskContextIdentifier : contexts) {
-					replaceTaskContext(sessionIdentifier, taskIdentifier, taskContextIdentifier);
-				}
-			}
-
-			return taskIdentifier;
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			logger.trace("duration " + duration.getTime());
-		}
+		final TaskDto taskDto = new TaskDto();
+		taskDto.setName(name);
+		taskDto.setDescription(description);
+		taskDto.setUrl(url);
+		taskDto.setParentId(taskParentIdentifier);
+		taskDto.setStart(start);
+		taskDto.setDue(due);
+		taskDto.setRepeatDue(repeatDue);
+		taskDto.setRepeatStart(repeatStart);
+		taskDto.setContexts(contexts);
+		return createTask(sessionIdentifier, taskDto);
 	}
 
 	@Override
@@ -912,5 +865,98 @@ public class TaskServiceImpl implements TaskService {
 			result.add(new TaskMatchImpl(match));
 		}
 		return result;
+	}
+
+	@Override
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.trace("createTask");
+
+			final TaskBean parentTask;
+			// check parent
+			if (taskDto.getParentId() != null) {
+				parentTask = taskDao.load(taskDto.getParentId());
+				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+			}
+			else {
+				parentTask = null;
+			}
+
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
+			final TaskBean taskBean = taskDao.create();
+
+			taskBean.setId(taskIdentifier);
+			taskBean.setName(taskDto.getName());
+			taskBean.setDescription(taskDto.getDescription());
+			taskBean.setOwner(userIdentifier);
+			taskBean.setCompleted(false);
+			taskBean.setRepeatDue(taskDto.getRepeatDue());
+			taskBean.setRepeatStart(taskDto.getRepeatStart());
+			taskBean.setUrl(taskDto.getUrl());
+			taskBean.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
+			taskBean.setParentId(taskDto.getParentId());
+			taskBean.setStart(taskDto.getStart());
+			taskBean.setDue(taskDto.getDue());
+
+			updateTaskStartDueChildAndSave(parentTask, taskBean);
+
+			// only update if set
+			if (taskDto.getContexts() != null) {
+				for (final TaskContextIdentifier taskContextIdentifier : taskDto.getContexts()) {
+					replaceTaskContext(sessionIdentifier, taskIdentifier, taskContextIdentifier);
+				}
+			}
+
+			return taskIdentifier;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.trace("getTaskContextByName");
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final TaskContext taskContext = taskContextDao.findByName(userIdentifier, taskContextName);
+			if (taskContext == null) {
+				logger.info("taskContext not found with name " + taskContextName);
+				return null;
+			}
+			return taskContext;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
 	}
 }

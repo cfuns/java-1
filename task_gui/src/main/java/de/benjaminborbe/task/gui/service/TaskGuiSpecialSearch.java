@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -21,10 +22,12 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
+import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H2Widget;
@@ -52,14 +55,18 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 
 	private final Logger logger;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
 	public TaskGuiSpecialSearch(
 			final Logger logger,
+			final TaskGuiUtil taskGuiUtil,
 			final AuthenticationService authenticationService,
 			final TaskService taskService,
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final SearchUtil searchUtil) {
 		this.logger = logger;
+		this.taskGuiUtil = taskGuiUtil;
 		this.authenticationService = authenticationService;
 		this.taskService = taskService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -78,9 +85,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 			final String term = searchQuery.substring(searchQuery.indexOf(":") + 1).trim();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (term.indexOf(ADD) == 0) {
-				final String taskName = term.substring(ADD.length()).trim();
-				taskService.createTask(sessionIdentifier, taskName, null, null, null, null, null, null, null, null);
-				response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
+				addTask(request, response, sessionIdentifier, term.substring(ADD.length()).trim());
 				return;
 			}
 			if (term.indexOf(NEXT) == 0) {
@@ -127,5 +132,12 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}
+	}
+
+	private void addTask(final HttpServletRequest request, final HttpServletResponse response, final SessionIdentifier sessionIdentifier, final String input)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, IOException, UnsupportedEncodingException {
+		final TaskDto task = taskGuiUtil.quickStringToTask(sessionIdentifier, input);
+		taskService.createTask(sessionIdentifier, task);
+		response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
 	}
 }

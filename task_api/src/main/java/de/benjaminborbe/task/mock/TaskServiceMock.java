@@ -14,6 +14,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
@@ -147,6 +148,17 @@ public class TaskServiceMock implements TaskService {
 
 	@Override
 	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
 

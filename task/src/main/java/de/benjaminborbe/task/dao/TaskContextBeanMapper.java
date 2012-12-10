@@ -17,6 +17,10 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class TaskContextBeanMapper extends SingleMappler<TaskContextBean> {
 
+	public static final String OWNER = "owner";
+
+	public static final String NAME = "name";
+
 	@Inject
 	public TaskContextBeanMapper(final Provider<TaskContextBean> provider, final ParseUtil parseUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
 		super(provider, buildMappings(parseUtil, calendarUtil, timeZoneUtil));
@@ -25,8 +29,8 @@ public class TaskContextBeanMapper extends SingleMappler<TaskContextBean> {
 	private static Collection<SingleMap<TaskContextBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
 		final List<SingleMap<TaskContextBean>> result = new ArrayList<SingleMap<TaskContextBean>>();
 		result.add(new SingleMapTaskContextIdentifier<TaskContextBean>("id"));
-		result.add(new SingleMapString<TaskContextBean>("name"));
-		result.add(new SingleMapUserIdentifier<TaskContextBean>("owner"));
+		result.add(new SingleMapString<TaskContextBean>(NAME));
+		result.add(new SingleMapUserIdentifier<TaskContextBean>(OWNER));
 		result.add(new SingleMapCalendar<TaskContextBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<TaskContextBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
 		return result;

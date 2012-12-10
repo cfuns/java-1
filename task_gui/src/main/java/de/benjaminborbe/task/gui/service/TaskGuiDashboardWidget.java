@@ -24,6 +24,7 @@ import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
@@ -103,7 +104,9 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			{
 				final String name = request.getParameter(TaskGuiConstants.PARAMETER_TASK_NAME);
 				if (name != null) {
-					taskService.createTask(sessionIdentifier, name, null, null, null, null, null, null, null, null);
+					final TaskDto task = new TaskDto();
+					task.setName(name);
+					taskService.createTask(sessionIdentifier, task);
 				}
 				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST).addClass("taskdashboardcreate");
 				formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_NAME).addPlaceholder("name...").addValue("").setBr(false));

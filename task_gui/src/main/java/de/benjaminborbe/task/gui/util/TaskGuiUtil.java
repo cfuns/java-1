@@ -1,10 +1,12 @@
 package de.benjaminborbe.task.gui.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,11 +18,14 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.StringUtil;
 
 public class TaskGuiUtil {
@@ -144,5 +149,45 @@ public class TaskGuiUtil {
 	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final Task task, final int nameLength) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		return buildCompleteName(sessionIdentifier, new ArrayList<Task>(), task, nameLength);
+	}
+
+	public TaskDto quickStringToTask(final SessionIdentifier sessionIdentifier, final String text) throws TaskServiceException, LoginRequiredException {
+		final TaskDto task = new TaskDto();
+		if (text == null) {
+			return task;
+		}
+
+		final List<String> remainingTokens = new ArrayList<String>();
+
+		final StringTokenizer st = new StringTokenizer(text, " ");
+		while (st.hasMoreTokens()) {
+			final boolean hasNext = st.hasMoreTokens();
+			final String token = st.nextToken();
+			if (hasNext && "context:".equalsIgnoreCase(token)) {
+				final String taskContextName = st.nextToken();
+				final TaskContext taskContext = taskService.getTaskContextByName(sessionIdentifier, taskContextName);
+				task.setContexts(Arrays.asList(taskContext.getId()));
+			}
+			else if (hasNext && "due:".equalsIgnoreCase(token)) {
+				try {
+					task.setDue(calendarUtil.parseSmart(st.nextToken()));
+				}
+				catch (final ParseException e) {
+				}
+			}
+			else if (hasNext && "start:".equalsIgnoreCase(token)) {
+				try {
+					task.setStart(calendarUtil.parseSmart(st.nextToken()));
+				}
+				catch (final ParseException e) {
+				}
+			}
+			else {
+				remainingTokens.add(token);
+			}
+		}
+
+		task.setName(StringUtils.join(remainingTokens, " ").replaceAll("\\s+", " ").trim());
+		return task;
 	}
 }
