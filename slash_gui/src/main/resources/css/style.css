@@ -34,14 +34,18 @@ label {
 	width: 200px;
 }
 
-input[type =
-"submit"] {
+input[type="submit"] {
 	margin-left: 200px;
+	width: auto;
 }
 
 label, input, textarea {
 	float: left;
 	font-size: 17px;
+}
+
+input {
+	width: 400px;
 }
 
 textarea {
