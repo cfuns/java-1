@@ -1,35 +1,42 @@
-package de.benjaminborbe.task.service;
+package de.benjaminborbe.task.tools;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
-import de.benjaminborbe.task.api.Task;
 
-public class TaskServiceImplUnitTest {
+import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.tools.util.ComparatorUtil;
+
+public class TaskComparatorUnitTest {
 
 	@Test
 	public void testSort() {
-		final TaskServiceImpl taskServiceImpl = new TaskServiceImpl(null, null, null, null, null, null, null, null, null, null);
+		final ComparatorUtil comparatorUtil = new ComparatorUtil();
+		final TaskNameComparator name = new TaskNameComparator();
+		final TaskPrioComparator prio = new TaskPrioComparator();
+		final TaskComparator taskComparator = new TaskComparator(name, prio);
 		{
 			final List<Task> list = new ArrayList<Task>();
-			final List<Task> result = taskServiceImpl.sort(list);
+			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(0, result.size());
 		}
 		{
 			final List<Task> list = new ArrayList<Task>();
 			list.add(buildTask(1));
-			final List<Task> result = taskServiceImpl.sort(list);
+			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
 		{
 			final List<Task> list = new ArrayList<Task>();
 			list.add(buildTask(null));
-			final List<Task> result = taskServiceImpl.sort(list);
+			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
@@ -39,7 +46,7 @@ public class TaskServiceImplUnitTest {
 			list.add(buildTask(1));
 			list.add(buildTask(3));
 			list.add(buildTask(4));
-			final List<Task> result = taskServiceImpl.sort(list);
+			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(4, result.size());
 			assertEquals(new Integer(1), list.get(0).getPriority());
@@ -51,7 +58,7 @@ public class TaskServiceImplUnitTest {
 			final List<Task> list = new ArrayList<Task>();
 			list.add(buildTask(2));
 			list.add(buildTask(1));
-			final List<Task> result = taskServiceImpl.sort(list);
+			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(2, result.size());
 			assertEquals(new Integer(1), list.get(0).getPriority());

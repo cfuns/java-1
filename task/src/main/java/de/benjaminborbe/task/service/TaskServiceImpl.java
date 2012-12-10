@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +39,10 @@ import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
-import de.benjaminborbe.task.util.TaskNameComparator;
-import de.benjaminborbe.task.util.TaskPrioComparator;
+import de.benjaminborbe.task.tools.TaskComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
-import de.benjaminborbe.tools.util.ComparatorChain;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
@@ -121,10 +118,13 @@ public class TaskServiceImpl implements TaskService {
 
 	private final DurationUtil durationUtil;
 
+	private final TaskComparator taskComparator;
+
 	@Inject
 	public TaskServiceImpl(
 			final Logger logger,
 			final TaskDao taskDao,
+			final TaskComparator taskComparator,
 			final IdGeneratorUUID idGeneratorUUID,
 			final TaskContextDao taskContextDao,
 			final AuthenticationService authenticationService,
@@ -135,6 +135,7 @@ public class TaskServiceImpl implements TaskService {
 			final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.taskDao = taskDao;
+		this.taskComparator = taskComparator;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.taskContextDao = taskContextDao;
 		this.authenticationService = authenticationService;
@@ -691,7 +692,8 @@ public class TaskServiceImpl implements TaskService {
 				result.add(task);
 			}
 			logger.trace("getTasksCompleted found " + result.size());
-			return sort(result);
+			Collections.sort(result, taskComparator);
+			return result;
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -722,7 +724,8 @@ public class TaskServiceImpl implements TaskService {
 				final Task task = i.next();
 				result.add(task);
 			}
-			return sort(result);
+			Collections.sort(result, taskComparator);
+			return result;
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -753,7 +756,8 @@ public class TaskServiceImpl implements TaskService {
 				final Task task = i.next();
 				result.add(task);
 			}
-			return sort(result);
+			Collections.sort(result, taskComparator);
+			return result;
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -857,14 +861,6 @@ public class TaskServiceImpl implements TaskService {
 		finally {
 			logger.trace("duration " + duration.getTime());
 		}
-	}
-
-	protected List<Task> sort(final List<Task> result) {
-		final List<Comparator<Task>> list = new ArrayList<Comparator<Task>>();
-		list.add(new TaskPrioComparator());
-		list.add(new TaskNameComparator());
-		Collections.sort(result, new ComparatorChain<Task>(list));
-		return result;
 	}
 
 	private Calendar calcRepeat(final Long repeat) {

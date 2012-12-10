@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
@@ -21,10 +25,17 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskService;
+import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.util.TaskDueExpiredPredicate;
+import de.benjaminborbe.task.gui.util.TaskDueTodayPredicate;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.util.TaskStartReadyPredicate;
+import de.benjaminborbe.task.tools.TaskComparator;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -53,9 +64,18 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
 
+	private final CalendarUtil calendarUtil;
+
+	private final ComparatorUtil comparatorUtil;
+
+	private final TaskComparator taskComparator;
+
 	@Inject
 	public TaskGuiDashboardWidget(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
+			final TaskComparator taskComparator,
+			final ComparatorUtil comparatorUtil,
 			final TaskService taskService,
 			final TaskGuiUtil taskGuiUtil,
 			final AuthenticationService authenticationService,
@@ -63,6 +83,9 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final StringUtil stringUtil) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
+		this.taskComparator = taskComparator;
+		this.comparatorUtil = comparatorUtil;
 		this.taskService = taskService;
 		this.taskGuiUtil = taskGuiUtil;
 		this.authenticationService = authenticationService;
@@ -90,13 +113,9 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			// top tasks
 			{
 				final UlWidget ul = new UlWidget();
-				final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
-				final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
-				final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
-				final List<Task> tasks = taskGuiUtil.filterNotStarted(childTasks, timeZone);
-
-				for (final Task task : tasks.subList(0, Math.min(tasks.size(), 5))) {
+				final List<Task> tasks = getTasks(sessionIdentifier);
+				for (final Task task : tasks) {
 					final ListWidget row = new ListWidget();
 					row.add(taskGuiLinkFactory.taskComplete(request, taskGuiWidgetFactory.buildImage(request, "complete"), task));
 					row.add(" ");
@@ -115,6 +134,18 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}
+	}
+
+	private List<Task> getTasks(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, TaskServiceException, LoginRequiredException {
+		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
+		final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
+		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
+		final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
+		final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
+		final TaskDueTodayPredicate taskDueTodayPredicate = new TaskDueTodayPredicate(logger, calendarUtil, timeZone);
+		final List<Task> tasks = comparatorUtil.sort(
+				Collections2.filter(childTasks, Predicates.and(taskStartReadyPredicate, Predicates.or(taskDueTodayPredicate, taskDueExpiredPredicate))), taskComparator);
+		return tasks.subList(0, Math.min(tasks.size(), 5));
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.util;
+package de.benjaminborbe.task.tools;
 
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.tools.util.ComparatorBase;
