@@ -20,6 +20,7 @@ import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.search.gui.SearchGuiConstants;
+import de.benjaminborbe.search.gui.util.SearchGuiLinkFactory;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -34,37 +35,37 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 
 	private static final String TITLE = "SearchDashboardWidget";
 
-	private final static String PARAMETER_SEARCH = "q";
-
 	private final Logger logger;
 
+	private final SearchGuiLinkFactory searchGuiLinkFactory;
+
 	@Inject
-	public SearchGuiDashboardWidget(final Logger logger) {
+	public SearchGuiDashboardWidget(final Logger logger, final SearchGuiLinkFactory searchGuiLinkFactory) {
 		this.logger = logger;
+		this.searchGuiLinkFactory = searchGuiLinkFactory;
 	}
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("render");
-		final String contextPath = request.getContextPath();
-		final String searchSuggestUrl = contextPath + "/search/suggest";
-		final String action = contextPath + "/search";
-
 		final ListWidget widgets = new ListWidget();
-		final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
-		formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_SEARCH).addPlaceholder("searchtext...").addId("searchBox").setBr(false));
+		final FormWidget formWidget = new FormWidget(searchGuiLinkFactory.searchUrl(request)).addMethod(FormMethod.POST);
+		formWidget.addFormInputWidget(new FormInputTextWidget(SearchGuiConstants.PARAMETER_SEARCH).addPlaceholder("searchtext...").addId("searchBox").setBr(false));
 		formWidget.addFormInputWidget(new FormInputSubmitWidget("search"));
 		widgets.add(formWidget);
 
-		final StringWriter sw = new StringWriter();
-		sw.append("$(document).ready(function() {");
-		sw.append("$('input#searchBox').autocomplete({");
-		sw.append("source: '" + searchSuggestUrl + "',");
-		sw.append("method: 'POST',");
-		sw.append("minLength: 1,");
-		sw.append("});");
-		sw.append("});");
-		widgets.add(new JavascriptWidget(sw.toString()));
+		if (request.getParameter(SearchGuiConstants.PARAMETER_SEARCH_AUTOCOMPLETE) != null) {
+			final StringWriter sw = new StringWriter();
+			sw.append("$(document).ready(function() {");
+			sw.append("$('input#searchBox').autocomplete({");
+			sw.append("source: '" + searchGuiLinkFactory.suggestUrl(request) + "',");
+			sw.append("method: 'POST',");
+			sw.append("minLength: 1,");
+			sw.append("});");
+			sw.append("});");
+			widgets.add(new JavascriptWidget(sw.toString()));
+		}
+
 		widgets.render(request, response, context);
 	}
 

@@ -170,7 +170,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final String urlString = url.toExternalForm();
 			final String type = result.getType();
 			final String title = result.getTitle();
-			final String description = result.getDescription() != null ? result.getDescription() : "-";
+			final String description = result.getDescription() != null && result.getDescription().length() > 0 ? result.getDescription() : "-";
 			out.println("<div class=\"searchResult\">");
 			out.println("<div class=\"title\">");
 			out.println("<a href=\"" + url + "\" target=\"" + target + "\">");

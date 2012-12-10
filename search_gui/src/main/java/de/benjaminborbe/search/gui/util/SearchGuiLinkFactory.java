@@ -14,4 +14,12 @@ public class SearchGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_HELP, "help");
 	}
 
+	public String suggestUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_SUGGEST;
+	}
+
+	public String searchUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH;
+	}
+
 }

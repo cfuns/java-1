@@ -14,4 +14,8 @@ public interface SearchGuiConstants {
 
 	String URL_OSD = "/osd.xml";
 
+	String PARAMETER_SEARCH = "q";
+
+	String PARAMETER_SEARCH_AUTOCOMPLETE = "suggest";
+
 }

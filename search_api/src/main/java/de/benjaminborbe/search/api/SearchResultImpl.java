@@ -13,11 +13,11 @@ public class SearchResultImpl implements SearchResult {
 	private final int matchCounter;
 
 	public SearchResultImpl(final String type, final int matchCounter, final String title, final String url, final String description) {
-		this.type = type;
+		this.type = trim(type);
 		this.matchCounter = matchCounter;
-		this.title = title;
-		this.url = url;
-		this.description = description;
+		this.title = trim(title);
+		this.url = trim(url);
+		this.description = trim(description);
 	}
 
 	@Override
@@ -40,8 +40,13 @@ public class SearchResultImpl implements SearchResult {
 		return type;
 	}
 
+	@Override
 	public int getMatchCounter() {
 		return matchCounter;
+	}
+
+	private String trim(final String text) {
+		return text != null ? text.trim() : null;
 	}
 
 }
