@@ -25,6 +25,7 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.StringUtil;
 
@@ -38,12 +39,15 @@ public class TaskGuiUtil {
 
 	private final CalendarUtil calendarUtil;
 
+	private final UrlUtil urlUtil;
+
 	@Inject
-	public TaskGuiUtil(final Logger logger, final TaskService taskService, final StringUtil stringUtil, final CalendarUtil calendarUtil) {
+	public TaskGuiUtil(final Logger logger, final TaskService taskService, final StringUtil stringUtil, final CalendarUtil calendarUtil, final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
 		this.stringUtil = stringUtil;
 		this.calendarUtil = calendarUtil;
+		this.urlUtil = urlUtil;
 	}
 
 	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
@@ -165,22 +169,35 @@ public class TaskGuiUtil {
 			final String token = st.nextToken();
 			if (hasNext && "context:".equalsIgnoreCase(token)) {
 				final String taskContextName = st.nextToken();
+				logger.debug("taskContextName: " + taskContextName);
 				final TaskContext taskContext = taskService.getTaskContextByName(sessionIdentifier, taskContextName);
-				task.setContexts(Arrays.asList(taskContext.getId()));
+				if (taskContext != null) {
+					task.setContexts(Arrays.asList(taskContext.getId()));
+				}
 			}
 			else if (hasNext && "due:".equalsIgnoreCase(token)) {
+				final String nextToken = st.nextToken();
+				logger.debug("due: " + nextToken);
 				try {
-					task.setDue(calendarUtil.parseSmart(st.nextToken()));
+					task.setDue(calendarUtil.parseSmart(nextToken));
 				}
 				catch (final ParseException e) {
+					logger.debug("parseSmart token " + nextToken + " failed", e);
 				}
 			}
 			else if (hasNext && "start:".equalsIgnoreCase(token)) {
+				final String nextToken = st.nextToken();
+				logger.debug("start: " + nextToken);
 				try {
-					task.setStart(calendarUtil.parseSmart(st.nextToken()));
+					task.setStart(calendarUtil.parseSmart(nextToken));
 				}
 				catch (final ParseException e) {
+					logger.debug("parseSmart token " + nextToken + " failed", e);
 				}
+			}
+			else if (urlUtil.isUrl(token)) {
+				logger.debug("url: " + token);
+				task.setUrl(token);
 			}
 			else {
 				remainingTokens.add(token);

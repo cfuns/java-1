@@ -24,6 +24,8 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.CurrentTimeImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -35,7 +37,7 @@ public class TaskGuiUtilUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null, null, null);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null, null, null, null);
 
 		{
 			final List<Task> allTasks = new ArrayList<Task>();
@@ -89,12 +91,16 @@ public class TaskGuiUtilUnitTest {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
+		final UrlUtil urlUtil = new UrlUtilImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, taskService, stringUtil, calendarUtil);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, taskService, stringUtil, calendarUtil, urlUtil);
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, null).getName(), is(nullValue()));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, "bla").getName(), is("bla"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla ").getName(), is("bla"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla: ").getName(), is("bla:"));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla http://www.google.de ").getName(), is("bla"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla http://www.google.de ").getUrl(), is("http://www.google.de"));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getName(), is("bla foo"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContexts().size(), is(1));
