@@ -147,17 +147,30 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			addTask(widgets, sessionIdentifier, task.getParentId(), request);
 		}
 		else {
-			addChilds(widgets, sessionIdentifier, task, request);
+			addChilds(widgets, sessionIdentifier, task, request, null, null);
 		}
 	}
 
-	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request, final Task previousTask,
+			final Task nextTask) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, task.getId());
-		addTaskEntry(widgets, sessionIdentifier, task, request, hasNotCompleted(childTasks));
-		for (final Task childTask : childTasks) {
-			addChilds(widgets, sessionIdentifier, childTask, request);
+		addTaskEntry(widgets, sessionIdentifier, task, request, hasNotCompleted(childTasks), nextTask, previousTask);
+
+		if (childTasks.size() > 0) {
+			for (int i = 0; i < childTasks.size(); ++i) {
+				final Task childPreviousTask = getTask(childTasks, i + 1);
+				final Task childNextTask = getTask(childTasks, i - 1);
+				final Task childTask = childTasks.get(i);
+				addChilds(widgets, sessionIdentifier, childTask, request, childPreviousTask, childNextTask);
+			}
 		}
+	}
+
+	private Task getTask(final List<Task> tasks, final int pos) {
+		if (pos < 0 || pos >= tasks.size()) {
+			return null;
+		}
+		return tasks.get(pos);
 	}
 
 	private boolean hasNotCompleted(final List<Task> tasks) {
@@ -170,7 +183,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	private void addTaskEntry(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request,
-			final boolean hasNotCompletedChilds) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+			final boolean hasNotCompletedChilds, final Task previousTask, final Task nextTask) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			MalformedURLException, UnsupportedEncodingException {
 
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, task, Integer.MAX_VALUE);
 		final H2Widget title = new H2Widget(taskName);
@@ -180,15 +194,32 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		widgets.add(title);
 
 		final ListWidget options = new ListWidget();
+
+		if (previousTask != null) {
+			options.add(taskGuiLinkFactory.taskPrioFirst(request, taskGuiWidgetFactory.buildImage(request, "first"), task.getId()));
+			options.add(" ");
+			options.add(taskGuiLinkFactory.taskPrioSwap(request, taskGuiWidgetFactory.buildImage(request, "up"), task.getId(), previousTask.getId()));
+			options.add(" ");
+		}
+		if (nextTask != null) {
+			options.add(taskGuiLinkFactory.taskPrioSwap(request, taskGuiWidgetFactory.buildImage(request, "down"), task.getId(), nextTask.getId()));
+			options.add(" ");
+			options.add(taskGuiLinkFactory.taskPrioLast(request, taskGuiWidgetFactory.buildImage(request, "last"), task.getId()));
+			options.add(" ");
+		}
+
 		if (Boolean.TRUE.equals(task.getCompleted())) {
 			options.add(taskGuiLinkFactory.taskUncomplete(request, task));
+			options.add(" ");
 		}
 		else {
 			if (hasNotCompletedChilds) {
 				options.add(taskGuiLinkFactory.taskComplete(request, taskGuiWidgetFactory.buildImage(request, "complete"), task));
+				options.add(" ");
+				options.add(taskGuiLinkFactory.taskDelete(request, taskGuiWidgetFactory.buildImage(request, "delete"), task));
+				options.add(" ");
 			}
 		}
-		options.add(" ");
 		options.add(taskGuiLinkFactory.taskUpdate(request, taskGuiWidgetFactory.buildImage(request, "update"), task));
 		options.add(" ");
 		options.add(taskGuiLinkFactory.taskCreateSubTask(request, taskGuiWidgetFactory.buildImage(request, "subtask"), task.getId()));
