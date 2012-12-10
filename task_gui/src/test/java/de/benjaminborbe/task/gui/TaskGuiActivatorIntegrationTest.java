@@ -109,6 +109,7 @@ public class TaskGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_JS);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_IMAGES);
 
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());

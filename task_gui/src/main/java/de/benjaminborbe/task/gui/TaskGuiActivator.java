@@ -142,6 +142,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo(TaskGuiConstants.URL_CSS, "css"));
+		result.add(new ResourceInfo(TaskGuiConstants.URL_JS, "js"));
 		result.add(new ResourceInfo(TaskGuiConstants.URL_IMAGES, "images"));
 		return result;
 	}

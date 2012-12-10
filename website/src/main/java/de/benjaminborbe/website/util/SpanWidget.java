@@ -13,4 +13,8 @@ public class SpanWidget extends TagWidget {
 	public SpanWidget(final String content) {
 		this(new StringWidget(content));
 	}
+
+	public SpanWidget() {
+		super(TAG);
+	}
 }

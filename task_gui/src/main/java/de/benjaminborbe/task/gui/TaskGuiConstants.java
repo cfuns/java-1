@@ -82,4 +82,8 @@ public interface TaskGuiConstants {
 
 	String URL_IMAGES = "/images";
 
+	String URL_JS = "/js";
+
+	String URL_JS_SCRIPT = "/js/script.js";
+
 }

@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
@@ -27,6 +29,9 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.DivWidget;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 
 public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 
@@ -48,7 +53,16 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		return new DivWidget(createTaskContentWidget(request, response, context)).addAttribute("class", "task");
+
+		final ListWidget widgets = new ListWidget();
+		widgets.add(createTaskContentWidget(request, response, context));
+
+		final SpanWidget tooltip = new SpanWidget();
+		tooltip.addAttribute("id", "tooltip");
+		tooltip.addAttribute("style", "display:none;");
+		widgets.add(tooltip);
+
+		return new DivWidget(widgets).addAttribute("class", "task");
 	}
 
 	protected abstract Widget createTaskContentWidget(HttpServletRequest request, HttpServletResponse response, HttpContext context) throws IOException, PermissionDeniedException,
@@ -62,7 +76,15 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final List<JavascriptResource> result = super.getJavascriptResources(request, response);
+		result.add(new JavascriptResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_JS_SCRIPT));
+		return result;
+	}
+
+	@Override
 	public boolean isAdminRequired() {
 		return false;
 	}
+
 }

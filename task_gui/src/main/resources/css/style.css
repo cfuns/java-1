@@ -64,7 +64,17 @@
 .task .taskList li {
 	list-style-type: none;
 }
+
 .task .taskView h2 {
 	margin-top: 10px;
 	border-bottom: 1px solid #AAAAAA;
+}
+
+.task #tooltip {
+	background-color: #fefbc9;
+	border: 1px solid #AAAAAA;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
