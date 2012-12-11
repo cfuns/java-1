@@ -99,15 +99,10 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 	@Override
 	public HttpDownloadResult getUrl(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
-		try {
-			return doDownloadUrl(url, timeout, username, password);
-		}
-		catch (final IOException e) {
-			throw new HttpDownloaderException("IOException for url " + url, e);
-		}
+		return getUrl(url, timeout, username, password, new HashMap<String, String>());
 	}
 
-	protected HttpDownloadResult doDownloadUrl(final URL url, final int timeout, final String username, final String password) throws IOException {
+	protected HttpDownloadResult doDownloadUrl(final URL url, final int timeout, final String username, final String password, final Map<String, String> cookies) throws IOException {
 		logger.trace("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
 		InputStream inputStream = null;
@@ -121,7 +116,9 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			}
 			connection.setConnectTimeout(timeout);
 			connection.setReadTimeout(timeout);
+			connection.setRequestProperty("Cookie", buildCookieString(cookies));
 			connection.connect();
+
 			final Encoding contentEncoding = new Encoding(connection.getContentEncoding());
 			inputStream = connection.getInputStream();
 			outputStream = new ByteArrayOutputStream();
@@ -171,7 +168,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult postUrl(final URL url, final Map<String, String> parameter, final Map<String, String> cookies, final int timeOut) throws HttpDownloaderException {
+	public HttpDownloadResult postUrl(final URL url, final Map<String, String> parameter, final Map<String, String> cookies, final int timeout) throws HttpDownloaderException {
 		try {
 			final Duration duration = durationUtil.getDuration();
 
@@ -221,9 +218,9 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult postUrl(final URL url, final Map<String, String> data, final int timeOut) throws HttpDownloaderException {
+	public HttpDownloadResult postUrl(final URL url, final Map<String, String> data, final int timeout) throws HttpDownloaderException {
 		final Map<String, String> cookies = new HashMap<String, String>();
-		return postUrl(url, data, cookies, timeOut);
+		return postUrl(url, data, cookies, timeout);
 	}
 
 	protected String buildCookieString(final Map<String, String> cookies) {
@@ -243,5 +240,21 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			result.append(cookies.get(key));
 		}
 		return result.toString();
+	}
+
+	@Override
+	public HttpDownloadResult getUrl(final URL url, final int timeout, final Map<String, String> cookies) throws HttpDownloaderException {
+		return getUrl(url, timeout, null, null, cookies);
+	}
+
+	@Override
+	public HttpDownloadResult getUrl(final URL url, final int timeout, final String username, final String password, final Map<String, String> cookies)
+			throws HttpDownloaderException {
+		try {
+			return doDownloadUrl(url, timeout, username, password, cookies);
+		}
+		catch (final IOException e) {
+			throw new HttpDownloaderException("IOException for url " + url, e);
+		}
 	}
 }

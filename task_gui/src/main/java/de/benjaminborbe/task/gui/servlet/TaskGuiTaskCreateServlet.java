@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -31,6 +32,7 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.util.TaskContextComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -163,6 +165,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description..."));
 			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
 			final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
+			Collections.sort(taskContexts, new TaskContextComparator());
 			contextSelectBox.addOption("", "none");
 			for (final TaskContext taskContext : taskContexts) {
 				contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());

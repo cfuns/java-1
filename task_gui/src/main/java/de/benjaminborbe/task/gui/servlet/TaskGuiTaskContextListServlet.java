@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.task.gui.util.TaskContextComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -87,6 +89,7 @@ public class TaskGuiTaskContextListServlet extends TaskGuiWebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
+			Collections.sort(taskContexts, new TaskContextComparator());
 			for (final TaskContext taskContext : taskContexts) {
 				final ListWidget row = new ListWidget();
 				row.add(taskContext.getName());
