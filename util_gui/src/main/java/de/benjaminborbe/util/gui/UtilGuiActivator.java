@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.util.gui.guice.UtilGuiModules;
 import de.benjaminborbe.util.gui.servlet.UtilGuiCalcServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiDayDiffServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiLogServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPenMeServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPentestServlet;
@@ -53,6 +54,9 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Inject
 	private UtilGuiTimeServlet utilGuiTimeServlet;
 
+	@Inject
+	private UtilGuiLogServlet utilGuiLogServlet;
+
 	public UtilGuiActivator() {
 		super(UtilGuiConstants.NAME);
 	}
@@ -74,6 +78,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilGuiPentestServlet, UtilGuiConstants.URL_PENTEST));
 		result.add(new ServletInfo(utilGuiPenMeServlet, UtilGuiConstants.URL_PENME));
 		result.add(new ServletInfo(utilGuiTimeServlet, UtilGuiConstants.URL_TIME));
+		result.add(new ServletInfo(utilGuiLogServlet, UtilGuiConstants.URL_LOG));
 		return result;
 	}
 

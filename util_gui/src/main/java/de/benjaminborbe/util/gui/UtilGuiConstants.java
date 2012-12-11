@@ -22,4 +22,6 @@ public interface UtilGuiConstants {
 
 	String URL_TIME = "/time";
 
+	String URL_LOG = "/log";
+
 }
