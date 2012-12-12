@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.validation.constraint;
 
-public abstract class ValidationConstraintCharacter implements ValidationConstraint<String> {
+public abstract class ValidationConstraintStringCharacter implements ValidationConstraint<String> {
 
 	@Override
 	public boolean validate(final String object) {

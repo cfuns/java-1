@@ -14,11 +14,11 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintGreaterThan;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerGreaterThan;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintUrl;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUrl;
 
 public class ConfluenceInstanceValidator implements Validator<ConfluenceInstanceBean> {
 
@@ -48,7 +48,7 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));
-			constraints.add(new ValidationConstraintUrl(urlUtil));
+			constraints.add(new ValidationConstraintStringUrl(urlUtil));
 			result.addAll(validationConstraintValidator.validate("url", url, constraints));
 		}
 
@@ -56,7 +56,7 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 		{
 			final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 			constraints.add(new ValidationConstraintNotNull<Integer>());
-			constraints.add(new ValidationConstraintGreaterThan(0));
+			constraints.add(new ValidationConstraintIntegerGreaterThan(0));
 			result.addAll(validationConstraintValidator.validate("expire", expire, constraints));
 		}
 

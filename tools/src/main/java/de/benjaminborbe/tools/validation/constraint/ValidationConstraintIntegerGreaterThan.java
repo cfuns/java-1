@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.validation.constraint;
 
-public class ValidationConstraintGreaterThan implements ValidationConstraint<Integer> {
+public class ValidationConstraintIntegerGreaterThan implements ValidationConstraint<Integer> {
 
 	private final int number;
 
-	public ValidationConstraintGreaterThan(final int number) {
+	public ValidationConstraintIntegerGreaterThan(final int number) {
 		this.number = number;
 	}
 
