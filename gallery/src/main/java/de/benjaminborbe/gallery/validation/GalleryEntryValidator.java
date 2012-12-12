@@ -15,10 +15,14 @@ public class GalleryEntryValidator implements Validator<GalleryEntryBean> {
 		return GalleryEntryBean.class;
 	}
 
-	@Override
-	public Collection<ValidationError> validate(final Object object) {
+	public Collection<ValidationError> validate(final GalleryEntryBean object) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 		return result;
+	}
+
+	@Override
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((GalleryEntryBean) object);
 	}
 
 }

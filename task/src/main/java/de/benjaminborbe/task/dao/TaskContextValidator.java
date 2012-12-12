@@ -1,14 +1,29 @@
 package de.benjaminborbe.task.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.google.inject.Inject;
+
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintMaxLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintMinLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 
 public class TaskContextValidator implements Validator<TaskContextBean> {
+
+	private final ValidationConstraintValidator validationConstraintValidator;
+
+	@Inject
+	public TaskContextValidator(final ValidationConstraintValidator validationConstraintValidator) {
+		this.validationConstraintValidator = validationConstraintValidator;
+	}
 
 	@Override
 	public Class<TaskContextBean> getType() {
@@ -16,18 +31,25 @@ public class TaskContextValidator implements Validator<TaskContextBean> {
 	}
 
 	@Override
-	public Collection<ValidationError> validate(final Object object) {
-		final TaskContextBean bean = (TaskContextBean) object;
+	public Collection<ValidationError> validate(final TaskContextBean object) {
+		final TaskContextBean bean = object;
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
 		final String name = bean.getName();
 		{
-			if (name == null || name.length() == 0) {
-				result.add(new ValidationErrorSimple("name missing"));
-			}
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			constraints.add(new ValidationConstraintNotNull<String>());
+			constraints.add(new ValidationConstraintMinLength(1));
+			constraints.add(new ValidationConstraintMaxLength(50));
+			result.addAll(validationConstraintValidator.validate("name", name, constraints));
 		}
 
 		return result;
+	}
+
+	@Override
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((TaskContextBean) object);
 	}
 }

@@ -16,9 +16,8 @@ public class GalleryGroupValidator implements Validator<GalleryGroupBean> {
 		return GalleryGroupBean.class;
 	}
 
-	@Override
-	public Collection<ValidationError> validate(final Object object) {
-		final GalleryGroupBean bean = (GalleryGroupBean) object;
+	public Collection<ValidationError> validate(final GalleryGroupBean object) {
+		final GalleryGroupBean bean = object;
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
@@ -30,6 +29,11 @@ public class GalleryGroupValidator implements Validator<GalleryGroupBean> {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((GalleryGroupBean) object);
 	}
 
 }

@@ -25,9 +25,8 @@ public class TaskValidator implements Validator<TaskBean> {
 		return TaskBean.class;
 	}
 
-	@Override
-	public Collection<ValidationError> validate(final Object object) {
-		final TaskBean bean = (TaskBean) object;
+	public Collection<ValidationError> validate(final TaskBean object) {
+		final TaskBean bean = object;
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
@@ -45,5 +44,10 @@ public class TaskValidator implements Validator<TaskBean> {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((TaskBean) object);
 	}
 }

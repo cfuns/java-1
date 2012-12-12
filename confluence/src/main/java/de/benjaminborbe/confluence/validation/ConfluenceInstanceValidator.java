@@ -26,9 +26,7 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 		return ConfluenceInstanceBean.class;
 	}
 
-	@Override
-	public Collection<ValidationError> validate(final Object object) {
-		final ConfluenceInstanceBean bean = (ConfluenceInstanceBean) object;
+	public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
@@ -50,6 +48,11 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 		}
 
 		return result;
+	}
+
+	@Override
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((ConfluenceInstanceBean) object);
 	}
 
 }

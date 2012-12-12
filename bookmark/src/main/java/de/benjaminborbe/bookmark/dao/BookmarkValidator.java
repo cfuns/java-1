@@ -17,9 +17,7 @@ public class BookmarkValidator implements Validator<BookmarkBean> {
 		return BookmarkBean.class;
 	}
 
-	@Override
-	public Collection<ValidationError> validate(final Object object) {
-		final BookmarkBean bookmark = (BookmarkBean) object;
+	public Collection<ValidationError> validate(final BookmarkBean bookmark) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
@@ -41,6 +39,11 @@ public class BookmarkValidator implements Validator<BookmarkBean> {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((BookmarkBean) object);
 	}
 
 }

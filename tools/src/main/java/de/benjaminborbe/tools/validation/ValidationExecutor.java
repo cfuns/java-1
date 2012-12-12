@@ -19,7 +19,7 @@ public class ValidationExecutor {
 		final ValidationResultImpl result = new ValidationResultImpl();
 		final Collection<Validator<?>> validators = validatorRegistry.get(object.getClass());
 		for (final Validator<?> validator : validators) {
-			result.addAll(validator.validate(object));
+			result.addAll(validator.validateObject(object));
 		}
 		return result;
 	}

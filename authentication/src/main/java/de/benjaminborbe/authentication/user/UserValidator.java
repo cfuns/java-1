@@ -23,8 +23,11 @@ public class UserValidator implements Validator<UserBean> {
 	}
 
 	@Override
-	public Collection<ValidationError> validate(final Object object) {
-		final UserBean bean = (UserBean) object;
+	public Collection<ValidationError> validateObject(final Object object) {
+		return validate((UserBean) object);
+	}
+
+	public Collection<ValidationError> validate(final UserBean bean) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
