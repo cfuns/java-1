@@ -877,17 +877,20 @@ public class TaskServiceImpl implements TaskService {
 
 			logger.trace("createTask");
 
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final TaskBean parentTask;
+			final Integer prio;
 			// check parent
 			if (taskDto.getParentId() != null) {
 				parentTask = taskDao.load(taskDto.getParentId());
+				prio = parentTask.getPriority();
 				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
 			}
 			else {
+				prio = taskDao.getMaxPriority(userIdentifier) + 1;
 				parentTask = null;
 			}
 
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
 			final TaskBean taskBean = taskDao.create();
 
@@ -899,7 +902,7 @@ public class TaskServiceImpl implements TaskService {
 			taskBean.setRepeatDue(taskDto.getRepeatDue());
 			taskBean.setRepeatStart(taskDto.getRepeatStart());
 			taskBean.setUrl(taskDto.getUrl());
-			taskBean.setPriority(taskDao.getMaxPriority(userIdentifier) + 1);
+			taskBean.setPriority(prio);
 			taskBean.setParentId(taskDto.getParentId());
 			taskBean.setStart(taskDto.getStart());
 			taskBean.setDue(taskDto.getDue());
