@@ -1,0 +1,18 @@
+package de.benjaminborbe.tools.validation.constraint;
+
+public abstract class ValidationConstraintCharacter implements ValidationConstraint<String> {
+
+	@Override
+	public boolean validate(final String object) {
+		if (object == null)
+			return false;
+		for (final char c : object.toCharArray()) {
+			if (!isAllowedCharacter(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected abstract boolean isAllowedCharacter(final char character);
+}

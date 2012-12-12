@@ -12,9 +12,10 @@ import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintMaxLength;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintMinLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringOnlyLetters;
 
 public class TaskContextValidator implements Validator<TaskContextBean> {
 
@@ -36,12 +37,13 @@ public class TaskContextValidator implements Validator<TaskContextBean> {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
-		final String name = bean.getName();
 		{
+			final String name = bean.getName();
 			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 			constraints.add(new ValidationConstraintNotNull<String>());
-			constraints.add(new ValidationConstraintMinLength(1));
-			constraints.add(new ValidationConstraintMaxLength(50));
+			constraints.add(new ValidationConstraintStringMinLength(1));
+			constraints.add(new ValidationConstraintStringMaxLength(255));
+			constraints.add(new ValidationConstraintStringOnlyLetters());
 			result.addAll(validationConstraintValidator.validate("name", name, constraints));
 		}
 

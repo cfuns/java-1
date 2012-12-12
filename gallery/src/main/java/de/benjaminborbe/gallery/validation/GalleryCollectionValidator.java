@@ -1,30 +1,50 @@
 package de.benjaminborbe.gallery.validation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.google.inject.Inject;
+
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.gallery.dao.GalleryCollectionBean;
+import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringOnlyLetters;
 
 public class GalleryCollectionValidator implements Validator<GalleryCollectionBean> {
+
+	private final ValidationConstraintValidator validationConstraintValidator;
+
+	@Inject
+	public GalleryCollectionValidator(final ValidationConstraintValidator validationConstraintValidator) {
+		this.validationConstraintValidator = validationConstraintValidator;
+	}
 
 	@Override
 	public Class<GalleryCollectionBean> getType() {
 		return GalleryCollectionBean.class;
 	}
 
+	@Override
 	public Collection<ValidationError> validate(final GalleryCollectionBean bean) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// validate name
-		final String name = bean.getName();
 		{
-			if (name == null || name.length() == 0) {
-				result.add(new ValidationErrorSimple("name missing"));
-			}
+			final String name = bean.getName();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			constraints.add(new ValidationConstraintNotNull<String>());
+			constraints.add(new ValidationConstraintStringMinLength(1));
+			constraints.add(new ValidationConstraintStringMaxLength(255));
+			constraints.add(new ValidationConstraintStringOnlyLetters());
+			result.addAll(validationConstraintValidator.validate("name", name, constraints));
 		}
 
 		return result;

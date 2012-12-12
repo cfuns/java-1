@@ -14,6 +14,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 
 public class TaskValidatorUnitTest {
 
@@ -24,7 +25,8 @@ public class TaskValidatorUnitTest {
 		final CurrentTime currentTime = null;
 		final Logger logger = null;
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final TaskValidator taskValidator = new TaskValidator(calendarUtil);
+		final ValidationConstraintValidator v = new ValidationConstraintValidator();
+		final TaskValidator taskValidator = new TaskValidator(calendarUtil, v);
 
 		{
 			final TaskBean task = buildTask(1, 2);

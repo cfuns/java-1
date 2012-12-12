@@ -27,6 +27,7 @@ public class UserValidator implements Validator<UserBean> {
 		return validate((UserBean) object);
 	}
 
+	@Override
 	public Collection<ValidationError> validate(final UserBean bean) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 

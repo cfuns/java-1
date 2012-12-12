@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.validation.constraint;
 
-public class ValidationConstraintMinLength implements ValidationConstraint<String> {
+public class ValidationConstraintStringMinLength implements ValidationConstraint<String> {
 
 	private final int minLength;
 
-	public ValidationConstraintMinLength(final int minLength) {
+	public ValidationConstraintStringMinLength(final int minLength) {
 		this.minLength = minLength;
 	}
 

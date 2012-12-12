@@ -245,7 +245,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException {
+	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException,
+			ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
@@ -258,6 +259,13 @@ public class TaskServiceImpl implements TaskService {
 			task.setId(taskContextIdentifier);
 			task.setName(name);
 			task.setOwner(userIdentifier);
+
+			final ValidationResult errors = validationExecutor.validate(task);
+			if (errors.hasErrors()) {
+				logger.warn("TaskContext " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			taskContextDao.save(task);
 			return taskContextIdentifier;
 		}
