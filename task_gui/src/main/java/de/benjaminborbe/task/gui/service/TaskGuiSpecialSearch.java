@@ -22,7 +22,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
-import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -95,7 +95,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 			final String[] words = searchUtil.buildSearchParts(term);
 			final List<TaskMatch> tasks = taskService.searchTasks(sessionIdentifier, 1, words);
 			if (tasks.size() > 0) {
-				response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, tasks.get(0).getTask()));
+				response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, tasks.get(0).getTask().getId()));
 				return;
 			}
 			else {
@@ -136,8 +136,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 
 	private void addTask(final HttpServletRequest request, final HttpServletResponse response, final SessionIdentifier sessionIdentifier, final String input)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, IOException, UnsupportedEncodingException {
-		final TaskDto task = taskGuiUtil.quickStringToTask(sessionIdentifier, input);
-		taskService.createTask(sessionIdentifier, task);
-		response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskGuiUtil.quickStringToTask(sessionIdentifier, input));
+		response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, taskIdentifier));
 	}
 }

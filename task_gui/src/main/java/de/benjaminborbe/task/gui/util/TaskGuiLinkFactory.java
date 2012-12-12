@@ -238,8 +238,8 @@ public class TaskGuiLinkFactory {
 		return new TooltipWidget(link).addTooltip("View task");
 	}
 
-	public String taskViewUrl(final HttpServletRequest request, final Task task) throws UnsupportedEncodingException {
+	public String taskViewUrl(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW,
-				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(task.getId())));
+				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(taskIdentifier)));
 	}
 }
