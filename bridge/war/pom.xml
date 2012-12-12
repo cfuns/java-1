@@ -121,8 +121,9 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- Felix dependencies -->
 		<dependency>
@@ -150,7 +151,7 @@
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.log</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -172,31 +173,31 @@
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.configadmin</artifactId>
-			<version>1.2.4</version>
+			<version>1.6.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.scr</artifactId>
-			<version>1.4.0</version>
+			<version>1.6.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.shell.remote</artifactId>
-			<version>1.0.4</version>
+			<version>1.1.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.shell</artifactId>
-			<version>1.4.2</version>
+			<version>1.4.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.bundlerepository</artifactId>
-			<version>1.6.4</version>
+			<version>1.6.6</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -219,12 +220,12 @@
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.metatype</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

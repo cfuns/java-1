@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import de.benjaminborbe.wiki.api.WikiService;
 
 public class WikiIntegrationTest extends OSGiTestCase {
 

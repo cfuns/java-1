@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.confluence.gui.ConfluenceGuiActivator;
 import de.benjaminborbe.confluence.gui.guice.ConfluenceGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

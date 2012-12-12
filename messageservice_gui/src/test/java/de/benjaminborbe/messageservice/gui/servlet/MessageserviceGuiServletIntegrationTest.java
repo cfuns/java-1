@@ -1,8 +1,11 @@
 package de.benjaminborbe.messageservice.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.messageservice.gui.guice.MessageserviceGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

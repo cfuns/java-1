@@ -1,6 +1,7 @@
 package de.benjaminborbe.vnc.util;
 
 import java.awt.image.BufferedImage;
+
 import de.benjaminborbe.vnc.api.VncPixels;
 
 public class VncPixelsImpl implements VncPixels {

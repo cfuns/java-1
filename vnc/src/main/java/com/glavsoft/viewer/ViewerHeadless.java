@@ -7,9 +7,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
-import org.slf4j.Logger;
+
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+
+import org.slf4j.Logger;
 
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;

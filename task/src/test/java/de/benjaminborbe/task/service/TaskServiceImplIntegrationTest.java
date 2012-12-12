@@ -1,6 +1,10 @@
 package de.benjaminborbe.task.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -9,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
+
 import com.google.inject.Injector;
 
 import de.benjaminborbe.api.ValidationException;

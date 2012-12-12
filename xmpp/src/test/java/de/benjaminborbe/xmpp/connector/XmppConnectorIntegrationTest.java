@@ -2,6 +2,7 @@ package de.benjaminborbe.xmpp.connector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;

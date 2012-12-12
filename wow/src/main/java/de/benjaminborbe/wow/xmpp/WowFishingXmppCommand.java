@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+
 import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
 import de.benjaminborbe.tools.image.Coordinate;
@@ -22,9 +23,9 @@ import de.benjaminborbe.wow.vnc.WowVncConnector;
 import de.benjaminborbe.wow.xmpp.action.WowFindBaitLocationAction;
 import de.benjaminborbe.wow.xmpp.action.WowFindPixelsLocationAction;
 import de.benjaminborbe.wow.xmpp.action.WowIncreaseCounterAction;
+import de.benjaminborbe.wow.xmpp.action.WowKeyTypeAction;
 import de.benjaminborbe.wow.xmpp.action.WowMouseClickAction;
 import de.benjaminborbe.wow.xmpp.action.WowMouseMoveAction;
-import de.benjaminborbe.wow.xmpp.action.WowKeyTypeAction;
 import de.benjaminborbe.wow.xmpp.action.WowSleepAction;
 import de.benjaminborbe.wow.xmpp.action.WowTakePixelsAction;
 import de.benjaminborbe.wow.xmpp.action.WowTakeScreenshotAction;

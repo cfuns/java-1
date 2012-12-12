@@ -29,7 +29,6 @@ import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;

@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.confluence.ConfluenceActivator;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.guice.ConfluenceModulesMock;
 import de.benjaminborbe.cron.api.CronJob;

@@ -3,6 +3,7 @@ package de.benjaminborbe.search.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 

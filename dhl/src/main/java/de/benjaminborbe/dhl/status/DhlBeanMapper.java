@@ -2,9 +2,9 @@ package de.benjaminborbe.dhl.status;
 
 import java.util.Map;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.Inject;
 
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.tools.mapper.BaseMapper;

@@ -3,6 +3,7 @@ package de.benjaminborbe.bookmark.service;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.MalformedURLException;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;

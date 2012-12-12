@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import de.benjaminborbe.tools.image.Pixel;
-
 public class PixelTest {
 
 	@Test

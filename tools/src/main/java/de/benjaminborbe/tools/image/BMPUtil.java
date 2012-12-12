@@ -2,7 +2,6 @@ package de.benjaminborbe.tools.image;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

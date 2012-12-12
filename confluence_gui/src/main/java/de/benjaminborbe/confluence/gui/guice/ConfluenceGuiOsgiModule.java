@@ -9,8 +9,8 @@ import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.confluence.api.ConfluenceService;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class ConfluenceGuiOsgiModule extends AbstractModule {
 

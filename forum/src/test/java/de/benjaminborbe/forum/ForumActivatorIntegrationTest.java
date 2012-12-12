@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.forum.ForumActivator;
 import de.benjaminborbe.forum.api.ForumService;
 import de.benjaminborbe.forum.guice.ForumModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

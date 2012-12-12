@@ -3,6 +3,7 @@ package de.benjaminborbe.wow.xmpp.action;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.image.Coordinate;

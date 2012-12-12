@@ -1,6 +1,7 @@
 package de.benjaminborbe.website.form;
 
 import java.util.Collection;
+
 import de.benjaminborbe.html.api.Widget;
 
 public interface HasClass<E extends Widget> {

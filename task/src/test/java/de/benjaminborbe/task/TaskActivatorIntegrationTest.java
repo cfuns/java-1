@@ -14,7 +14,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.search.api.SearchServiceComponent;
-import de.benjaminborbe.task.TaskActivator;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.guice.TaskModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

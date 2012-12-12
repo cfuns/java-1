@@ -1,6 +1,8 @@
 package de.benjaminborbe.wiki.render;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -8,7 +10,6 @@ import com.google.inject.Injector;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.guice.WikiModulesMock;
-import de.benjaminborbe.wiki.render.WikiConfluenceRenderer;
 
 public class WikiConfluenceRendererIntegrationTest {
 

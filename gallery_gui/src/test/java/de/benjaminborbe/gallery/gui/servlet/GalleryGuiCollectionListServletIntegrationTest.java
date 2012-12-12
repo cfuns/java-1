@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModulesMock;
-import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionListServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class GalleryGuiCollectionListServletIntegrationTest {

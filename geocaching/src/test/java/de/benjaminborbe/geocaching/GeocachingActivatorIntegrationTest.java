@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.geocaching.GeocachingActivator;
 import de.benjaminborbe.geocaching.api.GeocachingService;
 import de.benjaminborbe.geocaching.guice.GeocachingModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

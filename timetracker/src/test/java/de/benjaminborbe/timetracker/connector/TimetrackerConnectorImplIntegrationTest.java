@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.timetracker.connector.TimetrackerConnector;
-import de.benjaminborbe.timetracker.connector.TimetrackerConnectorImpl;
 import de.benjaminborbe.timetracker.guice.TimetrackerModulesMock;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

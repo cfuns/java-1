@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.blog.gui.BlogGuiActivator;
 import de.benjaminborbe.blog.gui.guice.BlogGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

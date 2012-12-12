@@ -3,6 +3,7 @@ package de.benjaminborbe.microblog.service;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
 import com.google.inject.Injector;
 
 import de.benjaminborbe.microblog.guice.MicroblogModulesMock;

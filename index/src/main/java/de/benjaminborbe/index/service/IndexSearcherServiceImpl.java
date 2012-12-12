@@ -21,11 +21,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.index.IndexConstants;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexSearcherService;
 import de.benjaminborbe.index.util.IndexFactory;
-
-import de.benjaminborbe.index.*;
 
 @Singleton
 public class IndexSearcherServiceImpl implements IndexSearcherService {

@@ -10,6 +10,10 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.config.XmppConfig;
@@ -18,10 +22,6 @@ import de.benjaminborbe.xmpp.connector.XmppCommandServiceTracker;
 import de.benjaminborbe.xmpp.connector.XmppConnector;
 import de.benjaminborbe.xmpp.connector.XmppConnectorException;
 import de.benjaminborbe.xmpp.guice.XmppModules;
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.BaseBundleActivator;
-import de.benjaminborbe.tools.osgi.ServiceInfo;
 
 public class XmppActivator extends BaseBundleActivator {
 

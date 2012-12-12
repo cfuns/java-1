@@ -2,6 +2,7 @@ package de.benjaminborbe.confluence.mock;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

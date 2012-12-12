@@ -27,7 +27,6 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.loggly.api.LogglyService;
 import de.benjaminborbe.loggly.gui.LogglyGuiConstants;
-import de.benjaminborbe.loggly.gui.servlet.LogglyGuiServlet;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;

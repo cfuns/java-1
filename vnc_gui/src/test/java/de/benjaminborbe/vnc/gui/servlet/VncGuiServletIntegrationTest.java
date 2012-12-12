@@ -6,9 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.vnc.gui.guice.VncGuiModulesMock;
-import de.benjaminborbe.vnc.gui.servlet.VncGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.vnc.gui.guice.VncGuiModulesMock;
 
 public class VncGuiServletIntegrationTest {
 

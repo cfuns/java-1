@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.forum.gui.guice.ForumGuiModulesMock;
-import de.benjaminborbe.forum.gui.servlet.ForumGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class ForumGuiServletIntegrationTest {

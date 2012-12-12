@@ -8,6 +8,13 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntryImpl;
+import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.wiki.gui.guice.WikiGuiModules;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiDashboardServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiPageCreateServlet;
@@ -19,13 +26,6 @@ import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceCreateServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceDeleteServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceEditServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceListServlet;
-import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
-import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
-import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class WikiGuiActivator extends HttpBundleActivator {
 

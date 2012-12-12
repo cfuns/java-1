@@ -1,8 +1,11 @@
 package de.benjaminborbe.eventbus.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.eventbus.gui.guice.EventbusGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

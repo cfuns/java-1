@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.gallery.gui.GalleryGuiActivator;
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

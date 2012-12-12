@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import org.slf4j.Logger;
+
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+
+import org.slf4j.Logger;
 
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;

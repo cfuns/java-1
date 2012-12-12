@@ -10,6 +10,7 @@ import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.exceptions.UnsupportedProtocolVersionException;
 import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
 import com.glavsoft.rfb.client.ClientToServerMessage;
+
 import de.benjaminborbe.vnc.connector.VncHistory;
 
 public interface Viewer {

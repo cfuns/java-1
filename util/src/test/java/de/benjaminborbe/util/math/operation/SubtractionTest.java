@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import de.benjaminborbe.util.math.NumberValue;
-import de.benjaminborbe.util.math.operation.Subtraction;
 
 public class SubtractionTest {
 

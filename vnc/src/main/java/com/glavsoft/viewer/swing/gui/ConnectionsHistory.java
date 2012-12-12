@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 

@@ -10,10 +10,10 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.loggly.api.LogglyService;
 import de.benjaminborbe.loggly.mock.LogglyServiceMock;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 

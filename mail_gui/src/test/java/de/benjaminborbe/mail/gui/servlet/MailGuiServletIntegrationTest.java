@@ -1,8 +1,11 @@
 package de.benjaminborbe.mail.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.mail.gui.guice.MailGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

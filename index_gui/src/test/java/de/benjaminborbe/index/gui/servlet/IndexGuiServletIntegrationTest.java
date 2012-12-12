@@ -3,7 +3,9 @@ package de.benjaminborbe.index.gui.servlet;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.index.gui.guice.IndexGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

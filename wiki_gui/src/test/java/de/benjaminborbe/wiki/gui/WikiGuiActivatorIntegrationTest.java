@@ -14,14 +14,13 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.wiki.gui.WikiGuiActivator;
-import de.benjaminborbe.wiki.gui.guice.WikiGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import de.benjaminborbe.wiki.gui.guice.WikiGuiModulesMock;
 
 public class WikiGuiActivatorIntegrationTest {
 

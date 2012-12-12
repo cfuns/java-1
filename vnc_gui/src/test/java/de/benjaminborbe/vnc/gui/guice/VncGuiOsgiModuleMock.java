@@ -12,10 +12,10 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
-import de.benjaminborbe.vnc.api.VncService;
-import de.benjaminborbe.vnc.mock.VncServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
+import de.benjaminborbe.vnc.api.VncService;
+import de.benjaminborbe.vnc.mock.VncServiceMock;
 
 public class VncGuiOsgiModuleMock extends AbstractModule {
 

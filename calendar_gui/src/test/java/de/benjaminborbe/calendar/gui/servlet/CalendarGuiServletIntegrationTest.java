@@ -1,8 +1,11 @@
 package de.benjaminborbe.calendar.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.calendar.gui.guice.CalendarGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

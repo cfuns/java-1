@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.gallery.GalleryActivator;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.guice.GalleryModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

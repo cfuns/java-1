@@ -1,8 +1,11 @@
 package de.benjaminborbe.streamcache.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.streamcache.gui.guice.StreamcacheGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

@@ -32,7 +32,6 @@ import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.vnc.gui.servlet.VncGuiServlet;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
 public class VncGuiServletUnitTest {

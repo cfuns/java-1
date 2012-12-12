@@ -17,11 +17,11 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationDeleteSer
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationListServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationUpdateServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiIndexClearServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {

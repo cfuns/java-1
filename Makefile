@@ -33,7 +33,7 @@ packageonline:
 deployonline:
 	cd bridge/war/online && make deployforce
 update:
-	make all deploy
+	mvn -Pbase,meta,bridge,test,slow versions:display-dependency-updates | grep ' -> ' | perl ~/bin/unique.pl
 dllir:
 	find . -type d -d 1 -exec sh -c 'cd {} && make dir' \;
 help:

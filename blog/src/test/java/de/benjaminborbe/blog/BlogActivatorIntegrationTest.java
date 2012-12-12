@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.blog.BlogActivator;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.guice.BlogModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.check.twentyfeet;
 
 import static org.junit.Assert.assertNotNull;
+
 import java.io.StringWriter;
 
 import org.easymock.EasyMock;

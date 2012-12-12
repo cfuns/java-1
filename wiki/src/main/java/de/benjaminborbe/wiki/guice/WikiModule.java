@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.dao.WikiPageDao;
 import de.benjaminborbe.wiki.dao.WikiPageDaoImpl;
@@ -13,7 +14,6 @@ import de.benjaminborbe.wiki.dao.WikiSpaceDaoImpl;
 import de.benjaminborbe.wiki.render.WikiRendererFactory;
 import de.benjaminborbe.wiki.render.WikiRendererFactoryImpl;
 import de.benjaminborbe.wiki.service.WikiServiceImpl;
-import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class WikiModule extends AbstractModule {
 

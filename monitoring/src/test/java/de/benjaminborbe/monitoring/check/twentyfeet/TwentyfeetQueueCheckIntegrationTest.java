@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
 import com.google.inject.Injector;
 
 import de.benjaminborbe.monitoring.api.Check;

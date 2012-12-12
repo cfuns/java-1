@@ -1,6 +1,7 @@
 package de.benjaminborbe.slash.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;

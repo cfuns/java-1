@@ -8,11 +8,11 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.xmpp.gui.guice.XmppGuiModules;
-import de.benjaminborbe.xmpp.gui.servlet.XmppGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.xmpp.gui.guice.XmppGuiModules;
+import de.benjaminborbe.xmpp.gui.servlet.XmppGuiServlet;
 
 public class XmppGuiActivator extends HttpBundleActivator {
 

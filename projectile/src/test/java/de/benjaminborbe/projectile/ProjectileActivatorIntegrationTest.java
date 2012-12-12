@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.projectile.ProjectileActivator;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.guice.ProjectileModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

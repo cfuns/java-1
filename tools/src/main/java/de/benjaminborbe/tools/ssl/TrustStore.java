@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.ssl;
 
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.OutputStreamWriter;
 
 public class TrustStore {
 

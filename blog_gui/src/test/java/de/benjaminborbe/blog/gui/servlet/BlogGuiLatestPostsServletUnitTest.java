@@ -27,7 +27,6 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogService;
-import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;

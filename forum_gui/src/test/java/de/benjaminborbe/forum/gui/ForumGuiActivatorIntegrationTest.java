@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.forum.gui.ForumGuiActivator;
 import de.benjaminborbe.forum.gui.guice.ForumGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

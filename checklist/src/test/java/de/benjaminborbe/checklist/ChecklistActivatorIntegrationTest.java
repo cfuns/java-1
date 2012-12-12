@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.checklist.ChecklistActivator;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.guice.ChecklistModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

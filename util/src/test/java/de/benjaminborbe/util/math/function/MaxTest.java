@@ -6,8 +6,6 @@ import org.junit.Test;
 
 import de.benjaminborbe.util.math.NumberValue;
 
-import de.benjaminborbe.util.math.function.Max;
-
 public class MaxTest {
 
 	@Test

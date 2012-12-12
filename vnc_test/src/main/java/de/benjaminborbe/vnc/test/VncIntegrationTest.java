@@ -6,11 +6,11 @@ import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
-import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class VncIntegrationTest extends OSGiTestCase {
 

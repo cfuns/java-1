@@ -34,7 +34,6 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.xmpp.api.XmppService;
-import de.benjaminborbe.xmpp.gui.servlet.XmppGuiServlet;
 
 public class XmppGuiServletUnitTest {
 

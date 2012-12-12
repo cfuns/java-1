@@ -1,8 +1,11 @@
 package de.benjaminborbe.performance.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.performance.gui.guice.PerformanceGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

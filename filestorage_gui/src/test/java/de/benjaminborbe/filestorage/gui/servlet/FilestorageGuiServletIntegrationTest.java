@@ -1,8 +1,11 @@
 package de.benjaminborbe.filestorage.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.google.inject.Injector;
+
 import de.benjaminborbe.filestorage.gui.guice.FilestorageGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

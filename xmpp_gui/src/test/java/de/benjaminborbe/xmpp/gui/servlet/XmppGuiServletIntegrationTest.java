@@ -6,9 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.xmpp.gui.guice.XmppGuiModulesMock;
-import de.benjaminborbe.xmpp.gui.servlet.XmppGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.xmpp.gui.guice.XmppGuiModulesMock;
 
 public class XmppGuiServletIntegrationTest {
 

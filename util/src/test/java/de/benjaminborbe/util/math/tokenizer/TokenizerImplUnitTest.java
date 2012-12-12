@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import de.benjaminborbe.util.math.CompareUtil;
-import de.benjaminborbe.util.math.tokenizer.TokenizerImpl;
 
 public class TokenizerImplUnitTest {
 

@@ -13,14 +13,13 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.xmpp.XmppActivator;
-import de.benjaminborbe.xmpp.api.XmppService;
-import de.benjaminborbe.xmpp.guice.XmppModulesMock;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import de.benjaminborbe.xmpp.api.XmppService;
+import de.benjaminborbe.xmpp.guice.XmppModulesMock;
 
 public class XmppActivatorIntegrationTest {
 

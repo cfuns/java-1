@@ -3,6 +3,7 @@ package de.benjaminborbe.gallery.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;

@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.benjaminborbe.wiki.render.WikiConfluenceRenderer;
-
 public class WikiConfluenceRendererUnitTest {
 
 	@Test

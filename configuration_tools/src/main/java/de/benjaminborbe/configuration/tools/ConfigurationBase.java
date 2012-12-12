@@ -1,6 +1,7 @@
 package de.benjaminborbe.configuration.tools;
 
 import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;

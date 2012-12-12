@@ -12,13 +12,13 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.search.api.SearchResult;
+import de.benjaminborbe.search.api.SearchResultImpl;
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
-import de.benjaminborbe.search.api.SearchResult;
-import de.benjaminborbe.search.api.SearchResultImpl;
-import de.benjaminborbe.search.api.SearchServiceComponent;
 
 @Singleton
 public class TaskSearchServiceComponent implements SearchServiceComponent {

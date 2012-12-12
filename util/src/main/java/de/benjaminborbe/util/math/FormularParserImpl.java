@@ -1,6 +1,7 @@
 package de.benjaminborbe.util.math;
 
 import java.util.List;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.util.math.constant.Constants;

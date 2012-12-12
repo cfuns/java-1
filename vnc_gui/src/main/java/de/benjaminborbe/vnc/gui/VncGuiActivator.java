@@ -8,11 +8,11 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.vnc.gui.guice.VncGuiModules;
-import de.benjaminborbe.vnc.gui.servlet.VncGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.vnc.gui.guice.VncGuiModules;
+import de.benjaminborbe.vnc.gui.servlet.VncGuiServlet;
 
 public class VncGuiActivator extends HttpBundleActivator {
 

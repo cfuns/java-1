@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.portfolio.PortfolioActivator;
 import de.benjaminborbe.portfolio.api.PortfolioService;
 import de.benjaminborbe.portfolio.guice.PortfolioModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
