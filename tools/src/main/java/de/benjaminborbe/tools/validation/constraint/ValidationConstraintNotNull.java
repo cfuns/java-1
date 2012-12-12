@@ -7,4 +7,9 @@ public class ValidationConstraintNotNull<T> implements ValidationConstraint<T> {
 		return object != null;
 	}
 
+	@Override
+	public boolean precondition(final T object) {
+		return true;
+	}
+
 }

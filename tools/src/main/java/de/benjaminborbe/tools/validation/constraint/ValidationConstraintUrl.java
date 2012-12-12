@@ -12,7 +12,12 @@ public class ValidationConstraintUrl implements ValidationConstraint<String> {
 
 	@Override
 	public boolean validate(final String object) {
-		return object != null && urlUtil.isUrl(object);
+		return urlUtil.isUrl(object);
+	}
+
+	@Override
+	public boolean precondition(final String object) {
+		return object != null;
 	}
 
 }

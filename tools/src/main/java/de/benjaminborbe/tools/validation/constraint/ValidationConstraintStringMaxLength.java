@@ -10,7 +10,12 @@ public class ValidationConstraintStringMaxLength implements ValidationConstraint
 
 	@Override
 	public boolean validate(final String object) {
-		return object != null && object.length() <= maxLength;
+		return object.length() <= maxLength;
+	}
+
+	@Override
+	public boolean precondition(final String object) {
+		return object != null;
 	}
 
 }

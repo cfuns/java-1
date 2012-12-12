@@ -10,7 +10,12 @@ public class ValidationConstraintStringMinLength implements ValidationConstraint
 
 	@Override
 	public boolean validate(final String object) {
-		return object != null && object.length() >= minLength;
+		return object.length() >= minLength;
+	}
+
+	@Override
+	public boolean precondition(final String object) {
+		return object != null;
 	}
 
 }

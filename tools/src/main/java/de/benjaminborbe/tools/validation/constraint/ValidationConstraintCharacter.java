@@ -14,5 +14,10 @@ public abstract class ValidationConstraintCharacter implements ValidationConstra
 		return true;
 	}
 
+	@Override
+	public boolean precondition(final String object) {
+		return object != null;
+	}
+
 	protected abstract boolean isAllowedCharacter(final char character);
 }

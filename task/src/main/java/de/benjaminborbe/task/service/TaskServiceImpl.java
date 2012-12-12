@@ -173,7 +173,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -223,7 +224,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -276,7 +278,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -292,7 +295,8 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -309,7 +313,8 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -335,7 +340,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -377,7 +383,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -407,7 +414,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -438,7 +446,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -463,7 +472,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -485,7 +495,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -522,7 +533,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -551,7 +563,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -613,7 +626,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -667,7 +681,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -699,7 +714,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -731,7 +747,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -746,7 +763,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -787,7 +805,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -821,7 +840,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -860,7 +880,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -939,7 +960,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -968,7 +990,8 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > 300)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 }

@@ -10,7 +10,12 @@ public class ValidationConstraintByteArrayMinLength implements ValidationConstra
 
 	@Override
 	public boolean validate(final byte[] object) {
-		return object != null && object.length >= minLength;
+		return object.length >= minLength;
+	}
+
+	@Override
+	public boolean precondition(final byte[] object) {
+		return object != null;
 	}
 
 }

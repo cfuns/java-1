@@ -6,4 +6,5 @@ public class ValidationConstraintStringOnlyLetters extends ValidationConstraintC
 	protected boolean isAllowedCharacter(final char c) {
 		return Character.isLetter(c);
 	}
+
 }

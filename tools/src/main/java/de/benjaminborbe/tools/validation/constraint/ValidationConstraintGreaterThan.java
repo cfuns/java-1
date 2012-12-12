@@ -10,6 +10,11 @@ public class ValidationConstraintGreaterThan implements ValidationConstraint<Int
 
 	@Override
 	public boolean validate(final Integer object) {
-		return object != null && object > number;
+		return object > number;
+	}
+
+	@Override
+	public boolean precondition(final Integer object) {
+		return object != null;
 	}
 }
