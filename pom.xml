@@ -36,6 +36,7 @@
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<commons.collections.version>3.2.1</commons.collections.version>
 		<junit.version>4.11</junit.version>
+		<maven-surefire-report-plugin.version>2.12.4</maven-surefire-report-plugin.version>
 	</properties>
 	<prerequisites>
 		<maven>3.0.4</maven>
@@ -369,7 +370,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-surefire-report-plugin</artifactId>
-					<version>2.12.4</version>
+					<version>${maven-surefire-report-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
