@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
@@ -48,11 +49,18 @@ import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import de.benjaminborbe.tools.util.ThreadPoolExecuter;
+import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
+import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class TaskServiceImpl implements TaskService {
+
+	private static final int FILTER_THREADS = 20;
+
+	private static final int DURATION_WARN = 150;
 
 	private final class TaskMatchImpl implements TaskMatch {
 
@@ -122,6 +130,8 @@ public class TaskServiceImpl implements TaskService {
 
 	private final TaskComparator taskComparator;
 
+	private final ThreadPoolExecuterBuilder threadPoolExecuterBuilder;
+
 	@Inject
 	public TaskServiceImpl(
 			final Logger logger,
@@ -134,7 +144,8 @@ public class TaskServiceImpl implements TaskService {
 			final ValidationExecutor validationExecutor,
 			final TaskContextManyToManyRelation taskContextManyToManyRelation,
 			final CalendarUtil calendarUtil,
-			final DurationUtil durationUtil) {
+			final DurationUtil durationUtil,
+			final ThreadPoolExecuterBuilder threadPoolExecuterBuilder) {
 		this.logger = logger;
 		this.taskDao = taskDao;
 		this.taskComparator = taskComparator;
@@ -146,6 +157,7 @@ public class TaskServiceImpl implements TaskService {
 		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
 		this.calendarUtil = calendarUtil;
 		this.durationUtil = durationUtil;
+		this.threadPoolExecuterBuilder = threadPoolExecuterBuilder;
 	}
 
 	@Override
@@ -173,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -224,7 +236,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -278,7 +290,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -295,7 +307,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -313,7 +325,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -340,7 +352,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -383,7 +395,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -414,7 +426,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -446,7 +458,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -472,7 +484,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -495,7 +507,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -533,7 +545,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -563,7 +575,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -626,7 +638,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -681,7 +693,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -714,7 +726,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -747,7 +759,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -763,31 +775,63 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	private List<Task> filterWithContexts(final List<Task> tasks, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException {
 		logger.trace("filterWithContexts: " + tasks.size());
-		final List<Task> result = new ArrayList<Task>();
+
+		final List<ThreadResult<Task>> threadResults = new ArrayList<ThreadResult<Task>>();
+
+		final ThreadPoolExecuter threadPoolExecuter = threadPoolExecuterBuilder.build("filter task by context", FILTER_THREADS);
 		for (final Task task : tasks) {
-			if (taskContextIdentifiers.size() == 0) {
-				final StorageIterator a = taskContextManyToManyRelation.getA(task.getId());
-				if (!a.hasNext()) {
-					result.add(task);
-				}
-			}
-			else {
-				boolean match = false;
-				for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-					if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
-						match = true;
+			final ThreadResult<Task> threadResult = new ThreadResult<Task>();
+			threadResults.add(threadResult);
+			threadPoolExecuter.execute(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						if (taskContextIdentifiers.size() == 0) {
+							final StorageIterator a = taskContextManyToManyRelation.getA(task.getId());
+							if (!a.hasNext()) {
+								threadResult.set(task);
+							}
+						}
+						else {
+							boolean match = false;
+							for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
+								if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
+									match = true;
+								}
+							}
+							if (match) {
+								threadResult.set(task);
+							}
+						}
+					}
+					catch (final Exception e) {
+						logger.debug(e.getClass().getName(), e);
 					}
 				}
-				if (match) {
-					result.add(task);
-				}
+			});
+
+		}
+
+		try {
+			threadPoolExecuter.shutDown();
+			threadPoolExecuter.awaitTermination(1, TimeUnit.SECONDS);
+		}
+		catch (final InterruptedException e) {
+		}
+
+		final List<Task> result = new ArrayList<Task>();
+		for (final ThreadResult<Task> threadResult : threadResults) {
+			final Task task = threadResult.get();
+			if (task != null) {
+				result.add(task);
 			}
 		}
 		logger.trace("filterWithContexts: " + tasks.size() + " => " + result.size());
@@ -805,7 +849,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -840,7 +884,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -880,7 +924,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -960,7 +1004,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -990,7 +1034,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		finally {
-			if (duration.getTime() > 300)
+			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}

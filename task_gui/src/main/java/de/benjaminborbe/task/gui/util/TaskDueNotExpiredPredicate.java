@@ -30,7 +30,7 @@ public class TaskDueNotExpiredPredicate implements Predicate<Task> {
 	public boolean apply(final Task task) {
 		final Calendar today = calendarUtil.today(timeZone);
 		final boolean result = task.getDue() == null || calendarUtil.isGT(task.getDue(), today);
-		logger.debug(calendarUtil.toDateTimeString(task.getDue()) + " >= " + calendarUtil.toDateTimeString(today) + " return: " + result);
+		logger.trace(calendarUtil.toDateTimeString(task.getDue()) + " >= " + calendarUtil.toDateTimeString(today) + " return: " + result);
 		return result;
 	}
 }

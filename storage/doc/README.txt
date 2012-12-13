@@ -175,7 +175,8 @@ create column family task with
   default_validation_class = UTF8Type and
   column_metadata = [
     {column_name: owner, validation_class: UTF8Type, index_type: KEYS},
-    {column_name: parentId, validation_class: UTF8Type, index_type: KEYS}
+    {column_name: parentId, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: completed, validation_class: UTF8Type, index_type: KEYS}
   ];
 
 drop column family task_context;

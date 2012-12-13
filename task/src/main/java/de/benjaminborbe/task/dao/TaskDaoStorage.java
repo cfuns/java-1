@@ -12,7 +12,6 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
-import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
@@ -48,13 +47,15 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public EntityIterator<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier) throws StorageException {
 		logger.trace("getTasksNotCompleted for user: " + userIdentifier);
-		return new EntityIteratorFilter<TaskBean>(getTasks(userIdentifier), new TaskNotCompletedPredicate());
+		// return new EntityIteratorFilter<TaskBean>(getTasks(userIdentifier), new
+		// TaskNotCompletedPredicate());
+		return getEntityIterator(new MapChain<String, String>().add("owner", String.valueOf(userIdentifier)).add("completed", "false"));
 	}
 
 	@Override
 	public EntityIterator<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier) throws StorageException {
 		logger.trace("getTasksCompleted for user: " + userIdentifier);
-		return new EntityIteratorFilter<TaskBean>(getTasks(userIdentifier), new TaskCompletedPredicate());
+		return getEntityIterator(new MapChain<String, String>().add("owner", String.valueOf(userIdentifier)).add("completed", "true"));
 	}
 
 	@Override
