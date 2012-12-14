@@ -84,7 +84,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final int expire, final boolean shared, final long delay, final boolean activated) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createConfluenceIntance");
@@ -92,6 +93,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = createConfluenceInstanceIdentifier(sessionIdentifier, idGeneratorUUID.nextId());
 			final ConfluenceInstanceBean confluenceInstance = confluenceInstanceDao.create();
+			confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
 			confluenceInstance.setId(confluenceInstanceIdentifier);
 			confluenceInstance.setUrl(url);
 			confluenceInstance.setUsername(username);
@@ -99,7 +101,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setExpire(expire);
 			confluenceInstance.setShared(shared);
 			confluenceInstance.setDelay(delay);
-			confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
+			confluenceInstance.setActivated(activated);
 
 			final ValidationResult errors = validationExecutor.validate(confluenceInstance);
 			if (errors.hasErrors()) {
@@ -126,8 +128,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated) throws ConfluenceServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateConfluenceIntance");
@@ -139,6 +141,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setExpire(expire);
 			confluenceInstance.setShared(shared);
 			confluenceInstance.setDelay(delay);
+			confluenceInstance.setActivated(activated);
 
 			if (confluenceInstance.getOwner() == null) {
 				confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));

@@ -278,7 +278,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire,
-			final long delay) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -292,6 +292,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			configuration.setExcludes(excludes);
 			configuration.setExpire(expire);
 			configuration.setDelay(delay);
+			configuration.setActivated(activated);
 
 			final ValidationResult errors = validationExecutor.validate(configuration);
 			if (errors.hasErrors()) {
@@ -318,7 +319,8 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
-			final List<String> excludes, final int expire, final long delay) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -329,6 +331,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			configuration.setExcludes(excludes);
 			configuration.setExpire(expire);
 			configuration.setDelay(delay);
+			configuration.setActivated(activated);
 
 			final ValidationResult errors = validationExecutor.validate(configuration);
 			if (errors.hasErrors()) {

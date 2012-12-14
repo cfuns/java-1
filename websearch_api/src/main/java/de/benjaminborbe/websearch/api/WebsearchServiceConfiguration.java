@@ -21,10 +21,10 @@ public interface WebsearchServiceConfiguration {
 	void deleteConfiguration(SessionIdentifier sessionIdentifier, WebsearchConfigurationIdentifier websearchConfigurationIdentifier) throws WebsearchServiceException,
 			LoginRequiredException, PermissionDeniedException;
 
-	WebsearchConfigurationIdentifier createConfiguration(SessionIdentifier sessionIdentifier, URL url, final List<String> excludes, int expire, long delay)
+	WebsearchConfigurationIdentifier createConfiguration(SessionIdentifier sessionIdentifier, URL url, final List<String> excludes, int expire, long delay, boolean activated)
 			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	void updateConfiguration(SessionIdentifier sessionIdentifier, WebsearchConfigurationIdentifier websearchConfigurationIdentifier, URL url, final List<String> excludes,
-			int expire, long delay) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+			int expire, long delay, boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 }

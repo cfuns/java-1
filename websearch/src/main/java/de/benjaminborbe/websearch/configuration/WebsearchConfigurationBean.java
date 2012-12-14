@@ -32,6 +32,8 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	private Long delay;
 
+	private Boolean activated;
+
 	@Override
 	public WebsearchConfigurationIdentifier getId() {
 		return id;
@@ -105,6 +107,14 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	public void setDelay(final Long delay) {
 		this.delay = delay;
+	}
+
+	public Boolean getActivated() {
+		return activated;
+	}
+
+	public void setActivated(final Boolean activated) {
+		this.activated = activated;
 	}
 
 }

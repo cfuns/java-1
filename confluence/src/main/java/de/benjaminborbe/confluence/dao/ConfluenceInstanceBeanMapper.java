@@ -36,6 +36,7 @@ public class ConfluenceInstanceBeanMapper extends SingleMappler<ConfluenceInstan
 		result.add(new SingleMapLong<ConfluenceInstanceBean>("delay", parseUtil));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("password"));
 		result.add(new SingleMapBoolean<ConfluenceInstanceBean>("shared", parseUtil));
+		result.add(new SingleMapBoolean<ConfluenceInstanceBean>("activated", parseUtil));
 		result.add(new SingleMapInteger<ConfluenceInstanceBean>("expire", parseUtil));
 		result.add(new SingleMapCalendar<ConfluenceInstanceBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<ConfluenceInstanceBean>("modified", timeZoneUtil, calendarUtil, parseUtil));

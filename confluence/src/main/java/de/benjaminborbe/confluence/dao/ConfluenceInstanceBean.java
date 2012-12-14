@@ -33,6 +33,8 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 
 	private Long delay;
 
+	private Boolean activated;
+
 	@Override
 	public ConfluenceInstanceIdentifier getId() {
 		return id;
@@ -122,6 +124,15 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 
 	public void setDelay(final Long delay) {
 		this.delay = delay;
+	}
+
+	@Override
+	public Boolean getActivated() {
+		return activated;
+	}
+
+	public void setActivated(final Boolean activated) {
+		this.activated = activated;
 	}
 
 }

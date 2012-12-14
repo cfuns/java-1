@@ -96,12 +96,13 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			final String excludes = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES);
 			final String expire = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE);
 			final String delay = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY);
+			final String activated = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED);
 			final String referer = request.getParameter(WebsearchGuiConstants.PARAMETER_REFERER);
-			if (url != null && excludes != null && expire != null && delay != null) {
+			if (url != null && excludes != null && expire != null && delay != null && activated != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					createConfiguration(sessionIdentifier, url, excludes, expire, delay);
+					createConfiguration(sessionIdentifier, url, excludes, expire, delay, activated);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -136,7 +137,8 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final String urlString, final String excludesString,
-			final String expireString, final String delayString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String expireString, final String delayString, final String activatedString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		URL url;
 		{
@@ -184,11 +186,13 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
+		final boolean activated = parseUtil.parseBoolean(activatedString, false);
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			return websearchService.createConfiguration(sessionIdentifier, url, excludes, expire, delay);
+			return websearchService.createConfiguration(sessionIdentifier, url, excludes, expire, delay, activated);
 		}
 	}
 

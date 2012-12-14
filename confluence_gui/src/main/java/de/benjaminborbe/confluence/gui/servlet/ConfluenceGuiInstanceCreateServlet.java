@@ -99,13 +99,14 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			final String password = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD);
 			final String expire = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE);
 			final String shared = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED);
+			final String activated = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_ACTIVATED);
 			final String delay = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
-			if (url != null && username != null && password != null && expire != null && delay != null) {
+			if (url != null && username != null && password != null && expire != null && delay != null && activated != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared, delay);
+					createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared, delay, activated);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -142,8 +143,8 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final String expireString, final String sharedString, final String delayString) throws ValidationException, ConfluenceServiceException, LoginRequiredException,
-			PermissionDeniedException {
+			final String expireString, final String sharedString, final String delayString, final String activatedString) throws ValidationException, ConfluenceServiceException,
+			LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		int expire = 0;
 		{
@@ -166,12 +167,13 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 		}
 
 		final boolean shared = parseUtil.parseBoolean(sharedString, false);
+		final boolean activated = parseUtil.parseBoolean(activatedString, false);
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			return confluenceService.createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared, delay);
+			return confluenceService.createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared, delay, activated);
 		}
 	}
 

@@ -40,4 +40,6 @@ public interface WebsearchGuiConstants {
 
 	String PARAMETER_CONFIGURATION_DELAY = "configuration_delay";
 
+	String PARAMETER_CONFIGURATION_ACTIVATED = "configuration_activated";
+
 }

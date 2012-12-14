@@ -99,15 +99,16 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 			final String url = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL);
 			final String expire = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE);
 			final String delay = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY);
+			final String activated = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED);
 			final String referer = request.getParameter(WebsearchGuiConstants.PARAMETER_REFERER);
 			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(id);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchConfiguration websearchConfiguration = websearchService.getConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
 
-			if (id != null && url != null && excludes != null && expire != null && delay != null) {
+			if (id != null && url != null && excludes != null && expire != null && delay != null && activated != null) {
 				try {
-					updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire, delay);
+					updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire, delay, activated);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -147,8 +148,8 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	private void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final String urlString,
-			final String excludesString, final String expireString, final String delayString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+			final String excludesString, final String expireString, final String delayString, final String activatedString) throws WebsearchServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 
 		URL url;
@@ -197,11 +198,13 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
+		final boolean activated = parseUtil.parseBoolean(activatedString, false);
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			websearchService.updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire, delay);
+			websearchService.updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire, delay, activated);
 		}
 	}
 

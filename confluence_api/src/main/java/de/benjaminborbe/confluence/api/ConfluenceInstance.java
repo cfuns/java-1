@@ -14,4 +14,6 @@ public interface ConfluenceInstance {
 
 	Long getDelay();
 
+	Boolean getActivated();
+
 }

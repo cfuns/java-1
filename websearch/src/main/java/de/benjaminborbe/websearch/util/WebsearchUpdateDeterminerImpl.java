@@ -102,7 +102,7 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		logger.trace("determineExpiredPages");
 
 		// create startpages
-		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getEntityIterator();
+		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getActivatedEntityIterator();
 		final List<WebsearchConfigurationBean> configurations = new ArrayList<WebsearchConfigurationBean>();
 		while (configurationsIterator.hasNext()) {
 			final WebsearchConfigurationBean configuration = configurationsIterator.next();
