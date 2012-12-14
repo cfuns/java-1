@@ -15,8 +15,11 @@ import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceDeleteServle
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceListServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceUpdateServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiRefreshIndexServlet;
+import de.benjaminborbe.confluence.gui.util.ConfluenceGuiNavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ConfluenceGuiActivator extends HttpBundleActivator {
@@ -39,6 +42,9 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 	@Inject
 	private ConfluenceGuiInstanceUpdateServlet confluenceGuiInstanceUpdateServlet;
 
+	@Inject
+	private ConfluenceGuiNavigationEntry confluenceGuiNavigationEntry;
+
 	public ConfluenceGuiActivator() {
 		super(ConfluenceGuiConstants.NAME);
 	}
@@ -57,6 +63,13 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(confluenceGuiInstanceUpdateServlet, ConfluenceGuiConstants.URL_INSTANCE_UPDATE));
 		result.add(new ServletInfo(confluenceGuiRefreshIndexServlet, ConfluenceGuiConstants.URL_INDEX_REFRESH));
 		result.add(new ServletInfo(confluenceGuiExpireAllServlet, ConfluenceGuiConstants.URL_EXPIRE_ALL));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, confluenceGuiNavigationEntry));
 		return result;
 	}
 

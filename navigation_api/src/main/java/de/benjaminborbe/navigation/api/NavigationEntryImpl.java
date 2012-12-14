@@ -1,5 +1,7 @@
 package de.benjaminborbe.navigation.api;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+
 public class NavigationEntryImpl implements NavigationEntry {
 
 	private final String url;
@@ -19,6 +21,11 @@ public class NavigationEntryImpl implements NavigationEntry {
 	@Override
 	public String getURL() {
 		return url;
+	}
+
+	@Override
+	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
+		return true;
 	}
 
 }

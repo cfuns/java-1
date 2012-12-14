@@ -231,3 +231,8 @@ buildgooglesearch:
 	cd googlesearch && make all
 	cd googlesearch_gui && make all
 	cd googlesearch_test && make all
+buildnavigation:
+	cd navigation_api && make all
+	cd navigation && make all
+	cd navigation_gui && make all
+	cd navigation_test && make all

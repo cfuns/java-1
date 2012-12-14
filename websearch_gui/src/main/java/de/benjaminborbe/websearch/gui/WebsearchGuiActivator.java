@@ -8,8 +8,10 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.websearch.gui.guice.WebsearchGuiModules;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationCreateServlet;
@@ -23,6 +25,7 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
+import de.benjaminborbe.websearch.gui.util.WebsearchGuiNavigationEntry;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
 
@@ -59,6 +62,9 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	@Inject
 	private WebsearchGuiConfigurationUpdateServlet websearchGuiConfigurationUpdateServlet;
 
+	@Inject
+	private WebsearchGuiNavigationEntry websearchGuiNavigationEntry;
+
 	public WebsearchGuiActivator() {
 		super(WebsearchGuiConstants.NAME);
 	}
@@ -82,6 +88,13 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiConfigurationDeleteServlet, WebsearchGuiConstants.URL_CONFIGURATION_DELETE));
 		result.add(new ServletInfo(websearchGuiConfigurationListServlet, WebsearchGuiConstants.URL_CONFIGURATION_LIST));
 		result.add(new ServletInfo(websearchGuiConfigurationUpdateServlet, WebsearchGuiConstants.URL_CONFIGURATION_UPDATE));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, websearchGuiNavigationEntry));
 		return result;
 	}
 

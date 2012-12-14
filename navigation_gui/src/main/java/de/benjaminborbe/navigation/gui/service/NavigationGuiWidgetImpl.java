@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationService;
@@ -41,11 +44,14 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 
 	private final UrlUtil urlUtil;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public NavigationGuiWidgetImpl(final Logger logger, final NavigationService navigationService, final UrlUtil urlUtil) {
+	public NavigationGuiWidgetImpl(final Logger logger, final NavigationService navigationService, final UrlUtil urlUtil, final AuthenticationService authenticationService) {
 		this.logger = logger;
 		this.navigationService = navigationService;
 		this.urlUtil = urlUtil;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -54,8 +60,16 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 		final ListWidget widgets = new ListWidget();
 		final UlWidget ul = new UlWidget();
 		ul.addId("navi");
-		for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {
-			ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {
+				if (navigationEntry.isVisible(sessionIdentifier)) {
+					ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
+				}
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
 		}
 		widgets.add(ul);
 		widgets.render(request, response, context);
