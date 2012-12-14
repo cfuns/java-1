@@ -86,7 +86,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskService taskService,
 			final TaskGuiUtil taskGuiUtil,
 			final TaskGuiLinkFactory taskGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 		this.htmlUtil = htmlUtil;

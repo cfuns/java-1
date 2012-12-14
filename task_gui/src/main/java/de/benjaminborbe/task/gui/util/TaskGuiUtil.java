@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -24,6 +27,7 @@ import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -100,12 +104,12 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
 		return taskService.getTasksNotCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 	}
 
-	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException,
+	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException,
 			LoginRequiredException {
 		final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
 		if (taskContextIds != null) {
@@ -144,7 +148,7 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final String[] taskContextIds) throws TaskServiceException, LoginRequiredException {
+	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
 		return taskService.getTasksCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 
@@ -206,5 +210,31 @@ public class TaskGuiUtil {
 
 		task.setName(StringUtils.join(remainingTokens, " ").replaceAll("\\s+", " ").trim());
 		return task;
+	}
+
+	public List<String> getSelectedTaskContextIds(final HttpServletRequest request) {
+		final String[] list = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+		if (list != null && list.length > 0) {
+			logger.debug("use parameter");
+			return filterEmpty(list);
+		}
+		for (final Cookie cookie : request.getCookies()) {
+			if (TaskGuiConstants.COOKIE_TASKCONTEXTS.equals(cookie.getName()) && cookie.getValue() != null) {
+				logger.debug("found cookie");
+				return filterEmpty(cookie.getValue().split(","));
+			}
+		}
+		logger.debug("nothing found");
+		return filterEmpty(new String[0]);
+	}
+
+	private List<String> filterEmpty(final String... values) {
+		final List<String> result = new ArrayList<String>();
+		for (final String value : values) {
+			if (value != null && value.length() > 0) {
+				result.add(value);
+			}
+		}
+		return result;
 	}
 }

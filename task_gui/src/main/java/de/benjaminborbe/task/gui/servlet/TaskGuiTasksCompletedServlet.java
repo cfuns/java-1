@@ -93,7 +93,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiUtil taskGuiUtil,
 			final TaskGuiSwitchWidget taskGuiSwitchWidget) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.authenticationService = authenticationService;
@@ -120,7 +120,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 			{
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final String[] taskContextIds = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+				final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 				final List<Task> tasks = taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds);
 				Collections.sort(tasks, new CompareComletionDate());
 

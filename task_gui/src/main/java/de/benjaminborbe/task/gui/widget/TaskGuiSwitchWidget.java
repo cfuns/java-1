@@ -42,7 +42,7 @@ public class TaskGuiSwitchWidget extends CompositeWidget {
 		final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
 		Collections.sort(taskContexts, new TaskContextComparator());
 		contextList.add("Context: ");
-		contextList.add(taskGuiLinkFactory.taskContextSwtichNone(request));
+		contextList.add(taskGuiLinkFactory.taskContextSwitchNone(request));
 		contextList.add(" ");
 		contextList.add(taskGuiLinkFactory.taskContextSwitchAll(request, taskContexts));
 		contextList.add(" ");

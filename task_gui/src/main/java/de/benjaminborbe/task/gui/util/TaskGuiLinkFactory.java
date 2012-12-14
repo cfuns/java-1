@@ -3,7 +3,6 @@ package de.benjaminborbe.task.gui.util;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,9 +30,12 @@ public class TaskGuiLinkFactory {
 
 	private final UrlUtil urlUtil;
 
+	private final TaskGuiUtil taskGuiUtil;
+
 	@Inject
-	public TaskGuiLinkFactory(final UrlUtil urlUtil) {
+	public TaskGuiLinkFactory(final UrlUtil urlUtil, final TaskGuiUtil taskGuiUtil) {
 		this.urlUtil = urlUtil;
+		this.taskGuiUtil = taskGuiUtil;
 	}
 
 	private Widget buildStartLater(final HttpServletRequest request, final TaskIdentifier taskIdentifier, final String time, final String name) throws MalformedURLException,
@@ -89,9 +91,9 @@ public class TaskGuiLinkFactory {
 		final MapParameter parameter = getLoopThrough(request);
 
 		final Set<String> ids = new HashSet<String>();
-		final String[] ls = parameter.get(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+		final List<String> ls = taskGuiUtil.getSelectedTaskContextIds(request);
 		if (ls != null) {
-			ids.addAll(Arrays.asList(ls));
+			ids.addAll(ls);
 		}
 		final String id = String.valueOf(taskContext.getId());
 		final SpanWidget content = new SpanWidget(taskContext.getName());
@@ -108,14 +110,14 @@ public class TaskGuiLinkFactory {
 	}
 
 	public Widget taskContextSwitchAll(final HttpServletRequest request, final List<TaskContext> taskContexts) throws MalformedURLException, UnsupportedEncodingException {
-		final String[] ls = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+		final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 		final MapParameter parameter = getLoopThrough(request);
 		final Set<String> ids = new HashSet<String>();
 		for (final TaskContext taskContext : taskContexts) {
 			ids.add(String.valueOf(taskContext.getId()));
 		}
 		final SpanWidget content = new SpanWidget("all");
-		if (ls != null && ls.length == taskContexts.size()) {
+		if (taskContextIds != null && taskContextIds.size() == taskContexts.size()) {
 			content.addAttribute("class", "taskContextSelected");
 		}
 		else {
@@ -126,19 +128,19 @@ public class TaskGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), parameter, content);
 	}
 
-	public Widget taskContextSwtichNone(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget taskContextSwitchNone(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 
-		final String[] ls = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
+		final List<String> ls = taskGuiUtil.getSelectedTaskContextIds(request);
 
 		final SpanWidget content = new SpanWidget("none");
-		if (ls != null && ls.length > 0) {
+		if (ls != null && !ls.isEmpty()) {
 			content.addAttribute("class", "taskContextNotSelected");
 		}
 		else {
 			content.addAttribute("class", "taskContextSelected");
 		}
 
-		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), getLoopThrough(request).add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, new String[] { null }),
+		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), getLoopThrough(request).add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, new String[] { "" }),
 				content);
 	}
 

@@ -86,4 +86,6 @@ public interface TaskGuiConstants {
 
 	String URL_JS_SCRIPT = "/js/script.js";
 
+	String COOKIE_TASKCONTEXTS = "TaskContextSelected";
+
 }

@@ -53,7 +53,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
+		final HttpServletResponse response = EasyMock.createNiceMock(HttpServletResponse.class);
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		final StringWriter sw = new StringWriter();
@@ -148,10 +148,11 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(taskGuiLinkFactory.taskContextList(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
 		final List<Task> allTasks = new ArrayList<Task>();
-		;
 
+		final List<String> list = new ArrayList<String>();
 		final TaskGuiUtil taskGuiUtil = EasyMock.createMock(TaskGuiUtil.class);
-		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, null)).andReturn(allTasks);
+		EasyMock.expect(taskGuiUtil.getSelectedTaskContextIds(request)).andReturn(list).anyTimes();
+		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, list)).andReturn(allTasks).anyTimes();
 		EasyMock.replay(taskGuiUtil);
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
