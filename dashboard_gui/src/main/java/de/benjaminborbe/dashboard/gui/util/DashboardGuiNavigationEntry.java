@@ -19,7 +19,7 @@ public class DashboardGuiNavigationEntry implements NavigationEntry {
 
 	@Override
 	public String getTitle() {
-		return "Blog";
+		return "Dashboard";
 	}
 
 	@Override

@@ -6,13 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.CompositeWidget;
-import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.util.SingleTagWidget;
 
 public class ClearFloatWidget extends CompositeWidget {
 
 	@Override
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
-		final TagWidget widget = new TagWidget("span");
+		final SingleTagWidget widget = new SingleTagWidget("br");
 		widget.addAttribute("style", "clear: both");
 		return widget;
 	}
