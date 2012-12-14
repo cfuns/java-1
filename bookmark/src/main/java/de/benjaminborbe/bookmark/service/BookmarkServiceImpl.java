@@ -96,7 +96,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		@Override
 		public String getValue(final Bookmark o) {
-			return o.getName();
+			return o.getName() != null ? o.getName().toLowerCase() : null;
 		}
 	}
 
