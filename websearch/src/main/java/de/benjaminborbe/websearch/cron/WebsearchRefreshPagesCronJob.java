@@ -11,6 +11,7 @@ import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.websearch.page.WebsearchPageBean;
@@ -42,7 +43,9 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		public void run() {
 			try {
 				logger.debug("refresh pages started");
-				for (final WebsearchPageBean page : updateDeterminer.determineExpiredPages()) {
+				final EntityIterator<WebsearchPageBean> i = updateDeterminer.determineExpiredPages();
+				while (i.hasNext()) {
+					final WebsearchPageBean page = i.next();
 					try {
 						final URL url = page.getUrl();
 						logger.debug("trigger refresh of url " + url.toExternalForm());

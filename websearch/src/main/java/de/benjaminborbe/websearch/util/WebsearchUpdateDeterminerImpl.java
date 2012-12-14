@@ -3,18 +3,17 @@ package de.benjaminborbe.websearch.util;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import org.slf4j.Logger;
 
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.configuration.WebsearchConfigurationDao;
@@ -23,6 +22,42 @@ import de.benjaminborbe.websearch.page.WebsearchPageDao;
 
 @Singleton
 public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer {
+
+	private final class NotExpiredPredicate implements Predicate<WebsearchPageBean> {
+
+		private final List<WebsearchConfigurationBean> configurations;
+
+		private NotExpiredPredicate(final List<WebsearchConfigurationBean> configurations) {
+			this.configurations = configurations;
+		}
+
+		@Override
+		public boolean apply(final WebsearchPageBean page) {
+			try {
+				final long time = calendarUtil.getTime();
+				final List<WebsearchConfigurationBean> pageConfigurations = getConfigurationForPage(page, configurations);
+				// handle only pages configuration exists for
+				if (!pageConfigurations.isEmpty()) {
+					logger.debug("url " + page.getId() + " is subpage");
+					// check age > EXPIRE
+					if (isExpired(time, page, pageConfigurations)) {
+						logger.debug("url " + page.getId() + " is expired");
+						return true;
+					}
+					else {
+						logger.debug("url " + page.getId() + " is not expired");
+					}
+				}
+				else {
+					logger.debug("url " + page.getId() + " is not subpage");
+				}
+			}
+			catch (final EntityIteratorException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+			return false;
+		}
+	}
 
 	// 1 day
 	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
@@ -44,9 +79,10 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 	}
 
 	@Override
-	public Collection<WebsearchPageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
+	public EntityIterator<WebsearchPageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
 		logger.trace("determineExpiredPages");
-		final long time = calendarUtil.getTime();
+
+		// create startpages
 		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getEntityIterator();
 		final List<WebsearchConfigurationBean> configurations = new ArrayList<WebsearchConfigurationBean>();
 		while (configurationsIterator.hasNext()) {
@@ -55,30 +91,9 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 			pageDao.findOrCreate(configuration.getUrl());
 		}
 
-		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
 		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
-		while (pages.hasNext()) {
-			final WebsearchPageBean page = pages.next();
-
-			final List<WebsearchConfigurationBean> pageConfigurations = getConfigurationForPage(page, configurations);
-
-			// handle only pages configuration exists for
-			if (!pageConfigurations.isEmpty()) {
-				logger.debug("url " + page.getId() + " is subpage");
-				// check age > EXPIRE
-				if (isExpired(time, page, pageConfigurations)) {
-					logger.debug("url " + page.getId() + " is expired");
-					result.add(page);
-				}
-				else {
-					logger.debug("url " + page.getId() + " is not expired");
-				}
-			}
-			else {
-				logger.debug("url " + page.getId() + " is not subpage");
-			}
-		}
-		return result;
+		final Predicate<WebsearchPageBean> predicate = new NotExpiredPredicate(configurations);
+		return new EntityIteratorFilter<WebsearchPageBean>(pages, predicate);
 	}
 
 	protected boolean isExpired(final long time, final WebsearchPageBean page, final List<WebsearchConfigurationBean> pageConfigurations) {
