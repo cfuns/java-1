@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -336,23 +335,14 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+	public boolean refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("refreshSearchIndex");
 			authorizationService.expectAdminRole(sessionIdentifier);
-			confluenceRefresher.refresh();
+			return confluenceRefresher.refresh();
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final XmlRpcException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {

@@ -15,15 +15,21 @@ public class RunOnlyOnceATime {
 		this.logger = logger;
 	}
 
-	public void run(final Runnable runnable) {
+	public boolean run(final Runnable runnable) {
 		logger.trace("started");
 		if (isNotRunning()) {
-			runnable.run();
-			finished();
+			try {
+				runnable.run();
+			}
+			finally {
+				finished();
+			}
 			logger.trace("finished");
+			return true;
 		}
 		else {
 			logger.trace("skipped");
+			return false;
 		}
 	}
 

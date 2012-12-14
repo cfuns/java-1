@@ -56,7 +56,8 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException {
+	public boolean refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException {
+		return true;
 	}
 
 	@Override
@@ -64,14 +65,15 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password, final int expire, final boolean shared,
-			final long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
+			final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url, final String username, final String password,
-			final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
+			final String username, final String password, final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 	}
 
 }

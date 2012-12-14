@@ -1,6 +1,5 @@
 package de.benjaminborbe.confluence.service;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -8,8 +7,6 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.confluence.util.ConfluenceRefresher;
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.tools.EntityIteratorException;
 
 @Singleton
 public class ConfluenceRefreshCronJob implements CronJob {
@@ -34,18 +31,7 @@ public class ConfluenceRefreshCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		try {
-			logger.info("execute");
-			confluenceRefresher.refresh();
-		}
-		catch (final EntityIteratorException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final XmlRpcException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
+		logger.info("execute");
+		confluenceRefresher.refresh();
 	}
 }

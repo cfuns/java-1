@@ -35,6 +35,43 @@ import de.benjaminborbe.loggly.config.LogglyConfig;
 @Singleton
 public class LogglyConnectorImpl implements LogglyConnector {
 
+	private final class CloseRunnable implements Runnable {
+
+		@Override
+		public void run() {
+			close();
+		}
+	}
+
+	private final class RetryRunnable implements Runnable {
+
+		@Override
+		public void run() {
+			while (allowRetry) {
+				// drain the retry requests
+				LogglyEntry sample = null;
+				while ((sample = retryQueue.poll()) != null) {
+					if (sample.getRetryCount() > 10) {
+						// todo: capture statistics about the failure (exception and/or status code)
+						// and then report on it in some sort of thoughtful way to standard err
+					}
+					else {
+						pool.submit(sample);
+					}
+				}
+
+				// retry every 10 seconds
+				try {
+					Thread.sleep(10000);
+				}
+				catch (final InterruptedException e) {
+					System.err.println("Retry sleep was interrupted, giving up on retry thread");
+					return;
+				}
+			}
+		}
+	}
+
 	private class LogglyEntry implements Runnable {
 
 		private int retryCount;
@@ -212,34 +249,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 
 		retryQueue = new LinkedBlockingQueue<LogglyEntry>(logglyConfig.getBacklog());
 
-		final Thread retryThread = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while (allowRetry) {
-					// drain the retry requests
-					LogglyEntry sample = null;
-					while ((sample = retryQueue.poll()) != null) {
-						if (sample.getRetryCount() > 10) {
-							// todo: capture statistics about the failure (exception and/or status code)
-							// and then report on it in some sort of thoughtful way to standard err
-						}
-						else {
-							pool.submit(sample);
-						}
-					}
-
-					// retry every 10 seconds
-					try {
-						Thread.sleep(10000);
-					}
-					catch (final InterruptedException e) {
-						System.err.println("Retry sleep was interrupted, giving up on retry thread");
-						return;
-					}
-				}
-			}
-		}, "Loggly Retry Thread");
+		final Thread retryThread = new Thread(new RetryRunnable(), "Loggly Retry Thread");
 		retryThread.setDaemon(true);
 		retryThread.start();
 
@@ -266,13 +276,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 
 		// because the threads a daemon threads, we want to give them a chance
 		// to finish up before we totally shut down
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				close();
-			}
-		}));
+		Runtime.getRuntime().addShutdownHook(new Thread(new CloseRunnable()));
 	}
 
 	@Override

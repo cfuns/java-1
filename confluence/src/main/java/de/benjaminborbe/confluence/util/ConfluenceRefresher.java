@@ -23,8 +23,41 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
 public class ConfluenceRefresher {
+
+	private final class RefreshRunnable implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				logger.info("refresh started");
+				final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getEntityIterator();
+				while (i.hasNext()) {
+					try {
+						final ConfluenceInstanceBean confluenceInstance = i.next();
+						handle(confluenceInstance);
+					}
+					catch (final MalformedURLException e) {
+						logger.warn(e.getClass().getName(), e);
+					}
+				}
+			}
+			catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+			catch (final XmlRpcException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+			catch (final EntityIteratorException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+			finally {
+				logger.info("refresh finished");
+			}
+		}
+	}
 
 	// 1 day
 	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
@@ -45,9 +78,12 @@ public class ConfluenceRefresher {
 
 	private final ConfluenceIndexUtil confluenceIndexUtil;
 
+	private final RunOnlyOnceATime runOnlyOnceATime;
+
 	@Inject
 	public ConfluenceRefresher(
 			final Logger logger,
+			final RunOnlyOnceATime runOnlyOnceATime,
 			final CalendarUtil calendarUtil,
 			final IndexerService indexerService,
 			final ConfluenceInstanceDao confluenceInstanceDao,
@@ -56,6 +92,7 @@ public class ConfluenceRefresher {
 			final HtmlUtil htmlUtil,
 			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
+		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.calendarUtil = calendarUtil;
 		this.indexerService = indexerService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
@@ -131,18 +168,8 @@ public class ConfluenceRefresher {
 		return filteredContent;
 	}
 
-	public void refresh() throws EntityIteratorException, StorageException, XmlRpcException {
-		logger.info("execute");
-		final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getEntityIterator();
-		while (i.hasNext()) {
-			try {
-				final ConfluenceInstanceBean confluenceInstance = i.next();
-				handle(confluenceInstance);
-			}
-			catch (final MalformedURLException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-		}
-	}
+	public boolean refresh() {
+		return runOnlyOnceATime.run(new RefreshRunnable());
 
+	}
 }

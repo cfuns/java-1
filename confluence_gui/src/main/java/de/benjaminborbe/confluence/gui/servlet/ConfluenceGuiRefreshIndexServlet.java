@@ -75,8 +75,12 @@ public class ConfluenceGuiRefreshIndexServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			confluenceService.refreshSearchIndex(sessionIdentifier);
-			widgets.add("refresh triggered");
+			if (confluenceService.refreshSearchIndex(sessionIdentifier)) {
+				widgets.add("refresh triggered");
+			}
+			else {
+				widgets.add("refresh skipped, already running");
+			}
 			return widgets;
 		}
 		catch (final ConfluenceServiceException e) {

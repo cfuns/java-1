@@ -62,6 +62,47 @@ public class TaskServiceImpl implements TaskService {
 
 	private static final int DURATION_WARN = 150;
 
+	private final class FilterRunnable implements Runnable {
+
+		private final Collection<TaskContextIdentifier> taskContextIdentifiers;
+
+		private final ThreadResult<Task> threadResult;
+
+		private final Task task;
+
+		private FilterRunnable(Collection<TaskContextIdentifier> taskContextIdentifiers, ThreadResult<Task> threadResult, Task task) {
+			this.taskContextIdentifiers = taskContextIdentifiers;
+			this.threadResult = threadResult;
+			this.task = task;
+		}
+
+		@Override
+		public void run() {
+			try {
+				if (taskContextIdentifiers.size() == 0) {
+					final StorageIterator a = taskContextManyToManyRelation.getA(task.getId());
+					if (!a.hasNext()) {
+						threadResult.set(task);
+					}
+				}
+				else {
+					boolean match = false;
+					for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
+						if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
+							match = true;
+						}
+					}
+					if (match) {
+						threadResult.set(task);
+					}
+				}
+			}
+			catch (final Exception e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+		}
+	}
+
 	private final class TaskMatchImpl implements TaskMatch {
 
 		private final BeanMatch<Task> match;
@@ -789,34 +830,7 @@ public class TaskServiceImpl implements TaskService {
 		for (final Task task : tasks) {
 			final ThreadResult<Task> threadResult = new ThreadResult<Task>();
 			threadResults.add(threadResult);
-			threadPoolExecuter.execute(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						if (taskContextIdentifiers.size() == 0) {
-							final StorageIterator a = taskContextManyToManyRelation.getA(task.getId());
-							if (!a.hasNext()) {
-								threadResult.set(task);
-							}
-						}
-						else {
-							boolean match = false;
-							for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-								if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
-									match = true;
-								}
-							}
-							if (match) {
-								threadResult.set(task);
-							}
-						}
-					}
-					catch (final Exception e) {
-						logger.debug(e.getClass().getName(), e);
-					}
-				}
-			});
+			threadPoolExecuter.execute(new FilterRunnable(taskContextIdentifiers, threadResult, task));
 
 		}
 
