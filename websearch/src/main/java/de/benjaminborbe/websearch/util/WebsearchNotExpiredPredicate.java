@@ -59,7 +59,7 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 				}
 			}
 			else {
-				logger.debug("url " + page.getId() + " is not subpage");
+				logger.trace("url " + page.getId() + " is not subpage");
 			}
 		}
 		catch (final EntityIteratorException e) {
