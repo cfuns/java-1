@@ -17,7 +17,6 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintByteArra
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringOnlyLetters;
 
 public class GalleryImageValidator implements Validator<GalleryImageBean> {
 
@@ -54,7 +53,6 @@ public class GalleryImageValidator implements Validator<GalleryImageBean> {
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));
-			constraints.add(new ValidationConstraintStringOnlyLetters());
 			result.addAll(validationConstraintValidator.validate("contentType", contentType, constraints));
 		}
 

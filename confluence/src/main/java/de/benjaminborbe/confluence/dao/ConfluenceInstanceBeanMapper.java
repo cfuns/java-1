@@ -14,6 +14,7 @@ import de.benjaminborbe.tools.mapper.SingleMap;
 import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
 import de.benjaminborbe.tools.mapper.SingleMapInteger;
+import de.benjaminborbe.tools.mapper.SingleMapLong;
 import de.benjaminborbe.tools.mapper.SingleMapString;
 import de.benjaminborbe.tools.mapper.SingleMappler;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -32,6 +33,7 @@ public class ConfluenceInstanceBeanMapper extends SingleMappler<ConfluenceInstan
 		result.add(new SingleMapUserIdentifier<ConfluenceInstanceBean>("owner"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("url"));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("username"));
+		result.add(new SingleMapLong<ConfluenceInstanceBean>("delay", parseUtil));
 		result.add(new SingleMapString<ConfluenceInstanceBean>("password"));
 		result.add(new SingleMapBoolean<ConfluenceInstanceBean>("shared", parseUtil));
 		result.add(new SingleMapInteger<ConfluenceInstanceBean>("expire", parseUtil));

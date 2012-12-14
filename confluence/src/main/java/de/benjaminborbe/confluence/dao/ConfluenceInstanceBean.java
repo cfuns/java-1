@@ -31,6 +31,8 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 
 	private UserIdentifier owner;
 
+	private Long delay;
+
 	@Override
 	public ConfluenceInstanceIdentifier getId() {
 		return id;
@@ -111,6 +113,15 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 
 	public void setShared(final Boolean shared) {
 		this.shared = shared;
+	}
+
+	@Override
+	public Long getDelay() {
+		return delay;
+	}
+
+	public void setDelay(final Long delay) {
+		this.delay = delay;
 	}
 
 }

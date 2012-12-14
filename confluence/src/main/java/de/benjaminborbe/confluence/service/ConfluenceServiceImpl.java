@@ -85,7 +85,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final int expire, final boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createConfluenceIntance");
@@ -99,6 +99,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setPassword(password);
 			confluenceInstance.setExpire(expire);
 			confluenceInstance.setShared(shared);
+			confluenceInstance.setDelay(delay);
 			confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
 
 			final ValidationResult errors = validationExecutor.validate(confluenceInstance);
@@ -126,8 +127,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final int expire, final boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+			final String username, final String password, final int expire, final boolean shared, final long delay) throws ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateConfluenceIntance");
@@ -138,6 +139,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setUsername(username);
 			confluenceInstance.setExpire(expire);
 			confluenceInstance.setShared(shared);
+			confluenceInstance.setDelay(delay);
 
 			if (confluenceInstance.getOwner() == null) {
 				confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));

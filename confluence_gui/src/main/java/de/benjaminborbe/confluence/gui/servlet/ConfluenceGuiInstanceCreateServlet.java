@@ -99,12 +99,13 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			final String password = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD);
 			final String expire = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE);
 			final String shared = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED);
+			final String delay = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
-			if (url != null && username != null && password != null && expire != null) {
+			if (url != null && username != null && password != null && expire != null && delay != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared);
+					createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared, delay);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -124,6 +125,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_USERNAME).addLabel("Username:").addPlaceholder("username..."));
 			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password:").addPlaceholder("password..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue("7"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY).addLabel("Delay in milliseconds:").addDefaultValue("300"));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addDefaultValue(Boolean.TRUE));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
@@ -140,7 +142,8 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final String expireString, final String sharedString) throws ValidationException, ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+			final String expireString, final String sharedString, final String delayString) throws ValidationException, ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		int expire = 0;
 		{
@@ -152,13 +155,23 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
+		long delay = 0;
+		{
+			try {
+				delay = parseUtil.parseInt(delayString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal delay"));
+			}
+		}
+
 		final boolean shared = parseUtil.parseBoolean(sharedString, false);
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			return confluenceService.createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared);
+			return confluenceService.createConfluenceIntance(sessionIdentifier, url, username, password, expire, shared, delay);
 		}
 	}
 

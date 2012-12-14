@@ -17,7 +17,6 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringOnlyLetters;
 
 public class TaskValidator implements Validator<TaskBean> {
 
@@ -48,7 +47,6 @@ public class TaskValidator implements Validator<TaskBean> {
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));
-			constraints.add(new ValidationConstraintStringOnlyLetters());
 			result.addAll(validationConstraintValidator.validate("name", name, constraints));
 		}
 

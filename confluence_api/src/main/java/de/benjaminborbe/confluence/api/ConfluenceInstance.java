@@ -12,4 +12,6 @@ public interface ConfluenceInstance {
 
 	Boolean getShared();
 
+	Long getDelay();
+
 }

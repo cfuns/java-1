@@ -29,4 +29,6 @@ public interface ConfluenceGuiConstants {
 	String PARAMETER_INSTANCE_EXPIRE = "instance_expire";
 
 	String PARAMETER_INSTANCE_SHARED = "instance_shared";
+
+	String PARAMETER_INSTANCE_DELAY = "instance_delay";
 }

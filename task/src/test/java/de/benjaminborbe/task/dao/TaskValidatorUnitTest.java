@@ -2,8 +2,7 @@ package de.benjaminborbe.task.dao;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.*;
 import java.util.Calendar;
 
 import org.junit.Test;
@@ -19,7 +18,47 @@ import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 public class TaskValidatorUnitTest {
 
 	@Test
+	public void testValidName() throws Exception {
+		final TaskValidator taskValidator = getValidator();
+		{
+			final TaskBean task = buildTask("bla", 1, 2);
+			assertThat(taskValidator.validate(task).size(), is(0));
+		}
+		{
+			final TaskBean task = buildTask("bla bla", 1, 2);
+			assertThat(taskValidator.validate(task).size(), is(0));
+		}
+	}
+
+	@Test
 	public void testDueGreaterThanStart() {
+		final TaskValidator taskValidator = getValidator();
+
+		{
+			final TaskBean task = buildTask("bla", 1, 2);
+			assertThat(task.getStart(), is(notNullValue()));
+			assertThat(task.getDue(), is(notNullValue()));
+			assertThat(taskValidator.validate(task).size(), is(0));
+		}
+		{
+			final TaskBean task = buildTask("bla", 1, 1);
+			assertThat(taskValidator.validate(task).size(), is(0));
+		}
+		{
+			final TaskBean task = buildTask("bla", null, 1);
+			assertThat(taskValidator.validate(task).size(), is(0));
+		}
+		{
+			final TaskBean task = buildTask("bla", 1, null);
+			assertThat(taskValidator.validate(task).size(), is(0));
+		}
+		{
+			final TaskBean task = buildTask("bla", 2, 1);
+			assertThat(taskValidator.validate(task).size(), is(1));
+		}
+	}
+
+	private TaskValidator getValidator() {
 		final TimeZoneUtil timeZoneUtil = null;
 		final ParseUtil parseUtil = null;
 		final CurrentTime currentTime = null;
@@ -27,34 +66,12 @@ public class TaskValidatorUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final ValidationConstraintValidator v = new ValidationConstraintValidator();
 		final TaskValidator taskValidator = new TaskValidator(calendarUtil, v);
-
-		{
-			final TaskBean task = buildTask(1, 2);
-			assertThat(task.getStart(), is(notNullValue()));
-			assertThat(task.getDue(), is(notNullValue()));
-			assertThat(taskValidator.validate(task).size(), is(0));
-		}
-		{
-			final TaskBean task = buildTask(1, 1);
-			assertThat(taskValidator.validate(task).size(), is(0));
-		}
-		{
-			final TaskBean task = buildTask(null, 1);
-			assertThat(taskValidator.validate(task).size(), is(0));
-		}
-		{
-			final TaskBean task = buildTask(1, null);
-			assertThat(taskValidator.validate(task).size(), is(0));
-		}
-		{
-			final TaskBean task = buildTask(2, 1);
-			assertThat(taskValidator.validate(task).size(), is(1));
-		}
+		return taskValidator;
 	}
 
-	private TaskBean buildTask(final Integer start, final Integer due) {
+	private TaskBean buildTask(final String name, final Integer start, final Integer due) {
 		final TaskBean task = new TaskBean();
-		task.setName("bla");
+		task.setName(name);
 		task.setStart(buildCalendar(start));
 		task.setDue(buildCalendar(due));
 		return task;

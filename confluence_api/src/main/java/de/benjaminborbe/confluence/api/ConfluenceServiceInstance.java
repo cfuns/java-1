@@ -14,11 +14,11 @@ public interface ConfluenceServiceInstance {
 
 	Collection<ConfluenceInstance> getConfluenceInstances(SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException;
 
-	ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, String url, String username, String password, int expire, boolean shared)
-			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+	ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, String url, String username, String password, int expire, boolean shared,
+			long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, ConfluenceInstanceIdentifier confluenceInstanceIdentifier, String url, String username, String password,
-			int expire, boolean shared) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+			int expire, boolean shared, long delay) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	void deleteConfluenceInstance(final SessionIdentifier sessionIdentifier, ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
 			LoginRequiredException, PermissionDeniedException;

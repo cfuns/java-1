@@ -103,16 +103,17 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			final String password = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD);
 			final String expire = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE);
 			final String shared = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED);
+			final String delay = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(sessionIdentifier, id);
 
 			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 
-			if (url != null && username != null && password != null && expire != null) {
+			if (url != null && username != null && password != null && expire != null && delay != null) {
 				try {
 
-					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, PASSWORD_FAKE.equals(password) ? "" : password, expire, shared);
+					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, PASSWORD_FAKE.equals(password) ? "" : password, expire, shared, delay);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -135,6 +136,8 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password:").addDefaultValue(PASSWORD_FAKE));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue(
 					confluenceInstance.getExpire()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY).addLabel("Delay in milliseconds:").addDefaultValue(
+					confluenceInstance.getDelay()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addLabel("Shared:").addDefaultValue(confluenceInstance.getShared()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
@@ -151,8 +154,8 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	private void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final String expireString, final String sharedString) throws ValidationException, ConfluenceServiceException,
-			LoginRequiredException, PermissionDeniedException {
+			final String username, final String password, final String expireString, final String sharedString, final String delayString) throws ValidationException,
+			ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 
 		int expire = 0;
@@ -165,13 +168,23 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
+		long delay = 0;
+		{
+			try {
+				delay = parseUtil.parseInt(delayString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal delay"));
+			}
+		}
+
 		final boolean shared = parseUtil.parseBoolean(sharedString, false);
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire, shared);
+			confluenceService.updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, password, expire, shared, delay);
 		}
 	}
 
