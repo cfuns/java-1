@@ -119,9 +119,13 @@ public class ConfluenceRefresher {
 		final String password = confluenceInstanceBean.getPassword();
 		final String token = confluenceConnector.login(confluenceBaseUrl, username, password);
 		final Collection<String> spaceKeys = confluenceConnector.getSpaceKeys(confluenceBaseUrl, token);
+		logger.debug("found " + spaceKeys.size() + " spaces in " + confluenceBaseUrl);
 		for (final String spaceKey : spaceKeys) {
+			logger.debug("process space " + spaceKey);
 			final Collection<ConfluenceConnectorPage> pages = confluenceConnector.getPages(confluenceBaseUrl, token, spaceKey);
+			logger.debug("found " + pages.size() + " pages in space " + spaceKey);
 			for (final ConfluenceConnectorPage page : pages) {
+				logger.debug("process page " + page.getTitle());
 				try {
 					// check expire
 					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), indexName, page.getPageId());
