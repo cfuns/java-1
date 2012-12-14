@@ -62,6 +62,8 @@ public class ConfluenceRefresher {
 	// 1 day
 	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
 
+	private static final long DEFAULT_DELAY = 0;
+
 	private final Logger logger;
 
 	private final IndexerService indexerService;
@@ -103,7 +105,7 @@ public class ConfluenceRefresher {
 	}
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
-
+		final long delay = getDelay(confluenceInstanceBean);
 		final String indexName;
 		if (Boolean.TRUE.equals(confluenceInstanceBean.getShared())) {
 			indexName = confluenceIndexUtil.indexShared();
@@ -138,6 +140,13 @@ public class ConfluenceRefresher {
 						pageBean.setOwner(confluenceInstanceBean.getOwner());
 						pageBean.setInstanceId(confluenceInstanceBean.getId());
 						confluencePageDao.save(pageBean);
+
+						// Throttle crawling
+						try {
+							Thread.sleep(delay);
+						}
+						catch (final InterruptedException e) {
+						}
 					}
 				}
 				catch (final IndexerServiceException e) {
@@ -148,6 +157,13 @@ public class ConfluenceRefresher {
 				}
 			}
 		}
+	}
+
+	private long getDelay(final ConfluenceInstanceBean confluenceInstanceBean) {
+		if (confluenceInstanceBean.getDelay() != null && confluenceInstanceBean.getDelay() >= 0) {
+			return confluenceInstanceBean.getDelay();
+		}
+		return DEFAULT_DELAY;
 	}
 
 	private boolean isExpired(final ConfluenceInstanceBean confluenceInstanceBean, final ConfluencePageBean pageBean) {
