@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.task.gui.guice.TaskGuiModules;
 import de.benjaminborbe.task.gui.service.TaskGuiDashboardWidget;
@@ -32,6 +31,7 @@ import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUpdateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskViewServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTasksCompletedServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTasksUncompletedServlet;
+import de.benjaminborbe.task.gui.util.TaskGuiNavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -97,6 +97,9 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Inject
 	private TaskGuiSpecialSearch taskGuiSpecialSearch;
 
+	@Inject
+	private TaskGuiNavigationEntry taskGuiNavigationEntry;
+
 	public TaskGuiActivator() {
 		super(TaskGuiConstants.NAME);
 	}
@@ -132,7 +135,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Task", "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKS_NEXT)));
+		result.add(new ServiceInfo(NavigationEntry.class, taskGuiNavigationEntry));
 		result.add(new ServiceInfo(DashboardContentWidget.class, taskGuiDashboardWidget, taskGuiDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, taskGuiSpecialSearch, taskGuiSpecialSearch.getClass().getName()));
 		return result;

@@ -14,8 +14,8 @@ import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiDeletePostServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiLatestPostsServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiUpdatePostServlet;
+import de.benjaminborbe.blog.gui.util.BlogGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -38,6 +38,9 @@ public class BlogGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private BlogGuiDeletePostServlet blogGuiDeletePostServlet;
+
+	@Inject
+	private BlogGuiNavigationEntry blogGuiNavigationEntry;
 
 	public BlogGuiActivator() {
 		super(BlogGuiConstants.NAME);
@@ -62,7 +65,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Blog", "/" + BlogGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, blogGuiNavigationEntry));
 		return result;
 	}
 

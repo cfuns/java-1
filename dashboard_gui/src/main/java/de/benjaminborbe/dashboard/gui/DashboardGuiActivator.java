@@ -15,8 +15,8 @@ import de.benjaminborbe.dashboard.gui.guice.DashboardGuiModules;
 import de.benjaminborbe.dashboard.gui.service.DashboardGuiWidgetRegistry;
 import de.benjaminborbe.dashboard.gui.service.DashboardGuiWidgetServiceTracker;
 import de.benjaminborbe.dashboard.gui.servlet.DashboardGuiServlet;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -33,6 +33,9 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private DashboardGuiServlet dashboardServlet;
+
+	@Inject
+	private DashboardGuiNavigationEntry dashboardGuiNavigationEntry;
 
 	public DashboardGuiActivator() {
 		super(DashboardGuiConstants.NAME);
@@ -61,7 +64,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardWidget.class, dashboardWidget));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Dashboard", "/" + DashboardGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, dashboardGuiNavigationEntry));
 		return result;
 	}
 

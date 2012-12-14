@@ -25,8 +25,8 @@ import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupDeleteServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupListServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiGroupUpdateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiImageServlet;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -83,6 +83,9 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Inject
 	private GalleryGuiGroupListServlet galleryGuiGroupListServlet;
 
+	@Inject
+	private GalleryGuiNavigationEntry galleryGuiNavigationEntry;
+
 	public GalleryGuiActivator() {
 		super(GalleryGuiConstants.NAME);
 	}
@@ -117,7 +120,7 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Gallery", "/" + GalleryGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, galleryGuiNavigationEntry));
 		return result;
 	}
 

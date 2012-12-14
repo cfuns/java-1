@@ -11,8 +11,9 @@ import com.google.inject.Inject;
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
+import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
+import de.benjaminborbe.lunch.gui.util.LunchGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -26,6 +27,12 @@ public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private LunchGuiArchivServlet lunchGuiArchivServlet;
+
+	@Inject
+	private LunchGuiArchivNavigationEntry lunchGuiArchivNavigationEntry;
+
+	@Inject
+	private LunchGuiNavigationEntry lunchGuiNavigationEntry;
 
 	public LunchGuiActivator() {
 		super(LunchGuiConstants.NAME);
@@ -61,8 +68,8 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen", "/" + LunchGuiConstants.NAME)));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Mittagessen Archiv", "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV)));
+		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNavigationEntry));
+		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiArchivNavigationEntry));
 		return result;
 	}
 }

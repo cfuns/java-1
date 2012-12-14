@@ -11,7 +11,6 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.guice.SearchGuiModules;
@@ -23,6 +22,7 @@ import de.benjaminborbe.search.gui.servlet.SearchGuiOsdServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiServiceComponentsServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiSuggestServlet;
+import de.benjaminborbe.search.gui.util.SearchGuiNavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -54,6 +54,9 @@ public class SearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private SearchGuiHelpServlet searchHelpServlet;
+
+	@Inject
+	private SearchGuiNavigationEntry searchGuiNavigationEntry;
 
 	public SearchGuiActivator() {
 		super(SearchGuiConstants.NAME);
@@ -87,7 +90,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchWidget.class, searchWidget));
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Search", "/" + SearchGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, searchGuiNavigationEntry));
 		return result;
 	}
 

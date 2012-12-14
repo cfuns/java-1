@@ -9,7 +9,6 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationEntryImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -26,6 +25,7 @@ import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceCreateServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceDeleteServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceEditServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceListServlet;
+import de.benjaminborbe.wiki.gui.util.WikiGuiNavigationEntry;
 
 public class WikiGuiActivator extends HttpBundleActivator {
 
@@ -59,6 +59,9 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	@Inject
 	private WikiGuiSpaceListServlet wikiGuiSpaceListServlet;
 
+	@Inject
+	private WikiGuiNavigationEntry wikiGuiNavigationEntry;
+
 	public WikiGuiActivator() {
 		super(WikiGuiConstants.NAME);
 	}
@@ -87,7 +90,7 @@ public class WikiGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(NavigationEntry.class, new NavigationEntryImpl("Wiki", "/" + WikiGuiConstants.NAME)));
+		result.add(new ServiceInfo(NavigationEntry.class, wikiGuiNavigationEntry));
 		return result;
 	}
 
