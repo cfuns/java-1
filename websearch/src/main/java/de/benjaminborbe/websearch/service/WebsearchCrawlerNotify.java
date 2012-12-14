@@ -91,10 +91,9 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		final Collection<String> links = htmlUtil.parseLinks(result.getContent());
 		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
-			final String linkLower = link.toLowerCase().trim();
 			try {
-				if (!linkLower.startsWith("javascript:")) {
-					final URL url = buildUrl(result.getUrl(), link);
+				if (isValidLink(link)) {
+					final URL url = buildUrl(result.getUrl(), link.trim());
 					logger.trace("found page: " + url.toExternalForm());
 					pageDao.findOrCreate(url);
 				}
@@ -106,6 +105,17 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 				logger.debug("StorageException", e);
 			}
 		}
+	}
+
+	private boolean isValidLink(final String link) {
+		final String linkLower = link.toLowerCase().trim();
+		if (linkLower.startsWith("javascript:")) {
+			return false;
+		}
+		if (linkLower.startsWith("feed:")) {
+			return false;
+		}
+		return true;
 	}
 
 	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
