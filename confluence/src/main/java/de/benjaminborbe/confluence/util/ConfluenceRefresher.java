@@ -62,7 +62,7 @@ public class ConfluenceRefresher {
 	// 1 day
 	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
 
-	private static final long DEFAULT_DELAY = 0;
+	private static final long DEFAULT_DELAY = 300;
 
 	private final Logger logger;
 

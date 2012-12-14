@@ -42,6 +42,14 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 					// check age > EXPIRE
 					if (isExpired(time, page, pageConfigurations)) {
 						logger.debug("url " + page.getId() + " is expired");
+
+						final long delay = getDelay(pageConfigurations);
+						try {
+							Thread.sleep(delay);
+						}
+						catch (final InterruptedException e) {
+						}
+
 						return true;
 					}
 					else {
@@ -62,6 +70,8 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 	// 1 day
 	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
 
+	private static final long DEFAULT_DELAY = 300;
+
 	private final Logger logger;
 
 	private final WebsearchPageDao pageDao;
@@ -76,6 +86,15 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		this.pageDao = pageDao;
 		this.configurationDao = configurationDao;
 		this.calendarUtil = calendarUtil;
+	}
+
+	public long getDelay(final List<WebsearchConfigurationBean> pageConfigurations) {
+		for (final WebsearchConfigurationBean configuration : pageConfigurations) {
+			if (configuration.getDelay() != null && configuration.getDelay() >= 0) {
+				return configuration.getDelay();
+			}
+		}
+		return DEFAULT_DELAY;
 	}
 
 	@Override
