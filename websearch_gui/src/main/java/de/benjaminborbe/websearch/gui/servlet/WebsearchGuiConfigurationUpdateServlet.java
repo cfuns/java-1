@@ -39,6 +39,7 @@ import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -106,7 +107,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchConfiguration websearchConfiguration = websearchService.getConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
 
-			if (id != null && url != null && excludes != null && expire != null && delay != null && activated != null) {
+			if (id != null && url != null && excludes != null && expire != null && delay != null) {
 				try {
 					updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire, delay, activated);
 
@@ -133,6 +134,8 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 					.addDefaultValue(websearchConfiguration.getExpire()).addPlaceholder("7"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY).addLabel("Delay in milliseconds:").addDefaultValue(
 					websearchConfiguration.getDelay()));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").addDefaultValue(
+					websearchConfiguration.getActivated()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;

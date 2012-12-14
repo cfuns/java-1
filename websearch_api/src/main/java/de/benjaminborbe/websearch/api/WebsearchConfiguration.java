@@ -18,4 +18,6 @@ public interface WebsearchConfiguration {
 	Integer getExpire();
 
 	Long getDelay();
+
+	Boolean getActivated();
 }

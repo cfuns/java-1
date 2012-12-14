@@ -111,7 +111,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 
 			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 
-			if (url != null && username != null && password != null && expire != null && delay != null && activated != null) {
+			if (url != null && username != null && password != null && expire != null && delay != null) {
 				try {
 
 					updateConfluenceIntance(sessionIdentifier, confluenceInstanceIdentifier, url, username, PASSWORD_FAKE.equals(password) ? "" : password, expire, shared, delay, activated);
@@ -140,6 +140,8 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY).addLabel("Delay in milliseconds:").addDefaultValue(
 					confluenceInstance.getDelay()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addLabel("Shared:").addDefaultValue(confluenceInstance.getShared()));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ACTIVATED).addLabel("Activated:").addDefaultValue(
+					confluenceInstance.getActivated()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;

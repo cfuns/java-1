@@ -102,7 +102,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			final String activated = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_ACTIVATED);
 			final String delay = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY);
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
-			if (url != null && username != null && password != null && expire != null && delay != null && activated != null) {
+			if (url != null && username != null && password != null && expire != null && delay != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
@@ -127,7 +127,8 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputPasswordWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_PASSWORD).addLabel("Password:").addPlaceholder("password..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_EXPIRE).addLabel("Expire in days:").addDefaultValue("7"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY).addLabel("Delay in milliseconds:").addDefaultValue("300"));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addDefaultValue(Boolean.TRUE));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addLabel("Shared:").addDefaultValue(Boolean.TRUE));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ACTIVATED).addLabel("Activated:").addDefaultValue(Boolean.TRUE));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;

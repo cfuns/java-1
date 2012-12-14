@@ -37,6 +37,7 @@ import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -98,7 +99,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			final String delay = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY);
 			final String activated = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED);
 			final String referer = request.getParameter(WebsearchGuiConstants.PARAMETER_REFERER);
-			if (url != null && excludes != null && expire != null && delay != null && activated != null) {
+			if (url != null && excludes != null && expire != null && delay != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
@@ -122,6 +123,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue("?"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire in days:").addDefaultValue("7"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY).addLabel("Delay in milliseconds:").addDefaultValue("300"));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").addDefaultValue(Boolean.TRUE));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
