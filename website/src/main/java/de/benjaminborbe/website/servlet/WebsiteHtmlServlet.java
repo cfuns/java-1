@@ -43,6 +43,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.widget.ClearFloatWidget;
 import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
 
@@ -146,6 +147,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(navigationWidget);
 		widgets.add(createLoginStatusWidget(request, response, context));
+		widgets.add(new ClearFloatWidget());
 		return widgets;
 	}
 
