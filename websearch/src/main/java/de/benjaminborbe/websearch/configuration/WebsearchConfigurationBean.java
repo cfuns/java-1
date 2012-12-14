@@ -30,6 +30,8 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 
 	private Integer expire;
 
+	private Long delay;
+
 	@Override
 	public WebsearchConfigurationIdentifier getId() {
 		return id;
@@ -87,12 +89,22 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 		this.owner = owner;
 	}
 
+	@Override
 	public Integer getExpire() {
 		return expire;
 	}
 
-	public void setExpire(Integer expire) {
+	public void setExpire(final Integer expire) {
 		this.expire = expire;
+	}
+
+	@Override
+	public Long getDelay() {
+		return delay;
+	}
+
+	public void setDelay(final Long delay) {
+		this.delay = delay;
 	}
 
 }

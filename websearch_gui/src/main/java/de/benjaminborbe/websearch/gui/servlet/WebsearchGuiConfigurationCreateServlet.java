@@ -95,12 +95,13 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			final String url = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL);
 			final String excludes = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES);
 			final String expire = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE);
+			final String delay = request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY);
 			final String referer = request.getParameter(WebsearchGuiConstants.PARAMETER_REFERER);
-			if (url != null && excludes != null && expire != null) {
+			if (url != null && excludes != null && expire != null && delay != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					createConfiguration(sessionIdentifier, url, excludes, expire);
+					createConfiguration(sessionIdentifier, url, excludes, expire, delay);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -119,6 +120,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL).addLabel("Url:").addPlaceholder("http://..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue("?"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire in days:").addDefaultValue("7"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY).addLabel("Delay in milliseconds:").addDefaultValue("300"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -134,7 +136,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final String urlString, final String excludesString,
-			final String expireString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String expireString, final String delayString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		URL url;
 		{
@@ -146,6 +148,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 				errors.add(new ValidationErrorSimple("illegal url"));
 			}
 		}
+
 		final List<String> excludes = new ArrayList<String>();
 		{
 			if (excludesString != null) {
@@ -160,6 +163,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 				errors.add(new ValidationErrorSimple("illegal excludes"));
 			}
 		}
+
 		int expire = 0;
 		{
 			try {
@@ -169,11 +173,22 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 				errors.add(new ValidationErrorSimple("illegal expire"));
 			}
 		}
+
+		long delay = 0;
+		{
+			try {
+				delay = parseUtil.parseInt(delayString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal delay"));
+			}
+		}
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			return websearchService.createConfiguration(sessionIdentifier, url, excludes, expire);
+			return websearchService.createConfiguration(sessionIdentifier, url, excludes, expire, delay);
 		}
 	}
 

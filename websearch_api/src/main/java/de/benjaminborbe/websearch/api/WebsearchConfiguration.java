@@ -16,4 +16,6 @@ public interface WebsearchConfiguration {
 	UserIdentifier getOwner();
 
 	Integer getExpire();
+
+	Long getDelay();
 }

@@ -38,4 +38,6 @@ public interface WebsearchGuiConstants {
 
 	String PARAMETER_CONFIGURATION_EXPIRE = "configuration_expire";
 
+	String PARAMETER_CONFIGURATION_DELAY = "configuration_delay";
+
 }
