@@ -259,6 +259,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public E load(final I id) throws StorageException {
+		if (id == null) {
+			throw new NullPointerException("can't load without id");
+		}
 		return load(id.getId());
 	}
 

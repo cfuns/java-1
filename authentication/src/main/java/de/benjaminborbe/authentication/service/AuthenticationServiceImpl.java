@@ -397,6 +397,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean isSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
 		final UserIdentifier currentUser = getCurrentUser(sessionIdentifier);
+		if (currentUser == null) {
+			return false;
+		}
 		return isSuperAdmin(currentUser);
 	}
 
