@@ -3,6 +3,7 @@ package de.benjaminborbe.googlesearch.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.easymock.EasyMock;
@@ -77,7 +78,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, htmlUtil, urlUtil);
-		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(new String[] { "crawler", "java" })
+		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(Arrays.asList("crawler", "java"))
 				.toExternalForm());
 
 	}

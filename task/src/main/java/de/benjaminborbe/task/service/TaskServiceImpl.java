@@ -70,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
 
 		private final Task task;
 
-		private FilterRunnable(Collection<TaskContextIdentifier> taskContextIdentifiers, ThreadResult<Task> threadResult, Task task) {
+		private FilterRunnable(final Collection<TaskContextIdentifier> taskContextIdentifiers, final ThreadResult<Task> threadResult, final Task task) {
 			this.taskContextIdentifiers = taskContextIdentifiers;
 			this.threadResult = threadResult;
 			this.task = task;
@@ -944,7 +944,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws TaskServiceException, LoginRequiredException {
+	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException {
 		final List<Task> beans = getTasksNotCompleted(sessionIdentifier);
 		final BeanSearcher<Task> beanSearch = new TaskSearcher();
 		final List<BeanMatch<Task>> matches = beanSearch.search(beans, limit, words);

@@ -29,7 +29,7 @@ public class SearchServiceImpl implements SearchService {
 
 		private final SessionIdentifier sessionIdentifier;
 
-		private final String[] words;
+		private final List<String> words;
 
 		private final int maxResults;
 
@@ -40,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
 				final ThreadResult<List<SearchResult>> threadResult,
 				final SessionIdentifier sessionIdentifier,
 				final String query,
-				final String[] words,
+				final List<String> words,
 				final int maxResults) {
 			this.searchServiceComponent = searchServiceComponent;
 			this.threadResult = threadResult;
@@ -82,7 +82,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
 		logger.trace("search words: " + StringUtils.join(words, ","));
 
 		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());

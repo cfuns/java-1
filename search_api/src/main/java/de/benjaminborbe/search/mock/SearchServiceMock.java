@@ -10,7 +10,7 @@ import de.benjaminborbe.search.api.SearchService;
 public class SearchServiceMock implements SearchService {
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
 		return new ArrayList<SearchResult>();
 	}
 

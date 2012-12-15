@@ -1,5 +1,8 @@
 package de.benjaminborbe.tools.search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.inject.Inject;
 
 public class SearchUtil {
@@ -8,12 +11,16 @@ public class SearchUtil {
 	public SearchUtil() {
 	}
 
-	public String[] buildSearchParts(final String searchQuery) {
-		if (searchQuery == null) {
-			return new String[0];
+	public List<String> buildSearchParts(final String searchQuery) {
+		final List<String> result = new ArrayList<String>();
+		if (searchQuery != null) {
+			for (final String part : searchQuery.toLowerCase().replaceAll("[^a-z0-9]", " ").split("\\s+")) {
+				final String partTrim = part.trim();
+				if (partTrim.length() > 0) {
+					result.add(partTrim);
+				}
+			}
 		}
-		else {
-			return searchQuery.toLowerCase().replaceAll("[^a-z0-9]", " ").split("\\s+");
-		}
+		return result;
 	}
 }

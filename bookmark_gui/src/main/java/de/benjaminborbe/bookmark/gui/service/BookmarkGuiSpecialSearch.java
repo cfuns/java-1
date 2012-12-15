@@ -62,7 +62,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
-			final String[] words = searchUtil.buildSearchParts(searchQuery.substring(searchQuery.indexOf(":") + 1).trim());
+			final List<String> words = searchUtil.buildSearchParts(searchQuery.substring(searchQuery.indexOf(":") + 1).trim());
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<BookmarkMatch> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, 1, words);
 			if (bookmarks.size() > 0) {

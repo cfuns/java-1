@@ -92,7 +92,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 				response.sendRedirect(taskGuiLinkFactory.tasksNextUrl(request));
 				return;
 			}
-			final String[] words = searchUtil.buildSearchParts(term);
+			final List<String> words = searchUtil.buildSearchParts(term);
 			final List<TaskMatch> tasks = taskService.searchTasks(sessionIdentifier, 1, words);
 			if (tasks.size() > 0) {
 				response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, tasks.get(0).getTask().getId()));

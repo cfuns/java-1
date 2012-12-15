@@ -57,7 +57,7 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final String... words) throws BookmarkServiceException, LoginRequiredException {
+	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws BookmarkServiceException, LoginRequiredException {
 		return null;
 	}
 

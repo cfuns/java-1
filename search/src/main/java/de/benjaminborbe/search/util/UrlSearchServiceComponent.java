@@ -29,7 +29,7 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		try {

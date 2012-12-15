@@ -77,7 +77,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final String... words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
 		logger.trace("search");
 		final String searchString = StringUtils.join(words, " ");
 		final List<IndexSearchResult> indexResults = new ArrayList<IndexSearchResult>();

@@ -102,9 +102,9 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			logger.trace("render");
 			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
 			logger.trace("searchQuery: " + searchQuery);
+
 			final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
 			if (searchGuiSpecialSearch != null) {
 				logger.trace("found special search");
@@ -116,11 +116,14 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			}
 
 			printSearchForm(request, response, context);
-			final String[] words = searchUtil.buildSearchParts(searchQuery);
-			SessionIdentifier sessionIdentifier;
-			sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS, words);
-			printSearchResults(request, response, context, results, words);
+
+			final List<String> words = searchUtil.buildSearchParts(searchQuery);
+			if (words.size() > 0) {
+				SessionIdentifier sessionIdentifier;
+				sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS, words);
+				printSearchResults(request, response, context, results, words);
+			}
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -140,7 +143,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	}
 
 	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final List<SearchResult> results,
-			final String[] words) throws IOException {
+			final List<String> words) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<div class=\"resultcounter\">");
 		final long now = getNowAsLong();
@@ -163,7 +166,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		searchDashboardWidget.render(request, response, context);
 	}
 
-	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final String[] words) throws IOException {
+	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final List<String> words) throws IOException {
 		try {
 			final PrintWriter out = response.getWriter();
 			final URL url = urlUtil.buildUrl(request, result.getUrl());

@@ -52,10 +52,10 @@ public abstract class BeanSearcher<B> {
 
 	private static final int COUNTER_LIMIT = 5;
 
-	public List<BeanMatch<B>> search(final Collection<B> beans, final int limit, final String... parts) {
+	public List<BeanMatch<B>> search(final Collection<B> beans, final int limit, final List<String> words) {
 		final List<Match> matches = new ArrayList<Match>();
 		for (final B bean : new HashSet<B>(beans)) {
-			final int counter = match(bean, parts);
+			final int counter = match(bean, words);
 			if (counter > 0) {
 				final Match match = new Match(bean, counter);
 				matches.add(match);
@@ -77,9 +77,9 @@ public abstract class BeanSearcher<B> {
 		return result;
 	}
 
-	private int match(final B bean, final String... searchTerms) {
+	private int match(final B bean, final List<String> words) {
 		int counter = 0;
-		for (final String searchTerm : searchTerms) {
+		for (final String searchTerm : words) {
 			if (searchTerm != null && searchTerm.length() >= SEARCH_TERM_MIN_LENGTH) {
 				counter += match(bean, searchTerm);
 			}

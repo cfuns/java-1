@@ -25,17 +25,20 @@ public class SearchGuiSpecialSearchFactoryImpl implements SearchGuiSpecialSearch
 	@Override
 	public SearchSpecial findSpecial(final String searchQuery) {
 		logger.trace("searchQuery: " + searchQuery);
-		if (searchQuery != null && searchQuery.matches("^[a-zA-Z]+:.*?")) {
-			final String name = searchQuery.substring(0, searchQuery.indexOf(":"));
-			logger.trace("searchQuery request name: " + name);
-			final Collection<SearchSpecial> list = searchGuiSpecialSearchRegistry.getAll();
-			logger.trace("found " + list.size() + " special search");
-			for (final SearchSpecial searchGuiSpecialSearch : list) {
-				for (final String searchName : searchGuiSpecialSearch.getNames()) {
-					logger.trace("try " + searchName);
-					if (name.equalsIgnoreCase(searchName)) {
-						logger.trace("found special search");
-						return searchGuiSpecialSearch;
+		if (searchQuery != null) {
+			final String searchQueryTrim = searchQuery.trim();
+			if (searchQueryTrim.trim().length() > 0 && searchQueryTrim.matches("^[a-zA-Z]+:.*?")) {
+				final String name = searchQueryTrim.substring(0, searchQueryTrim.indexOf(":"));
+				logger.trace("searchTrim request name: " + name);
+				final Collection<SearchSpecial> list = searchGuiSpecialSearchRegistry.getAll();
+				logger.trace("found " + list.size() + " special search");
+				for (final SearchSpecial searchGuiSpecialSearch : list) {
+					for (final String searchName : searchGuiSpecialSearch.getNames()) {
+						logger.trace("try " + searchName);
+						if (name.equalsIgnoreCase(searchName)) {
+							logger.trace("found special search");
+							return searchGuiSpecialSearch;
+						}
 					}
 				}
 			}
