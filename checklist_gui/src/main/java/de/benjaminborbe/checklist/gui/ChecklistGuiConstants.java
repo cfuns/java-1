@@ -1,6 +1,6 @@
 package de.benjaminborbe.checklist.gui;
 
-public interface ChecklistGui {
+public interface ChecklistGuiConstants {
 
 	String NAME = "checklist";
 

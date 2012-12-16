@@ -10,8 +10,11 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.checklist.gui.guice.ChecklistGuiModules;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiServlet;
+import de.benjaminborbe.checklist.gui.util.ChecklistGuiNavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ChecklistGuiActivator extends HttpBundleActivator {
@@ -19,8 +22,11 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 	@Inject
 	private ChecklistGuiServlet checklistGuiServlet;
 
+	@Inject
+	private ChecklistGuiNavigationEntry checklistGuiNavigationEntry;
+
 	public ChecklistGuiActivator() {
-		super(ChecklistGui.NAME);
+		super(ChecklistGuiConstants.NAME);
 	}
 
 	@Override
@@ -32,6 +38,13 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(checklistGuiServlet, "/"));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, checklistGuiNavigationEntry));
 		return result;
 	}
 
