@@ -1,5 +1,7 @@
 package de.benjaminborbe.checklist.api;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
+
 public interface ChecklistEntry {
 
 	ChecklistEntryIdentifier getId();
@@ -7,4 +9,6 @@ public interface ChecklistEntry {
 	ChecklistListIdentifier getListId();
 
 	String getName();
+
+	UserIdentifier getOwner();
 }

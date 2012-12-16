@@ -199,3 +199,21 @@ create column family task_context_relation with
     {column_name: key_b, validation_class: UTF8Type, index_type: KEYS}
   ];
 
+drop column family checklist_list;
+create column family checklist_list with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: owner, validation_class: UTF8Type, index_type: KEYS}
+  ];
+
+drop column family checklist_entry;
+create column family checklist_entry with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: owner, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: listId, validation_class: UTF8Type, index_type: KEYS},
+  ];

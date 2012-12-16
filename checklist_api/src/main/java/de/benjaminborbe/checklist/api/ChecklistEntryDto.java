@@ -1,5 +1,7 @@
 package de.benjaminborbe.checklist.api;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
+
 public class ChecklistEntryDto implements ChecklistEntry {
 
 	private String name;
@@ -7,6 +9,8 @@ public class ChecklistEntryDto implements ChecklistEntry {
 	private ChecklistEntryIdentifier id;
 
 	private ChecklistListIdentifier listId;
+
+	private UserIdentifier owner;
 
 	@Override
 	public ChecklistEntryIdentifier getId() {
@@ -33,6 +37,15 @@ public class ChecklistEntryDto implements ChecklistEntry {
 
 	public void setListId(final ChecklistListIdentifier listId) {
 		this.listId = listId;
+	}
+
+	@Override
+	public UserIdentifier getOwner() {
+		return owner;
+	}
+
+	public void setOwner(final UserIdentifier owner) {
+		this.owner = owner;
 	}
 
 }
