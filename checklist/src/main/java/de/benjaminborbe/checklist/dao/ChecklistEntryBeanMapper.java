@@ -11,6 +11,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.SingleMap;
+import de.benjaminborbe.tools.mapper.SingleMapBoolean;
 import de.benjaminborbe.tools.mapper.SingleMapCalendar;
 import de.benjaminborbe.tools.mapper.SingleMapString;
 import de.benjaminborbe.tools.mapper.SingleMappler;
@@ -34,6 +35,7 @@ public class ChecklistEntryBeanMapper extends SingleMappler<ChecklistEntryBean> 
 		result.add(new SingleMapListIdentifier<ChecklistEntryBean>(LIST_ID));
 		result.add(new SingleMapUserIdentifier<ChecklistEntryBean>(OWNER));
 		result.add(new SingleMapString<ChecklistEntryBean>("name"));
+		result.add(new SingleMapBoolean<ChecklistEntryBean>("completed", parseUtil));
 		result.add(new SingleMapCalendar<ChecklistEntryBean>("created", timeZoneUtil, calendarUtil, parseUtil));
 		result.add(new SingleMapCalendar<ChecklistEntryBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
 		return result;

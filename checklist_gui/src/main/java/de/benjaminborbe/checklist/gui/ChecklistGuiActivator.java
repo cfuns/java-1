@@ -21,6 +21,7 @@ import de.benjaminborbe.checklist.gui.util.ChecklistGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
@@ -83,18 +84,11 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(checklistFilter, ".*", 998));
-	// return result;
-	// }
-
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// return result;
-	// }
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo(ChecklistGuiConstants.URL_IMAGES, "images"));
+		result.add(new ResourceInfo(ChecklistGuiConstants.URL_CSS, "css"));
+		return result;
+	}
 }

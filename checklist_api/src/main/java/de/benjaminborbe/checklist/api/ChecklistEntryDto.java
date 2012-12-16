@@ -12,6 +12,8 @@ public class ChecklistEntryDto implements ChecklistEntry {
 
 	private UserIdentifier owner;
 
+	private Boolean completed;
+
 	@Override
 	public ChecklistEntryIdentifier getId() {
 		return id;
@@ -46,6 +48,15 @@ public class ChecklistEntryDto implements ChecklistEntry {
 
 	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
+	}
+
+	@Override
+	public Boolean getCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(final Boolean completed) {
+		this.completed = completed;
 	}
 
 }

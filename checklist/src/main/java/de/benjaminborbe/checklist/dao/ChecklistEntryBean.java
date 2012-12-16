@@ -26,6 +26,8 @@ public class ChecklistEntryBean implements Entity<ChecklistEntryIdentifier>, Che
 
 	private UserIdentifier owner;
 
+	private Boolean completed;
+
 	@Override
 	public ChecklistEntryIdentifier getId() {
 		return id;
@@ -81,6 +83,15 @@ public class ChecklistEntryBean implements Entity<ChecklistEntryIdentifier>, Che
 
 	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
+	}
+
+	@Override
+	public Boolean getCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(final Boolean completed) {
+		this.completed = completed;
 	}
 
 }

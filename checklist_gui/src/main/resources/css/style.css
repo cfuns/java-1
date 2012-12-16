@@ -1,0 +1,3 @@
+.checklist div.completed {
+	text-decoration: line-through;
+}

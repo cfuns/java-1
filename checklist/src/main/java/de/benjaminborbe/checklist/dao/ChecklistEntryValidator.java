@@ -65,6 +65,12 @@ public class ChecklistEntryValidator implements Validator<ChecklistEntryBean> {
 			constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 			result.addAll(validationConstraintValidator.validate("owner", owner, constraints));
 		}
+		{
+			final Boolean completed = bean.getCompleted();
+			final List<ValidationConstraint<Boolean>> constraints = new ArrayList<ValidationConstraint<Boolean>>();
+			constraints.add(new ValidationConstraintNotNull<Boolean>());
+			result.addAll(validationConstraintValidator.validate("completed", completed, constraints));
+		}
 		return result;
 	}
 

@@ -37,14 +37,14 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class ChecklistGuiEntryListServlet extends WebsiteHtmlServlet {
+public class ChecklistGuiEntryListServlet extends ChecklistHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -89,7 +89,7 @@ public class ChecklistGuiEntryListServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createChecklistContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
@@ -102,11 +102,12 @@ public class ChecklistGuiEntryListServlet extends WebsiteHtmlServlet {
 			Collections.sort(entries, checklistEntryComparator);
 			for (final ChecklistEntry entry : entries) {
 				final ListWidget list = new ListWidget();
-
+				list.add(entry.getName());
+				list.add(" ");
 				list.add(linkFactory.entryUpdate(request, entry.getId()));
 				list.add(" ");
 				list.add(linkFactory.entryDelete(request, entry.getId()));
-				ul.add(list);
+				ul.add(new DivWidget(list).addClass(Boolean.TRUE.equals(entry.getCompleted()) ? "completed" : "notCompleted"));
 			}
 			widgets.add(ul);
 			widgets.add(linkFactory.entryCreate(request, id));

@@ -30,4 +30,8 @@ public interface ChecklistGuiConstants {
 
 	String PARAMETER_ENTRY_NAME = "entry_name";
 
+	String URL_IMAGES = "/images";
+
+	String URL_CSS = "/css";
+
 }

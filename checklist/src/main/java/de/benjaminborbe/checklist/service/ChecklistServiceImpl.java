@@ -298,6 +298,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 			bean.setName(checklistEntry.getName());
 			bean.setOwner(userIdentifier);
 			bean.setListId(list.getId());
+			bean.setCompleted(false);
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -417,4 +418,75 @@ public class ChecklistServiceImpl implements ChecklistService {
 		}
 	}
 
+	@Override
+	public void uncomplete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.debug("update");
+
+			final ChecklistEntryBean bean = checklistEntryDao.load(identifier);
+			authorizationService.expectUser(sessionIdentifier, bean.getOwner());
+
+			bean.setCompleted(false);
+
+			final ValidationResult errors = validationExecutor.validate(bean);
+			if (errors.hasErrors()) {
+				logger.warn("Entry " + errors.toString());
+				throw new ValidationException(errors);
+			}
+			checklistEntryDao.save(bean);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ChecklistServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void complete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.debug("update");
+
+			final ChecklistEntryBean bean = checklistEntryDao.load(identifier);
+			authorizationService.expectUser(sessionIdentifier, bean.getOwner());
+
+			bean.setCompleted(true);
+
+			final ValidationResult errors = validationExecutor.validate(bean);
+			if (errors.hasErrors()) {
+				logger.warn("Entry " + errors.toString());
+				throw new ValidationException(errors);
+			}
+			checklistEntryDao.save(bean);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ChecklistServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }

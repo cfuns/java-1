@@ -78,4 +78,14 @@ public class ChecklistServiceMock implements ChecklistService {
 		return null;
 	}
 
+	@Override
+	public void uncomplete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException {
+	}
+
+	@Override
+	public void complete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException {
+	}
+
 }

@@ -11,4 +11,6 @@ public interface ChecklistEntry {
 	String getName();
 
 	UserIdentifier getOwner();
+
+	Boolean getCompleted();
 }

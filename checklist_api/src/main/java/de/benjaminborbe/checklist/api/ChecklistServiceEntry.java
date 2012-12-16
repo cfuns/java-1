@@ -9,6 +9,12 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface ChecklistServiceEntry {
 
+	void uncomplete(SessionIdentifier sessionIdentifier, ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException,
+			ValidationException;
+
+	void complete(SessionIdentifier sessionIdentifier, ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException,
+			ValidationException;
+
 	Collection<ChecklistEntry> getEntries(SessionIdentifier sessionIdentifier, ChecklistListIdentifier checklistListIdentifier) throws ChecklistServiceException,
 			PermissionDeniedException, LoginRequiredException;
 
