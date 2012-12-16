@@ -15,9 +15,26 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringOnlyLetters;
 
 public class TaskContextValidator implements Validator<TaskContextBean> {
+
+	private final class ValidationConstrainAllowedCharacters implements ValidationConstraint<String> {
+
+		@Override
+		public boolean precondition(final String object) {
+			return object != null;
+		}
+
+		@Override
+		public boolean validate(final String object) {
+			for (final char c : object.toCharArray()) {
+				if (!Character.isLetter(c) && c != '-') {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
@@ -43,7 +60,7 @@ public class TaskContextValidator implements Validator<TaskContextBean> {
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));
-			constraints.add(new ValidationConstraintStringOnlyLetters());
+			constraints.add(new ValidationConstrainAllowedCharacters());
 			result.addAll(validationConstraintValidator.validate("name", name, constraints));
 		}
 
