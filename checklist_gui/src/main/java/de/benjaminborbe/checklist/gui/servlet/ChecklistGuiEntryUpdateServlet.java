@@ -19,6 +19,7 @@ import de.benjaminborbe.checklist.api.ChecklistEntry;
 import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
+import de.benjaminborbe.checklist.gui.ChecklistGuiConstants;
 import de.benjaminborbe.checklist.gui.util.ChecklistGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -36,6 +37,8 @@ public class ChecklistGuiEntryUpdateServlet extends ChecklistGuiEntryFormServlet
 
 	private final ChecklistService checklistService;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public ChecklistGuiEntryUpdateServlet(
 			final Logger logger,
@@ -52,6 +55,7 @@ public class ChecklistGuiEntryUpdateServlet extends ChecklistGuiEntryFormServlet
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, checklistService,
 				checklistGuiLinkFactory);
 		this.checklistService = checklistService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -74,7 +78,10 @@ public class ChecklistGuiEntryUpdateServlet extends ChecklistGuiEntryFormServlet
 	@Override
 	protected ChecklistEntry getChecklist(final HttpServletRequest request) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException,
 			AuthenticationServiceException {
-		return null;
+		final String id = request.getParameter(ChecklistGuiConstants.PARAMETER_ENTRY_ID);
+		final ChecklistEntryIdentifier checklistEntryIdentifier = new ChecklistEntryIdentifier(id);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+		return checklistService.read(sessionIdentifier, checklistEntryIdentifier);
 	}
 
 }
