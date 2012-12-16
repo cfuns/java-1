@@ -47,7 +47,7 @@ public class ChecklistGuiLinkFactory {
 	}
 
 	public Widget entryUpdate(final HttpServletRequest request, final ChecklistEntryIdentifier checklistEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_DELETE, new MapParameter().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_UPDATE, new MapParameter().add(
 				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "edit");
 	}
 
