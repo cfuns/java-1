@@ -38,4 +38,6 @@ public interface ChecklistGuiConstants {
 
 	String URL_ENTRY_UNCOMPLETE = "/entry/uncomplete";
 
+	String URL_LIST_RESET = "/list/reset";
+
 }

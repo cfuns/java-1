@@ -18,6 +18,7 @@ import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListCreateServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListDeleteServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryListServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListListServlet;
+import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListResetServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListUpdateServlet;
 import de.benjaminborbe.checklist.gui.util.ChecklistGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -28,6 +29,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ChecklistGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ChecklistGuiListResetServlet checklistGuiListResetServlet;
 
 	@Inject
 	private ChecklistGuiEntryCreateServlet checklistGuiEntryCreateServlet;
@@ -81,6 +85,7 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(checklistGuiListResetServlet, ChecklistGuiConstants.URL_LIST_RESET));
 		result.add(new ServletInfo(checklistGuiEntryCreateServlet, ChecklistGuiConstants.URL_ENTRY_CREATE));
 		result.add(new ServletInfo(checklistGuiEntryDeleteServlet, ChecklistGuiConstants.URL_ENTRY_DELETE));
 		result.add(new ServletInfo(checklistGuiEntryListServlet, ChecklistGuiConstants.URL_ENTRY_LIST));

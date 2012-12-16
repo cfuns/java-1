@@ -81,4 +81,8 @@ public class ChecklistGuiLinkFactory {
 				.addClass("icon");
 	}
 
+	public Widget listReset(final HttpServletRequest request, final ChecklistListIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_RESET, new MapParameter().add(
+				ChecklistGuiConstants.PARAMETER_LIST_ID, String.valueOf(id)), "reset").addConfirm("reset checklist?");
+	}
 }

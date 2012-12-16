@@ -93,33 +93,45 @@ public class ChecklistGuiEntryListServlet extends ChecklistHtmlServlet {
 	protected Widget createChecklistContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
+
 			final ChecklistListIdentifier id = new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID));
-			final ChecklistList checklistList = checklistService.read(sessionIdentifier, id);
-			widgets.add(new H1Widget("Checklist - " + checklistList.getName()));
-			final UlWidget ul = new UlWidget();
-			final List<ChecklistEntry> entries = Lists.newArrayList(checklistService.getEntries(sessionIdentifier, id));
-			Collections.sort(entries, checklistEntryComparator);
-			for (final ChecklistEntry entry : entries) {
-				final boolean completed = Boolean.TRUE.equals(entry.getCompleted());
-				final ListWidget list = new ListWidget();
-				if (completed) {
-					list.add(linkFactory.entryUncomplete(request, entry.getId()));
-				}
-				else {
-					list.add(linkFactory.entryComplete(request, entry.getId()));
-				}
-				list.add(" ");
-				list.add(new SpanWidget(entry.getName()).addAttribute("class", "checklistEntryTitle"));
-				list.add(" ");
-				list.add(linkFactory.entryUpdate(request, entry.getId()));
-				list.add(" ");
-				list.add(linkFactory.entryDelete(request, entry.getId()));
-				ul.add(new DivWidget(list).addClass(completed ? "completed" : "notCompleted"));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			{
+				final ChecklistList checklistList = checklistService.read(sessionIdentifier, id);
+				widgets.add(new H1Widget("Checklist - " + checklistList.getName()));
 			}
-			widgets.add(ul);
-			widgets.add(linkFactory.entryCreate(request, id));
+			{
+				final UlWidget ul = new UlWidget();
+				final List<ChecklistEntry> entries = Lists.newArrayList(checklistService.getEntries(sessionIdentifier, id));
+				Collections.sort(entries, checklistEntryComparator);
+				for (final ChecklistEntry entry : entries) {
+					final boolean completed = Boolean.TRUE.equals(entry.getCompleted());
+					final ListWidget list = new ListWidget();
+					if (completed) {
+						list.add(linkFactory.entryUncomplete(request, entry.getId()));
+					}
+					else {
+						list.add(linkFactory.entryComplete(request, entry.getId()));
+					}
+					list.add(" ");
+					list.add(new SpanWidget(entry.getName()).addAttribute("class", "checklistEntryTitle"));
+					list.add(" ");
+					list.add(linkFactory.entryUpdate(request, entry.getId()));
+					list.add(" ");
+					list.add(linkFactory.entryDelete(request, entry.getId()));
+					ul.add(new DivWidget(list).addClass(completed ? "completed" : "notCompleted"));
+				}
+				widgets.add(ul);
+			}
+			{
+				final ListWidget navi = new ListWidget();
+				navi.add(linkFactory.entryCreate(request, id));
+				navi.add(" ");
+				navi.add(linkFactory.listReset(request, id));
+				navi.add(" ");
+				widgets.add(navi);
+			}
 			return widgets;
 		}
 		catch (final ChecklistServiceException e) {

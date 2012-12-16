@@ -46,6 +46,7 @@ public class ChecklistGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_RESET);
 		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_LIST);
 		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_CREATE);
 		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_UPDATE);
