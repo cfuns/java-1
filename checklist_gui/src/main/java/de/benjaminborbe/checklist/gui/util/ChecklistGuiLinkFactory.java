@@ -14,6 +14,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.widget.ImageWidget;
 
 public class ChecklistGuiLinkFactory {
 
@@ -66,13 +67,18 @@ public class ChecklistGuiLinkFactory {
 
 	public Widget entryComplete(final HttpServletRequest request, final ChecklistEntryIdentifier checklistEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_COMPLETE, new MapParameter().add(
-				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "complete");
+				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), buildImage(request, "complete"));
 	}
 
 	public Widget entryUncomplete(final HttpServletRequest request, final ChecklistEntryIdentifier checklistEntryIdentifier) throws MalformedURLException,
 			UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_UNCOMPLETE, new MapParameter().add(
-				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "uncomplete");
+				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), buildImage(request, "uncomplete"));
+	}
+
+	private Widget buildImage(final HttpServletRequest request, final String name) {
+		return new ImageWidget(request.getContextPath() + "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_IMAGES + "/" + name + "-icon.png", 20, 20).addAlt(name)
+				.addClass("icon");
 	}
 
 }

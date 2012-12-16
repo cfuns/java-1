@@ -1,3 +1,11 @@
-.checklist div.completed .checklistEntryTitle{
+.checklist div.completed .checklistEntryTitle {
 	text-decoration: line-through;
+}
+
+.checklist ul {
+	margin: 0px;
+}
+
+.checklist li {
+	list-style-type: none;
 }
