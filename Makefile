@@ -236,3 +236,8 @@ buildnavigation:
 	cd navigation && make all
 	cd navigation_gui && make all
 	cd navigation_test && make all
+buildchecklist:
+	cd checklist_api && make all
+	cd checklist && make all
+	cd checklist_gui && make all
+	cd checklist_test && make all

@@ -7,10 +7,13 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+
 public class ChecklistOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());
 	}
