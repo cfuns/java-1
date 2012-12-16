@@ -97,15 +97,15 @@ public class ChecklistGuiListListServlet extends WebsiteHtmlServlet {
 			Collections.sort(lists, checklistListComparator);
 			for (final ChecklistList checklistList : lists) {
 				final ListWidget list = new ListWidget();
-				list.add(linkFactory.listEntries(request, checklistList));
+				list.add(linkFactory.entryList(request, checklistList.getId()));
 				list.add(" ");
-				list.add(linkFactory.updateList(request, checklistList.getId()));
+				list.add(linkFactory.listUpdate(request, checklistList.getId()));
 				list.add(" ");
-				list.add(linkFactory.deleteList(request, checklistList.getId()));
+				list.add(linkFactory.listDelete(request, checklistList.getId()));
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createList(request));
+			widgets.add(linkFactory.listCreate(request));
 			return widgets;
 		}
 		catch (final ChecklistServiceException e) {

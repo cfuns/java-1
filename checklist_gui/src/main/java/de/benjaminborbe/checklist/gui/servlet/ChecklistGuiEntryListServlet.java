@@ -95,19 +95,19 @@ public class ChecklistGuiEntryListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			final List<ChecklistEntry> entries = Lists.newArrayList(checklistService.getEntries(sessionIdentifier,
-					new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID))));
+			final ChecklistListIdentifier id = new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID));
+			final List<ChecklistEntry> entries = Lists.newArrayList(checklistService.getEntries(sessionIdentifier, id));
 			Collections.sort(entries, checklistEntryComparator);
 			for (final ChecklistEntry entry : entries) {
 				final ListWidget list = new ListWidget();
 
-				list.add(linkFactory.updateEntry(request, entry.getId()));
+				list.add(linkFactory.entryUpdate(request, entry.getId()));
 				list.add(" ");
-				list.add(linkFactory.deleteEntry(request, entry.getId()));
+				list.add(linkFactory.entryDelete(request, entry.getId()));
 				ul.add(list);
 			}
 			widgets.add(ul);
-			widgets.add(linkFactory.createEntry(request));
+			widgets.add(linkFactory.entryCreate(request, id));
 			return widgets;
 		}
 		catch (final ChecklistServiceException e) {
