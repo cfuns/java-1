@@ -4,5 +4,7 @@ public interface ChecklistEntry {
 
 	ChecklistEntryIdentifier getId();
 
+	ChecklistListIdentifier getListId();
+
 	String getName();
 }

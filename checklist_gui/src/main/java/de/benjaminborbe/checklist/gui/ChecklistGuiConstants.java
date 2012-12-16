@@ -28,4 +28,6 @@ public interface ChecklistGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
+	String PARAMETER_ENTRY_NAME = "entry_name";
+
 }
