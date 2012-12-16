@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -36,6 +37,7 @@ public class ChecklistGuiEntryCreateServlet extends ChecklistGuiEntryFormServlet
 
 	private final ChecklistService checklistService;
 
+	@Inject
 	public ChecklistGuiEntryCreateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
