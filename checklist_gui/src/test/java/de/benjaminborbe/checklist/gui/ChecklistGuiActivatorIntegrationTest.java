@@ -45,7 +45,15 @@ public class ChecklistGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/checklist");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_LIST);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_CREATE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_UPDATE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_DELETE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_LIST);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_CREATE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_UPDATE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_DELETE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

@@ -1,11 +1,15 @@
 package de.benjaminborbe.checklist.api;
 
+import java.util.Collection;
+
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface ChecklistServiceList {
+
+	Collection<ChecklistList> getLists(SessionIdentifier sessionIdentifier) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException;
 
 	void delete(SessionIdentifier sessionIdentifier, ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException;
 

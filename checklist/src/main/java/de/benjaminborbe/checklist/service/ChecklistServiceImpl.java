@@ -1,5 +1,8 @@
 package de.benjaminborbe.checklist.service;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -177,4 +180,40 @@ public class ChecklistServiceImpl implements ChecklistService {
 				logger.debug("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public Collection<ChecklistList> getLists(final SessionIdentifier sessionIdentifier) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.debug("");
+			return Arrays.asList();
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<ChecklistEntry> getEntries(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier checklistListIdentifier) throws ChecklistServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.debug("");
+			return Arrays.asList();
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
 }

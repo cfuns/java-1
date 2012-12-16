@@ -1,5 +1,7 @@
 package de.benjaminborbe.checklist.mock;
 
+import java.util.Collection;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -22,11 +24,13 @@ public class ChecklistServiceMock implements ChecklistService {
 	}
 
 	@Override
-	public void delete(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException {
+	public void delete(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException {
 	}
 
 	@Override
-	public ChecklistList read(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException {
+	public ChecklistList read(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		return null;
 	}
 
@@ -42,11 +46,13 @@ public class ChecklistServiceMock implements ChecklistService {
 	}
 
 	@Override
-	public void delete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException {
+	public void delete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException {
 	}
 
 	@Override
-	public ChecklistEntry read(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException {
+	public ChecklistEntry read(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		return null;
 	}
 
@@ -59,6 +65,17 @@ public class ChecklistServiceMock implements ChecklistService {
 	@Override
 	public void update(final SessionIdentifier sessionIdentifier, final ChecklistEntry object) throws ChecklistServiceException, PermissionDeniedException, ValidationException,
 			LoginRequiredException {
+	}
+
+	@Override
+	public Collection<ChecklistList> getLists(final SessionIdentifier sessionIdentifier) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<ChecklistEntry> getEntries(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier checklistListIdentifier) throws ChecklistServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		return null;
 	}
 
 }

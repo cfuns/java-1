@@ -14,28 +14,26 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class ChecklistGuiServlet extends WebsiteHtmlServlet {
+public class ChecklistGuiEntryCreateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Checklist";
+	private static final String TITLE = "Checklist - List-Update";
 
 	@Inject
-	public ChecklistGuiServlet(
+	public ChecklistGuiEntryCreateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final UrlUtil urlUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 	}
 
@@ -43,4 +41,5 @@ public class ChecklistGuiServlet extends WebsiteHtmlServlet {
 	protected String getTitle() {
 		return TITLE;
 	}
+
 }
