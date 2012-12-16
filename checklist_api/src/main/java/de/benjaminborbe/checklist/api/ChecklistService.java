@@ -1,6 +1,5 @@
 package de.benjaminborbe.checklist.api;
 
-public interface ChecklistService {
+public interface ChecklistService extends ChecklistServiceList, ChecklistServiceEntry {
 
-	void execute();
 }
