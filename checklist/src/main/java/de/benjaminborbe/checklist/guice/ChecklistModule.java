@@ -21,5 +21,7 @@ public class ChecklistModule extends AbstractModule {
 		bind(ChecklistListDao.class).to(ChecklistListDaoStorage.class).in(Singleton.class);
 		bind(ChecklistService.class).to(ChecklistServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(ChecklistValidatorLinker.class);
 	}
 }
