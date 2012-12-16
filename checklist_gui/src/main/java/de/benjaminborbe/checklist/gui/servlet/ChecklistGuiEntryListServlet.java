@@ -21,6 +21,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.checklist.api.ChecklistEntry;
+import de.benjaminborbe.checklist.api.ChecklistList;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
@@ -93,9 +94,10 @@ public class ChecklistGuiEntryListServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(TITLE));
-			final UlWidget ul = new UlWidget();
 			final ChecklistListIdentifier id = new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID));
+			final ChecklistList checklistList = checklistService.read(sessionIdentifier, id);
+			widgets.add(new H1Widget("Checklist - " + checklistList.getName()));
+			final UlWidget ul = new UlWidget();
 			final List<ChecklistEntry> entries = Lists.newArrayList(checklistService.getEntries(sessionIdentifier, id));
 			Collections.sort(entries, checklistEntryComparator);
 			for (final ChecklistEntry entry : entries) {

@@ -97,7 +97,7 @@ public class ChecklistGuiListListServlet extends WebsiteHtmlServlet {
 			Collections.sort(lists, checklistListComparator);
 			for (final ChecklistList checklistList : lists) {
 				final ListWidget list = new ListWidget();
-				list.add(linkFactory.entryList(request, checklistList.getId()));
+				list.add(linkFactory.entryList(request, checklistList.getId(), checklistList.getName()));
 				list.add(" ");
 				list.add(linkFactory.listUpdate(request, checklistList.getId()));
 				list.add(" ");

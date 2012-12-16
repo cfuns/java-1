@@ -34,9 +34,10 @@ public class ChecklistGuiLinkFactory {
 				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "delete").addConfirm("delete?");
 	}
 
-	public Widget entryList(final HttpServletRequest request, final ChecklistListIdentifier checklistListIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget entryList(final HttpServletRequest request, final ChecklistListIdentifier checklistListIdentifier, final String name) throws MalformedURLException,
+			UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_LIST, new MapParameter().add(
-				ChecklistGuiConstants.PARAMETER_LIST_ID, String.valueOf(checklistListIdentifier)), "entry list");
+				ChecklistGuiConstants.PARAMETER_LIST_ID, String.valueOf(checklistListIdentifier)), name);
 	}
 
 	public String entryListUrl(final HttpServletRequest request, final ChecklistListIdentifier checklistListIdentifier) throws UnsupportedEncodingException {
@@ -60,7 +61,7 @@ public class ChecklistGuiLinkFactory {
 
 	public Widget listUpdate(final HttpServletRequest request, final ChecklistListIdentifier checklistListIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_UPDATE, new MapParameter().add(
-				ChecklistGuiConstants.PARAMETER_LIST_ID, String.valueOf(checklistListIdentifier)), "update list");
+				ChecklistGuiConstants.PARAMETER_LIST_ID, String.valueOf(checklistListIdentifier)), "edit");
 	}
 
 }

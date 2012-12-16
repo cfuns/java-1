@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationResult;
 
 public class ValidationExecutor {
@@ -17,9 +18,15 @@ public class ValidationExecutor {
 
 	public ValidationResult validate(final Object object) {
 		final ValidationResultImpl result = new ValidationResultImpl();
-		final Collection<Validator<?>> validators = validatorRegistry.get(object.getClass());
-		for (final Validator<?> validator : validators) {
-			result.addAll(validator.validateObject(object));
+		final Class<? extends Object> clazz = object.getClass();
+		final Collection<Validator<?>> validators = validatorRegistry.get(clazz);
+		if (validators == null || validators.isEmpty()) {
+			result.add(new ValidationErrorSimple("no validator found for class " + clazz.getName()));
+		}
+		else {
+			for (final Validator<?> validator : validators) {
+				result.addAll(validator.validateObject(object));
+			}
 		}
 		return result;
 	}
