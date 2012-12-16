@@ -93,6 +93,11 @@ public class ChecklistServiceImpl implements ChecklistService {
 			}
 			authorizationService.expectUser(sessionIdentifier, bean.getOwner());
 
+			final EntityIterator<ChecklistEntryBean> i = checklistEntryDao.getEntityIteratorForListAndUser(id, authenticationService.getCurrentUser(sessionIdentifier));
+			while (i.hasNext()) {
+				checklistEntryDao.delete(i.next());
+			}
+
 			checklistListDao.delete(bean);
 		}
 		catch (final AuthenticationServiceException e) {
@@ -102,6 +107,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			throw new ChecklistServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new ChecklistServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new ChecklistServiceException(e);
 		}
 		finally {

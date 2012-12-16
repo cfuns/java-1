@@ -54,6 +54,8 @@ public class ChecklistGuiActivatorIntegrationTest {
 		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_CREATE);
 		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_UPDATE);
 		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_DELETE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_COMPLETE);
+		paths.add("/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_UNCOMPLETE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

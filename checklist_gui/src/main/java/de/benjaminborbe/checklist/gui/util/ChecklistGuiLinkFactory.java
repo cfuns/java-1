@@ -47,7 +47,7 @@ public class ChecklistGuiLinkFactory {
 
 	public Widget entryUpdate(final HttpServletRequest request, final ChecklistEntryIdentifier checklistEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_DELETE, new MapParameter().add(
-				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "update");
+				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "edit");
 	}
 
 	public Widget listCreate(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -62,6 +62,17 @@ public class ChecklistGuiLinkFactory {
 	public Widget listUpdate(final HttpServletRequest request, final ChecklistListIdentifier checklistListIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_LIST_UPDATE, new MapParameter().add(
 				ChecklistGuiConstants.PARAMETER_LIST_ID, String.valueOf(checklistListIdentifier)), "edit");
+	}
+
+	public Widget entryComplete(final HttpServletRequest request, final ChecklistEntryIdentifier checklistEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_COMPLETE, new MapParameter().add(
+				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "complete");
+	}
+
+	public Widget entryUncomplete(final HttpServletRequest request, final ChecklistEntryIdentifier checklistEntryIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + ChecklistGuiConstants.NAME + ChecklistGuiConstants.URL_ENTRY_UNCOMPLETE, new MapParameter().add(
+				ChecklistGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(checklistEntryIdentifier)), "uncomplete");
 	}
 
 }

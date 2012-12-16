@@ -9,8 +9,10 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.checklist.gui.guice.ChecklistGuiModules;
+import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryCompleteServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryCreateServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryDeleteServlet;
+import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryUncompleteServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryUpdateServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListCreateServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListDeleteServlet;
@@ -54,6 +56,12 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 	@Inject
 	private ChecklistGuiNavigationEntry checklistGuiNavigationEntry;
 
+	@Inject
+	private ChecklistGuiEntryCompleteServlet checklistGuiEntryCompleteServlet;
+
+	@Inject
+	private ChecklistGuiEntryUncompleteServlet checklistGuiEntryUncompleteServlet;
+
 	public ChecklistGuiActivator() {
 		super(ChecklistGuiConstants.NAME);
 	}
@@ -81,6 +89,8 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(checklistGuiListDeleteServlet, ChecklistGuiConstants.URL_LIST_DELETE));
 		result.add(new ServletInfo(checklistGuiListEntryServlet, ChecklistGuiConstants.URL_LIST_LIST));
 		result.add(new ServletInfo(checklistGuiListUpdateServlet, ChecklistGuiConstants.URL_LIST_UPDATE));
+		result.add(new ServletInfo(checklistGuiEntryCompleteServlet, ChecklistGuiConstants.URL_ENTRY_COMPLETE));
+		result.add(new ServletInfo(checklistGuiEntryUncompleteServlet, ChecklistGuiConstants.URL_ENTRY_UNCOMPLETE));
 		return result;
 	}
 

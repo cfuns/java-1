@@ -41,6 +41,7 @@ import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -101,13 +102,21 @@ public class ChecklistGuiEntryListServlet extends ChecklistHtmlServlet {
 			final List<ChecklistEntry> entries = Lists.newArrayList(checklistService.getEntries(sessionIdentifier, id));
 			Collections.sort(entries, checklistEntryComparator);
 			for (final ChecklistEntry entry : entries) {
+				final boolean completed = Boolean.TRUE.equals(entry.getCompleted());
 				final ListWidget list = new ListWidget();
-				list.add(entry.getName());
+				if (completed) {
+					list.add(linkFactory.entryUncomplete(request, entry.getId()));
+				}
+				else {
+					list.add(linkFactory.entryComplete(request, entry.getId()));
+				}
+				list.add(" ");
+				list.add(new SpanWidget(entry.getName()).addAttribute("class", "checklistEntryTitle"));
 				list.add(" ");
 				list.add(linkFactory.entryUpdate(request, entry.getId()));
 				list.add(" ");
 				list.add(linkFactory.entryDelete(request, entry.getId()));
-				ul.add(new DivWidget(list).addClass(Boolean.TRUE.equals(entry.getCompleted()) ? "completed" : "notCompleted"));
+				ul.add(new DivWidget(list).addClass(completed ? "completed" : "notCompleted"));
 			}
 			widgets.add(ul);
 			widgets.add(linkFactory.entryCreate(request, id));

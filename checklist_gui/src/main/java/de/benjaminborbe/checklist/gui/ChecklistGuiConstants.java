@@ -34,4 +34,8 @@ public interface ChecklistGuiConstants {
 
 	String URL_CSS = "/css";
 
+	String URL_ENTRY_COMPLETE = "/entry/complete";
+
+	String URL_ENTRY_UNCOMPLETE = "/entry/uncomplete";
+
 }
