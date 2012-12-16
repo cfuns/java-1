@@ -30,7 +30,7 @@ public class ChecklistGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isSuperAdmin(sessionIdentifier);
+			return authenticationService.isLoggedIn(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			return false;
