@@ -36,4 +36,8 @@ public class ChecklistGuiLinkFactory {
 		return null;
 	}
 
+	public String entryListUrl(final HttpServletRequest request, final ChecklistListIdentifier checklistListIdentifier) {
+		return null;
+	}
+
 }

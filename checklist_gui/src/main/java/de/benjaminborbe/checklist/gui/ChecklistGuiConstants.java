@@ -24,4 +24,8 @@ public interface ChecklistGuiConstants {
 
 	String URL_ENTRY_DELETE = "/entry/delete";
 
+	String PARAMETER_LIST_NAME = "list_name";
+
+	String PARAMETER_REFERER = "referer";
+
 }

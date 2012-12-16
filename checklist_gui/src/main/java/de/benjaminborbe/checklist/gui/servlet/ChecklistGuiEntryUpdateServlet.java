@@ -14,10 +14,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 
 @Singleton
-public class ChecklistGuiEntryUpdateServlet extends WebsiteHtmlServlet {
+public class ChecklistGuiEntryUpdateServlet extends ChecklistGuiEntryFormServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
