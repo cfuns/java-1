@@ -157,8 +157,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 				throw new ValidationException(errors);
 			}
 			confluenceInstanceDao.save(confluenceInstance);
-
-			clearIndex(confluenceInstance.getId());
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
@@ -167,9 +165,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {

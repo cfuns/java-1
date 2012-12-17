@@ -76,6 +76,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 				widgets.add(new BookmarkCreateLink(request));
 				widgets.add(" ");
 				widgets.add(new BookmarkListLink(request));
+				widgets.add(new BrWidget());
 				widgets.render(request, response, context);
 			}
 		}
