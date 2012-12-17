@@ -123,7 +123,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue("?"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire in days:").addDefaultValue("7"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY).addLabel("Delay in milliseconds:").addDefaultValue("300"));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").addDefaultValue(Boolean.TRUE));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").setCheckedDefault(true));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;

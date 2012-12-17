@@ -16,7 +16,7 @@ import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
-public class FormWidget extends CompositeWidget implements Widget, HasClass<FormWidget> {
+public class FormWidget extends CompositeWidget implements Widget, HasClass<FormWidget>, HasId<FormWidget> {
 
 	private final String action;
 
@@ -29,6 +29,8 @@ public class FormWidget extends CompositeWidget implements Widget, HasClass<Form
 	private FormEncType encType;
 
 	private final Set<String> classes = new HashSet<String>();
+
+	private String id;
 
 	public FormWidget(final String action) {
 		this.action = action;
@@ -93,6 +95,9 @@ public class FormWidget extends CompositeWidget implements Widget, HasClass<Form
 		if (action != null) {
 			form.addAttribute("action", action);
 		}
+		if (id != null) {
+			form.addAttribute("id", id);
+		}
 		if (classes.size() > 0) {
 			form.addAttribute("class", StringUtils.join(classes, " "));
 		}
@@ -100,4 +105,16 @@ public class FormWidget extends CompositeWidget implements Widget, HasClass<Form
 		form.addContent(fieldset);
 		return form;
 	}
+
+	@Override
+	public FormWidget addId(final String id) {
+		this.id = id;
+		return this;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
 }

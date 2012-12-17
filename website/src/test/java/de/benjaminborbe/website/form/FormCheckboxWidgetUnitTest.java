@@ -30,6 +30,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn("").anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { "" }).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
@@ -55,6 +56,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn("").anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { "" }).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
@@ -79,6 +81,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn(value).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { value }).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
@@ -90,7 +93,6 @@ public class FormCheckboxWidgetUnitTest {
 	@Test
 	public void testDefaultChecked() throws Exception {
 		final String name = "bla";
-		final String value = "true";
 
 		final HttpContext context = EasyMock.createMock(HttpContext.class);
 		EasyMock.replay(context);
@@ -103,10 +105,11 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[0]).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
-		checkbox.addDefaultValue(value);
+		checkbox.setCheckedDefault(true);
 		checkbox.render(request, response, context);
 
 		assertEquals("<input checked=\"checked\" name=\"" + name + "\" type=\"checkbox\" value=\"true\"/><br/>", stringWriter.toString());
@@ -115,7 +118,7 @@ public class FormCheckboxWidgetUnitTest {
 	@Test
 	public void testValue() throws Exception {
 		final String name = "bla";
-		final String value = "true";
+		final String value = "foo";
 
 		final HttpContext context = EasyMock.createMock(HttpContext.class);
 		EasyMock.replay(context);
@@ -127,13 +130,14 @@ public class FormCheckboxWidgetUnitTest {
 		EasyMock.replay(response);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		EasyMock.expect(request.getParameter(name)).andReturn("false").anyTimes();
+		EasyMock.expect(request.getParameter(name)).andReturn(value).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { value }).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
 		checkbox.addValue(value);
 		checkbox.render(request, response, context);
 
-		assertEquals("<input checked=\"checked\" name=\"" + name + "\" type=\"checkbox\" value=\"true\"/><br/>", stringWriter.toString());
+		assertEquals("<input checked=\"checked\" name=\"" + name + "\" type=\"checkbox\" value=\"" + value + "\"/><br/>", stringWriter.toString());
 	}
 }

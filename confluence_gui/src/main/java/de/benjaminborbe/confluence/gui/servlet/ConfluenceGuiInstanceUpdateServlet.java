@@ -139,8 +139,8 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 					confluenceInstance.getExpire()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_DELAY).addLabel("Delay in milliseconds:").addDefaultValue(
 					confluenceInstance.getDelay()));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addLabel("Shared:").addDefaultValue(confluenceInstance.getShared()));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ACTIVATED).addLabel("Activated:").addDefaultValue(
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_SHARED).addLabel("Shared:").setCheckedDefault(confluenceInstance.getShared()));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ACTIVATED).addLabel("Activated:").setCheckedDefault(
 					confluenceInstance.getActivated()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);

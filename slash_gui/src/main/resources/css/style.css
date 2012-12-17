@@ -26,7 +26,7 @@ ul {
 /**
  * Form
  */
-fieldset, br {
+fieldset,br {
 	clear: both;
 }
 
@@ -39,7 +39,11 @@ input[type="submit"] {
 	width: auto;
 }
 
-label, input, textarea {
+input[type="checkbox"] {
+	width: auto;
+}
+
+label,input,textarea {
 	float: left;
 	font-size: 17px;
 }
@@ -80,7 +84,7 @@ ul#navi li {
 	background-color: #CCCCCC;
 }
 
-#header, #footer, #content {
+#header,#footer,#content {
 	padding: 2px 10px 2px 10px;
 }
 
@@ -94,4 +98,3 @@ table th {
 table td {
 	padding: 1px;
 }
-

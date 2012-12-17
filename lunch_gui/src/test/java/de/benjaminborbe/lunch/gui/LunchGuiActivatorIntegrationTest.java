@@ -90,7 +90,9 @@ public class LunchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_CSS);
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_CSS);
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_JS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));

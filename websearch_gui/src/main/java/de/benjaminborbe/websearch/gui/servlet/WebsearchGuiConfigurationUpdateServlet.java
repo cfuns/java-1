@@ -134,7 +134,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 					.addDefaultValue(websearchConfiguration.getExpire()).addPlaceholder("7"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY).addLabel("Delay in milliseconds:").addDefaultValue(
 					websearchConfiguration.getDelay()));
-			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").addDefaultValue(
+			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").setCheckedDefault(
 					websearchConfiguration.getActivated()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);

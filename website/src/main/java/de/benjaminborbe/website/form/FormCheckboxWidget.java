@@ -12,17 +12,19 @@ import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
 public class FormCheckboxWidget extends CompositeWidget implements FormElementWidget, HasLabel<FormCheckboxWidget>, HasName<FormCheckboxWidget>, HasValue<FormCheckboxWidget>,
-		HasDefaultValue<FormCheckboxWidget>, HasOnClick<FormCheckboxWidget> {
+		HasOnClick<FormCheckboxWidget> {
 
 	private String name;
 
 	private String onclick;
 
-	private String value;
-
-	private String defaultValue;
+	private String value = "true";
 
 	private String label;
+
+	private Boolean checked;
+
+	private boolean checkedDefault = false;
 
 	public FormCheckboxWidget(final String name) {
 		this.name = name;
@@ -52,7 +54,10 @@ public class FormCheckboxWidget extends CompositeWidget implements FormElementWi
 
 	@Override
 	public FormCheckboxWidget addValue(final Object value) {
-		this.value = value != null ? String.valueOf(value) : null;
+		if (value == null) {
+			throw new NullPointerException("value can't be null");
+		}
+		this.value = String.valueOf(value);
 		return this;
 	}
 
@@ -62,19 +67,13 @@ public class FormCheckboxWidget extends CompositeWidget implements FormElementWi
 	}
 
 	@Override
-	public FormCheckboxWidget addDefaultValue(final Object value) {
-		this.defaultValue = value != null ? String.valueOf(value) : null;
+	public FormCheckboxWidget addLabel(final String label) {
+		this.label = label;
 		return this;
 	}
 
-	@Override
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-
-	@Override
-	public FormCheckboxWidget addLabel(final String label) {
-		this.label = label;
+	public FormCheckboxWidget setCheck(final Boolean checked) {
+		this.checked = checked;
 		return this;
 	}
 
@@ -85,8 +84,7 @@ public class FormCheckboxWidget extends CompositeWidget implements FormElementWi
 
 	@Override
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
-		final String value = this.value != null ? this.value : (request.getParameter(getName()) != null ? request.getParameter(getName()) : defaultValue);
-		final boolean checked = "true".equals(value);
+		final boolean checked = isChecked(request);
 		final ListWidget widgets = new ListWidget();
 		if (label != null) {
 			widgets.add(new TagWidget("label", label).addAttribute("for", getName()));
@@ -99,12 +97,32 @@ public class FormCheckboxWidget extends CompositeWidget implements FormElementWi
 		if (onclick != null) {
 			inputTag.addAttribute("onclick", onclick);
 		}
-		inputTag.addAttribute("value", "true");
+		inputTag.addAttribute("value", value);
 		if (checked) {
 			inputTag.addAttribute("checked", "checked");
 		}
 		widgets.add(inputTag);
 		widgets.add(new BrWidget());
 		return widgets;
+	}
+
+	private boolean isChecked(final HttpServletRequest request) {
+		if (checked != null) {
+			return checked;
+		}
+		if (request.getParameter(getName()) == null) {
+			return checkedDefault;
+		}
+		for (final String value : request.getParameterValues(getName())) {
+			if (this.value.equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public FormElementWidget setCheckedDefault(final boolean checkedDefault) {
+		this.checkedDefault = checkedDefault;
+		return this;
 	}
 }

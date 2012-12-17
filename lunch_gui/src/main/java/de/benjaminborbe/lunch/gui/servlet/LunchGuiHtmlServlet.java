@@ -1,6 +1,8 @@
 package de.benjaminborbe.lunch.gui.servlet;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -21,6 +24,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.CssResourceImpl;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
 
 public abstract class LunchGuiHtmlServlet extends WebsiteHtmlServlet {
 
@@ -49,6 +53,13 @@ public abstract class LunchGuiHtmlServlet extends WebsiteHtmlServlet {
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>(super.getJavascriptResources(request, response));
+		result.add(new JavascriptResourceImpl(request.getContextPath() + "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_JS_SCRIPT));
+		return result;
 	}
 
 }

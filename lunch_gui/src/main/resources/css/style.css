@@ -1,7 +1,15 @@
-.subscribed, .subscribed a {
+.subscribed,.subscribed a {
 	color: green;
 }
 
-.notsubscribed, .notsubscribed a {
+.notsubscribed,.notsubscribed a {
 	color: black;
+}
+
+#bookings label:hover {
+	border-bottom: 1px solid #AAAAAA;
+}
+
+#bookings label {
+	border-bottom: 1px solid transparent;
 }

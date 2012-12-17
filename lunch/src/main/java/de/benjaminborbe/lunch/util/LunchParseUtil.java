@@ -27,7 +27,7 @@ public class LunchParseUtil {
 	}
 
 	public Collection<String> extractSubscribedUser(final String htmlContent) {
-		logger.debug("htmlContent:\n" + htmlContent);
+		// logger.debug("htmlContent:\n" + htmlContent);
 		final Set<String> result = new HashSet<String>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByTag("table");

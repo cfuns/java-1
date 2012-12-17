@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -24,16 +25,20 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
+import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
@@ -85,17 +90,23 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
+			final String[] selectedUsers = request.getParameterValues(LunchGuiConstants.PARAMETER_BOOKING_USER);
+			if (selectedUsers != null && selectedUsers.length > 0) {
+				logger.info("book user: " + StringUtils.join(selectedUsers, ","));
+			}
+
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<String> users = new ArrayList<String>(lunchService.getSubscribeUser(sessionIdentifier, calendarUtil.today(timeZoneUtil.getUTCTimeZone())));
 			Collections.sort(users);
 
-			final UlWidget ul = new UlWidget();
+			final FormWidget form = new FormWidget().addId("bookings");
+
 			for (final String user : users) {
-				final ListWidget row = new ListWidget();
-				row.add(user);
-				ul.add(row);
+				form.addFormInputWidget(new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user).addValue(user).setCheckedDefault(true));
 			}
-			widgets.add(ul);
+			form.addFormInputWidget(new FormInputSubmitWidget("buchen"));
+			widgets.add(form);
+			widgets.add(new LinkWidget("javascript:toggle()", "toggle"));
 
 			return widgets;
 		}
@@ -110,5 +121,4 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			return widget;
 		}
 	}
-
 }
