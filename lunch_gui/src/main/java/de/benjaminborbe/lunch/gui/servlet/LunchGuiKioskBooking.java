@@ -2,6 +2,8 @@ package de.benjaminborbe.lunch.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -87,16 +89,18 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
+			final Calendar calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
+			widgets.add(new H1Widget(getTitle() + " - " + calendarUtil.toDateString(calendar)));
 
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String[] selectedUsers = request.getParameterValues(LunchGuiConstants.PARAMETER_BOOKING_USER);
 			if (selectedUsers != null && selectedUsers.length > 0) {
 				logger.info("book user: " + StringUtils.join(selectedUsers, ","));
+				lunchService.book(sessionIdentifier, calendar, Arrays.asList(selectedUsers));
 			}
 
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<String> users = new ArrayList<String>(lunchService.getSubscribeUser(sessionIdentifier, calendarUtil.today(timeZoneUtil.getUTCTimeZone())));
+			final List<String> users = new ArrayList<String>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
 			Collections.sort(users);
 
 			final FormWidget form = new FormWidget().addId("bookings");
