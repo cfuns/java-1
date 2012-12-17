@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
@@ -30,8 +32,15 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 
 	private final ConfluenceConnector confluenceConnector;
 
+	private final Logger logger;
+
 	@Inject
-	public ConfluenceInstanceValidator(final UrlUtil urlUtil, final ValidationConstraintValidator validationConstraintValidator, final ConfluenceConnector confluenceConnector) {
+	public ConfluenceInstanceValidator(
+			final Logger logger,
+			final UrlUtil urlUtil,
+			final ValidationConstraintValidator validationConstraintValidator,
+			final ConfluenceConnector confluenceConnector) {
+		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.confluenceConnector = confluenceConnector;
@@ -92,9 +101,11 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			final String username = bean.getUsername();
 			final String password = bean.getPassword();
 			try {
+				logger.debug("validate login - url: '" + url + "' username: '" + username + "' password: '****'");
 				confluenceConnector.login(url, username, password);
 			}
 			catch (final Exception e) {
+				logger.debug(e.getClass().getName(), e);
 				result.add(new ValidationErrorSimple("login failed to confluence"));
 			}
 		}
