@@ -2,7 +2,6 @@ package de.benjaminborbe.lunch.gui.servlet;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +21,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.lunch.api.Lunch;
@@ -42,8 +40,6 @@ import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.LiWidget;
@@ -52,7 +48,7 @@ import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public abstract class LunchGuiBaseServlet extends WebsiteHtmlServlet {
+public abstract class LunchGuiBaseServlet extends LunchGuiHtmlServlet {
 
 	private final class SortLunchs extends ComparatorBase<Lunch, Date> {
 
@@ -162,17 +158,5 @@ public abstract class LunchGuiBaseServlet extends WebsiteHtmlServlet {
 	}
 
 	protected abstract List<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException;
-
-	@Override
-	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
-		final Collection<CssResource> result = super.getCssResources(request, response);
-		result.add(new CssResourceImpl(request.getContextPath() + "/lunch/css/style.css"));
-		return result;
-	}
-
-	@Override
-	public boolean isAdminRequired() {
-		return false;
-	}
 
 }

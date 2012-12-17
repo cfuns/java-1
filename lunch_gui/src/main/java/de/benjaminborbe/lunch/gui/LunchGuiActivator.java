@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBooking;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
 import de.benjaminborbe.lunch.gui.util.LunchGuiNavigationEntry;
@@ -21,6 +22,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class LunchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private LunchGuiKioskBooking lunchGuiKioskBooking;
 
 	@Inject
 	private LunchGuiServlet lunchGuiServlet;
@@ -46,22 +50,16 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(lunchGuiKioskBooking, LunchGuiConstants.URL_BOOKING));
 		result.add(new ServletInfo(lunchGuiServlet, LunchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(lunchGuiArchivServlet, LunchGuiConstants.URL_ARCHIV));
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(lunchFilter, ".*", 998));
-	// return result;
-	// }
-
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		result.add(new ResourceInfo("/css", "css"));
+		result.add(new ResourceInfo(LunchGuiConstants.URL_CSS, "css"));
 		return result;
 	}
 

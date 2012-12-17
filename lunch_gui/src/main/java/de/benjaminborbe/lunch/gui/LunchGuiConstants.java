@@ -9,4 +9,8 @@ public interface LunchGuiConstants {
 	String URL_HOME = "/";
 
 	String URL_ARCHIV = "/archiv";
+
+	String URL_CSS = "/css";
+
+	String URL_BOOKING = "/booking";
 }

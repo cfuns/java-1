@@ -46,8 +46,9 @@ public class LunchGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + LunchGuiConstants.NAME);
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_HOME);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV);
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKING);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -89,7 +90,7 @@ public class LunchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/lunch/css");
+		final List<String> paths = Arrays.asList("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_CSS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
