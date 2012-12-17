@@ -1,11 +1,8 @@
 package de.benjaminborbe.lunch.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-
 import javax.xml.rpc.ServiceException;
 
 import org.slf4j.Logger;
@@ -147,8 +144,26 @@ public class LunchServiceImpl implements LunchService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getSubscribeUser for day: " + calendarUtil.toDateString(day));
-			final List<String> names = new ArrayList<String>();
-			return names;
+
+			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
+			final String username = lunchConfig.getConfluenceUsername();
+			final String password = lunchConfig.getConfluencePassword();
+			return wikiConnector.extractSubscriptions(spaceKey, username, password, day.getTime());
+		}
+		catch (final AuthenticationFailedException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final RemoteException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final ServiceException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final ParseException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final java.rmi.RemoteException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
