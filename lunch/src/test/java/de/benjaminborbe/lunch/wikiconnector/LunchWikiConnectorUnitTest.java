@@ -1,4 +1,4 @@
-package de.benjaminborbe.lunch.connector;
+package de.benjaminborbe.lunch.wikiconnector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,7 +28,7 @@ public class LunchWikiConnectorUnitTest {
 
 		final DateUtil dateUtil = new DateUtilImpl();
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final LunchWikiConnector wikiConnector = new LunchWikiConnector(logger, dateUtil, lunchParseUtil, htmlUtil);
+		final LunchWikiConnectorImpl wikiConnector = new LunchWikiConnectorImpl(logger, dateUtil, lunchParseUtil, htmlUtil);
 		final Date date = wikiConnector.extractDate("2012-05-03 - Bastians Mittagessen");
 		assertNotNull(date);
 		final Calendar calendar = Calendar.getInstance();

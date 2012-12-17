@@ -1,4 +1,4 @@
-package de.benjaminborbe.lunch.connector;
+package de.benjaminborbe.lunch.wikiconnector;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.guice.LunchModulesMock;
+import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

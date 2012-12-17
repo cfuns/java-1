@@ -1,4 +1,4 @@
-package de.benjaminborbe.lunch.connector;
+package de.benjaminborbe.lunch.wikiconnector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,7 +28,7 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 
-public class LunchWikiConnector {
+public class LunchWikiConnectorImpl implements LunchWikiConnector {
 
 	private final DateUtil dateUtil;
 
@@ -40,13 +40,14 @@ public class LunchWikiConnector {
 
 	// https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs
 	@Inject
-	public LunchWikiConnector(final Logger logger, final DateUtil dateUtil, final LunchParseUtil lunchParseUtil, final HtmlUtil htmlUtil) {
+	public LunchWikiConnectorImpl(final Logger logger, final DateUtil dateUtil, final LunchParseUtil lunchParseUtil, final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.dateUtil = dateUtil;
 		this.lunchParseUtil = lunchParseUtil;
 		this.htmlUtil = htmlUtil;
 	}
 
+	@Override
 	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Date date) throws ServiceException,
 			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
 

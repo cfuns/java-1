@@ -1,7 +1,10 @@
 package de.benjaminborbe.lunch.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
@@ -20,12 +23,17 @@ import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.config.LunchConfig;
-import de.benjaminborbe.lunch.connector.LunchWikiConnector;
+import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class LunchServiceImpl implements LunchService {
+
+	private static final long DURATION_WARN = 300;
 
 	private final Logger logger;
 
@@ -37,23 +45,33 @@ public class LunchServiceImpl implements LunchService {
 
 	private final DateUtil dateUtil;
 
+	private final DurationUtil durationUtil;
+
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
 			final LunchWikiConnector wikiConnector,
 			final LunchConfig lunchConfig,
 			final AuthenticationService authenticationService,
-			final DateUtil dateUtil) {
+			final DateUtil dateUtil,
+			final DurationUtil durationUtil,
+			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
 		this.authenticationService = authenticationService;
 		this.dateUtil = dateUtil;
+		this.durationUtil = durationUtil;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
 	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) throws LunchServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.debug("getLunchs for current user");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final String username = authenticationService.getFullname(sessionIdentifier, userIdentifier);
 			return getLunchs(sessionIdentifier, username);
@@ -61,11 +79,16 @@ public class LunchServiceImpl implements LunchService {
 		catch (final AuthenticationServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Date date) throws LunchServiceException {
-		logger.trace("getLunchs");
+		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.debug("getLunchs - fullname: " + fullname + " date: " + dateUtil.dateString(date));
 			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
 			final String username = lunchConfig.getConfluenceUsername();
 			final String password = lunchConfig.getConfluencePassword();
@@ -86,16 +109,50 @@ public class LunchServiceImpl implements LunchService {
 		catch (final ParseException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+
 	}
 
 	@Override
 	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
-		return getLunchs(sessionIdentifier, fullname, dateUtil.today());
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getLunchs - fullname: " + fullname);
+			return getLunchs(sessionIdentifier, fullname, dateUtil.today());
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
-		return getLunchs(sessionIdentifier, fullname, null);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getLunchsArchiv - fullname: " + fullname);
+			return getLunchs(sessionIdentifier, fullname, null);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
+	@Override
+	public Collection<String> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getSubscribeUser for day: " + calendarUtil.toDateString(day));
+			final List<String> names = new ArrayList<String>();
+			return names;
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }

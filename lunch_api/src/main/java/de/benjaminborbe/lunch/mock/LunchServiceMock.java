@@ -3,6 +3,7 @@ package de.benjaminborbe.lunch.mock;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +64,11 @@ public class LunchServiceMock implements LunchService {
 
 	@Override
 	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<String> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
 		return null;
 	}
 
