@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.messageservice.api.MessageService;
 import de.benjaminborbe.messageservice.guice.MessageserviceModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -64,7 +66,9 @@ public class MessageserviceActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(MessageService.class.getName());
+		final List<String> names = new ArrayList<String>();
+		names.add(MessageService.class.getName());
+		names.add(CronJob.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
