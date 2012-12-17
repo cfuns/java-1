@@ -6,12 +6,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
 @Singleton
-public class WikiSpaceBeanMapper extends BaseMapper<WikiSpaceBean> {
+public class WikiSpaceBeanMapper extends MapObjectMapperBase<WikiSpaceBean> {
 
 	private static final String ID = "id";
 

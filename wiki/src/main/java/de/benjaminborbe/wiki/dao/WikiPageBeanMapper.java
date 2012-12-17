@@ -6,15 +6,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 
 @Singleton
-public class WikiPageBeanMapper extends BaseMapper<WikiPageBean> {
+public class WikiPageBeanMapper extends MapObjectMapperBase<WikiPageBean> {
 
 	private static final String ID = "id";
 

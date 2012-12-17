@@ -9,32 +9,32 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.mapper.SingleMap;
-import de.benjaminborbe.tools.mapper.SingleMapBoolean;
-import de.benjaminborbe.tools.mapper.SingleMapByteArray;
-import de.benjaminborbe.tools.mapper.SingleMapString;
-import de.benjaminborbe.tools.mapper.SingleMapTimeZone;
-import de.benjaminborbe.tools.mapper.SingleMappler;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBoolean;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperByteArray;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperString;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperTimeZone;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public class UserBeanMapper extends SingleMappler<UserBean> {
+public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 
 	@Inject
 	public UserBeanMapper(final Provider<UserBean> provider, final ParseUtil parseUtil, final CalendarUtil calendarUtil, final Base64Util base64Util) {
 		super(provider, buildMappings(parseUtil, calendarUtil, base64Util));
 	}
 
-	private static Collection<SingleMap<UserBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil, final Base64Util base64Util) {
-		final List<SingleMap<UserBean>> result = new ArrayList<SingleMap<UserBean>>();
-		result.add(new SingleMapUserIdentifier<UserBean>("id"));
-		result.add(new SingleMapByteArray<UserBean>("password", base64Util));
-		result.add(new SingleMapByteArray<UserBean>("passwordSalt", base64Util));
-		result.add(new SingleMapString<UserBean>("fullname"));
-		result.add(new SingleMapString<UserBean>("email"));
-		result.add(new SingleMapBoolean<UserBean>("superAdmin", parseUtil));
-		result.add(new SingleMapTimeZone<UserBean>("timeZone"));
+	private static Collection<StringObjectMapper<UserBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil, final Base64Util base64Util) {
+		final List<StringObjectMapper<UserBean>> result = new ArrayList<StringObjectMapper<UserBean>>();
+		result.add(new StringObjectMapperUserIdentifier<UserBean>("id"));
+		result.add(new StringObjectMapperByteArray<UserBean>("password", base64Util));
+		result.add(new StringObjectMapperByteArray<UserBean>("passwordSalt", base64Util));
+		result.add(new StringObjectMapperString<UserBean>("fullname"));
+		result.add(new StringObjectMapperString<UserBean>("email"));
+		result.add(new StringObjectMapperBoolean<UserBean>("superAdmin", parseUtil));
+		result.add(new StringObjectMapperTimeZone<UserBean>("timeZone"));
 		return result;
 	}
 

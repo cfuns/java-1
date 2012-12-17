@@ -9,40 +9,43 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.mapper.SingleMap;
-import de.benjaminborbe.tools.mapper.SingleMapBoolean;
-import de.benjaminborbe.tools.mapper.SingleMapCalendar;
-import de.benjaminborbe.tools.mapper.SingleMapInteger;
-import de.benjaminborbe.tools.mapper.SingleMapLong;
-import de.benjaminborbe.tools.mapper.SingleMapStringList;
-import de.benjaminborbe.tools.mapper.SingleMapURL;
-import de.benjaminborbe.tools.mapper.SingleMappler;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBoolean;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperCalendar;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperInteger;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperLong;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperStringList;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperUrl;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.websearch.util.SingleMapUserIdentifier;
-import de.benjaminborbe.websearch.util.SingleMapWebsearchConfigurationIdentifier;
+import de.benjaminborbe.websearch.util.StringObjectMapperUserIdentifier;
+import de.benjaminborbe.websearch.util.StringObjectMapperWebsearchConfigurationIdentifier;
 
-public class WebsearchConfigurationBeanMapper extends SingleMappler<WebsearchConfigurationBean> {
+public class WebsearchConfigurationBeanMapper extends MapObjectMapperAdapter<WebsearchConfigurationBean> {
 
 	@Inject
 	public WebsearchConfigurationBeanMapper(
 			final Provider<WebsearchConfigurationBean> provider,
 			final ParseUtil parseUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final CalendarUtil calendarUtil) {
-		super(provider, buildMappings(parseUtil, timeZoneUtil, calendarUtil));
+			final CalendarUtil calendarUtil,
+			final MapperCalendar mapperCalendar) {
+		super(provider, buildMappings(parseUtil, timeZoneUtil, calendarUtil, mapperCalendar));
 	}
 
-	private static Collection<SingleMap<WebsearchConfigurationBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil) {
-		final List<SingleMap<WebsearchConfigurationBean>> result = new ArrayList<SingleMap<WebsearchConfigurationBean>>();
-		result.add(new SingleMapWebsearchConfigurationIdentifier<WebsearchConfigurationBean>("id"));
-		result.add(new SingleMapUserIdentifier<WebsearchConfigurationBean>("owner"));
-		result.add(new SingleMapURL<WebsearchConfigurationBean>("url", parseUtil));
-		result.add(new SingleMapStringList<WebsearchConfigurationBean>("excludes"));
-		result.add(new SingleMapInteger<WebsearchConfigurationBean>("expire", parseUtil));
-		result.add(new SingleMapLong<WebsearchConfigurationBean>("delay", parseUtil));
-		result.add(new SingleMapBoolean<WebsearchConfigurationBean>("activated", parseUtil));
-		result.add(new SingleMapCalendar<WebsearchConfigurationBean>("created", timeZoneUtil, calendarUtil, parseUtil));
-		result.add(new SingleMapCalendar<WebsearchConfigurationBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
+	private static Collection<StringObjectMapper<WebsearchConfigurationBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil,
+			final CalendarUtil calendarUtil, final MapperCalendar mapperCalendar) {
+		final List<StringObjectMapper<WebsearchConfigurationBean>> result = new ArrayList<StringObjectMapper<WebsearchConfigurationBean>>();
+		result.add(new StringObjectMapperWebsearchConfigurationIdentifier<WebsearchConfigurationBean>("id"));
+		result.add(new StringObjectMapperUserIdentifier<WebsearchConfigurationBean>("owner"));
+		result.add(new StringObjectMapperUrl<WebsearchConfigurationBean>("url", parseUtil));
+		result.add(new StringObjectMapperStringList<WebsearchConfigurationBean>("excludes"));
+		result.add(new StringObjectMapperInteger<WebsearchConfigurationBean>("expire", parseUtil));
+		result.add(new StringObjectMapperLong<WebsearchConfigurationBean>("delay", parseUtil));
+		result.add(new StringObjectMapperBoolean<WebsearchConfigurationBean>("activated", parseUtil));
+		result.add(new StringObjectMapperCalendar<WebsearchConfigurationBean>("created", mapperCalendar));
+		result.add(new StringObjectMapperCalendar<WebsearchConfigurationBean>("modified", mapperCalendar));
 		return result;
 	}
 }

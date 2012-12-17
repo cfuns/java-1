@@ -11,13 +11,13 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public class BlogPostBeanMapper extends BaseMapper<BlogPostBean> {
+public class BlogPostBeanMapper extends MapObjectMapperBase<BlogPostBean> {
 
 	private static final String ID = "id";
 

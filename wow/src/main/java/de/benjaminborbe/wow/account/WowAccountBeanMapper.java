@@ -7,11 +7,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 
 @Singleton
-public class WowAccountBeanMapper extends BaseMapper<WowAccountBean> {
+public class WowAccountBeanMapper extends MapObjectMapperBase<WowAccountBean> {
 
 	private static final String ID = "id";
 

@@ -13,13 +13,13 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public class BookmarkBeanMapper extends BaseMapper<BookmarkBean> {
+public class BookmarkBeanMapper extends MapObjectMapperBase<BookmarkBean> {
 
 	private static final String ID = "id";
 

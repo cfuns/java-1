@@ -10,13 +10,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.date.DateUtil;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
 @Singleton
-public class WebsearchPageBeanMapper extends BaseMapper<WebsearchPageBean> {
+public class WebsearchPageBeanMapper extends MapObjectMapperBase<WebsearchPageBean> {
 
 	private final DateUtil dateUtil;
 

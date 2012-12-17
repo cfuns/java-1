@@ -1,32 +1,22 @@
 package de.benjaminborbe.lunch.booking;
 
 import java.util.Calendar;
-import java.util.TimeZone;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 
 public class BookingMessageMapper {
 
-	private final CalendarUtil calendarUtil;
-
-	private final TimeZone timeZone;
-
-	private final ParseUtil parseUtil;
+	private final MapperCalendar mapperCalendar;
 
 	@Inject
-	public BookingMessageMapper(final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ParseUtil parseUtil) {
-		this.calendarUtil = calendarUtil;
-		this.parseUtil = parseUtil;
-		timeZone = timeZoneUtil.getUTCTimeZone();
+	public BookingMessageMapper(final MapperCalendar mapperCalendar) {
+		this.mapperCalendar = mapperCalendar;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -34,7 +24,7 @@ public class BookingMessageMapper {
 		try {
 			final JSONObject object = new JSONObject();
 			object.put("user", bookingMessage.getUser());
-			object.put("date", bookingMessage.getDate() != null ? String.valueOf(calendarUtil.getTime(bookingMessage.getDate())) : null);
+			object.put("date", mapperCalendar.map(bookingMessage.getDate()));
 			return object.toJSONString();
 		}
 		catch (final Exception e) {
@@ -48,14 +38,8 @@ public class BookingMessageMapper {
 			final Object object = parser.parse(message);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonobject = (JSONObject) object;
-				final String user = jsonobject.get("user") != null ? String.valueOf(jsonobject.get("user")) : null;
-				Calendar date;
-				try {
-					date = calendarUtil.getCalendar(timeZone, parseUtil.parseLong(String.valueOf(jsonobject.get("date"))));
-				}
-				catch (final de.benjaminborbe.tools.util.ParseException e) {
-					date = null;
-				}
+				final String user = getValue(jsonobject, "user");
+				final Calendar date = mapperCalendar.map(getValue(jsonobject, "date"));
 				return new BookingMessage(user, date);
 			}
 			throw new MapException("not a json object");
@@ -63,5 +47,9 @@ public class BookingMessageMapper {
 		catch (final ParseException e) {
 			throw new MapException(e);
 		}
+	}
+
+	private String getValue(final JSONObject jsonobject, final String name) {
+		return jsonobject.get(name) != null ? String.valueOf(jsonobject.get(name)) : null;
 	}
 }

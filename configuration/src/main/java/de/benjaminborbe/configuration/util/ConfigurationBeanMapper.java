@@ -6,10 +6,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 
-public class ConfigurationBeanMapper extends BaseMapper<ConfigurationBean> {
+public class ConfigurationBeanMapper extends MapObjectMapperBase<ConfigurationBean> {
 
 	private static final String ID = "id";
 

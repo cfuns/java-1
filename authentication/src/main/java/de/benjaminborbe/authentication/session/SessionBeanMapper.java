@@ -8,11 +8,11 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 
 @Singleton
-public class SessionBeanMapper extends BaseMapper<SessionBean> {
+public class SessionBeanMapper extends MapObjectMapperBase<SessionBean> {
 
 	private static final String CURRENTUSER = "currentUser";
 

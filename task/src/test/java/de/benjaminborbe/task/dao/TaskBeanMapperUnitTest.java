@@ -20,6 +20,7 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -44,7 +45,8 @@ public class TaskBeanMapperUnitTest {
 		EasyMock.replay(currentTime);
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		return new TaskBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
+		return new TaskBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil, mapperCalendar);
 	}
 
 	@Test

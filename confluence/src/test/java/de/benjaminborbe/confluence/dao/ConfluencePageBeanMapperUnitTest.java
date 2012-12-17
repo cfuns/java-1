@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -40,7 +41,8 @@ public class ConfluencePageBeanMapperUnitTest {
 		EasyMock.replay(currentTime);
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		return new ConfluencePageBeanMapper(confluencePageBeanProvider, parseUtil, timeZoneUtil, calendarUtil);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
+		return new ConfluencePageBeanMapper(confluencePageBeanProvider, parseUtil, timeZoneUtil, calendarUtil, mapperCalendar);
 	}
 
 	@Test

@@ -8,31 +8,38 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.gallery.util.SingleMapGalleryGroupIdentifier;
+import de.benjaminborbe.gallery.util.StringObjectMapperGalleryGroupIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.mapper.SingleMap;
-import de.benjaminborbe.tools.mapper.SingleMapBoolean;
-import de.benjaminborbe.tools.mapper.SingleMapCalendar;
-import de.benjaminborbe.tools.mapper.SingleMapString;
-import de.benjaminborbe.tools.mapper.SingleMappler;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBoolean;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperCalendar;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public class GalleryGroupBeanMapper extends SingleMappler<GalleryGroupBean> {
+public class GalleryGroupBeanMapper extends MapObjectMapperAdapter<GalleryGroupBean> {
 
 	@Inject
-	public GalleryGroupBeanMapper(final Provider<GalleryGroupBean> provider, final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil) {
-		super(provider, buildMappings(parseUtil, timeZoneUtil, calendarUtil));
+	public GalleryGroupBeanMapper(
+			final Provider<GalleryGroupBean> provider,
+			final ParseUtil parseUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final CalendarUtil calendarUtil,
+			final MapperCalendar mapperCalendar) {
+		super(provider, buildMappings(parseUtil, timeZoneUtil, calendarUtil, mapperCalendar));
 	}
 
-	private static Collection<SingleMap<GalleryGroupBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil) {
-		final List<SingleMap<GalleryGroupBean>> result = new ArrayList<SingleMap<GalleryGroupBean>>();
-		result.add(new SingleMapGalleryGroupIdentifier<GalleryGroupBean>("id"));
-		result.add(new SingleMapString<GalleryGroupBean>("name"));
-		result.add(new SingleMapBoolean<GalleryGroupBean>("shared", parseUtil));
-		result.add(new SingleMapCalendar<GalleryGroupBean>("created", timeZoneUtil, calendarUtil, parseUtil));
-		result.add(new SingleMapCalendar<GalleryGroupBean>("modified", timeZoneUtil, calendarUtil, parseUtil));
+	private static Collection<StringObjectMapper<GalleryGroupBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil,
+			final MapperCalendar mapperCalendar) {
+		final List<StringObjectMapper<GalleryGroupBean>> result = new ArrayList<StringObjectMapper<GalleryGroupBean>>();
+		result.add(new StringObjectMapperGalleryGroupIdentifier<GalleryGroupBean>("id"));
+		result.add(new StringObjectMapperString<GalleryGroupBean>("name"));
+		result.add(new StringObjectMapperBoolean<GalleryGroupBean>("shared", parseUtil));
+		result.add(new StringObjectMapperCalendar<GalleryGroupBean>("created", mapperCalendar));
+		result.add(new StringObjectMapperCalendar<GalleryGroupBean>("modified", mapperCalendar));
 		return result;
 	}
 }

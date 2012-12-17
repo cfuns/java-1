@@ -25,7 +25,7 @@ import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.mapper.Mapper;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
 
 @Singleton
 public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
@@ -164,7 +164,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	private final Logger logger;
 
-	private final Mapper<E> mapper;
+	private final MapObjectMapper<E> mapper;
 
 	private final StorageService storageService;
 
@@ -175,7 +175,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			final Logger logger,
 			final StorageService storageService,
 			final Provider<E> beanProvider,
-			final Mapper<E> mapper,
+			final MapObjectMapper<E> mapper,
 			final IdentifierBuilder<String, I> identifierBuilder,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;

@@ -5,10 +5,10 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 
-public class TestBeanMapper extends BaseMapper<TestBean> {
+public class TestBeanMapper extends MapObjectMapperBase<TestBean> {
 
 	@Inject
 	public TestBeanMapper(final Provider<TestBean> provider) {

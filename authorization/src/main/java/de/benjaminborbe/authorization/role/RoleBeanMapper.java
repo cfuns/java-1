@@ -7,11 +7,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authorization.api.RoleIdentifier;
-import de.benjaminborbe.tools.mapper.BaseMapper;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
 
 @Singleton
-public class RoleBeanMapper extends BaseMapper<RoleBean> {
+public class RoleBeanMapper extends MapObjectMapperBase<RoleBean> {
 
 	@Inject
 	public RoleBeanMapper(final Provider<RoleBean> provider) {

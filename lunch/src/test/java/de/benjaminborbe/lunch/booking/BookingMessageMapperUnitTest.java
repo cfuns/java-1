@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTimeImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -55,6 +56,7 @@ public class BookingMessageMapperUnitTest {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final CurrentTimeImpl currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		return new BookingMessageMapper(calendarUtil, timeZoneUtil, parseUtil);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
+		return new BookingMessageMapper(mapperCalendar);
 	}
 }

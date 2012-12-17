@@ -17,6 +17,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -42,9 +43,10 @@ public class GalleryImageBeanMapperUnitTest {
 		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
 		EasyMock.replay(currentTime);
 
-		final Base64Util a = new Base64UtilImpl();
+		final Base64Util base64Util = new Base64UtilImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		return new GalleryImageBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil, a);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
+		return new GalleryImageBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil, base64Util, mapperCalendar);
 	}
 
 	@Test
