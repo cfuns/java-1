@@ -55,7 +55,6 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 	public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
-		// validate expire
 		{
 			final Integer expire = bean.getExpire();
 			final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
@@ -64,7 +63,6 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			result.addAll(validationConstraintValidator.validate("expire", expire, constraints));
 		}
 
-		// validate name
 		{
 			final String url = bean.getUrl();
 			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
@@ -75,7 +73,6 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			result.addAll(validationConstraintValidator.validate("url", url, constraints));
 		}
 
-		// validate name
 		{
 			final String username = bean.getUsername();
 			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
@@ -85,7 +82,6 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			result.addAll(validationConstraintValidator.validate("username", username, constraints));
 		}
 
-		// validate name
 		{
 			final String password = bean.getPassword();
 			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
@@ -95,8 +91,7 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 			result.addAll(validationConstraintValidator.validate("password", password, constraints));
 		}
 
-		// check login
-		{
+		if (Boolean.TRUE.equals(bean.getActivated())) {
 			final String url = bean.getUrl();
 			final String username = bean.getUsername();
 			final String password = bean.getPassword();
