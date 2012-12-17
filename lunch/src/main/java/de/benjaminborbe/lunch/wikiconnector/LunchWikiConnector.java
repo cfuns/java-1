@@ -15,4 +15,8 @@ public interface LunchWikiConnector {
 
 	Collection<Lunch> extractLunchs(String spaceKey, String username, String password, String fullname, Date date) throws ServiceException, AuthenticationFailedException,
 			RemoteException, java.rmi.RemoteException, ParseException;
+
+	Collection<String> extractSubscriptions(final String spaceKey, final String username, final String password, final Date date) throws ServiceException,
+			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException;
+
 }

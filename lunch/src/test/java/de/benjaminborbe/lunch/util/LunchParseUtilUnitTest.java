@@ -1,6 +1,12 @@
 package de.benjaminborbe.lunch.util;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -13,11 +19,7 @@ public class LunchParseUtilUnitTest {
 
 	@Test
 	public void testname() throws Exception {
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
-
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final LunchParseUtil lunchParseUtil = new LunchParseUtil(logger, htmlUtil);
+		final LunchParseUtil lunchParseUtil = getLunchParseUtil();
 		final String title = "FooBar";
 		{
 			final String htmlContent = "<div class='panelMacro'><table class='tipMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src=\"/images/icons/emoticons/check.png\" width=\"16\" height=\"16\" align=\"absmiddle\" alt=\"\" border=\"0\"></td><td><p>"
@@ -31,4 +33,39 @@ public class LunchParseUtilUnitTest {
 		}
 	}
 
+	private LunchParseUtil getLunchParseUtil() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final LunchParseUtil lunchParseUtil = new LunchParseUtil(logger, htmlUtil);
+		return lunchParseUtil;
+	}
+
+	@Test
+	public void testExtractSubscribedUser() {
+		final LunchParseUtil lunchParseUtil = getLunchParseUtil();
+
+		final StringBuilder sb = new StringBuilder();
+		sb.append("<table id='TBL1355500921669'  atlassian-macro-output-type=BLOCK class=\"confluenceTable\">");
+		sb.append("<tbody>");
+		sb.append("<tr>");
+		sb.append("<th class=\"confluenceTh\">Teilnehmer</th>");
+		sb.append("<th class=\"confluenceTh\">Teilgenommen?</th></tr>");
+		sb.append("<tr>");
+		sb.append("<td class=\"confluenceTd\">Vorname1 Nachname1</td>");
+		sb.append("<td class=\"confluenceTd\">bla</td>");
+		sb.append("</tr>");
+		sb.append("<tr>");
+		sb.append("<td class=\"confluenceTd\">Vorname2 Nachname2</td>");
+		sb.append("<td class=\"confluenceTd\">bla</td>");
+		sb.append("</tr>");
+		sb.append("</tbody></table>");
+
+		final Set<String> result = new HashSet<String>(lunchParseUtil.extractSubscribedUser(sb.toString()));
+		assertThat(result, is(notNullValue()));
+		assertThat(result.size(), is(2));
+		assertThat(result.contains("Vorname1 Nachname1"), is(true));
+		assertThat(result.contains("Vorname2 Nachname2"), is(true));
+	}
 }

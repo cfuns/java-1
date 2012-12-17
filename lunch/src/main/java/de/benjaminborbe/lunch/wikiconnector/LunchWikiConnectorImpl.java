@@ -51,12 +51,11 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Date date) throws ServiceException,
 			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
 
-		final List<Lunch> result = new ArrayList<Lunch>();
-
-		final ConfluenceSoapServiceServiceLocator serviceLocator = new ConfluenceSoapServiceServiceLocator();
-		final ConfluenceSoapService service = serviceLocator.getConfluenceserviceV2();
+		final ConfluenceSoapService service = getService();
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
+
+		final List<Lunch> result = new ArrayList<Lunch>();
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, date)) {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
@@ -68,6 +67,11 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 			}
 		}
 		return result;
+	}
+
+	private ConfluenceSoapService getService() throws ServiceException {
+		final ConfluenceSoapServiceServiceLocator serviceLocator = new ConfluenceSoapServiceServiceLocator();
+		return serviceLocator.getConfluenceserviceV2();
 	}
 
 	private boolean isLunchDate(final RemotePageSummary remotePageSummary, final Date date) throws ParseException {
@@ -108,6 +112,26 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 
 	protected boolean isLunchPage(final RemotePageSummary remotePageSummary) {
 		return remotePageSummary != null && remotePageSummary.getTitle() != null && remotePageSummary.getTitle().matches("\\d+-\\d+-\\d+ Bastians (Mittagessen|Wiesbaden)");
+	}
+
+	@Override
+	public Collection<String> extractSubscriptions(final String spaceKey, final String username, final String password, final Date date) throws ServiceException,
+			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
+
+		final ConfluenceSoapService service = getService();
+		final String token = service.login(username, password);
+		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
+
+		final List<String> result = new ArrayList<String>();
+		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
+			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, date)) {
+				final RemotePage page = service.getPage(token, remotePageSummary.getId());
+				final String htmlContent = htmlUtil.unescapeHtml(service.renderContent(token, page.getSpace(), page.getId(), page.getContent()));
+				result.addAll(lunchParseUtil.extractSubscribedUser(htmlContent));
+			}
+		}
+		return result;
+
 	}
 
 }
