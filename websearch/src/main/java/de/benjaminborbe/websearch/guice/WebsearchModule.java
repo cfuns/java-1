@@ -24,5 +24,7 @@ public class WebsearchModule extends AbstractModule {
 		bind(WebsearchConfigurationDao.class).to(WebsearchConfigurationDaoStorage.class).in(Singleton.class);
 		bind(WebsearchPageDao.class).to(WebsearchPageDaoStorage.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(WebsearchValidatorLinker.class);
 	}
 }
