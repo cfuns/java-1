@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.messageservice.api.MessageserviceService;
+import de.benjaminborbe.messageservice.api.MessageService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
@@ -62,8 +62,8 @@ public class MessageserviceIntegrationTest extends OSGiTestCase {
 
 	@Test
 	public void testMessageserviceService() {
-		final Object serviceObject = getServiceObject(MessageserviceService.class.getName(), null);
-		final MessageserviceService service = (MessageserviceService) serviceObject;
+		final Object serviceObject = getServiceObject(MessageService.class.getName(), null);
+		final MessageService service = (MessageService) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.messageservice.service.MessageserviceServiceImpl", service.getClass().getName());
 	}

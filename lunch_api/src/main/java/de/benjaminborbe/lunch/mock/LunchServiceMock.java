@@ -72,4 +72,8 @@ public class LunchServiceMock implements LunchService {
 		return null;
 	}
 
+	@Override
+	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<String> users) throws LunchServiceException {
+	}
+
 }
