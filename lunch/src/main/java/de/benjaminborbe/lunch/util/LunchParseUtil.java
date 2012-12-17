@@ -27,11 +27,12 @@ public class LunchParseUtil {
 	}
 
 	public Collection<String> extractSubscribedUser(final String htmlContent) {
+		logger.debug("htmlContent:\n" + htmlContent);
 		final Set<String> result = new HashSet<String>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByTag("table");
 		for (final Element table : tables) {
-			if ("confluenceTable".equals(table.attr("class"))) {
+			if (isSubscriptTable(table)) {
 				for (final Element tr : table.getElementsByTag("tr")) {
 					final Elements tds = tr.getElementsByTag("td");
 					if (!tds.isEmpty()) {
@@ -43,7 +44,21 @@ public class LunchParseUtil {
 				}
 			}
 		}
+		logger.debug("found " + result.size() + " subscribed users in htmlcontent");
 		return result;
+	}
+
+	private boolean isSubscriptTable(final Element table) {
+		final Elements trs = table.getElementsByTag("tr");
+		if (trs != null && !trs.isEmpty()) {
+			final Element head = trs.get(0);
+			final Elements tds = head.getElementsByTag("th");
+			if (tds != null && !tds.isEmpty()) {
+				final String text = tds.get(0).text();
+				return text != null && text.contains("Teilnehmer");
+			}
+		}
+		return false;
 	}
 
 	public boolean extractLunchSubscribed(final String content, final String fullname) {

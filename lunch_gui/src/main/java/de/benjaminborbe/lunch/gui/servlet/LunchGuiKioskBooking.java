@@ -50,6 +50,8 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public LunchGuiKioskBooking(
 			final Logger logger,
@@ -66,6 +68,7 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 		this.logger = logger;
 		this.lunchService = lunchService;
 		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 		this.authenticationService = authenticationService;
 	}
 
@@ -83,7 +86,7 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<String> users = new ArrayList<String>(lunchService.getSubscribeUser(sessionIdentifier, calendarUtil.today()));
+			final List<String> users = new ArrayList<String>(lunchService.getSubscribeUser(sessionIdentifier, calendarUtil.today(timeZoneUtil.getUTCTimeZone())));
 			Collections.sort(users);
 
 			final UlWidget ul = new UlWidget();
