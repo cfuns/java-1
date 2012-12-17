@@ -65,7 +65,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 	}
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 * * * * ?"; // ones per hour
+	private static final String SCHEDULE_EXPRESSION = "0 0 * * * ?"; // ones per hour
 
 	private final Logger logger;
 
