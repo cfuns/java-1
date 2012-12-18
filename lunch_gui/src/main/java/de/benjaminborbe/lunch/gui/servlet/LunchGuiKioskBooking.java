@@ -36,6 +36,8 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormCheckboxWidget;
+import de.benjaminborbe.website.form.FormElementWidget;
+import de.benjaminborbe.website.form.FormElementWidgetDummy;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkWidget;
@@ -108,8 +110,14 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			final FormWidget form = new FormWidget().addId("bookings");
 
 			for (final LunchUser user : users) {
-				form.addFormInputWidget(new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user.getName()).addValue(user.getCustomerNumber())
-						.setCheckedDefault(true));
+				if (user.getCustomerNumber() != null) {
+					final FormElementWidget input = new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user.getName()).addValue(user.getCustomerNumber())
+							.setCheckedDefault(true);
+					form.addFormInputWidget(input);
+				}
+				else {
+					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(user.getName()).addContent("NOT FOUND"));
+				}
 			}
 			form.addFormInputWidget(new FormInputSubmitWidget("buchen"));
 			widgets.add(form);

@@ -1,6 +1,6 @@
 package de.benjaminborbe.lunch.kioskconnector;
 
-public interface KioskConnector {
+public interface KioskBookingConnector {
 
 	boolean bookLunch(String customerNumber);
 

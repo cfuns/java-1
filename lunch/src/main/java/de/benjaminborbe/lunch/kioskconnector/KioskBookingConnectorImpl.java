@@ -4,12 +4,12 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-public class KioskConnectorImpl implements KioskConnector {
+public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private final Logger logger;
 
 	@Inject
-	public KioskConnectorImpl(final Logger logger) {
+	public KioskBookingConnectorImpl(final Logger logger) {
 		this.logger = logger;
 	}
 

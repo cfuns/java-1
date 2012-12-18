@@ -27,6 +27,8 @@ import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.booking.BookingMessage;
 import de.benjaminborbe.lunch.booking.BookingMessageMapper;
 import de.benjaminborbe.lunch.config.LunchConfig;
+import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnector;
+import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnectorException;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.messageservice.api.MessageService;
 import de.benjaminborbe.messageservice.api.MessageServiceException;
@@ -45,7 +47,7 @@ public class LunchServiceImpl implements LunchService {
 
 		private final String customerNumber;
 
-		private LunchUserImpl(String username, String customerNumber) {
+		private LunchUserImpl(final String username, final String customerNumber) {
 			this.username = username;
 			this.customerNumber = customerNumber;
 		}
@@ -79,9 +81,12 @@ public class LunchServiceImpl implements LunchService {
 
 	private final BookingMessageMapper bookingMessageMapper;
 
+	private final KioskDatabaseConnector kioskDatabaseConnector;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
+			final KioskDatabaseConnector kioskDatabaseConnector,
 			final BookingMessageMapper bookingMessageMapper,
 			final MessageService messageService,
 			final LunchWikiConnector wikiConnector,
@@ -90,6 +95,7 @@ public class LunchServiceImpl implements LunchService {
 			final DurationUtil durationUtil,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
+		this.kioskDatabaseConnector = kioskDatabaseConnector;
 		this.bookingMessageMapper = bookingMessageMapper;
 		this.messageService = messageService;
 		this.wikiConnector = wikiConnector;
@@ -199,8 +205,13 @@ public class LunchServiceImpl implements LunchService {
 
 			final List<LunchUser> result = new ArrayList<LunchUser>();
 			for (final String username : list) {
-				final String customerNumber = null;
-				result.add(new LunchUserImpl(username, customerNumber));
+				try {
+					final String customerNumber = kioskDatabaseConnector.getCustomerNumber(username);
+					result.add(new LunchUserImpl(username, customerNumber));
+				}
+				catch (final KioskDatabaseConnectorException e) {
+					logger.warn(e.getClass().getName(), e);
+				}
 			}
 			return result;
 		}

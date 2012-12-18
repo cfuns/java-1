@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.booking.BookingMessage;
 import de.benjaminborbe.lunch.booking.BookingMessageMapper;
-import de.benjaminborbe.lunch.kioskconnector.KioskConnector;
+import de.benjaminborbe.lunch.kioskconnector.KioskBookingConnector;
 import de.benjaminborbe.messageservice.api.Message;
 import de.benjaminborbe.messageservice.api.MessageConsumer;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -21,10 +21,10 @@ public class LunchBookingMessageConsumer implements MessageConsumer {
 
 	private final CalendarUtil calendarUtil;
 
-	private final KioskConnector kioskConnector;
+	private final KioskBookingConnector kioskConnector;
 
 	@Inject
-	public LunchBookingMessageConsumer(final Logger logger, final BookingMessageMapper bookingMessageMapper, final CalendarUtil calendarUtil, final KioskConnector kioskConnector) {
+	public LunchBookingMessageConsumer(final Logger logger, final BookingMessageMapper bookingMessageMapper, final CalendarUtil calendarUtil, final KioskBookingConnector kioskConnector) {
 		this.logger = logger;
 		this.bookingMessageMapper = bookingMessageMapper;
 		this.calendarUtil = calendarUtil;
