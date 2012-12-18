@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
-import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBooking;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookingServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
 import de.benjaminborbe.lunch.gui.util.LunchGuiNavigationEntry;
@@ -24,7 +24,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private LunchGuiKioskBooking lunchGuiKioskBooking;
+	private LunchGuiKioskBookingServlet lunchGuiKioskBooking;
 
 	@Inject
 	private LunchGuiServlet lunchGuiServlet;

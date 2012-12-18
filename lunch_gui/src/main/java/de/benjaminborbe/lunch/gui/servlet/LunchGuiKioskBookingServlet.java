@@ -29,11 +29,13 @@ import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
+import de.benjaminborbe.lunch.gui.util.LunchGuiLinkFactory;
 import de.benjaminborbe.lunch.gui.util.LunchUserComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormElementWidget;
@@ -47,7 +49,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
+public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 	private static final long serialVersionUID = -7698261881382004351L;
 
@@ -63,8 +65,10 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final LunchGuiLinkFactory lunchGuiLinkFactory;
+
 	@Inject
-	public LunchGuiKioskBooking(
+	public LunchGuiKioskBookingServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -74,9 +78,11 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
+			final LunchGuiLinkFactory lunchGuiLinkFactory,
 			final LunchService lunchService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.lunchGuiLinkFactory = lunchGuiLinkFactory;
 		this.lunchService = lunchService;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
@@ -93,9 +99,24 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
-			final Calendar calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
+
+			Calendar calendar;
+			try {
+				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKING_USER));
+			}
+			catch (final ParseException e) {
+				calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
+			}
+
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle() + " - " + calendarUtil.toDateString(calendar)));
+
+			final ListWidget links = new ListWidget();
+			links.add(lunchGuiLinkFactory.bookingSubDay(request, calendar));
+			links.add(" ");
+			links.add(lunchGuiLinkFactory.bookingAddDay(request, calendar));
+			links.add(" ");
+			widgets.add(links);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String[] selectedUsers = request.getParameterValues(LunchGuiConstants.PARAMETER_BOOKING_USER);

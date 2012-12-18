@@ -20,4 +20,6 @@ public interface LunchGuiConstants {
 
 	String PARAMETER_BOOKING_USER = "parameter_booking_user";
 
+	String PARAMETER_BOOKING_DATE = "parameter_booking_date";
+
 }
