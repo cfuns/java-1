@@ -241,3 +241,8 @@ buildchecklist:
 	cd checklist && make all
 	cd checklist_gui && make all
 	cd checklist_test && make all
+buildmail:
+	cd mail_api && make all
+	cd mail && make all
+	cd mail_gui && make all
+	cd mail_test && make all
