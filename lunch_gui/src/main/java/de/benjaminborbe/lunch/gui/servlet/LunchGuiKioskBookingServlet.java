@@ -126,6 +126,8 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			if (selectedUsers != null && selectedUsers.length > 0) {
 				logger.info("book user: " + StringUtils.join(selectedUsers, ","));
 				lunchService.book(sessionIdentifier, calendar, Arrays.asList(selectedUsers));
+				widgets.add("booking completed");
+				return widgets;
 			}
 
 			final List<LunchUser> users = new ArrayList<LunchUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
