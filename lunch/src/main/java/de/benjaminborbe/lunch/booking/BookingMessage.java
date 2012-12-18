@@ -6,10 +6,10 @@ public class BookingMessage {
 
 	private final Calendar date;
 
-	private final String user;
+	private final String customerNumber;
 
-	public BookingMessage(final String user, final Calendar date) {
-		this.user = user;
+	public BookingMessage(final String customerNumber, final Calendar date) {
+		this.customerNumber = customerNumber;
 		this.date = date;
 	}
 
@@ -17,8 +17,8 @@ public class BookingMessage {
 		return date;
 	}
 
-	public String getUser() {
-		return user;
+	public String getCustomerNumber() {
+		return customerNumber;
 	}
 
 }

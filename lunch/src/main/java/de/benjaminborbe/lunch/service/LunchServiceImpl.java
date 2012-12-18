@@ -1,7 +1,10 @@
 package de.benjaminborbe.lunch.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
+
 import javax.xml.rpc.ServiceException;
 
 import org.slf4j.Logger;
@@ -20,6 +23,7 @@ import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
+import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.booking.BookingMessage;
 import de.benjaminborbe.lunch.booking.BookingMessageMapper;
 import de.benjaminborbe.lunch.config.LunchConfig;
@@ -34,6 +38,28 @@ import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class LunchServiceImpl implements LunchService {
+
+	private final class LunchUserImpl implements LunchUser {
+
+		private final String username;
+
+		private final String customerNumber;
+
+		private LunchUserImpl(String username, String customerNumber) {
+			this.username = username;
+			this.customerNumber = customerNumber;
+		}
+
+		@Override
+		public String getName() {
+			return username;
+		}
+
+		@Override
+		public String getCustomerNumber() {
+			return customerNumber;
+		}
+	}
 
 	private static final long DURATION_WARN = 300;
 
@@ -162,14 +188,21 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<String> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
+	public Collection<LunchUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getSubscribeUser for day: " + calendarUtil.toDateString(day));
-			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
-			final String username = lunchConfig.getConfluenceUsername();
-			final String password = lunchConfig.getConfluencePassword();
-			return wikiConnector.extractSubscriptions(spaceKey, username, password, day);
+			final String confluenceSpaceKey = lunchConfig.getConfluenceSpaceKey();
+			final String confluenceUsername = lunchConfig.getConfluenceUsername();
+			final String confluencePassword = lunchConfig.getConfluencePassword();
+			final Collection<String> list = wikiConnector.extractSubscriptions(confluenceSpaceKey, confluenceUsername, confluencePassword, day);
+
+			final List<LunchUser> result = new ArrayList<LunchUser>();
+			for (final String username : list) {
+				final String customerNumber = null;
+				result.add(new LunchUserImpl(username, customerNumber));
+			}
+			return result;
 		}
 		catch (final AuthenticationFailedException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
@@ -210,7 +243,7 @@ public class LunchServiceImpl implements LunchService {
 		catch (final AuthenticationServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (MapException e) {
+		catch (final MapException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {

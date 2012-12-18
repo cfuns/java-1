@@ -24,26 +24,26 @@ public class BookingMessageMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		{
-			final String user = null;
+			final String customerNumber = null;
 			final Calendar calendar = null;
-			final BookingMessage bookingMessage = new BookingMessage(user, calendar);
+			final BookingMessage bookingMessage = new BookingMessage(customerNumber, calendar);
 			final BookingMessageMapper mapper = getBookingMessageMapper();
 			final String string = mapper.map(bookingMessage);
 			assertNotNull(string);
 			final BookingMessage bookingMessageAfter = mapper.map(string);
-			assertEquals(user, bookingMessageAfter.getUser());
+			assertEquals(customerNumber, bookingMessageAfter.getCustomerNumber());
 			assertEquals(calendar, bookingMessageAfter.getDate());
 		}
 
 		{
-			final String user = "James Bond";
+			final String customerNumber = "James Bond";
 			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			final BookingMessage bookingMessage = new BookingMessage(user, calendar);
+			final BookingMessage bookingMessage = new BookingMessage(customerNumber, calendar);
 			final BookingMessageMapper mapper = getBookingMessageMapper();
 			final String string = mapper.map(bookingMessage);
 			assertNotNull(string);
 			final BookingMessage bookingMessageAfter = mapper.map(string);
-			assertEquals(user, bookingMessageAfter.getUser());
+			assertEquals(customerNumber, bookingMessageAfter.getCustomerNumber());
 			assertEquals(calendar, bookingMessageAfter.getDate());
 		}
 	}

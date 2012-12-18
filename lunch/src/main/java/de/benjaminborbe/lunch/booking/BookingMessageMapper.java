@@ -12,6 +12,10 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 
 public class BookingMessageMapper {
 
+	private static final String DATE = "date";
+
+	private static final String CUSTOMER_NUMBER = "customerNumber";
+
 	private final MapperCalendar mapperCalendar;
 
 	@Inject
@@ -23,8 +27,8 @@ public class BookingMessageMapper {
 	public String map(final BookingMessage bookingMessage) throws MapException {
 		try {
 			final JSONObject object = new JSONObject();
-			object.put("user", bookingMessage.getUser());
-			object.put("date", mapperCalendar.toString(bookingMessage.getDate()));
+			object.put(CUSTOMER_NUMBER, bookingMessage.getCustomerNumber());
+			object.put(DATE, mapperCalendar.toString(bookingMessage.getDate()));
 			return object.toJSONString();
 		}
 		catch (final Exception e) {
@@ -38,8 +42,8 @@ public class BookingMessageMapper {
 			final Object object = parser.parse(message);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonobject = (JSONObject) object;
-				final String user = getValue(jsonobject, "user");
-				final Calendar date = mapperCalendar.fromString(getValue(jsonobject, "date"));
+				final String user = getValue(jsonobject, CUSTOMER_NUMBER);
+				final Calendar date = mapperCalendar.fromString(getValue(jsonobject, DATE));
 				return new BookingMessage(user, date);
 			}
 			throw new MapException("not a json object");

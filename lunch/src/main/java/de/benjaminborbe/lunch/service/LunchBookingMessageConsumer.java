@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.booking.BookingMessage;
 import de.benjaminborbe.lunch.booking.BookingMessageMapper;
+import de.benjaminborbe.lunch.kioskconnector.KioskConnector;
 import de.benjaminborbe.messageservice.api.Message;
 import de.benjaminborbe.messageservice.api.MessageConsumer;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -20,11 +21,14 @@ public class LunchBookingMessageConsumer implements MessageConsumer {
 
 	private final CalendarUtil calendarUtil;
 
+	private final KioskConnector kioskConnector;
+
 	@Inject
-	public LunchBookingMessageConsumer(final Logger logger, final BookingMessageMapper bookingMessageMapper, final CalendarUtil calendarUtil) {
+	public LunchBookingMessageConsumer(final Logger logger, final BookingMessageMapper bookingMessageMapper, final CalendarUtil calendarUtil, final KioskConnector kioskConnector) {
 		this.logger = logger;
 		this.bookingMessageMapper = bookingMessageMapper;
 		this.calendarUtil = calendarUtil;
+		this.kioskConnector = kioskConnector;
 	}
 
 	@Override
@@ -37,8 +41,9 @@ public class LunchBookingMessageConsumer implements MessageConsumer {
 		logger.debug("process");
 		try {
 			final BookingMessage bookingMessage = bookingMessageMapper.map(message.getContent());
-			logger.debug("book - user: " + bookingMessage.getUser() + " date: " + calendarUtil.toDateString(bookingMessage.getDate()));
-			return true;
+			logger.debug("book - user: " + bookingMessage.getCustomerNumber() + " date: " + calendarUtil.toDateString(bookingMessage.getDate()));
+
+			return kioskConnector.bookLunch(bookingMessage.getCustomerNumber());
 		}
 		catch (final MapException e) {
 			logger.warn(e.getClass().getName(), e);

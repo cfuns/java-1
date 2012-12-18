@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
+import de.benjaminborbe.lunch.api.LunchUser;
 
 @Singleton
 public class LunchServiceMock implements LunchService {
@@ -68,7 +69,7 @@ public class LunchServiceMock implements LunchService {
 	}
 
 	@Override
-	public Collection<String> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
+	public Collection<LunchUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
 		return null;
 	}
 

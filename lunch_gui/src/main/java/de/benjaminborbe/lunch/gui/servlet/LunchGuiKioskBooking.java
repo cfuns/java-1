@@ -27,7 +27,9 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
+import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
+import de.benjaminborbe.lunch.gui.util.LunchUserComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -100,13 +102,14 @@ public class LunchGuiKioskBooking extends LunchGuiHtmlServlet {
 				lunchService.book(sessionIdentifier, calendar, Arrays.asList(selectedUsers));
 			}
 
-			final List<String> users = new ArrayList<String>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
-			Collections.sort(users);
+			final List<LunchUser> users = new ArrayList<LunchUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
+			Collections.sort(users, new LunchUserComparator());
 
 			final FormWidget form = new FormWidget().addId("bookings");
 
-			for (final String user : users) {
-				form.addFormInputWidget(new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user).addValue(user).setCheckedDefault(true));
+			for (final LunchUser user : users) {
+				form.addFormInputWidget(new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user.getName()).addValue(user.getCustomerNumber())
+						.setCheckedDefault(true));
 			}
 			form.addFormInputWidget(new FormInputSubmitWidget("buchen"));
 			widgets.add(form);
