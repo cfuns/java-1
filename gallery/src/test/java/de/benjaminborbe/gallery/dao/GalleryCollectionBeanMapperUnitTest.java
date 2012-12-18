@@ -12,12 +12,17 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.util.MapperGalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.util.MapperGalleryGroupIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperLong;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -43,7 +48,14 @@ public class GalleryCollectionBeanMapperUnitTest {
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		return new GalleryCollectionBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil, mapperCalendar);
+
+		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
+		final MapperString mapperString = new MapperString();
+		final MapperLong mapperLong = new MapperLong(parseUtil);
+		final MapperGalleryCollectionIdentifier mapperGalleryCollectionIdentifier = new MapperGalleryCollectionIdentifier();
+		final MapperGalleryGroupIdentifier mapperGalleryGroupIdentifier = new MapperGalleryGroupIdentifier();
+		return new GalleryCollectionBeanMapper(taskBeanProvider, mapperGalleryCollectionIdentifier, mapperGalleryGroupIdentifier, mapperString, mapperLong, mapperBoolean,
+				mapperCalendar);
 	}
 
 	@Test

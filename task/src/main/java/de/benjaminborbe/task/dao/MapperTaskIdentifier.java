@@ -1,13 +1,9 @@
 package de.benjaminborbe.task.dao;
 
 import de.benjaminborbe.task.api.TaskIdentifier;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperTaskIdentifier<B> extends StringObjectMapperBase<B, TaskIdentifier> {
-
-	public StringObjectMapperTaskIdentifier(final String name) {
-		super(name);
-	}
+public class MapperTaskIdentifier implements Mapper<TaskIdentifier> {
 
 	@Override
 	public String toString(final TaskIdentifier value) {

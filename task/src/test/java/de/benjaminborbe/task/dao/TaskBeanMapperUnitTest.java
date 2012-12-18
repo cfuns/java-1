@@ -20,7 +20,11 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
+import de.benjaminborbe.tools.mapper.MapperLong;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -46,7 +50,14 @@ public class TaskBeanMapperUnitTest {
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		return new TaskBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil, mapperCalendar);
+
+		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
+		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
+		final MapperString mapperString = new MapperString();
+		final MapperLong mapperLong = new MapperLong(parseUtil);
+		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
+		final MapperTaskIdentifier mapperTaskIdentifier = new MapperTaskIdentifier();
+		return new TaskBeanMapper(taskBeanProvider, mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger);
 	}
 
 	@Test

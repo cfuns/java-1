@@ -1,6 +1,7 @@
 package de.benjaminborbe.messageservice.dao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,14 +9,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperCalendar;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperString;
-import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
 
 @Singleton
 public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
@@ -25,21 +23,20 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 	@Inject
 	public MessageBeanMapper(
 			final Provider<MessageBean> provider,
-			final ParseUtil parseUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final CalendarUtil calendarUtil,
+			final MapperMessageIdentifier mapperMessageIdentifier,
+			final MapperString mapperString,
 			final MapperCalendar mapperCalendar) {
-		super(provider, buildMappings(parseUtil, timeZoneUtil, calendarUtil, mapperCalendar));
+		super(provider, buildMappings(mapperMessageIdentifier, mapperString, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<MessageBean>> buildMappings(final ParseUtil parseUtil, final TimeZoneUtil timeZoneUtil, final CalendarUtil calendarUtil,
+	private static Collection<StringObjectMapper<MessageBean>> buildMappings(final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
 			final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<MessageBean>> result = new ArrayList<StringObjectMapper<MessageBean>>();
-		result.add(new StringObjectMapperMessageIdentifier<MessageBean>("id"));
-		result.add(new StringObjectMapperString<MessageBean>("content"));
-		result.add(new StringObjectMapperString<MessageBean>(TYPE));
-		result.add(new StringObjectMapperCalendar<MessageBean>("created", mapperCalendar));
-		result.add(new StringObjectMapperCalendar<MessageBean>("modified", mapperCalendar));
+		result.add(new StringObjectMapperBase<MessageBean, MessageIdentifier>("id", mapperMessageIdentifier));
+		result.add(new StringObjectMapperBase<MessageBean, String>("content", mapperString));
+		result.add(new StringObjectMapperBase<MessageBean, String>(TYPE, mapperString));
+		result.add(new StringObjectMapperBase<MessageBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperBase<MessageBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

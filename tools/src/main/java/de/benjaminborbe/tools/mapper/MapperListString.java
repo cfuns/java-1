@@ -1,15 +1,11 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-public class StringObjectMapperStringList<T> extends StringObjectMapperBase<T, List<String>> {
-
-	public StringObjectMapperStringList(final String name) {
-		super(name);
-	}
+public class MapperListString implements Mapper<List<String>> {
 
 	@Override
 	public String toString(final List<String> value) {

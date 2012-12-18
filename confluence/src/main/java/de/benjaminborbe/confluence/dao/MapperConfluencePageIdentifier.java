@@ -1,13 +1,9 @@
 package de.benjaminborbe.confluence.dao;
 
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperConfluencePageIdentifier<B> extends StringObjectMapperBase<B, ConfluencePageIdentifier> {
-
-	public StringObjectMapperConfluencePageIdentifier(final String name) {
-		super(name);
-	}
+public class MapperConfluencePageIdentifier implements Mapper<ConfluencePageIdentifier> {
 
 	@Override
 	public String toString(final ConfluencePageIdentifier value) {

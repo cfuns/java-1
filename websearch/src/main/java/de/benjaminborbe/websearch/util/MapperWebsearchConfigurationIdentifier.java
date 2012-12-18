@@ -1,13 +1,9 @@
 package de.benjaminborbe.websearch.util;
 
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 
-public class StringObjectMapperWebsearchConfigurationIdentifier<B> extends StringObjectMapperBase<B, WebsearchConfigurationIdentifier> {
-
-	public StringObjectMapperWebsearchConfigurationIdentifier(final String name) {
-		super(name);
-	}
+public class MapperWebsearchConfigurationIdentifier implements Mapper<WebsearchConfigurationIdentifier> {
 
 	@Override
 	public String toString(final WebsearchConfigurationIdentifier value) {

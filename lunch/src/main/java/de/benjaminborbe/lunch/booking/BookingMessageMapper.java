@@ -24,7 +24,7 @@ public class BookingMessageMapper {
 		try {
 			final JSONObject object = new JSONObject();
 			object.put("user", bookingMessage.getUser());
-			object.put("date", mapperCalendar.map(bookingMessage.getDate()));
+			object.put("date", mapperCalendar.toString(bookingMessage.getDate()));
 			return object.toJSONString();
 		}
 		catch (final Exception e) {
@@ -39,7 +39,7 @@ public class BookingMessageMapper {
 			if (object instanceof JSONObject) {
 				final JSONObject jsonobject = (JSONObject) object;
 				final String user = getValue(jsonobject, "user");
-				final Calendar date = mapperCalendar.map(getValue(jsonobject, "date"));
+				final Calendar date = mapperCalendar.fromString(getValue(jsonobject, "date"));
 				return new BookingMessage(user, date);
 			}
 			throw new MapException("not a json object");

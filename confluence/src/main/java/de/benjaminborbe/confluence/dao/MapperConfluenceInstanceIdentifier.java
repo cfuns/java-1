@@ -1,13 +1,9 @@
 package de.benjaminborbe.confluence.dao;
 
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperConfluenceInstanceIdentifier<B> extends StringObjectMapperBase<B, ConfluenceInstanceIdentifier> {
-
-	public StringObjectMapperConfluenceInstanceIdentifier(final String name) {
-		super(name);
-	}
+public class MapperConfluenceInstanceIdentifier implements Mapper<ConfluenceInstanceIdentifier> {
 
 	@Override
 	public String toString(final ConfluenceInstanceIdentifier value) {

@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.date.CurrentTime;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperTimeZone;
+import de.benjaminborbe.tools.mapper.MapperTimeZone;
 
-public class StringObjectMapperTimeZoneUnitTest {
+public class MapperTimeZoneUnitTest {
 
 	public class T {
 
@@ -38,11 +38,9 @@ public class StringObjectMapperTimeZoneUnitTest {
 		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
 		EasyMock.replay(currentTime);
 
-		final String name = "field";
-
 		final Collection<TimeZone> timeZones = Arrays.asList(TimeZone.getDefault(), null);
 		for (final TimeZone timeZone : timeZones) {
-			final StringObjectMapperTimeZone<T> map = new StringObjectMapperTimeZone<T>(name);
+			final MapperTimeZone map = new MapperTimeZone();
 			final String timeZoneString = map.toString(timeZone);
 			assertEquals(timeZone, map.fromString(timeZoneString));
 		}

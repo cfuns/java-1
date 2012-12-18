@@ -17,7 +17,11 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
+import de.benjaminborbe.tools.mapper.MapperLong;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -43,7 +47,14 @@ public class ConfluenceInstanceBeanMapperUnitTest {
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		return new ConfluenceInstanceBeanMapper(confluenceInstanceBeanProvider, parseUtil, timeZoneUtil, calendarUtil, mapperCalendar);
+		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
+		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
+		final MapperString mapperString = new MapperString();
+		final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier = new MapperConfluenceInstanceIdentifier();
+		final MapperLong mapperLong = new MapperLong(parseUtil);
+		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
+		return new ConfluenceInstanceBeanMapper(confluenceInstanceBeanProvider, mapperConfluenceInstanceIdentifier, mapperUserIdentifier, mapperString, mapperLong, mapperBoolean,
+				mapperInteger, mapperCalendar);
 	}
 
 	@Test

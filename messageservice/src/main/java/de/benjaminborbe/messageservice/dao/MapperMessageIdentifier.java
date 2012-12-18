@@ -1,12 +1,8 @@
 package de.benjaminborbe.messageservice.dao;
 
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperMessageIdentifier<B> extends StringObjectMapperBase<B, MessageIdentifier> {
-
-	public StringObjectMapperMessageIdentifier(final String name) {
-		super(name);
-	}
+public class MapperMessageIdentifier implements Mapper<MessageIdentifier> {
 
 	@Override
 	public String toString(final MessageIdentifier value) {

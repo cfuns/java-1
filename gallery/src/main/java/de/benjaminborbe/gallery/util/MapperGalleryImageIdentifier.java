@@ -1,13 +1,9 @@
 package de.benjaminborbe.gallery.util;
 
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperGalleryImageIdentifier<B> extends StringObjectMapperBase<B, GalleryImageIdentifier> {
-
-	public StringObjectMapperGalleryImageIdentifier(final String name) {
-		super(name);
-	}
+public class MapperGalleryImageIdentifier implements Mapper<GalleryImageIdentifier> {
 
 	@Override
 	public String toString(final GalleryImageIdentifier value) {

@@ -14,11 +14,11 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.mapper.MapperBoolean;
+import de.benjaminborbe.tools.mapper.MapperByteArray;
+import de.benjaminborbe.tools.mapper.MapperString;
+import de.benjaminborbe.tools.mapper.MapperTimeZone;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -41,11 +41,16 @@ public class UserBeanMapperUnitTest {
 		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
 		EasyMock.replay(currentTime);
 
-		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final Base64Util base64Util = new Base64UtilImpl();
-		return new UserBeanMapper(taskBeanProvider, parseUtil, calendarUtil, base64Util);
+
+		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
+		final MapperTimeZone mapperTimeZone = new MapperTimeZone();
+		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
+		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
+		final MapperString mapperString = new MapperString();
+
+		return new UserBeanMapper(taskBeanProvider, mapperUserIdentifier, mapperTimeZone, mapperByteArray, mapperBoolean, mapperString);
 	}
 
 	@Test

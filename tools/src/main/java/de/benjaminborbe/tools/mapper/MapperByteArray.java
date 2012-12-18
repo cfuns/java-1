@@ -1,13 +1,15 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
+
+import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.util.Base64Util;
 
-public class StringObjectMapperByteArray<T> extends StringObjectMapperBase<T, byte[]> {
+public class MapperByteArray implements Mapper<byte[]> {
 
 	private final Base64Util base64Util;
 
-	public StringObjectMapperByteArray(final String name, final Base64Util base64Util) {
-		super(name);
+	@Inject
+	public MapperByteArray(final Base64Util base64Util) {
 		this.base64Util = base64Util;
 	}
 

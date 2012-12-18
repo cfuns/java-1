@@ -1,13 +1,9 @@
 package de.benjaminborbe.checklist.dao;
 
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperListIdentifier<B> extends StringObjectMapperBase<B, ChecklistListIdentifier> {
-
-	public StringObjectMapperListIdentifier(final String name) {
-		super(name);
-	}
+public class MapperListIdentifier implements Mapper<ChecklistListIdentifier> {
 
 	@Override
 	public String toString(final ChecklistListIdentifier value) {

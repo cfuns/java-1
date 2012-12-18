@@ -1,14 +1,16 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
+
+import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
-public class StringObjectMapperLong<T> extends StringObjectMapperBase<T, Long> {
+public class MapperLong implements Mapper<Long> {
 
 	private final ParseUtil parseUtil;
 
-	public StringObjectMapperLong(final String name, final ParseUtil parseUtil) {
-		super(name);
+	@Inject
+	public MapperLong(final ParseUtil parseUtil) {
 		this.parseUtil = parseUtil;
 	}
 

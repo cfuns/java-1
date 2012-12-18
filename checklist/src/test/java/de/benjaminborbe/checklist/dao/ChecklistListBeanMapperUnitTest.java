@@ -18,6 +18,7 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -43,7 +44,11 @@ public class ChecklistListBeanMapperUnitTest {
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		return new ChecklistListBeanMapper(taskBeanProvider, parseUtil, timeZoneUtil, calendarUtil, mapperCalendar);
+
+		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
+		final MapperString mapperString = new MapperString();
+		final MapperListIdentifier mapperListIdentifier = new MapperListIdentifier();
+		return new ChecklistListBeanMapper(taskBeanProvider, mapperListIdentifier, mapperUserIdentifier, mapperString, mapperCalendar);
 	}
 
 	@Test

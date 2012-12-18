@@ -1,13 +1,9 @@
 package de.benjaminborbe.confluence.dao;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperUserIdentifier<B> extends StringObjectMapperBase<B, UserIdentifier> {
-
-	public StringObjectMapperUserIdentifier(final String name) {
-		super(name);
-	}
+public class MapperUserIdentifier implements Mapper<UserIdentifier> {
 
 	@Override
 	public String toString(final UserIdentifier value) {

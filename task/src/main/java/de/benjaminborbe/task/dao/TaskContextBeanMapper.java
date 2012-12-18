@@ -1,20 +1,20 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperCalendar;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperString;
-import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
 
 public class TaskContextBeanMapper extends MapObjectMapperAdapter<TaskContextBean> {
 
@@ -25,21 +25,21 @@ public class TaskContextBeanMapper extends MapObjectMapperAdapter<TaskContextBea
 	@Inject
 	public TaskContextBeanMapper(
 			final Provider<TaskContextBean> provider,
-			final ParseUtil parseUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
+			final MapperTaskContextIdentifier mapperTaskContextIdentifier,
+			final MapperString mapperString,
+			final MapperUserIdentifier mapperUserIdentifier,
 			final MapperCalendar mapperCalendar) {
-		super(provider, buildMappings(parseUtil, calendarUtil, timeZoneUtil, mapperCalendar));
+		super(provider, buildMappings(mapperTaskContextIdentifier, mapperString, mapperUserIdentifier, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<TaskContextBean>> buildMappings(final ParseUtil parseUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil,
-			final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<TaskContextBean>> buildMappings(final MapperTaskContextIdentifier mapperTaskContextIdentifier, final MapperString mapperString,
+			final MapperUserIdentifier mapperUserIdentifier, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<TaskContextBean>> result = new ArrayList<StringObjectMapper<TaskContextBean>>();
-		result.add(new StringObjectMapperTaskContextIdentifier<TaskContextBean>("id"));
-		result.add(new StringObjectMapperString<TaskContextBean>(NAME));
-		result.add(new StringObjectMapperUserIdentifier<TaskContextBean>(OWNER));
-		result.add(new StringObjectMapperCalendar<TaskContextBean>("created", mapperCalendar));
-		result.add(new StringObjectMapperCalendar<TaskContextBean>("modified", mapperCalendar));
+		result.add(new StringObjectMapperBase<TaskContextBean, TaskContextIdentifier>("id", mapperTaskContextIdentifier));
+		result.add(new StringObjectMapperBase<TaskContextBean, String>(NAME, mapperString));
+		result.add(new StringObjectMapperBase<TaskContextBean, UserIdentifier>(OWNER, mapperUserIdentifier));
+		result.add(new StringObjectMapperBase<TaskContextBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperBase<TaskContextBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

@@ -1,12 +1,8 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
 
 import java.util.TimeZone;
 
-public class StringObjectMapperTimeZone<T> extends StringObjectMapperBase<T, TimeZone> {
-
-	public StringObjectMapperTimeZone(final String name) {
-		super(name);
-	}
+public class MapperTimeZone implements Mapper<TimeZone> {
 
 	@Override
 	public String toString(final TimeZone value) {

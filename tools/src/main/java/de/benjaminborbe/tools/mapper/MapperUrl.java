@@ -1,15 +1,17 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
 
 import java.net.URL;
 
+import com.google.inject.Inject;
+
 import de.benjaminborbe.tools.util.ParseUtil;
 
-public class StringObjectMapperUrl<T> extends StringObjectMapperBase<T, URL> {
+public class MapperUrl implements Mapper<URL> {
 
 	private final ParseUtil parseUtil;
 
-	public StringObjectMapperUrl(final String name, final ParseUtil parseUtil) {
-		super(name);
+	@Inject
+	public MapperUrl(final ParseUtil parseUtil) {
 		this.parseUtil = parseUtil;
 	}
 

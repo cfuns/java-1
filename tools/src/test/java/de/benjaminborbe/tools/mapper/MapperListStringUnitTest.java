@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.date.CurrentTime;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperStringList;
+import de.benjaminborbe.tools.mapper.MapperListString;
 
-public class StringObjectMapperStringListUnitTest {
+public class MapperListStringUnitTest {
 
 	public class T {
 
@@ -36,17 +36,15 @@ public class StringObjectMapperStringListUnitTest {
 		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
 		EasyMock.replay(currentTime);
 
-		final String name = "field";
-
 		{
 			final List<String> values = Arrays.asList("a", "b");
-			final StringObjectMapperStringList<T> map = new StringObjectMapperStringList<T>(name);
+			final MapperListString map = new MapperListString();
 			final String valuesString = map.toString(values);
 			assertEquals(values, map.fromString(valuesString));
 		}
 		{
 			final List<String> values = null;
-			final StringObjectMapperStringList<T> map = new StringObjectMapperStringList<T>(name);
+			final MapperListString map = new MapperListString();
 			final String valuesString = map.toString(values);
 			assertEquals(values, map.fromString(valuesString));
 		}

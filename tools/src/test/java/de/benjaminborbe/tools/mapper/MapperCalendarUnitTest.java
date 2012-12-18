@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.mapper.stringobject;
+package de.benjaminborbe.tools.mapper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,11 +14,10 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperCalendar;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
-public class StringObjectMapperCalendarUnitTest {
+public class MapperCalendarUnitTest {
 
 	public class T {
 
@@ -46,13 +45,11 @@ public class StringObjectMapperCalendarUnitTest {
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final String name = "field";
 		final long ms = 1351942796l * 1000l;
 
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		final StringObjectMapperCalendar<T> map = new StringObjectMapperCalendar<T>(name, mapperCalendar);
-		final Calendar calendar = map.fromString(String.valueOf(ms));
+		final Calendar calendar = mapperCalendar.fromString(String.valueOf(ms));
 		assertEquals(ms, calendar.getTimeInMillis());
-		assertEquals(String.valueOf(ms), map.toString(calendar));
+		assertEquals(String.valueOf(ms), mapperCalendar.toString(calendar));
 	}
 }

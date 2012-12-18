@@ -25,7 +25,7 @@ public class MapperCalendar implements Mapper<Calendar> {
 	}
 
 	@Override
-	public Calendar map(final String timestamp) {
+	public Calendar fromString(final String timestamp) {
 		try {
 			return timestamp != null ? calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), parseUtil.parseLong(timestamp)) : null;
 		}
@@ -35,7 +35,7 @@ public class MapperCalendar implements Mapper<Calendar> {
 	}
 
 	@Override
-	public String map(final Calendar calendar) {
+	public String toString(final Calendar calendar) {
 		return calendar != null ? String.valueOf(calendarUtil.getTime(calendar)) : null;
 	}
 }

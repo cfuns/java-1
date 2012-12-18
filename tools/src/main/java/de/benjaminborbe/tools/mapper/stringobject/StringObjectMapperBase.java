@@ -5,13 +5,17 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.Mapper;
 
-public abstract class StringObjectMapperBase<B, T> implements StringObjectMapper<B> {
+public class StringObjectMapperBase<B, T> implements StringObjectMapper<B> {
 
 	private final String name;
 
-	public StringObjectMapperBase(final String name) {
+	private final Mapper<T> mapper;
+
+	public StringObjectMapperBase(final String name, final Mapper<T> mapper) {
 		this.name = name;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -19,15 +23,11 @@ public abstract class StringObjectMapperBase<B, T> implements StringObjectMapper
 		return name;
 	}
 
-	public abstract String toString(T value);
-
-	public abstract T fromString(String value);
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public String map(final B bean) throws MapException {
 		try {
-			return toString((T) PropertyUtils.getProperty(bean, getName()));
+			return mapper.toString((T) PropertyUtils.getProperty(bean, getName()));
 		}
 		catch (final IllegalAccessException e) {
 			throw new MapException(e);
@@ -46,7 +46,7 @@ public abstract class StringObjectMapperBase<B, T> implements StringObjectMapper
 	@Override
 	public void map(final B bean, final String value) throws MapException {
 		try {
-			PropertyUtils.setProperty(bean, getName(), fromString(value));
+			PropertyUtils.setProperty(bean, getName(), mapper.fromString(value));
 		}
 		catch (final IllegalAccessException e) {
 			throw new MapException(e);
