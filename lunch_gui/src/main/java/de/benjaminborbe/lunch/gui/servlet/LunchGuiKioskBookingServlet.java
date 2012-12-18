@@ -40,6 +40,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormElementWidget;
 import de.benjaminborbe.website.form.FormElementWidgetDummy;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkWidget;
@@ -102,7 +103,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 			Calendar calendar;
 			try {
-				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKING_USER));
+				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKING_DATE));
 			}
 			catch (final ParseException e) {
 				calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
@@ -113,6 +114,8 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 			final ListWidget links = new ListWidget();
 			links.add(lunchGuiLinkFactory.bookingSubDay(request, calendar));
+			links.add(" ");
+			links.add(lunchGuiLinkFactory.booking(request));
 			links.add(" ");
 			links.add(lunchGuiLinkFactory.bookingAddDay(request, calendar));
 			links.add(" ");
@@ -140,6 +143,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(user.getName()).addContent("NOT FOUND"));
 				}
 			}
+			form.addFormInputWidget(new FormInputHiddenWidget(LunchGuiConstants.PARAMETER_BOOKING_DATE));
 			form.addFormInputWidget(new FormInputSubmitWidget("buchen"));
 			widgets.add(form);
 			widgets.add(new LinkWidget("javascript:toggle()", "toggle"));

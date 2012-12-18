@@ -38,4 +38,8 @@ public class LunchGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKING, new MapParameter().add(LunchGuiConstants.PARAMETER_BOOKING_DATE,
 				dateString), "next day");
 	}
+
+	public Widget booking(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKING, new MapParameter(), "today");
+	}
 }
