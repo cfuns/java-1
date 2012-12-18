@@ -15,7 +15,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	@Override
 	public boolean bookLunch(final String customerNumber) {
-		logger.info("bookLunch: customerNumber");
-		return false;
+		logger.info("bookLunch - customerNumber: " + customerNumber);
+		return true;
 	}
 }
