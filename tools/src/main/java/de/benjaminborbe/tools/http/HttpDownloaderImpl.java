@@ -189,6 +189,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 			// Send data
 			final URLConnection connection = url.openConnection();
+			connection.setConnectTimeout(timeout);
+			connection.setReadTimeout(timeout);
 			connection.setRequestProperty("Cookie", buildCookieString(cookies));
 			connection.setDoOutput(true);
 			connection.connect();

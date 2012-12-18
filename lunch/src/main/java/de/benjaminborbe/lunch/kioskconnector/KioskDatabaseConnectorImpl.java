@@ -30,14 +30,14 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 			logger.debug("search customerNumber");
 			final String[] parts = username.split(" ", 2);
 			if (parts.length == 2) {
-				logger.debug("load driver");
+				logger.trace("load driver");
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-				logger.debug("InitialContext");
+				logger.trace("InitialContext");
 				final Context initialContext = new InitialContext();
 				final Context componentBindings = (Context) initialContext.lookup("java:comp/env");
 				final DataSource dataSource = (DataSource) componentBindings.lookup("jdbc/kiosk");
-				logger.debug("getConnection");
+				logger.trace("getConnection");
 				connection = dataSource.getConnection();
 
 				statement = connection.prepareStatement("SELECT customer_no FROM customer WHERE prename = ? AND surname = ?");
@@ -45,7 +45,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 				statement.setString(2, parts[1]);
 
 				final ResultSet r = statement.executeQuery();
-				logger.debug("executeQuery");
+				logger.trace("executeQuery");
 				while (r.next()) {
 					logger.debug("found customerNumber");
 					return r.getString(1);
