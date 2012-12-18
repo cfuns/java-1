@@ -21,6 +21,8 @@ public class MessageBean implements Entity<MessageIdentifier>, Message, HasCreat
 
 	private String type;
 
+	private Long retryCounter;
+
 	@Override
 	public MessageIdentifier getId() {
 		return id;
@@ -60,12 +62,21 @@ public class MessageBean implements Entity<MessageIdentifier>, Message, HasCreat
 		this.content = content;
 	}
 
+	@Override
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
+	}
+
+	public Long getRetryCounter() {
+		return retryCounter;
+	}
+
+	public void setRetryCounter(Long retryCounter) {
+		this.retryCounter = retryCounter;
 	}
 
 }

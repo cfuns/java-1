@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.messageservice.MessageserviceConstants;
 import de.benjaminborbe.messageservice.api.MessageConsumer;
 import de.benjaminborbe.messageservice.dao.MessageBean;
 import de.benjaminborbe.messageservice.dao.MessageDao;
@@ -65,9 +66,23 @@ public class MessageConsumerExchanger {
 		final EntityIterator<MessageBean> i = messageDao.getEntityIteratorForUser(messageConsumer.getType());
 		while (i.hasNext()) {
 			final MessageBean message = i.next();
-			final boolean result = messageConsumer.process(message);
-			if (result) {
+			boolean result = false;
+			try {
+				result = messageConsumer.process(message);
+			}
+			catch (final Exception e) {
+				logger.warn("process message failed", e);
+				result = false;
+			}
+			long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
+			if (result || counter >= MessageserviceConstants.MAX_RETRY) {
 				messageDao.delete(message);
+			}
+			else {
+				counter++;
+				logger.debug("process message failed, increase retrycounter to " + counter);
+				message.setRetryCounter(counter);
+				messageDao.save(message);
 			}
 		}
 	}

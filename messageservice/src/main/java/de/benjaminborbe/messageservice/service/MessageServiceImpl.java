@@ -43,6 +43,7 @@ public class MessageServiceImpl implements MessageService {
 			bean.setId(new MessageIdentifier(idGeneratorUUID.nextId()));
 			bean.setType(type);
 			bean.setContent(content);
+			bean.setRetryCounter(0l);
 			messageDao.save(bean);
 		}
 		catch (final StorageException e) {
