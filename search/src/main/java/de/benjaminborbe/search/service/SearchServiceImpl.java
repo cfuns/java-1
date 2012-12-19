@@ -14,12 +14,38 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.search.dao.SearchQueryHistoryBean;
+import de.benjaminborbe.search.dao.SearchQueryHistoryDao;
+import de.benjaminborbe.search.dao.SearchQueryHistoryIdentifier;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
+import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 
 @Singleton
 public class SearchServiceImpl implements SearchService {
+
+	private final class SearchQueryHistroryRunnable implements Runnable {
+
+		private final String query;
+
+		private SearchQueryHistroryRunnable(String query) {
+			this.query = query;
+		}
+
+		@Override
+		public void run() {
+			try {
+				final SearchQueryHistoryBean searchQueryHistory = searchQueryHistoryDao.create();
+				searchQueryHistory.setId(new SearchQueryHistoryIdentifier(idGeneratorUUID.nextId()));
+				searchQueryHistory.setQuery(query);
+				searchQueryHistoryDao.save(searchQueryHistory);
+			}
+			catch (final Exception e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+		}
+	}
 
 	private final class SearchThreadRunner implements Runnable {
 
@@ -69,13 +95,21 @@ public class SearchServiceImpl implements SearchService {
 
 	private final SearchServiceSearchResultComparator searchServiceComponentComparator;
 
+	private final SearchQueryHistoryDao searchQueryHistoryDao;
+
+	private final IdGeneratorUUID idGeneratorUUID;
+
 	@Inject
 	public SearchServiceImpl(
 			final Logger logger,
+			final SearchQueryHistoryDao searchQueryHistoryDao,
+			final IdGeneratorUUID idGeneratorUUID,
 			final SearchServiceComponentRegistry searchServiceComponentRegistry,
 			final ThreadRunner threadRunner,
 			final SearchServiceSearchResultComparator searchServiceComponentComparator) {
 		this.logger = logger;
+		this.searchQueryHistoryDao = searchQueryHistoryDao;
+		this.idGeneratorUUID = idGeneratorUUID;
 		this.searchServiceComponentRegistry = searchServiceComponentRegistry;
 		this.threadRunner = threadRunner;
 		this.searchServiceComponentComparator = searchServiceComponentComparator;
@@ -84,6 +118,8 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
 		logger.trace("search words: " + StringUtils.join(words, ","));
+
+		createHistory(query);
 
 		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());
 		logger.trace("searchServiceComponents " + searchServiceComponents.size());
@@ -117,6 +153,10 @@ public class SearchServiceImpl implements SearchService {
 		Collections.sort(result, searchServiceComponentComparator);
 		logger.trace("found " + result.size() + " results");
 		return result;
+	}
+
+	private void createHistory(final String query) {
+		threadRunner.run("searchQueryHistory", new SearchQueryHistroryRunnable(query));
 	}
 
 	@Override

@@ -226,3 +226,9 @@ create column family message_queue with
   column_metadata = [
     {column_name: type, validation_class: UTF8Type, index_type: KEYS}
   ];
+
+drop column family search_query_history;
+create column family search_query_history with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
