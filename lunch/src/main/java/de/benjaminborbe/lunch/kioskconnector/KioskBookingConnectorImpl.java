@@ -68,6 +68,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 				final String htmlContent = getCartContent(sessionId);
 				if (htmlContent.indexOf("Hallo ") == -1) {
 					logger.warn("open cart failed");
+					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
 				else {
@@ -77,16 +78,23 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// delete all
 			{
-				addProduct(sessionId, DELETE_EAN);
+				final String htmlContent = addProduct(sessionId, DELETE_EAN);
+				if (htmlContent.indexOf("cart_empty_success") == -1) {
+					logger.warn("clear cart failed");
+					logger.debug("htmlContent: " + htmlContent);
+					return false;
+				}
+				else {
+					logger.debug("clear cart success");
+				}
 			}
 
 			// add mittag essen
 			{
-				addProduct(sessionId, MITTAG_EAN);
-
-				final String htmlContent = getCartContent(sessionId);
+				final String htmlContent = addProduct(sessionId, MITTAG_EAN);
 				if (htmlContent.indexOf("Bastians - Mittagstisch") == -1) {
 					logger.warn("add product failed");
+					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
 				else {
@@ -96,8 +104,15 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// logout
 			{
-				logout(sessionId, customerNumber);
-				logger.debug("logout");
+				final String htmlContent = logout(sessionId, customerNumber);
+				if (htmlContent.indexOf("Der Einkauf wurde gespeichert.") == -1) {
+					logger.warn("book cart failed");
+					logger.debug("htmlContent: " + htmlContent);
+					return false;
+				}
+				else {
+					logger.debug("book cart success");
+				}
 			}
 			return true;
 		}
@@ -119,14 +134,16 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		}
 	}
 
-	private void logout(final String sessionId, final String customerNumber) throws MalformedURLException, HttpDownloaderException {
-		addProduct(sessionId, customerNumber);
+	private String logout(final String sessionId, final String customerNumber) throws MalformedURLException, HttpDownloaderException, UnsupportedEncodingException {
+		return addProduct(sessionId, customerNumber);
 	}
 
-	private void addProduct(final String sessionId, final String ean) throws HttpDownloaderException, MalformedURLException {
+	private String addProduct(final String sessionId, final String ean) throws HttpDownloaderException, MalformedURLException, UnsupportedEncodingException {
 		final String url = "https://kiosk.lf.seibert-media.net/index.cgi/cart";
-		httpDownloader.postUrl(new URL(url), new MapChain<String, String>().add("ean", ean).add("form_action", "add"), new MapChain<String, String>().add("sessionID", sessionId),
-				TIMEOUT);
+		final HttpDownloadResult result = httpDownloader.postUrl(new URL(url), new MapChain<String, String>().add("ean", ean).add("form_action", "add"),
+				new MapChain<String, String>().add("sessionID", sessionId), TIMEOUT);
+		final String htmlContent = httpDownloadUtil.getContent(result);
+		return htmlContent;
 	}
 
 	private String getCartContent(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
