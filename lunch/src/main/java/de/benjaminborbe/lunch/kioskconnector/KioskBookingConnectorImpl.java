@@ -126,6 +126,18 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 					logger.debug("book cart success");
 				}
 			}
+			// end shopping
+			{
+				final String htmlContent = endShopping(sessionId);
+				if (htmlContent.indexOf("Der Einkauf wurde gespeichert.") == -1) {
+					logger.warn("end shopping failed");
+					logger.debug("htmlContent: " + htmlContent);
+					return false;
+				}
+				else {
+					logger.debug("end shopping success");
+				}
+			}
 			return true;
 		}
 		catch (final MalformedURLException e) {
@@ -160,6 +172,13 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private String getCartContent(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi/cart", new MapParameter());
+		final HttpDownloadResult result = httpDownloader.getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
+		final String htmlContent = httpDownloadUtil.getContent(result);
+		return htmlContent;
+	}
+
+	private String endShopping(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
+		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi/end_shopping", new MapParameter());
 		final HttpDownloadResult result = httpDownloader.getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
 		final String htmlContent = httpDownloadUtil.getContent(result);
 		return htmlContent;
