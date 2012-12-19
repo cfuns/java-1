@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -33,7 +34,7 @@ public class IndexFactoryImpl implements IndexFactory {
 		logger.trace("get Index for " + indexName);
 		if (!indexes.containsKey(indexName)) {
 			logger.trace("create new index for " + indexName);
-			final FSDirectory fs = FSDirectory.open(getIndexDirectory(indexName));
+			final FSDirectory fs = MMapDirectory.open(getIndexDirectory(indexName));
 			indexes.put(indexName, fs);
 		}
 		return indexes.get(indexName);
