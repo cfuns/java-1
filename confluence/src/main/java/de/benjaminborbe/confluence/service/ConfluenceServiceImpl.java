@@ -375,4 +375,27 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			logger.trace("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public long countPages(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("expireAll");
+			authorizationService.expectAdminRole(sessionIdentifier);
+			return confluencePageDao.countPagesOfInstance(confluenceInstanceIdentifier);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final IdentifierIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
 }

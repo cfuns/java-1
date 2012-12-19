@@ -29,4 +29,7 @@ public interface ConfluenceServiceInstance {
 	ConfluenceInstance getConfluenceInstance(SessionIdentifier sessionIdentifier, ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
 			LoginRequiredException, PermissionDeniedException;
 
+	long countPages(SessionIdentifier sessionIdentifier, ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException;
+
 }
