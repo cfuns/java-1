@@ -8,6 +8,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -61,9 +62,9 @@ public class IndexerServiceImpl implements IndexerService {
 			final Term term = new Term(IndexField.ID.getFieldName(), url.toExternalForm());
 			final Document doc = new Document();
 			doc.add(new StringField(IndexField.ID.getFieldName(), url.toExternalForm(), Field.Store.YES));
-			doc.add(new StringField(IndexField.URL.getFieldName(), url.toExternalForm(), Field.Store.YES));
-			doc.add(new StringField(IndexField.TITLE.getFieldName(), title, Field.Store.YES));
-			doc.add(new StringField(IndexField.CONTENT.getFieldName(), content, Field.Store.YES));
+			doc.add(new TextField(IndexField.URL.getFieldName(), url.toExternalForm(), Field.Store.YES));
+			doc.add(new TextField(IndexField.TITLE.getFieldName(), title, Field.Store.YES));
+			doc.add(new TextField(IndexField.CONTENT.getFieldName(), content, Field.Store.YES));
 			indexWriter.updateDocument(term, doc, analyzer);
 
 			// indexWriter.deleteDocuments(term);
@@ -94,6 +95,7 @@ public class IndexerServiceImpl implements IndexerService {
 	public void clear(final String indexName) throws IndexerServiceException {
 		IndexWriter indexWriter = null;
 		try {
+
 			final Directory index = indexFactory.getIndex(indexName);
 			final Analyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(IndexConstants.LUCENE_VERSION, analyzer);

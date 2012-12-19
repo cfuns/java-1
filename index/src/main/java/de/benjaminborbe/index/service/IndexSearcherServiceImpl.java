@@ -10,11 +10,16 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser.Operator;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
@@ -42,14 +47,27 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 
 	@Override
 	public List<IndexSearchResult> search(final String indexName, final String searchQuery) {
-		logger.trace("search in index: " + indexName + " for " + searchQuery);
+		logger.debug("search in index: " + indexName + " for " + searchQuery);
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final Analyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
 
-			// parse query over multiple fields
-			final Query q = new MultiFieldQueryParser(IndexConstants.LUCENE_VERSION, buildFields(), analyzer).parse(searchQuery);
+			{
+				final String[] words = searchQuery.split(" ");
+
+				final BooleanQuery query = new BooleanQuery();
+				for (final String field : buildFields()) {
+					for (final String word : words) {
+						final Query subquery = new TermQuery(new Term(field, word));
+						query.add(subquery, BooleanClause.Occur.SHOULD);
+					}
+				}
+			}
+
+			final Analyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
+			final MultiFieldQueryParser queryParser = new MultiFieldQueryParser(IndexConstants.LUCENE_VERSION, buildFields(), analyzer);
+			queryParser.setDefaultOperator(Operator.OR);
+			final Query query = queryParser.parse(searchQuery);
 
 			// searching...
 			final int hitsPerPage = 10;
@@ -57,7 +75,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 			final IndexSearcher searcher = new IndexSearcher(indexReader);
 			final boolean docsScoredInOrder = true;
 			final TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, docsScoredInOrder);
-			searcher.search(q, collector);
+			searcher.search(query, collector);
 			final ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
 			// output results

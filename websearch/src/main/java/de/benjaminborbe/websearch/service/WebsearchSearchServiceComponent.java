@@ -65,7 +65,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
-		logger.trace("search");
+		logger.debug("search - query: " + query);
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "));
 		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
 		final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
@@ -75,6 +75,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 				result.add(map(beanResult));
 			}
 		}
+		logger.debug("search - found " + result.size() + " results");
 		return result;
 	}
 

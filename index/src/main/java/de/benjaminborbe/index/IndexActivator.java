@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.lucene.codecs.Codec;
+import org.apache.lucene.util.NamedSPILoader;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
@@ -42,5 +44,24 @@ public class IndexActivator extends BaseBundleActivator {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}
 		return result;
+	}
+
+	static {
+		final ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		try {
+			Thread.currentThread().setContextClassLoader(IndexActivator.class.getClassLoader());
+			// final org.apache.lucene.codecs.lucene40.Lucene40Codec codec;
+			try {
+				Class.forName("org.apache.lucene.codecs.lucene40.Lucene40Codec");
+			}
+			catch (final ClassNotFoundException e) {
+			}
+			final NamedSPILoader<Codec> loader = new NamedSPILoader<Codec>(Codec.class);
+			Codec.setDefault(loader.lookup("Lucene40"));
+			Codec.getDefault();
+		}
+		finally {
+			Thread.currentThread().setContextClassLoader(cl);
+		}
 	}
 }

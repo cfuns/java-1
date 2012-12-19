@@ -1,8 +1,6 @@
 package de.benjaminborbe.index.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class IndexFieldUnitTest {
@@ -14,4 +12,5 @@ public class IndexFieldUnitTest {
 			assertTrue(indexField.getFieldName().length() > 0);
 		}
 	}
+
 }

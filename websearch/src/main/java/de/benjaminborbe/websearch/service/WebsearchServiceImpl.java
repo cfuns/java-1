@@ -164,8 +164,8 @@ public class WebsearchServiceImpl implements WebsearchService {
 	public void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.clearIndex"));
-
 			final String indexName = WebsearchConstants.INDEX;
+			logger.debug("clearIndex - name: " + indexName);
 			indexerService.clear(indexName);
 		}
 		catch (final AuthorizationServiceException e) {
