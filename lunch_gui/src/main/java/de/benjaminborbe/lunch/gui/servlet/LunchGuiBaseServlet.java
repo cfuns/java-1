@@ -3,7 +3,6 @@ package de.benjaminborbe.lunch.gui.servlet;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +26,12 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
+import de.benjaminborbe.lunch.gui.util.LunchGuiComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -50,14 +49,6 @@ import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public abstract class LunchGuiBaseServlet extends LunchGuiHtmlServlet {
-
-	private final class SortLunchs extends ComparatorBase<Lunch, Date> {
-
-		@Override
-		public Date getValue(final Lunch o) {
-			return o.getDate();
-		}
-	}
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -113,7 +104,7 @@ public abstract class LunchGuiBaseServlet extends LunchGuiHtmlServlet {
 			}
 			if (fullname != null) {
 				final List<Lunch> lunchs = getLunchs(sessionIdentifier, fullname);
-				Collections.sort(lunchs, new SortLunchs());
+				Collections.sort(lunchs, new LunchGuiComparator());
 				final UlWidget ul = new UlWidget();
 				for (final Lunch lunch : lunchs) {
 					final StringWriter content = new StringWriter();
