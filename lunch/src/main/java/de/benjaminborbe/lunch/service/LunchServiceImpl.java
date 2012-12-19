@@ -19,6 +19,10 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
@@ -83,6 +87,8 @@ public class LunchServiceImpl implements LunchService {
 
 	private final KioskDatabaseConnector kioskDatabaseConnector;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
@@ -92,6 +98,7 @@ public class LunchServiceImpl implements LunchService {
 			final LunchWikiConnector wikiConnector,
 			final LunchConfig lunchConfig,
 			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
@@ -101,6 +108,7 @@ public class LunchServiceImpl implements LunchService {
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.durationUtil = durationUtil;
 		this.calendarUtil = calendarUtil;
 	}
@@ -237,10 +245,12 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<String> users) throws LunchServiceException, LoginRequiredException {
+	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<String> users) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchConstants.LUNCH_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 			logger.debug("book");
 
 			for (final String user : users) {
@@ -251,10 +261,10 @@ public class LunchServiceImpl implements LunchService {
 		catch (final MessageServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final MapException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (final MapException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {

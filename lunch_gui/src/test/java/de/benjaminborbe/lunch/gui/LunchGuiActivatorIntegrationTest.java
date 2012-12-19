@@ -117,6 +117,7 @@ public class LunchGuiActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		names.add(NavigationEntry.class.getName());
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

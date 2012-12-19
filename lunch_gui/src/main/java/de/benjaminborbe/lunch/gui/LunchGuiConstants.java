@@ -22,4 +22,6 @@ public interface LunchGuiConstants {
 
 	String PARAMETER_BOOKING_DATE = "parameter_booking_date";
 
+	String LUNCH_ADMIN_ROLENAME = "LunchAdmin";
+
 }

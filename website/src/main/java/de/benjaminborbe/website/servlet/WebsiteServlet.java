@@ -94,6 +94,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 			}
 			else {
 				try {
+					doCheckPermission(request, response, context);
 					doService(request, response, context);
 				}
 				catch (final LoginRequiredException e) {
@@ -114,6 +115,10 @@ public abstract class WebsiteServlet extends HttpServlet {
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			widget.render(request, response, context);
 		}
+	}
+
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 	protected void onDisabled(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

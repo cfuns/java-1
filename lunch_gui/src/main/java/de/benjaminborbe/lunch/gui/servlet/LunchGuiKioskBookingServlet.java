@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +23,9 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.lunch.api.LunchService;
@@ -68,6 +71,8 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 	private final LunchGuiLinkFactory lunchGuiLinkFactory;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public LunchGuiKioskBookingServlet(
 			final Logger logger,
@@ -88,6 +93,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -145,7 +151,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(user.getName()).addContent("NOT FOUND"));
 				}
 			}
-			form.addFormInputWidget(new FormInputHiddenWidget(LunchGuiConstants.PARAMETER_BOOKING_DATE));
+			form.addFormInputWidget(new FormInputHiddenWidget(LunchGuiConstants.PARAMETER_BOOKING_DATE).addValue(calendarUtil.toDateString(calendar)));
 			form.addFormInputWidget(new FormInputSubmitWidget("buchen"));
 			widgets.add(form);
 			widgets.add(new LinkWidget("javascript:toggle()", "toggle"));
@@ -161,6 +167,22 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchGuiConstants.LUNCH_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		catch (final AuthorizationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
 		}
 	}
 }

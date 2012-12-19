@@ -13,6 +13,7 @@ import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookingServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
+import de.benjaminborbe.lunch.gui.util.LunchGuiBookingNavigationEntry;
 import de.benjaminborbe.lunch.gui.util.LunchGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -37,6 +38,9 @@ public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private LunchGuiNavigationEntry lunchGuiNavigationEntry;
+
+	@Inject
+	private LunchGuiBookingNavigationEntry lunchGuiBookingNavigationEntry;
 
 	public LunchGuiActivator() {
 		super(LunchGuiConstants.NAME);
@@ -69,6 +73,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiArchivNavigationEntry));
+		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiBookingNavigationEntry));
 		return result;
 	}
 }
