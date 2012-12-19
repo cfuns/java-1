@@ -52,4 +52,6 @@ public interface AuthorizationService {
 
 	boolean hasAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException;
 
+	Collection<UserIdentifier> getUserWithRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+
 }

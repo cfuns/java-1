@@ -16,7 +16,7 @@ public interface AuthorizationGuiConstants {
 
 	String URL_USER_REMOVE_ROLE = "/user/removeRole";
 
-	String URL_ROLE_PERMISSION = "/role/addPermission";
+	String URL_ROLE_ADD_PERMISSION = "/role/addPermission";
 
 	String URL_ROLE_REMOVE_PERMISSION = "/role/removePermission";
 

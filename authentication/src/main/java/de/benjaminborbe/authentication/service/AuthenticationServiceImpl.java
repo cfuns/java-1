@@ -326,10 +326,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		try {
-			return userDao.exists(userIdentifier);
+			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
+				try {
+					if (a.existsUser(userIdentifier)) {
+						return true;
+					}
+				}
+				catch (final AuthenticationServiceException e) {
+					logger.warn(e.getClass().getName(), e);
+				}
+			}
+			return false;
 		}
-		catch (final StorageException e) {
-			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		finally {
 		}
 	}
 

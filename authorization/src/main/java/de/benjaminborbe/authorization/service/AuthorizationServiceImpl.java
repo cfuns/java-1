@@ -1,7 +1,9 @@
 package de.benjaminborbe.authorization.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -26,6 +28,7 @@ import de.benjaminborbe.authorization.role.RoleBean;
 import de.benjaminborbe.authorization.role.RoleDao;
 import de.benjaminborbe.authorization.userrole.UserRoleManyToManyRelation;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 
@@ -371,6 +374,23 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public Collection<UserIdentifier> getUserWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		try {
+			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
+			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
+			while (a.hasNext()) {
+				result.add(new UserIdentifier(a.nextString()));
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
 		}
 	}
 }

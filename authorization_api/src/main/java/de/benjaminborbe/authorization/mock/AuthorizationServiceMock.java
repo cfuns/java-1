@@ -123,4 +123,9 @@ public class AuthorizationServiceMock implements AuthorizationService {
 		return false;
 	}
 
+	@Override
+	public Collection<UserIdentifier> getUserWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		return null;
+	}
+
 }

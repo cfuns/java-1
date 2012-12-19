@@ -26,7 +26,9 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 	@Override
 	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		try {
-			return ldapConnector.verify(userIdentifier.getId(), password);
+			final boolean result = ldapConnector.verify(userIdentifier.getId(), password);
+			logger.debug("verifyCredential for user " + userIdentifier + " => " + result);
+			return result;
 		}
 		catch (final LdapException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -38,6 +40,17 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 	public String getFullname(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		try {
 			return ldapConnector.getFullname(userIdentifier.getId());
+		}
+		catch (final LdapException e) {
+			logger.debug(e.getClass().getName(), e);
+			throw new AuthenticationServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		try {
+			return ldapConnector.getFullname(userIdentifier.getId()) != null;
 		}
 		catch (final LdapException e) {
 			logger.debug(e.getClass().getName(), e);

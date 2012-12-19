@@ -20,6 +20,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -51,6 +52,8 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
+
 	@Inject
 	public AuthorizationGuiRoleInfoServlet(
 			final Logger logger,
@@ -63,12 +66,14 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationSerivce,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
+			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory,
 			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authorizationSerivce = authorizationSerivce;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
+		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
 	}
 
 	@Override
@@ -91,11 +96,10 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			{
 				widgets.add(new H2Widget("Users:"));
 				final UlWidget ul = new UlWidget();
-				for (final UserIdentifier userIdentifier : authenticationService.userList(sessionIdentifier)) {
-					if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
-						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_USER, userIdentifier.getId()),
-								userIdentifier.getId()));
-					}
+
+				for (final UserIdentifier userIdentifier : authorizationSerivce.getUserWithRole(sessionIdentifier, roleIdentifier)) {
+					ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_USER, userIdentifier.getId()),
+							userIdentifier.getId()));
 				}
 				widgets.add(ul);
 			}
@@ -107,9 +111,13 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 					ul.add(permissionIdentifier.getId());
 				}
 				widgets.add(ul);
-				widgets.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/addPermission", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_ROLE,
-						roleIdentifier.getId()), "add permission"));
 			}
+
+			final ListWidget links = new ListWidget();
+			links.add(authorizationGuiLinkFactory.roleAddUser(request, roleIdentifier));
+			links.add(" ");
+			links.add(authorizationGuiLinkFactory.roleAddPermission(request, roleIdentifier));
+			widgets.add(links);
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

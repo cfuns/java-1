@@ -9,4 +9,6 @@ public interface AuthenticationVerifyCredential {
 
 	String getFullname(final UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
+	boolean existsUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
+
 }

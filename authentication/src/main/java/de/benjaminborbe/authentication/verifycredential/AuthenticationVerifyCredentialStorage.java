@@ -93,4 +93,9 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 		return "";
 	}
 
+	@Override
+	public boolean existsUser(final UserIdentifier userIdentifier) {
+		return userDao.equals(userIdentifier);
+	}
+
 }
