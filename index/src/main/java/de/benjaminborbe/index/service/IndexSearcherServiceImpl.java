@@ -5,17 +5,18 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -45,15 +46,14 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final Version version = IndexConstants.LUCENE_VERSION;
-			final StandardAnalyzer analyzer = new StandardAnalyzer(version);
+			final Analyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
+
 			// parse query over multiple fields
 			final Query q = new MultiFieldQueryParser(IndexConstants.LUCENE_VERSION, buildFields(), analyzer).parse(searchQuery);
 
 			// searching...
 			final int hitsPerPage = 10;
-			final boolean readOnly = true;
-			final IndexReader indexReader = IndexReader.open(index, readOnly);
+			final IndexReader indexReader = DirectoryReader.open(index);
 			final IndexSearcher searcher = new IndexSearcher(indexReader);
 			final boolean docsScoredInOrder = true;
 			final TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, docsScoredInOrder);
@@ -68,13 +68,12 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 				result.add(buildSearchResult(indexName, document));
 			}
 
-			searcher.close();
 		}
 		catch (final IOException e) {
-			logger.error("IOException", e);
+			logger.error(e.getClass().getName(), e);
 		}
 		catch (final ParseException e) {
-			logger.error("ParseException", e);
+			logger.error(e.getClass().getName(), e);
 		}
 		return result;
 	}

@@ -3,9 +3,11 @@ package de.benjaminborbe.index.service;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -13,7 +15,6 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -50,7 +51,7 @@ public class IndexerServiceImpl implements IndexerService {
 		IndexWriter indexWriter = null;
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final StandardAnalyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
+			final Analyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(IndexConstants.LUCENE_VERSION, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
@@ -59,10 +60,10 @@ public class IndexerServiceImpl implements IndexerService {
 
 			final Term term = new Term(IndexField.ID.getFieldName(), url.toExternalForm());
 			final Document doc = new Document();
-			doc.add(new Field(IndexField.ID.getFieldName(), url.toExternalForm(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-			doc.add(new Field(IndexField.URL.getFieldName(), url.toExternalForm(), Field.Store.YES, Field.Index.ANALYZED));
-			doc.add(new Field(IndexField.TITLE.getFieldName(), title, Field.Store.YES, Field.Index.ANALYZED));
-			doc.add(new Field(IndexField.CONTENT.getFieldName(), content, Field.Store.YES, Field.Index.ANALYZED));
+			doc.add(new StringField(IndexField.ID.getFieldName(), url.toExternalForm(), Field.Store.YES));
+			doc.add(new StringField(IndexField.URL.getFieldName(), url.toExternalForm(), Field.Store.YES));
+			doc.add(new StringField(IndexField.TITLE.getFieldName(), title, Field.Store.YES));
+			doc.add(new StringField(IndexField.CONTENT.getFieldName(), content, Field.Store.YES));
 			indexWriter.updateDocument(term, doc, analyzer);
 
 			// indexWriter.deleteDocuments(term);
@@ -94,7 +95,7 @@ public class IndexerServiceImpl implements IndexerService {
 		IndexWriter indexWriter = null;
 		try {
 			final Directory index = indexFactory.getIndex(indexName);
-			final StandardAnalyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
+			final Analyzer analyzer = new StandardAnalyzer(IndexConstants.LUCENE_VERSION);
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(IndexConstants.LUCENE_VERSION, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
@@ -108,8 +109,7 @@ public class IndexerServiceImpl implements IndexerService {
 			indexWriter = null;
 		}
 		catch (final IOException e) {
-			logger.error("IOException", e);
-			throw new IndexerServiceException("IOException", e);
+			throw new IndexerServiceException(e);
 		}
 		finally {
 			if (indexWriter != null) {

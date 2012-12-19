@@ -10,7 +10,7 @@
 	<description>Benjamin Borbe - Index</description>
 	<packaging>bundle</packaging>
 	<properties>
-		<lucene.version>3.6.1</lucene.version>
+		<lucene.version>4.0.0</lucene.version>
 	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -113,11 +113,6 @@
 			<version>${easymock.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-			<version>${lucene.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
 			<version>${project.version}</version>
@@ -172,6 +167,21 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.configuration.tools</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>${lucene.version}</version>
 		</dependency>
 	</dependencies>
 </project>
