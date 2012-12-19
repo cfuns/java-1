@@ -130,6 +130,7 @@ public class ConfluenceRefresher {
 					// check expire
 					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), indexName, page.getPageId());
 					if (isExpired(confluenceInstanceBean, pageBean)) {
+						logger.debug("update page " + page.getTitle());
 						final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
 						final URL url = new URL(page.getUrl());
 						final String title = page.getTitle();
@@ -151,6 +152,9 @@ public class ConfluenceRefresher {
 						}
 						catch (final InterruptedException e) {
 						}
+					}
+					else {
+						logger.debug("skip page " + page.getTitle());
 					}
 				}
 				catch (final IndexerServiceException e) {

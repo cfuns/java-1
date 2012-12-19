@@ -71,7 +71,7 @@ public class SlashGuiServlet extends WebsiteServlet {
 			return request.getContextPath() + "/blog";
 		}
 		else if (serverName.indexOf("bborbe.devel") != -1) {
-			return request.getContextPath() + "/lunch";
+			return request.getContextPath() + "/search";
 		}
 		else if (serverName.indexOf("rocketnews") != -1 || serverName.indexOf("rocketsource") != -1) {
 			return request.getContextPath() + "/wiki";
