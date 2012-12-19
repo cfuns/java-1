@@ -112,15 +112,6 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle() + " - " + calendarUtil.toDateString(calendar)));
 
-			final ListWidget links = new ListWidget();
-			links.add(lunchGuiLinkFactory.bookingSubDay(request, calendar));
-			links.add(" ");
-			links.add(lunchGuiLinkFactory.booking(request));
-			links.add(" ");
-			links.add(lunchGuiLinkFactory.bookingAddDay(request, calendar));
-			links.add(" ");
-			widgets.add(links);
-
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String[] selectedUsers = request.getParameterValues(LunchGuiConstants.PARAMETER_BOOKING_USER);
 			if (selectedUsers != null && selectedUsers.length > 0) {
@@ -129,6 +120,15 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				widgets.add("booking completed");
 				return widgets;
 			}
+
+			final ListWidget links = new ListWidget();
+			links.add(lunchGuiLinkFactory.bookingSubDay(request, calendar));
+			links.add(" ");
+			links.add(lunchGuiLinkFactory.booking(request));
+			links.add(" ");
+			links.add(lunchGuiLinkFactory.bookingAddDay(request, calendar));
+			links.add(" ");
+			widgets.add(links);
 
 			final List<LunchUser> users = new ArrayList<LunchUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
 			Collections.sort(users, new LunchUserComparator());
