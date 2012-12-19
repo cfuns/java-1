@@ -2,6 +2,9 @@ package de.benjaminborbe.systemstatus.gui.servlet;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,26 +93,76 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		}
 		{
 			widgets.add(new H2Widget("Memory"));
-			widgets.add(getMemoryState());
+			widgets.add("Memory state before cleanup: ");
+			widgets.add(new BrWidget());
+			widgets.add(getMemoryStateMX());
 			widgets.add(new BrWidget());
 			Runtime.getRuntime().gc();
-			widgets.add(getMemoryState());
+			widgets.add("Memory state after cleanup: ");
+			widgets.add(new BrWidget());
+			widgets.add(getMemoryStateMX());
 			widgets.add(new BrWidget());
 		}
 
 		return widgets;
 	}
 
+	protected String getMemoryStateMX() {
+		final StringWriter msg = new StringWriter();
+		msg.append("");
+		final MemoryMXBean mem = ManagementFactory.getMemoryMXBean();
+		{
+			final MemoryUsage m = mem.getHeapMemoryUsage();
+			msg.append("free=");
+			msg.append(String.valueOf((m.getMax() - m.getUsed()) / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("used=");
+			msg.append(String.valueOf(m.getUsed() / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("commited=");
+			msg.append(String.valueOf(m.getCommitted() / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("max=");
+			msg.append(String.valueOf(m.getMax() / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("init=");
+			msg.append(String.valueOf(m.getInit() / (1024 * 1024)));
+			msg.append(" ");
+		}
+		{
+			final MemoryUsage m = mem.getNonHeapMemoryUsage();
+			msg.append("PermGen-free=");
+			msg.append(String.valueOf((m.getMax() - m.getUsed()) / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("PermGen-used=");
+			msg.append(String.valueOf(m.getUsed() / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("PermGen-commited=");
+			msg.append(String.valueOf(m.getCommitted() / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("PermGen-max=");
+			msg.append(String.valueOf(m.getMax() / (1024 * 1024)));
+			msg.append(", ");
+			msg.append("PermGen-init=");
+			msg.append(String.valueOf(m.getInit() / (1024 * 1024)));
+		}
+		return msg.toString();
+	}
+
 	protected String getMemoryState() {
 		final StringWriter msg = new StringWriter();
-		msg.append("Memory state before cleanup: ");
-		msg.append("used=" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
+		msg.append("used=");
+		msg.append(String.valueOf((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)));
 		msg.append(", ");
-		msg.append("free=" + (Runtime.getRuntime().freeMemory() / (1024 * 1024)));
+		msg.append("free=");
+		msg.append(String.valueOf(Runtime.getRuntime().freeMemory() / (1024 * 1024)));
 		msg.append(", ");
-		msg.append("total=" + (Runtime.getRuntime().totalMemory() / (1024 * 1024)));
+		msg.append("total=");
+		msg.append(String.valueOf(Runtime.getRuntime().totalMemory() / (1024 * 1024)));
 		msg.append(", ");
-		msg.append("max=" + (Runtime.getRuntime().maxMemory() / (1024 * 1024)));
+		msg.append("max=");
+		msg.append(String.valueOf(Runtime.getRuntime().maxMemory() / (1024 * 1024)));
+
 		return msg.toString();
 	}
 }
