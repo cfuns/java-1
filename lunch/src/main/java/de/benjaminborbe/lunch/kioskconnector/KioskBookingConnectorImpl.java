@@ -79,7 +79,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 			// delete all
 			{
 				final String htmlContent = addProduct(sessionId, DELETE_EAN);
-				if (htmlContent.indexOf("cart_empty_success") == -1) {
+				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/cart\">Redirect-URL</a>") == -1) {
 					logger.warn("clear cart failed");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
@@ -92,20 +92,32 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 			// add mittag essen
 			{
 				final String htmlContent = addProduct(sessionId, MITTAG_EAN);
-				if (htmlContent.indexOf("Bastians - Mittagstisch") == -1) {
-					logger.warn("add product failed");
+				if (htmlContent.indexOf("Redirect-URL") == -1) {
+					logger.warn("add lunch failed");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
 				else {
-					logger.debug("add product success");
+					logger.debug("add lunch success");
+				}
+			}
+			// check cart content
+			{
+				final String htmlContent = getCartContent(sessionId);
+				if (htmlContent.indexOf("Bastians - Mittagstisch") == -1) {
+					logger.warn("lunch not in cart");
+					logger.debug("htmlContent: " + htmlContent);
+					return false;
+				}
+				else {
+					logger.debug("lunch in cart");
 				}
 			}
 
 			// logout
 			{
 				final String htmlContent = logout(sessionId, customerNumber);
-				if (htmlContent.indexOf("Der Einkauf wurde gespeichert.") == -1) {
+				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/end_shopping\">Redirect-URL</a>") == -1) {
 					logger.warn("book cart failed");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;

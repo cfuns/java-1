@@ -66,6 +66,7 @@ public class MessageConsumerExchanger {
 		final EntityIterator<MessageBean> i = messageDao.getEntityIteratorForUser(messageConsumer.getType());
 		while (i.hasNext()) {
 			final MessageBean message = i.next();
+			logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 			boolean result = false;
 			try {
 				result = messageConsumer.process(message);
@@ -84,6 +85,7 @@ public class MessageConsumerExchanger {
 				message.setRetryCounter(counter);
 				messageDao.save(message);
 			}
+			logger.debug("process message done");
 		}
 	}
 }
