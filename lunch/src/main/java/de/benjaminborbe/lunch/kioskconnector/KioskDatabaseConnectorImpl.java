@@ -27,7 +27,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			logger.debug("search customerNumber");
+			logger.trace("search customerNumber");
 			final String[] parts = username.split(" ", 2);
 			if (parts.length == 2) {
 				logger.trace("load driver");
@@ -47,7 +47,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 				final ResultSet r = statement.executeQuery();
 				logger.trace("executeQuery");
 				while (r.next()) {
-					logger.debug("found customerNumber");
+					logger.trace("found customerNumber");
 					return r.getString(1);
 				}
 			}
