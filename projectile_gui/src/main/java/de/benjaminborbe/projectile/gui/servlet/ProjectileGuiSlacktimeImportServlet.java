@@ -94,6 +94,8 @@ public class ProjectileGuiSlacktimeImportServlet extends WebsiteHtmlServlet {
 				try {
 					projectileService.importReport(sessionIdentifier, content, parseUtil.parseEnum(ProjectileSlacktimeReportInterval.class, intervalString));
 					logger.debug("report imported");
+					widgets.add("import completed");
+					return widgets;
 				}
 				catch (final ValidationException e) {
 					widgets.add("import report failed!");
@@ -105,6 +107,7 @@ public class ProjectileGuiSlacktimeImportServlet extends WebsiteHtmlServlet {
 			for (final ProjectileSlacktimeReportInterval interval : ProjectileSlacktimeReportInterval.values()) {
 				contextSelectBox.addOption(interval.name(), interval.getTitle());
 			}
+			formWidget.addFormInputWidget(contextSelectBox);
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(ProjectileGuiConstants.PARAMETER_REPORT_CONTENT).addLabel("CSV-Content:").addPlaceholder("content ..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("import"));
 			widgets.add(formWidget);
@@ -126,5 +129,4 @@ public class ProjectileGuiSlacktimeImportServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }

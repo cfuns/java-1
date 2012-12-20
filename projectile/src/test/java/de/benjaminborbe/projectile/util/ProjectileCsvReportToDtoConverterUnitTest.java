@@ -30,8 +30,8 @@ public class ProjectileCsvReportToDtoConverterUnitTest {
 		assertThat(converter.convert("").size(), is(0));
 		assertThat(converter.convert(csvString).size(), is(2));
 
-		assertThat(converter.convert(csvString).get(0).getUsername(), is("Hans Wurst"));
-		assertThat(converter.convert(csvString).get(1).getUsername(), is("Foo Bar"));
+		assertThat(converter.convert(csvString).get(0).getUsername(), is("whans"));
+		assertThat(converter.convert(csvString).get(1).getUsername(), is("bfoo"));
 
 		assertThat(converter.convert(csvString).get(0).getExtern(), is(131.25));
 		assertThat(converter.convert(csvString).get(1).getExtern(), is(74.25));

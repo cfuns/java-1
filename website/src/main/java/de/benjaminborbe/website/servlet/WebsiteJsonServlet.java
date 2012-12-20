@@ -64,6 +64,7 @@ public abstract class WebsiteJsonServlet extends WebsiteServlet {
 	protected void printError(final HttpServletResponse response, final String msg) throws IOException {
 		final JSONObject object = new JSONObject();
 		object.put("error", msg);
+		printJson(response, object);
 	}
 
 	protected void printJson(final HttpServletResponse response, final JSONObject object) throws IOException {

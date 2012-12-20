@@ -52,10 +52,20 @@ public class ProjectileCsvReportToDtoConverter {
 
 	private ProjectileCsvReportToDto buildBean(final String username, final String extern, final String intern) throws ParseException {
 		final ProjectileCsvReportToDto projectileReportBean = new ProjectileCsvReportToDto();
-		projectileReportBean.setUsername(username);
+		projectileReportBean.setUsername(buildLogin(username));
 		projectileReportBean.setExtern(parseDouble(extern));
 		projectileReportBean.setIntern(parseDouble(intern));
 		return projectileReportBean;
+	}
+
+	private String buildLogin(final String username) {
+		final String[] parts = username.toLowerCase().replaceAll("ß", "ss").replaceAll("ä", "ae").replaceAll("ü", "ue").replaceAll("ö", "oe").split(" ");
+		if (parts != null && parts.length > 1) {
+			return parts[parts.length - 1].substring(0, 1) + parts[0];
+		}
+		else {
+			return username;
+		}
 	}
 
 	private Double parseDouble(final String number) throws ParseException {

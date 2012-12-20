@@ -54,6 +54,7 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 
 		final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
 		try {
+			logger.debug("doCheckPermission");
 			projectileService.expectAuthToken(token);
 		}
 		catch (final ProjectileServiceException e) {
@@ -99,13 +100,18 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 			logger.debug("doService");
 			final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
 			final String username = request.getParameter(ProjectileGuiConstants.PARAMETER_USERNAME);
-			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(token, username);
-			if (report != null) {
-				final JSONObject jsonObject = buildJson(report);
-				printJson(response, jsonObject);
+			if (token != null && username != null) {
+				final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(token, username);
+				if (report != null) {
+					final JSONObject jsonObject = buildJson(report);
+					printJson(response, jsonObject);
+				}
+				else {
+					printError(response, "no data found for user " + username);
+				}
 			}
 			else {
-				printError(response, "no data found for user " + username);
+				printError(response, "parameter required: " + ProjectileGuiConstants.PARAMETER_AUTH_TOKEN + " and " + ProjectileGuiConstants.PARAMETER_USERNAME);
 			}
 		}
 		catch (final ProjectileServiceException e) {
