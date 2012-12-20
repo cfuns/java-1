@@ -22,7 +22,8 @@ public class ProjectileCsvReportToDtoConverterUnitTest {
 
 		final ParseUtil parseUtil = new ParseUtilImpl();
 
-		final ProjectileCsvReportToDtoConverter converter = new ProjectileCsvReportToDtoConverter(logger, parseUtil);
+		final ProjectileNameMapper projectileNameMapper = new ProjectileNameMapper();
+		final ProjectileCsvReportToDtoConverter converter = new ProjectileCsvReportToDtoConverter(logger, parseUtil, projectileNameMapper);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		final String csvString = resourceUtil.getResourceContentAsString("sample_report.csv");

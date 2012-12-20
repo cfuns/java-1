@@ -9,4 +9,10 @@ public interface ProjectileConfig {
 	Collection<ConfigurationDescription> getConfigurations();
 
 	String getAuthToken();
+
+	String getPop3Login();
+
+	String getPop3Password();
+
+	String getPop3Hostname();
 }

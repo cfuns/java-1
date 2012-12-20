@@ -194,6 +194,5 @@ public class ConfluenceRefresher {
 
 	public boolean refresh() {
 		return runOnlyOnceATime.run(new RefreshRunnable());
-
 	}
 }
