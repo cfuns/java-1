@@ -28,7 +28,9 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public boolean validateAuthToken(final String token) throws ProjectileServiceException {
 		logger.debug("validateAuthToken");
 		final String authToken = projectileConfig.getAuthToken();
-		return authToken != null && token != null && authToken.equals(token);
+		final boolean result = authToken != null && token != null && authToken.equals(token);
+		logger.debug("validateAuthToken - result: " + result);
+		return result;
 	}
 
 	@Override

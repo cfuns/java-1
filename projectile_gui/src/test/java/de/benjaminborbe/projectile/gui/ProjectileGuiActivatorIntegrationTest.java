@@ -44,7 +44,9 @@ public class ProjectileGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/projectile");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_HOME);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_SLACKTIME_REPORT);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

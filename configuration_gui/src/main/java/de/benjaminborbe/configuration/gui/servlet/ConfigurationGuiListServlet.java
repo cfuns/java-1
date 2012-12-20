@@ -108,10 +108,10 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 				widgets.add(configuration.getType());
 				widgets.add("</td>");
 				widgets.add("<td>");
-				widgets.add(configuration.getDefaultValueAsString());
+				widgets.add(asString(configuration.getDefaultValueAsString()));
 				widgets.add("</td>");
 				widgets.add("<td>");
-				widgets.add(String.valueOf(configurationService.getConfigurationValue(configuration)));
+				widgets.add(asString(configurationService.getConfigurationValue(configuration)));
 				widgets.add("</td>");
 				widgets.add("<td>");
 				widgets.add(new LinkRelativWidget(urlUtil, request, "/" + ConfigurationGuiConstants.NAME + ConfigurationGuiConstants.URL_UPDATE, new MapParameter().add(
@@ -127,6 +127,10 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private String asString(final Object value) {
+		return value != null ? String.valueOf(value) : "";
 	}
 
 	private List<ConfigurationDescription> getConfigurationDescriptions() {
