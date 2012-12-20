@@ -232,3 +232,13 @@ create column family search_query_history with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family projectile_report;
+create column family projectile_report with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: username, validation_class: UTF8Type, index_type: KEYS}
+  ];
+  

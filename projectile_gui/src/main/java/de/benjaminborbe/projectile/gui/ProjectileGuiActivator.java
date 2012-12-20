@@ -10,12 +10,16 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModules;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiSlacktimeImportServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiSlacktimeReportServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ProjectileGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ProjectileGuiSlacktimeImportServlet projectileGuiSlacktimeImportServlet;
 
 	@Inject
 	private ProjectileGuiSlacktimeReportServlet projectileGuiSlacktimeReportServlet;
@@ -37,6 +41,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(projectileGuiServlet, ProjectileGuiConstants.URL_HOME));
 		result.add(new ServletInfo(projectileGuiSlacktimeReportServlet, ProjectileGuiConstants.URL_SLACKTIME_REPORT));
+		result.add(new ServletInfo(projectileGuiSlacktimeImportServlet, ProjectileGuiConstants.URL_SLACKTIME_IMPORT));
 		return result;
 	}
 

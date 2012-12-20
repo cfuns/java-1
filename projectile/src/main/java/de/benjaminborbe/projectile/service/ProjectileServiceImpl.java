@@ -5,11 +5,22 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
+import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
+import de.benjaminborbe.projectile.dao.ProjectileReportDao;
+import de.benjaminborbe.projectile.util.ProjectileCsvReportImporter;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class ProjectileServiceImpl implements ProjectileService {
@@ -18,10 +29,24 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	private final ProjectileConfig projectileConfig;
 
+	private final ProjectileReportDao projectileReportDao;
+
+	private final AuthenticationService authenticationService;
+
+	private final ProjectileCsvReportImporter projectileCsvReportImporter;
+
 	@Inject
-	public ProjectileServiceImpl(final Logger logger, final ProjectileConfig projectileConfig) {
+	public ProjectileServiceImpl(
+			final Logger logger,
+			final AuthenticationService authenticationService,
+			final ProjectileConfig projectileConfig,
+			final ProjectileCsvReportImporter projectileCsvReportImporter,
+			final ProjectileReportDao projectileReportDao) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.projectileConfig = projectileConfig;
+		this.projectileCsvReportImporter = projectileCsvReportImporter;
+		this.projectileReportDao = projectileReportDao;
 	}
 
 	@Override
@@ -42,9 +67,35 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	@Override
 	public ProjectileSlacktimeReport getSlacktimeReport(final String token, final String username) throws ProjectileServiceException, PermissionDeniedException {
-		expectAuthToken(token);
-		logger.debug("getSlacktimeReport");
-		return null;
+		try {
+			expectAuthToken(token);
+			logger.debug("getSlacktimeReport");
+			return projectileReportDao.getReportForUser(username);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+	}
+
+	@Override
+	public void importReport(final SessionIdentifier sessionIdentifier, final String content, final ProjectileSlacktimeReportInterval interval) throws ProjectileServiceException,
+			PermissionDeniedException, LoginRequiredException, ValidationException {
+		try {
+			authenticationService.expectSuperAdmin(sessionIdentifier);
+			projectileCsvReportImporter.importCsvReport(content, interval);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final SuperAdminRequiredException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final ParseException e) {
+			throw new ProjectileServiceException(e);
+		}
 	}
 
 }

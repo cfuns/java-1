@@ -47,6 +47,7 @@ public class ProjectileGuiActivatorIntegrationTest {
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_HOME);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_SLACKTIME_REPORT);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_SLACKTIME_IMPORT);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
