@@ -6,6 +6,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.projectile.api.ProjectileService;
+import de.benjaminborbe.projectile.config.ProjectileConfig;
+import de.benjaminborbe.projectile.config.ProjectileConfigImpl;
 import de.benjaminborbe.projectile.connector.ProjectileConnector;
 import de.benjaminborbe.projectile.connector.ProjectileConnectorImpl;
 import de.benjaminborbe.projectile.service.ProjectileServiceImpl;
@@ -15,6 +17,7 @@ public class ProjectileModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ProjectileConfig.class).to(ProjectileConfigImpl.class).in(Singleton.class);
 		bind(ProjectileConnector.class).to(ProjectileConnectorImpl.class).in(Singleton.class);
 		bind(ProjectileService.class).to(ProjectileServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);

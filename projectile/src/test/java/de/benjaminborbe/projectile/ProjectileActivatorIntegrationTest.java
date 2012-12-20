@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.guice.ProjectileModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -64,7 +66,9 @@ public class ProjectileActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(ProjectileService.class.getName());
+		final List<String> names = new ArrayList<String>();
+		names.add(ProjectileService.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
@@ -76,5 +80,4 @@ public class ProjectileActivatorIntegrationTest {
 			assertTrue("no service with name: " + name + " found", match);
 		}
 	}
-
 }

@@ -246,3 +246,8 @@ buildmail:
 	cd mail && make all
 	cd mail_gui && make all
 	cd mail_test && make all
+buildprojectile:
+	cd projectile_api && make all
+	cd projectile && make all
+	cd projectile_gui && make all
+	cd projectile_test && make all

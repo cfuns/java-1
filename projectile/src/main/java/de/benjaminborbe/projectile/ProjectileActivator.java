@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
-
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.projectile.api.ProjectileService;
+import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.guice.ProjectileModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -20,6 +20,9 @@ public class ProjectileActivator extends BaseBundleActivator {
 	@Inject
 	private ProjectileService projectileService;
 
+	@Inject
+	private ProjectileConfig projectileConfig;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new ProjectileModules(context);
@@ -29,14 +32,10 @@ public class ProjectileActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(ProjectileService.class, projectileService));
+		for (final ConfigurationDescription configuration : projectileConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new ProjectileServiceTracker(projectileRegistry, context,
-		// ProjectileService.class));
-		return serviceTrackers;
-	}
 }
