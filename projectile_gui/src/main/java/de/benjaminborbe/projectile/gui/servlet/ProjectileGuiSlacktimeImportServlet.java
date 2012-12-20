@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -41,6 +42,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
+@Singleton
 public class ProjectileGuiSlacktimeImportServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Projectile - Slacktime - Import";

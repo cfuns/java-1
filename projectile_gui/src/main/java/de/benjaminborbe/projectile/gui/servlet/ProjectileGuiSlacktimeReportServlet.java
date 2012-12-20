@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -27,6 +28,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
+@Singleton
 public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 8865908885832843737L;
