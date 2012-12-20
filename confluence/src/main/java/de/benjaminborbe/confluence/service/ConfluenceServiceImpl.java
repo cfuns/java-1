@@ -381,7 +381,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("expireAll");
+			logger.debug("countPages");
 			authorizationService.expectAdminRole(sessionIdentifier);
 			return confluencePageDao.countPagesOfInstance(confluenceInstanceIdentifier);
 		}

@@ -359,4 +359,50 @@ public class StorageServiceImpl implements StorageService {
 			logger.trace("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public long count(final String columnFamily) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.count(config.getKeySpace(), columnFamily);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public long count(final String columnFamily, final String columnName) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public long count(final String columnFamily, final String columnName, final String columnValue) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName, columnValue);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
 }

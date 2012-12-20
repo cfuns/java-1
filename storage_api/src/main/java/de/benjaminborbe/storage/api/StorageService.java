@@ -6,15 +6,21 @@ import java.util.Map;
 
 public interface StorageService {
 
-	void delete(String columnFamily, String id, Collection<String> keys) throws StorageException;
+	long count(final String columnFamily) throws StorageException;
 
-	void delete(String columnFamily, String id, String key) throws StorageException;
+	long count(final String columnFamily, final String columnName) throws StorageException;
 
-	void delete(String columnFamily, String id, String... keys) throws StorageException;
+	long count(final String columnFamily, final String columnName, final String columnValue) throws StorageException;
 
-	List<String> get(String columnFamily, String id, List<String> keys) throws StorageException;
+	void delete(String columnFamily, String key, Collection<String> columnNames) throws StorageException;
 
-	String get(String columnFamily, String id, String key) throws StorageException;
+	void delete(String columnFamily, String key, String columnName) throws StorageException;
+
+	void delete(String columnFamily, String key, String... columnNames) throws StorageException;
+
+	List<String> get(String columnFamily, String key, List<String> columnNames) throws StorageException;
+
+	String get(String columnFamily, String key, String columnName) throws StorageException;
 
 	int getConnections();
 
@@ -32,9 +38,9 @@ public interface StorageService {
 
 	StorageIterator keyIteratorWithPrefix(String columnFamily, String prefix) throws StorageException;
 
-	void set(String columnFamily, String id, Map<String, String> data) throws StorageException;
+	void set(String columnFamily, String key, Map<String, String> data) throws StorageException;
 
-	void set(String columnFamily, String id, String key, String value) throws StorageException;
+	void set(String columnFamily, String key, String columnName, String columnValue) throws StorageException;
 
 	void backup() throws StorageException;
 

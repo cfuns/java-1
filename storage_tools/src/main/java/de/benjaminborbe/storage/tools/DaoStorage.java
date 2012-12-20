@@ -331,4 +331,31 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			throw new StorageException("MapException", e);
 		}
 	}
+
+	public long count() throws StorageException {
+		try {
+			return storageService.count(getColumnFamily());
+		}
+		catch (final StorageException e) {
+			throw new StorageException(e.getClass().getName(), e);
+		}
+	}
+
+	public long count(final String columnName) throws StorageException {
+		try {
+			return storageService.count(getColumnFamily(), columnName);
+		}
+		catch (final StorageException e) {
+			throw new StorageException(e.getClass().getName(), e);
+		}
+	}
+
+	public long count(final String columnName, final String columnValue) throws StorageException {
+		try {
+			return storageService.count(getColumnFamily(), columnName, columnValue);
+		}
+		catch (final StorageException e) {
+			throw new StorageException(e.getClass().getName(), e);
+		}
+	}
 }

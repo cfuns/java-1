@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
@@ -49,9 +50,9 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public int count(final String keySpace, final String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
+	public long count(final String keySpace, final String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
 			TException, NotFoundException, StorageException {
-		int result = 0;
+		long result = 0;
 		final StorageIterator i = keyIterator(keySpace, columnFamily);
 		while (i.hasNext()) {
 			i.nextByte();
@@ -61,14 +62,29 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public int count(final String keySpace, final String columnFamily, final String field) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException,
+	public long count(final String keySpace, final String columnFamily, final String columnName) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException,
 			TimedOutException, TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException {
-		int result = 0;
-		final StorageIterator i = keyIterator(keySpace, columnFamily);
+		long result = 0;
+		final StorageRowIterator i = rowIterator(keySpace, columnFamily, Arrays.asList(columnName));
 		while (i.hasNext()) {
-			final byte[] key = i.nextByte();
-			final String value = read(keySpace, columnFamily, key, field);
+			final StorageRow row = i.next();
+			final String value = row.getString(columnName);
 			if (value != null && value.length() > 0) {
+				result++;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public long count(final String keySpace, final String columnFamily, final String columnName, final String columnValue) throws UnsupportedEncodingException,
+			InvalidRequestException, UnavailableException, TimedOutException, TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException {
+		long result = 0;
+		final StorageRowIterator i = rowIterator(keySpace, columnFamily, Arrays.asList(columnName));
+		while (i.hasNext()) {
+			final StorageRow row = i.next();
+			final String value = row.getString(columnName);
+			if (value != null && value.equals(columnValue)) {
 				result++;
 			}
 		}

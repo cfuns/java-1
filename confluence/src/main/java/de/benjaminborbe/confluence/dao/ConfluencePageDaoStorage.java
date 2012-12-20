@@ -12,7 +12,6 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
-import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
@@ -61,13 +60,6 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 
 	@Override
 	public long countPagesOfInstance(final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws StorageException, IdentifierIteratorException {
-		long counter = 0;
-		final IdentifierIterator<ConfluencePageIdentifier> i = getIdentifierIterator(new MapChain<String, String>().add("instanceId", String.valueOf(confluenceInstanceIdentifier)));
-		while (i.hasNext()) {
-			i.next();
-			counter++;
-		}
-		return counter;
+		return count("instanceId", String.valueOf(confluenceInstanceIdentifier));
 	}
-
 }

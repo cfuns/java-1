@@ -17,11 +17,14 @@ import de.benjaminborbe.storage.api.StorageRowIterator;
 
 public interface StorageDaoUtil {
 
-	int count(String keySpace, String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException, TException,
+	long count(String keySpace, String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException, TException,
 			NotFoundException, StorageException;
 
-	int count(String keySpace, String columnFamily, String columnName) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
+	long count(String keySpace, String columnFamily, String columnName) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
 			TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException;
+
+	long count(String keySpace, String columnFamily, String columnName, String columnValue) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException,
+			TimedOutException, TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException;
 
 	void delete(String keySpace, String columnFamily, final byte[] key, final List<String> columnNames) throws InvalidRequestException, NotFoundException, UnavailableException,
 			TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
@@ -65,10 +68,10 @@ public interface StorageDaoUtil {
 	String read(String keySpace, String columnFamily, String key, String columnName) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
-	StorageRowIterator rowIterator(String keySpace, String columnFamily, List<String> columnNames) throws InvalidRequestException, UnavailableException, TimedOutException,
-			TException, UnsupportedEncodingException, NotFoundException;
-
 	StorageRowIterator rowIterator(String keySpace, List<String> columnNames, String columnFamily, Map<String, String> where) throws InvalidRequestException, UnavailableException,
 			TimedOutException, TException, UnsupportedEncodingException, NotFoundException;
+
+	StorageRowIterator rowIterator(String keySpace, String columnFamily, List<String> columnNames) throws InvalidRequestException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException, NotFoundException;
 
 }

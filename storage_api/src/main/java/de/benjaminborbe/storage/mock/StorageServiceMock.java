@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -321,9 +322,26 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public void backup() throws StorageException {
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public void restore(final String columnfamily, final String jsonContent) throws StorageException {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public long count(final String columnFamily) throws StorageException {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public long count(final String columnFamily, final String columnName) throws StorageException {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public long count(final String columnFamily, final String columnName, final String columnValue) throws StorageException {
+		throw new NotImplementedException();
 	}
 }
