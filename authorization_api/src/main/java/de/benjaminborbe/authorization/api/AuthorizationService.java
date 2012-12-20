@@ -8,50 +8,50 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface AuthorizationService {
 
-	boolean hasRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+	boolean addPermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
+			AuthorizationServiceException, LoginRequiredException;
 
-	boolean hasRole(UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+	boolean addUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
+			AuthorizationServiceException, LoginRequiredException;
 
-	void expectRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
-
-	boolean hasPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
-
-	void expectPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
+	PermissionIdentifier createPermissionIdentifier(String permissionName);
 
 	boolean createRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException;
 
-	boolean addUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException;
-
-	boolean removeUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException;
-
 	RoleIdentifier createRoleIdentifier(String roleName);
 
-	Collection<RoleIdentifier> roleList() throws AuthorizationServiceException;
+	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
 
-	PermissionIdentifier createPermissionIdentifier(String permissionName);
+	boolean existsRole(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+
+	void expectAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
+
+	void expectPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
+
+	void expectRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
+
+	void expectUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
+
+	Collection<UserIdentifier> getUserWithRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+
+	boolean hasAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException;
+
+	boolean hasPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
+
+	boolean hasRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+
+	boolean hasRole(UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException;
 
 	Collection<PermissionIdentifier> permissionList(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	boolean removePermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException;
+			AuthorizationServiceException, LoginRequiredException;
 
-	boolean addPermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException;
+	boolean removeUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
+			AuthorizationServiceException, LoginRequiredException;
 
-	boolean existsRole(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
-
-	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
-
-	void expectAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
-
-	void expectUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
-
-	boolean hasAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException;
-
-	Collection<UserIdentifier> getUserWithRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+	Collection<RoleIdentifier> roleList() throws AuthorizationServiceException;
 
 }

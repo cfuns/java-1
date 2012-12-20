@@ -67,17 +67,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
-
 		try {
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
 				return true;
 			}
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-
-		try {
 			logger.trace("hasRole " + roleIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			if (userIdentifier == null) {
@@ -127,17 +120,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
 				return;
+			}
+			if (!hasRole(sessionIdentifier, roleIdentifier)) {
+				throw new PermissionDeniedException("no role " + roleIdentifier);
 			}
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
-		}
-		if (!hasRole(sessionIdentifier, roleIdentifier)) {
-			throw new PermissionDeniedException("no role " + roleIdentifier);
 		}
 	}
 
@@ -169,7 +164,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean addUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException {
+			AuthorizationServiceException, LoginRequiredException {
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -195,7 +190,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean removeUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier)
-			throws PermissionDeniedException, AuthorizationServiceException {
+			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -276,7 +271,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean addPermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
-			throws PermissionDeniedException, AuthorizationServiceException {
+			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -299,7 +294,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean removePermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
-			throws PermissionDeniedException, AuthorizationServiceException {
+			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -353,7 +348,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
 		expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
 	}
 

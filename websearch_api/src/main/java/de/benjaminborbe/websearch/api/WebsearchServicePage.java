@@ -3,6 +3,7 @@ package de.benjaminborbe.websearch.api;
 import java.net.URL;
 import java.util.Collection;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
@@ -16,6 +17,6 @@ public interface WebsearchServicePage {
 
 	void expirePage(final SessionIdentifier sessionIdentifier, WebsearchPageIdentifier page) throws WebsearchServiceException, PermissionDeniedException;
 
-	void expireAllPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
+	void expireAllPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException, LoginRequiredException;
 
 }

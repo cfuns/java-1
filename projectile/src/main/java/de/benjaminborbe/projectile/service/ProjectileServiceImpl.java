@@ -10,8 +10,9 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
@@ -36,15 +37,19 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	private final ProjectileCsvReportImporter projectileCsvReportImporter;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public ProjectileServiceImpl(
 			final Logger logger,
 			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final ProjectileConfig projectileConfig,
 			final ProjectileCsvReportImporter projectileCsvReportImporter,
 			final ProjectileReportDao projectileReportDao) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.projectileConfig = projectileConfig;
 		this.projectileCsvReportImporter = projectileCsvReportImporter;
 		this.projectileReportDao = projectileReportDao;
@@ -82,19 +87,17 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public void importReport(final SessionIdentifier sessionIdentifier, final String content, final ProjectileSlacktimeReportInterval interval) throws ProjectileServiceException,
 			PermissionDeniedException, LoginRequiredException, ValidationException {
 		try {
-			authenticationService.expectSuperAdmin(sessionIdentifier);
+			authorizationService.expectAdminRole(sessionIdentifier);
+
 			projectileCsvReportImporter.importCsvReport(content, interval);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new ProjectileServiceException(e);
-		}
-		catch (final SuperAdminRequiredException e) {
-			throw new PermissionDeniedException(e);
 		}
 		catch (final StorageException e) {
 			throw new ProjectileServiceException(e);
 		}
 		catch (final ParseException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
@@ -116,4 +119,12 @@ public class ProjectileServiceImpl implements ProjectileService {
 		}
 	}
 
+	public void fetchMailReport(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+	}
 }
