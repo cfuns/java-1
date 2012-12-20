@@ -27,6 +27,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.projectile.api.ProjectileService;
+import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -123,7 +124,11 @@ public class ProjectileGuiSlacktimeServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final ProjectileSlacktimeReport report = EasyMock.createNiceMock(ProjectileSlacktimeReport.class);
+		EasyMock.replay(report);
+
 		final ProjectileService projectileService = EasyMock.createMock(ProjectileService.class);
+		EasyMock.expect(projectileService.getSlacktimeReport(sessionIdentifier)).andReturn(report);
 		EasyMock.replay(projectileService);
 
 		final ProjectileGuiSlacktimeServlet projectileServlet = new ProjectileGuiSlacktimeServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
