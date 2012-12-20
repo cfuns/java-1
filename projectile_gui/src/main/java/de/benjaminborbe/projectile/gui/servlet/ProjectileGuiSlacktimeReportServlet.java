@@ -12,7 +12,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -33,6 +35,8 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public ProjectileGuiSlacktimeReportServlet(
 			final Logger logger,
@@ -46,6 +50,7 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.projectileService = projectileService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -101,7 +106,8 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 			final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
 			final String username = request.getParameter(ProjectileGuiConstants.PARAMETER_USERNAME);
 			if (token != null && username != null) {
-				final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(token, username);
+				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+				final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(token, userIdentifier);
 				if (report != null) {
 					final JSONObject jsonObject = buildJson(report);
 					printJson(response, jsonObject);
@@ -115,6 +121,9 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 			}
 		}
 		catch (final ProjectileServiceException e) {
+			printException(response, e);
+		}
+		catch (final AuthenticationServiceException e) {
 			printException(response, e);
 		}
 	}

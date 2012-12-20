@@ -26,6 +26,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -34,7 +35,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class ProjectileGuiServletUnitTest {
+public class ProjectileGuiSlacktimeServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -122,12 +123,15 @@ public class ProjectileGuiServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
-		final ProjectileGuiServlet projectileServlet = new ProjectileGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService);
+		final ProjectileService projectileService = EasyMock.createMock(ProjectileService.class);
+		EasyMock.replay(projectileService);
+
+		final ProjectileGuiSlacktimeServlet projectileServlet = new ProjectileGuiSlacktimeServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				authenticationService, authorizationService, httpContextProvider, urlUtil, projectileService);
 
 		projectileServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Projectile</h1>") != -1);
+		assertTrue(content.indexOf("Projectile") != -1);
 	}
 }

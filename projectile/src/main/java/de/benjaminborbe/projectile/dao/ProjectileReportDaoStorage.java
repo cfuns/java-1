@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
@@ -33,8 +34,8 @@ public class ProjectileReportDaoStorage extends DaoStorage<ProjectileReportBean,
 	}
 
 	@Override
-	public ProjectileReportBean getReportForUser(final String username) throws StorageException {
-		return load(username);
+	public ProjectileReportBean getReportForUser(final UserIdentifier userIdentifier) throws StorageException {
+		return load(userIdentifier.getId());
 	}
 
 	@Override

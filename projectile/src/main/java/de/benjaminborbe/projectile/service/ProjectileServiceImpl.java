@@ -11,6 +11,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
@@ -66,11 +67,11 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileSlacktimeReport getSlacktimeReport(final String token, final String username) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileSlacktimeReport getSlacktimeReport(final String token, final UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		try {
 			expectAuthToken(token);
 			logger.debug("getSlacktimeReport");
-			return projectileReportDao.getReportForUser(username);
+			return projectileReportDao.getReportForUser(userIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new ProjectileServiceException(e);
@@ -94,6 +95,23 @@ public class ProjectileServiceImpl implements ProjectileService {
 			throw new ProjectileServiceException(e);
 		}
 		catch (final ParseException e) {
+			throw new ProjectileServiceException(e);
+		}
+	}
+
+	@Override
+	public ProjectileSlacktimeReport getSlacktimeReport(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.debug("getSlacktimeReport");
+			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			return projectileReportDao.getReportForUser(currentUser);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
