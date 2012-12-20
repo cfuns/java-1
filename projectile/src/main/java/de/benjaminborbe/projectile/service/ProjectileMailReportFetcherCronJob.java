@@ -12,7 +12,7 @@ import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 public class ProjectileMailReportFetcherCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 */5 * * * ?"; // ones per hour
+	private static final String SCHEDULE_EXPRESSION = "0 */15 * * * ?"; // ones per hour
 
 	private final ProjectileMailReportFetcher projectileMailReportFetcher;
 
