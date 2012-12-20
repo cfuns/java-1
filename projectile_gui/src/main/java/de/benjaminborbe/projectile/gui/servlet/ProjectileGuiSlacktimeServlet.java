@@ -1,6 +1,8 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,7 +34,6 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class ProjectileGuiSlacktimeServlet extends WebsiteHtmlServlet {
@@ -65,10 +66,6 @@ public class ProjectileGuiSlacktimeServlet extends WebsiteHtmlServlet {
 		this.authenticationService = authenticationService;
 	}
 
-	private String asString(final Object object) {
-		return object != null ? String.valueOf(object) : "";
-	}
-
 	@Override
 	public boolean isAdminRequired() {
 		return false;
@@ -90,18 +87,9 @@ public class ProjectileGuiSlacktimeServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(sessionIdentifier);
 
-			widgets.add(new H2Widget("Week"));
-			widgets.add("intern: " + asString(report.getWeekIntern()));
-			widgets.add(new BrWidget());
-			widgets.add("extern: " + asString(report.getWeekExtern()));
-			widgets.add(new H2Widget("Month"));
-			widgets.add("intern: " + asString(report.getMonthIntern()));
-			widgets.add(new BrWidget());
-			widgets.add("extern: " + asString(report.getMonthExtern()));
-			widgets.add(new H2Widget("Year"));
-			widgets.add("intern: " + asString(report.getYearIntern()));
-			widgets.add(new BrWidget());
-			widgets.add("extern: " + asString(report.getYearExtern()));
+			widgets.add(createBlock("Week", report.getWeekIntern(), report.getWeekExtern()));
+			widgets.add(createBlock("Month", report.getMonthIntern(), report.getMonthExtern()));
+			widgets.add(createBlock("Year", report.getYearIntern(), report.getYearExtern()));
 
 			return widgets;
 		}
@@ -115,5 +103,26 @@ public class ProjectileGuiSlacktimeServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private Widget createBlock(final String name, final Double intern, final Double extern) {
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H2Widget(name));
+		if (extern != null && intern != null) {
+			final double total = extern + intern;
+			final double procent = (extern / total) * 100;
+			final DecimalFormat df = new DecimalFormat("#####0.0h");
+			widgets.add(df.format(procent) + "%");
+			widgets.add(" ");
+			widgets.add("(");
+			widgets.add("extern: " + df.format(extern));
+			widgets.add(" ");
+			widgets.add("intern: " + df.format(intern));
+			widgets.add(")");
+		}
+		else {
+			widgets.add("-");
+		}
+		return widgets;
 	}
 }
