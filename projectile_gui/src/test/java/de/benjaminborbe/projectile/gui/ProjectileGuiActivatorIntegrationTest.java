@@ -46,6 +46,7 @@ public class ProjectileGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_HOME);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_FETCH_REPORT);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_SLACKTIME_REPORT);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_SLACKTIME_IMPORT);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

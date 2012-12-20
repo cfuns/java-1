@@ -17,4 +17,6 @@ public interface ProjectileGuiConstants {
 	String PARAMETER_REPORT_CONTENT = "report_content";
 
 	String URL_SLACKTIME_IMPORT = "/slacktimeImport";
+
+	String URL_FETCH_REPORT = "/fetchReport";
 }

@@ -18,4 +18,6 @@ public interface ProjectileService {
 	ProjectileSlacktimeReport getSlacktimeReport(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
 
 	ProjectileSlacktimeReport getSlacktimeReport(String token, UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+
+	void fetchMailReport(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException;
 }

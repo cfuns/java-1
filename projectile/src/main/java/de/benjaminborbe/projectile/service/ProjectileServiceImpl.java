@@ -21,6 +21,7 @@ import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.dao.ProjectileReportDao;
 import de.benjaminborbe.projectile.util.ProjectileCsvReportImporter;
+import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.util.ParseException;
 
@@ -39,6 +40,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	private final AuthorizationService authorizationService;
 
+	private final ProjectileMailReportFetcher projectileMailReportFetcher;
+
 	@Inject
 	public ProjectileServiceImpl(
 			final Logger logger,
@@ -46,13 +49,15 @@ public class ProjectileServiceImpl implements ProjectileService {
 			final AuthorizationService authorizationService,
 			final ProjectileConfig projectileConfig,
 			final ProjectileCsvReportImporter projectileCsvReportImporter,
-			final ProjectileReportDao projectileReportDao) {
+			final ProjectileReportDao projectileReportDao,
+			final ProjectileMailReportFetcher projectileMailReportFetcher) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
 		this.projectileConfig = projectileConfig;
 		this.projectileCsvReportImporter = projectileCsvReportImporter;
 		this.projectileReportDao = projectileReportDao;
+		this.projectileMailReportFetcher = projectileMailReportFetcher;
 	}
 
 	@Override
@@ -119,9 +124,12 @@ public class ProjectileServiceImpl implements ProjectileService {
 		}
 	}
 
+	@Override
 	public void fetchMailReport(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("fetchMailReport");
+			projectileMailReportFetcher.fetch();
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new ProjectileServiceException(e);

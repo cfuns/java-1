@@ -45,4 +45,8 @@ public class ProjectileServiceMock implements ProjectileService {
 		return null;
 	}
 
+	@Override
+	public void fetchMailReport(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException {
+	}
+
 }
