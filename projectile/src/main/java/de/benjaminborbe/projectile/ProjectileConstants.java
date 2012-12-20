@@ -10,4 +10,6 @@ public interface ProjectileConstants {
 
 	String CONFIG_POP3_LOGIN = "ProjectilePop3Login";
 
+	String CONFIG_POP3_DELETE = "ProjectilePop3Delete";
+
 }

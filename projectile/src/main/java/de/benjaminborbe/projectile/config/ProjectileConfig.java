@@ -15,4 +15,6 @@ public interface ProjectileConfig {
 	String getPop3Password();
 
 	String getPop3Hostname();
+
+	boolean getPop3Delete();
 }

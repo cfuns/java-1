@@ -78,8 +78,14 @@ public class ProjectileMailReportFetcher {
 						}
 					}
 
-					// mark mail to delete
-					m.setFlag(Flags.Flag.DELETED, true);
+					if (projectileConfig.getPop3Delete()) {
+						// mark mail to delete
+						m.setFlag(Flags.Flag.DELETED, true);
+						logger.debug("mark mail to delete");
+					}
+					else {
+						logger.debug("leave mail on server");
+					}
 				}
 
 				// "true" actually deletes flagged messages from folder

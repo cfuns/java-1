@@ -12,6 +12,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.projectile.ProjectileConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -27,6 +28,8 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 
 	private final ConfigurationDescriptionString pop3Hostname = new ConfigurationDescriptionString(null, ProjectileConstants.CONFIG_POP3_HOSTNAME, "Projectile Pop3 Hostname");
 
+	private final ConfigurationDescriptionBoolean pop3Delete = new ConfigurationDescriptionBoolean(false, ProjectileConstants.CONFIG_POP3_DELETE, "Projectile Pop3 Delete");
+
 	@Inject
 	public ProjectileConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
 		super(logger, configurationService, parseUtil);
@@ -39,6 +42,7 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 		result.add(pop3Login);
 		result.add(pop3Password);
 		result.add(pop3Hostname);
+		result.add(pop3Delete);
 		return result;
 	}
 
@@ -60,6 +64,11 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 	@Override
 	public String getAuthToken() {
 		return getValueString(authToken);
+	}
+
+	@Override
+	public boolean getPop3Delete() {
+		return getValueBoolean(pop3Delete);
 	}
 
 }
