@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -77,13 +78,12 @@ public class ProjectileMailReportFetcher {
 						}
 					}
 
-					// Uncomment to set "delete" flag on the message
-					// m.setFlag(Flags.Flag.DELETED,true);
+					// mark mail to delete
+					m.setFlag(Flags.Flag.DELETED, true);
 				}
 
 				// "true" actually deletes flagged messages from folder
 				fldr.close(true);
-				store.close();
 			}
 			catch (final NoSuchProviderException e) {
 				logger.warn(e.getClass().getName(), e);
