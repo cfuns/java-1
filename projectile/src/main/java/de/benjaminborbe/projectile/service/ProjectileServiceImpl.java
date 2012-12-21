@@ -121,6 +121,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			logger.debug("getSlacktimeReport");
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			logger.debug("getSlacktimeReport for user " + currentUser);
 			return projectileReportDao.getReportForUser(currentUser);
 		}
 		catch (final StorageException e) {

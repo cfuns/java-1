@@ -87,10 +87,14 @@ public class ProjectileGuiReportServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(sessionIdentifier);
 
-			widgets.add(createBlock("Week", report.getWeekIntern(), report.getWeekExtern()));
-			widgets.add(createBlock("Month", report.getMonthIntern(), report.getMonthExtern()));
-			widgets.add(createBlock("Year", report.getYearIntern(), report.getYearExtern()));
-
+			if (report != null) {
+				widgets.add(createBlock("Week", report.getWeekIntern(), report.getWeekExtern()));
+				widgets.add(createBlock("Month", report.getMonthIntern(), report.getMonthExtern()));
+				widgets.add(createBlock("Year", report.getYearIntern(), report.getYearExtern()));
+			}
+			else {
+				widgets.add("no data found");
+			}
 			return widgets;
 		}
 		catch (final ProjectileServiceException e) {
