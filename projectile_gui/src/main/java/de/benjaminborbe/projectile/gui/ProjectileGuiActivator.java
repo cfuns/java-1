@@ -10,9 +10,10 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModules;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiFetchMailReportServlet;
-import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiSlacktimeImportServlet;
-import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiSlacktimeReportServlet;
-import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiSlacktimeServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportAllServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportImportServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportJsonServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -20,16 +21,19 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class ProjectileGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private ProjectileGuiSlacktimeImportServlet projectileGuiSlacktimeImportServlet;
+	private ProjectileGuiReportImportServlet projectileGuiSlacktimeImportServlet;
 
 	@Inject
-	private ProjectileGuiSlacktimeReportServlet projectileGuiSlacktimeReportServlet;
+	private ProjectileGuiReportJsonServlet projectileGuiSlacktimeReportServlet;
 
 	@Inject
-	private ProjectileGuiSlacktimeServlet projectileGuiSlacktimeServlet;
+	private ProjectileGuiReportServlet projectileGuiSlacktimeServlet;
 
 	@Inject
 	private ProjectileGuiFetchMailReportServlet projectileGuiFetchMailReportServlet;
+
+	@Inject
+	private ProjectileGuiReportAllServlet projectileGuiReportAllServlet;
 
 	public ProjectileGuiActivator() {
 		super(ProjectileGuiConstants.NAME);
@@ -43,10 +47,11 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_HOME));
-		result.add(new ServletInfo(projectileGuiFetchMailReportServlet, ProjectileGuiConstants.URL_FETCH_REPORT));
-		result.add(new ServletInfo(projectileGuiSlacktimeReportServlet, ProjectileGuiConstants.URL_SLACKTIME_REPORT));
-		result.add(new ServletInfo(projectileGuiSlacktimeImportServlet, ProjectileGuiConstants.URL_SLACKTIME_IMPORT));
+		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_REPORT));
+		result.add(new ServletInfo(projectileGuiReportAllServlet, ProjectileGuiConstants.URL_REPORT_ALL));
+		result.add(new ServletInfo(projectileGuiFetchMailReportServlet, ProjectileGuiConstants.URL_REPORT_FETCH));
+		result.add(new ServletInfo(projectileGuiSlacktimeReportServlet, ProjectileGuiConstants.URL_REPORT_JSON));
+		result.add(new ServletInfo(projectileGuiSlacktimeImportServlet, ProjectileGuiConstants.URL_REPORT_IMPORT));
 		return result;
 	}
 

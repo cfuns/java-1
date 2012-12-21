@@ -1,5 +1,7 @@
 package de.benjaminborbe.projectile.mock;
 
+import java.util.Collection;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -47,6 +49,12 @@ public class ProjectileServiceMock implements ProjectileService {
 
 	@Override
 	public void fetchMailReport(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException {
+	}
+
+	@Override
+	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAll(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException {
+		return null;
 	}
 
 }

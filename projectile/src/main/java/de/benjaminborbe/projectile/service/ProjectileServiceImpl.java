@@ -1,5 +1,9 @@
 package de.benjaminborbe.projectile.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -19,10 +23,13 @@ import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
+import de.benjaminborbe.projectile.dao.ProjectileReportBean;
 import de.benjaminborbe.projectile.dao.ProjectileReportDao;
 import de.benjaminborbe.projectile.util.ProjectileCsvReportImporter;
 import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
@@ -130,6 +137,30 @@ public class ProjectileServiceImpl implements ProjectileService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("fetchMailReport");
 			projectileMailReportFetcher.fetch();
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+	}
+
+	@Override
+	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAll(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("getSlacktimeReportAll");
+			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
+			final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new ProjectileServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new ProjectileServiceException(e);

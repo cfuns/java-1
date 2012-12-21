@@ -30,7 +30,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
 @Singleton
-public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
+public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 8865908885832843737L;
 
@@ -43,7 +43,7 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 	private final ProjectileReportToJsonConverter projectileReportToJsonConverter;
 
 	@Inject
-	public ProjectileGuiSlacktimeReportServlet(
+	public ProjectileGuiReportJsonServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,

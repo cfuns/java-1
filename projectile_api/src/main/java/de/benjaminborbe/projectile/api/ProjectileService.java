@@ -1,5 +1,6 @@
 package de.benjaminborbe.projectile.api;
 
+import java.util.Collection;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -20,4 +21,7 @@ public interface ProjectileService {
 	ProjectileSlacktimeReport getSlacktimeReport(String token, UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException;
 
 	void fetchMailReport(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException;
+
+	Collection<ProjectileSlacktimeReport> getSlacktimeReportAll(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException;
 }

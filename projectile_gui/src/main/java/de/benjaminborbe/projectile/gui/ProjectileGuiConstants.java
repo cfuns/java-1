@@ -6,17 +6,19 @@ public interface ProjectileGuiConstants {
 
 	String PARAMETER_AUTH_TOKEN = "token";
 
-	String PARAMETER_REPORT_INTERVAL = "report_interval";
+	String PARAMETER_REPORT_CONTENT = "report_content";
 
-	String URL_SLACKTIME_REPORT = "/slacktimeReport";
+	String PARAMETER_REPORT_INTERVAL = "report_interval";
 
 	String PARAMETER_USERNAME = "username";
 
-	String URL_HOME = "/";
+	String URL_REPORT = "/";
 
-	String PARAMETER_REPORT_CONTENT = "report_content";
+	String URL_REPORT_ALL = "/report/all";
 
-	String URL_SLACKTIME_IMPORT = "/slacktimeImport";
+	String URL_REPORT_FETCH = "/report/fetch";
 
-	String URL_FETCH_REPORT = "/fetchReport";
+	String URL_REPORT_IMPORT = "/report/import";
+
+	String URL_REPORT_JSON = "/report/json";
 }

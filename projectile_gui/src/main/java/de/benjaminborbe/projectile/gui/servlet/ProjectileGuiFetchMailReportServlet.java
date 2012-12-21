@@ -36,7 +36,7 @@ public class ProjectileGuiFetchMailReportServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 8865908885832843737L;
 
-	private static final String TITLE = "Projectile - Slacktime";
+	private static final String TITLE = "Projectile - Fetch Report via Mail";
 
 	private final ProjectileService projectileService;
 

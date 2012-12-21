@@ -16,11 +16,6 @@ public class TableRowWidget extends CompositeWidget implements Widget {
 
 	private final List<TableCellWidget> cells = new ArrayList<TableCellWidget>();
 
-	public TableRowWidget addCell(final TableCellWidget cell) {
-		cells.add(cell);
-		return this;
-	}
-
 	@Override
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 
@@ -30,5 +25,20 @@ public class TableRowWidget extends CompositeWidget implements Widget {
 		}
 		final TagWidget tagWidget = new TagWidget("tr", list);
 		return tagWidget;
+	}
+
+	public TableRowWidget addCell(final TableCellWidget cell) {
+		cells.add(cell);
+		return this;
+	}
+
+	public TableRowWidget addCell(final String string) {
+		addCell(new TableCellWidget(string));
+		return this;
+	}
+
+	public TableRowWidget addCell(final Widget widget) {
+		addCell(new TableCellWidget(widget));
+		return this;
 	}
 }

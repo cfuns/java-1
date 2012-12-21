@@ -1,7 +1,10 @@
 package de.benjaminborbe.website.table;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,21 +14,29 @@ import org.apache.commons.lang.StringUtils;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.form.HasAttribute;
 import de.benjaminborbe.website.form.HasClass;
 import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
-public class TableCellWidget extends CompositeWidget implements Widget, HasClass<TableCellWidget> {
+public class TableCellWidget extends CompositeWidget implements Widget, HasClass<TableCellWidget>, HasAttribute<TableCellWidget> {
 
 	private Widget content;
 
 	private final Set<String> classes = new HashSet<String>();
+
+	private final Map<String, String> attributes = new HashMap<String, String>();
 
 	public TableCellWidget() {
 	}
 
 	public TableCellWidget(final Widget content) {
 		this.content = content;
+	}
+
+	public TableCellWidget(final String content) {
+		this(new StringWidget(content));
 	}
 
 	public TableCellWidget setContent(final Widget content) {
@@ -52,10 +63,23 @@ public class TableCellWidget extends CompositeWidget implements Widget, HasClass
 
 	@Override
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
-		final TagWidget tag = new TagWidget("td", content);
+		final TagWidget tag = new TagWidget(getTag(), content);
+		for (final Entry<String, String> e : attributes.entrySet()) {
+			tag.addAttribute(e.getKey(), e.getValue());
+		}
 		if (classes.size() > 0) {
 			tag.addAttribute("class", StringUtils.join(classes, " "));
 		}
 		return tag;
+	}
+
+	protected String getTag() {
+		return "td";
+	}
+
+	@Override
+	public TableCellWidget addAttribute(final String name, final String value) {
+		attributes.put(name, value);
+		return this;
 	}
 }

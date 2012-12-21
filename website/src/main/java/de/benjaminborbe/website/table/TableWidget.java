@@ -1,19 +1,27 @@
 package de.benjaminborbe.website.table;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.website.form.HasClass;
 import de.benjaminborbe.website.form.HasId;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
-public class TableWidget extends CompositeWidget implements Widget, HasId<TableWidget> {
+public class TableWidget extends CompositeWidget implements Widget, HasId<TableWidget>, HasClass<TableWidget> {
+
+	private final Set<String> classes = new HashSet<String>();
 
 	private String id;
 
@@ -69,6 +77,27 @@ public class TableWidget extends CompositeWidget implements Widget, HasId<TableW
 		if (id != null) {
 			table.addAttribute("id", id);
 		}
+		if (classes.size() > 0) {
+			table.addAttribute("class", StringUtils.join(classes, " "));
+		}
 		return table;
 	}
+
+	@Override
+	public TableWidget addClass(final String clazz) {
+		classes.add(clazz);
+		return this;
+	}
+
+	@Override
+	public TableWidget removeClass(final String clazz) {
+		classes.remove(clazz);
+		return this;
+	}
+
+	@Override
+	public Collection<String> getClasses() {
+		return classes;
+	}
+
 }
