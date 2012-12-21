@@ -11,8 +11,11 @@ import com.google.inject.Inject;
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModules;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiUpdateServlet;
+import de.benjaminborbe.configuration.gui.util.ConfigurationGuiNavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ConfigurationGuiActivator extends HttpBundleActivator {
@@ -22,6 +25,9 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private ConfigurationGuiListServlet configurationGuiListServlet;
+
+	@Inject
+	private ConfigurationGuiNavigationEntry configurationGuiNavigationEntry;
 
 	public ConfigurationGuiActivator() {
 		super(ConfigurationGuiConstants.NAME);
@@ -37,6 +43,13 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(configurationGuiListServlet, ConfigurationGuiConstants.URL_LIST));
 		result.add(new ServletInfo(configurationGuiUpdateServlet, ConfigurationGuiConstants.URL_UPDATE));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, configurationGuiNavigationEntry));
 		return result;
 	}
 
