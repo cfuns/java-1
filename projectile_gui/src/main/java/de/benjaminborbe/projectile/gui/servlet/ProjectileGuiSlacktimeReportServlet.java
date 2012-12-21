@@ -23,6 +23,7 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
+import de.benjaminborbe.projectile.gui.util.ProjectileReportToJsonConverter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -39,6 +40,8 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final ProjectileReportToJsonConverter projectileReportToJsonConverter;
+
 	@Inject
 	public ProjectileGuiSlacktimeReportServlet(
 			final Logger logger,
@@ -48,11 +51,13 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final ProjectileService projectileService) {
+			final ProjectileService projectileService,
+			final ProjectileReportToJsonConverter projectileReportToJsonConverter) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.projectileService = projectileService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.projectileReportToJsonConverter = projectileReportToJsonConverter;
 	}
 
 	@Override
@@ -69,37 +74,6 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private JSONObject buildJson(final ProjectileSlacktimeReport report) throws IOException {
-		final JSONObject object = new JSONObject();
-		{
-			object.put("username", asString(report.getUsername()));
-		}
-		{
-			final JSONObject week = new JSONObject();
-			week.put("intern", asString(report.getWeekIntern()));
-			week.put("extern", asString(report.getWeekExtern()));
-			object.put("week", week);
-		}
-		{
-			final JSONObject month = new JSONObject();
-			month.put("intern", asString(report.getMonthIntern()));
-			month.put("extern", asString(report.getMonthExtern()));
-			object.put("month", month);
-		}
-		{
-			final JSONObject year = new JSONObject();
-			year.put("intern", asString(report.getYearIntern()));
-			year.put("extern", asString(report.getYearExtern()));
-			object.put("year", year);
-		}
-		return object;
-	}
-
-	private String asString(final Object object) {
-		return object != null ? String.valueOf(object) : "";
-	}
-
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
@@ -111,7 +85,7 @@ public class ProjectileGuiSlacktimeReportServlet extends WebsiteJsonServlet {
 				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 				final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(token, userIdentifier);
 				if (report != null) {
-					final JSONObject jsonObject = buildJson(report);
+					final JSONObject jsonObject = projectileReportToJsonConverter.convert(report);
 					printJson(response, jsonObject);
 				}
 				else {
