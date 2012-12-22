@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 
 @Singleton
@@ -18,9 +19,12 @@ public class ProjectileMailReportFetcherCronJob implements CronJob {
 
 	private final Logger logger;
 
+	private final ProjectileConfig projectileConfig;
+
 	@Inject
-	public ProjectileMailReportFetcherCronJob(final Logger logger, final ProjectileMailReportFetcher projectileMailReportFetcher) {
+	public ProjectileMailReportFetcherCronJob(final Logger logger, final ProjectileConfig projectileConfig, final ProjectileMailReportFetcher projectileMailReportFetcher) {
 		this.logger = logger;
+		this.projectileConfig = projectileConfig;
 		this.projectileMailReportFetcher = projectileMailReportFetcher;
 	}
 
@@ -31,7 +35,12 @@ public class ProjectileMailReportFetcherCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.info("execute");
-		projectileMailReportFetcher.fetch();
+		if (Boolean.TRUE.equals(projectileConfig.getCronActive())) {
+			logger.debug("execute");
+			projectileMailReportFetcher.fetch();
+		}
+		else {
+			logger.debug("skip execute, cron not active");
+		}
 	}
 }

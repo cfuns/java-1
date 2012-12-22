@@ -30,6 +30,8 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 
 	private final ConfigurationDescriptionBoolean pop3Delete = new ConfigurationDescriptionBoolean(false, ProjectileConstants.CONFIG_POP3_DELETE, "Projectile Pop3 Delete");
 
+	private final ConfigurationDescriptionBoolean cronActive = new ConfigurationDescriptionBoolean(false, ProjectileConstants.CONFIG_CRON_ACTIVE, "Projectile Cron Active");
+
 	@Inject
 	public ProjectileConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
 		super(logger, configurationService, parseUtil);
@@ -43,6 +45,7 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 		result.add(pop3Password);
 		result.add(pop3Hostname);
 		result.add(pop3Delete);
+		result.add(cronActive);
 		return result;
 	}
 
@@ -69,6 +72,11 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 	@Override
 	public boolean getPop3Delete() {
 		return getValueBoolean(pop3Delete);
+	}
+
+	@Override
+	public Boolean getCronActive() {
+		return getValueBoolean(cronActive);
 	}
 
 }

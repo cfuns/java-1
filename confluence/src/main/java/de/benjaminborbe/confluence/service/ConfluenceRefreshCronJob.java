@@ -31,7 +31,7 @@ public class ConfluenceRefreshCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.info("execute");
+		logger.debug("execute");
 		confluenceRefresher.refresh();
 	}
 }

@@ -12,4 +12,6 @@ public interface ProjectileConstants {
 
 	String CONFIG_POP3_DELETE = "ProjectilePop3Delete";
 
+	String CONFIG_CRON_ACTIVE = "ProjectileCronActive";
+
 }

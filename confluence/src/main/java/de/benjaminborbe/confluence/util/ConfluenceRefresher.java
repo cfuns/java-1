@@ -32,7 +32,7 @@ public class ConfluenceRefresher {
 		@Override
 		public void run() {
 			try {
-				logger.info("refresh started");
+				logger.debug("refresh started");
 				final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getActivatedEntityIterator();
 				while (i.hasNext()) {
 					try {
@@ -54,7 +54,7 @@ public class ConfluenceRefresher {
 				logger.warn(e.getClass().getName(), e);
 			}
 			finally {
-				logger.info("refresh finished");
+				logger.debug("refresh finished");
 			}
 		}
 	}

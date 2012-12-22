@@ -10,6 +10,8 @@ public interface ProjectileConfig {
 
 	String getAuthToken();
 
+	Boolean getCronActive();
+
 	String getPop3Login();
 
 	String getPop3Password();
