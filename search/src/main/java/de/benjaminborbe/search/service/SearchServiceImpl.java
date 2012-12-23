@@ -120,11 +120,11 @@ public class SearchServiceImpl implements SearchService {
 		{
 			final int pos = query.indexOf(':');
 			if (pos != -1) {
-				final String name = query.substring(0, pos - 1);
+				final String name = query.substring(0, pos);
 				final SearchServiceComponent search = searchServiceComponentRegistry.get(name);
 				if (search != null) {
 					final List<SearchServiceComponent> searchServiceComponents = Arrays.asList(search);
-					return search(searchServiceComponents, query.substring(pos), sessionIdentifier, maxResults);
+					return search(searchServiceComponents, query.substring(pos + 1).trim(), sessionIdentifier, maxResults);
 				}
 			}
 		}
