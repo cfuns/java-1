@@ -55,7 +55,7 @@ public interface TaskService {
 	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException;
 
 	void replaceTaskContext(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
-			LoginRequiredException;
+			LoginRequiredException, PermissionDeniedException;
 
 	void swapPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifierA, TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException;
@@ -74,6 +74,6 @@ public interface TaskService {
 
 	List<TaskMatch> searchTasks(SessionIdentifier sessionIdentifier, int limit, List<String> words) throws TaskServiceException, LoginRequiredException;
 
-	TaskContext getTaskContextByName(SessionIdentifier sessionIdentifier, String taskContextName) throws TaskServiceException, LoginRequiredException;
+	TaskContext getTaskContextByName(SessionIdentifier sessionIdentifier, String taskContextName) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
 }

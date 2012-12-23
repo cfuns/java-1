@@ -159,7 +159,7 @@ public class TaskGuiUtil {
 		return buildCompleteName(sessionIdentifier, new ArrayList<Task>(), task, nameLength);
 	}
 
-	public TaskDto quickStringToTask(final SessionIdentifier sessionIdentifier, final String text) throws TaskServiceException, LoginRequiredException {
+	public TaskDto quickStringToTask(final SessionIdentifier sessionIdentifier, final String text) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final TaskDto task = new TaskDto();
 		if (text == null) {
 			return task;
