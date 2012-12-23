@@ -538,18 +538,20 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
+	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			TaskBean task = taskDao.load(taskIdentifier);
 			expectOwner(sessionIdentifier, task);
-			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+			for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
+				expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+			}
 
 			while (task.getParentId() != null) {
 				task = taskDao.load(task.getParentId());
 			}
-			replaceTaskContext(task, taskContextIdentifier);
+			replaceTaskContext(task, taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
@@ -566,15 +568,17 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	private void replaceTaskContext(final Task task, final TaskContextIdentifier taskContextIdentifier) throws StorageException, EntityIteratorException {
+	private void replaceTaskContext(final Task task, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException, EntityIteratorException {
 		logger.trace("addTaskContext");
 		taskContextManyToManyRelation.removeA(task.getId());
-		taskContextManyToManyRelation.add(task.getId(), taskContextIdentifier);
+		for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
+			taskContextManyToManyRelation.add(task.getId(), taskContextIdentifier);
+		}
 
 		final EntityIterator<TaskBean> i = taskDao.getTaskChilds(task.getId());
 		while (i.hasNext()) {
 			final Task taskChild = i.next();
-			replaceTaskContext(taskChild, taskContextIdentifier);
+			replaceTaskContext(taskChild, taskContextIdentifiers);
 		}
 	}
 
@@ -696,9 +700,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// only update if set
 			if (contexts != null) {
-				for (final TaskContextIdentifier taskContextIdentifier : contexts) {
-					replaceTaskContext(sessionIdentifier, taskIdentifier, taskContextIdentifier);
-				}
+				replaceTaskContext(sessionIdentifier, taskIdentifier, contexts);
 			}
 
 		}
@@ -1035,9 +1037,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// only update if set
 			if (taskDto.getContexts() != null) {
-				for (final TaskContextIdentifier taskContextIdentifier : taskDto.getContexts()) {
-					replaceTaskContext(sessionIdentifier, taskIdentifier, taskContextIdentifier);
-				}
+				replaceTaskContext(sessionIdentifier, taskIdentifier, taskDto.getContexts());
 			}
 
 			return taskIdentifier;

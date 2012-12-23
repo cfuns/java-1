@@ -54,8 +54,8 @@ public interface TaskService {
 
 	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException;
 
-	void replaceTaskContext(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException;
+	void replaceTaskContext(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
 	void swapPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifierA, TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException;

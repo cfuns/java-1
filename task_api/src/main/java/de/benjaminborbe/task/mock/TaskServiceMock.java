@@ -121,11 +121,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
-			throws TaskServiceException, LoginRequiredException {
-	}
-
-	@Override
 	public void updateTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final String name) throws TaskServiceException,
 			PermissionDeniedException, LoginRequiredException, ValidationException {
 	}
@@ -160,6 +155,11 @@ public class TaskServiceMock implements TaskService {
 	@Override
 	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException {
 		return null;
+	}
+
+	@Override
+	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 }
