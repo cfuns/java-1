@@ -39,7 +39,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 
 	private static final String ADD = "add";
 
-	private static final List<String> NAMES = Arrays.asList("t", "task");
+	private static final List<String> NAMES = Arrays.asList("t");
 
 	private final static String PARAMETER_SEARCH = "q";
 
