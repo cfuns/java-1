@@ -7,6 +7,8 @@ import de.benjaminborbe.monitoring.check.twentyfeet.TwentyfeetTestNode;
 
 public class InternetNode extends TreeNode implements HasChildNodes, HasPreconditionCheckNode {
 
+	private static final boolean OPENFIRE = true;
+
 	@Inject
 	public InternetNode(
 			final RisikoNode risikoNode,
@@ -140,6 +142,20 @@ public class InternetNode extends TreeNode implements HasChildNodes, HasPrecondi
 			final String titleMatch = "Login to Cacti";
 			final String contentMatch = "Please enter your Cacti user name and password below:";
 			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
+
+		if (OPENFIRE) {
+			final String name = "URL-Check on openfire.benjamin-borbe.de";
+			final String url = "http://openfire.benjamin-borbe.de/login.jsp";
+			final String titleMatch = "Openfire Admin Console";
+			final String contentMatch = " Administration Console";
+			addNode(new HasCheckNodeImpl(urlCheckBuilder.buildCheck(name, url, titleMatch, contentMatch)));
+		}
+		if (OPENFIRE) {
+			final String name = "TCP-Check on openfire.benjamin-borbe.de";
+			final String hostname = "openfire.benjamin-borbe.de";
+			final int port = 5222;
+			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 	}
 }

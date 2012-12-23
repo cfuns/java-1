@@ -11,10 +11,12 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiDashboardWidget;
+import de.benjaminborbe.monitoring.gui.service.MonitoringGuiNavigationEntry;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiCacheServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiLiveServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSendmailServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSilentCheckServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -38,6 +40,9 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	@Inject
 	private MonitoringGuiSendmailServlet monitoringGuiSendmailServlet;
 
+	@Inject
+	private MonitoringGuiNavigationEntry monitoringGuiNavigationEntry;
+
 	public MonitoringGuiActivator() {
 		super(MonitoringGuiConstants.NAME);
 	}
@@ -51,6 +56,8 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, monitoringDashboardWidget, monitoringDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(NavigationEntry.class, monitoringGuiNavigationEntry, monitoringGuiNavigationEntry.getClass().getName()));
+
 		return result;
 	}
 

@@ -10,7 +10,7 @@ public class ServiceInfo {
 
 	private final Properties properties;
 
-	public ServiceInfo(final Class<?> clazz, final Object service, final String name) {
+	public <T, O extends T> ServiceInfo(final Class<T> clazz, final O service, final String name) {
 		this(clazz, service, buildProperties(name));
 	}
 

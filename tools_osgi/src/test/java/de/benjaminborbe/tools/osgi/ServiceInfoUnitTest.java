@@ -10,8 +10,8 @@ public class ServiceInfoUnitTest {
 
 	@Test
 	public void testnewByClassObjectString() {
-		final Class<?> clazz = TestService.class;
-		final Object service = new TestServiceImpl();
+		final Class<TestService> clazz = TestService.class;
+		final TestService service = new TestServiceImpl();
 		final String name = "test";
 		final ServiceInfo serviceInfo = new ServiceInfo(clazz, service, name);
 		assertEquals(clazz.getName(), serviceInfo.getName());
