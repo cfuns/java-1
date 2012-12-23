@@ -2,7 +2,11 @@ package de.benjaminborbe.search.api;
 
 import java.util.List;
 
-public interface SearchService extends SearchServiceComponent {
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+
+public interface SearchService {
+
+	List<SearchResult> search(SessionIdentifier sessionIdentifier, String query, int maxResults);
 
 	List<String> getSearchComponentNames();
 }

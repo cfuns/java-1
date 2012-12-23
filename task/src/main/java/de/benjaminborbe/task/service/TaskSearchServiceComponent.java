@@ -2,6 +2,8 @@ package de.benjaminborbe.task.service;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,6 +21,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.tools.search.SearchUtil;
 
 @Singleton
 public class TaskSearchServiceComponent implements SearchServiceComponent {
@@ -29,14 +32,18 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 
 	private final TaskService taskService;
 
+	private final SearchUtil searchUtil;
+
 	@Inject
-	public TaskSearchServiceComponent(final Logger logger, final TaskService taskService) {
+	public TaskSearchServiceComponent(final Logger logger, final TaskService taskService, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
+		this.searchUtil = searchUtil;
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
+		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 		try {
@@ -73,5 +80,10 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public String getName() {
 		return SEARCH_TYPE;
+	}
+
+	@Override
+	public Collection<String> getAliases() {
+		return Arrays.asList("task");
 	}
 }

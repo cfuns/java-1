@@ -3,6 +3,8 @@ package de.benjaminborbe.search.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,7 +31,7 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		try {
@@ -45,5 +47,10 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 			// nop
 		}
 		return result;
+	}
+
+	@Override
+	public Collection<String> getAliases() {
+		return Arrays.asList();
 	}
 }

@@ -25,7 +25,6 @@ import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -46,8 +45,6 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 
 	private final SearchService searchService;
 
-	private final SearchUtil searchUtil;
-
 	private final AuthenticationService authenticationService;
 
 	@Inject
@@ -57,14 +54,12 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final SearchService searchService,
-			final SearchUtil searchUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.logger = logger;
 		this.searchService = searchService;
-		this.searchUtil = searchUtil;
 		this.authenticationService = authenticationService;
 	}
 
@@ -90,9 +85,8 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 			final String queryString = request.getParameter(PARAMETER_SEARCH);
 			final List<SearchResult> searchResults;
 			if (queryString != null && queryString.trim().length() >= MIN_LENGTH) {
-				final List<String> words = searchUtil.buildSearchParts(queryString);
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				searchResults = searchService.search(sessionIdentifier, queryString, MAX_RESULTS, words);
+				searchResults = searchService.search(sessionIdentifier, queryString, MAX_RESULTS);
 				logger.trace("found " + searchResults.size() + " searchResults");
 			}
 			else {

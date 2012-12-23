@@ -1,6 +1,8 @@
 package de.benjaminborbe.bookmark.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
+import de.benjaminborbe.tools.search.SearchUtil;
 
 @Singleton
 public class RegisteredServletSearchServiceComponent implements SearchServiceComponent {
@@ -42,14 +45,18 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 
 	private final ServletPathRegistry servletPathRegistry;
 
+	private final SearchUtil searchUtil;
+
 	@Inject
-	public RegisteredServletSearchServiceComponent(final Logger logger, final ServletPathRegistry servletPathRegistry) {
+	public RegisteredServletSearchServiceComponent(final Logger logger, final ServletPathRegistry servletPathRegistry, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.servletPathRegistry = servletPathRegistry;
+		this.searchUtil = searchUtil;
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
+		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
 		final List<SearchResult> results = new ArrayList<SearchResult>();
 		final BeanSearcher<String> beanSearch = new BeanSearchImpl();
@@ -63,5 +70,10 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 	@Override
 	public String getName() {
 		return SEARCH_TYPE;
+	}
+
+	@Override
+	public Collection<String> getAliases() {
+		return Arrays.asList("servlet");
 	}
 }

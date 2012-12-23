@@ -102,7 +102,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			final String searchQuery = request.getParameter(PARAMETER_SEARCH);
+			final String searchQuery = trim(request.getParameter(PARAMETER_SEARCH));
 			logger.trace("searchQuery: " + searchQuery);
 
 			final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
@@ -121,7 +121,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			if (words.size() > 0) {
 				SessionIdentifier sessionIdentifier;
 				sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS, words);
+				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS);
 				printSearchResults(request, response, context, results, words);
 			}
 		}
@@ -130,6 +130,10 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
 		}
+	}
+
+	private String trim(final String parameter) {
+		return parameter != null ? parameter.trim() : "";
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class GooglesearchGuiMapSpecialSearch implements SearchSpecial {
 	}
 
 	@Override
-	public Collection<String> getNames() {
+	public Collection<String> getAliases() {
 		return NAMES;
 	}
 

@@ -20,7 +20,7 @@ public class WowGuiSpecialSearchThottbot extends WowGuiSpecialSearchBase {
 	}
 
 	@Override
-	public Collection<String> getNames() {
+	public Collection<String> getAliases() {
 		return NAMES;
 	}
 

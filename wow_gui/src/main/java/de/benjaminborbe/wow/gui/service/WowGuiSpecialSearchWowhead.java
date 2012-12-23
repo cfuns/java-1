@@ -20,7 +20,7 @@ public class WowGuiSpecialSearchWowhead extends WowGuiSpecialSearchBase {
 	}
 
 	@Override
-	public Collection<String> getNames() {
+	public Collection<String> getAliases() {
 		return NAMES;
 	}
 

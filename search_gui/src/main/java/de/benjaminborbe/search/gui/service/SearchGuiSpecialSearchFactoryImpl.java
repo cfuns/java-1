@@ -33,7 +33,7 @@ public class SearchGuiSpecialSearchFactoryImpl implements SearchGuiSpecialSearch
 				final Collection<SearchSpecial> list = searchGuiSpecialSearchRegistry.getAll();
 				logger.trace("found " + list.size() + " special search");
 				for (final SearchSpecial searchGuiSpecialSearch : list) {
-					for (final String searchName : searchGuiSpecialSearch.getNames()) {
+					for (final String searchName : searchGuiSpecialSearch.getAliases()) {
 						logger.trace("try " + searchName);
 						if (name.equalsIgnoreCase(searchName)) {
 							logger.trace("found special search");

@@ -32,7 +32,7 @@ public class GooglesearchGuiSpecialSearch implements SearchSpecial {
 	}
 
 	@Override
-	public Collection<String> getNames() {
+	public Collection<String> getAliases() {
 		return NAMES;
 	}
 

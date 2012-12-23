@@ -1,6 +1,8 @@
 package de.benjaminborbe.websearch.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
+import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.websearch.WebsearchConstants;
 
 @Singleton
@@ -57,14 +60,18 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 
 	private final IndexSearcherService indexSearcherService;
 
+	private final SearchUtil searchUtil;
+
 	@Inject
-	public WebsearchSearchServiceComponent(final Logger logger, final IndexSearcherService indexSearcherService) {
+	public WebsearchSearchServiceComponent(final Logger logger, final IndexSearcherService indexSearcherService, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.indexSearcherService = indexSearcherService;
+		this.searchUtil = searchUtil;
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
+		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.debug("search - query: " + query);
 		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "));
 		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
@@ -91,5 +98,10 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public String getName() {
 		return SEARCH_TYPE;
+	}
+
+	@Override
+	public Collection<String> getAliases() {
+		return Arrays.asList("web");
 	}
 }

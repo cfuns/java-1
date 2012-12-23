@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
+import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
@@ -77,14 +80,18 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	private final UrlUtil urlUtil;
 
+	private final SearchUtil searchUtil;
+
 	@Inject
 	public GoogleSearchServiceComponent(
 			final Logger logger,
+			final SearchUtil searchUtil,
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
 			final HtmlUtil htmlUtil,
 			final UrlUtil urlUtil) {
 		this.logger = logger;
+		this.searchUtil = searchUtil;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.htmlUtil = htmlUtil;
@@ -92,7 +99,8 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
+		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		// https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=foo
@@ -162,5 +170,10 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public String getName() {
 		return SEARCH_TYPE;
+	}
+
+	@Override
+	public Collection<String> getAliases() {
+		return Arrays.asList("google");
 	}
 }

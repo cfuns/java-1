@@ -5,4 +5,6 @@ import de.benjaminborbe.tools.registry.Registry;
 
 public interface SearchServiceComponentRegistry extends Registry<SearchServiceComponent> {
 
+	SearchServiceComponent get(String alias);
+
 }

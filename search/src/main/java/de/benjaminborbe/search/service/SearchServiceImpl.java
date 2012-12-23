@@ -1,10 +1,10 @@
 package de.benjaminborbe.search.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -29,7 +29,7 @@ public class SearchServiceImpl implements SearchService {
 
 		private final String query;
 
-		private SearchQueryHistroryRunnable(String query) {
+		private SearchQueryHistroryRunnable(final String query) {
 			this.query = query;
 		}
 
@@ -55,8 +55,6 @@ public class SearchServiceImpl implements SearchService {
 
 		private final SessionIdentifier sessionIdentifier;
 
-		private final List<String> words;
-
 		private final int maxResults;
 
 		private final String query;
@@ -66,12 +64,10 @@ public class SearchServiceImpl implements SearchService {
 				final ThreadResult<List<SearchResult>> threadResult,
 				final SessionIdentifier sessionIdentifier,
 				final String query,
-				final List<String> words,
 				final int maxResults) {
 			this.searchServiceComponent = searchServiceComponent;
 			this.threadResult = threadResult;
 			this.sessionIdentifier = sessionIdentifier;
-			this.words = words;
 			this.maxResults = maxResults;
 			this.query = query;
 		}
@@ -79,7 +75,7 @@ public class SearchServiceImpl implements SearchService {
 		@Override
 		public void run() {
 			try {
-				threadResult.set(searchServiceComponent.search(sessionIdentifier, query, maxResults, words));
+				threadResult.set(searchServiceComponent.search(sessionIdentifier, query, maxResults));
 			}
 			catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
@@ -116,13 +112,29 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
-		logger.trace("search words: " + StringUtils.join(words, ","));
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 
 		createHistory(query);
 
+		// search in one component
+		{
+			final int pos = query.indexOf(':');
+			if (pos != -1) {
+				final String name = query.substring(0, pos - 1);
+				final SearchServiceComponent search = searchServiceComponentRegistry.get(name);
+				if (search != null) {
+					final List<SearchServiceComponent> searchServiceComponents = Arrays.asList(search);
+					return search(searchServiceComponents, query.substring(pos), sessionIdentifier, maxResults);
+				}
+			}
+		}
+
 		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());
 		logger.trace("searchServiceComponents " + searchServiceComponents.size());
+		return search(searchServiceComponents, query, sessionIdentifier, maxResults);
+	}
+
+	private List<SearchResult> search(final List<SearchServiceComponent> searchServiceComponents, final String query, final SessionIdentifier sessionIdentifier, final int maxResults) {
 
 		final List<Thread> threads = new ArrayList<Thread>();
 		final List<ThreadResult<List<SearchResult>>> threadResults = new ArrayList<ThreadResult<List<SearchResult>>>();
@@ -132,7 +144,7 @@ public class SearchServiceImpl implements SearchService {
 
 			final ThreadResult<List<SearchResult>> threadResult = new ThreadResult<List<SearchResult>>();
 			threadResults.add(threadResult);
-			threads.add(threadRunner.run("search", new SearchThreadRunner(searchServiceComponent, threadResult, sessionIdentifier, query, words, maxResults)));
+			threads.add(threadRunner.run("search", new SearchThreadRunner(searchServiceComponent, threadResult, sessionIdentifier, query, maxResults)));
 		}
 
 		for (final Thread thread : threads) {
@@ -166,11 +178,6 @@ public class SearchServiceImpl implements SearchService {
 			result.add(cs.getClass().getName());
 		}
 		return result;
-	}
-
-	@Override
-	public String getName() {
-		return "Core";
 	}
 
 }

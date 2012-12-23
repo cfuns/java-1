@@ -74,7 +74,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 	}
 
 	@Override
-	public Collection<String> getNames() {
+	public Collection<String> getAliases() {
 		return NAMES;
 	}
 

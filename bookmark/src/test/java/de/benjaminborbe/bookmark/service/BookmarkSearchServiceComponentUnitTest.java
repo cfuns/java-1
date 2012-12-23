@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.tools.search.SearchUtil;
 
 public class BookmarkSearchServiceComponentUnitTest {
 
@@ -20,7 +21,8 @@ public class BookmarkSearchServiceComponentUnitTest {
 		final BookmarkService bookmarkService = EasyMock.createMock(BookmarkService.class);
 		EasyMock.replay(bookmarkService);
 
-		final BookmarkSearchServiceComponent bookmarkSearchService = new BookmarkSearchServiceComponent(logger, bookmarkService);
+		final SearchUtil searchUtil = null;
+		final BookmarkSearchServiceComponent bookmarkSearchService = new BookmarkSearchServiceComponent(logger, bookmarkService, searchUtil);
 		assertNotNull(bookmarkSearchService);
 	}
 }

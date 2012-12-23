@@ -1,6 +1,8 @@
 package de.benjaminborbe.confluence.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
+import de.benjaminborbe.tools.search.SearchUtil;
 
 @Singleton
 public class ConfluenceSearchServiceComponent implements SearchServiceComponent {
@@ -64,20 +67,25 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	private final ConfluenceIndexUtil confluenceIndexUtil;
 
+	private final SearchUtil searchUtil;
+
 	@Inject
 	public ConfluenceSearchServiceComponent(
 			final Logger logger,
+			final SearchUtil searchUtil,
 			final IndexSearcherService indexSearcherService,
 			final AuthenticationService authenticationService,
 			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
+		this.searchUtil = searchUtil;
 		this.indexSearcherService = indexSearcherService;
 		this.authenticationService = authenticationService;
 		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
 
 	@Override
-	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults, final List<String> words) {
+	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
+		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search");
 		final String searchString = StringUtils.join(words, " ");
 		final List<IndexSearchResult> indexResults = new ArrayList<IndexSearchResult>();
@@ -113,5 +121,10 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 	@Override
 	public String getName() {
 		return SEARCH_TYPE;
+	}
+
+	@Override
+	public Collection<String> getAliases() {
+		return Arrays.asList("confluence");
 	}
 }
