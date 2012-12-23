@@ -1,10 +1,13 @@
 package de.benjaminborbe.systemstatus.gui.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +75,46 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 
+		sessionData(request, widgets);
+		memoryState(widgets);
+		diskUsage(widgets);
+
+		return widgets;
+	}
+
+	private void diskUsage(final ListWidget widgets) {
+		final NumberFormat nf = NumberFormat.getNumberInstance();
+		final DecimalFormat dfPercent = new DecimalFormat("#####0.0%");
+		widgets.add(new H2Widget("Disk-Space"));
+		final UlWidget ul = new UlWidget();
+		for (final File file : File.listRoots()) {
+			final long totalSpace = file.getTotalSpace();
+			final long usableSpace = file.getUsableSpace();
+			final long freeSpace = file.getFreeSpace();
+			final long usedSpace = totalSpace - freeSpace;
+
+			ul.add(file.getAbsolutePath() + " used: " + dfPercent.format(1d * usedSpace / totalSpace) + " " + nf.format(usedSpace / 1024 / 1024) + " MB total: "
+					+ nf.format(totalSpace / 1024 / 1024) + " MB usable: " + nf.format(usableSpace / 1024 / 1024) + " MB free: " + nf.format(freeSpace / 1024 / 1024) + " MB");
+		}
+		widgets.add(ul);
+	}
+
+	private void memoryState(final ListWidget widgets) {
+		{
+			widgets.add(new H2Widget("Memory"));
+			widgets.add("Memory state before cleanup: ");
+			widgets.add(new BrWidget());
+			widgets.add(getMemoryStateMX());
+			widgets.add(new BrWidget());
+			Runtime.getRuntime().gc();
+			widgets.add("Memory state after cleanup: ");
+			widgets.add(new BrWidget());
+			widgets.add(getMemoryStateMX());
+			widgets.add(new BrWidget());
+		}
+	}
+
+	private void sessionData(final HttpServletRequest request, final ListWidget widgets) {
 		{
 			widgets.add(new H2Widget("Session-Data"));
 			final HttpSession session = request.getSession();
@@ -91,20 +134,6 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 				widgets.add("no data in session");
 			}
 		}
-		{
-			widgets.add(new H2Widget("Memory"));
-			widgets.add("Memory state before cleanup: ");
-			widgets.add(new BrWidget());
-			widgets.add(getMemoryStateMX());
-			widgets.add(new BrWidget());
-			Runtime.getRuntime().gc();
-			widgets.add("Memory state after cleanup: ");
-			widgets.add(new BrWidget());
-			widgets.add(getMemoryStateMX());
-			widgets.add(new BrWidget());
-		}
-
-		return widgets;
 	}
 
 	protected String getMemoryStateMX() {
