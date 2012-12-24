@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.common.collect.Collections2;
@@ -22,6 +23,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.widget.TooltipWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.link.LinkWidget;
@@ -147,7 +149,14 @@ public class TaskGuiWidgetFactory {
 		}
 
 		if (task.getRepeatDue() != null && task.getRepeatDue() > 0 || task.getRepeatStart() != null && task.getRepeatStart() > 0) {
-			row.add("(repeat) ");
+			final List<String> parts = new ArrayList<String>();
+			if (task.getRepeatDue() != null && task.getRepeatDue() > 0) {
+				parts.add("due: " + task.getRepeatDue() + " day");
+			}
+			if (task.getRepeatStart() != null && task.getRepeatStart() > 0) {
+				parts.add("start: " + task.getRepeatStart() + " day");
+			}
+			row.add(new TooltipWidget("(repeat) ").addTooltip(StringUtils.join(parts, " ")));
 		}
 
 		final ListWidget options = new ListWidget();

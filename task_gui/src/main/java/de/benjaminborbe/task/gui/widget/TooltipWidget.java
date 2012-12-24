@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
 public class TooltipWidget extends CompositeWidget {
@@ -16,6 +17,10 @@ public class TooltipWidget extends CompositeWidget {
 
 	public TooltipWidget(final Widget content) {
 		this.content = content;
+	}
+
+	public TooltipWidget(final String content) {
+		this(new StringWidget(content));
 	}
 
 	public TooltipWidget addTooltip(final String tooltip) {
