@@ -43,6 +43,7 @@
 
 .task div.completed .taskTitle,.task h2.completed {
 	text-decoration: line-through;
+	color: #AAAAAA;
 }
 
 .task .taskEntry:hover {
