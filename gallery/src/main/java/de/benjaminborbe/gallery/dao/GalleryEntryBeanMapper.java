@@ -21,7 +21,7 @@ import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class GalleryEntryBeanMapper extends MapObjectMapperAdapter<GalleryEntryBean> {
@@ -44,15 +44,15 @@ public class GalleryEntryBeanMapper extends MapObjectMapperAdapter<GalleryEntryB
 			final MapperGalleryCollectionIdentifier mapperGalleryCollectionIdentifier, final MapperGalleryImageIdentifier mapperGalleryImageIdentifier, final MapperString mapperString,
 			final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<GalleryEntryBean>> result = new ArrayList<StringObjectMapper<GalleryEntryBean>>();
-		result.add(new StringObjectMapperBase<GalleryEntryBean, GalleryEntryIdentifier>("id", mapperGalleryEntryIdentifier));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, GalleryCollectionIdentifier>("collectionId", mapperGalleryCollectionIdentifier));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, GalleryImageIdentifier>("previewImageIdentifier", mapperGalleryImageIdentifier));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, GalleryImageIdentifier>("imageIdentifier", mapperGalleryImageIdentifier));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, String>("name", mapperString));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, Long>("priority", mapperLong));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, Boolean>("shared", mapperBoolean));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<GalleryEntryBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, GalleryEntryIdentifier>("id", mapperGalleryEntryIdentifier));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, GalleryCollectionIdentifier>("collectionId", mapperGalleryCollectionIdentifier));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, GalleryImageIdentifier>("previewImageIdentifier", mapperGalleryImageIdentifier));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, GalleryImageIdentifier>("imageIdentifier", mapperGalleryImageIdentifier));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, String>("name", mapperString));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, Long>("priority", mapperLong));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, Boolean>("shared", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<GalleryEntryBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

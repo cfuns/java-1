@@ -16,7 +16,7 @@ import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class GalleryGroupBeanMapper extends MapObjectMapperAdapter<GalleryGroupBean> {
@@ -34,11 +34,11 @@ public class GalleryGroupBeanMapper extends MapObjectMapperAdapter<GalleryGroupB
 	private static Collection<StringObjectMapper<GalleryGroupBean>> buildMappings(final MapperGalleryGroupIdentifier mapperGalleryGroupIdentifier, final MapperString mapperString,
 			final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<GalleryGroupBean>> result = new ArrayList<StringObjectMapper<GalleryGroupBean>>();
-		result.add(new StringObjectMapperBase<GalleryGroupBean, GalleryGroupIdentifier>("id", mapperGalleryGroupIdentifier));
-		result.add(new StringObjectMapperBase<GalleryGroupBean, String>("name", mapperString));
-		result.add(new StringObjectMapperBase<GalleryGroupBean, Boolean>("shared", mapperBoolean));
-		result.add(new StringObjectMapperBase<GalleryGroupBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<GalleryGroupBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, GalleryGroupIdentifier>("id", mapperGalleryGroupIdentifier));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, String>("name", mapperString));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Boolean>("shared", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

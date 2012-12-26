@@ -16,7 +16,7 @@ import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.MapperTimeZone;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
@@ -35,13 +35,13 @@ public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 	private static Collection<StringObjectMapper<UserBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier, final MapperTimeZone mapperTimeZone,
 			final MapperByteArray mapperByteArray, final MapperBoolean mapperBoolean, final MapperString mapperString) {
 		final List<StringObjectMapper<UserBean>> result = new ArrayList<StringObjectMapper<UserBean>>();
-		result.add(new StringObjectMapperBase<UserBean, UserIdentifier>("id", mapperUserIdentifier));
-		result.add(new StringObjectMapperBase<UserBean, byte[]>("password", mapperByteArray));
-		result.add(new StringObjectMapperBase<UserBean, byte[]>("passwordSalt", mapperByteArray));
-		result.add(new StringObjectMapperBase<UserBean, String>("fullname", mapperString));
-		result.add(new StringObjectMapperBase<UserBean, String>("email", mapperString));
-		result.add(new StringObjectMapperBase<UserBean, Boolean>("superAdmin", mapperBoolean));
-		result.add(new StringObjectMapperBase<UserBean, TimeZone>("timeZone", mapperTimeZone));
+		result.add(new StringObjectMapperAdapter<UserBean, UserIdentifier>("id", mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<UserBean, byte[]>("password", mapperByteArray));
+		result.add(new StringObjectMapperAdapter<UserBean, byte[]>("passwordSalt", mapperByteArray));
+		result.add(new StringObjectMapperAdapter<UserBean, String>("fullname", mapperString));
+		result.add(new StringObjectMapperAdapter<UserBean, String>("email", mapperString));
+		result.add(new StringObjectMapperAdapter<UserBean, Boolean>("superAdmin", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<UserBean, TimeZone>("timeZone", mapperTimeZone));
 		return result;
 	}
 }

@@ -14,7 +14,7 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 public class TaskContextBeanMapper extends MapObjectMapperAdapter<TaskContextBean> {
 
@@ -35,11 +35,11 @@ public class TaskContextBeanMapper extends MapObjectMapperAdapter<TaskContextBea
 	private static Collection<StringObjectMapper<TaskContextBean>> buildMappings(final MapperTaskContextIdentifier mapperTaskContextIdentifier, final MapperString mapperString,
 			final MapperUserIdentifier mapperUserIdentifier, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<TaskContextBean>> result = new ArrayList<StringObjectMapper<TaskContextBean>>();
-		result.add(new StringObjectMapperBase<TaskContextBean, TaskContextIdentifier>("id", mapperTaskContextIdentifier));
-		result.add(new StringObjectMapperBase<TaskContextBean, String>(NAME, mapperString));
-		result.add(new StringObjectMapperBase<TaskContextBean, UserIdentifier>(OWNER, mapperUserIdentifier));
-		result.add(new StringObjectMapperBase<TaskContextBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<TaskContextBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<TaskContextBean, TaskContextIdentifier>("id", mapperTaskContextIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskContextBean, String>(NAME, mapperString));
+		result.add(new StringObjectMapperAdapter<TaskContextBean, UserIdentifier>(OWNER, mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskContextBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<TaskContextBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

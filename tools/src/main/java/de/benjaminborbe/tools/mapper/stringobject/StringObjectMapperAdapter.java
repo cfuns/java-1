@@ -7,13 +7,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 
-public class StringObjectMapperBase<B, T> implements StringObjectMapper<B> {
+public class StringObjectMapperAdapter<B, T> implements StringObjectMapper<B> {
 
 	private final String name;
 
 	private final Mapper<T> mapper;
 
-	public StringObjectMapperBase(final String name, final Mapper<T> mapper) {
+	public StringObjectMapperAdapter(final String name, final Mapper<T> mapper) {
 		this.name = name;
 		this.mapper = mapper;
 	}

@@ -18,7 +18,7 @@ import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class ConfluenceInstanceBeanMapper extends MapObjectMapperAdapter<ConfluenceInstanceBean> {
@@ -41,17 +41,17 @@ public class ConfluenceInstanceBeanMapper extends MapObjectMapperAdapter<Conflue
 			final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperLong mapperLong, final MapperBoolean mapperBoolean,
 			final MapperInteger mapperInteger, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<ConfluenceInstanceBean>> result = new ArrayList<StringObjectMapper<ConfluenceInstanceBean>>();
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, ConfluenceInstanceIdentifier>("id", mapperConfluenceInstanceIdentifier));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, UserIdentifier>("owner", mapperUserIdentifier));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, String>("url", mapperString));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, String>("username", mapperString));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, Long>("delay", mapperLong));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, String>("password", mapperString));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, Boolean>("shared", mapperBoolean));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, Boolean>("activated", mapperBoolean));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, Integer>("expire", mapperInteger));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<ConfluenceInstanceBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, ConfluenceInstanceIdentifier>("id", mapperConfluenceInstanceIdentifier));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, UserIdentifier>("owner", mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, String>("url", mapperString));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, String>("username", mapperString));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, Long>("delay", mapperLong));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, String>("password", mapperString));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, Boolean>("shared", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, Boolean>("activated", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, Integer>("expire", mapperInteger));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

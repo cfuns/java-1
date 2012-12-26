@@ -28,8 +28,8 @@ import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.api.LunchUser;
-import de.benjaminborbe.lunch.booking.BookingMessage;
-import de.benjaminborbe.lunch.booking.BookingMessageMapper;
+import de.benjaminborbe.lunch.booking.LunchBookingMessage;
+import de.benjaminborbe.lunch.booking.LunchBookingMessageMapper;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnector;
 import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnectorException;
@@ -83,7 +83,7 @@ public class LunchServiceImpl implements LunchService {
 
 	private final MessageService messageService;
 
-	private final BookingMessageMapper bookingMessageMapper;
+	private final LunchBookingMessageMapper bookingMessageMapper;
 
 	private final KioskDatabaseConnector kioskDatabaseConnector;
 
@@ -93,7 +93,7 @@ public class LunchServiceImpl implements LunchService {
 	public LunchServiceImpl(
 			final Logger logger,
 			final KioskDatabaseConnector kioskDatabaseConnector,
-			final BookingMessageMapper bookingMessageMapper,
+			final LunchBookingMessageMapper bookingMessageMapper,
 			final MessageService messageService,
 			final LunchWikiConnector wikiConnector,
 			final LunchConfig lunchConfig,
@@ -254,7 +254,7 @@ public class LunchServiceImpl implements LunchService {
 			logger.debug("book");
 
 			for (final String user : users) {
-				final BookingMessage bookingMessage = new BookingMessage(user, day);
+				final LunchBookingMessage bookingMessage = new LunchBookingMessage(user, day);
 				messageService.sendMessage(LunchConstants.BOOKING_MESSAGE_TYPE, bookingMessageMapper.map(bookingMessage));
 			}
 		}

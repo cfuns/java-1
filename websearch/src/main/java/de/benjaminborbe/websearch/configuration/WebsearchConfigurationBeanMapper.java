@@ -18,7 +18,7 @@ import de.benjaminborbe.tools.mapper.MapperListString;
 import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 import de.benjaminborbe.websearch.util.MapperUserIdentifier;
 import de.benjaminborbe.websearch.util.MapperWebsearchConfigurationIdentifier;
@@ -44,15 +44,15 @@ public class WebsearchConfigurationBeanMapper extends MapObjectMapperAdapter<Web
 			final MapperUserIdentifier mapperUserIdentifier, final MapperUrl mapperUrl, final MapperBoolean MapperBoolean, final MapperCalendar mapperCalendar,
 			final MapperLong MapperLong, final MapperInteger MapperInteger, final MapperListString MapperStringList) {
 		final List<StringObjectMapper<WebsearchConfigurationBean>> result = new ArrayList<StringObjectMapper<WebsearchConfigurationBean>>();
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, WebsearchConfigurationIdentifier>("id", mapperWebsearchConfigurationIdentifier));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, UserIdentifier>("owner", mapperUserIdentifier));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, URL>("url", mapperUrl));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, List<String>>("excludes", MapperStringList));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, Integer>("expire", MapperInteger));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, Long>("delay", MapperLong));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, Boolean>("activated", MapperBoolean));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<WebsearchConfigurationBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, WebsearchConfigurationIdentifier>("id", mapperWebsearchConfigurationIdentifier));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, UserIdentifier>("owner", mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, URL>("url", mapperUrl));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, List<String>>("excludes", MapperStringList));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, Integer>("expire", MapperInteger));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, Long>("delay", MapperLong));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, Boolean>("activated", MapperBoolean));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

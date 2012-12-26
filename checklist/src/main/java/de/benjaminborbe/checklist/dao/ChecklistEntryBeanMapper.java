@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class ChecklistEntryBeanMapper extends MapObjectMapperAdapter<ChecklistEntryBean> {
@@ -42,13 +42,13 @@ public class ChecklistEntryBeanMapper extends MapObjectMapperAdapter<ChecklistEn
 			final MapperListIdentifier mapperListIdentifier, final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperBoolean mapperBoolean,
 			final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<ChecklistEntryBean>> result = new ArrayList<StringObjectMapper<ChecklistEntryBean>>();
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, ChecklistEntryIdentifier>("id", mapperEntryIdentifier));
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, ChecklistListIdentifier>(LIST_ID, mapperListIdentifier));
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, UserIdentifier>(OWNER, mapperUserIdentifier));
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, String>("name", mapperString));
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, Boolean>("completed", mapperBoolean));
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<ChecklistEntryBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, ChecklistEntryIdentifier>("id", mapperEntryIdentifier));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, ChecklistListIdentifier>(LIST_ID, mapperListIdentifier));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, UserIdentifier>(OWNER, mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, String>("name", mapperString));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, Boolean>("completed", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

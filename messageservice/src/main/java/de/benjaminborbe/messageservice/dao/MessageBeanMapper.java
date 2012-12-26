@@ -14,7 +14,7 @@ import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
@@ -34,12 +34,12 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 	private static Collection<StringObjectMapper<MessageBean>> buildMappings(final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
 			final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
 		final List<StringObjectMapper<MessageBean>> result = new ArrayList<StringObjectMapper<MessageBean>>();
-		result.add(new StringObjectMapperBase<MessageBean, MessageIdentifier>("id", mapperMessageIdentifier));
-		result.add(new StringObjectMapperBase<MessageBean, String>("content", mapperString));
-		result.add(new StringObjectMapperBase<MessageBean, String>(TYPE, mapperString));
-		result.add(new StringObjectMapperBase<MessageBean, Long>("retryCounter", mapperLong));
-		result.add(new StringObjectMapperBase<MessageBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<MessageBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MessageBean, MessageIdentifier>("id", mapperMessageIdentifier));
+		result.add(new StringObjectMapperAdapter<MessageBean, String>("content", mapperString));
+		result.add(new StringObjectMapperAdapter<MessageBean, String>(TYPE, mapperString));
+		result.add(new StringObjectMapperAdapter<MessageBean, Long>("retryCounter", mapperLong));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

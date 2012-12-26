@@ -13,7 +13,7 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class SearchQueryHistoryBeanMapper extends MapObjectMapperAdapter<SearchQueryHistoryBean> {
@@ -34,10 +34,10 @@ public class SearchQueryHistoryBeanMapper extends MapObjectMapperAdapter<SearchQ
 	private static Collection<StringObjectMapper<SearchQueryHistoryBean>> buildMappings(final SearchQueryHistoryIdentifierMapper mapperListIdentifier,
 			final MapperString mapperString, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<SearchQueryHistoryBean>> result = new ArrayList<StringObjectMapper<SearchQueryHistoryBean>>();
-		result.add(new StringObjectMapperBase<SearchQueryHistoryBean, SearchQueryHistoryIdentifier>("id", mapperListIdentifier));
-		result.add(new StringObjectMapperBase<SearchQueryHistoryBean, String>("query", mapperString));
-		result.add(new StringObjectMapperBase<SearchQueryHistoryBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<SearchQueryHistoryBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, SearchQueryHistoryIdentifier>("id", mapperListIdentifier));
+		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, String>("query", mapperString));
+		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }

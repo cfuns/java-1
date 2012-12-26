@@ -15,7 +15,7 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperBase;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
 public class ChecklistListBeanMapper extends MapObjectMapperAdapter<ChecklistListBean> {
@@ -37,11 +37,11 @@ public class ChecklistListBeanMapper extends MapObjectMapperAdapter<ChecklistLis
 	private static Collection<StringObjectMapper<ChecklistListBean>> buildMappings(final MapperListIdentifier mapperListIdentifier, final MapperUserIdentifier mapperUserIdentifier,
 			final MapperString mapperString, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<ChecklistListBean>> result = new ArrayList<StringObjectMapper<ChecklistListBean>>();
-		result.add(new StringObjectMapperBase<ChecklistListBean, ChecklistListIdentifier>("id", mapperListIdentifier));
-		result.add(new StringObjectMapperBase<ChecklistListBean, UserIdentifier>(OWNER, mapperUserIdentifier));
-		result.add(new StringObjectMapperBase<ChecklistListBean, String>("name", mapperString));
-		result.add(new StringObjectMapperBase<ChecklistListBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperBase<ChecklistListBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ChecklistListBean, ChecklistListIdentifier>("id", mapperListIdentifier));
+		result.add(new StringObjectMapperAdapter<ChecklistListBean, UserIdentifier>(OWNER, mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<ChecklistListBean, String>("name", mapperString));
+		result.add(new StringObjectMapperAdapter<ChecklistListBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ChecklistListBean, Calendar>("modified", mapperCalendar));
 		return result;
 	}
 }
