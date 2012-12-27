@@ -63,6 +63,7 @@ public class ShortenerGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter("url")).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -123,8 +124,8 @@ public class ShortenerGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final ShortenerGuiServlet shortenerServlet = new ShortenerGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService);
+		final ShortenerGuiServlet shortenerServlet = new ShortenerGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, null, null);
 
 		shortenerServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

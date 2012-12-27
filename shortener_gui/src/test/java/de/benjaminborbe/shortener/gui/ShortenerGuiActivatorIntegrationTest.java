@@ -46,7 +46,9 @@ public class ShortenerGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + ShortenerGuiConstants.NAME);
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ShortenerGuiConstants.NAME + ShortenerGuiConstants.URL_HOME);
+		paths.add(ShortenerGuiConstants.URL_REDIRECT);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
