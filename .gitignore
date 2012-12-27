@@ -207,3 +207,7 @@ meta/lib/target
 meta/online/target
 meta/devel/target
 meta/office/target
+shortener/target
+shortener_api/target
+shortener_gui/target
+shortener_test/target

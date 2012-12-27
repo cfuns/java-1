@@ -119,6 +119,7 @@
 				<module>worktime_test</module>
 				<module>wow_test</module>
 				<module>xmpp_test</module>
+				<module>shortener_test</module>
 			</modules>
 		</profile>
 		<profile>
@@ -237,6 +238,9 @@
 				<module>slash</module>
 				<module>slash_api</module>
 				<module>slash_gui</module>
+				<module>shortener</module>
+				<module>shortener_api</module>
+				<module>shortener_gui</module>
 				<module>storage</module>
 				<module>storage_api</module>
 				<module>storage_gui</module>

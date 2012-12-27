@@ -251,3 +251,8 @@ buildprojectile:
 	cd projectile && make all
 	cd projectile_gui && make all
 	cd projectile_test && make all
+buildshortener:
+	cd shortener_api && make all
+	cd shortener && make all
+	cd shortener_gui && make all
+	cd shortener_test && make all
