@@ -6,7 +6,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
@@ -36,8 +36,8 @@ public class MicroblogCronJobUnitTest {
 		EasyMock.replay(microblogRevisionStorage);
 
 		final MailService mailService = EasyMock.createMock(MailService.class);
-		mailService.send(EasyMock.anyObject(Mail.class)); // 1336
-		mailService.send(EasyMock.anyObject(Mail.class)); // 1337
+		mailService.send(EasyMock.anyObject(MailDto.class)); // 1336
+		mailService.send(EasyMock.anyObject(MailDto.class)); // 1337
 		EasyMock.replay(mailService);
 
 		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);

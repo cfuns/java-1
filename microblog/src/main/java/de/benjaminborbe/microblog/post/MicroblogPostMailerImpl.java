@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
@@ -38,7 +38,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 	public void mailPost(final MicroblogPostIdentifier rev) throws MicroblogPostMailerException {
 		logger.trace("send rev = " + rev);
 		try {
-			final Mail mail = buildMail(rev);
+			final MailDto mail = buildMail(rev);
 			mailService.send(mail);
 		}
 		catch (final MicroblogConnectorException e) {
@@ -51,7 +51,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		}
 	}
 
-	protected Mail buildMail(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
+	protected MailDto buildMail(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
 		final MicroblogPostResult post = microblogConnector.getPost(revision);
 		final StringBuffer mailContent = new StringBuffer();
 		mailContent.append(post.getContent());
@@ -60,7 +60,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		final String from = post.getAuthor() + "@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "Micro: " + stringUtil.shorten(post.getContent(), SUBJECT_MAX_LENGTH);
-		return new Mail(from, to, subject, mailContent.toString(), "text/plain");
+		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
 	}
 
 }

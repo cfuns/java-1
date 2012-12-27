@@ -12,6 +12,7 @@ import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.util.MailJsonMapper;
 import de.benjaminborbe.messageservice.api.MessageService;
 import de.benjaminborbe.messageservice.api.MessageServiceException;
+import de.benjaminborbe.tools.mapper.MapException;
 
 @Singleton
 public class MailServiceImpl implements MailService {
@@ -36,6 +37,9 @@ public class MailServiceImpl implements MailService {
 			messageService.sendMessage(MailConstants.MAIL_SEND_TYPE, mailJsonMapper.map(mail));
 		}
 		catch (final MessageServiceException e) {
+			throw new MailServiceException(e);
+		}
+		catch (final MapException e) {
 			throw new MailServiceException(e);
 		}
 	}

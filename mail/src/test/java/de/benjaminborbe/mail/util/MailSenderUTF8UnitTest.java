@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 
 public class MailSenderUTF8UnitTest {
 
@@ -22,7 +22,7 @@ public class MailSenderUTF8UnitTest {
 		final String subject = "Hällööö Wörld";
 		final String content = "Toller UTF8-Contäääänt";
 		final String contentType = "text/plain";
-		final Mail mail = new Mail(from, to, subject, content, contentType);
+		final MailDto mail = new MailDto(from, to, subject, content, contentType);
 		mailService.send(mail);
 	}
 }

@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -45,11 +45,11 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 		}
 		logger.info("new status " + status);
 
-		final Mail mail = buildMail(status);
+		final MailDto mail = buildMail(status);
 		mailService.send(mail);
 	}
 
-	protected Mail buildMail(final DhlStatus status) {
+	protected MailDto buildMail(final DhlStatus status) {
 		final StringBuffer mailContent = new StringBuffer();
 		{
 			mailContent.append("Date: ");
@@ -80,6 +80,6 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "DHL: " + stringUtil.shorten(calendarUtil.toDateTimeString(status.getCalendar()) + " - " + status.getMessage(), SUBJECT_MAX_LENGTH);
-		return new Mail(from, to, subject, mailContent.toString(), "text/plain");
+		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
 	}
 }

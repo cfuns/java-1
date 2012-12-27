@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.monitoring.api.CheckResult;
@@ -42,7 +42,7 @@ public class MonitoringMailer implements Runnable {
 		// send mail
 		if (failedChecks.size() > 0) {
 			logger.trace(failedChecks.size() + " checks failed, try sending mail");
-			final Mail mail = buildMail(failedChecks);
+			final MailDto mail = buildMail(failedChecks);
 			try {
 				mailService.send(mail);
 			}
@@ -78,11 +78,11 @@ public class MonitoringMailer implements Runnable {
 		return failedChecks;
 	}
 
-	protected Mail buildMail(final Collection<CheckResult> failedChecks) {
+	protected MailDto buildMail(final Collection<CheckResult> failedChecks) {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "BB - Monitoring";
-		return new Mail(from, to, subject, buildMailContent(failedChecks), "text/plain");
+		return new MailDto(from, to, subject, buildMailContent(failedChecks), "text/plain");
 	}
 
 	protected String buildMailContent(final Collection<CheckResult> failedChecks) {

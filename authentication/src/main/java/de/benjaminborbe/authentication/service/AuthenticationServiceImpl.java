@@ -36,7 +36,7 @@ import de.benjaminborbe.authentication.user.UserDao;
 import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.storage.api.StorageException;
@@ -236,7 +236,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final String subject = "Validate Email";
 			final String content = String.format(baseUrl, user.getEmailVerifyToken(), String.valueOf(user.getId()));
 			final String contentType = "text/plain";
-			mailService.send(new Mail(from, to, subject, content, contentType));
+			mailService.send(new MailDto(from, to, subject, content, contentType));
 		}
 	}
 

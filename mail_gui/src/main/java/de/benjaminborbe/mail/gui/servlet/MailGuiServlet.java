@@ -16,7 +16,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -73,7 +73,7 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Mail mail = buildMail();
+			final MailDto mail = buildMail();
 			mailService.send(mail);
 
 			widgets.add("send testmail");
@@ -84,10 +84,10 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	protected Mail buildMail() {
+	protected MailDto buildMail() {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "TestMail";
-		return new Mail(from, to, subject, "TestContent", "text/plain");
+		return new MailDto(from, to, subject, "TestContent", "text/plain");
 	}
 }

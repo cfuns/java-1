@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
@@ -41,7 +41,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 	public void mailConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConversationMailerException {
 		logger.trace("mailConversation with rev " + microblogConversationIdentifier);
 		try {
-			final Mail mail = buildMail(microblogConversationIdentifier);
+			final MailDto mail = buildMail(microblogConversationIdentifier);
 			mailService.send(mail);
 		}
 		catch (final MicroblogConnectorException e) {
@@ -54,7 +54,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 		}
 	}
 
-	private Mail buildMail(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException {
+	private MailDto buildMail(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException {
 		final MicroblogConversationResult microblogConversationResult = microblogConnector.getConversation(microblogConversationIdentifier);
 
 		final List<MicroblogPostResult> posts = microblogConversationResult.getPosts();
@@ -72,7 +72,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 		final String from = lastPost.getAuthor() + "@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "Micro: " + stringUtil.shorten(firstPost.getContent(), SUBJECT_MAX_LENGTH);
-		return new Mail(from, to, subject, mailContent.toString(), "text/plain");
+		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
 	}
 
 }
