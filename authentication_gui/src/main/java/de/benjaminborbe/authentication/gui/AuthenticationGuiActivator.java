@@ -20,6 +20,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiSwitchUserSe
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiVerifyEmailServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -27,6 +28,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiVerifyEmailServlet authenticationGuiVerifyEmailServlet;
 
 	@Inject
 	private AuthenticationGuiStatusServlet authenticationGuiStatusServlet;
@@ -83,6 +87,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
 		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_SWITCH_USER));
 		result.add(new ServletInfo(authenticationGuiProfileServlet, AuthenticationGuiConstants.URL_USER_PROFILE));
+		result.add(new ServletInfo(authenticationGuiVerifyEmailServlet, AuthenticationGuiConstants.URL_EMAIL_VALIDATION));
 		return result;
 	}
 

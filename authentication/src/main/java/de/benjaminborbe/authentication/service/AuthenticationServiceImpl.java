@@ -234,7 +234,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final String from = "bborbe@seibert-media.net";
 			final String to = user.getEmail();
 			final String subject = "Validate Email";
-			final String content = String.format(baseUrl, user.getId(), user.getEmailVerifyToken());
+			final String content = String.format(baseUrl, user.getEmailVerifyToken(), String.valueOf(user.getId()));
 			final String contentType = "text/plain";
 			mailService.send(new Mail(from, to, subject, content, contentType));
 		}
@@ -298,22 +298,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private void setNewPassword(final UserBean user, final String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		if (!passwordValidator.hasDigest(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("digest missing"));
+			errors.add(new ValidationErrorSimple("password contains no digest characters"));
 		}
 		if (!passwordValidator.hasLength(newPassword, 8)) {
-			errors.add(new ValidationErrorSimple("at least 8 characters"));
+			errors.add(new ValidationErrorSimple("password at least 8 characters"));
 		}
 		if (!passwordValidator.hasValidChars(newPassword)) {
 			errors.add(new ValidationErrorSimple("password contains invalid characters"));
 		}
 		if (!passwordValidator.hasLowerCharacter(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("at least one lower letter"));
+			errors.add(new ValidationErrorSimple("password at least one lower letter"));
 		}
 		if (!passwordValidator.hasSpecialCharacter(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("at least one special character"));
+			errors.add(new ValidationErrorSimple("password at least one special character"));
 		}
 		if (!passwordValidator.hasUpperCharacter(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("at least one upper letter"));
+			errors.add(new ValidationErrorSimple("password at least one upper letter"));
 		}
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
