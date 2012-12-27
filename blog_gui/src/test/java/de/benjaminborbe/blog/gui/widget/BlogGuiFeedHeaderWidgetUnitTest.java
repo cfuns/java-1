@@ -21,7 +21,7 @@ public class BlogGuiFeedHeaderWidgetUnitTest {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getContextPath()).andReturn("/myContext");
 		EasyMock.expect(request.getScheme()).andReturn("http");
-		EasyMock.expect(request.getServerName()).andReturn("www.test.de");
+		EasyMock.expect(request.getServerName()).andReturn("www.example.com");
 		EasyMock.replay(request);
 
 		final StringWriter sw = new StringWriter();
@@ -35,11 +35,11 @@ public class BlogGuiFeedHeaderWidgetUnitTest {
 		EasyMock.replay(context);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
-		EasyMock.expect(urlUtil.buildBaseUrl(request)).andReturn("http://www.test.de/myContext");
+		EasyMock.expect(urlUtil.buildBaseUrl(request)).andReturn("http://www.example.com/myContext");
 		EasyMock.replay(urlUtil);
 
 		final BlogGuiFeedHeaderWidget widget = new BlogGuiFeedHeaderWidget(urlUtil);
 		widget.render(request, response, context);
-		assertEquals("<link href=\"http://www.test.de/myContext/blog/atom.xml\" title=\"bb News\" type=\"application/atom+xml\"/>", sw.toString());
+		assertEquals("<link href=\"http://www.example.com/myContext/blog/atom.xml\" title=\"bb News\" type=\"application/atom+xml\"/>", sw.toString());
 	}
 }

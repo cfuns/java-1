@@ -17,6 +17,8 @@ import de.benjaminborbe.tools.url.UrlUtilImpl;
 
 public class AuthenticationIntegrationTest extends OSGiTestCase {
 
+	private final String validateEmailBaseUrl = "http://example.com/test";
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -72,7 +74,7 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		final String sessionId = "asdf";
 		final String username = "testuser";
 		final String password = "testpassword";
-		final String email = "test@test.de";
+		final String email = "test@example.com";
 		final String fullname = "foo bar";
 
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
@@ -85,9 +87,9 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		}
 
 		assertFalse(service.verifyCredential(sessionIdentifier, userIdentifier, password));
-		service.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+		service.register(sessionIdentifier, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
 		try {
-			service.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+			service.register(sessionIdentifier, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
 			fail("must fail, because already registered");
 		}
 		catch (final ValidationException e) {
@@ -105,12 +107,12 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		final String sessionId = "asdf";
 		final String username = "testuser";
 		final String password = "testpassword";
-		final String email = "test@test.de";
+		final String email = "test@example.com";
 		final String fullname = "foo bar";
 
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
 
-		service.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+		service.register(sessionIdentifier, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
 		assertTrue(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), password));
 		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier("wrong"), password));
 		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), "wrong"));

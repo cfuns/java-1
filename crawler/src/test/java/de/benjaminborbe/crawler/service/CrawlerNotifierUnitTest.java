@@ -19,7 +19,7 @@ public class CrawlerNotifierUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final URL url = new URL("http://test.de/index.html");
+		final URL url = new URL("http://example.com/index.html");
 		final String content = "Foo Bar";
 		final String contentType = "text/html";
 		final CrawlerResult result = new CrawlerResultImpl(url, content, contentType, true);

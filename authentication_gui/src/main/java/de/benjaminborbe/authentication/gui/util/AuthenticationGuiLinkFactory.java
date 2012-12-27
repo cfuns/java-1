@@ -40,4 +40,9 @@ public class AuthenticationGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE, "user profile");
 	}
 
+	public String getEmailValidationUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
+		return urlUtil.buildUrl(urlUtil.buildBaseUrl(request) + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_EMAIL_VALIDATION,
+				new MapParameter().add(AuthenticationGuiConstants.PARAMETER_USER_ID, "%s").add(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN, "%s"));
+	}
+
 }

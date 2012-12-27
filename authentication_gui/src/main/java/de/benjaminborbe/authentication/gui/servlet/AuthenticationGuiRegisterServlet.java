@@ -17,6 +17,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
+import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -53,6 +54,8 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationGuiConfig authenticationGuiConfig;
 
+	private final AuthenticationGuiLinkFactory authenticationGuiLinkFactory;
+
 	@Inject
 	public AuthenticationGuiRegisterServlet(
 			final Logger logger,
@@ -65,11 +68,13 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AuthenticationGuiConfig authenticationGuiConfig) {
+			final AuthenticationGuiConfig authenticationGuiConfig,
+			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.authenticationGuiConfig = authenticationGuiConfig;
+		this.authenticationGuiLinkFactory = authenticationGuiLinkFactory;
 	}
 
 	@Override
@@ -92,7 +97,8 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			if (username != null && password != null && email != null && password.equals(passwordRepeat)) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					authenticationService.register(sessionIdentifier, username, email, password, fullname, authenticationService.getTimeZone(sessionIdentifier));
+					authenticationService.register(sessionIdentifier, authenticationGuiLinkFactory.getEmailValidationUrl(request), username, email, password, fullname,
+							authenticationService.getTimeZone(sessionIdentifier));
 					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
 							: request.getContextPath();
 					logger.trace("send redirect to: " + referer);

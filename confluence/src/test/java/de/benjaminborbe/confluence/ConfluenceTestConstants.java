@@ -8,7 +8,7 @@ public interface ConfluenceTestConstants {
 
 	String USER_PASSWORD = "password";
 
-	String USER_EMAIL = "test@test.de";
+	String USER_EMAIL = "test@example.com";
 
 	String CONFLUENCE_URL = "http://confluence.benjamin-borbe.de";
 

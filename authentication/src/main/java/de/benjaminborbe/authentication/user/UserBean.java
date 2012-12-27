@@ -21,6 +21,10 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 
 	private String email;
 
+	private Boolean emailVerified;
+
+	private String emailVerifyToken;
+
 	private String fullname;
 
 	private Boolean superAdmin;
@@ -111,6 +115,23 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 
 	public void setTimeZone(final TimeZone timeZone) {
 		this.timeZone = timeZone;
+	}
+
+	@Override
+	public Boolean getEmailVerified() {
+		return emailVerified;
+	}
+
+	public void setEmailVerified(final Boolean emailVerified) {
+		this.emailVerified = emailVerified;
+	}
+
+	public String getEmailVerifyToken() {
+		return emailVerifyToken;
+	}
+
+	public void setEmailVerifyToken(final String emailVerifyToken) {
+		this.emailVerifyToken = emailVerifyToken;
 	}
 
 }

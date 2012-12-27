@@ -20,7 +20,7 @@ public class TopWidgetTest {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getContextPath()).andReturn("/bb");
 		EasyMock.expect(request.getScheme()).andReturn("http");
-		EasyMock.expect(request.getServerName()).andReturn("www.test.de");
+		EasyMock.expect(request.getServerName()).andReturn("www.example.com");
 		EasyMock.replay(request);
 
 		final StringWriter sw = new StringWriter();

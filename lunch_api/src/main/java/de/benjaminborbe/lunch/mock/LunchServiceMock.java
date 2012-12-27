@@ -47,7 +47,7 @@ public class LunchServiceMock implements LunchService {
 			@Override
 			public URL getUrl() {
 				try {
-					return new URL("http://test.de");
+					return new URL("http://example.com");
 				}
 				catch (final MalformedURLException e) {
 					return null;

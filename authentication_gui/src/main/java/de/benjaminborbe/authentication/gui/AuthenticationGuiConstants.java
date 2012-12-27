@@ -50,4 +50,8 @@ public interface AuthenticationGuiConstants {
 
 	String CONFIG_SERVERPORT = "AuthenticationRegisterEnabled";
 
+	String URL_EMAIL_VALIDATION = "/email/valdation";
+
+	String PARAMETER_EMAIL_VERIFY_TOKEN = "email_verify_token";
+
 }

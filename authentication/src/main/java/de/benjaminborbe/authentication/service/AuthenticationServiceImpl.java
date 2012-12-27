@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +36,9 @@ import de.benjaminborbe.authentication.user.UserDao;
 import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
+import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
@@ -63,9 +67,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final MailService mailService;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
+			final MailService mailService,
 			final PasswordValidator passwordValidator,
 			final SessionDao sessionDao,
 			final UserDao userDao,
@@ -74,6 +81,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final TimeZoneUtil timeZoneUtil,
 			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
+		this.mailService = mailService;
 		this.passwordValidator = passwordValidator;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
@@ -100,7 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				}
 			}
 		}
-		catch (final InterruptedException e1) {
+		catch (final InterruptedException e) {
 		}
 		return false;
 	}
@@ -167,8 +175,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String username, final String email, final String password, final String fullname,
-			final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
+	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, final String username, final String email, final String password,
+			final String fullname, final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
 		try {
 			if (isLoggedIn(sessionIdentifier)) {
 				final String msg = "can't register while logged in";
@@ -176,15 +184,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple(msg)));
 			}
 			final UserIdentifier userIdentifier = new UserIdentifier(username);
-			if (userDao.load(userIdentifier) != null) {
-				final String msg = "user " + userIdentifier + " already exists";
-				logger.info(msg);
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple(msg)));
-			}
 
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
-			user.setEmail(email);
+			setNewEmail(user, email);
 			setNewPassword(user, password);
 
 			final ValidationResult errors = validationExecutor.validate(user);
@@ -193,6 +196,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(errors);
 			}
 
+			sendEmailVerify(user, validateEmailBaseUrl);
 			userDao.save(user);
 
 			logger.info("registerd user " + userIdentifier);
@@ -207,6 +211,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		catch (final InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final MailSendException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	private void setNewEmail(final UserBean user, final String email) {
+		if (email != null && !email.equals(user.getEmail())) {
+			user.setEmail(email);
+			user.setEmailVerified(false);
+			user.setEmailVerifyToken(String.valueOf(UUID.randomUUID()));
+		}
+	}
+
+	private void sendEmailVerify(final UserBean user, final String baseUrl) throws MailSendException {
+		if (Boolean.TRUE.equals(user.getEmailVerified())) {
+			logger.debug("email already verified");
+		}
+		else {
+			logger.debug("email not verified, sending mail");
+			final String from = "bborbe@seibert-media.net";
+			final String to = user.getEmail();
+			final String subject = "Validate Email";
+			final String content = String.format(baseUrl, user.getId(), user.getEmailVerifyToken());
+			final String contentType = "text/plain";
+			mailService.send(new Mail(from, to, subject, content, contentType));
 		}
 	}
 
@@ -447,8 +477,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String email, final String fullname, final String timeZoneString) throws AuthenticationServiceException,
-			LoginRequiredException, ValidationException {
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, final String email, final String fullname, final String timeZoneString)
+			throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		try {
 			expectLoggedIn(sessionIdentifier);
 
@@ -461,12 +491,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 			final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
 			final UserBean user = userDao.load(userIdentifier);
-			user.setEmail(email);
+			setNewEmail(user, email);
 			user.setFullname(fullname);
 			user.setTimeZone(timeZone);
+
+			final ValidationResult errors = validationExecutor.validate(user);
+			if (errors.hasErrors()) {
+				logger.warn("User " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			sendEmailVerify(user, validateEmailBaseUrl);
 			userDao.save(user);
 		}
 		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final MailSendException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -474,5 +515,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) throws AuthenticationServiceException, ValidationException {
 		return login(sessionIdentifier, createUserIdentifier(username), password);
+	}
+
+	@Override
+	public boolean verifyEmail(final UserIdentifier userIdentifier, final String token) throws AuthenticationServiceException {
+		try {
+			final UserBean user = userDao.load(userIdentifier);
+			if (user != null && token != null && token.equals(user.getEmailVerifyToken())) {
+				user.setEmailVerified(true);
+				userDao.save(user);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 }

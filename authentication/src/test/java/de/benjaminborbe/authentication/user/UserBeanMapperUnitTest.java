@@ -17,6 +17,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.MapperTimeZone;
 import de.benjaminborbe.tools.util.Base64Util;
@@ -49,8 +50,8 @@ public class UserBeanMapperUnitTest {
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
 		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
 		final MapperString mapperString = new MapperString();
-
-		return new UserBeanMapper(taskBeanProvider, mapperUserIdentifier, mapperTimeZone, mapperByteArray, mapperBoolean, mapperString);
+		final MapperCalendar mapperCalendar = new MapperCalendar(null, null, parseUtil);
+		return new UserBeanMapper(taskBeanProvider, mapperUserIdentifier, mapperTimeZone, mapperByteArray, mapperBoolean, mapperString, mapperCalendar);
 	}
 
 	@Test

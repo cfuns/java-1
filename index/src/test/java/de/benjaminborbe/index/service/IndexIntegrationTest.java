@@ -39,13 +39,13 @@ public class IndexIntegrationTest {
 		indexerService.clear(INDEXNAME);
 		assertEquals(0, indexSearcherService.search(INDEXNAME, "title").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de/a"), "title", "content");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com/a"), "title", "content");
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "title").size());
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "titl*").size());
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "content").size());
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "conten*").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de/b"), "aaa bbb ccc", "ddd eee fff");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com/b"), "aaa bbb ccc", "ddd eee fff");
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "aaa").size());
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "aa*").size());
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "bbb").size());
@@ -71,13 +71,13 @@ public class IndexIntegrationTest {
 		indexerService.clear(INDEXNAME);
 		assertEquals(0, indexSearcherService.search(INDEXNAME, "title").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de"), "title", "content");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com"), "title", "content");
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "title").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de"), "title", "content");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com"), "title", "content");
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "title").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de/index.html"), "title", "content");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com/index.html"), "title", "content");
 		assertEquals(2, indexSearcherService.search(INDEXNAME, "title").size());
 	}
 
@@ -92,13 +92,13 @@ public class IndexIntegrationTest {
 		indexerService.clear(INDEXNAME);
 		assertEquals(0, indexSearcherService.search(INDEXNAME, "title").size());
 		assertEquals(0, indexSearcherService.search(INDEXNAME, "content").size());
-		assertEquals(0, indexSearcherService.search(INDEXNAME, "http://test.de").size());
+		assertEquals(0, indexSearcherService.search(INDEXNAME, "http://example.com").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de"), "title", "content");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com"), "title", "content");
 
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "title").size());
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "content").size());
-		assertEquals(1, indexSearcherService.search(INDEXNAME, "http://test.de").size());
+		assertEquals(1, indexSearcherService.search(INDEXNAME, "http://example.com").size());
 	}
 
 	@Test
@@ -109,13 +109,13 @@ public class IndexIntegrationTest {
 		final IndexSearcherService indexSearcherService = injector.getInstance(IndexSearcherService.class);
 		assertNotNull(indexSearcherService);
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de"), "title", "contentA");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com"), "title", "contentA");
 		assertTrue(indexSearcherService.search(INDEXNAME, "title").size() > 0);
 
 		indexerService.clear(INDEXNAME);
 		assertEquals(0, indexSearcherService.search(INDEXNAME, "title").size());
 
-		indexerService.addToIndex(INDEXNAME, new URL("http://test.de"), "title", "contentA");
+		indexerService.addToIndex(INDEXNAME, new URL("http://example.com"), "title", "contentA");
 		assertEquals(1, indexSearcherService.search(INDEXNAME, "title").size());
 	}
 }

@@ -8,9 +8,12 @@ public interface User {
 
 	String getEmail();
 
+	Boolean getEmailVerified();
+
 	String getFullname();
 
 	Boolean getSuperAdmin();
 
 	TimeZone getTimeZone();
+
 }

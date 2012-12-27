@@ -31,12 +31,12 @@ public class MonitoringMailerUnitTest {
 		EasyMock.replay(check);
 
 		final CheckResult checkResult = EasyMock.createMock(CheckResult.class);
-		EasyMock.expect(checkResult.getUrl()).andReturn(new URL("http://www.test.de"));
+		EasyMock.expect(checkResult.getUrl()).andReturn(new URL("http://www.example.com"));
 		EasyMock.expect(checkResult.getMessage()).andReturn("foo");
 		EasyMock.expect(checkResult.getCheck()).andReturn(check);
 		EasyMock.replay(checkResult);
 
 		failedChecks.add(checkResult);
-		assertEquals("Checks failed: 1\nMyCheck: foo http://www.test.de\n\nhttp://bb/bb/monitoring\n", monitoringCronJob.buildMailContent(failedChecks));
+		assertEquals("Checks failed: 1\nMyCheck: foo http://www.example.com\n\nhttp://bb/bb/monitoring\n", monitoringCronJob.buildMailContent(failedChecks));
 	}
 }

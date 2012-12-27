@@ -92,11 +92,11 @@ public class WebsearchCrawlerNotifyUnitTest {
 
 		final CrawlerResult crawlerResult = EasyMock.createMock(CrawlerResult.class);
 		EasyMock.expect(crawlerResult.getContent()).andReturn(content);
-		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://test.de"));
+		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://example.com"));
 		EasyMock.replay(crawlerResult);
 
 		final WebsearchPageDao pageDao = EasyMock.createMock(WebsearchPageDao.class);
-		EasyMock.expect(pageDao.findOrCreate(new URL("http://test.de/links"))).andReturn(null);
+		EasyMock.expect(pageDao.findOrCreate(new URL("http://example.com/links"))).andReturn(null);
 		EasyMock.replay(pageDao);
 
 		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, pageDao, htmlUtil);

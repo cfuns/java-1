@@ -36,7 +36,9 @@ public class TaskServiceImplIntegrationTest {
 
 	private final String password = "password";
 
-	private final String email = "test@test.de";
+	private final String email = "test@example.com";
+
+	private final String validateEmailBaseUrl = "http://example.com/test";
 
 	@Test
 	public void testInject() {
@@ -52,7 +54,7 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, username, email, password, fullname, TimeZone.getDefault());
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
 		assertEquals(username, userIdentifier.getId());
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));
