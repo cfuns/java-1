@@ -1,8 +1,8 @@
 package de.benjaminborbe.dhl.util;
 
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 
 public interface DhlStatusNotifier {
 
-	void mailUpdate(DhlStatus status) throws MailSendException;
+	void mailUpdate(DhlStatus status) throws MailServiceException;
 }

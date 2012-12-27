@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -39,7 +39,7 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 	}
 
 	@Override
-	public void mailUpdate(final DhlStatus status) throws MailSendException {
+	public void mailUpdate(final DhlStatus status) throws MailServiceException {
 		if (status == null) {
 			throw new NullPointerException("parameter DhlStatus is null");
 		}

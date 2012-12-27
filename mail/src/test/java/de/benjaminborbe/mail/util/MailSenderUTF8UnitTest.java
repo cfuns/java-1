@@ -1,4 +1,4 @@
-package de.benjaminborbe.mail.service;
+package de.benjaminborbe.mail.util;
 
 import org.easymock.EasyMock;
 import org.junit.Ignore;
@@ -6,11 +6,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.util.MailSessionFactory;
-import de.benjaminborbe.mail.util.MailSessionFactoryMock;
 
-public class MailServiceUTF8UnitTest {
+public class MailSenderUTF8UnitTest {
 
 	@Ignore("mailserver")
 	@Test
@@ -18,7 +15,7 @@ public class MailServiceUTF8UnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final MailSessionFactory mailSessionFactory = new MailSessionFactoryMock();
-		final MailService mailService = new MailServiceUTF8(logger, mailSessionFactory);
+		final MailSender mailService = new MailSenderUTF8(logger, mailSessionFactory);
 
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";

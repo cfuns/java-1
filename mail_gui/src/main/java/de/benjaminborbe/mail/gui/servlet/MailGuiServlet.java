@@ -17,7 +17,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -79,7 +79,7 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			widgets.add("send testmail");
 			return widgets;
 		}
-		catch (final MailSendException e) {
+		catch (final MailServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

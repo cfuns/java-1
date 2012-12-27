@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
@@ -45,7 +45,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 			logger.error("MicroblogConnectorException", e);
 			throw new MicroblogPostMailerException("MicroblogConnectorException", e);
 		}
-		catch (final MailSendException e) {
+		catch (final MailServiceException e) {
 			logger.error("MailSendException", e);
 			throw new MicroblogPostMailerException("MailSendException", e);
 		}

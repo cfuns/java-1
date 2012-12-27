@@ -23,7 +23,7 @@ import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlUrlBuilder;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
@@ -66,7 +66,7 @@ public class DhlServiceImpl implements DhlService {
 		catch (final DhlStatusFetcherException e) {
 			throw new DhlServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (final MailSendException e) {
+		catch (final MailServiceException e) {
 			throw new DhlServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final StorageException e) {

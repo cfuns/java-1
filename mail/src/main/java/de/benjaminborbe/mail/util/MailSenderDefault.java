@@ -1,4 +1,4 @@
-package de.benjaminborbe.mail.service;
+package de.benjaminborbe.mail.util;
 
 import javax.mail.Message;
 import javax.mail.Transport;
@@ -8,28 +8,24 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.util.MailSessionFactory;
+import de.benjaminborbe.mail.api.MailServiceException;
 
-@Singleton
-public class MailServiceDefault implements MailService {
+public class MailSenderDefault implements MailSender {
 
 	private final Logger logger;
 
 	private final MailSessionFactory mailSessionFactory;
 
 	@Inject
-	public MailServiceDefault(final Logger logger, final MailSessionFactory mailSessionFactory) {
+	public MailSenderDefault(final Logger logger, final MailSessionFactory mailSessionFactory) {
 		this.logger = logger;
 		this.mailSessionFactory = mailSessionFactory;
 	}
 
 	@Override
-	public void send(final Mail mail) throws MailSendException {
+	public void send(final Mail mail) throws MailServiceException {
 		try {
 			logger.trace("send mail to " + mail.getTo());
 			final String from = mail.getFrom();
@@ -46,7 +42,7 @@ public class MailServiceDefault implements MailService {
 			Transport.send(message);
 		}
 		catch (final Exception e) {
-			throw new MailSendException(e.getClass().getSimpleName(), e);
+			throw new MailServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 }

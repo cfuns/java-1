@@ -1,4 +1,4 @@
-package de.benjaminborbe.mail.service;
+package de.benjaminborbe.mail.util;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -12,30 +12,26 @@ import javax.mail.internet.MimeMultipart;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.util.MailSessionFactory;
+import de.benjaminborbe.mail.api.MailServiceException;
 
-@Singleton
-public class MailServiceUTF8 implements MailService {
+public class MailSenderUTF8 implements MailSender {
 
 	private final Logger logger;
 
 	private final MailSessionFactory mailSessionFactory;
 
 	@Inject
-	public MailServiceUTF8(final Logger logger, final MailSessionFactory mailSessionFactory) {
+	public MailSenderUTF8(final Logger logger, final MailSessionFactory mailSessionFactory) {
 		this.logger = logger;
 		this.mailSessionFactory = mailSessionFactory;
 	}
 
 	@Override
-	public void send(final Mail mail) throws MailSendException {
+	public void send(final Mail mail) throws MailServiceException {
 		if (mail == null) {
-			throw new MailSendException("parameter mail missing");
+			throw new MailServiceException("parameter mail missing");
 		}
 		try {
 			logger.trace("send mail to " + mail.getTo());
@@ -53,7 +49,7 @@ public class MailServiceUTF8 implements MailService {
 			Transport.send(message);
 		}
 		catch (final Exception e) {
-			throw new MailSendException(e.getClass().getSimpleName(), e);
+			throw new MailServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 }

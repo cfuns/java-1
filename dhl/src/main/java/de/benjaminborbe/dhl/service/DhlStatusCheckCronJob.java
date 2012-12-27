@@ -14,7 +14,7 @@ import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlStatusStorage;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -86,7 +86,7 @@ public class DhlStatusCheckCronJob implements CronJob {
 				catch (final DhlStatusFetcherException e) {
 					logger.error(e.getClass().getSimpleName(), e);
 				}
-				catch (final MailSendException e) {
+				catch (final MailServiceException e) {
 					logger.error(e.getClass().getSimpleName(), e);
 				}
 			}

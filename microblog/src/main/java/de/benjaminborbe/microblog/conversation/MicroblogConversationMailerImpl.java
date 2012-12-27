@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
@@ -48,7 +48,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 			logger.error("MicroblogConnectorException", e);
 			throw new MicroblogConversationMailerException(e.getClass().getSimpleName(), e);
 		}
-		catch (final MailSendException e) {
+		catch (final MailServiceException e) {
 			logger.error("MailSendException", e);
 			throw new MicroblogConversationMailerException(e.getClass().getSimpleName(), e);
 		}

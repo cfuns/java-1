@@ -37,7 +37,7 @@ import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionServ
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
@@ -212,7 +212,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (final MailSendException e) {
+		catch (final MailServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -225,7 +225,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void sendEmailVerify(final UserBean user, final String baseUrl) throws MailSendException {
+	private void sendEmailVerify(final UserBean user, final String baseUrl) throws MailServiceException {
 		if (Boolean.TRUE.equals(user.getEmailVerified())) {
 			logger.debug("email already verified");
 		}
@@ -507,7 +507,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (final MailSendException e) {
+		catch (final MailServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

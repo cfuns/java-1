@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailSendException;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.monitoring.check.NodeChecker;
@@ -46,7 +46,7 @@ public class MonitoringMailer implements Runnable {
 			try {
 				mailService.send(mail);
 			}
-			catch (final MailSendException e) {
+			catch (final MailServiceException e) {
 				logger.error("MailSendException", e);
 			}
 		}
