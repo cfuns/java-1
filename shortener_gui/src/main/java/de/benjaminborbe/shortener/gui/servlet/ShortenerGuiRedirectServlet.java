@@ -19,6 +19,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.api.ShortenerServiceException;
+import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -53,11 +54,11 @@ public class ShortenerGuiRedirectServlet extends WebsiteServlet {
 			final String uri = request.getRequestURI();
 			final int slashpos = uri.lastIndexOf('/');
 			final String token = uri.substring(slashpos + 1);
-			final RedirectWidget widget = new RedirectWidget(shortenerService.getUrl(token).toExternalForm());
+			final ShortenerUrlIdentifier shortenerUrlIdentifier = new ShortenerUrlIdentifier(token);
+			final RedirectWidget widget = new RedirectWidget(shortenerService.getUrl(shortenerUrlIdentifier).toExternalForm());
 			widget.render(request, response, context);
 		}
 		catch (final ShortenerServiceException e) {
 		}
 	}
-
 }

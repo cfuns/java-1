@@ -241,4 +241,9 @@ create column family projectile_report with
   column_metadata = [
     {column_name: username, validation_class: UTF8Type, index_type: KEYS}
   ];
-  
+
+drop column family shortener_url;
+create column family shortener_url with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type; 

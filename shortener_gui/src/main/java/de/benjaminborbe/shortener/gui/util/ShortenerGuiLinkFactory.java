@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.shortener.gui.ShortenerGuiConstants;
 import de.benjaminborbe.tools.url.UrlUtil;
 
@@ -16,7 +17,7 @@ public class ShortenerGuiLinkFactory {
 		this.urlUil = urlUil;
 	}
 
-	public String getRedirectUrl(final HttpServletRequest request, final String token) {
-		return urlUil.buildBaseUrl(request) + ShortenerGuiConstants.URL_REDIRECT + "/" + token;
+	public String getRedirectUrl(final HttpServletRequest request, final ShortenerUrlIdentifier shortenerUrlIdentifier) {
+		return urlUil.buildBaseUrl(request) + ShortenerGuiConstants.URL_REDIRECT + "/" + String.valueOf(shortenerUrlIdentifier);
 	}
 }

@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -21,6 +22,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.api.ShortenerServiceException;
+import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.shortener.gui.ShortenerGuiConstants;
 import de.benjaminborbe.shortener.gui.util.ShortenerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -37,6 +39,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class ShortenerGuiServlet extends WebsiteHtmlServlet {
@@ -90,17 +93,22 @@ public class ShortenerGuiServlet extends WebsiteHtmlServlet {
 			if (urlString != null) {
 				try {
 					final URL url = parseUtil.parseURL(urlString);
-					final String token = shortenerService.shorten(url);
-					widgets.add(shortenerGuiLinkFactory.getRedirectUrl(request, token));
+					final ShortenerUrlIdentifier shortenerUrlIdentifier = shortenerService.shorten(url);
+					widgets.add(shortenerGuiLinkFactory.getRedirectUrl(request, shortenerUrlIdentifier));
 				}
 				catch (final ParseException e) {
 					widgets.add("invalid url");
 				}
+				catch (final ValidationException e) {
+					widgets.add("shorten url failed!");
+					widgets.add(new ValidationExceptionWidget(e));
+				}
 			}
 
 			final FormWidget formWidget = new FormWidget();
-			formWidget.addFormInputWidget(new FormInputTextWidget(ShortenerGuiConstants.PARAMETER_URL).addLabel("Url:").addDefaultValue("http://..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(ShortenerGuiConstants.PARAMETER_URL).addLabel("Url:").addPlaceholder("http://..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("shorten"));
+			widgets.add(formWidget);
 			return widgets;
 		}
 		catch (final ShortenerServiceException e) {
