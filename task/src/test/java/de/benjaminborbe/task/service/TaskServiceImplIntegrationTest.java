@@ -40,6 +40,8 @@ public class TaskServiceImplIntegrationTest {
 
 	private final String validateEmailBaseUrl = "http://example.com/test";
 
+	private final String shortenUrl = "http://bb.de/s";
+
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
@@ -54,7 +56,8 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname,
+				TimeZone.getDefault());
 		assertEquals(username, userIdentifier.getId());
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));

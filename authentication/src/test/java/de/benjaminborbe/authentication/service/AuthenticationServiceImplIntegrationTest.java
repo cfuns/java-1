@@ -24,6 +24,8 @@ public class AuthenticationServiceImplIntegrationTest {
 
 	private final String validateEmailBaseUrl = "http://example.com/test";
 
+	private final String shortenUrl = "http://bb/bb/s";
+
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new AuthenticationModulesMock());
@@ -62,7 +64,7 @@ public class AuthenticationServiceImplIntegrationTest {
 		final String fullname = null;
 		final TimeZone timeZone = null;
 		assertThat(mailService.getMails().size(), is(0));
-		authenticationService.register(sessionIdentifier, validateEmailBaseUrl, username, email, password, fullname, timeZone);
+		authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, timeZone);
 		assertThat(mailService.getMails().size(), is(1));
 	}
 }

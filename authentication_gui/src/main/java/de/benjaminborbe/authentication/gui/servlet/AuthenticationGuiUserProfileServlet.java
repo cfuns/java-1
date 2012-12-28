@@ -94,7 +94,8 @@ public class AuthenticationGuiUserProfileServlet extends WebsiteHtmlServlet {
 
 			if (email != null && fullname != null && timezone != null) {
 				try {
-					authenticationService.updateUser(sessionIdentifier, authenticationGuiLinkFactory.getEmailValidationUrl(request), email, fullname, timezone);
+					authenticationService.updateUser(sessionIdentifier, authenticationGuiLinkFactory.getShortenUrl(request), authenticationGuiLinkFactory.getEmailValidationUrl(request),
+							email, fullname, timezone);
 
 					widgets.add("update user completed");
 				}

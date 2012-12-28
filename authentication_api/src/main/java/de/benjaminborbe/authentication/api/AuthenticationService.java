@@ -25,8 +25,8 @@ public interface AuthenticationService {
 
 	String getFullname(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
-	UserIdentifier register(SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, String username, String email, String password, String fullname, TimeZone timeZone)
-			throws AuthenticationServiceException, ValidationException;
+	UserIdentifier register(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, String username, String email, String password,
+			String fullname, TimeZone timeZone) throws AuthenticationServiceException, ValidationException;
 
 	boolean unregister(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
@@ -51,8 +51,8 @@ public interface AuthenticationService {
 
 	boolean isSuperAdmin(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
-	void updateUser(SessionIdentifier sessionIdentifier, String validateEmailBaseUrl, String email, String fullname, String timeZone) throws AuthenticationServiceException,
-			LoginRequiredException, ValidationException;
+	void updateUser(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrlString, String email, String fullname, String timeZone)
+			throws AuthenticationServiceException, LoginRequiredException, ValidationException;
 
 	TimeZone getTimeZone(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 

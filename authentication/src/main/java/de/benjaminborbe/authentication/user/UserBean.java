@@ -35,6 +35,8 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 
 	private TimeZone timeZone;
 
+	private Long loginCounter;
+
 	@Override
 	public UserIdentifier getId() {
 		return id;
@@ -132,6 +134,23 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 
 	public void setEmailVerifyToken(final String emailVerifyToken) {
 		this.emailVerifyToken = emailVerifyToken;
+	}
+
+	public void increaseLoginCounter() {
+		if (loginCounter == null) {
+			loginCounter = 1l;
+		}
+		else {
+			loginCounter = loginCounter + 1l;
+		}
+	}
+
+	public Long getLoginCounter() {
+		return loginCounter;
+	}
+
+	public void setLoginCounter(final Long loginCounter) {
+		this.loginCounter = loginCounter;
 	}
 
 }

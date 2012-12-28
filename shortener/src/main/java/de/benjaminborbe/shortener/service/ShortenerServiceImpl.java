@@ -51,7 +51,7 @@ public class ShortenerServiceImpl implements ShortenerService {
 	@Override
 	public ShortenerUrlIdentifier shorten(final URL url) throws ShortenerServiceException, ValidationException {
 		try {
-			logger.debug("shorten");
+			logger.debug("shorten url: " + url);
 
 			final ShortenerUrlIdentifier shortenerUrlIdentifier = getUnusedIdentifier();
 			final ShortenerUrlBean bean = shortenerUrlDao.create();
@@ -69,8 +69,6 @@ public class ShortenerServiceImpl implements ShortenerService {
 		}
 		catch (final StorageException e) {
 			throw new ShortenerServiceException(e);
-		}
-		finally {
 		}
 	}
 

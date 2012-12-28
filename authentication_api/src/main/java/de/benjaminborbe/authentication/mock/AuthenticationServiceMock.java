@@ -93,8 +93,8 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, final String username, final String email, final String password,
-			final String fullname, final TimeZone timeZone) throws AuthenticationServiceException {
+	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailBaseUrl, final String username, final String email,
+			final String password, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException {
 		final UserIdentifier userIdentifier = createUserIdentifier(username);
 		userPassword.put(userIdentifier, password);
 		return userIdentifier;
@@ -156,8 +156,8 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, final String email, final String fullname, final String timeZone) throws AuthenticationServiceException,
-			LoginRequiredException, ValidationException {
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailBaseUrl, final String email, final String fullname,
+			final String timeZone) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 	}
 
 }

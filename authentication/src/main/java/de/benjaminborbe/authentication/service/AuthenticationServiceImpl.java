@@ -39,12 +39,16 @@ import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCred
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.shortener.api.ShortenerService;
+import de.benjaminborbe.shortener.api.ShortenerServiceException;
+import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.password.PasswordValidator;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
@@ -69,9 +73,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final MailService mailService;
 
+	private final ShortenerService shortenerService;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
+			final ParseUtil parseUtil,
 			final MailService mailService,
 			final PasswordValidator passwordValidator,
 			final SessionDao sessionDao,
@@ -79,8 +88,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry,
 			final AuthenticationPasswordEncryptionService passwordEncryptionService,
 			final TimeZoneUtil timeZoneUtil,
-			final ValidationExecutor validationExecutor) {
+			final ValidationExecutor validationExecutor,
+			final ShortenerService shortenerService) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.mailService = mailService;
 		this.passwordValidator = passwordValidator;
 		this.sessionDao = sessionDao;
@@ -89,6 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.passwordEncryptionService = passwordEncryptionService;
 		this.timeZoneUtil = timeZoneUtil;
 		this.validationExecutor = validationExecutor;
+		this.shortenerService = shortenerService;
 	}
 
 	@Override
@@ -121,6 +133,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
 				sessionDao.save(session);
+
+				final UserBean user = userDao.load(userIdentifier);
+				user.increaseLoginCounter();
+				userDao.save(user);
+
 				logger.info("user " + userIdentifier + " logged in successful");
 				return true;
 			}
@@ -175,8 +192,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, final String username, final String email, final String password,
-			final String fullname, final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
+	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String username, final String email,
+			final String password, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
 		try {
 			if (isLoggedIn(sessionIdentifier)) {
 				final String msg = "can't register while logged in";
@@ -196,7 +213,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(errors);
 			}
 
-			sendEmailVerify(user, validateEmailBaseUrl);
+			sendEmailVerify(user, shortenUrl, validateEmailUrl);
 			userDao.save(user);
 
 			logger.info("registerd user " + userIdentifier);
@@ -215,6 +232,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final MailServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		catch (final ShortenerServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final ParseException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	private void setNewEmail(final UserBean user, final String email) {
@@ -225,7 +248,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void sendEmailVerify(final UserBean user, final String baseUrl) throws MailServiceException {
+	private void sendEmailVerify(final UserBean user, final String shortenUrl, final String verifyUrl) throws MailServiceException, ShortenerServiceException, ParseException,
+			ValidationException {
 		if (Boolean.TRUE.equals(user.getEmailVerified())) {
 			logger.debug("email already verified");
 		}
@@ -234,10 +258,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final String from = "bborbe@seibert-media.net";
 			final String to = user.getEmail();
 			final String subject = "Validate Email";
-			final String content = String.format(baseUrl, user.getEmailVerifyToken(), String.valueOf(user.getId()));
+			final StringBuilder content = new StringBuilder();
+			logger.debug("verifyUrl: " + verifyUrl);
+			content.append(shortenLink(shortenUrl, String.format(verifyUrl, user.getEmailVerifyToken(), String.valueOf(user.getId()))));
 			final String contentType = "text/plain";
-			mailService.send(new MailDto(from, to, subject, content, contentType));
+			mailService.send(new MailDto(from, to, subject, content.toString(), contentType));
 		}
+	}
+
+	private String shortenLink(final String shortenUrl, final String link) throws ShortenerServiceException, ParseException, ValidationException {
+		logger.debug("shortenLink - shortenUrl: " + shortenUrl + " link: " + link);
+		final ShortenerUrlIdentifier token = shortenerService.shorten(parseUtil.parseURL(link));
+		return String.format(shortenUrl, String.valueOf(token));
 	}
 
 	@Override
@@ -477,8 +509,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String validateEmailBaseUrl, final String email, final String fullname, final String timeZoneString)
-			throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String email, final String fullname,
+			final String timeZoneString) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		try {
 			expectLoggedIn(sessionIdentifier);
 
@@ -501,13 +533,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(errors);
 			}
 
-			sendEmailVerify(user, validateEmailBaseUrl);
+			sendEmailVerify(user, shortenUrl, validateEmailUrl);
 			userDao.save(user);
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final MailServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final ShortenerServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

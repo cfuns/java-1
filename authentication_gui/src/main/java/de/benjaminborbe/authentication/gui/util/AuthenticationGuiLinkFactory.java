@@ -41,8 +41,21 @@ public class AuthenticationGuiLinkFactory {
 	}
 
 	public String getEmailValidationUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
-		return urlUtil.buildUrl(urlUtil.buildBaseUrl(request) + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_EMAIL_VALIDATION,
-				new MapParameter().add(AuthenticationGuiConstants.PARAMETER_USER_ID, "%s").add(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN, "%s"));
+		final StringBuilder sb = new StringBuilder();
+		sb.append(urlUtil.buildBaseUrl(request));
+		sb.append("/");
+		sb.append(AuthenticationGuiConstants.NAME);
+		sb.append(AuthenticationGuiConstants.URL_EMAIL_VALIDATION);
+		sb.append("?");
+		sb.append(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN);
+		sb.append("=%s&");
+		sb.append(AuthenticationGuiConstants.PARAMETER_USER_ID);
+		sb.append("=%s");
+		return sb.toString();
+	}
+
+	public String getShortenUrl(final HttpServletRequest request) {
+		return urlUtil.buildBaseUrl(request) + "/s/%s";
 	}
 
 }

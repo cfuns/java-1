@@ -28,6 +28,8 @@ public class ConfluenceServiceImplIntegrationTest {
 
 	private final String validateEmailBaseUrl = "http://example.com/test";
 
+	private final String shortenUrl = "http://bb/bb/s";
+
 	@Test
 	public void testInject() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfluenceModulesMock());
@@ -50,7 +52,7 @@ public class ConfluenceServiceImplIntegrationTest {
 		final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(ConfluenceTestConstants.USER_NAME);
 		assertNotNull(userIdentifier);
 		assertEquals(ConfluenceTestConstants.USER_NAME, userIdentifier.getId());
-		authenticationService.register(sessionIdentifier, validateEmailBaseUrl, ConfluenceTestConstants.USER_NAME, ConfluenceTestConstants.USER_EMAIL,
+		authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, ConfluenceTestConstants.USER_NAME, ConfluenceTestConstants.USER_EMAIL,
 				ConfluenceTestConstants.USER_PASSWORD, ConfluenceTestConstants.USER_FULL, TimeZone.getDefault());
 
 		// login

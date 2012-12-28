@@ -18,6 +18,7 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.MapperTimeZone;
 import de.benjaminborbe.tools.util.Base64Util;
@@ -51,7 +52,8 @@ public class UserBeanMapperUnitTest {
 		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
 		final MapperString mapperString = new MapperString();
 		final MapperCalendar mapperCalendar = new MapperCalendar(null, null, parseUtil);
-		return new UserBeanMapper(taskBeanProvider, mapperUserIdentifier, mapperTimeZone, mapperByteArray, mapperBoolean, mapperString, mapperCalendar);
+		final MapperLong mapperLong = new MapperLong(parseUtil);
+		return new UserBeanMapper(taskBeanProvider, mapperUserIdentifier, mapperTimeZone, mapperByteArray, mapperBoolean, mapperString, mapperLong, mapperCalendar);
 	}
 
 	@Test

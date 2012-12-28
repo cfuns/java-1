@@ -97,8 +97,8 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			if (username != null && password != null && email != null && password.equals(passwordRepeat)) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					authenticationService.register(sessionIdentifier, authenticationGuiLinkFactory.getEmailValidationUrl(request), username, email, password, fullname,
-							authenticationService.getTimeZone(sessionIdentifier));
+					authenticationService.register(sessionIdentifier, authenticationGuiLinkFactory.getShortenUrl(request), authenticationGuiLinkFactory.getEmailValidationUrl(request),
+							username, email, password, fullname, authenticationService.getTimeZone(sessionIdentifier));
 					final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER) != null ? request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)
 							: request.getContextPath();
 					logger.trace("send redirect to: " + referer);

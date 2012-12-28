@@ -33,6 +33,8 @@ public class ShortenerGuiRedirectServlet extends WebsiteServlet {
 
 	private final ShortenerService shortenerService;
 
+	private final Logger logger;
+
 	@Inject
 	public ShortenerGuiRedirectServlet(
 			final Logger logger,
@@ -45,6 +47,7 @@ public class ShortenerGuiRedirectServlet extends WebsiteServlet {
 			final ShortenerService shortenerService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.shortenerService = shortenerService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -59,6 +62,18 @@ public class ShortenerGuiRedirectServlet extends WebsiteServlet {
 			widget.render(request, response, context);
 		}
 		catch (final ShortenerServiceException e) {
+			logger.warn(e.getClass().getName(), e);
 		}
 	}
+
+	@Override
+	public boolean isLoginRequired() {
+		return false;
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }
