@@ -1,15 +1,15 @@
 package de.benjaminborbe.tools.mapper;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
-import org.slf4j.Logger;
-
-import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.mapper.MapperListString;
 
 public class MapperListStringUnitTest {
@@ -30,12 +30,6 @@ public class MapperListStringUnitTest {
 
 	@Test
 	public void testMap() {
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
-
-		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
-		EasyMock.replay(currentTime);
-
 		{
 			final List<String> values = Arrays.asList("a", "b");
 			final MapperListString map = new MapperListString();
@@ -43,17 +37,43 @@ public class MapperListStringUnitTest {
 			assertEquals(values, map.fromString(valuesString));
 		}
 		{
-			final List<String> values = null;
+			final List<String> values = new ArrayList<String>();
 			final MapperListString map = new MapperListString();
 			final String valuesString = map.toString(values);
 			assertEquals(values, map.fromString(valuesString));
 		}
-		// TODO bborbe: , escape
-		// {
-		// final List<String> values = Arrays.asList("a", "b,c");
-		// final SingleMapStringList<T> map = new SingleMapStringList<T>(name);
-		// final String valuesString = map.toString(values);
-		// assertEquals(values, map.fromString(valuesString));
-		// }
+		{
+			final List<String> values = Arrays.asList("a", "b,c", "\\", ",");
+			final MapperListString map = new MapperListString();
+			final String valuesString = map.toString(values);
+			assertEquals(values, map.fromString(valuesString));
+		}
+	}
+
+	@Test
+	public void testToString() {
+		final MapperListString mapper = new MapperListString();
+		assertThat(mapper.toString(null), is(nullValue()));
+		assertThat(mapper.toString(new ArrayList<String>()), is(nullValue()));
+		assertThat(mapper.toString(Arrays.asList("")), is(""));
+		assertThat(mapper.toString(Arrays.asList("", "")), is(","));
+		assertThat(mapper.toString(Arrays.asList("a")), is("a"));
+		assertThat(mapper.toString(Arrays.asList(",")), is("\\,"));
+		assertThat(mapper.toString(Arrays.asList("\\")), is("\\\\"));
+	}
+
+	@Test
+	public void testfromString() {
+		final MapperListString mapper = new MapperListString();
+		assertThat(mapper.fromString(null), is(asList()));
+		assertThat(mapper.fromString(""), is(asList("")));
+		assertThat(mapper.fromString("a"), is(asList("a")));
+		assertThat(mapper.fromString("\\,"), is(asList(",")));
+		assertThat(mapper.fromString("\\\\"), is(asList("\\")));
+		assertThat(mapper.fromString("\\\\,"), is(asList("\\", "")));
+	}
+
+	private List<String> asList(final String... values) {
+		return Arrays.asList(values);
 	}
 }
