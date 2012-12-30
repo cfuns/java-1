@@ -1,7 +1,5 @@
 package de.benjaminborbe.websearch.cron;
 
-import java.net.URL;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -47,8 +45,8 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 				while (i.hasNext()) {
 					final WebsearchPageBean page = i.next();
 					try {
-						final URL url = page.getUrl();
-						logger.debug("trigger refresh of url " + url.toExternalForm());
+						final String url = page.getUrl();
+						logger.debug("trigger refresh of url " + url);
 						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
 						crawlerService.processCrawlerInstruction(crawlerInstruction);
 					}

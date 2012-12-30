@@ -2,7 +2,7 @@ package de.benjaminborbe.projectile.dao;
 
 import de.benjaminborbe.tools.mapper.Mapper;
 
-public class ProjectileReportIdentifierMapper implements Mapper<ProjectileReportIdentifier> {
+public class MapperProjectileReportIdentifier implements Mapper<ProjectileReportIdentifier> {
 
 	@Override
 	public String toString(final ProjectileReportIdentifier value) {

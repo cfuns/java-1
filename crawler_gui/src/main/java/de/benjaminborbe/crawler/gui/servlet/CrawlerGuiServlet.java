@@ -1,8 +1,6 @@
 package de.benjaminborbe.crawler.gui.servlet;
 
 import java.io.IOException;
-import java.net.URL;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -81,7 +79,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		if (request.getParameter(PARAMETER_URL) != null) {
 			try {
-				final URL url = new URL(request.getParameter(PARAMETER_URL));
+				final String url = request.getParameter(PARAMETER_URL);
 				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(url, TIMEOUT);
 				crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
 				widgets.add("add url successful");

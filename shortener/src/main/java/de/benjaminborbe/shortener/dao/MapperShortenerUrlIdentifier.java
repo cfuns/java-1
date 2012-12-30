@@ -3,7 +3,7 @@ package de.benjaminborbe.shortener.dao;
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;
 
-public class ShortenerUrlIdentifierMapper implements Mapper<ShortenerUrlIdentifier> {
+public class MapperShortenerUrlIdentifier implements Mapper<ShortenerUrlIdentifier> {
 
 	@Override
 	public String toString(final ShortenerUrlIdentifier value) {

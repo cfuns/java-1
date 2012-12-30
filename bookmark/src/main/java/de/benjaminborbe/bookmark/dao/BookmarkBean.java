@@ -25,7 +25,7 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCr
 
 	private List<String> keywords;
 
-	private boolean favorite;
+	private Boolean favorite;
 
 	private UserIdentifier owner;
 
@@ -88,11 +88,11 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCr
 		return result;
 	}
 
-	public boolean isFavorite() {
+	public Boolean getFavorite() {
 		return favorite;
 	}
 
-	public void setFavorite(final boolean favorite) {
+	public void setFavorite(final Boolean favorite) {
 		this.favorite = favorite;
 	}
 

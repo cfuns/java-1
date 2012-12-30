@@ -24,11 +24,11 @@ public class ShortenerUrlBeanMapper extends MapObjectMapperAdapter<ShortenerUrlB
 			final Provider<ShortenerUrlBean> provider,
 			final MapperString mapperString,
 			final MapperCalendar mapperCalendar,
-			final ShortenerUrlIdentifierMapper shortenerUrlIdentifierMapper) {
+			final MapperShortenerUrlIdentifier shortenerUrlIdentifierMapper) {
 		super(provider, buildMappings(shortenerUrlIdentifierMapper, mapperString, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<ShortenerUrlBean>> buildMappings(final ShortenerUrlIdentifierMapper shortenerUrlIdentifierMapper, final MapperString mapperString,
+	private static Collection<StringObjectMapper<ShortenerUrlBean>> buildMappings(final MapperShortenerUrlIdentifier shortenerUrlIdentifierMapper, final MapperString mapperString,
 			final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<ShortenerUrlBean>> result = new ArrayList<StringObjectMapper<ShortenerUrlBean>>();
 		result.add(new StringObjectMapperAdapter<ShortenerUrlBean, ShortenerUrlIdentifier>("id", shortenerUrlIdentifierMapper));

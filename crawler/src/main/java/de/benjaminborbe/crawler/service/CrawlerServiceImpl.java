@@ -16,6 +16,8 @@ import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
 public class CrawlerServiceImpl implements CrawlerService {
@@ -28,9 +30,17 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 	private final CrawlerNotifier crawlerNotifier;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public CrawlerServiceImpl(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final CrawlerNotifier crawlerNotifier) {
+	public CrawlerServiceImpl(
+			final Logger logger,
+			final ParseUtil parseUtil,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final CrawlerNotifier crawlerNotifier) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.crawlerNotifier = crawlerNotifier;
@@ -58,7 +68,12 @@ public class CrawlerServiceImpl implements CrawlerService {
 	@Override
 	public void processCrawlerInstruction(final CrawlerInstruction crawlerInstruction) throws CrawlerException {
 		logger.trace("processCrawlerInstruction");
-		crawleDomain(crawlerInstruction.getUrl(), crawlerInstruction.getTimeout());
+		try {
+			crawleDomain(parseUtil.parseURL(crawlerInstruction.getUrl()), crawlerInstruction.getTimeout());
+		}
+		catch (final ParseException e) {
+			throw new CrawlerException(e);
+		}
 	}
 
 }

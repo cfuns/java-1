@@ -12,11 +12,23 @@ import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
 import org.jsoup.helper.StringUtil;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.CalendarUtilImpl;
+import de.benjaminborbe.tools.date.CurrentTime;
+import de.benjaminborbe.tools.date.CurrentTimeImpl;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.mapper.MapperBoolean;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperListString;
+import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ParseUtilImpl;
 
 public class BookmarkBeanMapperUnitTest {
 
@@ -48,9 +60,23 @@ public class BookmarkBeanMapperUnitTest {
 	}
 
 	private BookmarkBeanMapper getBookmarkBeanMapper() {
-		final Provider<BookmarkBean> a = new ProviderMock<BookmarkBean>(new BookmarkBean());
-		final ParseUtil b = EasyMock.createNiceMock(ParseUtil.class);
-		EasyMock.replay(b);
-		return new BookmarkBeanMapper(a, b);
+		final Provider<BookmarkBean> provider = new ProviderMock<BookmarkBean>(new BookmarkBean());
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
+		final CurrentTime currentTime = new CurrentTimeImpl();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+
+		final MapperBookmarkIdentifier mapperBookmarkIdentifier = new MapperBookmarkIdentifier();
+		final MapperString mapperString = new MapperString();
+		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
+		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
+		final MapperListString mapperListString = new MapperListString();
+
+		return new BookmarkBeanMapper(provider, mapperBookmarkIdentifier, mapperString, mapperBoolean, mapperCalendar, mapperUserIdentifier, mapperListString);
 	}
 }

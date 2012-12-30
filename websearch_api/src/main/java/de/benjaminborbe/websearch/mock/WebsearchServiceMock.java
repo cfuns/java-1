@@ -35,7 +35,7 @@ public class WebsearchServiceMock implements WebsearchService {
 
 	@Override
 	public WebsearchPageIdentifier createPageIdentifier(final URL id) throws WebsearchServiceException {
-		return new WebsearchPageIdentifier(id);
+		return new WebsearchPageIdentifier(id.toExternalForm());
 	}
 
 	@Override
@@ -70,14 +70,15 @@ public class WebsearchServiceMock implements WebsearchService {
 	}
 
 	@Override
-	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire, final long delay, final boolean activated)
-			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire,
+			final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url, final List<String> excludes,
-			final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
+			final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 	}
 
 }

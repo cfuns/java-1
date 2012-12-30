@@ -1,62 +1,36 @@
 package de.benjaminborbe.dhl.status;
 
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.dhl.api.DhlIdentifier;
-import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
-import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperLong;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
-public class DhlBeanMapper extends MapObjectMapperBase<DhlBean> {
-
-	private static final String ID = "id";
-
-	private static final String TRACKINGNUMBER = "trackingnumber";
-
-	private static final String ZIP = "zip";
-
-	private final ParseUtil parseUtil;
+public class DhlBeanMapper extends MapObjectMapperAdapter<DhlBean> {
 
 	@Inject
-	public DhlBeanMapper(final Provider<DhlBean> provider, final ParseUtil parseUtil) {
-		super(provider);
-		this.parseUtil = parseUtil;
+	public DhlBeanMapper(final Provider<DhlBean> provider, final MapperLong mapperLong, final MapperCalendar mapperCalendar, final MapperDhlIdentifier mapperDhlIdentifier) {
+		super(provider, buildMappings(mapperLong, mapperCalendar, mapperDhlIdentifier));
 	}
 
-	@Override
-	public void map(final DhlBean object, final Map<String, String> data) {
-		data.put(ID, toString(object.getId()));
-		data.put(TRACKINGNUMBER, toString(object.getTrackingNumber()));
-		data.put(ZIP, toString(object.getZip()));
-	}
-
-	@Override
-	public void map(final Map<String, String> data, final DhlBean object) throws MapException {
-		try {
-			object.setId(toDhlIdentifier(data.get(ID)));
-			object.setTrackingNumber(parseUtil.parseLong(data.get(TRACKINGNUMBER)));
-			object.setZip(parseUtil.parseLong(data.get(ZIP)));
-		}
-		catch (final ParseException e) {
-			throw new MapException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	private DhlIdentifier toDhlIdentifier(final String string) {
-		return new DhlIdentifier(string);
-	}
-
-	private String toString(final DhlIdentifier id) {
-		return id != null ? id.getId() : null;
-	}
-
-	private String toString(final long number) {
-		return String.valueOf(number);
+	private static Collection<StringObjectMapper<DhlBean>> buildMappings(final MapperLong mapperLong, final MapperCalendar mapperCalendar,
+			final MapperDhlIdentifier mapperDhlIdentifier) {
+		final List<StringObjectMapper<DhlBean>> result = new ArrayList<StringObjectMapper<DhlBean>>();
+		result.add(new StringObjectMapperAdapter<DhlBean, DhlIdentifier>("id", mapperDhlIdentifier));
+		result.add(new StringObjectMapperAdapter<DhlBean, Long>("trackingnumber", mapperLong));
+		result.add(new StringObjectMapperAdapter<DhlBean, Long>("zip", mapperLong));
+		result.add(new StringObjectMapperAdapter<DhlBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<DhlBean, Calendar>("modified", mapperCalendar));
+		return result;
 	}
 }

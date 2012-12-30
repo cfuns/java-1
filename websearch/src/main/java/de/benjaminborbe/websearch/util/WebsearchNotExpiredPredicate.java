@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.util;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -79,7 +78,7 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 				days = expire;
 			}
 		}
-		return time - page.getLastVisit().getTime() > days * EXPIRE_DAY;
+		return time - page.getLastVisit().getTimeInMillis() > days * EXPIRE_DAY;
 	}
 
 	private List<WebsearchConfigurationBean> getConfigurationForPage(final WebsearchPageBean page, final Collection<WebsearchConfigurationBean> configurations)
@@ -89,17 +88,16 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 			logger.warn("parameter page is null");
 			return result;
 		}
-		final URL url = page.getUrl();
+		final String url = page.getUrl();
 		if (url == null) {
 			logger.warn("parameter url is null at page " + page.getId());
 			return result;
 		}
-		final String urlString = url.toExternalForm();
 		for (final WebsearchConfigurationBean configuration : configurations) {
-			if (urlString.startsWith(configuration.getUrl().toExternalForm())) {
+			if (url.startsWith(configuration.getUrl().toExternalForm())) {
 				boolean isExcluded = false;
 				for (final String exclude : configuration.getExcludes()) {
-					if (urlString.contains(exclude)) {
+					if (url.contains(exclude)) {
 						isExcluded = true;
 					}
 				}

@@ -8,7 +8,7 @@ import de.benjaminborbe.messageservice.util.MessageConsumerExchanger;
 public class MessageConsumerCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "*/15 * * * * ?"; // ones per hour
+	private static final String SCHEDULE_EXPRESSION = "*/15 * * * * ?";
 
 	private final MessageConsumerExchanger messageConsumerExchanger;
 

@@ -45,7 +45,7 @@ public class ShortenerUrlBeanMapperUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
 		final MapperString mapperString = new MapperString();
-		final ShortenerUrlIdentifierMapper shortenerUrlIdentifierMapper = new ShortenerUrlIdentifierMapper();
+		final MapperShortenerUrlIdentifier shortenerUrlIdentifierMapper = new MapperShortenerUrlIdentifier();
 		return new ShortenerUrlBeanMapper(beanProvider, mapperString, mapperCalendar, shortenerUrlIdentifierMapper);
 	}
 

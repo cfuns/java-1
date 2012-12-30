@@ -7,7 +7,7 @@ public class PermissionIdentifierBuilder implements IdentifierBuilder<String, Pe
 
 	@Override
 	public PermissionIdentifier buildIdentifier(final String value) {
-		return null;
+		return new PermissionIdentifier(value);
 	}
 
 }

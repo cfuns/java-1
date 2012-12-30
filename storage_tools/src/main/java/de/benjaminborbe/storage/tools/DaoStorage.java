@@ -358,4 +358,12 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			throw new StorageException(e.getClass().getName(), e);
 		}
 	}
+
+	@Override
+	public void load(final E entity, final Collection<String> fieldNames) throws StorageException {
+	}
+
+	@Override
+	public void save(final E entity, final Collection<String> fieldNames) throws StorageException {
+	}
 }

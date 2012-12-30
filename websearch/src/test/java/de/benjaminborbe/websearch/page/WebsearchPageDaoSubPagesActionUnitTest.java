@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,19 +18,19 @@ public class WebsearchPageDaoSubPagesActionUnitTest {
 	@Test
 	public void testFindSubPages() throws Exception {
 		final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction = new WebsearchPageDaoSubPagesAction();
-		final URL url1 = new URL("http://www.example.com/");
+		final String url1 = "http://www.example.com/";
 		final WebsearchPageBean page1 = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.expect(page1.getUrl()).andReturn(url1).anyTimes();
 		EasyMock.expect(page1.getId()).andReturn(new WebsearchPageIdentifier(url1)).anyTimes();
 		EasyMock.replay(page1);
 
-		final URL url2 = new URL("http://www.example.com/admin/");
+		final String url2 = "http://www.example.com/admin/";
 		final WebsearchPageBean page2 = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.expect(page2.getUrl()).andReturn(url2).anyTimes();
 		EasyMock.expect(page2.getId()).andReturn(new WebsearchPageIdentifier(url2)).anyTimes();
 		EasyMock.replay(page2);
 
-		final URL url3 = new URL("http://www.example.com/admin/list");
+		final String url3 = "http://www.example.com/admin/list";
 		final WebsearchPageBean page3 = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.expect(page3.getUrl()).andReturn(url3).anyTimes();
 		EasyMock.expect(page3.getId()).andReturn(new WebsearchPageIdentifier(url3)).anyTimes();
@@ -69,7 +68,7 @@ public class WebsearchPageDaoSubPagesActionUnitTest {
 		}
 	}
 
-	protected boolean containsUrl(final Set<WebsearchPageBean> pages, final URL url) {
+	protected boolean containsUrl(final Set<WebsearchPageBean> pages, final String url) {
 		for (final WebsearchPageBean page : pages) {
 			if (url.equals(page.getUrl())) {
 				return true;

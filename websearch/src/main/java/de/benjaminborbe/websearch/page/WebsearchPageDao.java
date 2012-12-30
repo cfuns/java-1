@@ -11,8 +11,10 @@ public interface WebsearchPageDao extends Dao<WebsearchPageBean, WebsearchPageId
 
 	WebsearchPageBean findOrCreate(URL url) throws StorageException;
 
+	WebsearchPageBean load(URL url) throws StorageException;
+
 	Collection<WebsearchPageBean> findSubPages(URL url) throws StorageException;
 
-	WebsearchPageBean load(URL url) throws StorageException;
+	Collection<WebsearchPageBean> findSubPages(WebsearchPageIdentifier websearchPageIdentifier) throws StorageException;
 
 }

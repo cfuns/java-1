@@ -10,13 +10,13 @@ import de.benjaminborbe.storage.tools.HasModified;
 
 public class DhlBean implements Entity<DhlIdentifier>, Dhl, HasCreated, HasModified {
 
-	private static final long serialVersionUID = 7960293316768233173L;
+	private static final long serialVersionUID = 6881926028300001598L;
 
 	private DhlIdentifier id;
 
-	private long trackingNumber;
+	private Long trackingNumber;
 
-	private long zip;
+	private Long zip;
 
 	private Calendar created;
 
@@ -33,20 +33,20 @@ public class DhlBean implements Entity<DhlIdentifier>, Dhl, HasCreated, HasModif
 	}
 
 	@Override
-	public long getTrackingNumber() {
+	public Long getTrackingNumber() {
 		return trackingNumber;
 	}
 
 	@Override
-	public long getZip() {
+	public Long getZip() {
 		return zip;
 	}
 
-	public void setTrackingNumber(final long trackingNumber) {
+	public void setTrackingNumber(final Long trackingNumber) {
 		this.trackingNumber = trackingNumber;
 	}
 
-	public void setZip(final long zip) {
+	public void setZip(final Long zip) {
 		this.zip = zip;
 	}
 

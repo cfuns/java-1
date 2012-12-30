@@ -4,8 +4,8 @@ public interface Dhl {
 
 	DhlIdentifier getId();
 
-	long getTrackingNumber();
+	Long getTrackingNumber();
 
-	long getZip();
+	Long getZip();
 
 }

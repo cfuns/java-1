@@ -1,9 +1,12 @@
 package de.benjaminborbe.storage.tools;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -102,5 +105,31 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	@Override
 	public EntityIterator<E> getEntityIterator(final Map<String, String> where) throws StorageException {
 		return getEntityIterator();
+	}
+
+	@Override
+	public void load(final E entity, final Collection<String> fieldNames) throws StorageException {
+		final E load = load(entity.getId());
+		for (final String fieldName : fieldNames) {
+			copyFieldValue(load, entity, fieldName);
+		}
+	}
+
+	private void copyFieldValue(final E from, final E to, final String fieldname) {
+		try {
+			final Object value = PropertyUtils.getProperty(from, fieldname);
+			PropertyUtils.setProperty(to, fieldname, value);
+		}
+		catch (final IllegalAccessException e) {
+		}
+		catch (final InvocationTargetException e) {
+		}
+		catch (final NoSuchMethodException e) {
+		}
+	}
+
+	@Override
+	public void save(final E entity, final Collection<String> fieldNames) throws StorageException {
+		save(entity);
 	}
 }

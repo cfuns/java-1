@@ -1,9 +1,9 @@
-package de.benjaminborbe.search.dao;
+package de.benjaminborbe.wow.account;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;
 
-public class UserIdentifierMapper implements Mapper<UserIdentifier> {
+public class MapperUserIdentifier implements Mapper<UserIdentifier> {
 
 	@Override
 	public String toString(final UserIdentifier value) {

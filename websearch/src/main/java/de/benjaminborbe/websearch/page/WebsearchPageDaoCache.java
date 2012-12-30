@@ -35,7 +35,7 @@ public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, Websearch
 		}
 		{
 			final WebsearchPageBean page = create();
-			page.setUrl(url);
+			page.setUrl(url.toExternalForm());
 			save(page);
 			return page;
 		}
@@ -43,13 +43,23 @@ public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, Websearch
 
 	@Override
 	public WebsearchPageBean load(final URL url) {
-		return load(new WebsearchPageIdentifier(url));
+		return load(new WebsearchPageIdentifier(url.toExternalForm()));
 	}
 
 	@Override
 	public Collection<WebsearchPageBean> findSubPages(final URL url) throws StorageException {
 		try {
-			return pageDaoSubPagesAction.findSubPages(url, getEntityIterator());
+			return pageDaoSubPagesAction.findSubPages(url.toExternalForm(), getEntityIterator());
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public Collection<WebsearchPageBean> findSubPages(final WebsearchPageIdentifier websearchPageIdentifier) throws StorageException {
+		try {
+			return pageDaoSubPagesAction.findSubPages(websearchPageIdentifier.getId(), getEntityIterator());
 		}
 		catch (final EntityIteratorException e) {
 			throw new StorageException(e);

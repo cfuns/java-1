@@ -24,14 +24,14 @@ public class ProjectileReportBeanMapper extends MapObjectMapperAdapter<Projectil
 	@Inject
 	public ProjectileReportBeanMapper(
 			final Provider<ProjectileReportBean> provider,
-			final ProjectileReportIdentifierMapper mapperListIdentifier,
+			final MapperProjectileReportIdentifier mapperListIdentifier,
 			final MapperString mapperString,
 			final MapperCalendar mapperCalendar,
 			final MapperDouble mapperDouble) {
 		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperDouble));
 	}
 
-	private static Collection<StringObjectMapper<ProjectileReportBean>> buildMappings(final ProjectileReportIdentifierMapper mapperListIdentifier, final MapperString mapperString,
+	private static Collection<StringObjectMapper<ProjectileReportBean>> buildMappings(final MapperProjectileReportIdentifier mapperListIdentifier, final MapperString mapperString,
 			final MapperCalendar mapperCalendar, final MapperDouble mapperDouble) {
 		final List<StringObjectMapper<ProjectileReportBean>> result = new ArrayList<StringObjectMapper<ProjectileReportBean>>();
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, ProjectileReportIdentifier>("id", mapperListIdentifier));

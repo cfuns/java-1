@@ -51,16 +51,21 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		}
 		{
 			final WebsearchPageBean page = create();
-			page.setUrl(url);
+			page.setUrl(url.toExternalForm());
 			save(page);
 			return page;
 		}
 	}
 
 	@Override
-	public Collection<WebsearchPageBean> findSubPages(final URL url) throws StorageException {
+	protected String getColumnFamily() {
+		return COLUMNFAMILY;
+	}
+
+	@Override
+	public Collection<WebsearchPageBean> findSubPages(final WebsearchPageIdentifier websearchPageIdentifier) throws StorageException {
 		try {
-			return pageDaoSubPagesAction.findSubPages(url, getEntityIterator());
+			return pageDaoSubPagesAction.findSubPages(websearchPageIdentifier.getId(), getEntityIterator());
 		}
 		catch (final EntityIteratorException e) {
 			throw new StorageException(e);
@@ -68,7 +73,12 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 	}
 
 	@Override
-	protected String getColumnFamily() {
-		return COLUMNFAMILY;
+	public Collection<WebsearchPageBean> findSubPages(final URL url) throws StorageException {
+		try {
+			return pageDaoSubPagesAction.findSubPages(url.toExternalForm(), getEntityIterator());
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 }

@@ -1,9 +1,6 @@
 package de.benjaminborbe.websearch.page;
 
-import java.net.URL;
 import java.util.Calendar;
-import java.util.Date;
-
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -14,7 +11,7 @@ public class WebsearchPageBean implements Entity<WebsearchPageIdentifier>, Webse
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
-	private Date lastVisit;
+	private Calendar lastVisit;
 
 	private WebsearchPageIdentifier id;
 
@@ -33,20 +30,20 @@ public class WebsearchPageBean implements Entity<WebsearchPageIdentifier>, Webse
 	}
 
 	@Override
-	public Date getLastVisit() {
+	public Calendar getLastVisit() {
 		return lastVisit;
 	}
 
-	public void setLastVisit(final Date lastVisit) {
+	public void setLastVisit(final Calendar lastVisit) {
 		this.lastVisit = lastVisit;
 	}
 
 	@Override
-	public URL getUrl() {
-		return id != null ? id.getUrl() : null;
+	public String getUrl() {
+		return id != null ? id.getId() : null;
 	}
 
-	public void setUrl(final URL url) {
+	public void setUrl(final String url) {
 		id = new WebsearchPageIdentifier(url);
 	}
 

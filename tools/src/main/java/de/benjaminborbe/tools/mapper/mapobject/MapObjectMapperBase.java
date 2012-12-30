@@ -1,5 +1,6 @@
 package de.benjaminborbe.tools.mapper.mapobject;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,20 @@ public abstract class MapObjectMapperBase<T> implements MapObjectMapper<T> {
 	public T map(final Map<String, String> data) throws MapException {
 		final T object = provider.get();
 		map(data, object);
+		return object;
+	}
+
+	@Override
+	public Map<String, String> map(final T object, final Collection<String> fieldNames) throws MapException {
+		final Map<String, String> data = new HashMap<String, String>();
+		map(object, data, fieldNames);
+		return data;
+	}
+
+	@Override
+	public T map(final Map<String, String> data, final Collection<String> fieldNames) throws MapException {
+		final T object = provider.get();
+		map(data, object, fieldNames);
 		return object;
 	}
 

@@ -2,7 +2,7 @@ package de.benjaminborbe.search.dao;
 
 import de.benjaminborbe.tools.mapper.Mapper;
 
-public class SearchQueryHistoryIdentifierMapper implements Mapper<SearchQueryHistoryIdentifier> {
+public class MapperSearchQueryHistoryIdentifier implements Mapper<SearchQueryHistoryIdentifier> {
 
 	@Override
 	public String toString(final SearchQueryHistoryIdentifier value) {

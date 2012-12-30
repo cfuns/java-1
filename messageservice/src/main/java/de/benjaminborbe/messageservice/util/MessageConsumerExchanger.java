@@ -1,5 +1,8 @@
 package de.benjaminborbe.messageservice.util;
 
+import java.util.Arrays;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -12,7 +15,9 @@ import de.benjaminborbe.messageservice.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import de.benjaminborbe.tools.util.RandomUtil;
 
 @Singleton
 public class MessageConsumerExchanger {
@@ -45,12 +50,27 @@ public class MessageConsumerExchanger {
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
+	private final String lockName;
+
+	private final CalendarUtil calendarUtil;
+
+	private final RandomUtil randomUtil;
+
 	@Inject
-	public MessageConsumerExchanger(final Logger logger, final MessageConsumerRegistry messageConsumerRegistry, final MessageDao messageDao, final RunOnlyOnceATime runOnlyOnceATime) {
+	public MessageConsumerExchanger(
+			final Logger logger,
+			final RandomUtil randomUtil,
+			final CalendarUtil calendarUtil,
+			final MessageConsumerRegistry messageConsumerRegistry,
+			final MessageDao messageDao,
+			final RunOnlyOnceATime runOnlyOnceATime) {
 		this.logger = logger;
+		this.randomUtil = randomUtil;
+		this.calendarUtil = calendarUtil;
 		this.messageConsumerRegistry = messageConsumerRegistry;
 		this.messageDao = messageDao;
 		this.runOnlyOnceATime = runOnlyOnceATime;
+		this.lockName = String.valueOf(UUID.randomUUID());
 	}
 
 	public void exchange() {
@@ -66,26 +86,61 @@ public class MessageConsumerExchanger {
 		final EntityIterator<MessageBean> i = messageDao.getEntityIteratorForUser(messageConsumer.getType());
 		while (i.hasNext()) {
 			final MessageBean message = i.next();
-			logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
-			boolean result = false;
+			exchange(messageConsumer, message);
+		}
+	}
+
+	private void exchange(final MessageConsumer messageConsumer, final MessageBean message) throws StorageException {
+		logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
+		boolean result = false;
+		try {
+			if (!lock(message)) {
+				logger.debug("lock message failed => skip");
+				return;
+			}
+
+			result = messageConsumer.process(message);
+		}
+		catch (final Exception e) {
+			logger.warn("process message failed", e);
+			result = false;
+		}
+		long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
+		if (result || counter >= MessageserviceConstants.MAX_RETRY) {
+			messageDao.delete(message);
+		}
+		else {
+			counter++;
+			logger.debug("process message failed, increase retrycounter to " + counter);
+			message.setRetryCounter(counter);
+			messageDao.save(message);
+		}
+		logger.debug("process message done");
+	}
+
+	private boolean lock(final MessageBean message) throws StorageException {
+		if (message.getLockTime() == null) {
+			message.setLockName(lockName);
+			message.setLockTime(calendarUtil.now());
+			messageDao.save(message, Arrays.asList("lockTime", "lockName"));
+
 			try {
-				result = messageConsumer.process(message);
+				Thread.sleep(randomUtil.getRandomized(1000, 100));
 			}
-			catch (final Exception e) {
-				logger.warn("process message failed", e);
-				result = false;
+			catch (final InterruptedException e) {
 			}
-			long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
-			if (result || counter >= MessageserviceConstants.MAX_RETRY) {
-				messageDao.delete(message);
-			}
-			else {
-				counter++;
-				logger.debug("process message failed, increase retrycounter to " + counter);
-				message.setRetryCounter(counter);
-				messageDao.save(message);
-			}
-			logger.debug("process message done");
+
+			messageDao.load(message, Arrays.asList("lockName"));
+
+			return lockName.equals(message.getLockName());
+		}
+		else if (lockName.equals(message.getLockName())) {
+			message.setLockTime(calendarUtil.now());
+			messageDao.save(message, Arrays.asList("lockTime"));
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }

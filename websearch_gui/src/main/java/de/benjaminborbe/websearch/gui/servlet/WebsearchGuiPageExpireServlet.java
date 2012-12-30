@@ -25,7 +25,6 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
@@ -89,7 +88,7 @@ public class WebsearchGuiPageExpireServlet extends WebsiteHtmlServlet {
 
 			try {
 				final URL url = parseUtil.parseURL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID));
-				websearchService.expirePage(sessionIdentifier, new WebsearchPageIdentifier(url));
+				websearchService.expirePage(sessionIdentifier, websearchService.createPageIdentifier(url));
 				widgets.add("url " + url.toExternalForm() + " expired");
 			}
 			catch (final ParseException e) {

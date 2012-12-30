@@ -142,7 +142,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			logger.debug("expirePage");
 
-			final WebsearchPageBean page = pageDao.load(pageIdentifier.getUrl());
+			final WebsearchPageBean page = pageDao.load(pageIdentifier);
 			expirePage(page);
 		}
 		catch (final StorageException e) {
@@ -181,8 +181,8 @@ public class WebsearchServiceImpl implements WebsearchService {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPage"));
 
-			final URL url = page.getUrl();
-			logger.debug("trigger refresh of url " + url.toExternalForm());
+			final String url = page.getId();
+			logger.debug("trigger refresh of url " + url);
 			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, 5000);
 			crawlerService.processCrawlerInstruction(crawlerInstruction);
 		}
@@ -196,7 +196,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public WebsearchPageIdentifier createPageIdentifier(final URL id) throws WebsearchServiceException {
-		return new WebsearchPageIdentifier(id);
+		return new WebsearchPageIdentifier(id.toExternalForm());
 	}
 
 	@Override

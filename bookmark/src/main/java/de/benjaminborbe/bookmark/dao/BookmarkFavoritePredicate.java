@@ -6,6 +6,6 @@ public class BookmarkFavoritePredicate implements Predicate<BookmarkBean> {
 
 	@Override
 	public boolean apply(final BookmarkBean bookmark) {
-		return bookmark.isFavorite();
+		return Boolean.TRUE.equals(bookmark.getFavorite());
 	}
 }

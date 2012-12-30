@@ -3,7 +3,6 @@ package de.benjaminborbe.websearch.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,7 +26,6 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
@@ -53,7 +51,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 		@Override
 		public String getValue(final WebsearchPage o) {
-			return o.getUrl() != null ? o.getUrl().toExternalForm() : null;
+			return o.getUrl();
 		}
 	}
 
@@ -63,13 +61,13 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	private final WebsearchService websearchService;
 
-	private final DateUtil dateUtil;
-
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
 
 	private final WebsearchGuiLinkFactory websearchGuiLinkFactory;
+
+	private final CalendarUtil calendarUtil;
 
 	@Inject
 	public WebsearchGuiListPagesServlet(
@@ -81,14 +79,13 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			final NavigationWidget navigationWidget,
 			final Provider<HttpContext> httpContextProvider,
 			final WebsearchService websearchService,
-			final DateUtil dateUtil,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final WebsearchGuiLinkFactory websearchGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.calendarUtil = calendarUtil;
 		this.websearchService = websearchService;
-		this.dateUtil = dateUtil;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.websearchGuiLinkFactory = websearchGuiLinkFactory;
@@ -138,11 +135,11 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	protected Widget buildPageWidget(final WebsearchPage page, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		final ListWidget widgets = new ListWidget();
-		final URL url = page.getUrl();
-		widgets.add(new LinkWidget(url, url.toExternalForm()));
+		final String url = page.getUrl();
+		widgets.add(new LinkWidget(url, url));
 		widgets.add(" ");
 		if (page.getLastVisit() != null) {
-			widgets.add(dateUtil.dateTimeString(page.getLastVisit()));
+			widgets.add(calendarUtil.toDateTimeString(page.getLastVisit()));
 		}
 		else {
 			widgets.add("-");

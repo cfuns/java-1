@@ -1,65 +1,45 @@
 package de.benjaminborbe.wow.account;
 
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
+import de.benjaminborbe.tools.mapper.MapperBoolean;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperString;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
-public class WowAccountBeanMapper extends MapObjectMapperBase<WowAccountBean> {
-
-	private static final String ID = "id";
-
-	private static final String EMAIL = "email";
-
-	private static final String PASSWORD = "password";
-
-	private static final String ACCOUNT_NAME = "account_name";
-
-	private static final String OWNER = "author";
+public class WowAccountBeanMapper extends MapObjectMapperAdapter<WowAccountBean> {
 
 	@Inject
-	public WowAccountBeanMapper(final Provider<WowAccountBean> provider) {
-		super(provider);
+	public WowAccountBeanMapper(
+			final Provider<WowAccountBean> provider,
+			final MapperWowAccountIdentifier mapperWowAccountIdentifier,
+			final MapperUserIdentifier mapperUserIdentifier,
+			final MapperString mapperString,
+			final MapperBoolean mapperBoolean,
+			final MapperCalendar mapperCalendar) {
+		super(provider, buildMappings(mapperWowAccountIdentifier, mapperUserIdentifier, mapperString, mapperBoolean, mapperCalendar));
 	}
 
-	@Override
-	public void map(final WowAccountBean object, final Map<String, String> data) {
-		data.put(ID, toString(object.getId()));
-		data.put(EMAIL, object.getEmail());
-		data.put(PASSWORD, object.getPassword());
-		data.put(ACCOUNT_NAME, object.getAccount());
-		data.put(OWNER, toString(object.getOwner()));
+	private static Collection<StringObjectMapper<WowAccountBean>> buildMappings(final MapperWowAccountIdentifier mapperWowAccountIdentifier,
+			final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
+		final List<StringObjectMapper<WowAccountBean>> result = new ArrayList<StringObjectMapper<WowAccountBean>>();
+		result.add(new StringObjectMapperAdapter<WowAccountBean, WowAccountIdentifier>("id", mapperWowAccountIdentifier));
+		result.add(new StringObjectMapperAdapter<WowAccountBean, UserIdentifier>("owner", mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<WowAccountBean, String>("email", mapperString));
+		result.add(new StringObjectMapperAdapter<WowAccountBean, String>("password", mapperString));
+		result.add(new StringObjectMapperAdapter<WowAccountBean, String>("accoun", mapperString));
+		result.add(new StringObjectMapperAdapter<WowAccountBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<WowAccountBean, Calendar>("modified", mapperCalendar));
+		return result;
 	}
-
-	@Override
-	public void map(final Map<String, String> data, final WowAccountBean object) throws MapException {
-		object.setId(toWowAccountIdentifier(data.get(ID)));
-		object.setEmail(data.get(EMAIL));
-		object.setPassword(data.get(PASSWORD));
-		object.setAccount(data.get(ACCOUNT_NAME));
-		object.setOwner(toUserIdentifier(data.get(OWNER)));
-	}
-
-	private WowAccountIdentifier toWowAccountIdentifier(final String id) {
-		return id != null ? new WowAccountIdentifier(id) : null;
-	}
-
-	private UserIdentifier toUserIdentifier(final String id) {
-		return id != null ? new UserIdentifier(id) : null;
-	}
-
-	private String toString(final WowAccountIdentifier id) {
-		return id != null ? id.getId() : null;
-	}
-
-	private String toString(final UserIdentifier creator) {
-		return creator != null ? creator.getId() : null;
-	}
-
 }

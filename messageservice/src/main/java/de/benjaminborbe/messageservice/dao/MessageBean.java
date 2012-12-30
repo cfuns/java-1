@@ -23,6 +23,10 @@ public class MessageBean implements Entity<MessageIdentifier>, Message, HasCreat
 
 	private Long retryCounter;
 
+	private String lockName;
+
+	private Calendar lockTime;
+
 	@Override
 	public MessageIdentifier getId() {
 		return id;
@@ -75,8 +79,24 @@ public class MessageBean implements Entity<MessageIdentifier>, Message, HasCreat
 		return retryCounter;
 	}
 
-	public void setRetryCounter(Long retryCounter) {
+	public void setRetryCounter(final Long retryCounter) {
 		this.retryCounter = retryCounter;
+	}
+
+	public String getLockName() {
+		return lockName;
+	}
+
+	public void setLockName(final String lockName) {
+		this.lockName = lockName;
+	}
+
+	public Calendar getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(final Calendar lockTime) {
+		this.lockTime = lockTime;
 	}
 
 }

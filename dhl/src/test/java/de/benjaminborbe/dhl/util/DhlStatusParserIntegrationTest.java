@@ -38,8 +38,8 @@ public class DhlStatusParserIntegrationTest {
 		dhl.setZip(65185l);
 		final DhlStatus dhlStatus = dhlStatusParser.parseCurrentStatus(dhl, content);
 		assertNotNull(dhlStatus);
-		assertEquals(286476016780l, dhlStatus.getDhl().getTrackingNumber());
-		assertEquals(65185l, dhlStatus.getDhl().getZip());
+		assertEquals(new Long(286476016780l), dhlStatus.getDhl().getTrackingNumber());
+		assertEquals(new Long(65185l), dhlStatus.getDhl().getZip());
 		assertEquals("2012-02-29 17:16:00", calendarUtil.toDateTimeString(dhlStatus.getCalendar()));
 		assertEquals("--", dhlStatus.getPlace());
 		assertEquals("Die Auftragsdaten zu dieser Sendung wurden vom Absender elektronisch an DHL übermittelt.", dhlStatus.getMessage());

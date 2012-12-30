@@ -1,31 +1,32 @@
 package de.benjaminborbe.authorization.permission;
 
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
-import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 @Singleton
-public class PermissionBeanMapper extends MapObjectMapperBase<PermissionBean> {
+public class PermissionBeanMapper extends MapObjectMapperAdapter<PermissionBean> {
 
 	@Inject
-	public PermissionBeanMapper(final Provider<PermissionBean> provider) {
-		super(provider);
+	public PermissionBeanMapper(final Provider<PermissionBean> provider, final MapperCalendar mapperCalendar, final MapperPermissionIdentifier mapperPermissionIdentifier) {
+		super(provider, buildMappings(mapperCalendar, mapperPermissionIdentifier));
 	}
 
-	@Override
-	public void map(final PermissionBean object, final Map<String, String> data) throws MapException {
-		data.put("id", object.getId() != null ? object.getId().getId() : null);
+	private static Collection<StringObjectMapper<PermissionBean>> buildMappings(final MapperCalendar mapperCalendar, final MapperPermissionIdentifier mapperPermissionIdentifier) {
+		final List<StringObjectMapper<PermissionBean>> result = new ArrayList<StringObjectMapper<PermissionBean>>();
+		result.add(new StringObjectMapperAdapter<PermissionBean, PermissionIdentifier>("id", mapperPermissionIdentifier));
+		result.add(new StringObjectMapperAdapter<PermissionBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<PermissionBean, Calendar>("modified", mapperCalendar));
+		return result;
 	}
-
-	@Override
-	public void map(final Map<String, String> data, final PermissionBean object) throws MapException {
-		object.setId(data.get("id") != null ? new PermissionIdentifier(data.get("id")) : null);
-	}
-
 }

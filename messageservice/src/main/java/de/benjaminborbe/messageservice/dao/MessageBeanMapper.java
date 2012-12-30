@@ -38,6 +38,8 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 		result.add(new StringObjectMapperAdapter<MessageBean, String>("content", mapperString));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(TYPE, mapperString));
 		result.add(new StringObjectMapperAdapter<MessageBean, Long>("retryCounter", mapperLong));
+		result.add(new StringObjectMapperAdapter<MessageBean, String>("lockName", mapperString));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("lockTime", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("modified", mapperCalendar));
 		return result;

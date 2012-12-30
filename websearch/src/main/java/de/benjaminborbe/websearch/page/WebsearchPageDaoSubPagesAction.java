@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.page;
 
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,12 +15,11 @@ public class WebsearchPageDaoSubPagesAction {
 	public WebsearchPageDaoSubPagesAction() {
 	}
 
-	public Collection<WebsearchPageBean> findSubPages(final URL url, final EntityIterator<WebsearchPageBean> entityIterator) throws EntityIteratorException {
-		final String prefix = url.toExternalForm();
+	public Collection<WebsearchPageBean> findSubPages(final String urlPrefix, final EntityIterator<WebsearchPageBean> entityIterator) throws EntityIteratorException {
 		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
 		while (entityIterator.hasNext()) {
 			final WebsearchPageBean page = entityIterator.next();
-			if (page.getUrl().toExternalForm().startsWith(prefix)) {
+			if (page.getUrl().startsWith(urlPrefix)) {
 				result.add(page);
 			}
 		}

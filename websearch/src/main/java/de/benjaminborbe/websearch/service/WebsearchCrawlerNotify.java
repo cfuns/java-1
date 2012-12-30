@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +23,7 @@ import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchConstants;
@@ -47,9 +47,18 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final HtmlUtil htmlUtil;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public WebsearchCrawlerNotify(final Logger logger, final IndexerService indexerService, final StringUtil stringUtil, final WebsearchPageDao pageDao, final HtmlUtil htmlUtil) {
+	public WebsearchCrawlerNotify(
+			final Logger logger,
+			final CalendarUtil calendarUtil,
+			final IndexerService indexerService,
+			final StringUtil stringUtil,
+			final WebsearchPageDao pageDao,
+			final HtmlUtil htmlUtil) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 		this.indexerService = indexerService;
 		this.stringUtil = stringUtil;
 		this.pageDao = pageDao;
@@ -232,7 +241,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	protected void updateLastVisit(final CrawlerResult result) throws StorageException {
 		final WebsearchPageBean page = pageDao.findOrCreate(result.getUrl());
-		page.setLastVisit(new Date());
+		page.setLastVisit(calendarUtil.now());
 		pageDao.save(page);
 	}
 

@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.tools;
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -25,5 +26,13 @@ public class TestBeanMapper extends MapObjectMapperBase<TestBean> {
 	public void map(final Map<String, String> data, final TestBean object) throws MapException {
 		object.setId(data.get("id") != null ? new TestIdentifier(data.get("id")) : null);
 		object.setName(data.get("name"));
+	}
+
+	@Override
+	public void map(final TestBean object, final Map<String, String> data, final Collection<String> fieldNames) throws MapException {
+	}
+
+	@Override
+	public void map(final Map<String, String> data, final TestBean object, final Collection<String> fieldNames) throws MapException {
 	}
 }
