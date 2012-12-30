@@ -1,17 +1,10 @@
 package de.benjaminborbe.slash.gui.servlet;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,6 +25,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -54,6 +48,8 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final NetUtil netUtil;
+
 	@Inject
 	public SlashGuiSessionTestServlet(
 			final Logger logger,
@@ -64,10 +60,12 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final NetUtil netUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.parseUtil = parseUtil;
+		this.netUtil = netUtil;
 	}
 
 	@Override
@@ -92,7 +90,7 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 		widgets.add("Hostnames: ");
 		try {
 			final UlWidget ul = new UlWidget();
-			final List<String> hostnames = new ArrayList<String>(getHostnames());
+			final List<String> hostnames = new ArrayList<String>(netUtil.getHostnames());
 			Collections.sort(hostnames);
 			for (final String hostname : hostnames) {
 				ul.add(hostname);
@@ -104,25 +102,6 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 			widgets.add(new ExceptionWidget(e));
 		}
 		return widgets;
-	}
-
-	private Collection<String> getHostnames() throws SocketException {
-		final Set<String> result = new HashSet<String>();
-		final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-		while (interfaces.hasMoreElements()) {
-			final NetworkInterface nic = interfaces.nextElement();
-			final Enumeration<InetAddress> addresses = nic.getInetAddresses();
-			while (addresses.hasMoreElements()) {
-				final InetAddress address = addresses.nextElement();
-				if (!address.isLoopbackAddress()) {
-					final String hostname = address.getHostName();
-					if (hostname != null) {
-						result.add(hostname);
-					}
-				}
-			}
-		}
-		return result;
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 package de.benjaminborbe.mail.gui.servlet;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +28,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -47,6 +51,10 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 
 	private final MailLinkFactory mailLinkFactory;
 
+	private final NetUtil netUtil;
+
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public MailGuiServlet(
 			final Logger logger,
@@ -60,11 +68,14 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final MailService mailService,
 			final AuthorizationService authorizationService,
-			final MailLinkFactory mailLinkFactory) {
+			final MailLinkFactory mailLinkFactory,
+			final NetUtil netUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.calendarUtil = calendarUtil;
 		this.mailService = mailService;
 		this.logger = logger;
 		this.mailLinkFactory = mailLinkFactory;
+		this.netUtil = netUtil;
 	}
 
 	@Override
@@ -101,6 +112,24 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "TestMail";
-		return new MailDto(from, to, subject, "TestContent", "text/plain");
+		final StringBuilder sb = new StringBuilder();
+		sb.append("TestMailContent\n");
+		sb.append("\n");
+		try {
+			final Collection<String> hostnames = netUtil.getHostnames();
+			sb.append("Hostnames:\n");
+			for (final String hostname : hostnames) {
+				sb.append(hostname);
+				sb.append("\n");
+			}
+			sb.append("\n");
+		}
+		catch (final SocketException e) {
+		}
+		sb.append("CurrentTime:\n");
+		sb.append(calendarUtil.toDateTimeString(calendarUtil.now()));
+		sb.append("\n");
+
+		return new MailDto(from, to, subject, sb.toString(), "text/plain");
 	}
 }

@@ -34,6 +34,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
@@ -132,8 +133,11 @@ public class MailGuiServletUnitTest {
 		final MailLinkFactory mailLinkFactory = EasyMock.createNiceMock(MailLinkFactory.class);
 		EasyMock.replay(mailLinkFactory);
 
+		final NetUtil netUtil = EasyMock.createNiceMock(NetUtil.class);
+		EasyMock.replay(netUtil);
+
 		final MailGuiServlet mailServlet = new MailGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, mailService, authorizationService, mailLinkFactory);
+				redirectUtil, urlUtil, mailService, authorizationService, mailLinkFactory, netUtil);
 
 		mailServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
