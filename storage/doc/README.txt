@@ -223,6 +223,7 @@ create column family message_queue with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and
+  gc_grace = 3600 and
   column_metadata = [
     {column_name: type, validation_class: UTF8Type, index_type: KEYS}
   ];
