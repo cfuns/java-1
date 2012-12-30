@@ -6,9 +6,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.dhl.api.DhlService;
+import de.benjaminborbe.dhl.dao.DhlDao;
+import de.benjaminborbe.dhl.dao.DhlDaoStorage;
 import de.benjaminborbe.dhl.service.DhlServiceImpl;
-import de.benjaminborbe.dhl.status.DhlDao;
-import de.benjaminborbe.dhl.status.DhlDaoStorage;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherImpl;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;

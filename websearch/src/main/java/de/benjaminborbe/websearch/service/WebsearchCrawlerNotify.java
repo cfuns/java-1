@@ -27,8 +27,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchConstants;
-import de.benjaminborbe.websearch.page.WebsearchPageBean;
-import de.benjaminborbe.websearch.page.WebsearchPageDao;
+import de.benjaminborbe.websearch.dao.WebsearchPageBean;
+import de.benjaminborbe.websearch.dao.WebsearchPageDao;
 
 @Singleton
 public class WebsearchCrawlerNotify implements CrawlerNotifier {

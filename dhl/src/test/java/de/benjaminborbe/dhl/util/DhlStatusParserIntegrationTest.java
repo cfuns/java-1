@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.dao.DhlBean;
 import de.benjaminborbe.dhl.guice.DhlModulesMock;
-import de.benjaminborbe.dhl.status.DhlBean;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.ResourceUtil;

@@ -7,8 +7,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.dhl.api.Dhl;
-import de.benjaminborbe.dhl.status.DhlBean;
-import de.benjaminborbe.dhl.status.DhlDao;
+import de.benjaminborbe.dhl.dao.DhlBean;
+import de.benjaminborbe.dhl.dao.DhlDao;
 import de.benjaminborbe.dhl.util.DhlStatus;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;

@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.dao.DhlBean;
+import de.benjaminborbe.dhl.dao.DhlBeanMapper;
+import de.benjaminborbe.dhl.util.MapperDhlIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;

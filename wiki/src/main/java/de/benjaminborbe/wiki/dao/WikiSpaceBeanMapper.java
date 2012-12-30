@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+import de.benjaminborbe.wiki.util.MapperWikiSpaceIdentifier;
 
 @Singleton
 public class WikiSpaceBeanMapper extends MapObjectMapperAdapter<WikiSpaceBean> {

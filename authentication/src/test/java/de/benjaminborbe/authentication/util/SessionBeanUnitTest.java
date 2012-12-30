@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.authentication.session.SessionBean;
+import de.benjaminborbe.authentication.dao.SessionBean;
 
 public class SessionBeanUnitTest {
 

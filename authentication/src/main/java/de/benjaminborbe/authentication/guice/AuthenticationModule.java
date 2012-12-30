@@ -8,11 +8,11 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.config.AuthenticationConfigImpl;
+import de.benjaminborbe.authentication.dao.SessionDao;
+import de.benjaminborbe.authentication.dao.SessionDaoStorage;
+import de.benjaminborbe.authentication.dao.UserDao;
+import de.benjaminborbe.authentication.dao.UserDaoStorage;
 import de.benjaminborbe.authentication.service.AuthenticationServiceImpl;
-import de.benjaminborbe.authentication.session.SessionDao;
-import de.benjaminborbe.authentication.session.SessionDaoStorage;
-import de.benjaminborbe.authentication.user.UserDao;
-import de.benjaminborbe.authentication.user.UserDaoStorage;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class AuthenticationModule extends AbstractModule {

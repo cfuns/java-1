@@ -11,9 +11,9 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
-import de.benjaminborbe.configuration.util.ConfigurationBean;
-import de.benjaminborbe.configuration.util.ConfigurationDao;
-import de.benjaminborbe.configuration.util.ConfigurationRegistry;
+import de.benjaminborbe.configuration.dao.ConfigurationBean;
+import de.benjaminborbe.configuration.dao.ConfigurationDao;
+import de.benjaminborbe.configuration.dao.ConfigurationRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton

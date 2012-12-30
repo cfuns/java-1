@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.authorization.dao.PermissionDao;
 import de.benjaminborbe.authorization.guice.AuthorizationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

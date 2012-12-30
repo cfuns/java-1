@@ -7,10 +7,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.websearch.api.WebsearchService;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationDao;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationDaoStorage;
-import de.benjaminborbe.websearch.page.WebsearchPageDao;
-import de.benjaminborbe.websearch.page.WebsearchPageDaoStorage;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationDaoStorage;
+import de.benjaminborbe.websearch.dao.WebsearchPageDao;
+import de.benjaminborbe.websearch.dao.WebsearchPageDaoStorage;
 import de.benjaminborbe.websearch.service.WebsearchServiceImpl;
 import de.benjaminborbe.websearch.util.WebsearchUpdateDeterminer;
 import de.benjaminborbe.websearch.util.WebsearchUpdateDeterminerImpl;

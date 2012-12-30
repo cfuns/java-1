@@ -2,7 +2,7 @@ package de.benjaminborbe.websearch.util;
 
 import com.google.common.base.Predicate;
 
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationBean;
 
 public class WebsearchConfigurationActivatedPredicate implements Predicate<WebsearchConfigurationBean> {
 

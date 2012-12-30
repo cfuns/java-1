@@ -13,10 +13,10 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationDao;
-import de.benjaminborbe.websearch.page.WebsearchPageBean;
-import de.benjaminborbe.websearch.page.WebsearchPageDao;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationBean;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
+import de.benjaminborbe.websearch.dao.WebsearchPageBean;
+import de.benjaminborbe.websearch.dao.WebsearchPageDao;
 
 @Singleton
 public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer {

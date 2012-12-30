@@ -10,6 +10,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.dao.PermissionRoleManyToManyRelation;
 import de.benjaminborbe.authorization.guice.AuthorizationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

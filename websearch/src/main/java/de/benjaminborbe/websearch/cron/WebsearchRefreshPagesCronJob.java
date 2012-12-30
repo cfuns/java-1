@@ -12,7 +12,7 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ThreadRunner;
-import de.benjaminborbe.websearch.page.WebsearchPageBean;
+import de.benjaminborbe.websearch.dao.WebsearchPageBean;
 import de.benjaminborbe.websearch.util.WebsearchUpdateDeterminer;
 
 @Singleton

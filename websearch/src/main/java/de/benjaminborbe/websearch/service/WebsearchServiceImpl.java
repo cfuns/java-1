@@ -40,11 +40,11 @@ import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.cron.WebsearchRefreshPagesCronJob;
-import de.benjaminborbe.websearch.page.WebsearchPageBean;
-import de.benjaminborbe.websearch.page.WebsearchPageDao;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationBean;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
+import de.benjaminborbe.websearch.dao.WebsearchPageBean;
+import de.benjaminborbe.websearch.dao.WebsearchPageDao;
 
 @Singleton
 public class WebsearchServiceImpl implements WebsearchService {

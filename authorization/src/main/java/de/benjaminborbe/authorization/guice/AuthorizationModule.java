@@ -6,10 +6,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.permission.PermissionDao;
-import de.benjaminborbe.authorization.permission.PermissionDaoImpl;
-import de.benjaminborbe.authorization.role.RoleDao;
-import de.benjaminborbe.authorization.role.RoleDaoImpl;
+import de.benjaminborbe.authorization.dao.PermissionDao;
+import de.benjaminborbe.authorization.dao.PermissionDaoImpl;
+import de.benjaminborbe.authorization.dao.RoleDao;
+import de.benjaminborbe.authorization.dao.RoleDaoImpl;
 import de.benjaminborbe.authorization.service.AuthorizationServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 

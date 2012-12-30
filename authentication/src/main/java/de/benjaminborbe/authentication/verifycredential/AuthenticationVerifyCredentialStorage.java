@@ -10,8 +10,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.authentication.user.UserBean;
-import de.benjaminborbe.authentication.user.UserDao;
+import de.benjaminborbe.authentication.dao.UserBean;
+import de.benjaminborbe.authentication.dao.UserDao;
 import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
 import de.benjaminborbe.storage.api.StorageException;
 

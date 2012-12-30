@@ -15,7 +15,7 @@ import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexerService;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
-import de.benjaminborbe.websearch.page.WebsearchPageDao;
+import de.benjaminborbe.websearch.dao.WebsearchPageDao;
 
 public class WebsearchCrawlerNotifyUnitTest {
 

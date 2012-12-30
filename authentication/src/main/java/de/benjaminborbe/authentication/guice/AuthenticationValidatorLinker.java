@@ -2,7 +2,7 @@ package de.benjaminborbe.authentication.guice;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.user.UserValidator;
+import de.benjaminborbe.authentication.dao.UserValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 
 public class AuthenticationValidatorLinker {

@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.authorization.dao.PermissionBean;
+import de.benjaminborbe.authorization.dao.PermissionBeanMapper;
+import de.benjaminborbe.authorization.util.MapperPermissionIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;

@@ -10,8 +10,8 @@ import com.google.common.base.Predicate;
 
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.websearch.configuration.WebsearchConfigurationBean;
-import de.benjaminborbe.websearch.page.WebsearchPageBean;
+import de.benjaminborbe.websearch.dao.WebsearchConfigurationBean;
+import de.benjaminborbe.websearch.dao.WebsearchPageBean;
 
 public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean> {
 

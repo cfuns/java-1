@@ -11,9 +11,9 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.dao.ConfigurationRegistry;
 import de.benjaminborbe.configuration.guice.ConfigurationModules;
 import de.benjaminborbe.configuration.service.ConfigurationServiceTracker;
-import de.benjaminborbe.configuration.util.ConfigurationRegistry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

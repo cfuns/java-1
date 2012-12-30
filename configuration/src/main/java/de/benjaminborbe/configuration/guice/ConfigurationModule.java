@@ -6,9 +6,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.dao.ConfigurationDao;
+import de.benjaminborbe.configuration.dao.ConfigurationDaoStorage;
 import de.benjaminborbe.configuration.service.ConfigurationServiceImpl;
-import de.benjaminborbe.configuration.util.ConfigurationDao;
-import de.benjaminborbe.configuration.util.ConfigurationDaoStorage;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class ConfigurationModule extends AbstractModule {

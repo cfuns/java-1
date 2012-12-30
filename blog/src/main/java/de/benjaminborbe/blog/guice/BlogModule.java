@@ -6,8 +6,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.blog.api.BlogService;
-import de.benjaminborbe.blog.post.BlogPostDao;
-import de.benjaminborbe.blog.post.BlogPostDaoStorage;
+import de.benjaminborbe.blog.dao.BlogPostDao;
+import de.benjaminborbe.blog.dao.BlogPostDaoStorage;
 import de.benjaminborbe.blog.service.BlogServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
