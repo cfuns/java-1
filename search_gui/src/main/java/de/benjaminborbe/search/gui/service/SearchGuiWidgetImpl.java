@@ -25,6 +25,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.util.SearchGuiTermHighlighter;
@@ -105,6 +106,9 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final String searchQuery = trim(request.getParameter(PARAMETER_SEARCH));
 			logger.trace("searchQuery: " + searchQuery);
 
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			searchService.createHistory(sessionIdentifier, searchQuery);
+
 			final SearchSpecial searchGuiSpecialSearch = searchGuiSpecialSearchFactory.findSpecial(searchQuery);
 			if (searchGuiSpecialSearch != null) {
 				logger.trace("found special search");
@@ -119,13 +123,16 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 			final List<String> words = searchUtil.buildSearchParts(searchQuery);
 			if (words.size() > 0) {
-				SessionIdentifier sessionIdentifier;
-				sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS);
 				printSearchResults(request, response, context, results, words);
 			}
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
+		catch (final SearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);

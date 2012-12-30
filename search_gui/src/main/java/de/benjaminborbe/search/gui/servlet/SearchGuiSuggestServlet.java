@@ -23,6 +23,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -99,6 +100,11 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 			return new HtmlContentWidget(sw.toString());
 		}
 		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			response.setContentType("text/plain");
+			return new ExceptionWidget(e);
+		}
+		catch (final SearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			response.setContentType("text/plain");
 			return new ExceptionWidget(e);

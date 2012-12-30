@@ -132,8 +132,6 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 
-		createHistory(sessionIdentifier, query);
-
 		// search in one component
 		{
 			final int pos = query.indexOf(':');
@@ -185,7 +183,8 @@ public class SearchServiceImpl implements SearchService {
 		return result;
 	}
 
-	private void createHistory(final SessionIdentifier sessionIdentifier, final String query) {
+	@Override
+	public void createHistory(final SessionIdentifier sessionIdentifier, final String query) {
 		threadRunner.run("searchQueryHistory", new SearchQueryHistroryRunnable(query, sessionIdentifier));
 	}
 

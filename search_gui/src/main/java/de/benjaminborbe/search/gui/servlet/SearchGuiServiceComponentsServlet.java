@@ -20,11 +20,13 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.search.api.SearchService;
+import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
@@ -66,18 +68,25 @@ public class SearchGuiServiceComponentsServlet extends SearchGuiWebsiteHtmlServl
 	@Override
 	protected Widget createSearchContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final Collection<String> cs = searchService.getSearchComponentNames();
-		widgets.add("found " + cs.size() + " SearchServiceComponents");
-		widgets.add(new BrWidget());
-		final UlWidget ul = new UlWidget();
-		for (final String c : cs) {
-			ul.add(c);
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final Collection<String> cs = searchService.getSearchComponentNames();
+			widgets.add("found " + cs.size() + " SearchServiceComponents");
+			widgets.add(new BrWidget());
+			final UlWidget ul = new UlWidget();
+			for (final String c : cs) {
+				ul.add(c);
+			}
+			widgets.add(ul);
+			return widgets;
 		}
-		widgets.add(ul);
-		return widgets;
+		catch (final SearchServiceException e) {
+			logger.trace(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
 
 }
