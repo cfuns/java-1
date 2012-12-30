@@ -32,10 +32,14 @@ public class DistributedIndexDaoStorage implements DistributedIndexDao {
 	}
 
 	@Override
-	public DistributedIndexBean load(final DistributedIndexIdentifier id) {
+	public DistributedIndexBean load(final DistributedIndexIdentifier id) throws StorageException {
 		final DistributedIndexBean bean = create();
 		bean.setId(id);
 		final Map<String, Integer> data = new HashMap<String, Integer>();
+		final Map<String, String> row = storageService.get(COLUMN_FAMILY, id.getId());
+		for (final Entry<String, String> e : row.entrySet()) {
+			data.put(e.getKey(), mapperInteger.fromString(e.getValue()));
+		}
 		bean.setData(data);
 		return bean;
 	}
