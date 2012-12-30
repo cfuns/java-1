@@ -256,3 +256,8 @@ buildshortener:
 	cd shortener && make all
 	cd shortener_gui && make all
 	cd shortener_test && make all
+buildmessage:
+	cd message_api && make all
+	cd message && make all
+	cd message_gui && make all
+	cd message_test && make all

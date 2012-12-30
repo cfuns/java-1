@@ -218,7 +218,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.messageservice.api</artifactId>
+			<artifactId>de.benjaminborbe.message.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

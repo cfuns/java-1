@@ -12,7 +12,7 @@ import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.guice.LunchModules;
 import de.benjaminborbe.lunch.service.LunchBookingMessageConsumer;
-import de.benjaminborbe.messageservice.api.MessageConsumer;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

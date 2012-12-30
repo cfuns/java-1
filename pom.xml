@@ -93,7 +93,7 @@
 				<module>loggly_test</module>
 				<module>lunch_test</module>
 				<module>mail_test</module>
-				<module>messageservice_test</module>
+				<module>message_test</module>
 				<module>microblog_test</module>
 				<module>monitoring_test</module>
 				<module>navigation_test</module>
@@ -205,9 +205,9 @@
 				<module>mail</module>
 				<module>mail_api</module>
 				<module>mail_gui</module>
-				<module>messageservice</module>
-				<module>messageservice_api</module>
-				<module>messageservice_gui</module>
+				<module>message</module>
+				<module>message_api</module>
+				<module>message_gui</module>
 				<module>microblog</module>
 				<module>microblog_api</module>
 				<module>microblog_gui</module>

@@ -10,7 +10,7 @@ import com.google.inject.AbstractModule;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.messageservice.api.MessageService;
+import de.benjaminborbe.message.api.MessageService;
 
 public class LunchOsgiModule extends AbstractModule {
 

@@ -8,8 +8,8 @@ import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.booking.LunchBookingMessage;
 import de.benjaminborbe.lunch.booking.LunchBookingMessageMapper;
 import de.benjaminborbe.lunch.kioskconnector.KioskBookingConnector;
-import de.benjaminborbe.messageservice.api.Message;
-import de.benjaminborbe.messageservice.api.MessageConsumer;
+import de.benjaminborbe.message.api.Message;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.MapException;
 

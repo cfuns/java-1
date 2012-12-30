@@ -12,8 +12,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
-import de.benjaminborbe.messageservice.api.MessageService;
-import de.benjaminborbe.messageservice.mock.MessageServiceMock;
+import de.benjaminborbe.message.api.MessageService;
+import de.benjaminborbe.message.mock.MessageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 

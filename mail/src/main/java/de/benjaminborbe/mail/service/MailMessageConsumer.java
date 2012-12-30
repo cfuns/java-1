@@ -9,8 +9,8 @@ import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.util.MailJsonMapper;
 import de.benjaminborbe.mail.util.MailSender;
-import de.benjaminborbe.messageservice.api.Message;
-import de.benjaminborbe.messageservice.api.MessageConsumer;
+import de.benjaminborbe.message.api.Message;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.mapper.MapException;
 
 public class MailMessageConsumer implements MessageConsumer {

@@ -7,7 +7,7 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
-import de.benjaminborbe.messageservice.api.MessageService;
+import de.benjaminborbe.message.api.MessageService;
 
 public class MailOsgiModule extends AbstractModule {
 

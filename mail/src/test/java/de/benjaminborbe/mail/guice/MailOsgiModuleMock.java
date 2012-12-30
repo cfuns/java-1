@@ -6,8 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.messageservice.api.MessageService;
-import de.benjaminborbe.messageservice.mock.MessageServiceMock;
+import de.benjaminborbe.message.api.MessageService;
+import de.benjaminborbe.message.mock.MessageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 

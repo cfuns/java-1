@@ -15,7 +15,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModulesMock;
-import de.benjaminborbe.messageservice.api.MessageConsumer;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;

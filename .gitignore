@@ -131,10 +131,10 @@ streamcache/target
 streamcache_api/target
 streamcache_gui/target
 streamcache_test/target
-messageservice/target
-messageservice_api/target
-messageservice_gui/target
-messageservice_test/target
+message/target
+message_api/target
+message_gui/target
+message_test/target
 lunch/target
 lunch_api/target
 lunch_gui/target

@@ -16,7 +16,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.guice.LunchModulesMock;
-import de.benjaminborbe.messageservice.api.MessageConsumer;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
