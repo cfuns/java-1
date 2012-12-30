@@ -51,6 +51,12 @@ public class XmppConnectorImpl implements XmppConnector {
 				logger.warn("already connected");
 				return;
 			}
+
+			if (!isConfigComplete()) {
+				logger.warn("config not complete");
+				return;
+			}
+
 			final ConnectionConfiguration connectionConfiguration = new ConnectionConfiguration(xmppConfig.getServerHost(), xmppConfig.getServerPort(), "gmail.com");
 			// connectionConfiguration.setCompressionEnabled(false);
 			// connectionConfiguration.setSASLAuthenticationEnabled(true);
@@ -80,6 +86,22 @@ public class XmppConnectorImpl implements XmppConnector {
 		catch (final XMPPException e) {
 			throw new XmppConnectorException(e);
 		}
+	}
+
+	private boolean isConfigComplete() {
+		if (xmppConfig.getServerHost() == null || xmppConfig.getServerHost().length() == 0) {
+			return false;
+		}
+		if (xmppConfig.getServerPort() == null || xmppConfig.getServerPort() == 0) {
+			return false;
+		}
+		if (xmppConfig.getUsername() == null || xmppConfig.getUsername().length() == 0) {
+			return false;
+		}
+		if (xmppConfig.getPassword() == null || xmppConfig.getPassword().length() == 0) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

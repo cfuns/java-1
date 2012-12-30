@@ -49,7 +49,7 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 	}
 
 	@Override
-	public int getServerPort() {
+	public Integer getServerPort() {
 		return getValueInt(serverPort);
 	}
 

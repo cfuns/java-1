@@ -9,7 +9,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 
 	private final String description;
 
-	private final boolean defaultValue;
+	private final Boolean defaultValue;
 
 	public ConfigurationDescriptionBoolean(final boolean defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
@@ -32,7 +32,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 		return description;
 	}
 
-	public boolean getDefaultValue() {
+	public Boolean getDefaultValue() {
 		return defaultValue;
 	}
 

@@ -34,7 +34,7 @@ public abstract class ConfigurationBase {
 		}
 	}
 
-	protected int getValueInt(final ConfigurationDescriptionInt configuration) {
+	protected Integer getValueInt(final ConfigurationDescriptionInt configuration) {
 		try {
 			return parseUtil.parseInt(configurationService.getConfigurationValue(configuration));
 		}
@@ -48,7 +48,7 @@ public abstract class ConfigurationBase {
 		}
 	}
 
-	protected boolean getValueBoolean(final ConfigurationDescriptionBoolean configuration) {
+	protected Boolean getValueBoolean(final ConfigurationDescriptionBoolean configuration) {
 		try {
 			return parseUtil.parseBoolean(configurationService.getConfigurationValue(configuration));
 		}

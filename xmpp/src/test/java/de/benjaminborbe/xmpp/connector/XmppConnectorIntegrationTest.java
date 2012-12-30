@@ -67,7 +67,7 @@ public class XmppConnectorIntegrationTest {
 
 		final XmppConfig xmppConfig = injector.getInstance(XmppConfig.class);
 		assertEquals(HOSTNAME, xmppConfig.getServerHost());
-		assertEquals(5222, xmppConfig.getServerPort());
+		assertEquals(new Integer(5222), xmppConfig.getServerPort());
 		assertEquals("bb", xmppConfig.getUsername());
 		assertEquals("5VCrQO5jMHOE", xmppConfig.getPassword());
 		try {

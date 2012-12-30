@@ -14,5 +14,5 @@ public interface XmppConfig {
 
 	String getServerHost();
 
-	int getServerPort();
+	Integer getServerPort();
 }

@@ -9,7 +9,7 @@ public class ConfigurationDescriptionInt implements ConfigurationDescription {
 
 	private final String description;
 
-	private final int defaultValue;
+	private final Integer defaultValue;
 
 	public ConfigurationDescriptionInt(final int defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
@@ -32,7 +32,7 @@ public class ConfigurationDescriptionInt implements ConfigurationDescription {
 		return description;
 	}
 
-	public int getDefaultValue() {
+	public Integer getDefaultValue() {
 		return defaultValue;
 	}
 
