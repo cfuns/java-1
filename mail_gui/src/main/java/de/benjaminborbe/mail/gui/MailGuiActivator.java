@@ -44,7 +44,7 @@ public class MailGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(mailGuiServlet, "/"));
+		result.add(new ServletInfo(mailGuiServlet, MailGuiConstants.URL_HOME));
 		return result;
 	}
 

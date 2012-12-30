@@ -26,6 +26,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.gui.MailGuiConstants;
+import de.benjaminborbe.mail.gui.util.MailLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -63,6 +65,7 @@ public class MailGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(MailGuiConstants.PARAMETER_SEND_TESTMAIL)).andReturn(null);
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -126,8 +129,11 @@ public class MailGuiServletUnitTest {
 		final MailService mailService = EasyMock.createNiceMock(MailService.class);
 		EasyMock.replay(mailService);
 
+		final MailLinkFactory mailLinkFactory = EasyMock.createNiceMock(MailLinkFactory.class);
+		EasyMock.replay(mailLinkFactory);
+
 		final MailGuiServlet mailServlet = new MailGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, mailService, authorizationService);
+				redirectUtil, urlUtil, mailService, authorizationService, mailLinkFactory);
 
 		mailServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

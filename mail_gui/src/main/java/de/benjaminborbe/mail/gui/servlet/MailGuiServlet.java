@@ -19,6 +19,8 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.gui.MailGuiConstants;
+import de.benjaminborbe.mail.gui.util.MailLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -30,6 +32,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class MailGuiServlet extends WebsiteHtmlServlet {
@@ -41,6 +44,8 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 	private final MailService mailService;
 
 	private final Logger logger;
+
+	private final MailLinkFactory mailLinkFactory;
 
 	@Inject
 	public MailGuiServlet(
@@ -54,10 +59,12 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final MailService mailService,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final MailLinkFactory mailLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.mailService = mailService;
 		this.logger = logger;
+		this.mailLinkFactory = mailLinkFactory;
 	}
 
 	@Override
@@ -73,10 +80,16 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final MailDto mail = buildMail();
-			mailService.send(mail);
+			final String sendTestMail = request.getParameter(MailGuiConstants.PARAMETER_SEND_TESTMAIL);
 
-			widgets.add("send testmail");
+			if (sendTestMail != null) {
+				final MailDto mail = buildMail();
+				mailService.send(mail);
+				widgets.add("testmail sent");
+				widgets.add(new BrWidget());
+			}
+			widgets.add(mailLinkFactory.sendTestMail(request));
+
 			return widgets;
 		}
 		catch (final MailServiceException e) {
