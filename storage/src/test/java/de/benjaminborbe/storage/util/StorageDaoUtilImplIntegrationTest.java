@@ -318,4 +318,27 @@ public class StorageDaoUtilImplIntegrationTest {
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key, value);
 		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
 	}
+
+	@Test
+	public void testDeleteRow() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		final String key = "test";
+		final String value = "Bäm";
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", key, value);
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key, value);
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key, value);
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", key));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key));
+		daoUtil.delete(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13");
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", key));
+		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key));
+	}
 }

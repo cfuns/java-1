@@ -38,6 +38,12 @@ public interface StorageDaoUtil {
 	void delete(String keySpace, String columnFamily, String key, String columnName) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
+	void delete(String keySpace, String columnFamily, byte[] key) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
+
+	void delete(String keySpace, String columnFamily, String key) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
+			UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
+
 	void insert(String keySpace, String columnFamily, final byte[] key, final Map<String, String> data) throws InvalidRequestException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
 

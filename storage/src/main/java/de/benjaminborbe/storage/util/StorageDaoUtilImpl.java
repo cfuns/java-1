@@ -157,7 +157,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 			logger.trace("insert keyspace: " + keySpace + " columnFamily: " + columnFamily + " id: " + id + " data: " + data);
 
-			final long timestamp = calendarUtil.getTime() * 1000;
+			final long timestamp = getCurrentTimestamp();
 			for (final Entry<String, String> e : data.entrySet()) {
 				final String key = e.getKey();
 				final String value = e.getValue();
@@ -189,6 +189,10 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
+	}
+
+	private long getCurrentTimestamp() {
+		return calendarUtil.getTime() * 1000;
 	}
 
 	@Override
@@ -278,4 +282,31 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		return new StorageRowIteratorWhere(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), columnNames, where);
 	}
 
+	@Override
+	public void delete(final String keySpace, final String columnFamily, final String id) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
+		delete(keySpace, columnFamily, id.getBytes(config.getEncoding()));
+	}
+
+	@Override
+	public void delete(final String keySpace, final String columnFamily, final byte[] id) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException,
+			TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
+
+		StorageConnection connection = null;
+		try {
+			connection = storageConnectionPool.getConnection();
+			final Iface client = connection.getClient(keySpace);
+
+			logger.trace("delete keyspace: " + keySpace + " columnFamily: " + columnFamily + " key: " + id);
+
+			final ByteBuffer key = ByteBuffer.wrap(id);
+			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
+
+			final ColumnPath column_path = new ColumnPath(columnFamily);
+			client.remove(key, column_path, getCurrentTimestamp(), consistency_level);
+		}
+		finally {
+			storageConnectionPool.releaseConnection(connection);
+		}
+	}
 }
