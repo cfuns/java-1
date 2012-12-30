@@ -20,11 +20,11 @@ import de.benjaminborbe.xmpp.XmppConstants;
 @Singleton
 public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 
-	private final ConfigurationDescriptionString username = new ConfigurationDescriptionString("username", XmppConstants.CONFIG_USERNAME, "Xmpp Username");
+	private final ConfigurationDescriptionString username = new ConfigurationDescriptionString(null, XmppConstants.CONFIG_USERNAME, "Xmpp Username");
 
-	private final ConfigurationDescriptionString password = new ConfigurationDescriptionString("password", XmppConstants.CONFIG_PASSWORD, "Xmpp Password");
+	private final ConfigurationDescriptionString password = new ConfigurationDescriptionString(null, XmppConstants.CONFIG_PASSWORD, "Xmpp Password");
 
-	private final ConfigurationDescriptionString serverHost = new ConfigurationDescriptionString("talk.google.com", XmppConstants.CONFIG_SERVERHOST, "Xmpp Host for Server");
+	private final ConfigurationDescriptionString serverHost = new ConfigurationDescriptionString(null, XmppConstants.CONFIG_SERVERHOST, "Xmpp Host for Server");
 
 	private final ConfigurationDescriptionInt serverPort = new ConfigurationDescriptionInt(5222, XmppConstants.CONFIG_SERVERPORT, "Xmpp Port for Server");
 

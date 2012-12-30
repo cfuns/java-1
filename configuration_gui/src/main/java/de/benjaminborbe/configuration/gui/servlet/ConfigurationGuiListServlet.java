@@ -130,7 +130,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 	}
 
 	private String asString(final Object value) {
-		return value != null ? String.valueOf(value) : "";
+		return value != null ? String.valueOf(value) : "~";
 	}
 
 	private List<ConfigurationDescription> getConfigurationDescriptions() {

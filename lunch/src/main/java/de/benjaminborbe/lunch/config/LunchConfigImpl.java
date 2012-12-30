@@ -18,9 +18,9 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 
 	private final ConfigurationDescriptionString confluenceSpaceKey = new ConfigurationDescriptionString("MITTAG", "LunchConfluenceSpaceKey", "Lunch SpaceKey for Confluence");
 
-	private final ConfigurationDescriptionString confluenceUsername = new ConfigurationDescriptionString("username", "LunchConfluenceUsername", "Lunch Username for Confluence");
+	private final ConfigurationDescriptionString confluenceUsername = new ConfigurationDescriptionString(null, "LunchConfluenceUsername", "Lunch Username for Confluence");
 
-	private final ConfigurationDescriptionString confluencePassword = new ConfigurationDescriptionString("password", "LunchConfluencePassword", "Lunch Password for Confluence");
+	private final ConfigurationDescriptionString confluencePassword = new ConfigurationDescriptionString(null, "LunchConfluencePassword", "Lunch Password for Confluence");
 
 	@Inject
 	public LunchConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {

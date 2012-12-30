@@ -74,8 +74,9 @@ public class MessageConsumerExchanger {
 	}
 
 	public void exchange() {
+		logger.debug("exchange - started");
 		if (runOnlyOnceATime.run(new MessageConsumerExchangerRunnable())) {
-			logger.debug("exchange - run");
+			logger.debug("exchange - finished");
 		}
 		else {
 			logger.debug("exchange - skipped");
@@ -91,14 +92,13 @@ public class MessageConsumerExchanger {
 	}
 
 	private void exchange(final MessageConsumer messageConsumer, final MessageBean message) throws StorageException {
-		logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 		boolean result = false;
 		try {
 			if (!lock(message)) {
 				logger.debug("lock message failed => skip");
 				return;
 			}
-
+			logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 			result = messageConsumer.process(message);
 		}
 		catch (final Exception e) {

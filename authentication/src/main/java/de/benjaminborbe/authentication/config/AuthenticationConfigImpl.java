@@ -28,7 +28,7 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 
 	private final ConfigurationDescriptionString domain = new ConfigurationDescriptionString("rp", "AuthenticationLdapDomain", "Authentication Ldap Domain");
 
-	private final ConfigurationDescriptionString credentials = new ConfigurationDescriptionString("password", "AuthenticationLdapCredentials", "Authentication Ldap Credentials");
+	private final ConfigurationDescriptionString credentials = new ConfigurationDescriptionString(null, "AuthenticationLdapCredentials", "Authentication Ldap Credentials");
 
 	private final ConfigurationDescriptionBoolean ssl = new ConfigurationDescriptionBoolean(true, "AuthenticationLdapSSL", "Authentication Ldap SSL");
 
