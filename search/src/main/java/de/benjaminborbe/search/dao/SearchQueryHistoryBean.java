@@ -2,6 +2,7 @@ package de.benjaminborbe.search.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -17,6 +18,8 @@ public class SearchQueryHistoryBean implements Entity<SearchQueryHistoryIdentifi
 	private Calendar created;
 
 	private Calendar modified;
+
+	private UserIdentifier user;
 
 	@Override
 	public SearchQueryHistoryIdentifier getId() {
@@ -54,6 +57,14 @@ public class SearchQueryHistoryBean implements Entity<SearchQueryHistoryIdentifi
 
 	public void setQuery(final String query) {
 		this.query = query;
+	}
+
+	public UserIdentifier getUser() {
+		return user;
+	}
+
+	public void setUser(final UserIdentifier user) {
+		this.user = user;
 	}
 
 }

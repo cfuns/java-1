@@ -7,6 +7,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
@@ -43,7 +44,11 @@ public class SearchServiceImplUnitTest {
 
 		final SearchServiceSearchResultComparator searchServiceComponentComparator = null;
 
-		final SearchService searchService = new SearchServiceImpl(logger, searchQueryHistoryDao, idGeneratorUUID, searchServiceComponentRegistry, threadRunner,
+		final AuthenticationService authenticationService = EasyMock.createNiceMock(AuthenticationService.class);
+		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(null);
+		EasyMock.replay(authenticationService);
+
+		final SearchService searchService = new SearchServiceImpl(logger, authenticationService, searchQueryHistoryDao, idGeneratorUUID, searchServiceComponentRegistry, threadRunner,
 				searchServiceComponentComparator);
 		searchService.search(sessionIdentifier, "foo: bar", maxResults);
 

@@ -10,7 +10,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceComponent;
@@ -29,16 +32,27 @@ public class SearchServiceImpl implements SearchService {
 
 		private final String query;
 
-		private SearchQueryHistroryRunnable(final String query) {
+		private final SessionIdentifier sessionIdentifier;
+
+		private SearchQueryHistroryRunnable(final String query, final SessionIdentifier sessionIdentifier) {
 			this.query = query;
+			this.sessionIdentifier = sessionIdentifier;
 		}
 
 		@Override
 		public void run() {
+			UserIdentifier userIdentifier;
+			try {
+				userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			}
+			catch (final AuthenticationServiceException e) {
+				userIdentifier = null;
+			}
 			try {
 				final SearchQueryHistoryBean searchQueryHistory = searchQueryHistoryDao.create();
 				searchQueryHistory.setId(new SearchQueryHistoryIdentifier(idGeneratorUUID.nextId()));
 				searchQueryHistory.setQuery(query);
+				searchQueryHistory.setUser(userIdentifier);
 				searchQueryHistoryDao.save(searchQueryHistory);
 			}
 			catch (final Exception e) {
@@ -95,15 +109,19 @@ public class SearchServiceImpl implements SearchService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public SearchServiceImpl(
 			final Logger logger,
+			final AuthenticationService authenticationService,
 			final SearchQueryHistoryDao searchQueryHistoryDao,
 			final IdGeneratorUUID idGeneratorUUID,
 			final SearchServiceComponentRegistry searchServiceComponentRegistry,
 			final ThreadRunner threadRunner,
 			final SearchServiceSearchResultComparator searchServiceComponentComparator) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.searchQueryHistoryDao = searchQueryHistoryDao;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.searchServiceComponentRegistry = searchServiceComponentRegistry;
@@ -114,7 +132,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 
-		createHistory(query);
+		createHistory(sessionIdentifier, query);
 
 		// search in one component
 		{
@@ -167,8 +185,8 @@ public class SearchServiceImpl implements SearchService {
 		return result;
 	}
 
-	private void createHistory(final String query) {
-		threadRunner.run("searchQueryHistory", new SearchQueryHistroryRunnable(query));
+	private void createHistory(final SessionIdentifier sessionIdentifier, final String query) {
+		threadRunner.run("searchQueryHistory", new SearchQueryHistroryRunnable(query, sessionIdentifier));
 	}
 
 	@Override

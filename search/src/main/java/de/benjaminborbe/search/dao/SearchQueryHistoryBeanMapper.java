@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
@@ -25,16 +26,16 @@ public class SearchQueryHistoryBeanMapper extends MapObjectMapperAdapter<SearchQ
 			final Provider<SearchQueryHistoryBean> provider,
 			final SearchQueryHistoryIdentifierMapper mapperListIdentifier,
 			final MapperString mapperString,
-			final MapperCalendar mapperCalendar
-
-	) {
-		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar));
+			final MapperCalendar mapperCalendar,
+			final UserIdentifierMapper mapperUserIdentifier) {
+		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperUserIdentifier));
 	}
 
 	private static Collection<StringObjectMapper<SearchQueryHistoryBean>> buildMappings(final SearchQueryHistoryIdentifierMapper mapperListIdentifier,
-			final MapperString mapperString, final MapperCalendar mapperCalendar) {
+			final MapperString mapperString, final MapperCalendar mapperCalendar, final UserIdentifierMapper mapperUserIdentifier) {
 		final List<StringObjectMapper<SearchQueryHistoryBean>> result = new ArrayList<StringObjectMapper<SearchQueryHistoryBean>>();
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, SearchQueryHistoryIdentifier>("id", mapperListIdentifier));
+		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, UserIdentifier>("user", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, String>("query", mapperString));
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, Calendar>("modified", mapperCalendar));
