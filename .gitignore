@@ -211,3 +211,7 @@ shortener/target
 shortener_api/target
 shortener_gui/target
 shortener_test/target
+distributed_index/target
+distributed_index_api/target
+distributed_index_gui/target
+distributed_index_test/target

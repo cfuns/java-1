@@ -261,3 +261,8 @@ buildmessage:
 	cd message && make all
 	cd message_gui && make all
 	cd message_test && make all
+builddistributedindex:
+	cd distributed_index_api && make all
+	cd distributed_index && make all
+	cd distributed_index_gui && make all
+	cd distributed_index_test && make all
