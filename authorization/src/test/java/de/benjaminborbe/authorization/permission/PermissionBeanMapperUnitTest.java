@@ -48,7 +48,7 @@ public class PermissionBeanMapperUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final Provider<PermissionBean> permissionBeanProvider = new ProviderMock<PermissionBean>(new PermissionBean());
+		final Provider<PermissionBean> permissionBeanProvider = new ProviderMock<PermissionBean>(PermissionBean.class);
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final CurrentTime currentTime = new CurrentTimeImpl();

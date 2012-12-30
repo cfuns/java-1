@@ -60,7 +60,7 @@ public class BookmarkBeanMapperUnitTest {
 	}
 
 	private BookmarkBeanMapper getBookmarkBeanMapper() {
-		final Provider<BookmarkBean> provider = new ProviderMock<BookmarkBean>(new BookmarkBean());
+		final Provider<BookmarkBean> provider = new ProviderMock<BookmarkBean>(BookmarkBean.class);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);

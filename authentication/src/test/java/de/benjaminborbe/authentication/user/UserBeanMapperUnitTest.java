@@ -15,6 +15,7 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.date.CurrentTime;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
@@ -29,14 +30,7 @@ import de.benjaminborbe.tools.util.ParseUtilImpl;
 public class UserBeanMapperUnitTest {
 
 	private UserBeanMapper getUserBeanMapper() {
-		final Provider<UserBean> taskBeanProvider = new Provider<UserBean>() {
-
-			@Override
-			public UserBean get() {
-				return new UserBean();
-			}
-		};
-
+		final Provider<UserBean> taskBeanProvider = new ProviderMock<UserBean>(UserBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

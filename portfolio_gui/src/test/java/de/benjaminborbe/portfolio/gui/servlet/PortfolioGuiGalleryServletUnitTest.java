@@ -40,7 +40,7 @@ import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.portfolio.gui.widget.PortfolioLayoutWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -108,7 +108,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -159,7 +159,7 @@ public class PortfolioGuiGalleryServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				new ProviderMock<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator,
+				new ProviderAdapter<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator,
 				authorizationService);
 
 		servlet.service(request, response);

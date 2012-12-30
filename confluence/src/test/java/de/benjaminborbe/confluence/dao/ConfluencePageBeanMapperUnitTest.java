@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -24,14 +25,7 @@ import de.benjaminborbe.tools.util.ParseUtilImpl;
 public class ConfluencePageBeanMapperUnitTest {
 
 	private ConfluencePageBeanMapper getConfluencePageBeanMapper() {
-		final Provider<ConfluencePageBean> confluencePageBeanProvider = new Provider<ConfluencePageBean>() {
-
-			@Override
-			public ConfluencePageBean get() {
-				return new ConfluencePageBean();
-			}
-		};
-
+		final Provider<ConfluencePageBean> confluencePageBeanProvider = new ProviderMock<ConfluencePageBean>(ConfluencePageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

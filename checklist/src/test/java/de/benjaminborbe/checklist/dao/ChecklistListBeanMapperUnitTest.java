@@ -17,6 +17,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -25,14 +26,7 @@ import de.benjaminborbe.tools.util.ParseUtilImpl;
 public class ChecklistListBeanMapperUnitTest {
 
 	private ChecklistListBeanMapper getChecklistListBeanMapper() {
-		final Provider<ChecklistListBean> taskBeanProvider = new Provider<ChecklistListBean>() {
-
-			@Override
-			public ChecklistListBean get() {
-				return new ChecklistListBean();
-			}
-		};
-
+		final Provider<ChecklistListBean> taskBeanProvider = new ProviderMock<ChecklistListBean>(ChecklistListBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

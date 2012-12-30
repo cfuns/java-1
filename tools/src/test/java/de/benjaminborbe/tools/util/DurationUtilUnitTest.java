@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import com.google.inject.Provider;
 
+import de.benjaminborbe.tools.guice.ProviderAdapter;
+
 public class DurationUtilUnitTest {
 
 	@Test
@@ -15,13 +17,7 @@ public class DurationUtilUnitTest {
 		final Duration duration = EasyMock.createMock(Duration.class);
 		EasyMock.replay(duration);
 
-		final Provider<Duration> p = new Provider<Duration>() {
-
-			@Override
-			public Duration get() {
-				return duration;
-			}
-		};
+		final Provider<Duration> p = new ProviderAdapter<Duration>(duration);
 		final DurationUtil durationUtil = new DurationUtil(p);
 		assertNotNull(durationUtil.getDuration());
 		assertEquals(duration, durationUtil.getDuration());

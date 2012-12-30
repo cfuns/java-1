@@ -30,7 +30,7 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -99,7 +99,7 @@ public class ProjectileGuiReportServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderMock<HttpContext>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -131,8 +131,8 @@ public class ProjectileGuiReportServletUnitTest {
 		EasyMock.expect(projectileService.getSlacktimeReport(sessionIdentifier)).andReturn(report);
 		EasyMock.replay(projectileService);
 
-		final ProjectileGuiReportServlet projectileServlet = new ProjectileGuiReportServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				authenticationService, authorizationService, httpContextProvider, urlUtil, projectileService);
+		final ProjectileGuiReportServlet projectileServlet = new ProjectileGuiReportServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService,
+				authorizationService, httpContextProvider, urlUtil, projectileService);
 
 		projectileServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

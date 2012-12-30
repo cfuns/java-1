@@ -17,6 +17,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperInteger;
@@ -28,14 +29,7 @@ import de.benjaminborbe.tools.util.ParseUtilImpl;
 public class ConfluenceInstanceBeanMapperUnitTest {
 
 	private ConfluenceInstanceBeanMapper getConfluenceInstanceBeanMapper() {
-		final Provider<ConfluenceInstanceBean> confluenceInstanceBeanProvider = new Provider<ConfluenceInstanceBean>() {
-
-			@Override
-			public ConfluenceInstanceBean get() {
-				return new ConfluenceInstanceBean();
-			}
-		};
-
+		final Provider<ConfluenceInstanceBean> confluenceInstanceBeanProvider = new ProviderMock<ConfluenceInstanceBean>(ConfluenceInstanceBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

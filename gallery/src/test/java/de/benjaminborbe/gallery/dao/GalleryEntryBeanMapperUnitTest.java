@@ -22,6 +22,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperLong;
@@ -32,13 +33,7 @@ import de.benjaminborbe.tools.util.ParseUtilImpl;
 public class GalleryEntryBeanMapperUnitTest {
 
 	private GalleryEntryBeanMapper getGalleryEntryBeanMapper() {
-		final Provider<GalleryEntryBean> taskBeanProvider = new Provider<GalleryEntryBean>() {
-
-			@Override
-			public GalleryEntryBean get() {
-				return new GalleryEntryBean();
-			}
-		};
+		final Provider<GalleryEntryBean> taskBeanProvider = new ProviderMock<GalleryEntryBean>(GalleryEntryBean.class);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);

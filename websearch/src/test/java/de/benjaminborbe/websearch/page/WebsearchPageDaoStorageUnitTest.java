@@ -20,6 +20,7 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.CurrentTimeImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
@@ -32,17 +33,11 @@ public class WebsearchPageDaoStorageUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final StorageService b = new StorageServiceMock(logger);
-		final Provider<WebsearchPageBean> c = new Provider<WebsearchPageBean>() {
-
-			@Override
-			public WebsearchPageBean get() {
-				return new WebsearchPageBean();
-			}
-		};
+		final Provider<WebsearchPageBean> provider = new ProviderMock<WebsearchPageBean>(WebsearchPageBean.class);
 		final WebsearchPageDaoSubPagesAction websearchPageDaoSubPagesAction = new WebsearchPageDaoSubPagesAction();
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier = new MapperWebsearchPageIdentifier();
 		final MapperCalendar mapperCalendar = new MapperCalendar(null, null, null);
-		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(c, mapperCalendar, mapperWebsearchPageIdentifier);
+		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier);
 		final WebsearchPageIdentifierBuilder websearchPageIdentifierBuilder = null;
 
 		final CurrentTime currentTime = new CurrentTimeImpl();
@@ -52,7 +47,7 @@ public class WebsearchPageDaoStorageUnitTest {
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
 		final Calendar calendar = calendarUtil.parseDateTime(timeZone, "2012-12-24 20:15:59");
-		final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(logger, b, c, websearchPageDaoSubPagesAction, websearchPageBeanMapper, websearchPageIdentifierBuilder,
+		final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(logger, b, provider, websearchPageDaoSubPagesAction, websearchPageBeanMapper, websearchPageIdentifierBuilder,
 				calendarUtil);
 		final String url = "http://www.heise.de";
 		final WebsearchPageIdentifier websearchPageIdentifier = new WebsearchPageIdentifier(url);

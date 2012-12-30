@@ -1,4 +1,4 @@
-package de.benjaminborbe.checklist.dao;
+package de.benjaminborbe.dhl.status;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,24 +11,22 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
-import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
+import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
-import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.MapperString;
+import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
-public class ChecklistEntryBeanMapperUnitTest {
+public class DhlBeanMapperUnitTest {
 
-	private ChecklistEntryBeanMapper getChecklistEntryBeanMapper() {
-		final Provider<ChecklistEntryBean> taskBeanProvider = new ProviderMock<ChecklistEntryBean>(ChecklistEntryBean.class);
-
+	private DhlBeanMapper getDhlBeanMapper() {
+		final Provider<DhlBean> provider = new ProviderMock<DhlBean>(DhlBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -40,22 +38,19 @@ public class ChecklistEntryBeanMapperUnitTest {
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
-		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
-		final MapperString mapperString = new MapperString();
-		final MapperEntryIdentifier mapperEntryIdentifier = new MapperEntryIdentifier();
-		final MapperListIdentifier mapperListIdentifier = new MapperListIdentifier();
 
-		return new ChecklistEntryBeanMapper(taskBeanProvider, mapperEntryIdentifier, mapperListIdentifier, mapperUserIdentifier, mapperString, mapperBoolean, mapperCalendar);
+		final MapperLong mapperLong = new MapperLong(parseUtil);
+		final MapperDhlIdentifier mapperDhlIdentifier = new MapperDhlIdentifier();
+		return new DhlBeanMapper(provider, mapperLong, mapperCalendar, mapperDhlIdentifier);
 	}
 
 	@Test
 	public void testId() throws Exception {
-		final ChecklistEntryBeanMapper mapper = getChecklistEntryBeanMapper();
-		final ChecklistEntryIdentifier value = new ChecklistEntryIdentifier("1337");
+		final DhlBeanMapper mapper = getDhlBeanMapper();
+		final DhlIdentifier value = new DhlIdentifier("1337");
 		final String fieldname = "id";
 		{
-			final ChecklistEntryBean bean = new ChecklistEntryBean();
+			final DhlBean bean = new DhlBean();
 			bean.setId(value);
 			final Map<String, String> data = mapper.map(bean);
 			assertEquals(data.get(fieldname), String.valueOf(value));
@@ -63,8 +58,9 @@ public class ChecklistEntryBeanMapperUnitTest {
 		{
 			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
-			final ChecklistEntryBean bean = mapper.map(data);
+			final DhlBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());
 		}
 	}
+
 }

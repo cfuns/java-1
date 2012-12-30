@@ -19,6 +19,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
@@ -31,14 +32,7 @@ import de.benjaminborbe.tools.util.ParseUtilImpl;
 public class TaskBeanMapperUnitTest {
 
 	private TaskBeanMapper getTaskBeanMapper() {
-		final Provider<TaskBean> taskBeanProvider = new Provider<TaskBean>() {
-
-			@Override
-			public TaskBean get() {
-				return new TaskBean();
-			}
-		};
-
+		final Provider<TaskBean> taskBeanProvider = new ProviderMock<TaskBean>(TaskBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

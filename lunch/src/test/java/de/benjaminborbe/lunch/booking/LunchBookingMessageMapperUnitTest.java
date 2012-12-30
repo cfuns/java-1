@@ -61,7 +61,7 @@ public class LunchBookingMessageMapperUnitTest {
 		final CurrentTimeImpl currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		final Provider<LunchBookingMessage> p = new ProviderMock<LunchBookingMessage>(new LunchBookingMessage());
+		final Provider<LunchBookingMessage> p = new ProviderMock<LunchBookingMessage>(LunchBookingMessage.class);
 		final MapperString mapperString = new MapperString();
 		return new LunchBookingMessageMapperImpl(p, mapperCalendar, mapperString);
 	}

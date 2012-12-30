@@ -18,6 +18,7 @@ import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
 
 public class StorageDaoUnitTest {
@@ -37,17 +38,9 @@ public class StorageDaoUnitTest {
 	protected StorageTestDao getDao() {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		// final Logger logger = LoggerFactory.getLogger(getClass());
 
 		final StorageService storageService = new StorageServiceMock(logger);
-		final Provider<TestBean> beanProvider = new Provider<TestBean>() {
-
-			@Override
-			public TestBean get() {
-				return new TestBean();
-			}
-		};
-
+		final Provider<TestBean> beanProvider = new ProviderMock<TestBean>(TestBean.class);
 		final MapObjectMapper<TestBean> mapper = new TestBeanMapper(beanProvider);
 		final IdentifierBuilder<String, TestIdentifier> builder = new TestIdentifierBuilder();
 		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);

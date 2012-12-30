@@ -14,7 +14,7 @@ public class MailJsonMapperUnitTest {
 
 	@Test
 	public void testName() throws Exception {
-		final Provider<MailDto> a = new ProviderMock<MailDto>(new MailDto());
+		final Provider<MailDto> a = new ProviderMock<MailDto>(MailDto.class);
 		final MapperString b = new MapperString();
 		final MailJsonMapper mapper = new MailJsonMapper(a, b);
 

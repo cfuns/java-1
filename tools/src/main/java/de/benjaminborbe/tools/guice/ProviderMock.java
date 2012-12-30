@@ -1,18 +1,25 @@
 package de.benjaminborbe.tools.guice;
 
+import java.lang.reflect.Constructor;
 import com.google.inject.Provider;
 
 public class ProviderMock<T> implements Provider<T> {
 
-	private final T object;
+	private final Class<T> clazz;
 
-	public ProviderMock(final T object) {
-		this.object = object;
+	public ProviderMock(final Class<T> clazz) {
+		this.clazz = clazz;
 	}
 
 	@Override
 	public T get() {
-		return object;
+		try {
+			Constructor<T> c;
+			c = clazz.getDeclaredConstructor();
+			return c.newInstance();
+		}
+		catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
-
 }
