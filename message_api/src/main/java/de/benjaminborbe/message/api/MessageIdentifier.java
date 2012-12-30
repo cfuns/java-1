@@ -1,4 +1,4 @@
-package de.benjaminborbe.message.dao;
+package de.benjaminborbe.message.api;
 
 import de.benjaminborbe.api.IdentifierBase;
 

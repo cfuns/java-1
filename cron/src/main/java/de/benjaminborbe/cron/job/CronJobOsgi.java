@@ -1,5 +1,7 @@
 package de.benjaminborbe.cron.job;
 
+import java.util.Date;
+
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -9,9 +11,11 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.cron.util.CronExecutionHistory;
-import de.benjaminborbe.cron.util.CronJobRegistry;
+import de.benjaminborbe.cron.CronConstants;
+import de.benjaminborbe.cron.message.CronMessage;
+import de.benjaminborbe.cron.message.CronMessageMapper;
+import de.benjaminborbe.message.api.MessageService;
+import de.benjaminborbe.tools.date.DateUtil;
 
 @Singleton
 @DisallowConcurrentExecution
@@ -19,34 +23,34 @@ public class CronJobOsgi implements Job {
 
 	private final Logger logger;
 
-	private final CronJobRegistry cronJobRegistry;
+	private final CronMessageMapper cronMessageMapper;
 
-	private final CronExecutionHistory cronExecutionHistory;
+	private final MessageService messageService;
+
+	private final DateUtil dateUtil;
 
 	@Inject
-	public CronJobOsgi(final Logger logger, final CronJobRegistry cronJobRegistry, final CronExecutionHistory cronExecutionHistory) {
+	public CronJobOsgi(final Logger logger, final MessageService messageService, final CronMessageMapper cronMessageMapper, final DateUtil dateUtil) {
 		this.logger = logger;
-		this.cronJobRegistry = cronJobRegistry;
-		this.cronExecutionHistory = cronExecutionHistory;
+		this.messageService = messageService;
+		this.cronMessageMapper = cronMessageMapper;
+		this.dateUtil = dateUtil;
 	}
 
 	@Override
 	public void execute(final JobExecutionContext context) throws JobExecutionException {
-		final String name = (String) context.getJobDetail().getJobDataMap().get("name");
+
+		final Date fireTime = context.getFireTime();
+		final String name = (String) context.getJobDetail().getJobDataMap().get(CronConstants.JOB_NAME);
 		try {
-			logger.trace("CronJobOsgi.execute - starting job: " + name);
-			final CronJob cronJob = cronJobRegistry.getByName(name);
-			if (cronJob != null) {
-				cronJob.execute();
-				cronExecutionHistory.add(name);
-				logger.trace("CronJobOsgi.execute - finished job: " + name);
-			}
-			else {
-				logger.error("CronJobOsgi.execute - found no cronJob for name: " + name);
-			}
+			logger.debug("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
+			final CronMessage cronMessage = new CronMessage(name);
+			final String id = dateUtil.dateTimeString(fireTime);
+			final String content = cronMessageMapper.map(cronMessage);
+			messageService.sendMessage(CronConstants.MESSSAGE_TYPE, id, content);
 		}
 		catch (final Exception e) {
-			logger.info("CronJobOsgi.execute - failed job: " + name + " exception: " + e.getClass().getSimpleName(), e);
+			logger.info("execute - failed job: " + name + " exception: " + e.getClass().getSimpleName(), e);
 		}
 	}
 }

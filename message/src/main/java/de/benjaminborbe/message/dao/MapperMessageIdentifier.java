@@ -1,5 +1,6 @@
 package de.benjaminborbe.message.dao;
 
+import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 public class MapperMessageIdentifier implements Mapper<MessageIdentifier> {

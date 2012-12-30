@@ -1,6 +1,7 @@
 package de.benjaminborbe.message.dao;
 
 import de.benjaminborbe.api.IdentifierBuilder;
+import de.benjaminborbe.message.api.MessageIdentifier;
 
 public class MessageIdentifierBuilder implements IdentifierBuilder<String, MessageIdentifier> {
 

@@ -5,6 +5,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronService;
+import de.benjaminborbe.cron.message.CronMessageMapper;
+import de.benjaminborbe.cron.message.CronMessageMapperImpl;
 import de.benjaminborbe.cron.service.CronControllerImpl;
 import de.benjaminborbe.cron.service.CronServiceImpl;
 import de.benjaminborbe.cron.util.CronJobRegistry;
@@ -16,6 +18,7 @@ public class CronModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(CronMessageMapper.class).to(CronMessageMapperImpl.class).in(Singleton.class);
 		bind(CronService.class).to(CronServiceImpl.class).in(Singleton.class);
 		bind(CronController.class).to(CronControllerImpl.class).in(Singleton.class);
 		bind(CronJobRegistry.class).to(CronJobRegistryImpl.class).in(Singleton.class);

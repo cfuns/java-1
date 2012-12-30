@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.job.CronJobOsgi;
 
@@ -84,7 +85,7 @@ public class QuartzImpl implements Quartz {
 		else {
 			try {
 				final String name = cronJob.getClass().getName();
-				final JobDetail jobDetail = newJob(CronJobOsgi.class).withIdentity(name, name).usingJobData("name", name).build();
+				final JobDetail jobDetail = newJob(CronJobOsgi.class).withIdentity(name, name).usingJobData(CronConstants.JOB_NAME, name).build();
 				final CronTrigger trigger = newTrigger().withIdentity(name, name).withSchedule(cronSchedule(cronJob.getScheduleExpression())).forJob(name, name).build();
 
 				jobDetails.put(cronJob.getClass(), jobDetail.getKey());
