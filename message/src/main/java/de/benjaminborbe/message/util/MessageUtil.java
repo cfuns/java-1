@@ -2,6 +2,8 @@ package de.benjaminborbe.message.util;
 
 import java.util.Calendar;
 
+import com.google.inject.Inject;
+
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -10,6 +12,7 @@ public class MessageUtil {
 
 	private final CurrentTime currentTime;
 
+	@Inject
 	public MessageUtil(final CurrentTime currentTime) {
 		this.currentTime = currentTime;
 	}
