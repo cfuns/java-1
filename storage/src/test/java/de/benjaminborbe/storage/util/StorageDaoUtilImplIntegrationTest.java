@@ -341,4 +341,50 @@ public class StorageDaoUtilImplIntegrationTest {
 		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key));
 		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key));
 	}
+
+	@Test
+	public void testReadRow() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "keyA", "valueA");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "keyB", "valueB");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "keyC", "valueC");
+
+		final Map<String, String> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		assertNotNull(data);
+		assertEquals(3, data.size());
+		assertEquals("valueA", data.get("keyA"));
+		assertEquals("valueB", data.get("keyB"));
+		assertEquals("valueC", data.get("keyC"));
+	}
+
+	@Test
+	public void testReadRowLarge() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		final int count = 1000;
+		{
+			final Map<String, String> data = new HashMap<String, String>();
+			for (int i = 1; i <= count; ++i) {
+				data.put("key" + i, "value" + i);
+			}
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", data);
+		}
+		final Map<String, String> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		assertNotNull(data);
+		assertEquals(count, data.size());
+		for (int i = 1; i <= count; ++i) {
+			assertEquals("value" + i, data.get("key" + i));
+		}
+	}
 }

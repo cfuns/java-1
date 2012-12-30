@@ -80,4 +80,10 @@ public interface StorageDaoUtil {
 	StorageRowIterator rowIterator(String keySpace, String columnFamily, List<String> columnNames) throws InvalidRequestException, UnavailableException, TimedOutException,
 			TException, UnsupportedEncodingException, NotFoundException;
 
+	Map<String, String> read(String keySpace, String columnFamily, String id) throws NotFoundException, UnsupportedEncodingException, StorageConnectionPoolException,
+			InvalidRequestException, TException, UnavailableException, TimedOutException;
+
+	Map<String, String> read(String keySpace, String columnFamily, byte[] id) throws NotFoundException, StorageConnectionPoolException, InvalidRequestException, TException,
+			UnavailableException, TimedOutException, UnsupportedEncodingException;
+
 }

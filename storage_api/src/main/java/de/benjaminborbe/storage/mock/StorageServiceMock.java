@@ -347,4 +347,12 @@ public class StorageServiceMock implements StorageService {
 			return;
 		cfData.remove(id);
 	}
+
+	@Override
+	public Map<String, String> get(final String columnFamily, final String key) throws StorageException {
+		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
+		if (cfData == null)
+			return null;
+		return cfData.get(key);
+	}
 }

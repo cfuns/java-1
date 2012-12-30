@@ -5,6 +5,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,6 +18,8 @@ import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.NotFoundException;
+import org.apache.cassandra.thrift.SlicePredicate;
+import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
@@ -304,6 +307,57 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 			final ColumnPath column_path = new ColumnPath(columnFamily);
 			client.remove(key, column_path, getCurrentTimestamp(), consistency_level);
+		}
+		finally {
+			storageConnectionPool.releaseConnection(connection);
+		}
+	}
+
+	@Override
+	public Map<String, String> read(final String keySpace, final String columnFamily, final String id) throws NotFoundException, UnsupportedEncodingException,
+			StorageConnectionPoolException, InvalidRequestException, TException, UnavailableException, TimedOutException {
+		return read(keySpace, columnFamily, id.getBytes(config.getEncoding()));
+	}
+
+	@Override
+	public Map<String, String> read(final String keySpace, final String columnFamily, final byte[] id) throws NotFoundException, StorageConnectionPoolException,
+			InvalidRequestException, TException, UnavailableException, TimedOutException, UnsupportedEncodingException {
+		StorageConnection connection = null;
+		try {
+			connection = storageConnectionPool.getConnection();
+			final Iface client = connection.getClient(keySpace);
+
+			logger.trace("delete keyspace: " + keySpace + " columnFamily: " + columnFamily + " key: " + id);
+
+			final ByteBuffer key = ByteBuffer.wrap(id);
+			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
+
+			final int count = 100;
+			final Map<String, String> result = new HashMap<String, String>();
+
+			final ColumnParent columnParent = new ColumnParent(columnFamily);
+			final SlicePredicate predicate = new SlicePredicate();
+			final SliceRange slice_range = new SliceRange();
+			predicate.setSlice_range(slice_range);
+			slice_range.setCount(count);
+			slice_range.setStart(new byte[0]);
+			slice_range.setFinish(new byte[0]);
+
+			List<ColumnOrSuperColumn> columns = null;
+			do {
+				if (columns != null) {
+					slice_range.setStart(columns.get(columns.size() - 1).getColumn().getName());
+				}
+				columns = client.get_slice(key, columnParent, predicate, consistency_level);
+
+				for (final ColumnOrSuperColumn column : columns) {
+					final String name = new String(column.getColumn().getName(), config.getEncoding());
+					final String value = new String(column.getColumn().getValue(), config.getEncoding());
+					result.put(name, value);
+				}
+			} while (columns.size() == count);
+
+			return result;
 		}
 		finally {
 			storageConnectionPool.releaseConnection(connection);

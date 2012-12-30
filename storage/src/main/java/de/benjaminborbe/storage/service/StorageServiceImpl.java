@@ -129,6 +129,24 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
+	public Map<String, String> get(final String columnFamily, final String id) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id);
+		}
+		catch (final NotFoundException e) {
+			return null;
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
 	public void delete(final String columnFamily, final String id, final String key) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
