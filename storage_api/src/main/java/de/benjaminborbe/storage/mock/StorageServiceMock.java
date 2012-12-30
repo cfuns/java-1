@@ -270,11 +270,6 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public void delete(final String columnFamily, final String id, final String... keys) throws StorageException {
-		delete(columnFamily, id, Arrays.asList(keys));
-	}
-
-	@Override
 	public List<String> get(final String columnFamily, final String id, final List<String> keys) throws StorageException {
 		final List<String> result = new ArrayList<String>();
 		for (final String key : keys) {

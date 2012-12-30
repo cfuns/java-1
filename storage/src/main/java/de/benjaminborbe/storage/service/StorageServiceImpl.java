@@ -235,17 +235,6 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void delete(final String columnFamily, final String id, final String... keys) throws StorageException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			delete(columnFamily, id, Arrays.asList(keys));
-		}
-		finally {
-			logger.trace("duration " + duration.getTime());
-		}
-	}
-
-	@Override
 	public void delete(final String columnFamily, final String id) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {

@@ -16,8 +16,6 @@ public interface StorageService {
 
 	void delete(String columnFamily, String key, String columnName) throws StorageException;
 
-	void delete(String columnFamily, String key, String... columnNames) throws StorageException;
-
 	List<String> get(String columnFamily, String key, List<String> columnNames) throws StorageException;
 
 	String get(String columnFamily, String key, String columnName) throws StorageException;

@@ -128,7 +128,7 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 	}
 
 	private void delete(final String id) throws StorageException {
-		storageService.delete(getColumnFamily(), id, KEY, KEY_A, KEY_B);
+		storageService.delete(getColumnFamily(), id);
 	}
 
 }
