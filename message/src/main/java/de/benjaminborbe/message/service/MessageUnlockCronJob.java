@@ -26,4 +26,10 @@ public class MessageUnlockCronJob implements CronJob {
 	public void execute() {
 		messageUnlock.execute();
 	}
+
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }

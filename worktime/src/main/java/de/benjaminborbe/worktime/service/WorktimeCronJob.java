@@ -41,4 +41,9 @@ public class WorktimeCronJob implements CronJob {
 		}
 	}
 
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }

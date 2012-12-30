@@ -35,4 +35,10 @@ public class MonitoringCronJob implements CronJob {
 		monitoringMailer.run();
 		logger.trace("MonitoringCronJob.execute() - finished");
 	}
+
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }

@@ -98,4 +98,10 @@ public class DhlStatusCheckCronJob implements CronJob {
 			logger.error(e.getClass().getSimpleName(), e);
 		}
 	}
+
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }

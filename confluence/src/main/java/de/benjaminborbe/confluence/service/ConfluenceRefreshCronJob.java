@@ -34,4 +34,9 @@ public class ConfluenceRefreshCronJob implements CronJob {
 		logger.debug("execute");
 		confluenceRefresher.refresh();
 	}
+
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
 }

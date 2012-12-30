@@ -12,8 +12,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.CronConstants;
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.message.CronMessage;
 import de.benjaminborbe.cron.message.CronMessageMapper;
+import de.benjaminborbe.cron.util.CronExecutor;
+import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.tools.date.DateUtil;
 
@@ -29,25 +32,45 @@ public class CronJobOsgi implements Job {
 
 	private final DateUtil dateUtil;
 
+	private final CronJobRegistry cronJobRegistry;
+
+	private final CronExecutor cronExecutor;
+
 	@Inject
-	public CronJobOsgi(final Logger logger, final MessageService messageService, final CronMessageMapper cronMessageMapper, final DateUtil dateUtil) {
+	public CronJobOsgi(
+			final Logger logger,
+			final MessageService messageService,
+			final CronMessageMapper cronMessageMapper,
+			final DateUtil dateUtil,
+			final CronJobRegistry cronJobRegistry,
+			final CronExecutor cronExecutor) {
 		this.logger = logger;
 		this.messageService = messageService;
 		this.cronMessageMapper = cronMessageMapper;
 		this.dateUtil = dateUtil;
+		this.cronJobRegistry = cronJobRegistry;
+		this.cronExecutor = cronExecutor;
 	}
 
 	@Override
 	public void execute(final JobExecutionContext context) throws JobExecutionException {
-
 		final Date fireTime = context.getFireTime();
 		final String name = (String) context.getJobDetail().getJobDataMap().get(CronConstants.JOB_NAME);
 		try {
 			logger.debug("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
-			final CronMessage cronMessage = new CronMessage(name);
-			final String id = dateUtil.dateTimeString(fireTime);
-			final String content = cronMessageMapper.map(cronMessage);
-			messageService.sendMessage(CronConstants.MESSSAGE_TYPE, id, content);
+
+			final CronJob cronJob = cronJobRegistry.getByName(name);
+			if (cronJob.disallowConcurrentExecution()) {
+				final CronMessage cronMessage = new CronMessage(name);
+				final String id = dateUtil.dateTimeString(fireTime);
+				final String content = cronMessageMapper.map(cronMessage);
+				logger.debug("send cron to queue");
+				messageService.sendMessage(CronConstants.MESSSAGE_TYPE, id, content);
+			}
+			else {
+				logger.debug("execute cron directly");
+				cronExecutor.execute(name);
+			}
 		}
 		catch (final Exception e) {
 			logger.info("execute - failed job: " + name + " exception: " + e.getClass().getSimpleName(), e);

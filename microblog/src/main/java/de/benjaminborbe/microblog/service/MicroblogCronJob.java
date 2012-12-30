@@ -79,4 +79,9 @@ public class MicroblogCronJob implements CronJob {
 		logger.trace("MonitoringCronJob.execute() - finished");
 	}
 
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }

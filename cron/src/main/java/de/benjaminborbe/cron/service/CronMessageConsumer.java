@@ -3,6 +3,7 @@ package de.benjaminborbe.cron.service;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.message.CronMessage;
@@ -12,6 +13,7 @@ import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.mapper.MapException;
 
+@Singleton
 public class CronMessageConsumer implements MessageConsumer {
 
 	private final Logger logger;

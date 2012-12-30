@@ -12,4 +12,6 @@ public interface CronJob {
 	 * exec the cron-action
 	 */
 	void execute();
+
+	boolean disallowConcurrentExecution();
 }

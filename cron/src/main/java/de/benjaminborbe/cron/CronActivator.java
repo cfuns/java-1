@@ -15,8 +15,10 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.guice.CronModules;
 import de.benjaminborbe.cron.service.CronJobServiceTracker;
+import de.benjaminborbe.cron.service.CronMessageConsumer;
 import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.cron.util.Quartz;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -34,6 +36,9 @@ public class CronActivator extends BaseBundleActivator {
 
 	@Inject
 	private CronService cronService;
+
+	@Inject
+	private CronMessageConsumer cronMessageConsumer;
 
 	@Override
 	protected void onStarted() {
@@ -75,6 +80,7 @@ public class CronActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronController.class, cronController));
 		result.add(new ServiceInfo(CronService.class, cronService));
+		result.add(new ServiceInfo(MessageConsumer.class, cronMessageConsumer));
 		return result;
 	}
 

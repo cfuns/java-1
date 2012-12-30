@@ -27,4 +27,9 @@ public class MessageConsumerCronJob implements CronJob {
 		messageConsumerExchanger.exchange();
 	}
 
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return false;
+	}
+
 }

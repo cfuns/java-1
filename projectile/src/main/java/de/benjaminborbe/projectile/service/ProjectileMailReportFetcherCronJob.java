@@ -43,4 +43,10 @@ public class ProjectileMailReportFetcherCronJob implements CronJob {
 			logger.debug("skip execute, cron not active");
 		}
 	}
+
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }

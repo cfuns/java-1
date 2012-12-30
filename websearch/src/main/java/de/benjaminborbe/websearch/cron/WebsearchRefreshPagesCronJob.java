@@ -100,4 +100,10 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		threadRunner.run("refreshpages", new RefreshRunnable());
 		logger.debug("execute finished");
 	}
+
+	@Override
+	public boolean disallowConcurrentExecution() {
+		return true;
+	}
+
 }
