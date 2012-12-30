@@ -38,7 +38,7 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 
 	@Override
 	public WebsearchPageBean load(final URL url) throws StorageException {
-		return load(url.toExternalForm());
+		return load(new WebsearchPageIdentifier(url.toExternalForm()));
 	}
 
 	@Override

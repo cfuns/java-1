@@ -35,13 +35,13 @@ public class ProjectileReportDaoStorage extends DaoStorage<ProjectileReportBean,
 
 	@Override
 	public ProjectileReportBean getReportForUser(final UserIdentifier userIdentifier) throws StorageException {
-		return load(userIdentifier.getId());
+		return load(new ProjectileReportIdentifier(userIdentifier.getId()));
 	}
 
 	@Override
 	public ProjectileReportBean findOrCreateByUsername(final String username) throws StorageException {
 		{
-			final ProjectileReportBean bean = load(username);
+			final ProjectileReportBean bean = load(new ProjectileReportIdentifier(username));
 			if (bean != null) {
 				return bean;
 			}
