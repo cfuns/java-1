@@ -344,4 +344,12 @@ public class StorageServiceMock implements StorageService {
 	public long count(final String columnFamily, final String columnName, final String columnValue) throws StorageException {
 		throw new NotImplementedException();
 	}
+
+	@Override
+	public void delete(final String columnFamily, final String id) throws StorageException {
+		final HashMap<String, HashMap<String, String>> cfData = storageData.get(columnFamily);
+		if (cfData == null)
+			return;
+		cfData.remove(id);
+	}
 }

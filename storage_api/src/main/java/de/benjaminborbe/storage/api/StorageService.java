@@ -46,4 +46,6 @@ public interface StorageService {
 
 	void restore(String columnfamily, String jsonContent) throws StorageException;
 
+	void delete(String columnFamily, String id) throws StorageException;
+
 }

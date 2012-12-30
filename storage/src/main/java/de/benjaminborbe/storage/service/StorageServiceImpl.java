@@ -205,7 +205,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily, where);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -240,6 +239,20 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			delete(columnFamily, id, Arrays.asList(keys));
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void delete(final String columnFamily, final String id) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id);
+		}
+		catch (final Exception e) {
+			throw new StorageException(e);
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
