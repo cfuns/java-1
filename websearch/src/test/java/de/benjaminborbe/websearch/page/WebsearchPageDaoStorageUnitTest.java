@@ -32,23 +32,22 @@ public class WebsearchPageDaoStorageUnitTest {
 	public void testCrud() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		final StorageService b = new StorageServiceMock(logger);
+		final StorageService storageService = new StorageServiceMock(logger);
 		final Provider<WebsearchPageBean> provider = new ProviderMock<WebsearchPageBean>(WebsearchPageBean.class);
 		final WebsearchPageDaoSubPagesAction websearchPageDaoSubPagesAction = new WebsearchPageDaoSubPagesAction();
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier = new MapperWebsearchPageIdentifier();
-		final MapperCalendar mapperCalendar = new MapperCalendar(null, null, null);
-		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier);
-		final WebsearchPageIdentifierBuilder websearchPageIdentifierBuilder = null;
-
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
+		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier);
+		final WebsearchPageIdentifierBuilder websearchPageIdentifierBuilder = null;
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
 		final Calendar calendar = calendarUtil.parseDateTime(timeZone, "2012-12-24 20:15:59");
-		final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(logger, b, provider, websearchPageDaoSubPagesAction, websearchPageBeanMapper, websearchPageIdentifierBuilder,
-				calendarUtil);
+		final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(logger, storageService, provider, websearchPageDaoSubPagesAction, websearchPageBeanMapper,
+				websearchPageIdentifierBuilder, calendarUtil);
 		final String url = "http://www.heise.de";
 		final WebsearchPageIdentifier websearchPageIdentifier = new WebsearchPageIdentifier(url);
 		// create
