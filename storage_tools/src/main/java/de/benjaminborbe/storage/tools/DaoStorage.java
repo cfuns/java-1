@@ -210,7 +210,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public boolean exists(final I id) throws StorageException {
-		return storageService.get(getColumnFamily(), id.getId(), ID_FIELD) != null;
+		return exists(id.getId());
+	}
+
+	private boolean exists(final String id) throws StorageException {
+		return storageService.get(getColumnFamily(), id, ID_FIELD) != null;
 	}
 
 	protected abstract String getColumnFamily();

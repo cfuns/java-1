@@ -28,15 +28,16 @@ public class PermissionBeanMapperUnitTest {
 
 	@Test
 	public void testMapToObject() throws Exception {
-		final PermissionBeanMapper mapper = getMapper();
 		final String permissionName = "myPermission";
 		{
+			final PermissionBeanMapper mapper = getMapper();
 			final Map<String, String> data = new HashMap<String, String>();
 			data.put("id", permissionName);
 			final PermissionBean permissionBean = mapper.map(data);
 			assertEquals(permissionName, permissionBean.getId().getId());
 		}
 		{
+			final PermissionBeanMapper mapper = getMapper();
 			final Map<String, String> data = new HashMap<String, String>();
 			final PermissionBean permissionBean = mapper.map(data);
 			assertNull(permissionBean.getId());
@@ -44,18 +45,17 @@ public class PermissionBeanMapperUnitTest {
 	}
 
 	private PermissionBeanMapper getMapper() {
-		final Provider<PermissionBean> permissionBeanProvider = new ProviderMock<PermissionBean>(new PermissionBean());
-		final TimeZoneUtil a = new TimeZoneUtilImpl();
-		final ParseUtil parseUtil = new ParseUtilImpl();
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		final CurrentTime currentTime = new CurrentTimeImpl();
+
+		final Provider<PermissionBean> permissionBeanProvider = new ProviderMock<PermissionBean>(new PermissionBean());
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
-		final CalendarUtil b = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final MapperCalendar mapperCalendar = new MapperCalendar(a, b, parseUtil);
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final CurrentTime currentTime = new CurrentTimeImpl();
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
 		final MapperPermissionIdentifier mapperPermissionIdentifier = new MapperPermissionIdentifier();
-		final PermissionBeanMapper mapper = new PermissionBeanMapper(permissionBeanProvider, mapperCalendar, mapperPermissionIdentifier);
-		return mapper;
+		return new PermissionBeanMapper(permissionBeanProvider, mapperCalendar, mapperPermissionIdentifier);
 	}
 
 	@Test
