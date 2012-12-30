@@ -15,7 +15,7 @@ import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexBean;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexDao;
-import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
 public class DistributedIndexServiceImpl implements DistributedIndexService {
@@ -24,36 +24,47 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 
 	private final DistributedIndexDao distributedIndexDao;
 
-	private final CalendarUtil calendarUtil;
-
 	@Inject
-	public DistributedIndexServiceImpl(final Logger logger, final CalendarUtil calendarUtil, final DistributedIndexDao distributedIndexDao) {
+	public DistributedIndexServiceImpl(final Logger logger, final DistributedIndexDao distributedIndexDao) {
 		this.logger = logger;
-		this.calendarUtil = calendarUtil;
 		this.distributedIndexDao = distributedIndexDao;
 	}
 
 	@Override
 	public void add(final DistributedIndexIdentifier id, final Map<String, Integer> data) throws DistributedIndexServiceException {
-		logger.debug("add - id: " + id);
-		final DistributedIndexBean bean = distributedIndexDao.create();
-		bean.setId(id);
-		bean.setData(data);
-		bean.setCreated(calendarUtil.now());
-		bean.setModified(calendarUtil.now());
-		distributedIndexDao.save(bean);
+		try {
+			logger.debug("add - id: " + id);
+			final DistributedIndexBean bean = distributedIndexDao.create();
+			bean.setId(id);
+			bean.setData(data);
+			distributedIndexDao.save(bean);
+		}
+		catch (final StorageException e) {
+			throw new DistributedIndexServiceException(e);
+		}
 	}
 
 	@Override
 	public void remove(final DistributedIndexIdentifier id) throws DistributedIndexServiceException {
-		logger.debug("remove - id: " + id);
-		distributedIndexDao.remove(id);
+		try {
+			logger.debug("remove - id: " + id);
+			distributedIndexDao.remove(id);
+		}
+		catch (final StorageException e) {
+			throw new DistributedIndexServiceException(e);
+		}
 	}
 
 	@Override
 	public DistributedIndexSearchResultIterator search(final Collection<String> words) throws DistributedIndexServiceException {
-		logger.debug("search - words: " + StringUtils.join(words, ','));
-		return null;
+		try {
+			logger.debug("search - words: " + StringUtils.join(words, ','));
+			distributedIndexDao.create();
+			return null;
+		}
+		catch (final StorageException e) {
+			throw new DistributedIndexServiceException(e);
+		}
 	}
 
 }

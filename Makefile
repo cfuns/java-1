@@ -88,8 +88,8 @@ buildconfiguration:
 	cd configuration_test && make all
 buildstorage:
 	cd storage_api && make all
-	cd storage && make all
 	cd storage_tools && make all
+	cd storage && make all
 	cd storage_gui && make all
 	cd storage_test && make all
 buildloggly:
