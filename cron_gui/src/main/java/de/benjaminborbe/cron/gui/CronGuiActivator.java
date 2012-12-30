@@ -35,8 +35,8 @@ public class CronGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(cronGuiServlet, "/"));
-		result.add(new ServletInfo(cronGuiLatestExecutedServlet, "/latest"));
+		result.add(new ServletInfo(cronGuiServlet, CronGuiConstants.URL_HOME));
+		result.add(new ServletInfo(cronGuiLatestExecutedServlet, CronGuiConstants.URL_LATEST));
 		return result;
 	}
 

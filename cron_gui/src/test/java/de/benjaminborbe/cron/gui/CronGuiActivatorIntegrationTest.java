@@ -44,7 +44,9 @@ public class CronGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/cron", "/cron/latest");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_HOME);
+		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_LATEST);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
