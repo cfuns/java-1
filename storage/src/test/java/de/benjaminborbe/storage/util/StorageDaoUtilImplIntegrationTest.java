@@ -1,10 +1,6 @@
 package de.benjaminborbe.storage.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -416,5 +412,35 @@ public class StorageDaoUtilImplIntegrationTest {
 			assertNotNull(column.getColumnValueString());
 		}
 		assertEquals(limit, counter);
+	}
+
+	@Test
+	public void testColumnIteratorSort() throws Exception {
+		if (notFound)
+			return;
+
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key04", "value04");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key01", "value01");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key11", "value11");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key02", "value02");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key03", "value03");
+
+		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key01", columnIterator.next().getColumnNameString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key02", columnIterator.next().getColumnNameString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key03", columnIterator.next().getColumnNameString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key04", columnIterator.next().getColumnNameString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key11", columnIterator.next().getColumnNameString());
+		assertFalse(columnIterator.hasNext());
 	}
 }
