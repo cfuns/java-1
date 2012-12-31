@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.util;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,6 +19,7 @@ import org.apache.thrift.TException;
 import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageColumnIteratorImpl implements StorageColumnIterator {
 
@@ -43,11 +45,12 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 
 	private int pos = 0;
 
-	public StorageColumnIteratorImpl(final StorageConnectionPool storageConnectionPool, final String keySpace, final String columnFamily, final String encoding, final byte[] id) {
+	public StorageColumnIteratorImpl(final StorageConnectionPool storageConnectionPool, final String keySpace, final String columnFamily, final String encoding, final StorageValue id)
+			throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.encoding = encoding;
-		this.key = ByteBuffer.wrap(id);
+		this.key = ByteBuffer.wrap(id.getByte());
 		this.columnParent = new ColumnParent(columnFamily);
 		this.predicate = new SlicePredicate();
 		this.slice_range = new SliceRange();
@@ -101,7 +104,7 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 	public StorageColumn next() throws StorageException {
 		if (hasNext()) {
 			final ColumnOrSuperColumn column = columns.get(pos);
-			final StorageColumn result = new StorageColumnImpl(encoding, column.getColumn().getName(), column.getColumn().getValue());
+			final StorageColumn result = new StorageColumnImpl(new StorageValue(column.getColumn().getName(), encoding), new StorageValue(column.getColumn().getValue(), encoding));
 			pos++;
 			return result;
 		}

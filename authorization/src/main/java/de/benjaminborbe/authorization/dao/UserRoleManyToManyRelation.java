@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.ManyToManyRelationStorage;
 
@@ -16,7 +17,7 @@ public class UserRoleManyToManyRelation extends ManyToManyRelationStorage<UserId
 	private static final String COLUMN_FAMILY = "user_role";
 
 	@Inject
-	public UserRoleManyToManyRelation(final Logger logger, final StorageService storageService) {
+	public UserRoleManyToManyRelation(final Logger logger, final StorageService storageService) throws StorageException {
 		super(logger, storageService);
 	}
 

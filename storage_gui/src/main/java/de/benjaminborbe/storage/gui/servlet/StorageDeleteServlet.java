@@ -19,6 +19,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -43,7 +44,7 @@ public class StorageDeleteServlet extends StorageHtmlServlet {
 
 	private final Logger logger;
 
-	private final StorageService persistentStorageService;
+	private final StorageService storageService;
 
 	@Inject
 	public StorageDeleteServlet(
@@ -56,10 +57,10 @@ public class StorageDeleteServlet extends StorageHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
-			final StorageService persistentStorageService) {
+			final StorageService storageService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
-		this.persistentStorageService = persistentStorageService;
+		this.storageService = storageService;
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class StorageDeleteServlet extends StorageHtmlServlet {
 				widgets.add("parameter " + PARAMETER_KEY + " missing<br>");
 			}
 			if (columnFamily != null && id != null && key != null) {
-				persistentStorageService.delete(columnFamily, id, key);
+				storageService.delete(columnFamily, new StorageValue(id, storageService.getEncoding()), new StorageValue(key, storageService.getEncoding()));
 				widgets.add("deleted");
 			}
 			return widgets;

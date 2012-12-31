@@ -24,6 +24,7 @@ import org.apache.thrift.TException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageRowIteratorImpl implements StorageRowIterator {
 
@@ -51,7 +52,7 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 			final String keySpace,
 			final String columnFamily,
 			final String encoding,
-			final List<String> columnNames) throws UnsupportedEncodingException {
+			final List<StorageValue> columnNames) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);
@@ -107,10 +108,10 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 		}
 	}
 
-	private List<ByteBuffer> buildColumnNames(final List<String> columnNames) throws UnsupportedEncodingException {
+	private List<ByteBuffer> buildColumnNames(final List<StorageValue> columnNames) throws UnsupportedEncodingException {
 		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
-		for (final String columnName : columnNames) {
-			result.add(ByteBuffer.wrap(columnName.getBytes(encoding)));
+		for (final StorageValue columnName : columnNames) {
+			result.add(ByteBuffer.wrap(columnName.getByte()));
 		}
 		return result;
 	}
@@ -121,20 +122,19 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 			if (hasNext()) {
 				final KeySlice keySlice = cols.get(currentPos);
 				range.setStart_key(keySlice.getKey());
-				final Map<String, byte[]> data = new HashMap<String, byte[]>();
+				final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 				for (final ColumnOrSuperColumn c : keySlice.getColumns()) {
 					final Column column = c.getColumn();
-					data.put(new String(column.getName(), encoding), column.getValue());
+					data.put(new StorageValue(column.getName(), encoding), new StorageValue(column.getValue(), encoding));
 				}
 				currentPos++;
-				return new StorageRowImpl(encoding, keySlice.getKey(), data);
+				return new StorageRowImpl(new StorageValue(keySlice.getKey(), encoding), data);
 			}
 			else {
 				throw new NoSuchElementException();
 			}
 		}
-		catch (final UnsupportedEncodingException e) {
-			throw new StorageException(e);
+		finally {
 		}
 	}
 }

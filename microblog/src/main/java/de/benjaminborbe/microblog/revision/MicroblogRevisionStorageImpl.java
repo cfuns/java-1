@@ -1,5 +1,7 @@
 package de.benjaminborbe.microblog.revision;
 
+import java.io.UnsupportedEncodingException;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -8,6 +10,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
@@ -33,11 +36,16 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 		this.parseUtil = parseUtil;
 	}
 
+	private String getEncoding() {
+		return storageService.getEncoding();
+	}
+
 	@Override
 	public MicroblogPostIdentifier getLastRevision() throws MicroblogRevisionStorageException {
 		logger.trace("getLastRevision");
 		try {
-			final long result = parseUtil.parseLong(storageService.get(COLUMNFAMILY, ID, KEY));
+			final StorageValue value = storageService.get(COLUMNFAMILY, new StorageValue(ID, getEncoding()), new StorageValue(KEY, getEncoding()));
+			final long result = parseUtil.parseLong(value.getString());
 			logger.trace("getLastRevision - found " + result);
 			return new MicroblogPostIdentifier(result);
 		}
@@ -46,8 +54,10 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 			return null;
 		}
 		catch (final StorageException e) {
-			logger.trace("StorageException", e);
-			throw new MicroblogRevisionStorageException("StorageException", e);
+			throw new MicroblogRevisionStorageException(e.getClass().getName(), e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new MicroblogRevisionStorageException(e.getClass().getName(), e);
 		}
 	}
 
@@ -55,7 +65,7 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 	public void setLastRevision(final MicroblogPostIdentifier revision) throws MicroblogRevisionStorageException {
 		logger.trace("setLastRevision to " + revision);
 		try {
-			storageService.set(COLUMNFAMILY, ID, KEY, String.valueOf(revision));
+			storageService.set(COLUMNFAMILY, new StorageValue(ID, getEncoding()), new StorageValue(KEY, getEncoding()), new StorageValue(String.valueOf(revision), getEncoding()));
 		}
 		catch (final StorageException e) {
 			logger.trace("StorageException", e);

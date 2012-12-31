@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.mock;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,44 +7,36 @@ import java.util.Map.Entry;
 import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 	private final class StorageColumnImpl implements StorageColumn {
 
-		private final String key;
+		private final StorageValue key;
 
-		private final String value;
+		private final StorageValue value;
 
-		public StorageColumnImpl(final String key, final String value) {
+		public StorageColumnImpl(final StorageValue key, final StorageValue value) {
 			this.key = key;
 			this.value = value;
 		}
 
 		@Override
-		public byte[] getColumnNameByte() {
-			return key.getBytes();
-		}
-
-		@Override
-		public String getColumnNameString() throws UnsupportedEncodingException {
+		public StorageValue getColumnName() {
 			return key;
 		}
 
 		@Override
-		public byte[] getColumnValueByte() {
-			return value.getBytes();
-		}
-
-		@Override
-		public String getColumnValueString() throws UnsupportedEncodingException {
+		public StorageValue getColumnValue() {
 			return value;
 		}
+
 	}
 
-	private final Iterator<Entry<String, String>> i;
+	private final Iterator<Entry<StorageValue, StorageValue>> i;
 
-	public StorageColumnIteratorMock(final Map<String, String> data) {
+	public StorageColumnIteratorMock(final Map<StorageValue, StorageValue> data) {
 		i = data.entrySet().iterator();
 	}
 
@@ -56,7 +47,7 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 	@Override
 	public StorageColumn next() throws StorageException {
-		final Entry<String, String> next = i.next();
+		final Entry<StorageValue, StorageValue> next = i.next();
 		return new StorageColumnImpl(next.getKey(), next.getValue());
 	}
 

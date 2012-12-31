@@ -20,6 +20,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -80,7 +81,8 @@ public class StorageReadServlet extends StorageHtmlServlet {
 			if (columnFamily != null && id != null && key != null) {
 				widgets.add("value=");
 				widgets.add(new BrWidget());
-				widgets.add(new PreWidget(StringEscapeUtils.escapeHtml(persistentStorageService.get(columnFamily, id, key))));
+				final StorageValue value = persistentStorageService.get(columnFamily, new StorageValue(id, getEncoding()), new StorageValue(key, getEncoding()));
+				widgets.add(new PreWidget(StringEscapeUtils.escapeHtml(value.getString())));
 			}
 			else {
 				widgets.add("missing parameters.");
@@ -97,6 +99,10 @@ public class StorageReadServlet extends StorageHtmlServlet {
 		catch (final Exception e) {
 			return new ExceptionWidget(e);
 		}
+	}
+
+	private String getEncoding() {
+		return persistentStorageService.getEncoding();
 	}
 
 	@Override

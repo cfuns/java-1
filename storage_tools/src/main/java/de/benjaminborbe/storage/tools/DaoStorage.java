@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
@@ -83,7 +85,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 				else {
 					while (i.hasNext()) {
-						final I id = identifierBuilder.buildIdentifier(i.nextString());
+						final I id = identifierBuilder.buildIdentifier(i.next().toString());
 						if (exists(id)) {
 							next = id;
 							return true;
@@ -131,15 +133,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 				while (i.hasNext()) {
 					final StorageRow e = i.next();
-					if (e.getString(ID_FIELD) != null) {
+					if (e.getValue(ID_FIELD) != null) {
 						next = e;
 						return true;
 					}
 				}
 				return false;
 			}
-			catch (final UnsupportedEncodingException e) {
-				throw new StorageException(e);
+			finally {
 			}
 		}
 
@@ -156,7 +157,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	private static final String ID_FIELD = "id";
+	private final StorageValue ID_FIELD;
 
 	private final Provider<E> beanProvider;
 
@@ -169,6 +170,8 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	private final MapObjectMapper<E> mapper;
 
 	private final StorageService storageService;
+
+	private final String encoding;
 
 	@Inject
 	public DaoStorage(
@@ -184,6 +187,8 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		this.mapper = mapper;
 		this.identifierBuilder = identifierBuilder;
 		this.calendarUtil = calendarUtil;
+		this.encoding = storageService.getEncoding();
+		ID_FIELD = new StorageValue("id", encoding);
 	}
 
 	public long count() throws StorageException {
@@ -195,7 +200,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	public long count(final String columnName) throws StorageException {
+	public long count(final StorageValue columnName) throws StorageException {
 		try {
 			return storageService.count(getColumnFamily(), columnName);
 		}
@@ -204,7 +209,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	public long count(final String columnName, final String columnValue) throws StorageException {
+	public long count(final StorageValue columnName, final StorageValue columnValue) throws StorageException {
 		try {
 			return storageService.count(getColumnFamily(), columnName, columnValue);
 		}
@@ -223,7 +228,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public void delete(final E entity) throws StorageException {
 		try {
 			logger.trace("delete");
-			storageService.delete(getColumnFamily(), entity.getId().getId());
+			storageService.delete(getColumnFamily(), new StorageValue(entity.getId().getId(), encoding));
 		}
 		finally {
 		}
@@ -236,10 +241,10 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public boolean exists(final I id) throws StorageException {
-		return exists(id.getId());
+		return exists(new StorageValue(id.getId(), encoding));
 	}
 
-	private boolean exists(final String id) throws StorageException {
+	private boolean exists(final StorageValue id) throws StorageException {
 		return storageService.get(getColumnFamily(), id, ID_FIELD) != null;
 	}
 
@@ -256,7 +261,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
-	public EntityIterator<E> getEntityIterator(final Map<String, String> where) throws StorageException {
+	public EntityIterator<E> getEntityIterator(final Map<StorageValue, StorageValue> where) throws StorageException {
 		try {
 			return new EntityIteratorRow(getRowIterator(where));
 		}
@@ -265,8 +270,12 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	protected List<String> getFieldNames(final E entity) throws MapException {
-		return new ArrayList<String>(mapper.map(entity).keySet());
+	protected List<StorageValue> getFieldNames(final E entity) throws MapException {
+		final List<StorageValue> result = new ArrayList<StorageValue>();
+		for (final String f : mapper.map(entity).keySet()) {
+			result.add(new StorageValue(f, encoding));
+		}
+		return result;
 	}
 
 	@Override
@@ -275,7 +284,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
-	public IdentifierIterator<I> getIdentifierIterator(final Map<String, String> where) throws StorageException {
+	public IdentifierIterator<I> getIdentifierIterator(final Map<StorageValue, StorageValue> where) throws StorageException {
 		return new IdentifierIteratorImpl(storageService.keyIterator(getColumnFamily(), where));
 	}
 
@@ -283,23 +292,26 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		return new StorageRowIteratorWithId(storageService.rowIterator(getColumnFamily(), getFieldNames(create())));
 	}
 
-	private StorageRowIterator getRowIterator(final Map<String, String> where) throws StorageException, MapException {
+	private StorageRowIterator getRowIterator(final Map<StorageValue, StorageValue> where) throws StorageException, MapException {
 		return new StorageRowIteratorWithId(storageService.rowIterator(getColumnFamily(), getFieldNames(create()), where));
 	}
 
 	@Override
-	public void load(final E entity, final Collection<String> fieldNames) throws StorageException {
+	public void load(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
 		try {
 			final Map<String, String> data = new HashMap<String, String>();
-			final List<String> values = storageService.get(getColumnFamily(), entity.getId().getId(), new ArrayList<String>(fieldNames));
-			final Iterator<String> fi = fieldNames.iterator();
-			final Iterator<String> vi = values.iterator();
+			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), encoding), new ArrayList<StorageValue>(fieldNames));
+			final Iterator<StorageValue> fi = fieldNames.iterator();
+			final Iterator<StorageValue> vi = values.iterator();
 			while (fi.hasNext() && vi.hasNext()) {
-				data.put(fi.next(), vi.next());
+				data.put(fi.next().getString(), vi.next().getString());
 			}
 			mapper.map(data, entity);
 		}
 		catch (final MapException e) {
+			throw new StorageException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -315,7 +327,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			}
 			final E entity = create();
 			entity.setId(id);
-			final List<String> fieldNames = getFieldNames(entity);
+			final List<StorageValue> fieldNames = getFieldNames(entity);
 			load(entity, fieldNames);
 			return entity;
 		}
@@ -325,13 +337,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	protected E rowToBean(final StorageRow row) throws UnsupportedEncodingException, MapException {
-		final String id = row.getKeyString();
+		final StorageValue id = row.getKey();
 		logger.trace("load - id: " + id);
 		final E entity = create();
-		final Collection<String> columnNames = row.getColumnNames();
+		final Collection<StorageValue> columnNames = row.getColumnNames();
 		final Map<String, String> data = new HashMap<String, String>();
-		for (final String columnName : columnNames) {
-			data.put(columnName, row.getString(columnName));
+		for (final StorageValue columnName : columnNames) {
+			final StorageValue columnValue = row.getValue(columnName);
+			data.put(columnName != null ? columnName.getString() : null, columnValue != null ? columnValue.getString() : null);
 		}
 		mapper.map(data, entity);
 		return entity;
@@ -343,7 +356,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	@Override
-	public void save(final E entity, final Collection<String> fieldNames) throws StorageException {
+	public void save(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
 		if (entity.getId() == null) {
 			throw new StorageException("could not save without identifier");
 		}
@@ -361,17 +374,33 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 
-			final Map<String, String> data;
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			if (fieldNames == null) {
-				data = mapper.map(entity);
+				for (final Entry<String, String> e : mapper.map(entity).entrySet()) {
+					data.put(new StorageValue(e.getKey(), encoding), new StorageValue(e.getValue(), encoding));
+				}
 			}
 			else {
-				data = mapper.map(entity, fieldNames);
+				final List<String> fields = new ArrayList<String>();
+				for (final StorageValue fieldName : fieldNames) {
+					fields.add(fieldName.getString());
+				}
+
+				for (final Entry<String, String> e : mapper.map(entity, fields).entrySet()) {
+					data.put(new StorageValue(e.getKey(), encoding), new StorageValue(e.getValue(), encoding));
+				}
 			}
-			storageService.set(getColumnFamily(), entity.getId().getId(), data);
+			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), encoding), data);
 		}
 		catch (final MapException e) {
-			throw new StorageException("MapException", e);
+			throw new StorageException(e);
 		}
+		catch (final UnsupportedEncodingException e) {
+			throw new StorageException(e);
+		}
+	}
+
+	public String getEncoding() {
+		return encoding;
 	}
 }

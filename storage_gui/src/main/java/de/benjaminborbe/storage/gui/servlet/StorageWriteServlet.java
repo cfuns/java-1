@@ -19,6 +19,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -100,7 +101,7 @@ public class StorageWriteServlet extends StorageHtmlServlet {
 				widgets.add(new BrWidget());
 			}
 			if (columnFamily != null && id != null && key != null && value != null) {
-				persistentStorageService.set(columnFamily, id, key, value);
+				persistentStorageService.set(columnFamily, new StorageValue(id, getEncoding()), new StorageValue(key, getEncoding()), new StorageValue(value, getEncoding()));
 				widgets.add("write");
 			}
 
@@ -109,6 +110,10 @@ public class StorageWriteServlet extends StorageHtmlServlet {
 		catch (final Exception e) {
 			return new ExceptionWidget(e);
 		}
+	}
+
+	private String getEncoding() {
+		return persistentStorageService.getEncoding();
 	}
 
 }

@@ -35,7 +35,7 @@ public class DistributedIndexSearchResultIteratorAdapter implements DistributedI
 	public DistributedIndexSearchResult next() throws DistributedIndexServiceException {
 		try {
 			final StorageColumn storageColumn = storageColumnIterator.next();
-			return distributedIndexSearchResultMapper.fromString(storageColumn.getColumnNameString());
+			return distributedIndexSearchResultMapper.fromString(storageColumn.getColumnName().getString());
 		}
 		catch (final StorageException e) {
 			throw new DistributedIndexServiceException(e);

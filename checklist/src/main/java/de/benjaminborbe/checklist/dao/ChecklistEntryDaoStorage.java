@@ -13,8 +13,8 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class ChecklistEntryDaoStorage extends DaoStorage<ChecklistEntryBean, ChecklistEntryIdentifier> implements ChecklistEntryDao {
@@ -40,7 +40,7 @@ public class ChecklistEntryDaoStorage extends DaoStorage<ChecklistEntryBean, Che
 	@Override
 	public EntityIterator<ChecklistEntryBean> getEntityIteratorForListAndUser(final ChecklistListIdentifier checklistListIdentifier, final UserIdentifier userIdentifier)
 			throws StorageException {
-		return getEntityIterator(new MapChain<String, String>().add(ChecklistEntryBeanMapper.OWNER, String.valueOf(userIdentifier)).add(ChecklistEntryBeanMapper.LIST_ID,
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(ChecklistEntryBeanMapper.OWNER, String.valueOf(userIdentifier)).add(ChecklistEntryBeanMapper.LIST_ID,
 				String.valueOf(checklistListIdentifier)));
 	}
 

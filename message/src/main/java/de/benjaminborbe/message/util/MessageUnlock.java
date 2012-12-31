@@ -1,6 +1,5 @@
 package de.benjaminborbe.message.util;
 
-import java.util.Arrays;
 import java.util.Calendar;
 
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
 public class MessageUnlock {
@@ -33,7 +33,7 @@ public class MessageUnlock {
 						if (messageUtil.isMessageLockExpired(bean)) {
 							bean.setLockName(null);
 							bean.setLockTime(null);
-							messageDao.save(bean, Arrays.asList("lockName", "lockTime"));
+							messageDao.save(bean, new StorageValueList(getEncoding()).add("lockName").add("lockTime"));
 							logger.debug("expired => unlock");
 						}
 						else {
@@ -53,6 +53,7 @@ public class MessageUnlock {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
+
 	}
 
 	private final Logger logger;
@@ -80,5 +81,9 @@ public class MessageUnlock {
 			logger.debug("exchange - skipped");
 			return false;
 		}
+	}
+
+	private String getEncoding() {
+		return messageDao.getEncoding();
 	}
 }

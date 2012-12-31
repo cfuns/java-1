@@ -5,8 +5,11 @@ import java.util.Map;
 
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
+
+	String getEncoding();
 
 	void save(E entity) throws StorageException;
 
@@ -24,12 +27,12 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	IdentifierIterator<I> getIdentifierIterator() throws StorageException;
 
-	IdentifierIterator<I> getIdentifierIterator(Map<String, String> where) throws StorageException;
+	IdentifierIterator<I> getIdentifierIterator(Map<StorageValue, StorageValue> where) throws StorageException;
 
-	EntityIterator<E> getEntityIterator(Map<String, String> where) throws StorageException;
+	EntityIterator<E> getEntityIterator(Map<StorageValue, StorageValue> where) throws StorageException;
 
-	void load(E entity, Collection<String> fieldNames) throws StorageException;
+	void load(E entity, Collection<StorageValue> fieldNames) throws StorageException;
 
-	void save(E entity, Collection<String> fieldNames) throws StorageException;
+	void save(E entity, Collection<StorageValue> fieldNames) throws StorageException;
 
 }

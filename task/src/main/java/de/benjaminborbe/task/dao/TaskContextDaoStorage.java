@@ -16,9 +16,9 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskContextIdentifier> implements TaskContextDao {
@@ -78,7 +78,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 
 	@Override
 	public TaskContextBean findByName(final UserIdentifier userIdentifier, final String taskContextName) throws StorageException, EntityIteratorException {
-		final EntityIterator<TaskContextBean> i = getEntityIterator(new MapChain<String, String>().add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)).add(
+		final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)).add(
 				TaskContextBeanMapper.NAME, taskContextName));
 		while (i.hasNext()) {
 			return i.next();

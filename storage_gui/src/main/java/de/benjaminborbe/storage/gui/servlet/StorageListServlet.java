@@ -42,8 +42,6 @@ public class StorageListServlet extends StorageHtmlServlet {
 
 	private static final String PARAMETER_COLUMNFAMILY = "cf";
 
-	private static final String PARAMETER_PREFIX = "prefix";
-
 	private static final String TITLE = "Storage - List";
 
 	private final Logger logger;
@@ -76,23 +74,16 @@ public class StorageListServlet extends StorageHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final String columnFamily = request.getParameter(PARAMETER_COLUMNFAMILY);
-			final String prefix = request.getParameter(PARAMETER_PREFIX);
 			if (columnFamily == null) {
 				widgets.add("parameter " + PARAMETER_COLUMNFAMILY + " missing<br>");
 			}
 			if (columnFamily != null) {
 				widgets.add("value=");
 				widgets.add(new BrWidget());
-				final StorageIterator i;
-				if (prefix != null) {
-					i = persistentStorageService.keyIteratorWithPrefix(columnFamily, prefix);
-				}
-				else {
-					i = persistentStorageService.keyIterator(columnFamily);
-				}
+				final StorageIterator i = persistentStorageService.keyIterator(columnFamily);
 				final List<String> keys = new ArrayList<String>();
 				while (i.hasNext()) {
-					keys.add(i.nextString());
+					keys.add(i.next().getString());
 				}
 				Collections.sort(keys);
 				widgets.add(new PreWidget(StringUtils.join(keys, "\n")));

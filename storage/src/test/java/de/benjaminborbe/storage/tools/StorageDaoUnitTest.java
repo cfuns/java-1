@@ -16,6 +16,7 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
@@ -27,9 +28,9 @@ public class StorageDaoUnitTest {
 	public void testFields() throws Exception {
 		final StorageTestDao dao = getDao();
 		final TestBean entity = dao.create();
-		final List<String> fieldNames = dao.getFieldNames(entity);
+		final List<StorageValue> fieldNames = dao.getFieldNames(entity);
 		assertNotNull(fieldNames);
-		Collections.sort(fieldNames);
+		Collections.sort(fieldNames, new StorageValueComparator());
 		assertEquals(2, fieldNames.size());
 		assertEquals("id", fieldNames.get(0));
 		assertEquals("name", fieldNames.get(1));

@@ -27,6 +27,7 @@ import org.apache.thrift.TException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageRowIteratorWhere implements StorageRowIterator {
 
@@ -54,19 +55,19 @@ public class StorageRowIteratorWhere implements StorageRowIterator {
 			final String keySpace,
 			final String columnFamily,
 			final String encoding,
-			final List<String> columnNames,
-			final Map<String, String> where) throws UnsupportedEncodingException {
+			final List<StorageValue> columnNames,
+			final Map<StorageValue, StorageValue> where) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);
 		this.encoding = encoding;
 
 		index_clause = new IndexClause();
-		for (final Entry<String, String> e : where.entrySet()) {
+		for (final Entry<StorageValue, StorageValue> e : where.entrySet()) {
 
-			final ByteBuffer column_name = ByteBuffer.wrap(e.getKey().getBytes(encoding));
+			final ByteBuffer column_name = ByteBuffer.wrap(e.getKey().getByte());
 			final IndexOperator op = IndexOperator.EQ;
-			final ByteBuffer value = ByteBuffer.wrap(e.getValue().getBytes(encoding));
+			final ByteBuffer value = ByteBuffer.wrap(e.getValue().getByte());
 			final IndexExpression indexExpression = new IndexExpression(column_name, op, value);
 			index_clause.addToExpressions(indexExpression);
 		}
@@ -118,10 +119,10 @@ public class StorageRowIteratorWhere implements StorageRowIterator {
 		}
 	}
 
-	private List<ByteBuffer> buildColumnNames(final List<String> columnNames) throws UnsupportedEncodingException {
+	private List<ByteBuffer> buildColumnNames(final List<StorageValue> columnNames) throws UnsupportedEncodingException {
 		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
-		for (final String columnName : columnNames) {
-			result.add(ByteBuffer.wrap(columnName.getBytes(encoding)));
+		for (final StorageValue columnName : columnNames) {
+			result.add(ByteBuffer.wrap(columnName.getByte()));
 		}
 		return result;
 	}
@@ -132,20 +133,19 @@ public class StorageRowIteratorWhere implements StorageRowIterator {
 			if (hasNext()) {
 				final KeySlice keySlice = cols.get(currentPos);
 				index_clause.setStart_key(keySlice.getKey());
-				final Map<String, byte[]> data = new HashMap<String, byte[]>();
+				final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 				for (final ColumnOrSuperColumn c : keySlice.getColumns()) {
 					final Column column = c.getColumn();
-					data.put(new String(column.getName(), encoding), column.getValue());
+					data.put(new StorageValue(column.getName(), encoding), new StorageValue(column.getValue(), encoding));
 				}
 				currentPos++;
-				return new StorageRowImpl(encoding, keySlice.getKey(), data);
+				return new StorageRowImpl(new StorageValue(keySlice.getKey(), encoding), data);
 			}
 			else {
 				throw new NoSuchElementException();
 			}
 		}
-		catch (final UnsupportedEncodingException e) {
-			throw new StorageException(e);
+		finally {
 		}
 	}
 }

@@ -15,8 +15,8 @@ import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier> implements MessageDao {
@@ -53,12 +53,12 @@ public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier
 
 	@Override
 	public EntityIterator<MessageBean> getEntityIteratorForUser(final String type) throws StorageException {
-		return getEntityIterator(new MapChain<String, String>().add(MessageBeanMapper.TYPE, type));
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(MessageBeanMapper.TYPE, type));
 	}
 
 	@Override
 	public IdentifierIterator<MessageIdentifier> getIdentifierIteratorForUser(final String type) throws StorageException {
-		return getIdentifierIterator(new MapChain<String, String>().add(MessageBeanMapper.TYPE, type));
+		return getIdentifierIterator(new StorageValueMap(getEncoding()).add(MessageBeanMapper.TYPE, type));
 	}
 
 	@Override

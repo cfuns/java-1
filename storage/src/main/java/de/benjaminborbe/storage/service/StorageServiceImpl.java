@@ -1,7 +1,6 @@
 package de.benjaminborbe.storage.service;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
@@ -29,55 +29,6 @@ import de.benjaminborbe.tools.util.DurationUtil;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
-
-	private final class StorageIteratorPrefix implements StorageIterator {
-
-		private final String idPrefix;
-
-		private final StorageIterator i;
-
-		private String nextString = null;
-
-		private StorageIteratorPrefix(final String idPrefix, final StorageIterator i) {
-			this.idPrefix = idPrefix;
-			this.i = i;
-		}
-
-		@Override
-		public boolean hasNext() throws StorageException {
-			if (nextString != null) {
-				return true;
-			}
-			while (i.hasNext()) {
-				final String id = i.nextString();
-				if (id.startsWith(idPrefix)) {
-					nextString = id;
-					return true;
-				}
-			}
-			return false;
-		}
-
-		@Override
-		public byte[] nextByte() throws StorageException {
-			try {
-				return nextString().getBytes("UTF-8");
-			}
-			catch (final UnsupportedEncodingException e) {
-				throw new StorageException(e);
-			}
-		}
-
-		@Override
-		public String nextString() throws StorageException {
-			if (hasNext()) {
-				final String result = nextString;
-				nextString = null;
-				return result;
-			}
-			return null;
-		}
-	}
 
 	private final StorageConfig config;
 
@@ -112,7 +63,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public String get(final String columnFamily, final String id, final String key) throws StorageException {
+	public StorageValue get(final String columnFamily, final StorageValue id, final StorageValue key) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, key);
@@ -130,7 +81,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public Map<String, String> get(final String columnFamily, final String id) throws StorageException {
+	public Map<StorageValue, StorageValue> get(final String columnFamily, final StorageValue id) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id);
@@ -148,7 +99,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void delete(final String columnFamily, final String id, final String key) throws StorageException {
+	public void delete(final String columnFamily, final StorageValue id, final StorageValue key) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			delete(columnFamily, id, Arrays.asList(key));
@@ -159,10 +110,10 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void set(final String columnFamily, final String id, final String key, final String value) throws StorageException {
+	public void set(final String columnFamily, final StorageValue id, final StorageValue key, final StorageValue value) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			data.put(key, value);
 			set(columnFamily, id, data);
 		}
@@ -172,29 +123,13 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void set(final String columnFamily, final String id, final Map<String, String> data) throws StorageException {
+	public void set(final String columnFamily, final StorageValue id, final Map<StorageValue, StorageValue> data) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			storageDaoUtil.insert(config.getKeySpace(), columnFamily, id, data);
 		}
 		catch (final Exception e) {
 			logger.trace(e.getClass().getSimpleName(), e);
-			throw new StorageException(e);
-		}
-		finally {
-			logger.trace("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public StorageIterator keyIteratorWithPrefix(final String columnFamily, final String idPrefix) throws StorageException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			final StorageIterator i = storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
-			return new StorageIteratorPrefix(idPrefix, i);
-		}
-		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -218,7 +153,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageIterator keyIterator(final String columnFamily, final Map<String, String> where) throws StorageException {
+	public StorageIterator keyIterator(final String columnFamily, final Map<StorageValue, StorageValue> where) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily, where);
@@ -232,10 +167,10 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void delete(final String columnFamily, final String id, final Collection<String> keys) throws StorageException {
+	public void delete(final String columnFamily, final StorageValue id, final Collection<StorageValue> keys) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			for (final String key : keys) {
+			for (final StorageValue key : keys) {
 				try {
 					storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
 				}
@@ -254,7 +189,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void delete(final String columnFamily, final String id) throws StorageException {
+	public void delete(final String columnFamily, final StorageValue id) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id);
@@ -268,7 +203,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public List<String> get(final String columnFamily, final String id, final List<String> keys) throws StorageException {
+	public List<StorageValue> get(final String columnFamily, final StorageValue id, final List<StorageValue> keys) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, keys);
@@ -319,7 +254,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames) throws StorageException {
+	public StorageRowIterator rowIterator(final String columnFamily, final List<StorageValue> columnNames) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames);
@@ -334,10 +269,10 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageRowIterator rowIterator(final String columnFamily, final List<String> columnNames, final Map<String, String> where) throws StorageException {
+	public StorageRowIterator rowIterator(final String columnFamily, final List<StorageValue> columnNames, final Map<StorageValue, StorageValue> where) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			return storageDaoUtil.rowIterator(config.getKeySpace(), columnNames, columnFamily, where);
+			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames, where);
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);
@@ -397,7 +332,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public long count(final String columnFamily, final String columnName) throws StorageException {
+	public long count(final String columnFamily, final StorageValue columnName) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName);
@@ -412,7 +347,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public long count(final String columnFamily, final String columnName, final String columnValue) throws StorageException {
+	public long count(final String columnFamily, final StorageValue columnName, final StorageValue columnValue) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName, columnValue);
@@ -427,7 +362,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageColumnIterator columnIterator(final String columnFamily, final String key) throws StorageException {
+	public StorageColumnIterator columnIterator(final String columnFamily, final StorageValue key) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.columnIterator(config.getKeySpace(), columnFamily, key);
@@ -439,6 +374,11 @@ public class StorageServiceImpl implements StorageService {
 		finally {
 			logger.trace("duration " + duration.getTime());
 		}
+	}
+
+	@Override
+	public String getEncoding() {
+		return config.getEncoding();
 	}
 
 }

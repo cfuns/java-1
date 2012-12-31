@@ -1,5 +1,6 @@
 package de.benjaminborbe.task.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -262,7 +263,7 @@ public class TaskServiceImpl implements TaskService {
 				final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
 				final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
 				while (i.hasNext()) {
-					contexts.add(createTaskContextIdentifier(i.nextString()));
+					contexts.add(createTaskContextIdentifier(i.next().getString()));
 				}
 				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue(), contexts);
 			}
@@ -278,6 +279,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -488,7 +492,7 @@ public class TaskServiceImpl implements TaskService {
 			final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
 			final List<TaskContext> result = new ArrayList<TaskContext>();
 			while (i.hasNext()) {
-				final String id = i.nextString();
+				final String id = i.next().getString();
 				logger.trace("add taskcontext: " + id);
 				final TaskContextBean taskContextBean = taskContextDao.load(createTaskContextIdentifier(id));
 				if (taskContextBean != null) {
@@ -504,7 +508,9 @@ public class TaskServiceImpl implements TaskService {
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
-
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());

@@ -1,41 +1,27 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
-
 import de.benjaminborbe.storage.api.StorageColumn;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageColumnImpl implements StorageColumn {
 
-	private final String encoding;
+	private final StorageValue name;
 
-	private final byte[] name;
+	private final StorageValue value;
 
-	private final byte[] value;
-
-	public StorageColumnImpl(final String encoding, final byte[] name, final byte[] value) {
-		this.encoding = encoding;
+	public StorageColumnImpl(final StorageValue name, final StorageValue value) {
 		this.name = name;
 		this.value = value;
 	}
 
 	@Override
-	public byte[] getColumnNameByte() {
+	public StorageValue getColumnName() {
 		return name;
 	}
 
 	@Override
-	public String getColumnNameString() throws UnsupportedEncodingException {
-		return new String(name, encoding);
-	}
-
-	@Override
-	public byte[] getColumnValueByte() {
+	public StorageValue getColumnValue() {
 		return value;
-	}
-
-	@Override
-	public String getColumnValueString() throws UnsupportedEncodingException {
-		return new String(value, encoding);
 	}
 
 }

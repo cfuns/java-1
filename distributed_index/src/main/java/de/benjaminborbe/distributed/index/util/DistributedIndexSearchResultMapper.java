@@ -12,6 +12,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 public class DistributedIndexSearchResultMapper implements Mapper<DistributedIndexSearchResult> {
 
 	private static final String SEPERATOR = "_";
+
 	private final ParseUtil parseUtil;
 
 	@Inject

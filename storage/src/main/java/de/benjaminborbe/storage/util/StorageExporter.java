@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
@@ -100,7 +101,7 @@ public class StorageExporter {
 			boolean firstRow = true;
 			final StorageKeyIteratorImpl i = new StorageKeyIteratorImpl(storageConnectionPool, keyspace, columnFamily, "UTF-8");
 			while (i.hasNext()) {
-				final byte[] key = i.nextByte();
+				final StorageValue key = i.next();
 				if (firstRow) {
 					firstRow = false;
 				}
@@ -111,9 +112,9 @@ public class StorageExporter {
 				predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 10000));
 				final ColumnParent column_parent = new ColumnParent();
 				column_parent.setColumn_family(columnFamily);
-				final List<ColumnOrSuperColumn> results = client.get_slice(ByteBuffer.wrap(key), column_parent, predicate, ConsistencyLevel.ONE);
+				final List<ColumnOrSuperColumn> results = client.get_slice(ByteBuffer.wrap(key.getByte()), column_parent, predicate, ConsistencyLevel.ONE);
 				sw.append('"');
-				sw.append(Hex.bytesToHex(key));
+				sw.append(Hex.bytesToHex(key.getByte()));
 				sw.append('"');
 				sw.append(": [");
 				boolean first = true;

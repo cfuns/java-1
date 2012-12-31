@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.map.MapChain;
@@ -68,14 +70,15 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		// leer db
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 
-		final String id = "a";
-		final Map<String, String> data = new HashMap<String, String>();
-		final String key = StorageTestUtil.FIELD_NAME;
-		final String value = "valueA\nvalueB";
+		final StorageValue id = new StorageValue("a", encoding);
+		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
+		final StorageValue value = new StorageValue("valueA\nvalueB", encoding);
 		data.put(key, value);
 		// ein eintrag schreiben
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
@@ -104,17 +107,19 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		final List<String> testValues = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
 				"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7",
 				"8", "9");
 		int counter = 0;
-		for (final String id : testValues) {
+		for (final String idString : testValues) {
+			final StorageValue id = new StorageValue(idString, encoding);
 			counter++;
 
-			final Map<String, String> data = new HashMap<String, String>();
-			final String key = StorageTestUtil.FIELD_NAME;
-			final String value = "valueA";
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+			final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
+			final StorageValue value = new StorageValue("valueA", encoding);
 			data.put(key, value);
 
 			// ein eintrag schreiben
@@ -133,6 +138,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfigMock config = injector.getInstance(StorageConfigMock.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 		final int limit = 10;
 		final int max = 100;
 		config.setReadLimit(limit);
@@ -144,7 +150,7 @@ public class StorageDaoUtilImplIntegrationTest {
 			final String key = StorageTestUtil.FIELD_NAME;
 			data.put(key + "_a", String.valueOf(id));
 			data.put(key + "_b", String.valueOf(id));
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, String.valueOf(id), data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(String.valueOf(id), encoding), c(data, encoding));
 			assertEquals(id, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 		}
 	}
@@ -158,6 +164,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		for (int i = 1; i <= 1000; ++i) {
 			final Map<String, String> data = new HashMap<String, String>();
@@ -167,7 +174,7 @@ public class StorageDaoUtilImplIntegrationTest {
 			final String id = "key" + i;
 
 			// ein eintrag schreiben
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 
 			// nach dem loeschen wieder leer
 			if (i % 1000 == 0) {
@@ -193,6 +200,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		// Connection zur Datenbank oeffnen
 
@@ -202,18 +210,18 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		// insert null
 		data.put(StorageTestUtil.FIELD_NAME, null);
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
+		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
 
 		// insert a
 		data.put(StorageTestUtil.FIELD_NAME, "a");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
-		assertEquals("a", daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
+		assertEquals("a", daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
 
 		// insert null
 		data.put(StorageTestUtil.FIELD_NAME, null);
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
+		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
 	}
 
 	@Test
@@ -225,6 +233,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		// leer db
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
@@ -238,7 +247,7 @@ public class StorageDaoUtilImplIntegrationTest {
 			final String id = "key" + i;
 
 			// ein eintrag schreiben
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 
 		final StorageIterator i = daoUtil.keyIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY);
@@ -246,9 +255,9 @@ public class StorageDaoUtilImplIntegrationTest {
 		int counter = 0;
 		while (i.hasNext()) {
 			counter++;
-			final String key = i.nextString();
+			final StorageValue key = i.next();
 			assertNotNull(key);
-			assertTrue(key.indexOf("key") == 0);
+			assertTrue(key.getString().indexOf("key") == 0);
 		}
 		assertEquals(limit, counter);
 	}
@@ -261,6 +270,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		// leer db
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
@@ -274,7 +284,7 @@ public class StorageDaoUtilImplIntegrationTest {
 			final String id = "keyA" + i;
 
 			// ein eintrag schreiben
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 
 		for (int i = 1; i <= limit; ++i) {
@@ -285,17 +295,18 @@ public class StorageDaoUtilImplIntegrationTest {
 			final String id = "keyB" + i;
 
 			// ein eintrag schreiben
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 
-		final StorageIterator i = daoUtil.keyIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, new MapChain<String, String>().add(StorageTestUtil.FIELD_NAME, "valueA"));
+		final StorageIterator i = daoUtil.keyIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY,
+				new MapChain<StorageValue, StorageValue>().add(c(StorageTestUtil.FIELD_NAME, encoding), c("valueA", encoding)));
 		assertNotNull(i);
 		int counter = 0;
 		while (i.hasNext()) {
 			counter++;
-			final String key = i.nextString();
+			final StorageValue key = i.next();
 			assertNotNull(key);
-			assertTrue(key.indexOf("keyA") == 0);
+			assertTrue(key.getString().indexOf("keyA") == 0);
 		}
 		assertEquals(limit, counter);
 	}
@@ -309,10 +320,10 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
-
-		final String id = "123";
-		final String key = "test";
-		final String value = "Bäm";
+		final String encoding = config.getEncoding();
+		final StorageValue id = c("123", encoding);
+		final StorageValue key = c("test", encoding);
+		final StorageValue value = c("Bäm", encoding);
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key, value);
 		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
 	}
@@ -325,19 +336,20 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
-		final String key = "test";
-		final String value = "Bäm";
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", key, value);
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key, value);
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key, value);
-		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", key));
-		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key));
-		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key));
-		daoUtil.delete(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13");
-		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", key));
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "13", key));
-		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "14", key));
+		final StorageValue key = c("test", encoding);
+		final StorageValue value = c("Bäm", encoding);
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), key, value);
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding), key, value);
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("14", encoding), key, value);
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), key));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding), key));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("14", encoding), key));
+		daoUtil.delete(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), key));
+		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding), key));
+		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("14", encoding), key));
 	}
 
 	@Test
@@ -348,17 +360,18 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "keyA", "valueA");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "keyB", "valueB");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "keyC", "valueC");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyA", encoding), c("valueA", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyB", encoding), c("valueB", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyC", encoding), c("valueC", encoding));
 
-		final Map<String, String> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		final Map<StorageValue, StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
 		assertNotNull(data);
 		assertEquals(3, data.size());
-		assertEquals("valueA", data.get("keyA"));
-		assertEquals("valueB", data.get("keyB"));
-		assertEquals("valueC", data.get("keyC"));
+		assertEquals("valueA", data.get(c("keyA", encoding)).getString());
+		assertEquals("valueB", data.get(c("keyB", encoding)).getString());
+		assertEquals("valueC", data.get(c("keyC", encoding)).getString());
 	}
 
 	@Test
@@ -369,6 +382,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		final int count = 1000;
 		{
@@ -376,13 +390,13 @@ public class StorageDaoUtilImplIntegrationTest {
 			for (int i = 1; i <= count; ++i) {
 				data.put("key" + i, "value" + i);
 			}
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(data, encoding));
 		}
-		final Map<String, String> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		final Map<StorageValue, StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
 		assertNotNull(data);
 		assertEquals(count, data.size());
 		for (int i = 1; i <= count; ++i) {
-			assertEquals("value" + i, data.get("key" + i));
+			assertEquals("value" + i, data.get("key" + i).getString());
 		}
 	}
 
@@ -394,6 +408,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
 		final int limit = 1000;
 		{
@@ -401,15 +416,15 @@ public class StorageDaoUtilImplIntegrationTest {
 			for (int i = 1; i <= limit; ++i) {
 				data.put("key" + i, "value" + i);
 			}
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(data, encoding));
 		}
 		int counter = 0;
-		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
 		while (columnIterator.hasNext()) {
 			final StorageColumn column = columnIterator.next();
 			counter++;
-			assertNotNull(column.getColumnNameString());
-			assertNotNull(column.getColumnValueString());
+			assertNotNull(column.getColumnName().getString());
+			assertNotNull(column.getColumnValue().getString());
 		}
 		assertEquals(limit, counter);
 	}
@@ -423,24 +438,81 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
 
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key04", "value04");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key01", "value01");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key11", "value11");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key02", "value02");
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", "key03", "value03");
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("key04", encoding), c("value04", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("key01", encoding), c("value01", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("key11", encoding), c("value11", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("key02", encoding), c("value02", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("key03", encoding), c("value03", encoding));
 
-		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key01", columnIterator.next().getColumnNameString());
+		assertEquals("key01", columnIterator.next().getColumnName().getString());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key02", columnIterator.next().getColumnNameString());
+		assertEquals("key02", columnIterator.next().getColumnName().getString());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key03", columnIterator.next().getColumnNameString());
+		assertEquals("key03", columnIterator.next().getColumnName().getString());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key04", columnIterator.next().getColumnNameString());
+		assertEquals("key04", columnIterator.next().getColumnName().getString());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key11", columnIterator.next().getColumnNameString());
+		assertEquals("key11", columnIterator.next().getColumnName().getString());
 		assertFalse(columnIterator.hasNext());
 	}
+
+	@Test
+	public void testColumnIteratorByte() throws Exception {
+		if (notFound)
+			return;
+
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
+
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(5), encoding), c(encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(1), encoding), c(encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(11), encoding), c(encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(2), encoding), c(encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(3), encoding), c(encoding));
+
+		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key01", columnIterator.next().getColumnName().getString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key02", columnIterator.next().getColumnName().getString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key03", columnIterator.next().getColumnName().getString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key04", columnIterator.next().getColumnName().getString());
+		assertTrue(columnIterator.hasNext());
+		assertEquals("key11", columnIterator.next().getColumnName().getString());
+		assertFalse(columnIterator.hasNext());
+	}
+
+	private StorageValue c(final String encoding) {
+		return new StorageValue(encoding);
+	}
+
+	private StorageValue c(final byte[] byteArray, final String encoding) {
+		return new StorageValue(byteArray, encoding);
+	}
+
+	private Map<StorageValue, StorageValue> c(final Map<String, String> data, final String encoding) {
+		final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
+		for (final Entry<String, String> e : data.entrySet()) {
+			result.put(c(e.getKey(), encoding), c(e.getValue(), encoding));
+		}
+		return result;
+	}
+
+	private StorageValue c(final String value, final String encoding) {
+		return new StorageValue(value, encoding);
+	}
+
+	private byte[] toByteArray(final int i) {
+		return new byte[] { new Integer(i).byteValue() };
+	}
+
 }

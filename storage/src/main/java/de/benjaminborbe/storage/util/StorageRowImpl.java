@@ -1,48 +1,34 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Map;
 
 import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageRowImpl implements StorageRow {
 
-	private final byte[] key;
+	private final StorageValue key;
 
-	private final Map<String, byte[]> data;
+	private final Map<StorageValue, StorageValue> data;
 
-	private final String encoding;
-
-	public StorageRowImpl(final String encoding, final byte[] key, final Map<String, byte[]> data) {
-		this.encoding = encoding;
+	public StorageRowImpl(final StorageValue key, final Map<StorageValue, StorageValue> data) {
 		this.key = key;
 		this.data = data;
 	}
 
 	@Override
-	public byte[] getKeyByte() {
+	public StorageValue getKey() {
 		return key;
 	}
 
 	@Override
-	public String getKeyString() throws UnsupportedEncodingException {
-		return new String(getKeyByte(), encoding);
-	}
-
-	@Override
-	public byte[] getByte(final String columnName) {
+	public StorageValue getValue(final StorageValue columnName) {
 		return data.get(columnName);
 	}
 
 	@Override
-	public String getString(final String columnName) throws UnsupportedEncodingException {
-		final byte[] v = getByte(columnName);
-		return v != null ? new String(v, encoding) : null;
-	}
-
-	@Override
-	public Collection<String> getColumnNames() {
+	public Collection<StorageValue> getColumnNames() {
 		return data.keySet();
 	}
 

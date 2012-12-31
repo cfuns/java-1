@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,6 +22,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
@@ -70,6 +72,7 @@ public class StorageExporterIntegrationTest {
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 		final IdGeneratorUUID idGeneratorUUID = injector.getInstance(IdGeneratorUUID.class);
 		final StorageExporter exporter = injector.getInstance(StorageExporter.class);
+		final String encoding = config.getEncoding();
 
 		final StringWriter sw = new StringWriter();
 		// leer db
@@ -79,27 +82,27 @@ public class StorageExporterIntegrationTest {
 			final String id = idGeneratorUUID.nextId();
 			final Map<String, String> data = new HashMap<String, String>();
 			data.put("a", "a");
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
 			final Map<String, String> data = new HashMap<String, String>();
 			data.put("a", "b");
 			data.put("b", "b");
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
 			final Map<String, String> data = new HashMap<String, String>();
 			data.put("c", "c");
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
 			final Map<String, String> data = new HashMap<String, String>();
 			data.put("c", "'");
 			data.put("d", "\"");
-			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		exporter.export(sw, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY);
 
@@ -111,4 +114,17 @@ public class StorageExporterIntegrationTest {
 		final JSONObject json = (JSONObject) object;
 		assertEquals(4, json.size());
 	}
+
+	private Map<StorageValue, StorageValue> c(final Map<String, String> data, final String encoding) {
+		final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
+		for (final Entry<String, String> e : data.entrySet()) {
+			result.put(c(e.getKey(), encoding), c(e.getValue(), encoding));
+		}
+		return result;
+	}
+
+	private StorageValue c(final String value, final String encoding) {
+		return new StorageValue(value, encoding);
+	}
+
 }

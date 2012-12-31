@@ -1,6 +1,5 @@
 package de.benjaminborbe.message.util;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.RandomUtil;
@@ -122,7 +122,7 @@ public class MessageConsumerExchanger {
 		if (message.getLockTime() == null) {
 			message.setLockName(lockName);
 			message.setLockTime(calendarUtil.now());
-			messageDao.save(message, Arrays.asList("lockTime", "lockName"));
+			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName"));
 
 			try {
 				Thread.sleep(randomUtil.getRandomized(1000, 100));
@@ -130,17 +130,21 @@ public class MessageConsumerExchanger {
 			catch (final InterruptedException e) {
 			}
 
-			messageDao.load(message, Arrays.asList("lockName"));
+			messageDao.load(message, new StorageValueList(getEncoding()).add("lockName"));
 
 			return lockName.equals(message.getLockName());
 		}
 		else if (lockName.equals(message.getLockName())) {
 			message.setLockTime(calendarUtil.now());
-			messageDao.save(message, Arrays.asList("lockTime"));
+			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime"));
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+
+	private String getEncoding() {
+		return messageDao.getEncoding();
 	}
 }

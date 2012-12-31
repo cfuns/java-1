@@ -1,5 +1,6 @@
 package de.benjaminborbe.authorization.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -378,11 +379,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
 			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
 			while (a.hasNext()) {
-				result.add(new UserIdentifier(a.nextString()));
+				result.add(new UserIdentifier(a.next().getString()));
 			}
 			return result;
 		}
 		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {

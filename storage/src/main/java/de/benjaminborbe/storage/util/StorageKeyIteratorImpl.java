@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,6 +18,7 @@ import org.apache.thrift.TException;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageKeyIteratorImpl implements StorageIterator {
 
@@ -98,25 +98,16 @@ public class StorageKeyIteratorImpl implements StorageIterator {
 	}
 
 	@Override
-	public byte[] nextByte() throws StorageException {
+	public StorageValue next() throws StorageException {
 		if (hasNext()) {
 			final byte[] result = cols.get(currentPos).getKey();
 			range.setStart_key(result);
 			currentPos++;
-			return result;
+			return new StorageValue(result, encoding);
 		}
 		else {
 			throw new NoSuchElementException();
 		}
 	}
 
-	@Override
-	public String nextString() throws StorageException {
-		try {
-			return new String(nextByte(), encoding);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new StorageException(e);
-		}
-	}
 }

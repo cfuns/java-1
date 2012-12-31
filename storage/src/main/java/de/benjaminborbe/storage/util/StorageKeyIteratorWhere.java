@@ -23,6 +23,7 @@ import org.apache.thrift.TException;
 
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageKeyIteratorWhere implements StorageIterator {
 
@@ -50,18 +51,18 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 			final String keySpace,
 			final String columnFamily,
 			final String encoding,
-			final Map<String, String> where) throws UnsupportedEncodingException {
+			final Map<StorageValue, StorageValue> where) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);
 		this.encoding = encoding;
 
 		index_clause = new IndexClause();
-		for (final Entry<String, String> e : where.entrySet()) {
+		for (final Entry<StorageValue, StorageValue> e : where.entrySet()) {
 
-			final ByteBuffer column_name = ByteBuffer.wrap(e.getKey().getBytes(encoding));
+			final ByteBuffer column_name = ByteBuffer.wrap(e.getKey().getByte());
 			final IndexOperator op = IndexOperator.EQ;
-			final ByteBuffer value = ByteBuffer.wrap(e.getValue().getBytes(encoding));
+			final ByteBuffer value = ByteBuffer.wrap(e.getValue().getByte());
 			final IndexExpression indexExpression = new IndexExpression(column_name, op, value);
 			index_clause.addToExpressions(indexExpression);
 		}
@@ -114,25 +115,16 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 	}
 
 	@Override
-	public byte[] nextByte() throws StorageException {
+	public StorageValue next() throws StorageException {
 		if (hasNext()) {
 			final byte[] result = cols.get(currentPos).getKey();
 			index_clause.setStart_key(result);
 			currentPos++;
-			return result;
+			return new StorageValue(result, encoding);
 		}
 		else {
 			throw new NoSuchElementException();
 		}
 	}
 
-	@Override
-	public String nextString() throws StorageException {
-		try {
-			return new String(nextByte(), encoding);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new StorageException(e);
-		}
-	}
 }

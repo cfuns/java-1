@@ -21,6 +21,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -70,24 +71,25 @@ public class StorageRowIteratorImplIntegrationTest {
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 		final StorageConnectionPool storageConnectionPool = injector.getInstance(StorageConnectionPool.class);
 
+		final String encoding = config.getEncoding();
 		// leer db
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 
-		final String id = "a";
-		final Map<String, String> data = new HashMap<String, String>();
-		final String key = StorageTestUtil.FIELD_NAME;
-		final String value = "value";
+		final StorageValue id = new StorageValue("a", encoding);
+		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
+		final StorageValue value = new StorageValue("value", encoding);
 		data.put(key, value);
 		// ein eintrag schreiben
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
 
-		final List<String> columnNames = Arrays.asList(StorageTestUtil.FIELD_NAME);
+		final List<StorageValue> columnNames = Arrays.asList(new StorageValue(StorageTestUtil.FIELD_NAME, encoding));
 
-		final StorageRowIteratorImpl i = new StorageRowIteratorImpl(storageConnectionPool, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, config.getEncoding(), columnNames);
+		final StorageRowIteratorImpl i = new StorageRowIteratorImpl(storageConnectionPool, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, encoding, columnNames);
 		assertTrue(i.hasNext());
 		final StorageRow row = i.next();
-		assertEquals(id, row.getKeyString());
-		assertEquals(value, row.getString(key));
+		assertEquals(id, row.getKey());
+		assertEquals(value, row.getValue(key));
 		assertFalse(i.hasNext());
 	}
 }

@@ -1,6 +1,6 @@
 package de.benjaminborbe.worktime.util;
 
-import java.util.Arrays;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,9 +15,11 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.storage.tools.StorageValueList;
+import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
@@ -62,7 +64,12 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 		final String dateTimeString = calendarUtil.toDateTimeString(worktimeValue.getDate());
 		final String dateString = calendarUtil.toDateString(worktimeValue.getDate());
 		final String inOffice = String.valueOf(worktimeValue.getInOffice());
-		storageService.set(COLUMNFAMILY, dateTimeString, new MapChain<String, String>().add(FIELD_IN_OFFICE, inOffice).add(FIELD_DATETIME, dateTimeString).add(FIELD_DATE, dateString));
+		storageService.set(COLUMNFAMILY, new StorageValue(dateTimeString, getEncoding()),
+				new StorageValueMap(getEncoding()).add(FIELD_IN_OFFICE, inOffice).add(FIELD_DATETIME, dateTimeString).add(FIELD_DATE, dateString));
+	}
+
+	private String getEncoding() {
+		return storageService.getEncoding();
 	}
 
 	@Override
@@ -70,17 +77,20 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 		logger.trace("findByDate");
 		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
 		final String dateString = calendarUtil.toDateString(calendar);
-		final StorageIterator i = storageService.keyIterator(COLUMNFAMILY, new MapChain<String, String>().add(FIELD_DATE, dateString));
+		final StorageIterator i = storageService.keyIterator(COLUMNFAMILY, new StorageValueMap(getEncoding()).add(FIELD_DATE, dateString));
 		while (i.hasNext()) {
 			try {
-				final String id = i.nextString();
-				final List<String> list = storageService.get(COLUMNFAMILY, id, Arrays.asList(FIELD_IN_OFFICE, FIELD_DATETIME));
-				final String inOfficeString = list.get(0);
-				final String dateTimeString = list.get(1);
+				final StorageValue id = i.next();
+				final List<StorageValue> list = storageService.get(COLUMNFAMILY, id, new StorageValueList(getEncoding()).add(FIELD_IN_OFFICE).add(FIELD_DATETIME));
+				final String inOfficeString = list.get(0).getString();
+				final String dateTimeString = list.get(1).getString();
 				result.add(new WorktimeValueImpl(calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), dateTimeString), parseUtil.parseBoolean(inOfficeString)));
 			}
 			catch (final ParseException e) {
-				logger.error("ParseException", e);
+				logger.error(e.getClass().getName(), e);
+			}
+			catch (final UnsupportedEncodingException e) {
+				logger.error(e.getClass().getName(), e);
 			}
 		}
 		logger.trace("found " + result.size() + " worktimeValues");

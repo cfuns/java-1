@@ -6,25 +6,27 @@ import java.util.Map;
 
 public interface StorageService {
 
+	String getEncoding();
+
 	void backup() throws StorageException;
 
 	long count(final String columnFamily) throws StorageException;
 
-	long count(final String columnFamily, final String columnName) throws StorageException;
+	long count(final String columnFamily, final StorageValue columnName) throws StorageException;
 
-	long count(final String columnFamily, final String columnName, final String columnValue) throws StorageException;
+	long count(final String columnFamily, final StorageValue columnName, final StorageValue columnValue) throws StorageException;
 
-	void delete(String columnFamily, String key) throws StorageException;
+	void delete(String columnFamily, StorageValue key) throws StorageException;
 
-	void delete(String columnFamily, String key, Collection<String> columnNames) throws StorageException;
+	void delete(String columnFamily, StorageValue key, Collection<StorageValue> columnNames) throws StorageException;
 
-	void delete(String columnFamily, String key, String columnName) throws StorageException;
+	void delete(String columnFamily, StorageValue key, StorageValue columnName) throws StorageException;
 
-	Map<String, String> get(String columnFamily, String key) throws StorageException;
+	Map<StorageValue, StorageValue> get(String columnFamily, StorageValue key) throws StorageException;
 
-	List<String> get(String columnFamily, String key, List<String> columnNames) throws StorageException;
+	List<StorageValue> get(String columnFamily, StorageValue key, List<StorageValue> columnNames) throws StorageException;
 
-	String get(String columnFamily, String key, String columnName) throws StorageException;
+	StorageValue get(String columnFamily, StorageValue key, StorageValue columnName) throws StorageException;
 
 	int getConnections();
 
@@ -32,22 +34,20 @@ public interface StorageService {
 
 	int getMaxConnections();
 
-	StorageColumnIterator columnIterator(String columnFamily, String key) throws StorageException;
+	StorageColumnIterator columnIterator(String columnFamily, StorageValue key) throws StorageException;
 
 	StorageIterator keyIterator(String columnFamily) throws StorageException;
 
-	StorageIterator keyIterator(String columnFamily, Map<String, String> where) throws StorageException;
-
-	StorageIterator keyIteratorWithPrefix(String columnFamily, String prefix) throws StorageException;
+	StorageIterator keyIterator(String columnFamily, Map<StorageValue, StorageValue> where) throws StorageException;
 
 	void restore(String columnfamily, String jsonContent) throws StorageException;
 
-	StorageRowIterator rowIterator(String columnFamily, List<String> columnNames) throws StorageException;
+	StorageRowIterator rowIterator(String columnFamily, List<StorageValue> columnNames) throws StorageException;
 
-	StorageRowIterator rowIterator(String columnFamily, List<String> columnNames, Map<String, String> where) throws StorageException;
+	StorageRowIterator rowIterator(String columnFamily, List<StorageValue> columnNames, Map<StorageValue, StorageValue> where) throws StorageException;
 
-	void set(String columnFamily, String key, Map<String, String> data) throws StorageException;
+	void set(String columnFamily, StorageValue key, Map<StorageValue, StorageValue> data) throws StorageException;
 
-	void set(String columnFamily, String key, String columnName, String columnValue) throws StorageException;
+	void set(String columnFamily, StorageValue key, StorageValue columnName, StorageValue columnValue) throws StorageException;
 
 }
