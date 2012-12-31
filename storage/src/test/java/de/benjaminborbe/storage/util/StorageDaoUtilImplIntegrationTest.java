@@ -21,6 +21,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.storage.api.StorageColumn;
+import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -386,5 +388,33 @@ public class StorageDaoUtilImplIntegrationTest {
 		for (int i = 1; i <= count; ++i) {
 			assertEquals("value" + i, data.get("key" + i));
 		}
+	}
+
+	@Test
+	public void testColumnIterator() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+
+		final int limit = 1000;
+		{
+			final Map<String, String> data = new HashMap<String, String>();
+			for (int i = 1; i <= limit; ++i) {
+				data.put("key" + i, "value" + i);
+			}
+			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12", data);
+		}
+		int counter = 0;
+		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, "12");
+		while (columnIterator.hasNext()) {
+			final StorageColumn column = columnIterator.next();
+			counter++;
+			assertNotNull(column.getColumnNameString());
+			assertNotNull(column.getColumnValueString());
+		}
+		assertEquals(limit, counter);
 	}
 }

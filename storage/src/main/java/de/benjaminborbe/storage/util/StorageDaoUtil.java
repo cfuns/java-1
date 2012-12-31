@@ -11,6 +11,7 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
+import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRowIterator;
@@ -85,5 +86,9 @@ public interface StorageDaoUtil {
 
 	Map<String, String> read(String keySpace, String columnFamily, byte[] id) throws NotFoundException, StorageConnectionPoolException, InvalidRequestException, TException,
 			UnavailableException, TimedOutException, UnsupportedEncodingException;
+
+	StorageColumnIterator columnIterator(String keySpace, String columnFamily, byte[] key);
+
+	StorageColumnIterator columnIterator(String keySpace, String columnFamily, String key) throws UnsupportedEncodingException;
 
 }

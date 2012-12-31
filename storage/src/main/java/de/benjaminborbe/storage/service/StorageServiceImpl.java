@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRowIterator;
@@ -415,6 +416,21 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName, columnValue);
+		}
+		catch (final Exception e) {
+			logger.trace("Exception", e);
+			throw new StorageException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public StorageColumnIterator columnIterator(final String columnFamily, final String key) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.columnIterator(config.getKeySpace(), columnFamily, key);
 		}
 		catch (final Exception e) {
 			logger.trace("Exception", e);

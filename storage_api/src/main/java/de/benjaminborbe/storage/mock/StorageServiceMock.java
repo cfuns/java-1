@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRow;
@@ -354,5 +355,10 @@ public class StorageServiceMock implements StorageService {
 		if (cfData == null)
 			return null;
 		return cfData.get(key);
+	}
+
+	@Override
+	public StorageColumnIterator columnIterator(final String columnFamily, final String key) throws StorageException {
+		throw new NotImplementedException();
 	}
 }

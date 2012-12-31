@@ -32,6 +32,8 @@ public interface StorageService {
 
 	int getMaxConnections();
 
+	StorageColumnIterator columnIterator(String columnFamily, String key) throws StorageException;
+
 	StorageIterator keyIterator(String columnFamily) throws StorageException;
 
 	StorageIterator keyIterator(String columnFamily, Map<String, String> where) throws StorageException;

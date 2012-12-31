@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRow;
@@ -362,5 +363,15 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
+	}
+
+	@Override
+	public StorageColumnIterator columnIterator(final String keySpace, final String columnFamily, final String key) throws UnsupportedEncodingException {
+		return columnIterator(keySpace, columnFamily, key.getBytes(config.getEncoding()));
+	}
+
+	@Override
+	public StorageColumnIterator columnIterator(final String keySpace, final String columnFamily, final byte[] key) {
+		return new StorageColumnIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), key);
 	}
 }

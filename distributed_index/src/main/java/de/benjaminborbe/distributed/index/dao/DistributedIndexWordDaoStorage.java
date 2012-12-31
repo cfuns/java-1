@@ -42,7 +42,8 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 		return rating + "_" + id;
 	}
 
-	public DistributedIndexSearchResultIterator search(final String word) {
+	public DistributedIndexSearchResultIterator search(final String word) throws StorageException {
+		storageService.columnIterator(COLUMN_FAMILY, word);
 		return null;
 	}
 }
