@@ -5,7 +5,7 @@ import java.util.Map;
 import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 
-public class DistributedIndexBean implements Entity<DistributedIndexIdentifier> {
+public class DistributedIndexEntryBean implements Entity<DistributedIndexIdentifier> {
 
 	private static final long serialVersionUID = -921428835583316483L;
 

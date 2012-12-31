@@ -13,8 +13,8 @@ import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
-import de.benjaminborbe.distributed.index.dao.DistributedIndexBean;
-import de.benjaminborbe.distributed.index.dao.DistributedIndexDao;
+import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryBean;
+import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryDao;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
@@ -22,10 +22,10 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 
 	private final Logger logger;
 
-	private final DistributedIndexDao distributedIndexDao;
+	private final DistributedIndexEntryDao distributedIndexDao;
 
 	@Inject
-	public DistributedIndexServiceImpl(final Logger logger, final DistributedIndexDao distributedIndexDao) {
+	public DistributedIndexServiceImpl(final Logger logger, final DistributedIndexEntryDao distributedIndexDao) {
 		this.logger = logger;
 		this.distributedIndexDao = distributedIndexDao;
 	}
@@ -34,7 +34,7 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	public void add(final DistributedIndexIdentifier id, final Map<String, Integer> data) throws DistributedIndexServiceException {
 		try {
 			logger.debug("add - id: " + id);
-			final DistributedIndexBean bean = distributedIndexDao.create();
+			final DistributedIndexEntryBean bean = distributedIndexDao.create();
 			bean.setId(id);
 			bean.setData(data);
 			distributedIndexDao.save(bean);
