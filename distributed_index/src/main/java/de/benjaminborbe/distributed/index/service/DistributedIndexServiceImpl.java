@@ -15,6 +15,7 @@ import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryBean;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryDao;
+import de.benjaminborbe.distributed.index.dao.DistributedIndexWordDao;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
@@ -24,10 +25,13 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 
 	private final DistributedIndexEntryDao distributedIndexDao;
 
+	private final DistributedIndexWordDao distributedIndexWordDao;
+
 	@Inject
-	public DistributedIndexServiceImpl(final Logger logger, final DistributedIndexEntryDao distributedIndexDao) {
+	public DistributedIndexServiceImpl(final Logger logger, final DistributedIndexEntryDao distributedIndexDao, final DistributedIndexWordDao distributedIndexWordDao) {
 		this.logger = logger;
 		this.distributedIndexDao = distributedIndexDao;
+		this.distributedIndexWordDao = distributedIndexWordDao;
 	}
 
 	@Override
@@ -59,8 +63,7 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	public DistributedIndexSearchResultIterator search(final Collection<String> words) throws DistributedIndexServiceException {
 		try {
 			logger.debug("search - words: " + StringUtils.join(words, ','));
-			distributedIndexDao.create();
-			return null;
+			return distributedIndexWordDao.search(words.iterator().next());
 		}
 		catch (final StorageException e) {
 			throw new DistributedIndexServiceException(e);

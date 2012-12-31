@@ -359,6 +359,6 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public StorageColumnIterator columnIterator(final String columnFamily, final String key) throws StorageException {
-		throw new NotImplementedException();
+		return new StorageColumnIteratorMock(get(columnFamily, key));
 	}
 }
