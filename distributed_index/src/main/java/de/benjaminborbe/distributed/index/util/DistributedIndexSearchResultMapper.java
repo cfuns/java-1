@@ -11,6 +11,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class DistributedIndexSearchResultMapper implements Mapper<DistributedIndexSearchResult> {
 
+	private static final String SEPERATOR = "_";
 	private final ParseUtil parseUtil;
 
 	@Inject
@@ -21,7 +22,7 @@ public class DistributedIndexSearchResultMapper implements Mapper<DistributedInd
 	@Override
 	public DistributedIndexSearchResult fromString(final String string) throws MapException {
 		try {
-			final String[] parts = string.split("_", 2);
+			final String[] parts = string.split(SEPERATOR, 2);
 			return new DistributedIndexSearchResultImpl(parseUtil.parseInt(parts[0]), new DistributedIndexIdentifier(parts[1]));
 		}
 		catch (final ParseException e) {
@@ -31,6 +32,6 @@ public class DistributedIndexSearchResultMapper implements Mapper<DistributedInd
 
 	@Override
 	public String toString(final DistributedIndexSearchResult distributedIndexSearchResult) {
-		return distributedIndexSearchResult.getRating() + "_" + distributedIndexSearchResult.getId();
+		return distributedIndexSearchResult.getRating() + SEPERATOR + distributedIndexSearchResult.getId();
 	}
 }
