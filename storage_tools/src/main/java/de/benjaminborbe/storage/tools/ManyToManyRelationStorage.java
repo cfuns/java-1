@@ -1,8 +1,5 @@
 package de.benjaminborbe.storage.tools;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -13,7 +10,6 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.tools.map.MapChain;
 
 public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
 
@@ -40,45 +36,42 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 		}
 	}
 
-	private final StorageValue KEY;
+	private final String KEY = "exists";
 
-	private final StorageValue KEY_A;
+	private final String KEY_A = "key_a";
 
-	private final StorageValue KEY_B;
+	private final String KEY_B = "key_b";
 
-	private final StorageValue VALUE;
+	private final String VALUE = "true";
 
 	private final Logger logger;
 
 	private final StorageService storageService;
 
-	private final String encoding;
-
 	@Inject
 	public ManyToManyRelationStorage(final Logger logger, final StorageService storageService) throws StorageException {
 		this.logger = logger;
 		this.storageService = storageService;
-		this.encoding = storageService.getEncoding();
-		KEY = new StorageValue("exists", encoding);
-		KEY_A = new StorageValue("key_a", encoding);
-		KEY_B = new StorageValue("key_b", encoding);
-		VALUE = new StorageValue("true", encoding);
+	}
+
+	private String getEncoding() {
+		return storageService.getEncoding();
 	}
 
 	protected abstract String getColumnFamily();
 
 	protected StorageValue buildKey(final Identifier<?>... identifiers) {
-		return new StorageValue(StringUtils.join(identifiers, "-"), encoding);
+		return new StorageValue(StringUtils.join(identifiers, "-"), getEncoding());
 	}
 
 	@Override
 	public void add(final A identifierA, final B identifierB) throws StorageException {
 		logger.trace("add " + identifierA + " " + identifierB);
 		final StorageValue id = buildKey(identifierA, identifierB);
-		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
-		data.put(KEY, VALUE);
-		data.put(KEY_A, new StorageValue(String.valueOf(identifierA), encoding));
-		data.put(KEY_B, new StorageValue(String.valueOf(identifierB), encoding));
+		final StorageValueMap data = new StorageValueMap(getEncoding());
+		data.add(KEY, VALUE);
+		data.add(KEY_A, String.valueOf(identifierA));
+		data.add(KEY_B, String.valueOf(identifierB));
 		storageService.set(getColumnFamily(), id, data);
 	}
 
@@ -93,27 +86,24 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 	public boolean exists(final A identifierA, final B identifierB) throws StorageException {
 		logger.trace("exists " + identifierA + " " + identifierB);
 		final StorageValue id = buildKey(identifierA, identifierB);
-		return VALUE.equals(storageService.get(getColumnFamily(), id, KEY));
+		return new StorageValue(VALUE, getEncoding()).equals(storageService.get(getColumnFamily(), id, new StorageValue(KEY, getEncoding())));
 	}
 
 	@Override
 	public StorageIterator getA(final A identifierA) throws StorageException {
-		final StorageIterator i = storageService.keyIterator(getColumnFamily(),
-				new MapChain<StorageValue, StorageValue>().add(KEY_A, new StorageValue(String.valueOf(identifierA), encoding)));
-		return new StorageIdIterator(i, KEY_B);
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new StorageValueMap(getEncoding()).add(KEY_A, String.valueOf(identifierA)));
+		return new StorageIdIterator(i, new StorageValue(KEY_B, getEncoding()));
 	}
 
 	@Override
 	public StorageIterator getB(final B identifierB) throws StorageException {
-		final StorageIterator i = storageService.keyIterator(getColumnFamily(),
-				new MapChain<StorageValue, StorageValue>().add(KEY_B, new StorageValue(String.valueOf(identifierB), encoding)));
-		return new StorageIdIterator(i, KEY_A);
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new StorageValueMap(getEncoding()).add(KEY_B, String.valueOf(identifierB)));
+		return new StorageIdIterator(i, new StorageValue(KEY_A, getEncoding()));
 	}
 
 	@Override
 	public void removeA(final A identifierA) throws StorageException {
-		final StorageIterator i = storageService.keyIterator(getColumnFamily(),
-				new MapChain<StorageValue, StorageValue>().add(KEY_A, new StorageValue(String.valueOf(identifierA), encoding)));
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new StorageValueMap(getEncoding()).add(KEY_A, String.valueOf(identifierA)));
 		while (i.hasNext()) {
 			delete(i.next());
 		}
@@ -121,8 +111,7 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	@Override
 	public void removeB(final B identifierB) throws StorageException {
-		final StorageIterator i = storageService.keyIterator(getColumnFamily(),
-				new MapChain<StorageValue, StorageValue>().add(KEY_B, new StorageValue(String.valueOf(identifierB), encoding)));
+		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new StorageValueMap(getEncoding()).add(KEY_B, String.valueOf(identifierB)));
 		while (i.hasNext()) {
 			delete(i.next());
 		}
