@@ -2,6 +2,10 @@ package de.benjaminborbe.distributed.index.util;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 
 import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
@@ -43,5 +47,25 @@ public class DistributedIndexSearchResultMapperUnitTest {
 			assertEquals(pageId, object.getId().getId());
 			assertEquals(rating, object.getRating());
 		}
+	}
+
+	@Test
+	public void testOrder() throws Exception {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final DistributedIndexSearchResultMapper mapper = new DistributedIndexSearchResultMapper(parseUtil);
+
+		final List<String> columnNames = new ArrayList<String>();
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(0, new DistributedIndexIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(10, new DistributedIndexIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(200, new DistributedIndexIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(Integer.MAX_VALUE, new DistributedIndexIdentifier("a"))));
+
+		Collections.sort(columnNames);
+
+		assertEquals(new Integer(Integer.MAX_VALUE), mapper.fromString(columnNames.get(0)).getRating());
+		assertEquals(new Integer(200), mapper.fromString(columnNames.get(1)).getRating());
+		assertEquals(new Integer(10), mapper.fromString(columnNames.get(2)).getRating());
+		assertEquals(new Integer(0), mapper.fromString(columnNames.get(3)).getRating());
+
 	}
 }

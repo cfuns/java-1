@@ -1,6 +1,11 @@
 package de.benjaminborbe.storage.mock;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -8,9 +13,22 @@ import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.tools.util.EmptyIterator;
+import de.benjaminborbe.tools.util.ComparatorBase;
 
 public class StorageColumnIteratorMock implements StorageColumnIterator {
+
+	private final class StorageColumnComparator extends ComparatorBase<StorageColumn, String> implements Comparator<StorageColumn> {
+
+		@Override
+		public String getValue(final StorageColumn o) {
+			try {
+				return o.getColumnName() != null ? o.getColumnName().getString() : null;
+			}
+			catch (final UnsupportedEncodingException e) {
+				return null;
+			}
+		}
+	}
 
 	private final class StorageColumnImpl implements StorageColumn {
 
@@ -35,15 +53,17 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 	}
 
-	private final Iterator<Entry<StorageValue, StorageValue>> i;
+	private final Iterator<StorageColumn> i;
 
 	public StorageColumnIteratorMock(final Map<StorageValue, StorageValue> data) {
+		final List<StorageColumn> columns = new ArrayList<StorageColumn>();
 		if (data != null) {
-			i = data.entrySet().iterator();
+			for (final Entry<StorageValue, StorageValue> e : data.entrySet()) {
+				columns.add(new StorageColumnImpl(e.getKey(), e.getValue()));
+			}
 		}
-		else {
-			i = new EmptyIterator<Map.Entry<StorageValue, StorageValue>>();
-		}
+		Collections.sort(columns, new StorageColumnComparator());
+		i = columns.iterator();
 	}
 
 	@Override
@@ -53,8 +73,7 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 	@Override
 	public StorageColumn next() throws StorageException {
-		final Entry<StorageValue, StorageValue> next = i.next();
-		return new StorageColumnImpl(next.getKey(), next.getValue());
+		return i.next();
 	}
 
 }

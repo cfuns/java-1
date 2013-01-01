@@ -24,7 +24,7 @@ public class DistributedIndexSearchResultMapper implements Mapper<DistributedInd
 	public DistributedIndexSearchResult fromString(final String string) throws MapException {
 		try {
 			final String[] parts = string.split(SEPERATOR, 2);
-			return new DistributedIndexSearchResultImpl(parseUtil.parseInt(parts[0]), new DistributedIndexIdentifier(parts[1]));
+			return new DistributedIndexSearchResultImpl(Integer.MAX_VALUE - parseUtil.parseInt(parts[0]), new DistributedIndexIdentifier(parts[1]));
 		}
 		catch (final ParseException e) {
 			throw new MapException(e);
@@ -33,6 +33,6 @@ public class DistributedIndexSearchResultMapper implements Mapper<DistributedInd
 
 	@Override
 	public String toString(final DistributedIndexSearchResult distributedIndexSearchResult) {
-		return distributedIndexSearchResult.getRating() + SEPERATOR + distributedIndexSearchResult.getId();
+		return String.format("%010d", Integer.MAX_VALUE - distributedIndexSearchResult.getRating()) + SEPERATOR + distributedIndexSearchResult.getId();
 	}
 }

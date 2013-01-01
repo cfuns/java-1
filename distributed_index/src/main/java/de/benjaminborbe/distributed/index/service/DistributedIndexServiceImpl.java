@@ -63,6 +63,7 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	public DistributedIndexSearchResultIterator search(final Collection<String> words) throws DistributedIndexServiceException {
 		try {
 			logger.debug("search - words: " + StringUtils.join(words, ','));
+			// TODO bborbe
 			return distributedIndexWordDao.search(words.iterator().next());
 		}
 		catch (final StorageException e) {
