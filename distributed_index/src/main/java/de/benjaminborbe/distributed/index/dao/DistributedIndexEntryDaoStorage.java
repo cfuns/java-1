@@ -10,7 +10,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
-import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
@@ -42,7 +41,7 @@ public class DistributedIndexEntryDaoStorage implements DistributedIndexEntryDao
 	}
 
 	@Override
-	public DistributedIndexEntryBean load(final DistributedIndexPageIdentifier id) throws StorageException {
+	public DistributedIndexEntryBean load(final DistributedIndexEntryIdentifier id) throws StorageException {
 		try {
 			final Map<String, Integer> data = new HashMap<String, Integer>();
 			final Map<StorageValue, StorageValue> row = storageService.get(COLUMN_FAMILY, new StorageValue(id.getId(), DistributedIndexConstants.ENCODING));
@@ -60,7 +59,7 @@ public class DistributedIndexEntryDaoStorage implements DistributedIndexEntryDao
 	}
 
 	@Override
-	public void remove(final DistributedIndexPageIdentifier id) throws StorageException {
+	public void remove(final DistributedIndexEntryIdentifier id) throws StorageException {
 		final DistributedIndexEntryBean bean = load(id);
 		distributedIndexWordDao.remove(bean);
 		storageService.delete(COLUMN_FAMILY, new StorageValue(id.getId(), DistributedIndexConstants.ENCODING));

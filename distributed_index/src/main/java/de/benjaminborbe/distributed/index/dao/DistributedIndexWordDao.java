@@ -9,6 +9,6 @@ public interface DistributedIndexWordDao {
 
 	void remove(DistributedIndexEntryBean bean) throws StorageException;
 
-	DistributedIndexSearchResultIterator search(String word) throws StorageException;
+	DistributedIndexSearchResultIterator search(DistributedIndexWordIdentifier word) throws StorageException;
 
 }

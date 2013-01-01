@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
-import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.util.DistributedIndexSearchResultImpl;
@@ -31,31 +30,32 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 
 	@Override
 	public void add(final DistributedIndexEntryBean bean) throws StorageException {
-		final DistributedIndexPageIdentifier id = bean.getId();
+		final DistributedIndexEntryIdentifier id = bean.getId();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			final StorageValue columnName = buildColumnName(e.getValue(), id);
 			final StorageValue columnValue = new StorageValue();
-			storageService.set(COLUMN_FAMILY, new StorageValue(e.getKey(), DistributedIndexConstants.ENCODING), columnName, columnValue);
+			storageService.set(COLUMN_FAMILY, new StorageValue(id.getIndex() + DistributedIndexConstants.SEPERATOR + e.getKey(), DistributedIndexConstants.ENCODING), columnName,
+					columnValue);
 		}
 	}
 
 	@Override
 	public void remove(final DistributedIndexEntryBean bean) throws StorageException {
-		final DistributedIndexPageIdentifier id = bean.getId();
+		final DistributedIndexEntryIdentifier id = bean.getId();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			final StorageValue columnName = buildColumnName(e.getValue(), id);
-			storageService.delete(COLUMN_FAMILY, new StorageValue(e.getKey(), DistributedIndexConstants.ENCODING), columnName);
+			storageService.delete(COLUMN_FAMILY, new StorageValue(id.getIndex() + DistributedIndexConstants.SEPERATOR + e.getKey(), DistributedIndexConstants.ENCODING), columnName);
 		}
 	}
 
-	private StorageValue buildColumnName(final Integer rating, final DistributedIndexPageIdentifier id) {
+	private StorageValue buildColumnName(final Integer rating, final DistributedIndexEntryIdentifier id) {
 		final DistributedIndexSearchResult distributedIndexSearchResult = new DistributedIndexSearchResultImpl(rating, id);
 		return new StorageValue(distributedIndexSearchResultMapper.toString(distributedIndexSearchResult), DistributedIndexConstants.ENCODING);
 	}
 
 	@Override
-	public DistributedIndexSearchResultIterator search(final String word) throws StorageException {
-		return new DistributedIndexSearchResultIteratorAdapter(distributedIndexSearchResultMapper, storageService.columnIterator(COLUMN_FAMILY, new StorageValue(word,
-				DistributedIndexConstants.ENCODING)));
+	public DistributedIndexSearchResultIterator search(final DistributedIndexWordIdentifier word) throws StorageException {
+		final StorageValue wordIdentifier = new StorageValue(word.getId(), DistributedIndexConstants.ENCODING);
+		return new DistributedIndexSearchResultIteratorAdapter(distributedIndexSearchResultMapper, storageService.columnIterator(COLUMN_FAMILY, wordIdentifier));
 	}
 }

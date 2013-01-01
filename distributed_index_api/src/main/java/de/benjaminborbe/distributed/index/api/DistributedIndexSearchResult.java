@@ -2,7 +2,9 @@ package de.benjaminborbe.distributed.index.api;
 
 public interface DistributedIndexSearchResult {
 
-	DistributedIndexPageIdentifier getId();
+	String getId();
 
 	Integer getRating();
+
+	String getSpace();
 }

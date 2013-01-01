@@ -3,13 +3,13 @@ package de.benjaminborbe.distributed.index.dao;
 import de.benjaminborbe.api.IdentifierBase;
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
 
-public class DistributedIndexWordIdentifier extends IdentifierBase<String> {
+public class DistributedIndexEntryIdentifier extends IdentifierBase<String> {
 
-	public DistributedIndexWordIdentifier(final String id) {
+	public DistributedIndexEntryIdentifier(final String id) {
 		super(id);
 	}
 
-	public DistributedIndexWordIdentifier(final String index, final String word) {
+	public DistributedIndexEntryIdentifier(final String index, final String word) {
 		this(index + DistributedIndexConstants.SEPERATOR + word);
 	}
 

@@ -9,14 +9,14 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
-import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryBean;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryDao;
+import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryIdentifier;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexWordDao;
+import de.benjaminborbe.distributed.index.dao.DistributedIndexWordIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
@@ -36,11 +36,11 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	}
 
 	@Override
-	public void add(final DistributedIndexIdentifier index, final DistributedIndexPageIdentifier id, final Map<String, Integer> data) throws DistributedIndexServiceException {
+	public void add(final String index, final String id, final Map<String, Integer> data) throws DistributedIndexServiceException {
 		try {
-			logger.debug("add - id: " + id);
+			logger.debug("add - index: " + index + " id: " + id);
 			final DistributedIndexEntryBean bean = distributedIndexDao.create();
-			bean.setId(id);
+			bean.setId(buildId(index, id));
 			bean.setData(data);
 			distributedIndexDao.save(bean);
 		}
@@ -50,26 +50,33 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	}
 
 	@Override
-	public void remove(final DistributedIndexIdentifier index, final DistributedIndexPageIdentifier id) throws DistributedIndexServiceException {
+	public void remove(final String index, final String id) throws DistributedIndexServiceException {
 		try {
-			logger.debug("remove - id: " + id);
-			distributedIndexDao.remove(id);
+			logger.debug("remove - index: " + index + " id: " + id);
+			distributedIndexDao.remove(buildId(index, id));
 		}
 		catch (final StorageException e) {
 			throw new DistributedIndexServiceException(e);
 		}
 	}
 
+	private DistributedIndexEntryIdentifier buildId(final String index, final String id) {
+		return new DistributedIndexEntryIdentifier(index, id);
+	}
+
 	@Override
-	public DistributedIndexSearchResultIterator search(final DistributedIndexIdentifier index, final Collection<String> words) throws DistributedIndexServiceException {
+	public DistributedIndexSearchResultIterator search(final String index, final Collection<String> words) throws DistributedIndexServiceException {
 		try {
-			logger.debug("search - words: " + StringUtils.join(words, ','));
-			// TODO bborbe
-			return distributedIndexWordDao.search(words.iterator().next());
+			logger.debug("search - index: " + index + " words: " + StringUtils.join(words, ','));
+			return distributedIndexWordDao.search(buildWordId(index, words.iterator().next()));
 		}
 		catch (final StorageException e) {
 			throw new DistributedIndexServiceException(e);
 		}
+	}
+
+	private DistributedIndexWordIdentifier buildWordId(final String index, final String word) {
+		return new DistributedIndexWordIdentifier(index, word);
 	}
 
 }

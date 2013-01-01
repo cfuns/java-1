@@ -1,4 +1,4 @@
-package de.benjaminborbe.distributed.index.api;
+package de.benjaminborbe.distributed.index.dao;
 
 import de.benjaminborbe.api.IdentifierBase;
 

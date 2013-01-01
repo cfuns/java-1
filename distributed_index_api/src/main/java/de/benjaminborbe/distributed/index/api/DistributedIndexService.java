@@ -5,9 +5,9 @@ import java.util.Map;
 
 public interface DistributedIndexService {
 
-	void add(DistributedIndexIdentifier index, DistributedIndexPageIdentifier page, Map<String, Integer> data) throws DistributedIndexServiceException;
+	void add(String index, String id, Map<String, Integer> data) throws DistributedIndexServiceException;
 
-	void remove(DistributedIndexIdentifier index, DistributedIndexPageIdentifier page) throws DistributedIndexServiceException;
+	void remove(String index, String id) throws DistributedIndexServiceException;
 
-	DistributedIndexSearchResultIterator search(DistributedIndexIdentifier index, Collection<String> words) throws DistributedIndexServiceException;
+	DistributedIndexSearchResultIterator search(String index, Collection<String> words) throws DistributedIndexServiceException;
 }
