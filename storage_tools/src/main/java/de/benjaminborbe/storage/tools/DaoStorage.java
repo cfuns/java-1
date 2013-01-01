@@ -133,7 +133,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 				while (i.hasNext()) {
 					final StorageRow e = i.next();
-					if (e.getValue(ID_FIELD) != null) {
+					if (e.getValue(new StorageValue(ID_FIELD, getEncoding())) != null) {
 						next = e;
 						return true;
 					}
@@ -157,7 +157,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 	}
 
-	private final StorageValue ID_FIELD;
+	private final String ID_FIELD = "id";
 
 	private final Provider<E> beanProvider;
 
@@ -170,8 +170,6 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	private final MapObjectMapper<E> mapper;
 
 	private final StorageService storageService;
-
-	private final String encoding;
 
 	@Inject
 	public DaoStorage(
@@ -187,8 +185,6 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		this.mapper = mapper;
 		this.identifierBuilder = identifierBuilder;
 		this.calendarUtil = calendarUtil;
-		this.encoding = storageService.getEncoding();
-		ID_FIELD = new StorageValue("id", encoding);
 	}
 
 	public long count() throws StorageException {
@@ -228,7 +224,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public void delete(final E entity) throws StorageException {
 		try {
 			logger.trace("delete");
-			storageService.delete(getColumnFamily(), new StorageValue(entity.getId().getId(), encoding));
+			storageService.delete(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()));
 		}
 		finally {
 		}
@@ -241,11 +237,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public boolean exists(final I id) throws StorageException {
-		return exists(new StorageValue(id.getId(), encoding));
+		return exists(new StorageValue(id.getId(), getEncoding()));
 	}
 
 	private boolean exists(final StorageValue id) throws StorageException {
-		final StorageValue storageValue = storageService.get(getColumnFamily(), id, ID_FIELD);
+		final StorageValue storageValue = storageService.get(getColumnFamily(), id, new StorageValue(ID_FIELD, getEncoding()));
 		return storageValue != null && !storageValue.isEmpty();
 	}
 
@@ -274,7 +270,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	protected List<StorageValue> getFieldNames(final E entity) throws MapException {
 		final List<StorageValue> result = new ArrayList<StorageValue>();
 		for (final String f : mapper.map(entity).keySet()) {
-			result.add(new StorageValue(f, encoding));
+			result.add(new StorageValue(f, getEncoding()));
 		}
 		return result;
 	}
@@ -301,7 +297,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public void load(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
 		try {
 			final Map<String, String> data = new HashMap<String, String>();
-			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), encoding), new ArrayList<StorageValue>(fieldNames));
+			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
 			final Iterator<StorageValue> fi = fieldNames.iterator();
 			final Iterator<StorageValue> vi = values.iterator();
 			while (fi.hasNext() && vi.hasNext()) {
@@ -380,7 +376,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			if (fieldNames == null) {
 				for (final Entry<String, String> e : mapper.map(entity).entrySet()) {
-					data.put(new StorageValue(e.getKey(), encoding), new StorageValue(e.getValue(), encoding));
+					data.put(new StorageValue(e.getKey(), getEncoding()), new StorageValue(e.getValue(), getEncoding()));
 				}
 			}
 			else {
@@ -390,10 +386,10 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 
 				for (final Entry<String, String> e : mapper.map(entity, fields).entrySet()) {
-					data.put(new StorageValue(e.getKey(), encoding), new StorageValue(e.getValue(), encoding));
+					data.put(new StorageValue(e.getKey(), getEncoding()), new StorageValue(e.getValue(), getEncoding()));
 				}
 			}
-			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), encoding), data);
+			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), data);
 		}
 		catch (final MapException e) {
 			throw new StorageException(e);
@@ -405,6 +401,6 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public String getEncoding() {
-		return encoding;
+		return storageService.getEncoding();
 	}
 }

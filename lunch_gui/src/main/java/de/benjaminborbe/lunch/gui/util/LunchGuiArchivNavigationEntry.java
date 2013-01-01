@@ -19,7 +19,7 @@ public class LunchGuiArchivNavigationEntry implements NavigationEntry {
 
 	@Override
 	public String getTitle() {
-		return "Mittagessen Archiv";
+		return "Mittagessen-Archiv";
 	}
 
 	@Override

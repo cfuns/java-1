@@ -20,7 +20,7 @@ public class LunchGuiBookingNavigationEntry implements NavigationEntry {
 
 	@Override
 	public String getTitle() {
-		return "Booking";
+		return "Mittagessen-Buchen";
 	}
 
 	@Override
