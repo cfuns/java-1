@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
+import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
@@ -30,13 +31,16 @@ public class DistributedIndexServiceImplIntegrationTest {
 	public void testSearchSinglePage() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new DistributedIndexModulesMock());
 		final DistributedIndexService distributedIndexService = injector.getInstance(DistributedIndexService.class);
+
+		final DistributedIndexIdentifier index = new DistributedIndexIdentifier("defaultIndex");
+
 		{
-			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(index, Arrays.asList("foo"));
 			assertFalse(iterator.hasNext());
 		}
-		distributedIndexService.add(new DistributedIndexIdentifier("pageA"), new MapChain<String, Integer>().add("foo", 1));
+		distributedIndexService.add(index, new DistributedIndexPageIdentifier("pageA"), new MapChain<String, Integer>().add("foo", 1));
 		{
-			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(index, Arrays.asList("foo"));
 			assertTrue(iterator.hasNext());
 			final DistributedIndexSearchResult result = iterator.next();
 			assertEquals("pageA", result.getId().getId());
@@ -49,16 +53,19 @@ public class DistributedIndexServiceImplIntegrationTest {
 	public void testSearchMultiPages() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new DistributedIndexModulesMock());
 		final DistributedIndexService distributedIndexService = injector.getInstance(DistributedIndexService.class);
+
+		final DistributedIndexIdentifier index = new DistributedIndexIdentifier("defaultIndex");
+
 		{
-			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(index, Arrays.asList("foo"));
 			assertFalse(iterator.hasNext());
 		}
-		distributedIndexService.add(new DistributedIndexIdentifier("pageA"), new MapChain<String, Integer>().add("foo", 1));
-		distributedIndexService.add(new DistributedIndexIdentifier("pageB"), new MapChain<String, Integer>().add("foo", 2).add("bar", 2));
-		distributedIndexService.add(new DistributedIndexIdentifier("pageC"), new MapChain<String, Integer>().add("foo", 3).add("bar", 1));
-		distributedIndexService.add(new DistributedIndexIdentifier("pageD"), new MapChain<String, Integer>().add("foo", 4));
+		distributedIndexService.add(index, new DistributedIndexPageIdentifier("pageA"), new MapChain<String, Integer>().add("foo", 1));
+		distributedIndexService.add(index, new DistributedIndexPageIdentifier("pageB"), new MapChain<String, Integer>().add("foo", 2).add("bar", 2));
+		distributedIndexService.add(index, new DistributedIndexPageIdentifier("pageC"), new MapChain<String, Integer>().add("foo", 3).add("bar", 1));
+		distributedIndexService.add(index, new DistributedIndexPageIdentifier("pageD"), new MapChain<String, Integer>().add("foo", 4));
 		{
-			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(index, Arrays.asList("foo"));
 			{
 				assertTrue(iterator.hasNext());
 				final DistributedIndexSearchResult result = iterator.next();
@@ -89,7 +96,7 @@ public class DistributedIndexServiceImplIntegrationTest {
 		}
 
 		{
-			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("bar"));
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(index, Arrays.asList("bar"));
 			{
 				assertTrue(iterator.hasNext());
 				final DistributedIndexSearchResult result = iterator.next();

@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
-import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
+import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.util.DistributedIndexSearchResultImpl;
@@ -31,7 +31,7 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 
 	@Override
 	public void add(final DistributedIndexEntryBean bean) throws StorageException {
-		final DistributedIndexIdentifier id = bean.getId();
+		final DistributedIndexPageIdentifier id = bean.getId();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			final StorageValue columnName = buildColumnName(e.getValue(), id);
 			final StorageValue columnValue = new StorageValue();
@@ -41,14 +41,14 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 
 	@Override
 	public void remove(final DistributedIndexEntryBean bean) throws StorageException {
-		final DistributedIndexIdentifier id = bean.getId();
+		final DistributedIndexPageIdentifier id = bean.getId();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			final StorageValue columnName = buildColumnName(e.getValue(), id);
 			storageService.delete(COLUMN_FAMILY, new StorageValue(e.getKey(), DistributedIndexConstants.ENCODING), columnName);
 		}
 	}
 
-	private StorageValue buildColumnName(final Integer rating, final DistributedIndexIdentifier id) {
+	private StorageValue buildColumnName(final Integer rating, final DistributedIndexPageIdentifier id) {
 		final DistributedIndexSearchResult distributedIndexSearchResult = new DistributedIndexSearchResultImpl(rating, id);
 		return new StorageValue(distributedIndexSearchResultMapper.toString(distributedIndexSearchResult), DistributedIndexConstants.ENCODING);
 	}

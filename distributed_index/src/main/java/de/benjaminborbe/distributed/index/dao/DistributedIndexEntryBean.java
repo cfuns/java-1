@@ -2,24 +2,24 @@ package de.benjaminborbe.distributed.index.dao;
 
 import java.util.Map;
 
-import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
+import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 
-public class DistributedIndexEntryBean implements Entity<DistributedIndexIdentifier> {
+public class DistributedIndexEntryBean implements Entity<DistributedIndexPageIdentifier> {
 
 	private static final long serialVersionUID = -921428835583316483L;
 
-	private DistributedIndexIdentifier id;
+	private DistributedIndexPageIdentifier id;
 
 	private Map<String, Integer> data;
 
 	@Override
-	public DistributedIndexIdentifier getId() {
+	public DistributedIndexPageIdentifier getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(final DistributedIndexIdentifier id) {
+	public void setId(final DistributedIndexPageIdentifier id) {
 		this.id = id;
 	}
 

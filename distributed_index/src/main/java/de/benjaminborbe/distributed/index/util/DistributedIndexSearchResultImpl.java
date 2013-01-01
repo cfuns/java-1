@@ -1,21 +1,21 @@
 package de.benjaminborbe.distributed.index.util;
 
-import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
+import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 
 public class DistributedIndexSearchResultImpl implements DistributedIndexSearchResult {
 
 	private final Integer rating;
 
-	private final DistributedIndexIdentifier id;
+	private final DistributedIndexPageIdentifier id;
 
-	public DistributedIndexSearchResultImpl(final Integer rating, final DistributedIndexIdentifier id) {
+	public DistributedIndexSearchResultImpl(final Integer rating, final DistributedIndexPageIdentifier id) {
 		this.rating = rating;
 		this.id = id;
 	}
 
 	@Override
-	public DistributedIndexIdentifier getId() {
+	public DistributedIndexPageIdentifier getId() {
 		return id;
 	}
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.benjaminborbe.distributed.index.api.DistributedIndexIdentifier;
+import de.benjaminborbe.distributed.index.api.DistributedIndexPageIdentifier;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
@@ -23,7 +23,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 		{
 			final String pageId = "1337";
 			final Integer rating = 5;
-			final String columnName = mapper.toString(new DistributedIndexSearchResultImpl(rating, new DistributedIndexIdentifier(pageId)));
+			final String columnName = mapper.toString(new DistributedIndexSearchResultImpl(rating, new DistributedIndexPageIdentifier(pageId)));
 			assertNotNull(columnName);
 			final DistributedIndexSearchResult object = mapper.fromString(columnName);
 			assertEquals(pageId, object.getId().getId());
@@ -32,7 +32,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 		{
 			final String pageId = "42";
 			final Integer rating = Integer.MAX_VALUE;
-			final String columnName = mapper.toString(new DistributedIndexSearchResultImpl(rating, new DistributedIndexIdentifier(pageId)));
+			final String columnName = mapper.toString(new DistributedIndexSearchResultImpl(rating, new DistributedIndexPageIdentifier(pageId)));
 			assertNotNull(columnName);
 			final DistributedIndexSearchResult object = mapper.fromString(columnName);
 			assertEquals(pageId, object.getId().getId());
@@ -41,7 +41,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 		{
 			final String pageId = "23";
 			final Integer rating = 0;
-			final String columnName = mapper.toString(new DistributedIndexSearchResultImpl(rating, new DistributedIndexIdentifier(pageId)));
+			final String columnName = mapper.toString(new DistributedIndexSearchResultImpl(rating, new DistributedIndexPageIdentifier(pageId)));
 			assertNotNull(columnName);
 			final DistributedIndexSearchResult object = mapper.fromString(columnName);
 			assertEquals(pageId, object.getId().getId());
@@ -55,10 +55,10 @@ public class DistributedIndexSearchResultMapperUnitTest {
 		final DistributedIndexSearchResultMapper mapper = new DistributedIndexSearchResultMapper(parseUtil);
 
 		final List<String> columnNames = new ArrayList<String>();
-		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(0, new DistributedIndexIdentifier("a"))));
-		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(10, new DistributedIndexIdentifier("a"))));
-		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(200, new DistributedIndexIdentifier("a"))));
-		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(Integer.MAX_VALUE, new DistributedIndexIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(0, new DistributedIndexPageIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(10, new DistributedIndexPageIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(200, new DistributedIndexPageIdentifier("a"))));
+		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(Integer.MAX_VALUE, new DistributedIndexPageIdentifier("a"))));
 
 		Collections.sort(columnNames);
 
