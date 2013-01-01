@@ -27,7 +27,7 @@ public class DistributedIndexServiceImplIntegrationTest {
 	}
 
 	@Test
-	public void testSearch() throws Exception {
+	public void testSearchSinglePage() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new DistributedIndexModulesMock());
 		final DistributedIndexService distributedIndexService = injector.getInstance(DistributedIndexService.class);
 		{
@@ -44,4 +44,69 @@ public class DistributedIndexServiceImplIntegrationTest {
 			assertFalse(iterator.hasNext());
 		}
 	}
+
+	@Test
+	public void testSearchMultiPages() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new DistributedIndexModulesMock());
+		final DistributedIndexService distributedIndexService = injector.getInstance(DistributedIndexService.class);
+		{
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
+			assertFalse(iterator.hasNext());
+		}
+		distributedIndexService.add(new DistributedIndexIdentifier("pageA"), new MapChain<String, Integer>().add("foo", 1));
+		distributedIndexService.add(new DistributedIndexIdentifier("pageB"), new MapChain<String, Integer>().add("foo", 2).add("bar", 2));
+		distributedIndexService.add(new DistributedIndexIdentifier("pageC"), new MapChain<String, Integer>().add("foo", 3).add("bar", 1));
+		distributedIndexService.add(new DistributedIndexIdentifier("pageD"), new MapChain<String, Integer>().add("foo", 4));
+		{
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
+			{
+				assertTrue(iterator.hasNext());
+				final DistributedIndexSearchResult result = iterator.next();
+				assertEquals("pageD", result.getId().getId());
+				assertEquals(new Integer(4), result.getRating());
+			}
+			{
+				assertTrue(iterator.hasNext());
+				final DistributedIndexSearchResult result = iterator.next();
+				assertEquals("pageC", result.getId().getId());
+				assertEquals(new Integer(3), result.getRating());
+			}
+			{
+				assertTrue(iterator.hasNext());
+				final DistributedIndexSearchResult result = iterator.next();
+				assertEquals("pageB", result.getId().getId());
+				assertEquals(new Integer(2), result.getRating());
+			}
+			{
+				assertTrue(iterator.hasNext());
+				final DistributedIndexSearchResult result = iterator.next();
+				assertEquals("pageA", result.getId().getId());
+				assertEquals(new Integer(1), result.getRating());
+			}
+			{
+				assertFalse(iterator.hasNext());
+			}
+		}
+
+		{
+			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("bar"));
+			{
+				assertTrue(iterator.hasNext());
+				final DistributedIndexSearchResult result = iterator.next();
+				assertEquals("pageB", result.getId().getId());
+				assertEquals(new Integer(2), result.getRating());
+			}
+			{
+				assertTrue(iterator.hasNext());
+				final DistributedIndexSearchResult result = iterator.next();
+				assertEquals("pageC", result.getId().getId());
+				assertEquals(new Integer(1), result.getRating());
+			}
+			{
+				assertFalse(iterator.hasNext());
+			}
+		}
+
+	}
+
 }
