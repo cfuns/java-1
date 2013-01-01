@@ -46,6 +46,7 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.PreWidget;
+import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
 public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
@@ -108,10 +109,13 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			if (task == null) {
+				return new RedirectWidget(taskGuiLinkFactory.tasksNextUrl(request));
+			}
 			{
 				final ListWidget tasks = new ListWidget();
-				addTask(tasks, sessionIdentifier, taskIdentifier, request);
+				addTask(tasks, sessionIdentifier, task, request);
 				widgets.add(new DivWidget(tasks));
 			}
 			{
@@ -143,6 +147,11 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final HttpServletRequest request)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+		addTask(widgets, sessionIdentifier, task, request);
+	}
+
+	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		if (task.getParentId() != null) {
 			addTask(widgets, sessionIdentifier, task.getParentId(), request);
 		}
