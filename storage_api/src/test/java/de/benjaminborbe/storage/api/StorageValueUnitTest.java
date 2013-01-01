@@ -10,7 +10,7 @@ public class StorageValueUnitTest {
 
 	@Test
 	public void testIsEmpty() {
-		assertTrue(new StorageValue(encoding).isEmpty());
+		assertTrue(new StorageValue().isEmpty());
 		assertFalse(new StorageValue("", encoding).isEmpty());
 		assertFalse(new StorageValue("a", encoding).isEmpty());
 		assertFalse(new StorageValue(new byte[0], encoding).isEmpty());
@@ -19,7 +19,7 @@ public class StorageValueUnitTest {
 
 	@Test
 	public void testHashCode() {
-		assertEquals(new StorageValue(encoding).hashCode(), new StorageValue(encoding).hashCode());
+		assertEquals(new StorageValue().hashCode(), new StorageValue().hashCode());
 		assertEquals(new StorageValue("", encoding).hashCode(), new StorageValue("", encoding).hashCode());
 		assertEquals(new StorageValue("a", encoding).hashCode(), new StorageValue("a", encoding).hashCode());
 		assertEquals(new StorageValue(new byte[0], encoding).hashCode(), new StorageValue(new byte[0], encoding).hashCode());
@@ -28,7 +28,7 @@ public class StorageValueUnitTest {
 
 	@Test
 	public void testToString() {
-		assertEquals(null, new StorageValue(encoding).toString());
+		assertEquals(null, new StorageValue().toString());
 		assertEquals("", new StorageValue("", encoding).toString());
 		assertEquals("a", new StorageValue("a", encoding).toString());
 	}

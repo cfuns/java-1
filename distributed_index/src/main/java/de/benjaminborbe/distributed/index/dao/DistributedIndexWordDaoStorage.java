@@ -34,7 +34,7 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 		final DistributedIndexIdentifier id = bean.getId();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			final StorageValue columnName = buildColumnName(e.getValue(), id);
-			final StorageValue columnValue = new StorageValue(DistributedIndexConstants.ENCODING);
+			final StorageValue columnValue = new StorageValue();
 			storageService.set(COLUMN_FAMILY, new StorageValue(e.getKey(), DistributedIndexConstants.ENCODING), columnName, columnValue);
 		}
 	}

@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -94,7 +95,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		daoUtil.delete(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key);
 
 		// schauen das geloeschter eintrag nicht mehr gelesen werden kann
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
+		assertEquals(new StorageValue(), daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
 
 		// nach dem loeschen wieder leer
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, key));
@@ -212,7 +213,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		// insert null
 		data.put(StorageTestUtil.FIELD_NAME, null);
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
+		assertEquals(c(), daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
 
 		// insert a
 		data.put(StorageTestUtil.FIELD_NAME, "a");
@@ -222,7 +223,11 @@ public class StorageDaoUtilImplIntegrationTest {
 		// insert null
 		data.put(StorageTestUtil.FIELD_NAME, null);
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
+		assertEquals(c(), daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
+	}
+
+	private StorageValue c() {
+		return new StorageValue();
 	}
 
 	@Test
@@ -350,7 +355,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("14", encoding), key));
 		daoUtil.delete(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding));
 		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), key));
-		assertNull(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding), key));
+		assertEquals(new StorageValue(), daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("13", encoding), key));
 		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("14", encoding), key));
 	}
 

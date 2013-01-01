@@ -11,8 +11,8 @@ public class StorageValue {
 
 	private final String encoding;
 
-	public StorageValue(final String encoding) {
-		this.encoding = encoding;
+	public StorageValue() {
+		this.encoding = null;
 		this.valueString = null;
 		this.valueByte = null;
 	}

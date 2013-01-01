@@ -228,7 +228,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 				return new StorageValue(column.getColumn().getValue(), config.getEncoding());
 			}
 			catch (final NotFoundException e) {
-				return null;
+				return new StorageValue();
 			}
 		}
 		finally {

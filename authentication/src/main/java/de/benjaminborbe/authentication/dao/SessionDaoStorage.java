@@ -17,6 +17,8 @@ public class SessionDaoStorage extends DaoStorage<SessionBean, SessionIdentifier
 
 	private static final String COLUMNFAMILY = "session";
 
+	private final Logger logger;
+
 	@Inject
 	public SessionDaoStorage(
 			final Logger logger,
@@ -26,10 +28,15 @@ public class SessionDaoStorage extends DaoStorage<SessionBean, SessionIdentifier
 			final SessionIdentifierBuilder identifierBuilder,
 			final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
+		this.logger = logger;
 	}
 
 	@Override
 	public SessionBean findOrCreate(final SessionIdentifier sessionId) throws StorageException {
+		logger.debug("findOrCreate - sessionId: " + sessionId);
+		if (sessionId == null) {
+			throw new StorageException("can't load or create session without sessionId");
+		}
 		{
 			final SessionBean session = load(sessionId);
 			if (session != null) {

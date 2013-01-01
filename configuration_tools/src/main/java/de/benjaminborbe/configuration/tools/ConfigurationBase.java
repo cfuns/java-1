@@ -29,7 +29,7 @@ public abstract class ConfigurationBase {
 			return configurationService.getConfigurationValue(configuration);
 		}
 		catch (final ConfigurationServiceException e) {
-			logger.trace(e.getClass().getName(), e);
+			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValueAsString();
 		}
 	}
@@ -39,11 +39,11 @@ public abstract class ConfigurationBase {
 			return parseUtil.parseInt(configurationService.getConfigurationValue(configuration));
 		}
 		catch (final ConfigurationServiceException e) {
-			logger.trace(e.getClass().getName(), e);
+			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 		catch (final ParseException e) {
-			logger.trace(e.getClass().getName(), e);
+			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 	}
@@ -53,11 +53,11 @@ public abstract class ConfigurationBase {
 			return parseUtil.parseBoolean(configurationService.getConfigurationValue(configuration));
 		}
 		catch (final ConfigurationServiceException e) {
-			logger.trace(e.getClass().getName(), e);
+			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 		catch (final ParseException e) {
-			logger.trace(e.getClass().getName(), e);
+			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 	}
