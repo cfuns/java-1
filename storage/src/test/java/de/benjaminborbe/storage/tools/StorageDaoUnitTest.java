@@ -32,8 +32,8 @@ public class StorageDaoUnitTest {
 		assertNotNull(fieldNames);
 		Collections.sort(fieldNames, new StorageValueComparator());
 		assertEquals(2, fieldNames.size());
-		assertEquals("id", fieldNames.get(0));
-		assertEquals("name", fieldNames.get(1));
+		assertEquals("id", fieldNames.get(0).getString());
+		assertEquals("name", fieldNames.get(1).getString());
 	}
 
 	protected StorageTestDao getDao() {

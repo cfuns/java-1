@@ -150,7 +150,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 				final StorageValue columnName = e.getKey();
 				final StorageValue columnValue = e.getValue();
 				// logger.debug("write " + key + " = " + value);
-				if (columnValue != null) {
+				if (columnValue != null && !columnValue.isEmpty()) {
 
 					final ColumnParent column_parent = new ColumnParent(columnFamily);
 
@@ -209,7 +209,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	public StorageValue read(final String keySpace, final String columnFamily, final StorageValue key, final StorageValue columnName) throws InvalidRequestException,
 			NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
-		if (key == null || !key.isEmpty()) {
+		if (key == null || key.isEmpty()) {
 			logger.info("can't read with null id");
 			return null;
 		}

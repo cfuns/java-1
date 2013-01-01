@@ -39,7 +39,7 @@ public class DistributedIndexServiceImplIntegrationTest {
 			final DistributedIndexSearchResultIterator iterator = distributedIndexService.search(Arrays.asList("foo"));
 			assertTrue(iterator.hasNext());
 			final DistributedIndexSearchResult result = iterator.next();
-			assertEquals("foo", result.getId().getId());
+			assertEquals("pageA", result.getId().getId());
 			assertEquals(new Integer(1), result.getRating());
 			assertFalse(iterator.hasNext());
 		}

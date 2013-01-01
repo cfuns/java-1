@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.util;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -216,7 +217,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		// insert a
 		data.put(StorageTestUtil.FIELD_NAME, "a");
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
-		assertEquals("a", daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
+		assertEquals(c("a", encoding), daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(key, encoding)));
 
 		// insert null
 		data.put(StorageTestUtil.FIELD_NAME, null);
@@ -325,7 +326,8 @@ public class StorageDaoUtilImplIntegrationTest {
 		final StorageValue key = c("test", encoding);
 		final StorageValue value = c("Bäm", encoding);
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key, value);
-		assertEquals(value, daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key));
+		assertEquals(value.getString(), daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key).getString());
+		assertThat(daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, key), is(value));
 	}
 
 	@Test
@@ -369,9 +371,9 @@ public class StorageDaoUtilImplIntegrationTest {
 		final Map<StorageValue, StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
 		assertNotNull(data);
 		assertEquals(3, data.size());
-		assertEquals("valueA", data.get(c("keyA", encoding)).getString());
-		assertEquals("valueB", data.get(c("keyB", encoding)).getString());
-		assertEquals("valueC", data.get(c("keyC", encoding)).getString());
+		assertEquals(c("valueA", encoding), data.get(c("keyA", encoding)));
+		assertEquals(c("valueB", encoding), data.get(c("keyB", encoding)));
+		assertEquals(c("valueC", encoding), data.get(c("keyC", encoding)));
 	}
 
 	@Test
@@ -396,7 +398,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		assertNotNull(data);
 		assertEquals(count, data.size());
 		for (int i = 1; i <= count; ++i) {
-			assertEquals("value" + i, data.get("key" + i).getString());
+			assertEquals(c("value" + i, encoding), data.get(c("key" + i, encoding)));
 		}
 	}
 
@@ -471,28 +473,24 @@ public class StorageDaoUtilImplIntegrationTest {
 		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
 		final String encoding = config.getEncoding();
 
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(5), encoding), c(encoding));
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(1), encoding), c(encoding));
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(11), encoding), c(encoding));
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(2), encoding), c(encoding));
-		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(3), encoding), c(encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(5), encoding), c("a", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(1), encoding), c("a", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(11), encoding), c("a", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(2), encoding), c("a", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c(toByteArray(3), encoding), c("a", encoding));
 
 		final StorageColumnIterator columnIterator = daoUtil.columnIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding));
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key01", columnIterator.next().getColumnName().getString());
+		assertEquals(c(toByteArray(1), encoding), columnIterator.next().getColumnName());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key02", columnIterator.next().getColumnName().getString());
+		assertEquals(c(toByteArray(2), encoding), columnIterator.next().getColumnName());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key03", columnIterator.next().getColumnName().getString());
+		assertEquals(c(toByteArray(3), encoding), columnIterator.next().getColumnName());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key04", columnIterator.next().getColumnName().getString());
+		assertEquals(c(toByteArray(5), encoding), columnIterator.next().getColumnName());
 		assertTrue(columnIterator.hasNext());
-		assertEquals("key11", columnIterator.next().getColumnName().getString());
+		assertEquals(c(toByteArray(11), encoding), columnIterator.next().getColumnName());
 		assertFalse(columnIterator.hasNext());
-	}
-
-	private StorageValue c(final String encoding) {
-		return new StorageValue(encoding);
 	}
 
 	private StorageValue c(final byte[] byteArray, final String encoding) {

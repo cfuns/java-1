@@ -8,6 +8,7 @@ import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.tools.util.EmptyIterator;
 
 public class StorageColumnIteratorMock implements StorageColumnIterator {
 
@@ -37,7 +38,12 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 	private final Iterator<Entry<StorageValue, StorageValue>> i;
 
 	public StorageColumnIteratorMock(final Map<StorageValue, StorageValue> data) {
-		i = data.entrySet().iterator();
+		if (data != null) {
+			i = data.entrySet().iterator();
+		}
+		else {
+			i = new EmptyIterator<Map.Entry<StorageValue, StorageValue>>();
+		}
 	}
 
 	@Override

@@ -55,6 +55,14 @@ public class StorageValue {
 
 	@Override
 	public int hashCode() {
+		try {
+			final String s = getString();
+			if (s != null) {
+				return s.hashCode();
+			}
+		}
+		catch (final UnsupportedEncodingException e) {
+		}
 		return 23;
 	}
 
@@ -83,8 +91,15 @@ public class StorageValue {
 			return Arrays.equals(valueByte, otherValue.valueByte);
 		}
 		if (valueString != null && otherValue.valueString != null) {
-			return valueString.equals(otherValue.valueByte);
+			return valueString.equals(otherValue.valueString);
 		}
-		return false;
+		try {
+			final String s1 = getString();
+			final String s2 = otherValue.getString();
+			return s1 == null && s2 == null || s1 != null && s2 != null && s1.equals(s2);
+		}
+		catch (final UnsupportedEncodingException e) {
+			return false;
+		}
 	}
 }
