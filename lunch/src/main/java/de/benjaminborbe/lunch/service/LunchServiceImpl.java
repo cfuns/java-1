@@ -34,6 +34,9 @@ import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnector;
 import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnectorException;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
+import de.benjaminborbe.mail.api.MailDto;
+import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -89,6 +92,8 @@ public class LunchServiceImpl implements LunchService {
 
 	private final AuthorizationService authorizationService;
 
+	private final MailService mailService;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
@@ -100,7 +105,8 @@ public class LunchServiceImpl implements LunchService {
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
-			final CalendarUtil calendarUtil) {
+			final CalendarUtil calendarUtil,
+			final MailService mailService) {
 		this.logger = logger;
 		this.kioskDatabaseConnector = kioskDatabaseConnector;
 		this.bookingMessageMapper = bookingMessageMapper;
@@ -111,6 +117,7 @@ public class LunchServiceImpl implements LunchService {
 		this.authorizationService = authorizationService;
 		this.durationUtil = durationUtil;
 		this.calendarUtil = calendarUtil;
+		this.mailService = mailService;
 	}
 
 	@Override
@@ -254,9 +261,12 @@ public class LunchServiceImpl implements LunchService {
 			logger.debug("book");
 
 			for (final String user : users) {
+				logger.debug("send booking message for " + user + " " + calendarUtil.toDateString(day));
 				final LunchBookingMessage bookingMessage = new LunchBookingMessage(user, day);
 				messageService.sendMessage(LunchConstants.BOOKING_MESSAGE_TYPE, bookingMessageMapper.map(bookingMessage));
 			}
+
+			sendBookMail(day, users);
 		}
 		catch (final MessageServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
@@ -270,6 +280,31 @@ public class LunchServiceImpl implements LunchService {
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	private void sendBookMail(final Calendar day, final Collection<String> users) {
+		try {
+			final String from = "bborbe@seibert-media.net";
+			final String to = "bborbe@seibert-media.net";
+			final String subject = "Mittag - Book";
+			final StringBuilder sb = new StringBuilder();
+			sb.append("day: ");
+			sb.append(calendarUtil.toDateString(day));
+			sb.append("\n");
+			sb.append("\n");
+			sb.append("users:\n");
+			for (final String user : users) {
+				sb.append("- ");
+				sb.append(user);
+				sb.append("\n");
+			}
+			final String contentType = "text/plain";
+			final MailDto mail = new MailDto(from, to, subject, sb.toString(), contentType);
+			mailService.send(mail);
+		}
+		catch (final MailServiceException e) {
+			logger.warn("send book mail failed", e);
 		}
 	}
 }

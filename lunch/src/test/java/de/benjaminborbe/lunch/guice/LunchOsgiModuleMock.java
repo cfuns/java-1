@@ -12,6 +12,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.mock.MailServiceMock;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.mock.MessageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -21,6 +23,7 @@ public class LunchOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);
 		bind(MessageService.class).to(MessageServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
