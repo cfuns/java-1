@@ -76,10 +76,10 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		try {
 			logger.debug("search - index: " + index + " searchQuery: " + searchQuery + " limit: " + limit);
 			final Collection<String> words = distributedSearchAnalyser.parseSearchTerm(searchQuery);
-			final DistributedIndexSearchResultIterator i = distributedIndexService.search(index, words);
+			final DistributedIndexSearchResultIterator resultIterator = distributedIndexService.search(index, words);
 			final List<DistributedSearchResult> result = new ArrayList<DistributedSearchResult>();
-			while (i.hasNext() && result.size() < limit) {
-				final DistributedSearchResult e = buildResult(i.next());
+			while (resultIterator.hasNext() && result.size() < limit) {
+				final DistributedSearchResult e = buildResult(resultIterator.next());
 				if (e != null) {
 					result.add(e);
 				}

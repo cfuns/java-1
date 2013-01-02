@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 
 public class DistributedSearchAnalyser {
@@ -15,7 +17,12 @@ public class DistributedSearchAnalyser {
 
 	public Collection<String> parseSearchTerm(final String content) {
 		final String[] parts = content.toLowerCase().replaceAll("[^a-z]", " ").split("\\s+");
-		return Arrays.asList(parts);
+		return filter(Arrays.asList(parts));
+	}
+
+	@SuppressWarnings("unchecked")
+	private Collection<String> filter(final Collection<String> list) {
+		return Collections2.filter(list, Predicates.and(new MinWordLengthPredicate(), new MaxWordLengthPredicate(), new NoStopWordPredicate()));
 	}
 
 	public Map<String, Integer> parseWordRating(final String content) {

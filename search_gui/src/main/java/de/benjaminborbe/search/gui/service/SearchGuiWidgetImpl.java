@@ -28,6 +28,7 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
+import de.benjaminborbe.search.gui.SearchGuiConstants;
 import de.benjaminborbe.search.gui.util.SearchGuiTermHighlighter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -189,7 +190,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("<div class=\"title\">");
 			out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
 			out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, 100)), words));
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, SearchGuiConstants.TITLE_MAX_CHARS)), words));
 			out.println("</a>");
 			if (result.getMatchCounter() > 0 && result.getMatchCounter() < Integer.MAX_VALUE) {
 				out.println("<span class=\"matchCounter\">( hitrate: " + result.getMatchCounter() + " )</span>");
@@ -197,10 +198,10 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("</div>");
 			out.println("<div class=\"link\">");
 			out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, 100)), words) + "</a>");
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, SearchGuiConstants.URL_MAX_CHARS)), words) + "</a>");
 			out.println("</div>");
 			out.println("<div class=\"description\">");
-			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(description, 400)), words));
+			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(buildDescriptionPreview(description, words)), words));
 			out.println("<br/>");
 			out.println("</div>");
 			out.println("</div>");
@@ -209,6 +210,22 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			logger.debug("illegal url: " + result.getUrl());
 			// nop
 		}
+	}
+
+	private String buildDescriptionPreview(final String content, final List<String> words) {
+		if (content.length() > SearchGuiConstants.CONTENT_MAX_CHARS) {
+			Integer firstMatch = null;
+			for (final String word : words) {
+				final int pos = content.indexOf(word);
+				if (firstMatch == null || pos != -1 && firstMatch > pos) {
+					firstMatch = pos;
+				}
+			}
+			if (firstMatch != null && firstMatch > 0) {
+				return "..." + stringUtil.shortenDots(content.substring(Math.max(0, firstMatch - 20)), SearchGuiConstants.CONTENT_MAX_CHARS);
+			}
+		}
+		return stringUtil.shortenDots(content, SearchGuiConstants.CONTENT_MAX_CHARS);
 	}
 
 }

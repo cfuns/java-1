@@ -18,4 +18,10 @@ public interface SearchGuiConstants {
 
 	String PARAMETER_SEARCH_AUTOCOMPLETE = "suggest";
 
+	int TITLE_MAX_CHARS = 100;
+
+	int URL_MAX_CHARS = 100;
+
+	int CONTENT_MAX_CHARS = 400;
+
 }
