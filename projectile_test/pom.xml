@@ -30,7 +30,7 @@
 						<Test-Suite>de.benjaminborbe.projectile.test.ProjectileTestSuite</Test-Suite>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Import-Package>*;resolution:=optional</Import-Package>
-						<Embed-Transitive>false</Embed-Transitive>
+						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
 			</plugin>
