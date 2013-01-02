@@ -24,7 +24,7 @@ import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
-import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -57,7 +57,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final AuthorizationService authorizationService;
 
-	private final IndexerService indexerService;
+	private final IndexService indexerService;
 
 	private final CrawlerService crawlerService;
 
@@ -80,7 +80,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			final AuthorizationService authorizationService,
 			final AuthenticationService authenticationService,
 			final IdGeneratorUUID idGeneratorUUID,
-			final IndexerService indexerService,
+			final IndexService indexerService,
 			final CrawlerService crawlerService,
 			final WebsearchConfigurationDao websearchConfigurationDao,
 			final DurationUtil durationUtil) {

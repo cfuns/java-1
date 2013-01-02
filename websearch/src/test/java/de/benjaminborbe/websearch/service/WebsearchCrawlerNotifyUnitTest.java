@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.crawler.api.CrawlerResult;
-import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.dao.WebsearchPageDao;
@@ -27,7 +27,7 @@ public class WebsearchCrawlerNotifyUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final IndexerService indexerService = EasyMock.createMock(IndexerService.class);
+		final IndexService indexerService = EasyMock.createMock(IndexService.class);
 		EasyMock.replay(indexerService);
 
 		final StringUtil stringUtil = EasyMock.createMock(StringUtil.class);

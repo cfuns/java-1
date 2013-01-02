@@ -36,7 +36,7 @@ public class LuceneIndexConfigImpl extends ConfigurationBase implements LuceneIn
 	}
 
 	@Override
-	public String getIndexDirectory() {
+	public String getLuceneIndexDirectory() {
 		return getValueString(indexDirectory);
 	}
 

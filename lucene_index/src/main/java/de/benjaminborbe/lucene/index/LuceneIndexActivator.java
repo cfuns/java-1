@@ -11,8 +11,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.lucene.index.api.LuceneIndexSearcherService;
-import de.benjaminborbe.lucene.index.api.LuceneIndexerService;
+import de.benjaminborbe.lucene.index.api.LuceneIndexService;
 import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;
 import de.benjaminborbe.lucene.index.guice.LuceneIndexModules;
 import de.benjaminborbe.tools.guice.Modules;
@@ -22,10 +21,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class LuceneIndexActivator extends BaseBundleActivator {
 
 	@Inject
-	private LuceneIndexerService indexerService;
-
-	@Inject
-	private LuceneIndexSearcherService indexSearcherService;
+	private LuceneIndexService indexerService;
 
 	@Inject
 	private LuceneIndexConfig indexConfig;
@@ -38,8 +34,7 @@ public class LuceneIndexActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(LuceneIndexerService.class, indexerService));
-		result.add(new ServiceInfo(LuceneIndexSearcherService.class, indexSearcherService));
+		result.add(new ServiceInfo(LuceneIndexService.class, indexerService));
 		for (final ConfigurationDescription configuration : indexConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}

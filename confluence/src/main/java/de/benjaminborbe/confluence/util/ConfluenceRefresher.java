@@ -16,7 +16,7 @@ import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
 import de.benjaminborbe.confluence.dao.ConfluencePageDao;
-import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -66,7 +66,7 @@ public class ConfluenceRefresher {
 
 	private final Logger logger;
 
-	private final IndexerService indexerService;
+	private final IndexService indexerService;
 
 	private final ConfluenceInstanceDao confluenceInstanceDao;
 
@@ -87,7 +87,7 @@ public class ConfluenceRefresher {
 			final Logger logger,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final CalendarUtil calendarUtil,
-			final IndexerService indexerService,
+			final IndexService indexerService,
 			final ConfluenceInstanceDao confluenceInstanceDao,
 			final ConfluencePageDao confluencePageDao,
 			final ConfluenceConnector confluenceConnector,

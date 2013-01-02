@@ -10,8 +10,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.lucene.index.api.LuceneIndexSearcherService;
-import de.benjaminborbe.lucene.index.api.LuceneIndexerService;
+import de.benjaminborbe.lucene.index.api.LuceneIndexService;
 import de.benjaminborbe.lucene.index.guice.LuceneIndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -24,18 +23,18 @@ public class LuceneIndexIntegrationTest {
 	@Test
 	public void testInjections() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LuceneIndexModulesMock());
-		final LuceneIndexerService indexerService = injector.getInstance(LuceneIndexerService.class);
+		final LuceneIndexService indexerService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexerService);
-		final LuceneIndexSearcherService indexSearcherService = injector.getInstance(LuceneIndexSearcherService.class);
+		final LuceneIndexService indexSearcherService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexSearcherService);
 	}
 
 	@Test
 	public void testSearchLike() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LuceneIndexModulesMock());
-		final LuceneIndexerService indexerService = injector.getInstance(LuceneIndexerService.class);
+		final LuceneIndexService indexerService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexerService);
-		final LuceneIndexSearcherService indexSearcherService = injector.getInstance(LuceneIndexSearcherService.class);
+		final LuceneIndexService indexSearcherService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.clear(INDEXNAME);
@@ -65,9 +64,9 @@ public class LuceneIndexIntegrationTest {
 	@Test
 	public void testUniqueUrl() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LuceneIndexModulesMock());
-		final LuceneIndexerService indexerService = injector.getInstance(LuceneIndexerService.class);
+		final LuceneIndexService indexerService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexerService);
-		final LuceneIndexSearcherService indexSearcherService = injector.getInstance(LuceneIndexSearcherService.class);
+		final LuceneIndexService indexSearcherService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.clear(INDEXNAME);
@@ -86,9 +85,9 @@ public class LuceneIndexIntegrationTest {
 	@Test
 	public void testIindexAndSearch() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LuceneIndexModulesMock());
-		final LuceneIndexerService indexerService = injector.getInstance(LuceneIndexerService.class);
+		final LuceneIndexService indexerService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexerService);
-		final LuceneIndexSearcherService indexSearcherService = injector.getInstance(LuceneIndexSearcherService.class);
+		final LuceneIndexService indexSearcherService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.clear(INDEXNAME);
@@ -106,9 +105,9 @@ public class LuceneIndexIntegrationTest {
 	@Test
 	public void testClear() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new LuceneIndexModulesMock());
-		final LuceneIndexerService indexerService = injector.getInstance(LuceneIndexerService.class);
+		final LuceneIndexService indexerService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexerService);
-		final LuceneIndexSearcherService indexSearcherService = injector.getInstance(LuceneIndexSearcherService.class);
+		final LuceneIndexService indexSearcherService = injector.getInstance(LuceneIndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.addToLuceneIndex(INDEXNAME, new URL("http://example.com"), "title", "contentA");

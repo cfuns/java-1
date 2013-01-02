@@ -10,8 +10,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.index.api.IndexSearcherService;
-import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -24,18 +23,18 @@ public class IndexIntegrationTest {
 	@Test
 	public void testInjections() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
-		final IndexerService indexerService = injector.getInstance(IndexerService.class);
+		final IndexService indexerService = injector.getInstance(IndexService.class);
 		assertNotNull(indexerService);
-		final IndexSearcherService indexSearcherService = injector.getInstance(IndexSearcherService.class);
+		final IndexService indexSearcherService = injector.getInstance(IndexService.class);
 		assertNotNull(indexSearcherService);
 	}
 
 	@Test
 	public void testSearchLike() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
-		final IndexerService indexerService = injector.getInstance(IndexerService.class);
+		final IndexService indexerService = injector.getInstance(IndexService.class);
 		assertNotNull(indexerService);
-		final IndexSearcherService indexSearcherService = injector.getInstance(IndexSearcherService.class);
+		final IndexService indexSearcherService = injector.getInstance(IndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.clear(INDEXNAME);
@@ -65,9 +64,9 @@ public class IndexIntegrationTest {
 	@Test
 	public void testUniqueUrl() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
-		final IndexerService indexerService = injector.getInstance(IndexerService.class);
+		final IndexService indexerService = injector.getInstance(IndexService.class);
 		assertNotNull(indexerService);
-		final IndexSearcherService indexSearcherService = injector.getInstance(IndexSearcherService.class);
+		final IndexService indexSearcherService = injector.getInstance(IndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.clear(INDEXNAME);
@@ -86,9 +85,9 @@ public class IndexIntegrationTest {
 	@Test
 	public void testIindexAndSearch() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
-		final IndexerService indexerService = injector.getInstance(IndexerService.class);
+		final IndexService indexerService = injector.getInstance(IndexService.class);
 		assertNotNull(indexerService);
-		final IndexSearcherService indexSearcherService = injector.getInstance(IndexSearcherService.class);
+		final IndexService indexSearcherService = injector.getInstance(IndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.clear(INDEXNAME);
@@ -106,9 +105,9 @@ public class IndexIntegrationTest {
 	@Test
 	public void testClear() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new IndexModulesMock());
-		final IndexerService indexerService = injector.getInstance(IndexerService.class);
+		final IndexService indexerService = injector.getInstance(IndexService.class);
 		assertNotNull(indexerService);
-		final IndexSearcherService indexSearcherService = injector.getInstance(IndexSearcherService.class);
+		final IndexService indexSearcherService = injector.getInstance(IndexService.class);
 		assertNotNull(indexSearcherService);
 
 		indexerService.addToIndex(INDEXNAME, new URL("http://example.com"), "title", "contentA");

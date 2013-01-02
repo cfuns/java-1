@@ -13,8 +13,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.index.api.IndexSearcherService;
-import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.guice.IndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -45,7 +44,7 @@ public class IndexActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(IndexerService.class.getName(), IndexSearcherService.class.getName(), ConfigurationDescription.class.getName());
+		final List<String> names = Arrays.asList(IndexService.class.getName(), ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

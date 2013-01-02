@@ -6,7 +6,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface LuceneIndexConfig {
 
-	String getIndexDirectory();
+	String getLuceneIndexDirectory();
 
 	Collection<ConfigurationDescription> getConfigurations();
 }

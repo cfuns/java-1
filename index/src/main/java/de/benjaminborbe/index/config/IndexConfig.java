@@ -6,7 +6,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface IndexConfig {
 
-	String getIndexDirectory();
+	boolean getDistributedSearchEnabled();
 
 	Collection<ConfigurationDescription> getConfigurations();
 }

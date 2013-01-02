@@ -10,10 +10,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
-import de.benjaminborbe.index.api.IndexSearcherService;
-import de.benjaminborbe.index.api.IndexSearcherServiceMock;
-import de.benjaminborbe.index.api.IndexerService;
-import de.benjaminborbe.index.api.IndexerServiceMock;
+import de.benjaminborbe.index.api.IndexService;
+import de.benjaminborbe.index.mock.IndexServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -23,8 +21,7 @@ public class ConfluenceOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(IndexSearcherService.class).to(IndexSearcherServiceMock.class).in(Singleton.class);
-		bind(IndexerService.class).to(IndexerServiceMock.class).in(Singleton.class);
+		bind(IndexService.class).to(IndexServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);

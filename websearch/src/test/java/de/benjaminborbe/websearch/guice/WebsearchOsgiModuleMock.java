@@ -12,10 +12,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.mock.CrawlerServiceMock;
-import de.benjaminborbe.index.api.IndexSearcherService;
-import de.benjaminborbe.index.api.IndexSearcherServiceMock;
-import de.benjaminborbe.index.api.IndexerService;
-import de.benjaminborbe.index.api.IndexerServiceMock;
+import de.benjaminborbe.index.api.IndexService;
+import de.benjaminborbe.index.mock.IndexServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -29,8 +27,7 @@ public class WebsearchOsgiModuleMock extends AbstractModule {
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(CrawlerService.class).to(CrawlerServiceMock.class).in(Singleton.class);
-		bind(IndexSearcherService.class).to(IndexSearcherServiceMock.class).in(Singleton.class);
-		bind(IndexerService.class).to(IndexerServiceMock.class).in(Singleton.class);
+		bind(IndexService.class).to(IndexServiceMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);
 		bind(ExtHttpService.class).to(ExtHttpServiceMock.class).in(Singleton.class);
 	}

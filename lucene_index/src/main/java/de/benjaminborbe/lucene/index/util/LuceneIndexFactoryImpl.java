@@ -41,7 +41,7 @@ public class LuceneIndexFactoryImpl implements LuceneIndexFactory {
 	}
 
 	protected File getLuceneIndexDirectory(final String indexName) throws IOException {
-		final String dirName = indexConfig.getIndexDirectory() + "/lucene_index_" + indexName;
+		final String dirName = indexConfig.getLuceneIndexDirectory() + "/lucene_index_" + indexName;
 		logger.info("getLuceneIndexDirectory => " + dirName);
 		final File dir = new File(dirName);
 		if (dir.exists()) {

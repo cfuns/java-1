@@ -20,7 +20,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
-import de.benjaminborbe.index.api.IndexerService;
+import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -37,7 +37,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final Logger logger;
 
-	private final IndexerService indexerService;
+	private final IndexService indexerService;
 
 	private final StringUtil stringUtil;
 
@@ -53,7 +53,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	public WebsearchCrawlerNotify(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
-			final IndexerService indexerService,
+			final IndexService indexerService,
 			final StringUtil stringUtil,
 			final WebsearchPageDao pageDao,
 			final HtmlUtil htmlUtil) {

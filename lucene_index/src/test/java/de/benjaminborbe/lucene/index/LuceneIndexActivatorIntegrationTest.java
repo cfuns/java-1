@@ -14,8 +14,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lucene.index.LuceneIndexActivator;
-import de.benjaminborbe.lucene.index.api.LuceneIndexSearcherService;
-import de.benjaminborbe.lucene.index.api.LuceneIndexerService;
+import de.benjaminborbe.lucene.index.api.LuceneIndexService;
 import de.benjaminborbe.lucene.index.guice.LuceneIndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -46,7 +45,7 @@ public class LuceneIndexActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(LuceneIndexerService.class.getName(), LuceneIndexSearcherService.class.getName(), ConfigurationDescription.class.getName());
+		final List<String> names = Arrays.asList(LuceneIndexService.class.getName(), ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

@@ -15,7 +15,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.index.api.IndexSearchResult;
-import de.benjaminborbe.index.api.IndexSearcherService;
+import de.benjaminborbe.index.api.IndexService;
+import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
@@ -58,12 +59,12 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 
 	private final Logger logger;
 
-	private final IndexSearcherService indexSearcherService;
+	private final IndexService indexSearcherService;
 
 	private final SearchUtil searchUtil;
 
 	@Inject
-	public WebsearchSearchServiceComponent(final Logger logger, final IndexSearcherService indexSearcherService, final SearchUtil searchUtil) {
+	public WebsearchSearchServiceComponent(final Logger logger, final IndexService indexSearcherService, final SearchUtil searchUtil) {
 		this.logger = logger;
 		this.indexSearcherService = indexSearcherService;
 		this.searchUtil = searchUtil;
@@ -71,18 +72,23 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
-		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.debug("search - query: " + query);
-		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "), WebsearchConstants.SEARCH_LIMIT);
-		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
-		final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
 		final List<SearchResult> result = new ArrayList<SearchResult>();
-		for (final BeanMatch<IndexSearchResult> beanResult : beanResults) {
-			if (result.size() < maxResults) {
-				result.add(map(beanResult));
+		try {
+			final List<String> words = searchUtil.buildSearchParts(query);
+			final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "), WebsearchConstants.SEARCH_LIMIT);
+			final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
+			final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
+			for (final BeanMatch<IndexSearchResult> beanResult : beanResults) {
+				if (result.size() < maxResults) {
+					result.add(map(beanResult));
+				}
 			}
+			logger.debug("search - found " + result.size() + " results");
 		}
-		logger.debug("search - found " + result.size() + " results");
+		catch (final IndexerServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
 		return result;
 	}
 
