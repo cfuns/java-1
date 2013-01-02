@@ -54,7 +54,7 @@ public class MailIntegrationTest extends OSGiTestCase {
 	public void testMailService() {
 		final MailService EventbusService = (MailService) getServiceObject(MailService.class.getName(), null);
 		assertNotNull(EventbusService);
-		assertEquals("de.benjaminborbe.mail.service.MailServiceUTF8", EventbusService.getClass().getName());
+		assertEquals("de.benjaminborbe.mail.service.MailServiceImpl", EventbusService.getClass().getName());
 	}
 
 }
