@@ -11,7 +11,9 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
@@ -75,6 +77,11 @@ public class LunchServiceMock implements LunchService {
 
 	@Override
 	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<String> users) throws LunchServiceException {
+	}
+
+	@Override
+	public Collection<LunchUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
 	}
 
 }

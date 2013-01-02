@@ -2,7 +2,6 @@ package de.benjaminborbe.lunch.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -40,25 +38,19 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.form.FormCheckboxWidget;
-import de.benjaminborbe.website.form.FormElementWidget;
-import de.benjaminborbe.website.form.FormElementWidgetDummy;
-import de.benjaminborbe.website.form.FormInputHiddenWidget;
-import de.benjaminborbe.website.form.FormInputSubmitWidget;
-import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
+public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 
 	private static final long serialVersionUID = -7698261881382004351L;
 
-	private static final String TITLE = "Lunch - Kiosk - Booking";
+	private static final String TITLE = "Lunch - Kiosk - Booked";
 
 	private final Logger logger;
 
@@ -75,7 +67,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 	private final AuthorizationService authorizationService;
 
 	@Inject
-	public LunchGuiKioskBookingServlet(
+	public LunchGuiKioskBookedServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -106,8 +98,6 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			logger.trace("printContent");
-
 			Calendar calendar;
 			try {
 				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKING_DATE));
@@ -115,57 +105,27 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			catch (final ParseException e) {
 				calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
 			}
-
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle() + " - " + calendarUtil.toDateString(calendar)));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String[] selectedUsers = request.getParameterValues(LunchGuiConstants.PARAMETER_BOOKING_USER);
-			if (selectedUsers != null && selectedUsers.length > 0) {
-				logger.info("book user: " + StringUtils.join(selectedUsers, ","));
-				lunchService.book(sessionIdentifier, calendar, Arrays.asList(selectedUsers));
-				widgets.add("booking completed");
-				return widgets;
+			final List<LunchUser> list = new ArrayList<LunchUser>(lunchService.getBookedUser(sessionIdentifier, calendar));
+			Collections.sort(list, new LunchUserComparator());
+
+			final UlWidget ul = new UlWidget();
+			for (final LunchUser user : list) {
+				ul.add(user.getPrename() + " " + user.getSurname());
 			}
-
-			{
-				final ListWidget links = new ListWidget();
-				links.add(lunchGuiLinkFactory.bookingSubDay(request, calendar));
-				links.add(" ");
-				links.add(lunchGuiLinkFactory.booking(request));
-				links.add(" ");
-				links.add(lunchGuiLinkFactory.bookingAddDay(request, calendar));
-				links.add(" ");
-				widgets.add(links);
-			}
-
-			final List<LunchUser> users = new ArrayList<LunchUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
-			Collections.sort(users, new LunchUserComparator());
-
-			final FormWidget form = new FormWidget().addId("bookings");
-
-			for (final LunchUser user : users) {
-				if (user.getCustomerNumber() != null) {
-					final FormElementWidget input = new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user.getPrename() + " " + user.getSurname())
-							.addValue(user.getCustomerNumber()).setCheckedDefault(true);
-					form.addFormInputWidget(input);
-				}
-				else {
-					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(user.getPrename() + " " + user.getSurname()).addContent("NOT FOUND"));
-				}
-			}
-			form.addFormInputWidget(new FormInputHiddenWidget(LunchGuiConstants.PARAMETER_BOOKING_DATE).addValue(calendarUtil.toDateString(calendar)));
-			form.addFormInputWidget(new FormInputSubmitWidget("buchen"));
-			widgets.add(form);
-			widgets.add(new LinkWidget("javascript:toggle()", "toggle"));
+			widgets.add(ul);
 
 			widgets.add(new BrWidget());
 			{
 				final ListWidget links = new ListWidget();
-				links.add(lunchGuiLinkFactory.bookedForDay(request, calendar));
+				links.add(lunchGuiLinkFactory.booking(request));
 				links.add(" ");
 				widgets.add(links);
 			}
+
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

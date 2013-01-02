@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookedServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookingServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
@@ -23,6 +24,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class LunchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private LunchGuiKioskBookedServlet lunchGuiKioskBookedServlet;
 
 	@Inject
 	private LunchGuiKioskBookingServlet lunchGuiKioskBooking;
@@ -54,6 +58,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(lunchGuiKioskBookedServlet, LunchGuiConstants.URL_BOOKED));
 		result.add(new ServletInfo(lunchGuiKioskBooking, LunchGuiConstants.URL_BOOKING));
 		result.add(new ServletInfo(lunchGuiServlet, LunchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(lunchGuiArchivServlet, LunchGuiConstants.URL_ARCHIV));

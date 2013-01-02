@@ -1,7 +1,11 @@
 package de.benjaminborbe.lunch.kioskconnector;
 
+import java.util.Calendar;
+import java.util.Collection;
+
 public interface KioskDatabaseConnector {
 
-	String getCustomerNumber(String username) throws KioskDatabaseConnectorException;
+	KioskUserBean getCustomerNumber(String prename, String surename) throws KioskDatabaseConnectorException;
 
+	Collection<KioskUserBean> getBookingsForDay(Calendar calendar) throws KioskDatabaseConnectorException;
 }

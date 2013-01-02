@@ -7,7 +7,7 @@ public class LunchUserComparator extends ComparatorBase<LunchUser, String> {
 
 	@Override
 	public String getValue(final LunchUser o) {
-		return o.getName() != null ? o.getName().toLowerCase() : null;
+		return o.getPrename() != null && o.getSurname() != null ? (o.getPrename() + " " + o.getSurname()).toLowerCase() : null;
 	}
 
 }

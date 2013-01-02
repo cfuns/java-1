@@ -17,6 +17,8 @@ public interface LunchService {
 
 	Collection<LunchUser> getSubscribeUser(SessionIdentifier sessionIdentifier, Calendar day) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
+	Collection<LunchUser> getBookedUser(SessionIdentifier sessionIdentifier, Calendar day) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
+
 	void book(SessionIdentifier sessionIdentifier, Calendar day, Collection<String> users) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
 }

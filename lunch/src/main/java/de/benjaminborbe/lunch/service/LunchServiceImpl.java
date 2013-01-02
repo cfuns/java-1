@@ -33,6 +33,7 @@ import de.benjaminborbe.lunch.booking.LunchBookingMessageMapper;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnector;
 import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnectorException;
+import de.benjaminborbe.lunch.kioskconnector.KioskUserBean;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
@@ -47,28 +48,6 @@ import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class LunchServiceImpl implements LunchService {
-
-	private final class LunchUserImpl implements LunchUser {
-
-		private final String username;
-
-		private final String customerNumber;
-
-		private LunchUserImpl(final String username, final String customerNumber) {
-			this.username = username;
-			this.customerNumber = customerNumber;
-		}
-
-		@Override
-		public String getName() {
-			return username;
-		}
-
-		@Override
-		public String getCustomerNumber() {
-			return customerNumber;
-		}
-	}
 
 	private static final long DURATION_WARN = 300;
 
@@ -221,8 +200,7 @@ public class LunchServiceImpl implements LunchService {
 			final List<LunchUser> result = new ArrayList<LunchUser>();
 			for (final String username : list) {
 				try {
-					final String customerNumber = kioskDatabaseConnector.getCustomerNumber(username);
-					result.add(new LunchUserImpl(username, customerNumber));
+					result.add(buildUser(username));
 				}
 				catch (final KioskDatabaseConnectorException e) {
 					logger.warn(e.getClass().getName(), e);
@@ -248,6 +226,29 @@ public class LunchServiceImpl implements LunchService {
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	private LunchUser buildUser(final String username) throws KioskDatabaseConnectorException {
+		final String[] parts = username.split(" ", 2);
+		if (parts.length == 2) {
+			{
+				final KioskUserBean user = kioskDatabaseConnector.getCustomerNumber(parts[0], parts[1]);
+				if (user != null) {
+					return user;
+				}
+			}
+			{
+				final KioskUserBean user = new KioskUserBean();
+				user.setPrename(parts[0]);
+				user.setPrename(parts[1]);
+				return user;
+			}
+		}
+		else {
+			final KioskUserBean user = new KioskUserBean();
+			user.setPrename(username);
+			return user;
 		}
 	}
 
@@ -305,6 +306,21 @@ public class LunchServiceImpl implements LunchService {
 		}
 		catch (final MailServiceException e) {
 			logger.warn("send book mail failed", e);
+		}
+	}
+
+	@Override
+	public Collection<LunchUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		try {
+			final List<LunchUser> result = new ArrayList<LunchUser>();
+			for (final KioskUserBean user : kioskDatabaseConnector.getBookingsForDay(day)) {
+				result.add(user);
+			}
+			return result;
+		}
+		catch (final KioskDatabaseConnectorException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
 }
