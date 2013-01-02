@@ -176,6 +176,11 @@ buildindex:
 	cd index && make all
 	cd index_gui && make all
 	cd index_test && make all
+buildluceneindex:
+	cd lucene_index_api && make all
+	cd lucene_index && make all
+	cd lucene_index_gui && make all
+	cd lucene_index_test && make all
 buildcrawler:
 	cd crawler_api && make all
 	cd crawler && make all

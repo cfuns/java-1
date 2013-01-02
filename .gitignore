@@ -219,3 +219,7 @@ distributed_search/target
 distributed_search_api/target
 distributed_search_gui/target
 distributed_search_test/target
+lucene_index/target
+lucene_index_api/target
+lucene_index_gui/target
+lucene_index_test/target

@@ -90,6 +90,7 @@
 				<module>gwt_test</module>
 				<module>html_test</module>
 				<module>index_test</module>
+				<module>lucene_index_test</module>
 				<module>loggly_test</module>
 				<module>lunch_test</module>
 				<module>mail_test</module>
@@ -195,6 +196,9 @@
 				<module>googlesearch_api</module>
 				<module>googlesearch_gui</module>
 				<module>html</module>
+				<module>lucene_index</module>
+				<module>lucene_index_api</module>
+				<module>lucene_index_gui</module>
 				<module>index</module>
 				<module>index_api</module>
 				<module>index_gui</module>
