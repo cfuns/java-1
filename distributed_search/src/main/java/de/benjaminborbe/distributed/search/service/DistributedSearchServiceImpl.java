@@ -91,7 +91,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	}
 
 	private DistributedSearchResult buildResult(final DistributedIndexSearchResult indexResult) throws StorageException {
-		final DistributedSearchPageIdentifier distributedSearchPageIdentifier = new DistributedSearchPageIdentifier(indexResult.getSpace(), indexResult.getId());
+		final DistributedSearchPageIdentifier distributedSearchPageIdentifier = new DistributedSearchPageIdentifier(indexResult.getIndex(), indexResult.getId());
 		final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.load(distributedSearchPageIdentifier);
 		return new DistributedSearchResultImpl(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), distributedSearchPage.getTitle(),
 				distributedSearchPage.getContent());

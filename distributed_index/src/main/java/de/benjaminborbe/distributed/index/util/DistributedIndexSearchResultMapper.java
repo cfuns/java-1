@@ -31,7 +31,7 @@ public class DistributedIndexSearchResultMapper implements Mapper<DistributedInd
 
 	@Override
 	public String toString(final DistributedIndexSearchResult distributedIndexSearchResult) {
-		return String.format("%010d", Integer.MAX_VALUE - distributedIndexSearchResult.getRating()) + DistributedIndexConstants.SEPERATOR + distributedIndexSearchResult.getSpace()
+		return String.format("%010d", Integer.MAX_VALUE - distributedIndexSearchResult.getRating()) + DistributedIndexConstants.SEPERATOR + distributedIndexSearchResult.getIndex()
 				+ DistributedIndexConstants.SEPERATOR + distributedIndexSearchResult.getId();
 	}
 }

@@ -6,5 +6,5 @@ public interface DistributedIndexSearchResult {
 
 	Integer getRating();
 
-	String getSpace();
+	String getIndex();
 }

@@ -258,7 +258,7 @@ create column family distributed_search_page with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and
   column_metadata = [
-    {column_name: index, validation_class: UTF8Type, index_type: KEYS}
+    {column_name: 'index', validation_class: UTF8Type, index_type: KEYS}
   ];
 
 drop column family distributed_index_word;

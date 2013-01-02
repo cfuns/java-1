@@ -10,19 +10,19 @@ public class DistributedIndexSearchResultImpl implements DistributedIndexSearchR
 
 	private final String id;
 
-	private final String space;
+	private final String index;
 
 	public DistributedIndexSearchResultImpl(final Integer rating, final String space, final String id) {
 		this.rating = rating;
 		this.id = id;
-		this.space = space;
+		this.index = space;
 	}
 
 	public DistributedIndexSearchResultImpl(final Integer rating, final DistributedIndexEntryIdentifier distributedIndexEntryIdentifier) {
 		this.rating = rating;
 		final String entryId = distributedIndexEntryIdentifier.getId();
 		final String[] parts = entryId.split(DistributedIndexConstants.SEPERATOR, 2);
-		space = parts[0];
+		index = parts[0];
 		id = parts[1];
 	}
 
@@ -37,8 +37,8 @@ public class DistributedIndexSearchResultImpl implements DistributedIndexSearchR
 	}
 
 	@Override
-	public String getSpace() {
-		return space;
+	public String getIndex() {
+		return index;
 	}
 
 }

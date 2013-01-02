@@ -28,7 +28,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 			final DistributedIndexSearchResult object = mapper.fromString(columnName);
 			assertEquals(pageId, object.getId());
 			assertEquals(rating, object.getRating());
-			assertEquals(space, object.getSpace());
+			assertEquals(space, object.getIndex());
 		}
 		{
 			final String space = "defaultSpace";
@@ -39,7 +39,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 			final DistributedIndexSearchResult object = mapper.fromString(columnName);
 			assertEquals(pageId, object.getId());
 			assertEquals(rating, object.getRating());
-			assertEquals(space, object.getSpace());
+			assertEquals(space, object.getIndex());
 		}
 		{
 			final String space = "defaultSpace";
@@ -50,7 +50,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 			final DistributedIndexSearchResult object = mapper.fromString(columnName);
 			assertEquals(pageId, object.getId());
 			assertEquals(rating, object.getRating());
-			assertEquals(space, object.getSpace());
+			assertEquals(space, object.getIndex());
 		}
 	}
 
