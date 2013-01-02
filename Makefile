@@ -266,3 +266,8 @@ builddistributedindex:
 	cd distributed_index && make all
 	cd distributed_index_gui && make all
 	cd distributed_index_test && make all
+builddistributedsearch:
+	cd distributed_search_api && make all
+	cd distributed_search && make all
+	cd distributed_search_gui && make all
+	cd distributed_search_test && make all

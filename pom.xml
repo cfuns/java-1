@@ -116,6 +116,7 @@
 				<module>weather_test</module>
 				<module>websearch_test</module>
 				<module>distributed_index_test</module>
+				<module>distributed_search_test</module>
 				<module>wiki_test</module>
 				<module>worktime_test</module>
 				<module>wow_test</module>
@@ -276,6 +277,9 @@
 				<module>distributed_index</module>
 				<module>distributed_index_api</module>
 				<module>distributed_index_gui</module>
+				<module>distributed_search</module>
+				<module>distributed_search_api</module>
+				<module>distributed_search_gui</module>
 				<module>websearch</module>
 				<module>websearch_api</module>
 				<module>websearch_gui</module>
