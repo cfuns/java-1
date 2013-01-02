@@ -283,8 +283,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (user == null) {
 				return false;
 			}
+			final boolean result = logout(sessionIdentifier);
 			userDao.delete(user);
-			return logout(sessionIdentifier);
+			return result;
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);

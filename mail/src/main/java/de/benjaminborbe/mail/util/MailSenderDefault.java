@@ -26,6 +26,13 @@ public class MailSenderDefault implements MailSender {
 
 	@Override
 	public void send(final Mail mail) throws MailServiceException {
+		if (mail == null) {
+			throw new MailServiceException("parameter mail missing");
+		}
+		if (mail.getTo() != null && mail.getTo().endsWith("@example.com")) {
+			logger.debug("skip send mail because @example.com");
+			return;
+		}
 		try {
 			logger.trace("send mail to " + mail.getTo());
 			final String from = mail.getFrom();

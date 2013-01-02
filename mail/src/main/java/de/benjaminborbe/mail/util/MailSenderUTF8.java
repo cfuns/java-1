@@ -33,6 +33,10 @@ public class MailSenderUTF8 implements MailSender {
 		if (mail == null) {
 			throw new MailServiceException("parameter mail missing");
 		}
+		if (mail.getTo() != null && mail.getTo().endsWith("@example.com")) {
+			logger.debug("skip send mail because @example.com");
+			return;
+		}
 		try {
 			logger.trace("send mail to " + mail.getTo());
 			final String charset = "utf-8";

@@ -75,7 +75,7 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 
 		final String sessionId = "asdf";
 		final String username = "testuser";
-		final String password = "testpassword";
+		final String password = "Test123!";
 		final String email = "test@example.com";
 		final String fullname = "foo bar";
 
@@ -88,6 +88,7 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 			service.unregister(sessionIdentifier);
 		}
 
+		assertFalse(service.isLoggedIn(sessionIdentifier));
 		assertFalse(service.verifyCredential(sessionIdentifier, userIdentifier, password));
 		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
 		try {
@@ -108,12 +109,22 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 
 		final String sessionId = "asdf";
 		final String username = "testuser";
-		final String password = "testpassword";
+		final String password = "Test123!";
 		final String email = "test@example.com";
 		final String fullname = "foo bar";
 
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
+		final UserIdentifier userIdentifier = new UserIdentifier(username);
 
+		// if user already exists unregister first
+		if (service.verifyCredential(sessionIdentifier, userIdentifier, password)) {
+			service.login(sessionIdentifier, userIdentifier, password);
+			service.unregister(sessionIdentifier);
+		}
+
+		service.logout(sessionIdentifier);
+
+		assertFalse(service.isLoggedIn(sessionIdentifier));
 		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
 		assertTrue(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), password));
 		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier("wrong"), password));
