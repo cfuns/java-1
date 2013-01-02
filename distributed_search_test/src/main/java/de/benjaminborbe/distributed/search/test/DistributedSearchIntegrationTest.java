@@ -1,5 +1,7 @@
 package de.benjaminborbe.distributed.search.test;
 
+import java.net.URL;
+
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.junit.Test;
@@ -68,4 +70,26 @@ public class DistributedSearchIntegrationTest extends OSGiTestCase {
 		assertEquals("de.benjaminborbe.distributed.search.service.DistributedSearchServiceImpl", service.getClass().getName());
 	}
 
+	@Test
+	public void testSearch() throws Exception {
+		final Object serviceObject = getServiceObject(DistributedSearchService.class.getName(), null);
+		final DistributedSearchService service = (DistributedSearchService) serviceObject;
+
+		final String index = "defaultIndex";
+		final URL url = new URL("http://www.example.com/a");
+		final String title = "title";
+		final String content = "content";
+
+		assertTrue(service.search(index, "content", 1).isEmpty());
+
+		service.addToIndex(index, url, title, content);
+
+		assertFalse(service.search(index, "content", 1).isEmpty());
+
+		service.clear(index);
+
+		assertTrue(service.search(index, "content", 1).isEmpty());
+
+		assertFalse(true);
+	}
 }

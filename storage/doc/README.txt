@@ -251,3 +251,24 @@ create column family shortener_url with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type; 
+
+drop column family distributed_search_page;
+create column family distributed_search_page with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: index, validation_class: UTF8Type, index_type: KEYS}
+  ];
+
+drop column family distributed_index_word;
+create column family distributed_index_word with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
+drop column family distributed_index_entry;
+create column family distributed_index_entry with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
