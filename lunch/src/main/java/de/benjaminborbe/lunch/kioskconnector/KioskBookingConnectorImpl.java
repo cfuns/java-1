@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -21,10 +22,6 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 
 public class KioskBookingConnectorImpl implements KioskBookingConnector {
-
-	private static final String MITTAG_EAN = "9780201379624";
-
-	private static final String DELETE_EAN = "2030066600003";
 
 	// 10 seconds
 	private static final int TIMEOUT = 10000;
@@ -78,7 +75,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// delete all
 			{
-				final String htmlContent = addProduct(sessionId, DELETE_EAN);
+				final String htmlContent = addProduct(sessionId, LunchConstants.DELETE_EAN);
 				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/cart\">Redirect-URL</a>") == -1) {
 					logger.warn("clear cart failed");
 					logger.debug("htmlContent: " + htmlContent);
@@ -91,7 +88,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// add mittag essen
 			{
-				final String htmlContent = addProduct(sessionId, MITTAG_EAN);
+				final String htmlContent = addProduct(sessionId, LunchConstants.MITTAG_EAN);
 				if (htmlContent.indexOf("Redirect-URL") == -1) {
 					logger.warn("add lunch failed");
 					logger.debug("htmlContent: " + htmlContent);
