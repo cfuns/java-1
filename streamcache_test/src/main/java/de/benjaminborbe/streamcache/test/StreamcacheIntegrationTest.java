@@ -2,8 +2,8 @@ package de.benjaminborbe.streamcache.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.streamcache.api.StreamcacheService;
@@ -22,7 +22,6 @@ public class StreamcacheIntegrationTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();
@@ -50,21 +49,20 @@ public class StreamcacheIntegrationTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// @Test public void testServices() throws Exception {
-	// final BundleContext bundleContext = getContext();
-	// assertNotNull(bundleContext);
-	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
-	// // final Bundle bundle = a.getBundle();
-	// final Object service = bundleContext.getService(a);
-	// System.err.println(service);
-	// }
-	// }
+	public void testServices() throws Exception {
+		final BundleContext bundleContext = getContext();
+		assertNotNull(bundleContext);
+		for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
+			// final Bundle bundle = a.getBundle();
+			final Object service = bundleContext.getService(a);
+			System.err.println(service);
+		}
+	}
 
-	@Test
 	public void testStreamcacheService() {
 		final Object serviceObject = getServiceObject(StreamcacheService.class.getName(), null);
 		final StreamcacheService service = (StreamcacheService) serviceObject;
-		assertNotNull(service);
+		assertNotNull("StreamcacheService is null", service);
 		assertEquals("de.benjaminborbe.streamcache.service.StreamcacheServiceImpl", service.getClass().getName());
 	}
 

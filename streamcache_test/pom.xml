@@ -17,7 +17,8 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${maven-bundle-plugin.version}</version>				<extensions>true</extensions>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Export-Package></Export-Package>
@@ -90,7 +91,8 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<dependencies>		<dependency>
+	<dependencies>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
@@ -127,29 +129,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.streamcache</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.streamcache.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.streamcache.gui</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.html</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -175,6 +154,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.streamcache</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.streamcache.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.streamcache.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
