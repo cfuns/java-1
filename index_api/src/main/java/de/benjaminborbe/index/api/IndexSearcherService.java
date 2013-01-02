@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IndexSearcherService {
 
-	List<IndexSearchResult> search(String index, String searchQuery);
+	List<IndexSearchResult> search(String index, String searchQuery, int limit);
 }

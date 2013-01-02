@@ -17,6 +17,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.confluence.ConfluenceConstants;
 import de.benjaminborbe.confluence.util.ConfluenceIndexUtil;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexSearcherService;
@@ -89,10 +90,10 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 		logger.trace("search");
 		final String searchString = StringUtils.join(words, " ");
 		final List<IndexSearchResult> indexResults = new ArrayList<IndexSearchResult>();
-		indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexShared(), searchString));
+		indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexShared(), searchString, ConfluenceConstants.SEARCH_LIMIT));
 		try {
 			final UserIdentifier user = authenticationService.getCurrentUser(sessionIdentifier);
-			indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexPrivate(user), searchString));
+			indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexPrivate(user), searchString, ConfluenceConstants.SEARCH_LIMIT));
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

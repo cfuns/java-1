@@ -5,7 +5,7 @@ import java.util.List;
 public class IndexSearcherServiceMock implements IndexSearcherService {
 
 	@Override
-	public List<IndexSearchResult> search(final String index, final String searchQuery) {
+	public List<IndexSearchResult> search(final String index, final String searchQuery, final int limit) {
 		return null;
 	}
 

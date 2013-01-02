@@ -73,7 +73,7 @@ public class WebsearchSearchServiceComponent implements SearchServiceComponent {
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.debug("search - query: " + query);
-		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "));
+		final List<IndexSearchResult> indexResults = indexSearcherService.search(WebsearchConstants.INDEX, StringUtils.join(words, " "), WebsearchConstants.SEARCH_LIMIT);
 		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
 		final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
 		final List<SearchResult> result = new ArrayList<SearchResult>();

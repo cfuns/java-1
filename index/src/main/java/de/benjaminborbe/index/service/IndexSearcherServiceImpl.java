@@ -46,7 +46,7 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 	}
 
 	@Override
-	public List<IndexSearchResult> search(final String indexName, final String searchQuery) {
+	public List<IndexSearchResult> search(final String indexName, final String searchQuery, final int hitsPerPage) {
 		logger.debug("search in index: " + indexName + " for " + searchQuery);
 		final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 		try {
@@ -70,7 +70,6 @@ public class IndexSearcherServiceImpl implements IndexSearcherService {
 			final Query query = queryParser.parse(searchQuery);
 
 			// searching...
-			final int hitsPerPage = 10;
 			final IndexReader indexReader = DirectoryReader.open(index);
 			final IndexSearcher searcher = new IndexSearcher(indexReader);
 			final boolean docsScoredInOrder = true;
