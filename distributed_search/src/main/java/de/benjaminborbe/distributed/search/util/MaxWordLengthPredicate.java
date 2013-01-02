@@ -8,7 +8,7 @@ public class MaxWordLengthPredicate implements Predicate<String> {
 
 	@Override
 	public boolean apply(final String input) {
-		return input != null && input.length() >= DistributedSearchConstants.MAX_WORD_LENGTH;
+		return input != null && input.length() <= DistributedSearchConstants.MAX_WORD_LENGTH;
 	}
 
 }
