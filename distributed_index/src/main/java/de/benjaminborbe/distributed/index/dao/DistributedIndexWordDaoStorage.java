@@ -62,7 +62,7 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 
 	@Override
 	public DistributedIndexSearchResultIterator search(final DistributedIndexWordIdentifier word) throws StorageException {
-		logger.debug("search");
+		logger.debug("search: " + word);
 		final StorageValue wordIdentifier = new StorageValue(word.getId(), DistributedIndexConstants.ENCODING);
 		return new DistributedIndexSearchResultIteratorAdapter(distributedIndexSearchResultMapper, storageService.columnIterator(COLUMN_FAMILY, wordIdentifier));
 	}

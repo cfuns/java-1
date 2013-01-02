@@ -1,6 +1,8 @@
 package de.benjaminborbe.distributed.index.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +19,8 @@ import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryDao;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryIdentifier;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexWordDao;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexWordIdentifier;
+import de.benjaminborbe.distributed.index.util.DistributedIndexSearchResultIteratorAgreator;
+import de.benjaminborbe.distributed.index.util.DistributedIndexSearchResultIteratorCurrent;
 import de.benjaminborbe.storage.api.StorageException;
 
 @Singleton
@@ -68,7 +72,12 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	public DistributedIndexSearchResultIterator search(final String index, final Collection<String> words) throws DistributedIndexServiceException {
 		try {
 			logger.debug("search - index: " + index + " words: " + StringUtils.join(words, ','));
-			return distributedIndexWordDao.search(buildWordId(index, words.iterator().next()));
+
+			final List<DistributedIndexSearchResultIteratorCurrent> iterators = new ArrayList<DistributedIndexSearchResultIteratorCurrent>();
+			for (final String word : words) {
+				iterators.add(new DistributedIndexSearchResultIteratorCurrent(distributedIndexWordDao.search(buildWordId(index, word))));
+			}
+			return new DistributedIndexSearchResultIteratorAgreator(logger, iterators);
 		}
 		catch (final StorageException e) {
 			throw new DistributedIndexServiceException(e);
