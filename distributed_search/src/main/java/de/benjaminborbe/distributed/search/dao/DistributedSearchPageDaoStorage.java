@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -37,6 +38,11 @@ public class DistributedSearchPageDaoStorage extends DaoStorage<DistributedSearc
 	@Override
 	public IdentifierIterator<DistributedSearchPageIdentifier> getIdentifierIteratorByIndex(final String index) throws StorageException {
 		return getIdentifierIterator(new StorageValueMap(getEncoding()).add(DistributedSearchPageBeanMapper.INDEX, index));
+	}
+
+	@Override
+	public EntityIterator<DistributedSearchPageBean> getEntityIteratorByIndex(final String index) throws StorageException {
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(DistributedSearchPageBeanMapper.INDEX, index));
 	}
 
 }

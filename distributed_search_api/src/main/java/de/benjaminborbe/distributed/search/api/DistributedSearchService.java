@@ -7,7 +7,7 @@ public interface DistributedSearchService {
 
 	void addToIndex(String index, URL url, String title, String content) throws DistributedSearchServiceException;
 
-	void clear(String indexName) throws DistributedSearchServiceException;
+	void clear(String index) throws DistributedSearchServiceException;
 
 	List<DistributedSearchResult> search(String index, String searchQuery, int limit) throws DistributedSearchServiceException;
 }

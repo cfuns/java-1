@@ -85,7 +85,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 				else {
 					while (i.hasNext()) {
-						final I id = identifierBuilder.buildIdentifier(i.next().toString());
+						final I id = identifierBuilder.buildIdentifier(i.next().getString());
 						if (exists(id)) {
 							next = id;
 							return true;
@@ -98,6 +98,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				throw new IdentifierIteratorException(e);
 			}
 			catch (final IdentifierBuilderException e) {
+				throw new IdentifierIteratorException(e);
+			}
+			catch (final UnsupportedEncodingException e) {
 				throw new IdentifierIteratorException(e);
 			}
 		}
@@ -222,17 +225,17 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void delete(final E entity) throws StorageException {
-		try {
-			logger.trace("delete");
-			storageService.delete(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()));
-		}
-		finally {
-		}
+		delete(entity.getId());
 	}
 
 	@Override
 	public void delete(final I id) throws StorageException {
-		delete(load(id));
+		try {
+			logger.trace("delete");
+			storageService.delete(getColumnFamily(), new StorageValue(id.getId(), getEncoding()));
+		}
+		finally {
+		}
 	}
 
 	@Override

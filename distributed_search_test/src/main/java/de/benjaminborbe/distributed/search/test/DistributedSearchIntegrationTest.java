@@ -65,6 +65,8 @@ public class DistributedSearchIntegrationTest extends OSGiTestCase {
 		final String title = "title";
 		final String content = "content";
 
+		service.clear(index);
+
 		assertTrue(service.search(index, "content", 1).isEmpty());
 
 		service.addToIndex(index, url, title, content);
@@ -74,7 +76,5 @@ public class DistributedSearchIntegrationTest extends OSGiTestCase {
 		service.clear(index);
 
 		assertTrue(service.search(index, "content", 1).isEmpty());
-
-		assertFalse(true);
 	}
 }

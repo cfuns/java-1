@@ -9,10 +9,22 @@ import com.google.inject.Singleton;
 @Singleton
 public class LoggerSlf4Provider implements Provider<Logger> {
 
-	private final org.slf4j.Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	private final Logger loggerConsole = new LoggerConsole();
+
+	@Override
 	public Logger get() {
-		return logger;
+		if (isConsoleLog()) {
+			return loggerConsole;
+		}
+		else {
+			return logger;
+		}
+	}
+
+	private boolean isConsoleLog() {
+		return "true".equals(System.getProperty("logConsole"));
 	}
 
 }

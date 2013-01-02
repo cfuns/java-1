@@ -57,7 +57,8 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.create();
 			distributedSearchPage.setId(new DistributedSearchPageIdentifier(index, url.toExternalForm()));
 			distributedSearchPage.setTitle(title);
-			distributedSearchPage.setTitle(content);
+			distributedSearchPage.setContent(content);
+			distributedSearchPage.setIndex(index);
 			distributedSearchPageDao.save(distributedSearchPage);
 			final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(content);
 			distributedIndexService.add(index, url.toExternalForm(), data);
@@ -78,7 +79,10 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			final DistributedIndexSearchResultIterator i = distributedIndexService.search(index, words);
 			final List<DistributedSearchResult> result = new ArrayList<DistributedSearchResult>();
 			while (i.hasNext() && result.size() < limit) {
-				result.add(buildResult(i.next()));
+				final DistributedSearchResult e = buildResult(i.next());
+				if (e != null) {
+					result.add(e);
+				}
 			}
 			return result;
 		}
@@ -93,8 +97,13 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	private DistributedSearchResult buildResult(final DistributedIndexSearchResult indexResult) throws StorageException {
 		final DistributedSearchPageIdentifier distributedSearchPageIdentifier = new DistributedSearchPageIdentifier(indexResult.getIndex(), indexResult.getId());
 		final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.load(distributedSearchPageIdentifier);
-		return new DistributedSearchResultImpl(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), distributedSearchPage.getTitle(),
-				distributedSearchPage.getContent());
+		if (distributedSearchPage != null) {
+			return new DistributedSearchResultImpl(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), distributedSearchPage.getTitle(),
+					distributedSearchPage.getContent());
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -104,9 +113,11 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			final IdentifierIterator<DistributedSearchPageIdentifier> i = distributedSearchPageDao.getIdentifierIteratorByIndex(index);
 			while (i.hasNext()) {
 				final DistributedSearchPageIdentifier id = i.next();
+				logger.debug("clear - delete: " + id);
 				distributedSearchPageDao.delete(id);
 				distributedIndexService.remove(index, id.getPageId());
 			}
+			logger.debug("clear - finished");
 		}
 		catch (final StorageException e) {
 			throw new DistributedSearchServiceException(e);

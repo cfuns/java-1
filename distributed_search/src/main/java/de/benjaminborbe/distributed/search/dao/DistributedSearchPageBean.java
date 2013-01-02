@@ -32,14 +32,6 @@ public class DistributedSearchPageBean implements Entity<DistributedSearchPageId
 		this.id = id;
 	}
 
-	public String getIndex() {
-		return index;
-	}
-
-	public void setIndex(final String index) {
-		this.index = index;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -56,20 +48,32 @@ public class DistributedSearchPageBean implements Entity<DistributedSearchPageId
 		this.content = content;
 	}
 
+	@Override
 	public Calendar getCreated() {
 		return created;
 	}
 
-	public void setCreated(Calendar created) {
+	@Override
+	public void setCreated(final Calendar created) {
 		this.created = created;
 	}
 
+	@Override
 	public Calendar getModified() {
 		return modified;
 	}
 
-	public void setModified(Calendar modified) {
+	@Override
+	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(final String indexName) {
+		this.index = indexName;
 	}
 
 }

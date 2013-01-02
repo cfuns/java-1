@@ -19,6 +19,7 @@ public class DistributedIndexServiceMock implements DistributedIndexService {
 
 	@Override
 	public void add(final String index, final String id, final Map<String, Integer> data) throws DistributedIndexServiceException {
+
 	}
 
 	@Override
