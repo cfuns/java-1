@@ -124,7 +124,7 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 	}
 
 	@Override
-	public void addToLuceneIndex(final String indexName, final URL url, final String title, final String content) throws LuceneIndexServiceException {
+	public void addToIndex(final String indexName, final URL url, final String title, final String content) throws LuceneIndexServiceException {
 		logger.info("add to index: " + indexName + " url: " + url.toExternalForm() + " title: " + title + " content: " + stringUtil.shorten(content, 100));
 
 		if (!validateInput(indexName, url, title, content)) {

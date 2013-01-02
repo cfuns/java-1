@@ -2,7 +2,7 @@ package de.benjaminborbe.lucene.index.api;
 
 public interface LuceneIndexSearchResult {
 
-	String getLuceneIndex();
+	String getIndex();
 
 	String getTitle();
 

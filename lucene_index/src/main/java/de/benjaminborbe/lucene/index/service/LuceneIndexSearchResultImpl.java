@@ -20,7 +20,7 @@ public class LuceneIndexSearchResultImpl implements LuceneIndexSearchResult {
 	}
 
 	@Override
-	public String getLuceneIndex() {
+	public String getIndex() {
 		return index;
 	}
 

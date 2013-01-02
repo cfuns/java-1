@@ -45,7 +45,7 @@ public class LuceneIndexGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/index");
+		final List<String> paths = Arrays.asList("/" + LuceneIndexGuiConstants.NAME);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -66,7 +66,7 @@ public class LuceneIndexGuiActivatorIntegrationTest {
 
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/index.*");
+		final List<String> paths = Arrays.asList("/" + LuceneIndexGuiConstants.NAME + ".*");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterFilterCallCounter());
 
 		for (final String path : paths) {

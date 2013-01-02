@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface LuceneIndexService {
 
-	void addToLuceneIndex(String index, URL url, String title, String content) throws LuceneIndexServiceException;
+	void addToIndex(String index, URL url, String title, String content) throws LuceneIndexServiceException;
 
 	void clear(String indexName) throws LuceneIndexServiceException;
 
