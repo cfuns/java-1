@@ -65,7 +65,7 @@ public class MessageIntegrationTest extends OSGiTestCase {
 		final Object serviceObject = getServiceObject(MessageService.class.getName(), null);
 		final MessageService service = (MessageService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.messageservice.service.MessageserviceServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.message.service.MessageServiceImpl", service.getClass().getName());
 	}
 
 }
