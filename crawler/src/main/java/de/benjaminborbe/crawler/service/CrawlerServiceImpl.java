@@ -46,22 +46,22 @@ public class CrawlerServiceImpl implements CrawlerService {
 		this.crawlerNotifier = crawlerNotifier;
 	}
 
-	protected void crawleDomain(final URL domainUrl, final int timeout) throws CrawlerException {
+	protected void crawleDomain(final URL url, final int timeout) throws CrawlerException {
 		try {
-			logger.trace("crawle domain: " + domainUrl);
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(domainUrl, timeout);
+			logger.trace("crawle domain: " + url);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, timeout);
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();
-			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, content, contentType, true));
+			crawlerNotifier.notifiy(new CrawlerResultImpl(url, content, contentType, true));
 		}
 		catch (final HttpDownloaderException e) {
-			logger.trace("HttpDownloaderException url: " + domainUrl, e);
-			logger.info("HttpDownloaderException url: " + domainUrl);
-			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, null, false));
+			logger.trace("HttpDownloaderException url: " + url, e);
+			logger.info("HttpDownloaderException url: " + url);
+			crawlerNotifier.notifiy(new CrawlerResultImpl(url, null, null, false));
 		}
 		catch (final UnsupportedEncodingException e) {
-			logger.warn("UnsupportedEncodingException url: " + domainUrl, e);
-			crawlerNotifier.notifiy(new CrawlerResultImpl(domainUrl, null, null, false));
+			logger.warn("UnsupportedEncodingException url: " + url, e);
+			crawlerNotifier.notifiy(new CrawlerResultImpl(url, null, null, false));
 		}
 	}
 

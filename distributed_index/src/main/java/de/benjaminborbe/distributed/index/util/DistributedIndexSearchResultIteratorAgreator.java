@@ -32,7 +32,7 @@ public class DistributedIndexSearchResultIteratorAgreator implements Distributed
 
 	@Override
 	public DistributedIndexSearchResult next() throws DistributedIndexServiceException {
-		logger.debug("next");
+		logger.trace("next");
 		if (hasNext()) {
 			final DistributedIndexSearchResult result = next;
 			next = null;
@@ -45,10 +45,10 @@ public class DistributedIndexSearchResultIteratorAgreator implements Distributed
 
 	@Override
 	public boolean hasNext() throws DistributedIndexServiceException {
-		logger.debug("next");
+		logger.trace("next");
 		while (true) {
 			if (next != null) {
-				logger.debug("next => true");
+				logger.trace("next => true");
 				return true;
 			}
 

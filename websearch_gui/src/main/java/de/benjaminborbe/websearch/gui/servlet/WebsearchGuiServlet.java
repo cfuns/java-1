@@ -27,6 +27,7 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
@@ -71,13 +72,21 @@ public class WebsearchGuiServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 
-		final UlWidget ul = new UlWidget();
-		ul.add(websearchGuiLinkFactory.pageList(request));
-		ul.add(websearchGuiLinkFactory.configurationList(request));
-		ul.add(websearchGuiLinkFactory.clearIndex(request));
-		ul.add(websearchGuiLinkFactory.refreshAll(request));
-		widgets.add(ul);
+		{
+			final UlWidget ul = new UlWidget();
+			ul.add(websearchGuiLinkFactory.pageList(request));
+			ul.add(websearchGuiLinkFactory.configurationList(request));
+			ul.add(websearchGuiLinkFactory.refreshAll(request));
+			widgets.add(ul);
+		}
 
+		widgets.add(new H2Widget("Maintenance"));
+		{
+			final UlWidget ul = new UlWidget();
+			ul.add(websearchGuiLinkFactory.clearIndex(request));
+			ul.add(websearchGuiLinkFactory.expireAll(request));
+			widgets.add(ul);
+		}
 		return widgets;
 	}
 }

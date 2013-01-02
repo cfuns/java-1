@@ -62,10 +62,14 @@ public class WebsearchGuiLinkFactory {
 	}
 
 	public Widget clearIndex(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CLEAR_INDEX, "clear index");
+		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CLEAR_INDEX, "clear index").addConfirm("clear index?");
 	}
 
 	public Widget refreshAll(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_REFRESH, "refresh all");
+	}
+
+	public Widget expireAll(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_EXPIRE_ALL, "expire all").addConfirm("expire all?");
 	}
 }
