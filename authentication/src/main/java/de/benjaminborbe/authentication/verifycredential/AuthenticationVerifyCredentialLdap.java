@@ -53,7 +53,6 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 			return ldapConnector.getFullname(userIdentifier.getId()) != null;
 		}
 		catch (final LdapException e) {
-			logger.debug(e.getClass().getName(), e);
 			throw new AuthenticationServiceException(e.getClass().getName(), e);
 		}
 	}

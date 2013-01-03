@@ -1,5 +1,7 @@
 package de.benjaminborbe.confluence.api;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
+
 public interface ConfluenceInstance {
 
 	ConfluenceInstanceIdentifier getId();
@@ -15,5 +17,7 @@ public interface ConfluenceInstance {
 	Long getDelay();
 
 	Boolean getActivated();
+
+	UserIdentifier getOwner();
 
 }

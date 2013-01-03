@@ -66,20 +66,20 @@ public class ConfluenceServiceMock implements ConfluenceService {
 
 	@Override
 	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final int expire, final boolean shared, final long delay, final boolean activated) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+			final int expire, final boolean shared, final long delay, final boolean activated, final String owner) throws ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated) throws ConfluenceServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated, final String owner)
+			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 	}
 
 	@Override
-	public long countPages(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public long countPages(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
+			LoginRequiredException, PermissionDeniedException {
 		return 0;
 	}
 

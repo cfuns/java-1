@@ -97,6 +97,8 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 			Collections.sort(confluenceInstances, confluenceInstanceComparator);
 			for (final ConfluenceInstance confluenceInstance : confluenceInstances) {
 				final ListWidget list = new ListWidget();
+				list.add(confluenceInstance.getUsername());
+				list.add(" @ ");
 				list.add(confluenceInstance.getUrl());
 				list.add(" ");
 				list.add("PageCount: " + String.valueOf(confluenceService.countPages(sessionIdentifier, confluenceInstance.getId())));

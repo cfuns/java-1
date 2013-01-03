@@ -67,15 +67,12 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 			}
 		}
 		catch (final StorageException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final NoSuchAlgorithmException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final InvalidKeySpecException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -94,8 +91,13 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 	}
 
 	@Override
-	public boolean existsUser(final UserIdentifier userIdentifier) {
-		return userDao.equals(userIdentifier);
+	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		try {
+			return userDao.exists(userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 }

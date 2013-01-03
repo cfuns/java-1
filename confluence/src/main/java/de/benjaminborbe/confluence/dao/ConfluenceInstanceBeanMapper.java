@@ -11,6 +11,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
+import de.benjaminborbe.confluence.util.MapperConfluenceInstanceIdentifier;
+import de.benjaminborbe.confluence.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperInteger;

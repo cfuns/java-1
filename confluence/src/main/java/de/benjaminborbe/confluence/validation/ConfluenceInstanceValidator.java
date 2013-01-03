@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -103,6 +104,12 @@ public class ConfluenceInstanceValidator implements Validator<ConfluenceInstance
 				logger.debug(e.getClass().getName(), e);
 				result.add(new ValidationErrorSimple("login failed to confluence"));
 			}
+		}
+		{
+			final UserIdentifier owner = bean.getOwner();
+			final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
+			constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
+			result.addAll(validationConstraintValidator.validate("owner", owner, constraints));
 		}
 
 		return result;

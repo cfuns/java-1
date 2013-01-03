@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.confluence.ConfluenceConstants;
+
 @Singleton
 public class ConfluenceConnectorImpl implements ConfluenceConnector {
 
@@ -37,6 +39,8 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 		final URL url = new URL(confluenceBaseUrl + "/rpc/xmlrpc");
 		final XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 		config.setServerURL(url);
+		config.setConnectionTimeout(ConfluenceConstants.CONNECTION_TIMEOUT);
+		config.setReplyTimeout(ConfluenceConstants.CONNECTION_TIMEOUT);
 		final XmlRpcClient client = new XmlRpcClient();
 		client.setConfig(config);
 		return client;

@@ -8,6 +8,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -36,6 +37,7 @@ public class ConfluenceInstanceValidatorUnitTest {
 		bean.setUrl("http://confluence.de");
 		bean.setUsername("username");
 		bean.setPassword("password");
+		bean.setOwner(new UserIdentifier("owner"));
 		assertThat(va.validate(bean).size(), is(0));
 	}
 
@@ -66,6 +68,7 @@ public class ConfluenceInstanceValidatorUnitTest {
 		bean.setUrl(confluenceBaseUrl);
 		bean.setUsername(username);
 		bean.setPassword(password);
+		bean.setOwner(new UserIdentifier("owner"));
 		assertThat(va.validate(bean).size(), is(1));
 		assertThat(va.validate(bean).size(), is(0));
 	}

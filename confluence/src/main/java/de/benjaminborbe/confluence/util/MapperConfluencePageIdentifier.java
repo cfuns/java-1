@@ -1,4 +1,4 @@
-package de.benjaminborbe.confluence.dao;
+package de.benjaminborbe.confluence.util;
 
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;

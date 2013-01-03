@@ -33,4 +33,6 @@ public interface ConfluenceGuiConstants {
 	String PARAMETER_INSTANCE_DELAY = "instance_delay";
 
 	String PARAMETER_INSTANCE_ACTIVATED = "instance_activated";
+
+	String PARAMETER_INSTANCE_OWNER = "instance_owner";
 }

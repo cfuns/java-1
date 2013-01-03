@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -84,8 +85,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-			final int expire, final boolean shared, final long delay, final boolean activated) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+			final int expire, final boolean shared, final long delay, final boolean activated, final String owner) throws ConfluenceServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createConfluenceIntance");
@@ -93,7 +94,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = createConfluenceInstanceIdentifier(sessionIdentifier, idGeneratorUUID.nextId());
 			final ConfluenceInstanceBean confluenceInstance = confluenceInstanceDao.create();
-			confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
 			confluenceInstance.setId(confluenceInstanceIdentifier);
 			confluenceInstance.setUrl(url);
 			confluenceInstance.setUsername(username);
@@ -102,6 +102,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setShared(shared);
 			confluenceInstance.setDelay(delay);
 			confluenceInstance.setActivated(activated);
+
+			setOwner(sessionIdentifier, owner, confluenceInstance);
 
 			final ValidationResult errors = validationExecutor.validate(confluenceInstance);
 			if (errors.hasErrors()) {
@@ -128,8 +130,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	@Override
 	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated) throws ConfluenceServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated, final String owner)
+			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateConfluenceIntance");
@@ -143,9 +145,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setDelay(delay);
 			confluenceInstance.setActivated(activated);
 
-			if (confluenceInstance.getOwner() == null) {
-				confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
-			}
+			setOwner(sessionIdentifier, owner, confluenceInstance);
 
 			if (password != null && password.length() > 0) {
 				confluenceInstance.setPassword(password);
@@ -169,6 +169,23 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	private void setOwner(final SessionIdentifier sessionIdentifier, final String owner, final ConfluenceInstanceBean confluenceInstance) throws AuthenticationServiceException {
+		logger.debug("setOwner " + owner);
+		if (owner != null && !owner.isEmpty()) {
+			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(owner);
+			if (authenticationService.existsUser(userIdentifier)) {
+				confluenceInstance.setOwner(userIdentifier);
+			}
+			else {
+				logger.debug("user " + owner + " not found");
+			}
+		}
+
+		if (confluenceInstance.getOwner() == null) {
+			confluenceInstance.setOwner(authenticationService.getCurrentUser(sessionIdentifier));
 		}
 	}
 

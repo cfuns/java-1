@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
+import de.benjaminborbe.confluence.util.MapperConfluenceInstanceIdentifier;
+import de.benjaminborbe.confluence.util.MapperConfluencePageIdentifier;
+import de.benjaminborbe.confluence.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;

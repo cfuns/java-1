@@ -388,8 +388,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		logger.debug("existsUser - user: " + userIdentifier);
 		try {
 			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
+				logger.debug("existsUser - user: " + userIdentifier + " in " + a.getClass().getSimpleName());
 				try {
 					if (a.existsUser(userIdentifier)) {
 						return true;
@@ -399,6 +401,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					logger.warn(e.getClass().getName(), e);
 				}
 			}
+			logger.debug("existsUser - user not found: " + userIdentifier);
 			return false;
 		}
 		finally {
