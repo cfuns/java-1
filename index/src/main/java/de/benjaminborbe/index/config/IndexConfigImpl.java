@@ -22,7 +22,7 @@ public class IndexConfigImpl extends ConfigurationBase implements IndexConfig {
 	private final ConfigurationDescriptionBoolean indexDistributedEnabled = new ConfigurationDescriptionBoolean(false, IndexConstants.INDEX_DISTRIBUTED_ENABLED,
 			"Index Distributed Enabled");
 
-	private final ConfigurationDescriptionBoolean indexLuceneEnabled = new ConfigurationDescriptionBoolean(false, IndexConstants.INDEX_DISTRIBUTED_ENABLED, "Index Lucene Enabled");
+	private final ConfigurationDescriptionBoolean indexLuceneEnabled = new ConfigurationDescriptionBoolean(true, IndexConstants.INDEX_LUCENE_ENABLED, "Index Lucene Enabled");
 
 	@Inject
 	public IndexConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
