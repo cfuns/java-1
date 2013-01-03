@@ -23,6 +23,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -73,8 +74,12 @@ public class TaskGuiTaskStartLaterServlet extends TaskGuiWebsiteServlet {
 			final Calendar now = calendarUtil.now(timeZone);
 			final Calendar start = calendarUtil.parseSmart(timeZone, now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
 			final Calendar due = calcDue(start, task.getDue());
-			taskService.updateTask(sessionIdentifier, taskIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, due, task.getRepeatStart(),
-					task.getRepeatDue(), null);
+
+			final TaskDto taskDto = new TaskDto(task, null);
+			taskDto.setStart(start);
+			taskDto.setDue(due);
+
+			taskService.updateTask(sessionIdentifier, taskDto);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

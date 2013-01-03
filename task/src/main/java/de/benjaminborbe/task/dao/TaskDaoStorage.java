@@ -47,8 +47,6 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public EntityIterator<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier) throws StorageException {
 		logger.trace("getTasksNotCompleted for user: " + userIdentifier);
-		// return new EntityIteratorFilter<TaskBean>(getTasks(userIdentifier), new
-		// TaskNotCompletedPredicate());
 		return getEntityIterator(new StorageValueMap(getEncoding()).add("owner", String.valueOf(userIdentifier)).add("completed", "false"));
 	}
 

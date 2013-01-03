@@ -22,6 +22,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.guice.TaskModulesMock;
@@ -77,7 +78,11 @@ public class TaskServiceImplIntegrationTest {
 
 		final String name = "nameA";
 		final String description = "descriptionA";
-		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name, description, null, null, null, null, null, null, null);
+		final TaskDto taskDto = new TaskDto();
+		taskDto.setName(name);
+		taskDto.setDescription(description);
+
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
 		assertNotNull(taskIdentifier);
 
 		assertEquals(1, taskService.getTasksNotCompleted(sessionIdentifier).size());
@@ -97,11 +102,24 @@ public class TaskServiceImplIntegrationTest {
 
 		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
 
-		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, null, null, null, null, null, null);
+		final TaskDto taskDtoA = new TaskDto();
+		taskDtoA.setName("nameA");
+		taskDtoA.setDescription("descriptionA");
+		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, taskDtoA);
 		assertNotNull(taskIdentifierA);
-		final TaskIdentifier taskIdentifierB = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, taskIdentifierA, null, null, null, null, null);
+
+		final TaskDto taskDtoB = new TaskDto();
+		taskDtoB.setName("nameA");
+		taskDtoB.setDescription("descriptionA");
+		taskDtoB.setParentId(taskIdentifierA);
+		final TaskIdentifier taskIdentifierB = taskService.createTask(sessionIdentifier, taskDtoB);
 		assertNotNull(taskIdentifierB);
-		final TaskIdentifier taskIdentifierC = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, taskIdentifierB, null, null, null, null, null);
+
+		final TaskDto taskDtoC = new TaskDto();
+		taskDtoC.setName("nameA");
+		taskDtoC.setDescription("descriptionA");
+		taskDtoC.setParentId(taskIdentifierB);
+		final TaskIdentifier taskIdentifierC = taskService.createTask(sessionIdentifier, taskDtoC);
 		assertNotNull(taskIdentifierC);
 
 		assertEquals(3, taskService.getTasksNotCompleted(sessionIdentifier).size());
@@ -150,9 +168,19 @@ public class TaskServiceImplIntegrationTest {
 
 		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
 
-		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, null, null, null, null, null, null);
+		final TaskDto taskDtoA = new TaskDto();
+		taskDtoA.setName("nameA");
+		taskDtoA.setDescription("descriptionA");
+
+		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, taskDtoA);
 		assertNotNull(taskIdentifierA);
-		final TaskIdentifier taskIdentifierB = taskService.createTask(sessionIdentifier, "nameA", "descriptionA", null, taskIdentifierA, null, null, null, null, null);
+
+		final TaskDto taskDtoB = new TaskDto();
+		taskDtoB.setName("nameA");
+		taskDtoB.setDescription("descriptionA");
+		taskDtoB.setParentId(taskIdentifierA);
+
+		final TaskIdentifier taskIdentifierB = taskService.createTask(sessionIdentifier, taskDtoB);
 		assertNotNull(taskIdentifierB);
 
 		assertEquals(2, taskService.getTasksNotCompleted(sessionIdentifier).size());
@@ -187,13 +215,19 @@ public class TaskServiceImplIntegrationTest {
 
 		// both null
 		{
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertNull(parent.getStart());
 			assertNull(parent.getDue());
 
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertNull(child.getStart());
@@ -202,7 +236,9 @@ public class TaskServiceImplIntegrationTest {
 
 		// parent null, child not
 		{
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertNull(parent.getStart());
@@ -210,7 +246,12 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar start = calendarUtil.parseSmart("1d");
 			final Calendar due = calendarUtil.parseSmart("2d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, start, due, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			taskDtoB.setStart(start);
+			taskDtoB.setDue(due);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(start, child.getStart());
@@ -221,13 +262,20 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar start = calendarUtil.parseSmart("1d");
 			final Calendar due = calendarUtil.parseSmart("2d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, start, due, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			taskDtoA.setStart(start);
+			taskDtoA.setDue(due);
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(start, parent.getStart());
 			assertEquals(due, parent.getDue());
 
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(start, child.getStart());
@@ -238,7 +286,11 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("2d");
 			final Calendar parentDue = calendarUtil.parseSmart("3d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			taskDtoA.setStart(parentStart);
+			taskDtoA.setDue(parentDue);
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(parentStart, parent.getStart());
@@ -246,7 +298,12 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar childStart = calendarUtil.parseSmart("1d");
 			final Calendar childDue = calendarUtil.parseSmart("4d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			taskDtoB.setStart(childStart);
+			taskDtoB.setDue(childDue);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(parentStart, child.getStart());
@@ -257,7 +314,11 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("1d");
 			final Calendar parentDue = calendarUtil.parseSmart("5d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			taskDtoA.setStart(parentStart);
+			taskDtoA.setDue(parentDue);
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(parentStart, parent.getStart());
@@ -265,7 +326,12 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar childStart = calendarUtil.parseSmart("2d");
 			final Calendar childDue = calendarUtil.parseSmart("4d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			taskDtoB.setStart(childStart);
+			taskDtoB.setDue(childDue);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(childStart, child.getStart());
@@ -283,14 +349,25 @@ public class TaskServiceImplIntegrationTest {
 
 		// both null
 		{
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertNull(parent.getStart());
 			assertNull(parent.getDue());
 
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
-			taskService.updateTask(sessionIdentifier, childTaskIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
+
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(childTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setParentId(parentTaskIdentifier);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
+
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertNull(child.getStart());
@@ -299,7 +376,9 @@ public class TaskServiceImplIntegrationTest {
 
 		// parent null, child not
 		{
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertNull(parent.getStart());
@@ -307,8 +386,18 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar start = calendarUtil.parseSmart("1d");
 			final Calendar due = calendarUtil.parseSmart("2d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
-			taskService.updateTask(sessionIdentifier, childTaskIdentifier, "child", null, null, parentTaskIdentifier, start, due, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
+
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(childTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setParentId(parentTaskIdentifier);
+			taskDtoC.setStart(start);
+			taskDtoC.setDue(due);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(start, child.getStart());
@@ -319,14 +408,28 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar start = calendarUtil.parseSmart("1d");
 			final Calendar due = calendarUtil.parseSmart("2d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, start, due, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			taskDtoA.setStart(start);
+			taskDtoA.setDue(due);
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(start, parent.getStart());
 			assertEquals(due, parent.getDue());
 
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
-			taskService.updateTask(sessionIdentifier, childTaskIdentifier, "child", null, null, parentTaskIdentifier, start, due, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
+
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(childTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setParentId(parentTaskIdentifier);
+			taskDtoC.setStart(start);
+			taskDtoC.setDue(due);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(start, child.getStart());
@@ -337,7 +440,11 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("2d");
 			final Calendar parentDue = calendarUtil.parseSmart("3d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			taskDtoA.setStart(parentStart);
+			taskDtoA.setDue(parentDue);
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(parentStart, parent.getStart());
@@ -345,8 +452,18 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar childStart = calendarUtil.parseSmart("1d");
 			final Calendar childDue = calendarUtil.parseSmart("4d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
-			taskService.updateTask(sessionIdentifier, childTaskIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
+
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(childTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setParentId(parentTaskIdentifier);
+			taskDtoC.setStart(childStart);
+			taskDtoC.setDue(childDue);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(parentStart, child.getStart());
@@ -357,7 +474,11 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("1d");
 			final Calendar parentDue = calendarUtil.parseSmart("4d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			taskDtoA.setStart(parentStart);
+			taskDtoA.setDue(parentDue);
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertEquals(parentStart, parent.getStart());
@@ -365,8 +486,18 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar childStart = calendarUtil.parseSmart("2d");
 			final Calendar childDue = calendarUtil.parseSmart("3d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
-			taskService.updateTask(sessionIdentifier, childTaskIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
+
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(childTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setParentId(parentTaskIdentifier);
+			taskDtoC.setStart(childStart);
+			taskDtoC.setDue(childDue);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 			assertNotNull(childTaskIdentifier);
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(childStart, child.getStart());
@@ -384,16 +515,24 @@ public class TaskServiceImplIntegrationTest {
 
 		// both null
 		{
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertNull(parent.getStart());
 			assertNull(parent.getDue());
 
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 
-			taskService.updateTask(sessionIdentifier, parentTaskIdentifier, "child", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(parentTaskIdentifier);
+			taskDtoC.setName("parent");
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertNull(child.getStart());
@@ -402,7 +541,9 @@ public class TaskServiceImplIntegrationTest {
 
 		// parent null, child not
 		{
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
 			assertNull(parent.getStart());
@@ -410,10 +551,18 @@ public class TaskServiceImplIntegrationTest {
 
 			final Calendar start = calendarUtil.parseSmart("1d");
 			final Calendar due = calendarUtil.parseSmart("2d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, start, due, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			taskDtoB.setStart(start);
+			taskDtoB.setDue(due);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 
-			taskService.updateTask(sessionIdentifier, parentTaskIdentifier, "child", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(parentTaskIdentifier);
+			taskDtoC.setName("parent");
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(start, child.getStart());
@@ -424,13 +573,23 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("1d");
 			final Calendar parentDue = calendarUtil.parseSmart("2d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, null, null, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 
-			taskService.updateTask(sessionIdentifier, parentTaskIdentifier, "child", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(parentTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setStart(parentStart);
+			taskDtoC.setDue(parentDue);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(parentStart, child.getStart());
@@ -441,15 +600,27 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("2d");
 			final Calendar parentDue = calendarUtil.parseSmart("3d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 
 			final Calendar childStart = calendarUtil.parseSmart("1d");
 			final Calendar childDue = calendarUtil.parseSmart("4d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			taskDtoB.setStart(childStart);
+			taskDtoB.setDue(childDue);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 
-			taskService.updateTask(sessionIdentifier, parentTaskIdentifier, "child", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(parentTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setStart(parentStart);
+			taskDtoC.setDue(parentDue);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(parentStart, child.getStart());
@@ -460,15 +631,27 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final Calendar parentStart = calendarUtil.parseSmart("1d");
 			final Calendar parentDue = calendarUtil.parseSmart("5d");
-			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, "parent", null, null, null, null, null, null, null, null);
+			final TaskDto taskDtoA = new TaskDto();
+			taskDtoA.setName("parent");
+			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 
 			final Calendar childStart = calendarUtil.parseSmart("3d");
 			final Calendar childDue = calendarUtil.parseSmart("4d");
-			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, "child", null, null, parentTaskIdentifier, childStart, childDue, null, null, null);
+			final TaskDto taskDtoB = new TaskDto();
+			taskDtoB.setName("child");
+			taskDtoB.setParentId(parentTaskIdentifier);
+			taskDtoB.setStart(childStart);
+			taskDtoB.setDue(childDue);
+			final TaskIdentifier childTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoB);
 			assertNotNull(childTaskIdentifier);
 
-			taskService.updateTask(sessionIdentifier, parentTaskIdentifier, "child", null, null, null, parentStart, parentDue, null, null, null);
+			final TaskDto taskDtoC = new TaskDto();
+			taskDtoC.setId(parentTaskIdentifier);
+			taskDtoC.setName("child");
+			taskDtoC.setStart(parentStart);
+			taskDtoC.setDue(parentDue);
+			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
 			assertEquals(childStart, child.getStart());

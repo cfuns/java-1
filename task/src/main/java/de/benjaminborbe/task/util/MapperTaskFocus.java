@@ -2,7 +2,7 @@ package de.benjaminborbe.task.util;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.task.dao.TaskFocus;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.tools.mapper.MapperEnum;
 import de.benjaminborbe.tools.util.ParseUtil;
 

@@ -28,6 +28,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -138,8 +139,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 						contexts.add(taskContextIdentifier);
 					}
 
-					final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due,
-							repeatStart, repeatDue, contexts);
+					final TaskIdentifier taskIdentifier = createTask(sessionIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart,
+							repeatDue, contexts);
 					logger.trace("task created " + taskIdentifier);
 
 					if (referer != null) {
@@ -223,4 +224,21 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 		}
 	}
 
+	private TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final List<TaskContextIdentifier> contexts)
+			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+
+		final TaskDto taskDto = new TaskDto();
+		taskDto.setName(name);
+		taskDto.setDescription(description);
+		taskDto.setUrl(url);
+		taskDto.setParentId(taskParentIdentifier);
+		taskDto.setStart(start);
+		taskDto.setDue(due);
+		taskDto.setRepeatStart(repeatStart);
+		taskDto.setRepeatDue(repeatDue);
+		taskDto.setContexts(contexts);
+
+		return taskService.createTask(sessionIdentifier, taskDto);
+	}
 }

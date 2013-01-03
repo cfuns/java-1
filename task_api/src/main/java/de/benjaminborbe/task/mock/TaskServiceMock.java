@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.mock;
 
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,13 +29,6 @@ public class TaskServiceMock implements TaskService {
 	@Override
 	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException, ValidationException {
-	}
-
-	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
-			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		return null;
 	}
 
 	@Override
@@ -110,12 +102,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
-			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
-	}
-
-	@Override
 	public void addTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 	}
@@ -160,6 +146,11 @@ public class TaskServiceMock implements TaskService {
 	@Override
 	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+			ValidationException {
 	}
 
 }

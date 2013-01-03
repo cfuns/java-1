@@ -29,6 +29,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -143,8 +144,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 						contexts.add(taskContextIdentifier);
 					}
 
-					taskService
-							.updateTask(sessionIdentifier, taskIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart, repeatDue, contexts);
+					updateTask(sessionIdentifier, taskIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart, repeatDue, contexts);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -213,6 +213,25 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final List<TaskContextIdentifier> contexts)
+			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+
+		final TaskDto taskDto = new TaskDto();
+		taskDto.setId(taskIdentifier);
+		taskDto.setName(name);
+		taskDto.setDescription(description);
+		taskDto.setUrl(url);
+		taskDto.setParentId(taskParentIdentifier);
+		taskDto.setStart(start);
+		taskDto.setDue(due);
+		taskDto.setRepeatStart(repeatStart);
+		taskDto.setRepeatDue(repeatDue);
+		taskDto.setContexts(contexts);
+
+		taskService.updateTask(sessionIdentifier, taskDto);
 	}
 
 	private String toValue(final Long value) {

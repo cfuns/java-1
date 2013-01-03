@@ -265,7 +265,10 @@ public class TaskServiceImpl implements TaskService {
 				while (i.hasNext()) {
 					contexts.add(createTaskContextIdentifier(i.next().getString()));
 				}
-				createTask(sessionIdentifier, task.getName(), task.getDescription(), task.getUrl(), task.getParentId(), start, due, task.getRepeatStart(), task.getRepeatDue(), contexts);
+				final TaskDto taskDto = new TaskDto(task, contexts);
+				taskDto.setStart(start);
+				taskDto.setDue(due);
+				createTask(sessionIdentifier, taskDto);
 			}
 			logger.trace("completeTask: " + taskIdentifier + " finished");
 		}
@@ -288,23 +291,6 @@ public class TaskServiceImpl implements TaskService {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
-	}
-
-	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
-			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		final TaskDto taskDto = new TaskDto();
-		taskDto.setName(name);
-		taskDto.setDescription(description);
-		taskDto.setUrl(url);
-		taskDto.setParentId(taskParentIdentifier);
-		taskDto.setStart(start);
-		taskDto.setDue(due);
-		taskDto.setRepeatDue(repeatDue);
-		taskDto.setRepeatStart(repeatStart);
-		taskDto.setContexts(contexts);
-		return createTask(sessionIdentifier, taskDto);
 	}
 
 	@Override
@@ -668,14 +654,13 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue,
-			final Collection<TaskContextIdentifier> contexts) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+			ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
-			if (taskIdentifier.equals(taskParentIdentifier)) {
+			if (taskDto.getId().equals(taskDto.getParentId())) {
 				throw new TaskServiceException("taskId = parentId");
 			}
 
@@ -683,30 +668,30 @@ public class TaskServiceImpl implements TaskService {
 
 			// check parent
 			final TaskBean parentTask;
-			if (taskParentIdentifier != null) {
-				parentTask = taskDao.load(taskParentIdentifier);
+			if (taskDto.getParentId() != null) {
+				parentTask = taskDao.load(taskDto.getParentId());
 				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
 			}
 			else {
 				parentTask = null;
 			}
-			final TaskBean task = taskDao.load(taskIdentifier);
+			final TaskBean task = taskDao.load(taskDto.getId());
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 
-			task.setName(name);
-			task.setDescription(description);
-			task.setRepeatDue(repeatDue);
-			task.setRepeatStart(repeatStart);
-			task.setUrl(url);
-			task.setParentId(taskParentIdentifier);
-			task.setStart(start);
-			task.setDue(due);
+			task.setName(taskDto.getName());
+			task.setDescription(taskDto.getDescription());
+			task.setRepeatDue(taskDto.getRepeatDue());
+			task.setRepeatStart(taskDto.getRepeatStart());
+			task.setUrl(taskDto.getUrl());
+			task.setParentId(taskDto.getParentId());
+			task.setStart(taskDto.getStart());
+			task.setDue(taskDto.getDue());
 
 			updateTaskStartDueChildAndSave(parentTask, task);
 
 			// only update if set
-			if (contexts != null) {
-				replaceTaskContext(sessionIdentifier, taskIdentifier, contexts);
+			if (taskDto.getContexts() != null) {
+				replaceTaskContext(sessionIdentifier, taskDto.getId(), taskDto.getContexts());
 			}
 
 		}

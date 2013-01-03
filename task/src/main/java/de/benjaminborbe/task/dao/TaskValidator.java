@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
@@ -55,6 +56,14 @@ public class TaskValidator implements Validator<TaskBean> {
 			if (bean.getDue() != null && bean.getStart() != null && calendarUtil.isLT(bean.getDue(), bean.getStart())) {
 				result.add(new ValidationErrorSimple("Due must be greater than start!"));
 			}
+		}
+
+		// focus
+		{
+			final TaskFocus focus = bean.getFocus();
+			final List<ValidationConstraint<TaskFocus>> constraints = new ArrayList<ValidationConstraint<TaskFocus>>();
+			constraints.add(new ValidationConstraintNotNull<TaskFocus>());
+			result.addAll(validationConstraintValidator.validate("focus", focus, constraints));
 		}
 
 		return result;

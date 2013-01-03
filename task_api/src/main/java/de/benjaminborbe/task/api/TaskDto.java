@@ -37,6 +37,30 @@ public class TaskDto implements Task {
 
 	private Collection<TaskContextIdentifier> contexts;
 
+	private TaskFocus focus;
+
+	public TaskDto() {
+	}
+
+	public TaskDto(final Task task, final Collection<TaskContextIdentifier> contexts) {
+		this.contexts = contexts;
+		setCompleted(task.getCompleted());
+		setId(task.getId());
+		setParentId(task.getParentId());
+		setName(task.getName());
+		setDescription(task.getDescription());
+		setOwner(task.getOwner());
+		setDue(task.getDue());
+		setStart(task.getStart());
+		setDuration(task.getDuration());
+		setPriority(task.getPriority());
+		setCompletionDate(task.getCompletionDate());
+		setRepeatStart(task.getRepeatStart());
+		setRepeatDue(task.getRepeatDue());
+		setUrl(task.getUrl());
+		setFocus(task.getFocus());
+	}
+
 	@Override
 	public Boolean getCompleted() {
 		return completed;
@@ -169,5 +193,14 @@ public class TaskDto implements Task {
 
 	public void setContexts(final Collection<TaskContextIdentifier> contexts) {
 		this.contexts = contexts;
+	}
+
+	@Override
+	public TaskFocus getFocus() {
+		return focus;
+	}
+
+	public void setFocus(final TaskFocus focus) {
+		this.focus = focus;
 	}
 }

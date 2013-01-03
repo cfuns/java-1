@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.dao;
+package de.benjaminborbe.task.api;
 
 public enum TaskFocus {
 

@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.util.MapperTaskFocus;
 import de.benjaminborbe.task.util.MapperTaskIdentifier;

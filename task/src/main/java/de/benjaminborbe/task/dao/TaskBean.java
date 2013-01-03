@@ -7,6 +7,7 @@ import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 
 public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasModified {
@@ -195,7 +196,12 @@ public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasMo
 	}
 
 	public TaskFocus getFocus() {
-		return focus;
+		if (focus == null) {
+			return TaskFocus.INBOX;
+		}
+		else {
+			return focus;
+		}
 	}
 
 	public void setFocus(final TaskFocus focus) {
