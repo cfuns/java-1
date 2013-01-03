@@ -10,6 +10,8 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.util.MapperTaskContextIdentifier;
+import de.benjaminborbe.task.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;

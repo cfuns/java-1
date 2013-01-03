@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.dao;
+package de.benjaminborbe.task.util;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;

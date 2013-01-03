@@ -10,6 +10,9 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.util.MapperTaskFocus;
+import de.benjaminborbe.task.util.MapperTaskIdentifier;
+import de.benjaminborbe.task.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperInteger;
@@ -30,13 +33,14 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 			final MapperLong mapperLong,
 			final MapperBoolean mapperBoolean,
 			final MapperCalendar mapperCalendar,
-			final MapperInteger mapperInteger) {
-		super(provider, buildMappings(mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger));
+			final MapperInteger mapperInteger,
+			final MapperTaskFocus mapperTaskFocus) {
+		super(provider, buildMappings(mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger, mapperTaskFocus));
 	}
 
 	private static Collection<StringObjectMapper<TaskBean>> buildMappings(final MapperTaskIdentifier mapperTaskIdentifier, final MapperString mapperString,
 			final MapperUserIdentifier mapperUserIdentifier, final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar,
-			final MapperInteger mapperInteger) {
+			final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus) {
 		final List<StringObjectMapper<TaskBean>> result = new ArrayList<StringObjectMapper<TaskBean>>();
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("id", mapperTaskIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("parentId", mapperTaskIdentifier));
@@ -54,6 +58,7 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 		result.add(new StringObjectMapperAdapter<TaskBean, Long>("repeatStart", mapperLong));
 		result.add(new StringObjectMapperAdapter<TaskBean, Long>("repeatDue", mapperLong));
 		result.add(new StringObjectMapperAdapter<TaskBean, String>("url", mapperString));
+		result.add(new StringObjectMapperAdapter<TaskBean, TaskFocus>("focus", mapperTaskFocus));
 		return result;
 	}
 }

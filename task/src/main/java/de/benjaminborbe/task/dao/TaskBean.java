@@ -45,6 +45,8 @@ public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasMo
 
 	private String url;
 
+	private TaskFocus focus;
+
 	@Override
 	public String getName() {
 		return name;
@@ -190,6 +192,14 @@ public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasMo
 
 	public void setUrl(final String url) {
 		this.url = url;
+	}
+
+	public TaskFocus getFocus() {
+		return focus;
+	}
+
+	public void setFocus(final TaskFocus focus) {
+		this.focus = focus;
 	}
 
 }

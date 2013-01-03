@@ -14,6 +14,9 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.util.MapperTaskFocus;
+import de.benjaminborbe.task.util.MapperTaskIdentifier;
+import de.benjaminborbe.task.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -51,7 +54,8 @@ public class TaskBeanMapperUnitTest {
 		final MapperLong mapperLong = new MapperLong(parseUtil);
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
 		final MapperTaskIdentifier mapperTaskIdentifier = new MapperTaskIdentifier();
-		return new TaskBeanMapper(taskBeanProvider, mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger);
+		final MapperTaskFocus mapperTaskFocus = new MapperTaskFocus(parseUtil);
+		return new TaskBeanMapper(taskBeanProvider, mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger, mapperTaskFocus);
 	}
 
 	@Test
