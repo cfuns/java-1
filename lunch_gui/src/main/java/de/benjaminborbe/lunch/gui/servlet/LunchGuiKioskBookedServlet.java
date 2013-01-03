@@ -111,8 +111,10 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			else {
 				Collections.sort(list, new LunchUserComparator());
 				final UlWidget ul = new UlWidget();
+				int counter = 0;
 				for (final LunchUser user : list) {
-					ul.add(user.getPrename() + " " + user.getSurname());
+					counter++;
+					ul.add(counter + ". " + user.getName());
 				}
 				widgets.add(ul);
 			}
