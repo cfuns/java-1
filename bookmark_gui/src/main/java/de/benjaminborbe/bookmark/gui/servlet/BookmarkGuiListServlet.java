@@ -140,7 +140,10 @@ public class BookmarkGuiListServlet extends BookmarkGuiBaseServlet {
 	}
 
 	protected String keywordsToString(final Bookmark bookmark) {
-		final List<String> keywords = new ArrayList<String>(bookmark.getKeywords());
+		final List<String> keywords = new ArrayList<String>();
+		if (bookmark.getKeywords() != null) {
+			keywords.addAll(bookmark.getKeywords());
+		}
 		Collections.sort(keywords);
 		return StringUtils.join(bookmark.getKeywords(), ",");
 	}
