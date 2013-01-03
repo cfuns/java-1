@@ -152,9 +152,14 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstance.setUrl(url);
 			confluenceInstance.setUsername(username);
 			confluenceInstance.setExpire(expire);
-			confluenceInstance.setShared(shared);
 			confluenceInstance.setDelay(delay);
 			confluenceInstance.setActivated(activated);
+
+			// remove content shared change
+			if (Boolean.TRUE.equals(confluenceInstance.getShared()) && !shared || !Boolean.TRUE.equals(confluenceInstance.getShared()) && shared) {
+				confluenceInstance.setShared(shared);
+				removeContent(confluenceInstanceIdentifier);
+			}
 
 			setOwner(sessionIdentifier, owner, confluenceInstance);
 
@@ -176,6 +181,12 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final IndexerServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {
@@ -208,15 +219,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			logger.debug("deleteConfluenceInstance");
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			final ConfluenceInstanceBean confluenceInstanceBean = confluenceInstanceDao.load(confluenceInstanceIdentifier);
-			final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
-
-			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getPagesOfInstance(confluenceInstanceIdentifier);
-			while (i.hasNext()) {
-				final ConfluencePageBean page = i.next();
-				indexService.removeFromIndex(indexName, page.getUrl());
-				confluencePageDao.delete(page);
-			}
+			removeContent(confluenceInstanceIdentifier);
 
 			confluenceInstanceDao.delete(confluenceInstanceIdentifier);
 		}
@@ -234,6 +237,18 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	private void removeContent(final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws StorageException, EntityIteratorException, IndexerServiceException {
+		final ConfluenceInstanceBean confluenceInstanceBean = confluenceInstanceDao.load(confluenceInstanceIdentifier);
+		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
+
+		final EntityIterator<ConfluencePageBean> i = confluencePageDao.getPagesOfInstance(confluenceInstanceIdentifier);
+		while (i.hasNext()) {
+			final ConfluencePageBean page = i.next();
+			indexService.removeFromIndex(indexName, page.getUrl());
+			confluencePageDao.delete(page);
 		}
 	}
 
