@@ -135,8 +135,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				sessionDao.save(session);
 
 				final UserBean user = userDao.load(userIdentifier);
-				user.increaseLoginCounter();
-				userDao.save(user);
+				if (user != null) {
+					user.increaseLoginCounter();
+					userDao.save(user);
+				}
 
 				logger.info("user " + userIdentifier + " logged in successful");
 				return true;
