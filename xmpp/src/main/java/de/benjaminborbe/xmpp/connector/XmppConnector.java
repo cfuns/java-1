@@ -6,11 +6,13 @@ public interface XmppConnector {
 
 	void connect() throws XmppConnectorException;
 
+	boolean isConnected() throws XmppConnectorException;
+
 	void disconnect() throws XmppConnectorException;
 
 	void sendMessage(XmppUser user, String message) throws XmppConnectorException;
 
-	List<XmppUser> getUsers();
+	List<XmppUser> getUsers() throws XmppConnectorException;
 
-	XmppUser getMe();
+	XmppUser getMe() throws XmppConnectorException;
 }

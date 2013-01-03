@@ -28,6 +28,6 @@ public class XmppUser {
 
 	@Override
 	public String toString() {
-		return name;
+		return uid;
 	}
 }

@@ -46,8 +46,12 @@ public class XmppServiceImpl implements XmppService {
 
 	@Override
 	public void send(final String message) throws XmppServiceException {
-		final XmppUser user = new XmppUser("bborbe@mobile-bb/mobile-bb");
+		final XmppUser user = new XmppUser("bborbe@openfire.benjamin-borbe.de/mobile-bb");
 		try {
+			if (!xmppConnector.isConnected()) {
+				xmppConnector.connect();
+			}
+
 			xmppConnector.sendMessage(user, message);
 		}
 		catch (final XmppConnectorException e) {
