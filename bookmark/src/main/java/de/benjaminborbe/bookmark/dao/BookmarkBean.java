@@ -76,13 +76,12 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCr
 
 	@Override
 	public List<String> getKeywords() {
-		if (keywords == null) {
-			return null;
-		}
 		final List<String> result = new ArrayList<String>();
-		for (final String keyword : keywords) {
-			if (keyword != null && !keyword.isEmpty()) {
-				result.add(keyword);
+		if (keywords != null) {
+			for (final String keyword : keywords) {
+				if (keyword != null && !keyword.isEmpty()) {
+					result.add(keyword);
+				}
 			}
 		}
 		return result;

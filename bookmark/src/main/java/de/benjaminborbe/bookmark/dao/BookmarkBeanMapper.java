@@ -10,6 +10,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
+import de.benjaminborbe.bookmark.util.MapperBookmarkIdentifier;
+import de.benjaminborbe.bookmark.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperListString;

@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.dao;
+package de.benjaminborbe.bookmark.util;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;

@@ -60,6 +60,14 @@ public class BookmarkValidator implements Validator<BookmarkBean> {
 			result.addAll(validationConstraintValidator.validate("url", url, constraints));
 		}
 
+		// keywords
+		{
+			final List<String> keywords = bookmark.getKeywords();
+			final List<ValidationConstraint<List<String>>> constraints = new ArrayList<ValidationConstraint<List<String>>>();
+			constraints.add(new ValidationConstraintNotNull<List<String>>());
+			result.addAll(validationConstraintValidator.validate("keywords", keywords, constraints));
+		}
+
 		return result;
 	}
 
