@@ -29,7 +29,10 @@ import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
 import de.benjaminborbe.confluence.dao.ConfluencePageDao;
+import de.benjaminborbe.confluence.util.ConfluenceIndexUtil;
 import de.benjaminborbe.confluence.util.ConfluenceRefresher;
+import de.benjaminborbe.index.api.IndexService;
+import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -61,6 +64,10 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final AuthenticationService authenticationService;
 
+	private final IndexService indexService;
+
+	private final ConfluenceIndexUtil confluenceIndexUtil;
+
 	@Inject
 	public ConfluenceServiceImpl(
 			final Logger logger,
@@ -71,7 +78,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			final DurationUtil durationUtil,
 			final IdGeneratorUUID idGeneratorUUID,
 			final ValidationExecutor validationExecutor,
-			final ConfluenceRefresher confluenceRefresher) {
+			final ConfluenceRefresher confluenceRefresher,
+			final IndexService indexService,
+			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
@@ -81,6 +90,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		this.validationExecutor = validationExecutor;
 		this.confluenceRefresher = confluenceRefresher;
 		this.authorizationService = authorizationService;
+		this.indexService = indexService;
+		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
 
 	@Override
@@ -189,24 +200,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 	}
 
-	private void clearIndex(final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws EntityIteratorException, StorageException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			logger.debug("clearIndex");
-
-			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getPagesOfInstance(confluenceInstanceIdentifier);
-			while (i.hasNext()) {
-				final ConfluencePageBean bean = i.next();
-				confluencePageDao.delete(bean);
-			}
-
-			// TODO delete from indexService
-		}
-		finally {
-			logger.trace("duration " + duration.getTime());
-		}
-	}
-
 	@Override
 	public void deleteConfluenceInstance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier)
 			throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
@@ -214,8 +207,18 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		try {
 			logger.debug("deleteConfluenceInstance");
 			authorizationService.expectAdminRole(sessionIdentifier);
+
+			final ConfluenceInstanceBean confluenceInstanceBean = confluenceInstanceDao.load(confluenceInstanceIdentifier);
+			final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
+
+			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getPagesOfInstance(confluenceInstanceIdentifier);
+			while (i.hasNext()) {
+				final ConfluencePageBean page = i.next();
+				indexService.removeFromIndex(indexName, page.getUrl());
+				confluencePageDao.delete(page);
+			}
+
 			confluenceInstanceDao.delete(confluenceInstanceIdentifier);
-			clearIndex(confluenceInstanceIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
@@ -224,6 +227,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		}
+		catch (final IndexerServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {

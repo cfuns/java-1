@@ -57,4 +57,14 @@ public class IndexServiceDistributed implements IndexService {
 			throw new IndexerServiceException(e);
 		}
 	}
+
+	@Override
+	public void removeFromIndex(final String index, final URL url) throws IndexerServiceException {
+		try {
+			distributedSearchService.removeFromIndex(index, url);
+		}
+		catch (final DistributedSearchServiceException e) {
+			throw new IndexerServiceException(e);
+		}
+	}
 }

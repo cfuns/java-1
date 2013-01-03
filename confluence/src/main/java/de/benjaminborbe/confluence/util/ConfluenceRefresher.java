@@ -106,13 +106,7 @@ public class ConfluenceRefresher {
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
 		final long delay = getDelay(confluenceInstanceBean);
-		final String indexName;
-		if (Boolean.TRUE.equals(confluenceInstanceBean.getShared())) {
-			indexName = confluenceIndexUtil.indexShared();
-		}
-		else {
-			indexName = confluenceIndexUtil.indexPrivate(confluenceInstanceBean.getOwner());
-		}
+		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
 
 		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
 		final String username = confluenceInstanceBean.getUsername();
@@ -144,6 +138,7 @@ public class ConfluenceRefresher {
 						pageBean.setPageId(page.getPageId());
 						pageBean.setOwner(confluenceInstanceBean.getOwner());
 						pageBean.setInstanceId(confluenceInstanceBean.getId());
+						pageBean.setUrl(url);
 						confluencePageDao.save(pageBean);
 
 						// Throttle crawling

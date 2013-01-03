@@ -1,5 +1,6 @@
 package de.benjaminborbe.confluence.dao;
 
+import java.net.URL;
 import java.util.Calendar;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -27,6 +28,8 @@ public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, Con
 	private String pageId;
 
 	private UserIdentifier owner;
+
+	private URL url;
 
 	@Override
 	public ConfluencePageIdentifier getId() {
@@ -91,6 +94,14 @@ public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, Con
 
 	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
+	}
+
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(URL url) {
+		this.url = url;
 	}
 
 }

@@ -130,4 +130,18 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		}
 	}
 
+	@Override
+	public void removeFromIndex(final String index, final URL url) throws DistributedSearchServiceException {
+		try {
+			distributedIndexService.remove(index, url.toExternalForm());
+			distributedSearchPageDao.delete(new DistributedSearchPageIdentifier(index, url.toExternalForm()));
+		}
+		catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+	}
+
 }

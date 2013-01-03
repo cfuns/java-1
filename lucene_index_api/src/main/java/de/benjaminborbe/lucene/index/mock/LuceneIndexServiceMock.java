@@ -23,4 +23,8 @@ public class LuceneIndexServiceMock implements LuceneIndexService {
 		return new ArrayList<LuceneIndexSearchResult>();
 	}
 
+	@Override
+	public void removeFromIndex(final String index, final URL url) throws LuceneIndexServiceException {
+	}
+
 }

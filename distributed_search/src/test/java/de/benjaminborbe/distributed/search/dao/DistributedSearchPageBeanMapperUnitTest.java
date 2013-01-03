@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
+import de.benjaminborbe.distributed.search.util.MapperDistributedSearchPageIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;

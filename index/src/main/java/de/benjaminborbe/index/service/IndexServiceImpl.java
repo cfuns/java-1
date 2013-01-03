@@ -43,4 +43,11 @@ public class IndexServiceImpl implements IndexService {
 		throw new IndexerServiceException("at least one index must be enabled");
 	}
 
+	@Override
+	public void removeFromIndex(final String index, final URL url) throws IndexerServiceException {
+		for (final IndexService indexService : indexServiceFactory.getIndexServices()) {
+			indexService.removeFromIndex(index, url);
+		}
+	}
+
 }

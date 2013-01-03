@@ -1,5 +1,6 @@
-package de.benjaminborbe.distributed.search.dao;
+package de.benjaminborbe.distributed.search.util;
 
+import de.benjaminborbe.distributed.search.dao.DistributedSearchPageIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 public class MapperDistributedSearchPageIdentifier implements Mapper<DistributedSearchPageIdentifier> {

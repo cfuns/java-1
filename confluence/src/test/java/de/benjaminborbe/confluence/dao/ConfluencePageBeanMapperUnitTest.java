@@ -22,6 +22,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
+import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -44,8 +45,9 @@ public class ConfluencePageBeanMapperUnitTest {
 		final MapperString mapperString = new MapperString();
 		final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier = new MapperConfluenceInstanceIdentifier();
 		final MapperConfluencePageIdentifier mapperConfluencePageIdentifier = new MapperConfluencePageIdentifier();
+		final MapperUrl mapperUrl = new MapperUrl(parseUtil);
 		return new ConfluencePageBeanMapper(confluencePageBeanProvider, mapperConfluencePageIdentifier, mapperUserIdentifier, mapperConfluenceInstanceIdentifier, mapperString,
-				mapperCalendar);
+				mapperCalendar, mapperUrl);
 	}
 
 	@Test

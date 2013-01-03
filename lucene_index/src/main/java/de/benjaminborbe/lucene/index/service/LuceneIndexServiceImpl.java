@@ -138,7 +138,6 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(LuceneIndexConstants.LUCENE_VERSION, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
-			// TODO only one indexwriter
 			indexWriter = new IndexWriter(index, indexWriterConfig);
 
 			final Term term = new Term(LuceneIndexField.ID.getFieldName(), url.toExternalForm());
@@ -149,8 +148,6 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 			doc.add(new TextField(LuceneIndexField.CONTENT.getFieldName(), content, Field.Store.YES));
 			indexWriter.updateDocument(term, doc, analyzer);
 
-			// indexWriter.deleteDocuments(term);
-			// indexWriter.addDocument(doc);
 			indexWriter.forceMergeDeletes();
 			indexWriter.commit();
 			indexWriter.close();
@@ -183,7 +180,6 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(LuceneIndexConstants.LUCENE_VERSION, analyzer);
 			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
 
-			// TODO only one indexwriter
 			indexWriter = new IndexWriter(index, indexWriterConfig);
 
 			indexWriter.deleteAll();
@@ -227,6 +223,46 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 		}
 		logger.trace("input valid");
 		return true;
+	}
+
+	@Override
+	public void removeFromIndex(final String indexName, final URL url) throws LuceneIndexServiceException {
+
+		logger.info("remove form index: " + indexName + " url: " + url.toExternalForm());
+
+		IndexWriter indexWriter = null;
+		try {
+			final Directory index = indexFactory.getLuceneIndex(indexName);
+			final Analyzer analyzer = new StandardAnalyzer(LuceneIndexConstants.LUCENE_VERSION);
+			final IndexWriterConfig indexWriterConfig = new IndexWriterConfig(LuceneIndexConstants.LUCENE_VERSION, analyzer);
+			indexWriterConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
+
+			indexWriter = new IndexWriter(index, indexWriterConfig);
+
+			final Term term = new Term(LuceneIndexField.ID.getFieldName(), url.toExternalForm());
+			indexWriter.deleteDocuments(term);
+
+			indexWriter.forceMergeDeletes();
+			indexWriter.commit();
+			indexWriter.close();
+			indexWriter = null;
+		}
+		catch (final IOException e) {
+			logger.error("IOException", e);
+			throw new LuceneIndexServiceException("IOException", e);
+		}
+		finally {
+			if (indexWriter != null) {
+				try {
+					indexWriter.close();
+				}
+				catch (final CorruptIndexException e) {
+				}
+				catch (final IOException e) {
+				}
+			}
+		}
+
 	}
 
 }

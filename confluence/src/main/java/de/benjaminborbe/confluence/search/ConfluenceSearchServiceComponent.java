@@ -63,7 +63,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	private final Logger logger;
 
-	private final IndexService indexSearcherService;
+	private final IndexService indexService;
 
 	private final AuthenticationService authenticationService;
 
@@ -75,12 +75,12 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 	public ConfluenceSearchServiceComponent(
 			final Logger logger,
 			final SearchUtil searchUtil,
-			final IndexService indexSearcherService,
+			final IndexService indexService,
 			final AuthenticationService authenticationService,
 			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
-		this.indexSearcherService = indexSearcherService;
+		this.indexService = indexService;
 		this.authenticationService = authenticationService;
 		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
@@ -92,10 +92,10 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 		try {
 			logger.trace("search");
 			final String searchString = StringUtils.join(words, " ");
-			indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexShared(), searchString, ConfluenceConstants.SEARCH_LIMIT));
+			indexResults.addAll(indexService.search(confluenceIndexUtil.indexShared(), searchString, ConfluenceConstants.SEARCH_LIMIT));
 			try {
 				final UserIdentifier user = authenticationService.getCurrentUser(sessionIdentifier);
-				indexResults.addAll(indexSearcherService.search(confluenceIndexUtil.indexPrivate(user), searchString, ConfluenceConstants.SEARCH_LIMIT));
+				indexResults.addAll(indexService.search(confluenceIndexUtil.indexPrivate(user), searchString, ConfluenceConstants.SEARCH_LIMIT));
 			}
 			catch (final AuthenticationServiceException e) {
 				logger.warn(e.getClass().getName(), e);

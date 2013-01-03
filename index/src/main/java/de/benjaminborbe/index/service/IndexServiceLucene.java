@@ -57,4 +57,14 @@ public class IndexServiceLucene implements IndexService {
 			throw new IndexerServiceException(e);
 		}
 	}
+
+	@Override
+	public void removeFromIndex(final String index, final URL url) throws IndexerServiceException {
+		try {
+			luceneIndexService.removeFromIndex(index, url);
+		}
+		catch (final LuceneIndexServiceException e) {
+			throw new IndexerServiceException(e);
+		}
+	}
 }
