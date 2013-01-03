@@ -79,3 +79,23 @@
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
+
+.task .taskFocus {
+	float: left;
+	background-color: #EEEEEE;
+	width: 200px;
+	height: auto;
+}
+
+.task .taskFocus ul {
+	margin: 0px;
+}
+
+.task .taskFocus li {
+	list-style-type: none;
+	padding: 15px;
+}
+
+.task .taskNext {
+	float: left;
+}

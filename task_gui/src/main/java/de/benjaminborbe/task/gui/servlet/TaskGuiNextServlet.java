@@ -1,9 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.TimeZone;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,29 +11,26 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.widget.TaskFocusWidget;
 import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
+import de.benjaminborbe.task.gui.widget.TaskNextWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ClearFloatWidget;
 
 @Singleton
 public class TaskGuiNextServlet extends TaskGuiWebsiteHtmlServlet {
@@ -45,17 +39,9 @@ public class TaskGuiNextServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private static final String TITLE = "Tasks - Next";
 
-	private final Logger logger;
+	private final TaskFocusWidget taskFocusWidget;
 
-	private final AuthenticationService authenticationService;
-
-	private final TaskGuiLinkFactory taskGuiLinkFactory;
-
-	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
-
-	private final TaskGuiUtil taskGuiUtil;
-
-	private final TaskGuiSwitchWidget taskGuiSwitchWidget;
+	private final TaskNextWidget taskNextWidget;
 
 	@Inject
 	public TaskGuiNextServlet(
@@ -72,56 +58,22 @@ public class TaskGuiNextServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiUtil taskGuiUtil,
-			final TaskGuiSwitchWidget taskGuiSwitchWidget) {
+			final TaskGuiSwitchWidget taskGuiSwitchWidget,
+			final TaskFocusWidget taskFocusWidget,
+			final TaskNextWidget taskNextWidget) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
-		this.logger = logger;
-		this.authenticationService = authenticationService;
-		this.taskGuiLinkFactory = taskGuiLinkFactory;
-		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
-		this.taskGuiUtil = taskGuiUtil;
-		this.taskGuiSwitchWidget = taskGuiSwitchWidget;
+		this.taskFocusWidget = taskFocusWidget;
+		this.taskNextWidget = taskNextWidget;
 	}
 
 	@Override
 	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		try {
-			logger.trace("printContent");
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
-
-			widgets.add(taskGuiSwitchWidget);
-
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
-			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
-
-			final List<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
-			final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
-			final List<Task> tasks = taskGuiUtil.filterNotStarted(childTasks, timeZone);
-			widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request, timeZone));
-
-			final ListWidget links = new ListWidget();
-			links.add(taskGuiLinkFactory.tasksUncompleted(request));
-			links.add(" ");
-			links.add(taskGuiLinkFactory.taskCreate(request));
-			links.add(" ");
-			links.add(taskGuiLinkFactory.tasksCompleted(request));
-			links.add(" ");
-			links.add(taskGuiLinkFactory.taskContextList(request));
-			widgets.add(links);
-			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		}
-		catch (final TaskServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		}
+		final ListWidget widgets = new ListWidget();
+		widgets.add(taskFocusWidget);
+		widgets.add(taskNextWidget);
+		widgets.add(new ClearFloatWidget());
+		return widgets;
 	}
 
 	@Override
