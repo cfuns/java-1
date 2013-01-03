@@ -207,7 +207,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("</div>");
 		}
 		catch (final MalformedURLException e) {
-			logger.debug("illegal url: " + result.getUrl());
+			logger.debug("illegal type: " + result.getType() + " url: " + result.getUrl());
 			// nop
 		}
 	}

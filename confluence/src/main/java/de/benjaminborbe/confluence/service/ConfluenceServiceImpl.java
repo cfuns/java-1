@@ -157,8 +157,13 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 			// remove content shared change
 			if (Boolean.TRUE.equals(confluenceInstance.getShared()) && !shared || !Boolean.TRUE.equals(confluenceInstance.getShared()) && shared) {
-				confluenceInstance.setShared(shared);
+				logger.debug("shared changed => remove content");
 				removeContent(confluenceInstanceIdentifier);
+				confluenceInstance.setShared(shared);
+			}
+			else {
+				logger.debug("shared not changed => nop");
+				confluenceInstance.setShared(shared);
 			}
 
 			setOwner(sessionIdentifier, owner, confluenceInstance);

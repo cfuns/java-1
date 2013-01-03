@@ -18,5 +18,7 @@ public class DistributedSearchModule extends AbstractModule {
 		bind(DistributedSearchPageDao.class).to(DistributedSearchPageDaoStorage.class).in(Singleton.class);
 		bind(DistributedSearchService.class).to(DistributedSearchServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(DistributedSearchValidatorLinker.class);
 	}
 }

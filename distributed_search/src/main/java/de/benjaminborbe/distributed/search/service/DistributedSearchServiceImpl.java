@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
@@ -26,6 +28,7 @@ import de.benjaminborbe.distributed.search.util.DistributedSearchResultImpl;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class DistributedSearchServiceImpl implements DistributedSearchService {
@@ -38,13 +41,17 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 
 	private final DistributedSearchAnalyser distributedSearchAnalyser;
 
+	private final ValidationExecutor validationExecutor;
+
 	@Inject
 	public DistributedSearchServiceImpl(
 			final Logger logger,
+			final ValidationExecutor validationExecutor,
 			final DistributedSearchPageDao distributedSearchPageDao,
 			final DistributedIndexService distributedIndexService,
 			final DistributedSearchAnalyser distributedSearchAnalyser) {
 		this.logger = logger;
+		this.validationExecutor = validationExecutor;
 		this.distributedSearchPageDao = distributedSearchPageDao;
 		this.distributedIndexService = distributedIndexService;
 		this.distributedSearchAnalyser = distributedSearchAnalyser;
@@ -59,7 +66,14 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			distributedSearchPage.setTitle(title);
 			distributedSearchPage.setContent(content);
 			distributedSearchPage.setIndex(index);
+
+			final ValidationResult errors = validationExecutor.validate(distributedSearchPage);
+			if (errors.hasErrors()) {
+				logger.warn("User " + errors.toString());
+				throw new ValidationException(errors);
+			}
 			distributedSearchPageDao.save(distributedSearchPage);
+
 			final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(content);
 			distributedIndexService.add(index, url.toExternalForm(), data);
 		}
@@ -67,6 +81,9 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			throw new DistributedSearchServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final ValidationException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}

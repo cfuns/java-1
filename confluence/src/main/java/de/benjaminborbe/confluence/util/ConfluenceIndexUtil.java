@@ -14,7 +14,7 @@ public class ConfluenceIndexUtil {
 	}
 
 	public String indexPrivate(final UserIdentifier userIdentifier) {
-		return ConfluenceConstants.INDEX + "_" + userIdentifier;
+		return ConfluenceConstants.INDEX + "-" + userIdentifier;
 	}
 
 	public List<String> both(final UserIdentifier userIdentifier) {
