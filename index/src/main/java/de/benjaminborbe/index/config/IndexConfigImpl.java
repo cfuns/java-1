@@ -19,8 +19,10 @@ import de.benjaminborbe.tools.util.ParseUtil;
 @Singleton
 public class IndexConfigImpl extends ConfigurationBase implements IndexConfig {
 
-	private final ConfigurationDescriptionBoolean distributedSerachEnabled = new ConfigurationDescriptionBoolean(false, IndexConstants.DISTRIBUTED_SERACH_ENABLED,
-			"Index Distributed Search Enabled");
+	private final ConfigurationDescriptionBoolean indexDistributedEnabled = new ConfigurationDescriptionBoolean(false, IndexConstants.INDEX_DISTRIBUTED_ENABLED,
+			"Index Distributed Enabled");
+
+	private final ConfigurationDescriptionBoolean indexLuceneEnabled = new ConfigurationDescriptionBoolean(false, IndexConstants.INDEX_DISTRIBUTED_ENABLED, "Index Lucene Enabled");
 
 	@Inject
 	public IndexConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -30,12 +32,18 @@ public class IndexConfigImpl extends ConfigurationBase implements IndexConfig {
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
-		result.add(distributedSerachEnabled);
+		result.add(indexDistributedEnabled);
+		result.add(indexLuceneEnabled);
 		return result;
 	}
 
 	@Override
-	public boolean getDistributedSearchEnabled() {
-		return getValueBoolean(distributedSerachEnabled);
+	public boolean isIndexDistributedEnabled() {
+		return getValueBoolean(indexDistributedEnabled);
+	}
+
+	@Override
+	public boolean isIndexLuceneEnabled() {
+		return getValueBoolean(indexLuceneEnabled);
 	}
 }

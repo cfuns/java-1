@@ -9,47 +9,38 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
-import de.benjaminborbe.index.config.IndexConfig;
+import de.benjaminborbe.index.util.IndexServiceFactory;
 
 @Singleton
 public class IndexServiceImpl implements IndexService {
 
-	private final IndexServiceDistributed indexServiceDistributed;
-
-	private final IndexServiceLucene indexServiceLucene;
-
-	private final IndexConfig indexConfig;
+	private final IndexServiceFactory indexServiceFactory;
 
 	@Inject
-	public IndexServiceImpl(final IndexConfig indexConfig, final IndexServiceDistributed indexServiceDistributed, final IndexServiceLucene indexServiceLucene) {
-		this.indexConfig = indexConfig;
-		this.indexServiceDistributed = indexServiceDistributed;
-		this.indexServiceLucene = indexServiceLucene;
+	public IndexServiceImpl(final IndexServiceFactory indexServiceFactory) {
+		this.indexServiceFactory = indexServiceFactory;
 	}
 
 	@Override
 	public void addToIndex(final String index, final URL url, final String title, final String content) throws IndexerServiceException {
-		indexServiceDistributed.addToIndex(index, url, title, content);
-		indexServiceLucene.addToIndex(index, url, title, content);
+		for (final IndexService indexService : indexServiceFactory.getIndexServices()) {
+			indexService.addToIndex(index, url, title, content);
+		}
 	}
 
 	@Override
 	public void clear(final String indexName) throws IndexerServiceException {
-		indexServiceDistributed.clear(indexName);
-		indexServiceLucene.clear(indexName);
+		for (final IndexService indexService : indexServiceFactory.getIndexServices()) {
+			indexService.clear(indexName);
+		}
 	}
 
 	@Override
 	public List<IndexSearchResult> search(final String index, final String searchQuery, final int limit) throws IndexerServiceException {
-		return getService().search(index, searchQuery, limit);
+		for (final IndexService indexService : indexServiceFactory.getIndexServices()) {
+			return indexService.search(index, searchQuery, limit);
+		}
+		throw new IndexerServiceException("at least one index must be enabled");
 	}
 
-	public IndexService getService() {
-		if (indexConfig.getDistributedSearchEnabled()) {
-			return indexServiceDistributed;
-		}
-		else {
-			return indexServiceLucene;
-		}
-	}
 }

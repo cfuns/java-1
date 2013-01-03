@@ -6,7 +6,9 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface IndexConfig {
 
-	boolean getDistributedSearchEnabled();
+	boolean isIndexDistributedEnabled();
+
+	boolean isIndexLuceneEnabled();
 
 	Collection<ConfigurationDescription> getConfigurations();
 }
