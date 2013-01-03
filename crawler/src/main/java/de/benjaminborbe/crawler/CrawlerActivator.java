@@ -12,13 +12,18 @@ import com.google.inject.Inject;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.guice.CrawlerModules;
+import de.benjaminborbe.crawler.service.CrawlerMessageConsumer;
 import de.benjaminborbe.crawler.service.CrawlerNotifierServiceTracker;
 import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
+import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 
 public class CrawlerActivator extends BaseBundleActivator {
+
+	@Inject
+	private CrawlerMessageConsumer crawlerMessageConsumer;
 
 	@Inject
 	private CrawlerService crawlerService;
@@ -35,6 +40,7 @@ public class CrawlerActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CrawlerService.class, crawlerService));
+		result.add(new ServiceInfo(MessageConsumer.class, crawlerMessageConsumer));
 		return result;
 	}
 
