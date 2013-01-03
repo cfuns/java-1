@@ -363,7 +363,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			throw new StorageException("could not save without identifier");
 		}
 		try {
-			logger.debug("save " + entity.getClass().getName() + " " + entity.getId());
+			logger.trace("save " + entity.getClass().getName() + " " + entity.getId());
 
 			if (entity instanceof HasModified) {
 				final HasModified hasModified = (HasModified) entity;

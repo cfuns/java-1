@@ -18,9 +18,9 @@ public interface LunchGuiConstants {
 
 	String URL_BOOKING = "/booking";
 
-	String PARAMETER_BOOKING_USER = "parameter_booking_user";
+	String PARAMETER_BOOKING_USER = "booking_user";
 
-	String PARAMETER_BOOKING_DATE = "parameter_booking_date";
+	String PARAMETER_BOOKING_DATE = "booking_date";
 
 	String LUNCH_ADMIN_ROLENAME = "LunchAdmin";
 

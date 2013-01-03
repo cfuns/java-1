@@ -26,7 +26,7 @@ public class MessageConsumerExchanger {
 
 		@Override
 		public void run() {
-			logger.debug("exchange - started");
+			logger.trace("exchange - started");
 			for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
 				try {
 					exchange(messageConsumer);
@@ -38,7 +38,7 @@ public class MessageConsumerExchanger {
 					logger.warn(e.getClass().getName(), e);
 				}
 			}
-			logger.debug("exchange - finished");
+			logger.trace("exchange - finished");
 		}
 	}
 
@@ -74,12 +74,12 @@ public class MessageConsumerExchanger {
 	}
 
 	public void exchange() {
-		logger.debug("exchange - started");
+		logger.trace("exchange - started");
 		if (runOnlyOnceATime.run(new MessageConsumerExchangerRunnable())) {
-			logger.debug("exchange - finished");
+			logger.trace("exchange - finished");
 		}
 		else {
-			logger.debug("exchange - skipped");
+			logger.trace("exchange - skipped");
 		}
 	}
 
@@ -95,10 +95,10 @@ public class MessageConsumerExchanger {
 		boolean result = false;
 		try {
 			if (!lock(message)) {
-				logger.debug("lock message failed => skip");
+				logger.trace("lock message failed => skip");
 				return;
 			}
-			logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
+			logger.trace("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 			result = messageConsumer.process(message);
 		}
 		catch (final Exception e) {
@@ -115,7 +115,7 @@ public class MessageConsumerExchanger {
 			message.setRetryCounter(counter);
 			messageDao.save(message);
 		}
-		logger.debug("process message done");
+		logger.trace("process message done");
 	}
 
 	private boolean lock(final MessageBean message) throws StorageException {

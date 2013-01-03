@@ -22,7 +22,7 @@ public class MessageUnlock {
 		public void run() {
 
 			try {
-				logger.debug("unlock message started");
+				logger.trace("unlock message started");
 				final EntityIterator<MessageBean> i = messageDao.findExpired();
 				while (i.hasNext()) {
 					final MessageBean bean = i.next();
@@ -44,7 +44,7 @@ public class MessageUnlock {
 						logger.debug("not locked => skip");
 					}
 				}
-				logger.debug("unlock message finished");
+				logger.trace("unlock message finished");
 			}
 			catch (final StorageException e) {
 				logger.warn(e.getClass().getName(), e);
@@ -74,7 +74,7 @@ public class MessageUnlock {
 
 	public boolean execute() {
 		if (runOnlyOnceATime.run(new UnlockRunnable())) {
-			logger.debug("exchange - run");
+			logger.trace("exchange - run");
 			return true;
 		}
 		else {

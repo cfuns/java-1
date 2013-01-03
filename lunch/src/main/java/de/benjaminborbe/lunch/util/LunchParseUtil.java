@@ -1,9 +1,8 @@
 package de.benjaminborbe.lunch.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +27,7 @@ public class LunchParseUtil {
 
 	public Collection<String> extractSubscribedUser(final String htmlContent) {
 		// logger.debug("htmlContent:\n" + htmlContent);
-		final Set<String> result = new HashSet<String>();
+		final List<String> result = new ArrayList<String>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByTag("table");
 		for (final Element table : tables) {
@@ -37,8 +36,12 @@ public class LunchParseUtil {
 					final Elements tds = tr.getElementsByTag("td");
 					if (!tds.isEmpty()) {
 						final String name = tds.get(0).text();
-						if (name != null && !name.trim().isEmpty()) {
-							result.add(name.trim());
+						if (name != null) {
+							final String nameTrimed = name.trim();
+							if (nameTrimed.length() > 1) {
+								logger.debug("found subscription for user: '" + nameTrimed + "'");
+								result.add(nameTrimed);
+							}
 						}
 					}
 				}

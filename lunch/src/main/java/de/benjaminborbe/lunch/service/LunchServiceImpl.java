@@ -241,7 +241,7 @@ public class LunchServiceImpl implements LunchService {
 			{
 				final KioskUserBean user = new KioskUserBean();
 				user.setPrename(parts[0]);
-				user.setPrename(parts[1]);
+				user.setSurname(parts[1]);
 				return user;
 			}
 		}

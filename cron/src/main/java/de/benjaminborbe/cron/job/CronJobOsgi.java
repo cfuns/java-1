@@ -57,18 +57,18 @@ public class CronJobOsgi implements Job {
 		final Date fireTime = context.getFireTime();
 		final String name = (String) context.getJobDetail().getJobDataMap().get(CronConstants.JOB_NAME);
 		try {
-			logger.debug("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
+			logger.trace("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
 
 			final CronJob cronJob = cronJobRegistry.getByName(name);
 			if (cronJob.disallowConcurrentExecution()) {
 				final CronMessage cronMessage = new CronMessage(name);
 				final String id = name + "_" + dateUtil.dateTimeString(fireTime);
 				final String content = cronMessageMapper.map(cronMessage);
-				logger.debug("send cron to queue");
+				logger.trace("send cron to queue");
 				messageService.sendMessage(CronConstants.MESSSAGE_TYPE, id, content);
 			}
 			else {
-				logger.debug("execute cron directly");
+				logger.trace("execute cron directly");
 				cronExecutor.execute(name);
 			}
 		}

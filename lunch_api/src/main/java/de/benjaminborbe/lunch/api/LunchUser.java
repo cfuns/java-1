@@ -7,4 +7,6 @@ public interface LunchUser {
 	String getPrename();
 
 	String getSurname();
+
+	String getName();
 }

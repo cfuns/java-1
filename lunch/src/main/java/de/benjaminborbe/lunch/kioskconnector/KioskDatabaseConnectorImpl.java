@@ -19,14 +19,18 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.lunch.LunchConstants;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 
 	private final Logger logger;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public KioskDatabaseConnectorImpl(final Logger logger) {
+	public KioskDatabaseConnectorImpl(final Logger logger, final CalendarUtil calendarUtil) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			logger.trace("search customerNumber");
+			logger.debug("getCustomerNumber - prename: '" + prename + "' surname: '" + surname + "'");
 
 			connection = createConnection();
 
@@ -50,6 +54,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 				user.setPrename(prename);
 				user.setSurname(surname);
 				user.setCustomerNumber(r.getString(1));
+				return user;
 			}
 
 			logger.debug("did not find customerNumber");
@@ -89,7 +94,6 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 	}
 
 	private Connection createConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, NamingException, SQLException {
-		Connection connection;
 		logger.trace("load driver");
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
@@ -98,8 +102,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 		final Context componentBindings = (Context) initialContext.lookup("java:comp/env");
 		final DataSource dataSource = (DataSource) componentBindings.lookup("jdbc/kiosk");
 		logger.trace("getConnection");
-		connection = dataSource.getConnection();
-		return connection;
+		return dataSource.getConnection();
 	}
 
 	@Override
@@ -109,7 +112,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 		try {
 			final List<KioskUserBean> result = new ArrayList<KioskUserBean>();
 
-			logger.trace("search customerNumber");
+			logger.debug("getBookingsForDay " + calendarUtil.toDateString(calendar));
 
 			connection = createConnection();
 
@@ -119,12 +122,13 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 			sb.append("JOIN cart ON cart.customer_id = customer.id ");
 			sb.append("JOIN cart_assignments ON cart_assignments.cart_id = cart.id ");
 			sb.append("JOIN article ON article.id = cart_assignments.article_id ");
-			sb.append(" WHERE 1=1 ");
+			sb.append("WHERE 1=1 ");
 			sb.append("AND article.ean = ? ");
-			sb.append("AND DATE(FROM_UNIXTIME(cart.booked_time)) = DATE(NOW()) ");
+			sb.append("AND DATE(FROM_UNIXTIME(cart.booked_time)) = DATE(FROM_UNIXTIME(?)) ");
 
 			statement = connection.prepareStatement(sb.toString());
 			statement.setString(1, LunchConstants.MITTAG_EAN);
+			statement.setLong(2, calendar.getTimeInMillis() / 1000);
 
 			final ResultSet r = statement.executeQuery();
 			logger.trace("executeQuery");

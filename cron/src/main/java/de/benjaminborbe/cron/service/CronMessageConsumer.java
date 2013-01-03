@@ -37,7 +37,7 @@ public class CronMessageConsumer implements MessageConsumer {
 	@Override
 	public boolean process(final Message message) {
 		try {
-			logger.debug("process");
+			logger.trace("process");
 			final CronMessage cronMessage = cronMessageMapper.map(message.getContent());
 			cronExecutor.execute(cronMessage.getName());
 			return true;

@@ -37,4 +37,18 @@ public class KioskUserBean implements LunchUser {
 		this.customerNumber = customerNumber;
 	}
 
+	@Override
+	public String getName() {
+		if (prename != null && surname != null) {
+			return prename + " " + surname;
+		}
+		if (prename != null) {
+			return prename;
+		}
+		if (surname != null) {
+			return surname;
+		}
+		return null;
+	}
+
 }

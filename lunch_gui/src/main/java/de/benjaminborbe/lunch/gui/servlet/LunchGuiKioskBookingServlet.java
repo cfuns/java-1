@@ -144,14 +144,16 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 			final FormWidget form = new FormWidget().addId("bookings");
 
+			int counter = 0;
 			for (final LunchUser user : users) {
+				counter++;
 				if (user.getCustomerNumber() != null) {
-					final FormElementWidget input = new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(user.getPrename() + " " + user.getSurname())
+					final FormElementWidget input = new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(counter + ". " + user.getName())
 							.addValue(user.getCustomerNumber()).setCheckedDefault(true);
 					form.addFormInputWidget(input);
 				}
 				else {
-					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(user.getPrename() + " " + user.getSurname()).addContent("NOT FOUND"));
+					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(counter + ". " + user.getName()).addContent("NOT FOUND"));
 				}
 			}
 			form.addFormInputWidget(new FormInputHiddenWidget(LunchGuiConstants.PARAMETER_BOOKING_DATE).addValue(calendarUtil.toDateString(calendar)));

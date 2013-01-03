@@ -36,7 +36,7 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void sendMessage(final String type, final String id, final String content) throws MessageServiceException {
 		try {
-			logger.debug("sendMessage");
+			logger.trace("sendMessage");
 			final MessageBean bean = messageDao.create();
 			bean.setId(new MessageIdentifier(type + "_" + id));
 			bean.setType(type);

@@ -30,7 +30,6 @@ import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
-import de.benjaminborbe.lunch.gui.util.LunchGuiLinkFactory;
 import de.benjaminborbe.lunch.gui.util.LunchUserComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -43,7 +42,6 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
-import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
@@ -62,8 +60,6 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 
 	private final TimeZoneUtil timeZoneUtil;
 
-	private final LunchGuiLinkFactory lunchGuiLinkFactory;
-
 	private final AuthorizationService authorizationService;
 
 	@Inject
@@ -77,11 +73,9 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
-			final LunchGuiLinkFactory lunchGuiLinkFactory,
 			final LunchService lunchService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
-		this.lunchGuiLinkFactory = lunchGuiLinkFactory;
 		this.lunchService = lunchService;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
@@ -100,7 +94,7 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 		try {
 			Calendar calendar;
 			try {
-				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKING_DATE));
+				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKED_DATE));
 			}
 			catch (final ParseException e) {
 				calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
@@ -110,20 +104,17 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<LunchUser> list = new ArrayList<LunchUser>(lunchService.getBookedUser(sessionIdentifier, calendar));
-			Collections.sort(list, new LunchUserComparator());
 
-			final UlWidget ul = new UlWidget();
-			for (final LunchUser user : list) {
-				ul.add(user.getPrename() + " " + user.getSurname());
+			if (list.isEmpty()) {
+				widgets.add("no bookings found");
 			}
-			widgets.add(ul);
-
-			widgets.add(new BrWidget());
-			{
-				final ListWidget links = new ListWidget();
-				links.add(lunchGuiLinkFactory.booking(request));
-				links.add(" ");
-				widgets.add(links);
+			else {
+				Collections.sort(list, new LunchUserComparator());
+				final UlWidget ul = new UlWidget();
+				for (final LunchUser user : list) {
+					ul.add(user.getPrename() + " " + user.getSurname());
+				}
+				widgets.add(ul);
 			}
 
 			return widgets;
