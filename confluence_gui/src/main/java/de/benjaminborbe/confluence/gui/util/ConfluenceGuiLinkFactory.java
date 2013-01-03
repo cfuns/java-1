@@ -42,7 +42,7 @@ public class ConfluenceGuiLinkFactory {
 	}
 
 	public Widget expireAll(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_EXPIRE_ALL, "expire all");
+		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_EXPIRE_ALL, "expire all").addConfirm("expire all?");
 	}
 
 	public Widget refreshIndex(final HttpServletRequest request) throws MalformedURLException {

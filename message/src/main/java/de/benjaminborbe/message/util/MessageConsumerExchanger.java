@@ -1,5 +1,7 @@
 package de.benjaminborbe.message.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -18,26 +20,53 @@ import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.RandomUtil;
+import de.benjaminborbe.tools.util.ThreadRunner;
 
 @Singleton
 public class MessageConsumerExchanger {
+
+	private final class HandleConsumer implements Runnable {
+
+		private final MessageConsumer messageConsumer;
+
+		private HandleConsumer(final MessageConsumer messageConsumer) {
+			this.messageConsumer = messageConsumer;
+		}
+
+		@Override
+		public void run() {
+			try {
+				exchange(messageConsumer);
+			}
+			catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+			catch (final EntityIteratorException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+		}
+	}
 
 	private final class MessageConsumerExchangerRunnable implements Runnable {
 
 		@Override
 		public void run() {
 			logger.trace("exchange - started");
+
+			final List<Thread> threads = new ArrayList<Thread>();
+
 			for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
+				threads.add(threadRunner.run("messageConsumerExchange", new HandleConsumer(messageConsumer)));
+			}
+
+			for (final Thread thread : threads) {
 				try {
-					exchange(messageConsumer);
+					thread.join();
 				}
-				catch (final StorageException e) {
-					logger.warn(e.getClass().getName(), e);
-				}
-				catch (final EntityIteratorException e) {
-					logger.warn(e.getClass().getName(), e);
+				catch (final InterruptedException e) {
 				}
 			}
+
 			logger.trace("exchange - finished");
 		}
 	}
@@ -56,6 +85,8 @@ public class MessageConsumerExchanger {
 
 	private final RandomUtil randomUtil;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
@@ -63,13 +94,15 @@ public class MessageConsumerExchanger {
 			final CalendarUtil calendarUtil,
 			final MessageConsumerRegistry messageConsumerRegistry,
 			final MessageDao messageDao,
-			final RunOnlyOnceATime runOnlyOnceATime) {
+			final RunOnlyOnceATime runOnlyOnceATime,
+			final ThreadRunner threadRunner) {
 		this.logger = logger;
 		this.randomUtil = randomUtil;
 		this.calendarUtil = calendarUtil;
 		this.messageConsumerRegistry = messageConsumerRegistry;
 		this.messageDao = messageDao;
 		this.runOnlyOnceATime = runOnlyOnceATime;
+		this.threadRunner = threadRunner;
 		this.lockName = String.valueOf(UUID.randomUUID());
 	}
 
