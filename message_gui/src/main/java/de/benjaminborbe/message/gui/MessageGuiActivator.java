@@ -17,6 +17,9 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class MessageGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private MessageGuiDeleteByTypeServlet messageGuiDeleteByTypeServlet;
+
+	@Inject
 	private MessageGuiUnlockExpiredMessagesServlet messageserviceGuiUnlockExpiredMessagesServlet;
 
 	@Inject
@@ -36,6 +39,7 @@ public class MessageGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(messageserviceGuiServlet, MessageGuiConstants.URL_HOME));
 		result.add(new ServletInfo(messageserviceGuiUnlockExpiredMessagesServlet, MessageGuiConstants.URL_UNLOCK));
+		result.add(new ServletInfo(messageGuiDeleteByTypeServlet, MessageGuiConstants.URL_DELETE));
 		return result;
 	}
 }

@@ -8,4 +8,7 @@ public interface MessageGuiConstants {
 
 	String URL_HOME = "/";
 
+	String PARAMETER_MESSAGE_TYPE = "message_type";
+
+	String URL_DELETE = "/delete";
 }

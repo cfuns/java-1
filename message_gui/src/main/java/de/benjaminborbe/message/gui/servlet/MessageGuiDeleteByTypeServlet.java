@@ -21,11 +21,16 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
+import de.benjaminborbe.message.gui.MessageGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -34,20 +39,20 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class MessageGuiUnlockExpiredMessagesServlet extends WebsiteHtmlServlet {
+public class MessageGuiDeleteByTypeServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Messageservice";
+	private static final String TITLE = "Messageservice - Delete By Type";
 
 	private final MessageService messageService;
 
-	private final Logger logger;
-
 	private final AuthenticationService authenticationService;
 
+	private final Logger logger;
+
 	@Inject
-	public MessageGuiUnlockExpiredMessagesServlet(
+	public MessageGuiDeleteByTypeServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -60,9 +65,9 @@ public class MessageGuiUnlockExpiredMessagesServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final MessageService messageService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.authenticationService = authenticationService;
 		this.messageService = messageService;
 		this.logger = logger;
-		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -76,13 +81,19 @@ public class MessageGuiUnlockExpiredMessagesServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if (messageService.unlockExpiredMessages(sessionIdentifier)) {
-				widgets.add("unlock expired messages started");
+
+			final String type = request.getParameter(MessageGuiConstants.PARAMETER_MESSAGE_TYPE);
+			if (type != null) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				messageService.deleteByType(sessionIdentifier, type);
+				widgets.add("delete done");
 			}
-			else {
-				widgets.add("unlock expired messages skipped, already running");
-			}
+
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputTextWidget(MessageGuiConstants.PARAMETER_MESSAGE_TYPE).addLabel("Type").addPlaceholder("type..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("delete messages"));
+			widgets.add(formWidget);
+
 			return widgets;
 		}
 		catch (final MessageServiceException e) {

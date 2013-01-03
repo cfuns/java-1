@@ -3,6 +3,7 @@ package de.benjaminborbe.message.mock;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 
@@ -18,12 +19,16 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	@Override
-	public boolean unlockExpiredMessages() {
+	public boolean unlockExpiredMessages(final SessionIdentifier sessionIdentifier) {
 		return false;
 	}
 
 	@Override
 	public void sendMessage(final String type, final String id, final String content) throws MessageServiceException {
+	}
+
+	@Override
+	public void deleteByType(final SessionIdentifier sessionIdentifier, final String type) throws MessageServiceException {
 	}
 
 }
