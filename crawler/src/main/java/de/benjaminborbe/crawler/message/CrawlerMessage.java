@@ -4,9 +4,12 @@ import java.net.URL;
 
 public class CrawlerMessage {
 
-	private final URL url;
+	private URL url;
 
-	private final int timeout;
+	private int timeout;
+
+	public CrawlerMessage() {
+	}
 
 	public CrawlerMessage(final URL url, final int timeout) {
 		this.url = url;
@@ -19,6 +22,14 @@ public class CrawlerMessage {
 
 	public int getTimeout() {
 		return timeout;
+	}
+
+	public void setUrl(final URL url) {
+		this.url = url;
+	}
+
+	public void setTimeout(final int timeout) {
+		this.timeout = timeout;
 	}
 
 }
