@@ -35,12 +35,15 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		try {
-			if (query != null && query.trim().length() > 0) {
-				final String urlString = new URL("http://" + query).toExternalForm();
-				final String type = getName();
-				final String title = urlString;
-				final String description = urlString;
-				result.add(new SearchResultImpl(type, Integer.MAX_VALUE, title, urlString, description));
+			if (query != null) {
+				final String queryTrimed = query.trim();
+				if (!queryTrimed.isEmpty() && queryTrimed.indexOf(" ") == -1) {
+					final String urlString = new URL("http://" + query).toExternalForm();
+					final String type = getName();
+					final String title = urlString;
+					final String description = urlString;
+					result.add(new SearchResultImpl(type, Integer.MAX_VALUE, title, urlString, description));
+				}
 			}
 		}
 		catch (final MalformedURLException e) {

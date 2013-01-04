@@ -10,8 +10,8 @@ public class AuthenticationVerifyCredentialRegistry extends RegistryBase<Authent
 
 	@Inject
 	public AuthenticationVerifyCredentialRegistry(final AuthenticationVerifyCredentialLdap verifyCredentialLdap, final AuthenticationVerifyCredentialStorage verifyCredentialStorage) {
-		add(verifyCredentialLdap);
 		add(verifyCredentialStorage);
+		add(verifyCredentialLdap);
 	}
 
 }

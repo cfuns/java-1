@@ -234,6 +234,6 @@ public class XmppConnectorImpl implements XmppConnector {
 
 	@Override
 	public boolean isConnected() throws XmppConnectorException {
-		return connection != null;
+		return connection != null && connection.isConnected();
 	}
 }
