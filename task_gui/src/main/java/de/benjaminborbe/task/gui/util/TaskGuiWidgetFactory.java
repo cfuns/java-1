@@ -141,11 +141,14 @@ public class TaskGuiWidgetFactory {
 		row.add(" ");
 		row.add(taskGuiLinkFactory.taskComplete(request, buildImage(request, "complete"), task));
 		row.add(" ");
-		row.add(buildTaskName(sessionIdentifier, request, task, allTasks));
-		row.add(" ");
+
+		final ListWidget rowText = new ListWidget();
+
+		rowText.add(buildTaskName(sessionIdentifier, request, task, allTasks));
+		rowText.add(" ");
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
-			row.add(new LinkWidget(task.getUrl(), "goto ").addTarget(Target.BLANK));
+			rowText.add(new LinkWidget(task.getUrl(), "goto ").addTarget(Target.BLANK));
 		}
 
 		if (task.getRepeatDue() != null && task.getRepeatDue() > 0 || task.getRepeatStart() != null && task.getRepeatStart() > 0) {
@@ -156,8 +159,9 @@ public class TaskGuiWidgetFactory {
 			if (task.getRepeatStart() != null && task.getRepeatStart() > 0) {
 				parts.add("start: " + task.getRepeatStart() + " day");
 			}
-			row.add(new TooltipWidget("(repeat) ").addTooltip(StringUtils.join(parts, " ")));
+			rowText.add(new TooltipWidget("(repeat) ").addTooltip(StringUtils.join(parts, " ")));
 		}
+		row.add(new SpanWidget(rowText).addClass("taskText"));
 
 		final ListWidget options = new ListWidget();
 

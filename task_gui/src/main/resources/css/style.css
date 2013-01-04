@@ -15,12 +15,6 @@
 	list-style-type: none;
 }
 
-/* task */
-.task .taskNext .taskOptions {
-	left: 1200px;
-	position: absolute;
-}
-
 .task input[type="text"] {
 	width: 800px;
 }
@@ -98,4 +92,9 @@
 
 .task .taskNext {
 	float: left;
+}
+
+.task .taskNext .taskText {
+	width: 600px;
+	display: inline-block;
 }
