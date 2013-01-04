@@ -6,4 +6,8 @@ public interface MicroblogConstants {
 
 	int SEARCH_LIMIT = 10;
 
+	String CONFIG_XMPP_ENABLED = "MicroblogXmppEnabled";
+
+	String CONFIG_MAIL_ENABLED = "MicroblogMailEnabled";
+
 }

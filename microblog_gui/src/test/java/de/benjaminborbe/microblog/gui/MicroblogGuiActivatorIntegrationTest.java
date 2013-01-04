@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +45,11 @@ public class MicroblogGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/microblog", "/microblog/post/send", "/microblog/conversation/send");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_CONVERSATION_SEND);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_SEND);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_REFRESH);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_SLASH);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

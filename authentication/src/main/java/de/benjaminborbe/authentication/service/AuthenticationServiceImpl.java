@@ -109,6 +109,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			// delay login
 			Thread.sleep(AuthenticationConstants.LOGIN_DELAY);
 
+			logger.debug("try verifyCredential for user: " + userIdentifier);
+
 			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
 				try {
 					if (a.verifyCredential(userIdentifier, password)) {
@@ -129,6 +131,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException,
 			ValidationException {
 		try {
+
+			logger.debug("try login user: " + userIdentifier);
+
 			if (verifyCredential(sessionIdentifier, userIdentifier, password)) {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);

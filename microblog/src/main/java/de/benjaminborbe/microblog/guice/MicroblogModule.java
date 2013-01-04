@@ -6,6 +6,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.microblog.api.MicroblogService;
+import de.benjaminborbe.microblog.config.MicroblogConfig;
+import de.benjaminborbe.microblog.config.MicroblogConfigImpl;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorImpl;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
@@ -23,6 +25,7 @@ public class MicroblogModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(MicroblogConfig.class).to(MicroblogConfigImpl.class).in(Singleton.class);
 		bind(MicroblogConversationFinder.class).to(MicroblogConversationFinderImpl.class).in(Singleton.class);
 		bind(MicroblogService.class).to(MicroblogServiceImpl.class).in(Singleton.class);
 		bind(MicroblogPostMailer.class).to(MicroblogPostMailerImpl.class).in(Singleton.class);

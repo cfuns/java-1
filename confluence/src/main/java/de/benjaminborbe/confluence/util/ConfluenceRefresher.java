@@ -188,6 +188,14 @@ public class ConfluenceRefresher {
 	}
 
 	public boolean refresh() {
-		return runOnlyOnceATime.run(new RefreshRunnable());
+		logger.trace("confluence-refresh - started");
+		if (runOnlyOnceATime.run(new RefreshRunnable())) {
+			logger.trace("confluence-refresh - finished");
+			return true;
+		}
+		else {
+			logger.trace("confluence-refresh - skipped");
+			return false;
+		}
 	}
 }

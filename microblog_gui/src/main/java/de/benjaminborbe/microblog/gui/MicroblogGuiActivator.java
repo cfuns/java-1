@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModules;
 import de.benjaminborbe.microblog.gui.service.MicroblogGuiDashboardWidget;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiRefreshServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendConversationServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendPostServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiServlet;
@@ -33,6 +34,9 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	@Inject
 	private MicroblogGuiSendConversationServlet microblogGuiSendConversationServlet;
 
+	@Inject
+	private MicroblogGuiRefreshServlet microblogGuiRefreshServlet;
+
 	public MicroblogGuiActivator() {
 		super(MicroblogGuiConstants.NAME);
 	}
@@ -45,6 +49,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(microblogGuiRefreshServlet, MicroblogGuiConstants.URL_REFRESH));
 		result.add(new ServletInfo(microblogServlet, MicroblogGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(microblogGuiSendPostServlet, MicroblogGuiConstants.URL_POST_SEND));
 		result.add(new ServletInfo(microblogGuiSendConversationServlet, MicroblogGuiConstants.URL_CONVERSATION_SEND));

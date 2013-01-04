@@ -12,13 +12,15 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
-import de.benjaminborbe.microblog.gui.util.MicroblogGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -26,25 +28,25 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class MicroblogGuiServlet extends WebsiteHtmlServlet {
+public class MicroblogGuiRefreshServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Microblog";
+	private static final String TITLE = "Microblog - Refresh";
 
 	private final MicroblogService microblogService;
 
 	private final Logger logger;
 
-	private final MicroblogGuiLinkFactory microblogGuiLinkFactory;
+	private final AuthenticationService authenticationService;
 
 	@Inject
-	public MicroblogGuiServlet(
+	public MicroblogGuiRefreshServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -55,12 +57,11 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 			final MicroblogService microblogService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final MicroblogGuiLinkFactory microblogGuiLinkFactory) {
+			final AuthorizationService authorizationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.microblogService = microblogService;
+		this.authenticationService = authenticationService;
 		this.logger = logger;
-		this.microblogGuiLinkFactory = microblogGuiLinkFactory;
 	}
 
 	@Override
@@ -69,27 +70,26 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		widgets.add("latest revision: ");
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+			PermissionDeniedException, LoginRequiredException {
 		try {
-			final MicroblogPostIdentifier rev = microblogService.getLastRevision();
-			widgets.add(String.valueOf(rev));
-			widgets.add(new BrWidget());
-			widgets.add(microblogGuiLinkFactory.sendPost(request, rev));
-			widgets.add(new BrWidget());
-			widgets.add(microblogGuiLinkFactory.sendConversation(request, rev));
-			widgets.add(new BrWidget());
-			widgets.add(microblogGuiLinkFactory.refresh(request));
-			widgets.add(new BrWidget());
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			microblogService.refresh(sessionIdentifier);
+			widgets.add("refresh triggerd");
+			return widgets;
 		}
 		catch (final MicroblogServiceException e) {
-			logger.trace("MicroblogRevisionStorageException", e);
-			widgets.add("-");
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
-		return widgets;
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
-
 }

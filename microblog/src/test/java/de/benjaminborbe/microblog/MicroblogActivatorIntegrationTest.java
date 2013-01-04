@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
@@ -70,6 +71,8 @@ public class MicroblogActivatorIntegrationTest {
 		names.add(CronJob.class.getName());
 		names.add(MicroblogService.class.getName());
 		names.add(SearchServiceComponent.class.getName());
+		names.add(ConfigurationDescription.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

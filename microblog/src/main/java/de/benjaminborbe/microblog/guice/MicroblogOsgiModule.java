@@ -7,6 +7,8 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.storage.api.StorageService;
@@ -16,6 +18,8 @@ public class MicroblogOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
+		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(IndexService.class).toProvider(service(IndexService.class).single());
 		bind(XmppService.class).toProvider(service(XmppService.class).single());
 		bind(StorageService.class).toProvider(service(StorageService.class).single());

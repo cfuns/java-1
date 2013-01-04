@@ -12,4 +12,6 @@ public interface MicroblogGuiConstants {
 
 	String NAME = "microblog";
 
+	String URL_REFRESH = "/refresh";
+
 }

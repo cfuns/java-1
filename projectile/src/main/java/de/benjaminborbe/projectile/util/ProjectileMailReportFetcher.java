@@ -144,7 +144,15 @@ public class ProjectileMailReportFetcher {
 	}
 
 	public boolean fetch() {
-		return runOnlyOnceATime.run(new FetchRunnable());
+		logger.trace("fetch projectile-report - started");
+		if (runOnlyOnceATime.run(new FetchRunnable())) {
+			logger.trace("fetch projectile-report - finished");
+			return true;
+		}
+		else {
+			logger.trace("fetch projectile-report - skipped");
+			return false;
+		}
 	}
 
 	private ProjectileSlacktimeReportInterval buildInterval(final String subject) {

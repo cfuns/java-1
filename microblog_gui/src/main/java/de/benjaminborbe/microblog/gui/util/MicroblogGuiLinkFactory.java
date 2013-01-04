@@ -36,4 +36,8 @@ public class MicroblogGuiLinkFactory {
 				MicroblogGuiConstants.PARAMETER_POST_ID, String.valueOf(microblogPostIdentifier)), "send as post");
 	}
 
+	public Widget refresh(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_REFRESH, "refresh");
+	}
+
 }

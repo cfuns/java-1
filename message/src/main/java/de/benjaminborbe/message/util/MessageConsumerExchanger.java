@@ -106,13 +106,15 @@ public class MessageConsumerExchanger {
 		this.lockName = String.valueOf(UUID.randomUUID());
 	}
 
-	public void exchange() {
-		logger.trace("exchange - started");
+	public boolean exchange() {
+		logger.trace("message consume - started");
 		if (runOnlyOnceATime.run(new MessageConsumerExchangerRunnable())) {
-			logger.trace("exchange - finished");
+			logger.trace("message consume - finished");
+			return true;
 		}
 		else {
-			logger.trace("exchange - skipped");
+			logger.trace("message consume - skipped");
+			return false;
 		}
 	}
 

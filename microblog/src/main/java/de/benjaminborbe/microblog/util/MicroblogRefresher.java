@@ -32,7 +32,12 @@ public class MicroblogRefresher {
 						final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(rev);
 						microblogRevisionStorage.setLastRevision(microblogPostIdentifier);
 						for (final MicroblogPostListener microblogPostListener : microblogPostListenerRegistry.getAll()) {
-							microblogPostListener.onNewPost(microblogPostIdentifier);
+							try {
+								microblogPostListener.onNewPost(microblogPostIdentifier);
+							}
+							catch (final Exception e) {
+								logger.warn(e.getClass().getName(), e);
+							}
 						}
 					}
 				}
@@ -71,7 +76,15 @@ public class MicroblogRefresher {
 		this.runOnlyOnceATime = runOnlyOnceATime;
 	}
 
-	public void refresh() {
-		runOnlyOnceATime.run(new Action());
+	public boolean refresh() {
+		logger.trace("microblog-refresh - started");
+		if (runOnlyOnceATime.run(new Action())) {
+			logger.trace("microblog-refresh - finished");
+			return true;
+		}
+		else {
+			logger.trace("microblog-refresh - skipped");
+			return false;
+		}
 	}
 }

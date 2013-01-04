@@ -7,8 +7,10 @@ import java.util.Set;
 import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.microblog.api.MicroblogService;
+import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.guice.MicroblogModules;
 import de.benjaminborbe.microblog.service.MicroblogCronJob;
 import de.benjaminborbe.microblog.service.MicroblogSearchServiceComponent;
@@ -28,6 +30,9 @@ public class MicroblogActivator extends BaseBundleActivator {
 	@Inject
 	private MicroblogSearchServiceComponent microblogSearchServiceComponent;
 
+	@Inject
+	private MicroblogConfig microblogConfig;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new MicroblogModules(context);
@@ -39,6 +44,9 @@ public class MicroblogActivator extends BaseBundleActivator {
 		result.add(new ServiceInfo(CronJob.class, microblogCronJob, microblogCronJob.getClass().getName()));
 		result.add(new ServiceInfo(MicroblogService.class, microblogService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, microblogSearchServiceComponent, microblogSearchServiceComponent.getClass().getName()));
+		for (final ConfigurationDescription configuration : microblogConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 }

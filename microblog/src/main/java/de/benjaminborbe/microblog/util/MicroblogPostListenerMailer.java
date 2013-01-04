@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationMailer;
@@ -24,13 +25,17 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 
 	private final MicroblogConversationMailer microblogConversationMailer;
 
+	private final MicroblogConfig microblogConfig;
+
 	@Inject
 	public MicroblogPostListenerMailer(
 			final Logger logger,
+			final MicroblogConfig microblogConfig,
 			final MicroblogPostMailer microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,
 			final MicroblogConversationMailer microblogConversationMailer) {
 		this.logger = logger;
+		this.microblogConfig = microblogConfig;
 		this.microblogPostMailer = microblogPostMailer;
 		this.microblogConversationFinder = microblogConversationFinder;
 		this.microblogConversationMailer = microblogConversationMailer;
@@ -39,15 +44,17 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 	@Override
 	public void onNewPost(final MicroblogPostIdentifier microblogPostIdentifier) {
 		try {
-			final MicroblogConversationIdentifier microblogConversationIdentifier = microblogConversationFinder.findIdentifier(microblogPostIdentifier);
-			logger.trace("found microblogConversationIdentifier = " + microblogConversationIdentifier);
-			if (microblogConversationIdentifier != null) {
-				logger.trace("mailConversation: " + microblogConversationIdentifier);
-				microblogConversationMailer.mailConversation(microblogConversationIdentifier);
-			}
-			else {
-				logger.trace("mailPost: " + microblogPostIdentifier);
-				microblogPostMailer.mailPost(microblogPostIdentifier);
+			if (microblogConfig.isMailEnabled()) {
+				final MicroblogConversationIdentifier microblogConversationIdentifier = microblogConversationFinder.findIdentifier(microblogPostIdentifier);
+				logger.trace("found microblogConversationIdentifier = " + microblogConversationIdentifier);
+				if (microblogConversationIdentifier != null) {
+					logger.trace("mailConversation: " + microblogConversationIdentifier);
+					microblogConversationMailer.mailConversation(microblogConversationIdentifier);
+				}
+				else {
+					logger.trace("mailPost: " + microblogPostIdentifier);
+					microblogPostMailer.mailPost(microblogPostIdentifier);
+				}
 			}
 		}
 		catch (final MicroblogPostMailerException e) {
@@ -63,5 +70,4 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 			logger.trace(e.getClass().getName(), e);
 		}
 	}
-
 }

@@ -6,6 +6,10 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.mock.IndexServiceMock;
 import de.benjaminborbe.mail.api.MailService;
@@ -21,6 +25,8 @@ public class MicroblogOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
+		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(IndexService.class).to(IndexServiceMock.class).in(Singleton.class);
 		bind(XmppService.class).to(XmppServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);

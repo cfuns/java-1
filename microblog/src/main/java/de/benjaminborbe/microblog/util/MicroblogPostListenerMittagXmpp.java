@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
@@ -24,9 +25,12 @@ public class MicroblogPostListenerMittagXmpp implements MicroblogPostListener {
 
 	private final XmppService xmppService;
 
+	private final MicroblogConfig microblogConfig;
+
 	@Inject
-	public MicroblogPostListenerMittagXmpp(final Logger logger, final MicroblogConnector microblogConnector, final XmppService xmppService) {
+	public MicroblogPostListenerMittagXmpp(final Logger logger, final MicroblogConfig microblogConfig, final MicroblogConnector microblogConnector, final XmppService xmppService) {
 		this.logger = logger;
+		this.microblogConfig = microblogConfig;
 		this.microblogConnector = microblogConnector;
 		this.xmppService = xmppService;
 	}
@@ -34,12 +38,14 @@ public class MicroblogPostListenerMittagXmpp implements MicroblogPostListener {
 	@Override
 	public void onNewPost(final MicroblogPostIdentifier microblogPostIdentifier) {
 		try {
-			logger.trace("onNewPost");
-			final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
-			final String content = microblogPostResult.getContent();
-			if (isLunch(content)) {
-				logger.trace("isLunch = true, sending message");
-				xmppService.send(content);
+			if (microblogConfig.isXmppEnabled()) {
+				logger.trace("onNewPost");
+				final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
+				final String content = microblogPostResult.getContent();
+				if (isLunch(content)) {
+					logger.trace("isLunch = true, sending message");
+					xmppService.send(content);
+				}
 			}
 		}
 		catch (final MicroblogConnectorException e) {

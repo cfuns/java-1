@@ -3,6 +3,11 @@ package de.benjaminborbe.microblog.service;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogService;
@@ -15,6 +20,7 @@ import de.benjaminborbe.microblog.post.MicroblogPostMailer;
 import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
+import de.benjaminborbe.microblog.util.MicroblogRefresher;
 import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
@@ -28,12 +34,20 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	private final MicroblogConversationFinder microblogConversationFinder;
 
+	private final AuthorizationService authorizationService;
+
+	private final MicroblogRefresher microblogRefresher;
+
 	@Inject
 	public MicroblogServiceImpl(
+			final AuthorizationService authorizationService,
+			final MicroblogRefresher microblogRefresher,
 			final MicroblogRevisionStorage microblogRevisionStorage,
 			final MicroblogPostMailer microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,
 			final MicroblogConversationMailer microblogConversationMailer) {
+		this.authorizationService = authorizationService;
+		this.microblogRefresher = microblogRefresher;
 		this.microblogRevisionStorage = microblogRevisionStorage;
 		this.microblogPostMailer = microblogPostMailer;
 		this.microblogConversationFinder = microblogConversationFinder;
@@ -46,7 +60,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 			return microblogRevisionStorage.getLastRevision();
 		}
 		catch (final MicroblogRevisionStorageException e) {
-			throw new MicroblogServiceException("MicroblogRevisionStorageException", e);
+			throw new MicroblogServiceException(e.getClass().getName(), e);
 		}
 	}
 
@@ -56,7 +70,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 			microblogPostMailer.mailPost(microblogPostIdentifier);
 		}
 		catch (final MicroblogPostMailerException e) {
-			throw new MicroblogServiceException("MicroblogPostMailerException", e);
+			throw new MicroblogServiceException(e.getClass().getName(), e);
 		}
 	}
 
@@ -66,7 +80,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 			microblogConversationMailer.mailConversation(microblogConversationIdentifier);
 		}
 		catch (final MicroblogConversationMailerException e) {
-			throw new MicroblogServiceException("MicroblogPostMailerException", e);
+			throw new MicroblogServiceException(e.getClass().getName(), e);
 		}
 	}
 
@@ -86,10 +100,21 @@ public class MicroblogServiceImpl implements MicroblogService {
 			return microblogConversationFinder.findIdentifier(microblogPostIdentifier);
 		}
 		catch (final MicroblogConnectorException e) {
-			throw new MicroblogServiceException("MicroblogConnectorException", e);
+			throw new MicroblogServiceException(e.getClass().getName(), e);
 		}
 		catch (final ParseException e) {
-			throw new MicroblogServiceException("ParseException", e);
+			throw new MicroblogServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public void refresh(final SessionIdentifier sessionIdentifier) throws MicroblogServiceException, PermissionDeniedException, LoginRequiredException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			microblogRefresher.refresh();
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MicroblogServiceException(e.getClass().getName(), e);
 		}
 	}
 

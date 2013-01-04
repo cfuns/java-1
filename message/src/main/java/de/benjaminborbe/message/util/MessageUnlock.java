@@ -73,12 +73,13 @@ public class MessageUnlock {
 	}
 
 	public boolean execute() {
+		logger.trace("message-unlock - started");
 		if (runOnlyOnceATime.run(new UnlockRunnable())) {
-			logger.trace("exchange - run");
+			logger.trace("message-unlock - finished");
 			return true;
 		}
 		else {
-			logger.debug("exchange - skipped");
+			logger.trace("message-unlock - skipped");
 			return false;
 		}
 	}

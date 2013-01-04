@@ -38,6 +38,8 @@ public class LdapConnector {
 
 	private static final String KEYSTORE_PATH = "keystore.jks";
 
+	private static final int TIMEOUT = 5000;
+
 	private final AuthenticationConfig authenticationConfig;
 
 	private final Logger logger;
@@ -57,6 +59,7 @@ public class LdapConnector {
 			final DirContext ctx = getDirContext(env);
 			logger.debug("login success for " + username);
 			final SearchControls searchControls = new SearchControls();
+			searchControls.setTimeLimit(TIMEOUT);
 			searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 			ctx.search("ou=Mitarbeiter,dc=rp,dc=seibert-media,dc=net", "(objectClass=person)", searchControls);
 			return true;
