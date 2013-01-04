@@ -16,8 +16,8 @@
 }
 
 /* task */
-.task .taskOptions {
-	left: 1000px;
+.task .taskNext .taskOptions {
+	left: 1200px;
 	position: absolute;
 }
 
