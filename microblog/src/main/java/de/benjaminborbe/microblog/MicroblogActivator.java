@@ -11,6 +11,8 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.guice.MicroblogModules;
 import de.benjaminborbe.microblog.service.MicroblogCronJob;
+import de.benjaminborbe.microblog.service.MicroblogSearchServiceComponent;
+import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -23,6 +25,9 @@ public class MicroblogActivator extends BaseBundleActivator {
 	@Inject
 	private MicroblogService microblogService;
 
+	@Inject
+	private MicroblogSearchServiceComponent microblogSearchServiceComponent;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new MicroblogModules(context);
@@ -33,6 +38,7 @@ public class MicroblogActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, microblogCronJob, microblogCronJob.getClass().getName()));
 		result.add(new ServiceInfo(MicroblogService.class, microblogService));
+		result.add(new ServiceInfo(SearchServiceComponent.class, microblogSearchServiceComponent, microblogSearchServiceComponent.getClass().getName()));
 		return result;
 	}
 }

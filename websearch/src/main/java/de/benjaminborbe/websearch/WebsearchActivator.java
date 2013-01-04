@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
-
 import com.google.inject.Inject;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
@@ -50,11 +48,4 @@ public class WebsearchActivator extends BaseBundleActivator {
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new WebsearchServiceTracker(websearchRegistry, context,
-		// WebsearchService.class));
-		return serviceTrackers;
-	}
 }

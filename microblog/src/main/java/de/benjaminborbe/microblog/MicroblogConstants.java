@@ -4,4 +4,6 @@ public interface MicroblogConstants {
 
 	String INDEX = "microblog";
 
+	int SEARCH_LIMIT = 10;
+
 }
