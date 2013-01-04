@@ -198,7 +198,7 @@ public class XmppConnectorImpl implements XmppConnector {
 
 		@Override
 		public void reconnectingIn(final int seconds) {
-			logger.debug("reconnectingIn");
+			logger.debug("reconnectingIn " + seconds + " seconds");
 		}
 
 		@Override
