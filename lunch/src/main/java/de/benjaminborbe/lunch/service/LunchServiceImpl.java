@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.atlassian.confluence.rpc.AuthenticationFailedException;
@@ -259,10 +260,10 @@ public class LunchServiceImpl implements LunchService {
 		try {
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchConstants.LUNCH_ADMIN_ROLENAME);
 			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
-			logger.debug("book");
+			logger.info("book  - day: " + calendarUtil.toDateString(day) + " users: " + StringUtils.join(users, ','));
 
 			for (final String user : users) {
-				logger.debug("send booking message for " + user + " " + calendarUtil.toDateString(day));
+				logger.info("send booking message for " + user + " " + calendarUtil.toDateString(day));
 				final LunchBookingMessage bookingMessage = new LunchBookingMessage(user, day);
 				messageService.sendMessage(LunchConstants.BOOKING_MESSAGE_TYPE, bookingMessageMapper.map(bookingMessage));
 			}
