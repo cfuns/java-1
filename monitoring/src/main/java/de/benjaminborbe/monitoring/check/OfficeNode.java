@@ -10,21 +10,15 @@ public class OfficeNode extends TreeNode implements HasChildNodes, HasPreconditi
 
 		// tcp-checks
 		{
-			final String name = "TCP-Check on devel cassandra-server";
-			final String hostname = "dev.rp.seibert-media.net";
-			final int port = 9160;
+			final String name = "TCP-Check on bborbe.devel.lf.seibert-media.net";
+			final String hostname = "bborbe.devel.lf.seibert-media.net";
+			final int port = 22;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 		{
-			final String name = "TCP-Check on devel activemq-server";
-			final String hostname = "dev.rp.seibert-media.net";
-			final int port = 61616;
-			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
-		}
-		{
-			final String name = "TCP-Check on devel activemq-admin-gui";
-			final String hostname = "dev.rp.seibert-media.net";
-			final int port = 8161;
+			final String name = "TCP-Check on java.devel.lf.seibert-media.net";
+			final String hostname = "java.devel.lf.seibert-media.net";
+			final int port = 22;
 			addNode(new HasCheckNodeImpl(tcpCheckBuilder.buildCheck(name, hostname, port)));
 		}
 
