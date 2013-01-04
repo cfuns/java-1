@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -16,15 +17,23 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.confluence.ConfluenceConstants;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 
 @Singleton
 public class ConfluenceConnectorImpl implements ConfluenceConnector {
 
 	private final Logger logger;
 
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
-	public ConfluenceConnectorImpl(final Logger logger) {
+	public ConfluenceConnectorImpl(final Logger logger, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -79,18 +88,36 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 		return result;
 	}
 
+	@Override
+	public ConfluenceConnectorPage getPage(final String confluenceBaseUrl, final String token, final ConfluenceConnectorPageSummary confluenceConnectorPageSummary)
+			throws MalformedURLException, XmlRpcException {
+		return getPage(confluenceBaseUrl, token, confluenceConnectorPageSummary.getPageId());
+	}
+
 	@SuppressWarnings({ "rawtypes" })
 	@Override
-	public Collection<ConfluenceConnectorPage> getPages(final String confluenceBaseUrl, final String token, final String spaceKey) throws MalformedURLException, XmlRpcException {
+	public ConfluenceConnectorPage getPage(final String confluenceBaseUrl, final String token, final String pageId) throws MalformedURLException, XmlRpcException {
+		logger.debug("getPages");
+		final XmlRpcClient client = getClient(confluenceBaseUrl);
+		final Object pageObject = client.execute("confluence1.getPage", new Object[] { token, pageId });
+		final Map page = (Map) pageObject;
+		logger.debug(StringUtils.join(page.keySet(), ","));
+		return new ConfluenceConnectorPage(String.valueOf(page.get("id")), String.valueOf(page.get("url")), String.valueOf(page.get("title")), calendarUtil.parseTimestamp(
+				timeZoneUtil.getUTCTimeZone(), String.valueOf(page.get("modified")), null));
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	@Override
+	public Collection<ConfluenceConnectorPageSummary> getPageSummaries(final String confluenceBaseUrl, final String token, final String spaceKey) throws MalformedURLException,
+			XmlRpcException {
 		logger.debug("getPages");
 		final XmlRpcClient client = getClient(confluenceBaseUrl);
 		final Object[] pages = (Object[]) client.execute("confluence1.getPages", new Object[] { token, spaceKey });
-		final List<ConfluenceConnectorPage> result = new ArrayList<ConfluenceConnectorPage>();
+		final List<ConfluenceConnectorPageSummary> result = new ArrayList<ConfluenceConnectorPageSummary>();
 		for (final Object pageObject : pages) {
 			final Map page = (Map) pageObject;
-			result.add(new ConfluenceConnectorPage(String.valueOf(page.get("id")), String.valueOf(page.get("url")), String.valueOf(page.get("title"))));
+			result.add(new ConfluenceConnectorPageSummary(String.valueOf(page.get("id")), String.valueOf(page.get("url")), String.valueOf(page.get("title"))));
 		}
 		return result;
 	}
-
 }

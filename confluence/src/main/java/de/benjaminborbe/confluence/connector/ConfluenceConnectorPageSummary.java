@@ -1,8 +1,6 @@
 package de.benjaminborbe.confluence.connector;
 
-import java.util.Calendar;
-
-public class ConfluenceConnectorPage {
+public class ConfluenceConnectorPageSummary {
 
 	private final String pageId;
 
@@ -10,13 +8,10 @@ public class ConfluenceConnectorPage {
 
 	private final String title;
 
-	private final Calendar modified;
-
-	public ConfluenceConnectorPage(final String pageId, final String url, final String title, final Calendar modified) {
+	public ConfluenceConnectorPageSummary(final String pageId, final String url, final String title) {
 		this.pageId = pageId;
 		this.url = url;
 		this.title = title;
-		this.modified = modified;
 	}
 
 	public String getPageId() {
@@ -31,7 +26,4 @@ public class ConfluenceConnectorPage {
 		return title;
 	}
 
-	public Calendar getModified() {
-		return modified;
-	}
 }

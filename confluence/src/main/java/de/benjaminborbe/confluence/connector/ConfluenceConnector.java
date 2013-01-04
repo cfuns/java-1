@@ -7,7 +7,7 @@ import org.apache.xmlrpc.XmlRpcException;
 
 public interface ConfluenceConnector {
 
-	Collection<ConfluenceConnectorPage> getPages(String confluenceBaseUrl, String token, String spaceKey) throws MalformedURLException, XmlRpcException;
+	Collection<ConfluenceConnectorPageSummary> getPageSummaries(String confluenceBaseUrl, String token, String spaceKey) throws MalformedURLException, XmlRpcException;
 
 	String getRenderedContent(String confluenceBaseUrl, String token, String pageId) throws MalformedURLException, XmlRpcException;
 
@@ -16,5 +16,10 @@ public interface ConfluenceConnector {
 	Collection<String> getSpaceKeys(String confluenceBaseUrl, String token) throws MalformedURLException, XmlRpcException;
 
 	String login(String confluenceBaseUrl, String username, String password) throws MalformedURLException, XmlRpcException;
+
+	ConfluenceConnectorPage getPage(String confluenceBaseUrl, String token, ConfluenceConnectorPageSummary confluenceConnectorPageSummary) throws MalformedURLException,
+			XmlRpcException;
+
+	ConfluenceConnectorPage getPage(String confluenceBaseUrl, String token, String pageId) throws MalformedURLException, XmlRpcException;
 
 }

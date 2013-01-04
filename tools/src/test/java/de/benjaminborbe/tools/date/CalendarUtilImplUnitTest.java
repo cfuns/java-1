@@ -1,10 +1,13 @@
 package de.benjaminborbe.tools.date;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -13,6 +16,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
@@ -645,5 +649,58 @@ public class CalendarUtilImplUnitTest {
 			final Calendar c2 = null;
 			assertEquals(c1, u.max(c1, c2));
 		}
+	}
+
+	@Test
+	public void testParseTimestamp() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(System.currentTimeMillis()).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil u = new CalendarUtilImpl(null, currentTime, parseUtil, timeZoneUtil);
+
+		assertThat(u.parseTimestamp(timeZone, "1357327601").getTimeInMillis(), is(1357327601l));
+
+		try {
+			u.parseTimestamp(timeZone, null);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+		}
+		try {
+			u.parseTimestamp(timeZone, "");
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+		}
+	}
+
+	@Test
+	public void testParseTimestampDefault() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(System.currentTimeMillis()).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil u = new CalendarUtilImpl(null, currentTime, parseUtil, timeZoneUtil);
+
+		final Calendar defaultCalendar = u.now();
+
+		assertThat(u.parseTimestamp(timeZone, "1357327601", defaultCalendar).getTimeInMillis(), is(1357327601l));
+		assertThat(u.parseTimestamp(timeZone, null, defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
+		assertThat(u.parseTimestamp(timeZone, "", defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
 	}
 }

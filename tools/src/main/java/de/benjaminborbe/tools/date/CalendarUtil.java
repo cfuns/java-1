@@ -78,4 +78,8 @@ public interface CalendarUtil {
 	Calendar max(Calendar c1, Calendar c2);
 
 	Calendar min(Calendar c1, Calendar c2);
+
+	Calendar parseTimestamp(TimeZone utcTimeZone, String timestamp) throws ParseException;
+
+	Calendar parseTimestamp(TimeZone utcTimeZone, String timestamp, Calendar defaultCalendar);
 }

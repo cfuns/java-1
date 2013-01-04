@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPage;
+import de.benjaminborbe.confluence.connector.ConfluenceConnectorPageSummary;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
@@ -34,7 +35,9 @@ public class ConfluenceRefresher {
 			try {
 				logger.debug("refresh started");
 				final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getActivatedEntityIterator();
+				int counter = 0;
 				while (i.hasNext()) {
+					counter++;
 					try {
 						final ConfluenceInstanceBean confluenceInstance = i.next();
 						handle(confluenceInstance);
@@ -43,6 +46,7 @@ public class ConfluenceRefresher {
 						logger.warn(e.getClass().getName(), e);
 					}
 				}
+				logger.debug("refresh of " + counter + " confluenceInstances finished");
 			}
 			catch (final StorageException e) {
 				logger.warn(e.getClass().getName(), e);
@@ -116,14 +120,15 @@ public class ConfluenceRefresher {
 		logger.debug("found " + spaceKeys.size() + " spaces in " + confluenceBaseUrl);
 		for (final String spaceKey : spaceKeys) {
 			logger.debug("process space " + spaceKey);
-			final Collection<ConfluenceConnectorPage> pages = confluenceConnector.getPages(confluenceBaseUrl, token, spaceKey);
-			logger.debug("found " + pages.size() + " pages in space " + spaceKey);
-			for (final ConfluenceConnectorPage page : pages) {
-				logger.debug("process page " + page.getTitle());
+			final Collection<ConfluenceConnectorPageSummary> pageSummaries = confluenceConnector.getPageSummaries(confluenceBaseUrl, token, spaceKey);
+			logger.debug("found " + pageSummaries.size() + " pages in space " + spaceKey);
+			for (final ConfluenceConnectorPageSummary pageSummary : pageSummaries) {
+				final ConfluenceConnectorPage page = confluenceConnector.getPage(confluenceBaseUrl, token, pageSummary);
+				logger.debug("process page " + page.getTitle() + " lastmodified: " + calendarUtil.toDateTimeString(page.getModified()));
 				try {
 					// check expire
 					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), indexName, page.getPageId());
-					if (isExpired(confluenceInstanceBean, pageBean)) {
+					if (isExpired(confluenceInstanceBean, pageBean, page)) {
 						logger.debug("update page " + page.getTitle());
 						final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
 						final URL url = new URL(page.getUrl());
@@ -169,9 +174,14 @@ public class ConfluenceRefresher {
 		return DEFAULT_DELAY;
 	}
 
-	private boolean isExpired(final ConfluenceInstanceBean confluenceInstanceBean, final ConfluencePageBean pageBean) {
+	private boolean isExpired(final ConfluenceInstanceBean confluenceInstanceBean, final ConfluencePageBean pageBean, final ConfluenceConnectorPage page) {
 		final Calendar lastVisit = pageBean.getLastVisit();
 		if (lastVisit == null) {
+			logger.debug("expired because never visted before");
+			return true;
+		}
+		if (lastVisit != null && page.getModified() != null && lastVisit.before(page.getModified())) {
+			logger.debug("expired because modified(" + page.getModified().getTimeInMillis() + ") after last visit(" + lastVisit.getTimeInMillis() + ")");
 			return true;
 		}
 		Integer expire = confluenceInstanceBean.getExpire();
@@ -188,13 +198,13 @@ public class ConfluenceRefresher {
 	}
 
 	public boolean refresh() {
-		logger.trace("confluence-refresh - started");
+		logger.debug("confluence-refresh - started");
 		if (runOnlyOnceATime.run(new RefreshRunnable())) {
-			logger.trace("confluence-refresh - finished");
+			logger.debug("confluence-refresh - finished");
 			return true;
 		}
 		else {
-			logger.trace("confluence-refresh - skipped");
+			logger.debug("confluence-refresh - skipped");
 			return false;
 		}
 	}

@@ -485,4 +485,19 @@ public class CalendarUtilImpl implements CalendarUtil {
 		}
 	}
 
+	@Override
+	public Calendar parseTimestamp(final TimeZone timeZone, final String timestamp) throws ParseException {
+		return getCalendar(timeZone, parseUtil.parseLong(timestamp));
+	}
+
+	@Override
+	public Calendar parseTimestamp(final TimeZone timeZone, final String timestamp, final Calendar defaultCalendar) {
+		try {
+			return getCalendar(timeZone, parseUtil.parseLong(timestamp));
+		}
+		catch (final ParseException e) {
+			return defaultCalendar;
+		}
+	}
+
 }
