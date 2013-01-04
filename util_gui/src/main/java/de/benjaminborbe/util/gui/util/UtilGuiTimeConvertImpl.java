@@ -1,23 +1,24 @@
 package de.benjaminborbe.util.gui.util;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.tools.date.CalendarUtil;
+
 public class UtilGuiTimeConvertImpl implements UtilGuiTimeConvert {
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
-	public UtilGuiTimeConvertImpl() {
+	public UtilGuiTimeConvertImpl(final CalendarUtil calendarUtil) {
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
 	public Calendar convert(final Calendar calendar, final TimeZone timeZone) {
-		final Calendar ret = new GregorianCalendar(timeZone);
-		ret.setTimeInMillis(calendar.getTimeInMillis() + timeZone.getOffset(calendar.getTimeInMillis()) - TimeZone.getDefault().getOffset(calendar.getTimeInMillis()));
-		ret.getTime();
-		return ret;
+		return calendarUtil.toTimeZone(calendar, timeZone);
 	}
 
 }
