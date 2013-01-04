@@ -21,6 +21,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.util.gui.UtilGuiConstants;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -66,10 +67,10 @@ public class UtilGuiServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
-		ul.add(new LinkRelativWidget(request, "/util/qunit", "QUnit Sample"));
-		ul.add(new LinkRelativWidget(request, "/util/html/angularjs.html", "AngularJS Sample"));
+		ul.add(new LinkRelativWidget(request, "/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_QUNIT, "QUnit Sample"));
+		ul.add(new LinkRelativWidget(request, "/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_HTML_ANGULARJS, "AngularJS Sample"));
+		ul.add(new LinkRelativWidget(request, "/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_TIME, "Current Time"));
 		widgets.add(ul);
 		return widgets;
 	}
-
 }

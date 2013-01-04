@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.easymock.EasyMock;
@@ -702,5 +703,51 @@ public class CalendarUtilImplUnitTest {
 		assertThat(u.parseTimestamp(timeZone, "1357327601", defaultCalendar).getTimeInMillis(), is(1357327601l));
 		assertThat(u.parseTimestamp(timeZone, null, defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
 		assertThat(u.parseTimestamp(timeZone, "", defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
+	}
+
+	@Test
+	public void testParseDateObject() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(System.currentTimeMillis()).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil u = new CalendarUtilImpl(null, currentTime, parseUtil, timeZoneUtil);
+
+		assertThat(u.parseDate(timeZone, new Date(1357327601l)).getTimeInMillis(), is(1357327601l));
+
+		try {
+			u.parseDate(timeZone, (Date) null);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+		}
+	}
+
+	@Test
+	public void testParseDateObjectDefault() throws Exception {
+		final TimeZone timeZone = TimeZone.getDefault();
+		final ParseUtil parseUtil = new ParseUtilImpl();
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(timeZone).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(System.currentTimeMillis()).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final CalendarUtil u = new CalendarUtilImpl(null, currentTime, parseUtil, timeZoneUtil);
+
+		final Calendar defaultCalendar = u.now();
+
+		assertThat(u.parseDate(timeZone, new Date(1357327601l), defaultCalendar).getTimeInMillis(), is(1357327601l));
+		assertThat(u.parseDate(timeZone, (Date) null, defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
 	}
 }

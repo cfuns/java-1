@@ -2,6 +2,7 @@ package de.benjaminborbe.tools.date;
 
 import java.io.StringWriter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -500,4 +501,24 @@ public class CalendarUtilImpl implements CalendarUtil {
 		}
 	}
 
+	@Override
+	public Calendar parseDate(final TimeZone timeZone, final Date date) throws ParseException {
+		if (date != null) {
+			return getCalendar(timeZone, date.getTime());
+		}
+		throw new ParseException("date is null");
+	}
+
+	@Override
+	public Calendar parseDate(final TimeZone timeZone, final Date date, final Calendar defaultCalendar) {
+		if (date != null) {
+			return getCalendar(timeZone, date.getTime());
+		}
+		return defaultCalendar;
+	}
+
+	@Override
+	public Calendar toTimeZone(final Calendar calendar, final TimeZone timeZone) {
+		return getCalendar(timeZone, calendar.getTimeInMillis() + (calendar.getTimeZone().getRawOffset() - timeZone.getRawOffset()) / 100);
+	}
 }

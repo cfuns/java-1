@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.date;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import de.benjaminborbe.tools.util.ParseException;
@@ -79,7 +80,13 @@ public interface CalendarUtil {
 
 	Calendar min(Calendar c1, Calendar c2);
 
-	Calendar parseTimestamp(TimeZone utcTimeZone, String timestamp) throws ParseException;
+	Calendar parseTimestamp(TimeZone timeZone, String timestamp) throws ParseException;
 
-	Calendar parseTimestamp(TimeZone utcTimeZone, String timestamp, Calendar defaultCalendar);
+	Calendar parseTimestamp(TimeZone timeZone, String timestamp, Calendar defaultCalendar);
+
+	Calendar parseDate(TimeZone timeZone, Date date) throws ParseException;
+
+	Calendar parseDate(TimeZone timeZone, Date date, Calendar defaultCalendar);
+
+	Calendar toTimeZone(Calendar calendar, TimeZone timeZone);
 }

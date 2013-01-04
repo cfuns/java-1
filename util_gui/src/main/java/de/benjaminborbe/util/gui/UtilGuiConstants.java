@@ -24,4 +24,6 @@ public interface UtilGuiConstants {
 
 	String URL_LOG = "/log";
 
+	String URL_HTML_ANGULARJS = "/html/angularjs.html";
+
 }

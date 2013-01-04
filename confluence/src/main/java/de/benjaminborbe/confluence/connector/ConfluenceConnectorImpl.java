@@ -4,10 +4,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -17,23 +17,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.confluence.ConfluenceConstants;
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
 
 @Singleton
 public class ConfluenceConnectorImpl implements ConfluenceConnector {
 
 	private final Logger logger;
 
-	private final CalendarUtil calendarUtil;
-
-	private final TimeZoneUtil timeZoneUtil;
-
 	@Inject
-	public ConfluenceConnectorImpl(final Logger logger, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
+	public ConfluenceConnectorImpl(final Logger logger) {
 		this.logger = logger;
-		this.calendarUtil = calendarUtil;
-		this.timeZoneUtil = timeZoneUtil;
 	}
 
 	@Override
@@ -101,9 +93,17 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 		final XmlRpcClient client = getClient(confluenceBaseUrl);
 		final Object pageObject = client.execute("confluence1.getPage", new Object[] { token, pageId });
 		final Map page = (Map) pageObject;
-		logger.debug(StringUtils.join(page.keySet(), ","));
-		return new ConfluenceConnectorPage(String.valueOf(page.get("id")), String.valueOf(page.get("url")), String.valueOf(page.get("title")), calendarUtil.parseTimestamp(
-				timeZoneUtil.getUTCTimeZone(), String.valueOf(page.get("modified")), null));
+		return new ConfluenceConnectorPage(String.valueOf(page.get("id")), String.valueOf(page.get("url")), String.valueOf(page.get("title")), toDate(page.get("modified")));
+	}
+
+	private Date toDate(final Object object) {
+		if (object != null && object instanceof Date) {
+			final Date date = (Date) object;
+			return date;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes" })

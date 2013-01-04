@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
@@ -86,6 +88,8 @@ public class ConfluenceRefresher {
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public ConfluenceRefresher(
 			final Logger logger,
@@ -96,6 +100,7 @@ public class ConfluenceRefresher {
 			final ConfluencePageDao confluencePageDao,
 			final ConfluenceConnector confluenceConnector,
 			final HtmlUtil htmlUtil,
+			final TimeZoneUtil timeZoneUtil,
 			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -105,6 +110,7 @@ public class ConfluenceRefresher {
 		this.confluencePageDao = confluencePageDao;
 		this.confluenceConnector = confluenceConnector;
 		this.htmlUtil = htmlUtil;
+		this.timeZoneUtil = timeZoneUtil;
 		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
 
@@ -124,7 +130,8 @@ public class ConfluenceRefresher {
 			logger.debug("found " + pageSummaries.size() + " pages in space " + spaceKey);
 			for (final ConfluenceConnectorPageSummary pageSummary : pageSummaries) {
 				final ConfluenceConnectorPage page = confluenceConnector.getPage(confluenceBaseUrl, token, pageSummary);
-				logger.debug("process page " + page.getTitle() + " lastmodified: " + calendarUtil.toDateTimeString(page.getModified()));
+				final Calendar pageModified = toCalendar(page.getModified());
+				logger.debug("process page " + page.getTitle() + " lastmodified: " + calendarUtil.toDateTimeString(pageModified));
 				try {
 					// check expire
 					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), indexName, page.getPageId());
@@ -139,7 +146,7 @@ public class ConfluenceRefresher {
 						logger.info("addToIndex " + url.toExternalForm());
 
 						// update lastVisit
-						pageBean.setLastVisit(calendarUtil.now());
+						pageBean.setLastVisit(pageModified);
 						pageBean.setPageId(page.getPageId());
 						pageBean.setOwner(confluenceInstanceBean.getOwner());
 						pageBean.setInstanceId(confluenceInstanceBean.getId());
@@ -180,8 +187,9 @@ public class ConfluenceRefresher {
 			logger.debug("expired because never visted before");
 			return true;
 		}
-		if (lastVisit != null && page.getModified() != null && lastVisit.before(page.getModified())) {
-			logger.debug("expired because modified(" + page.getModified().getTimeInMillis() + ") after last visit(" + lastVisit.getTimeInMillis() + ")");
+		final Calendar pageModified = toCalendar(page.getModified());
+		if (lastVisit != null && pageModified != null && lastVisit.before(pageModified)) {
+			logger.debug("expired because modified(" + pageModified.getTimeInMillis() + ") after last visit(" + lastVisit.getTimeInMillis() + ")");
 			return true;
 		}
 		Integer expire = confluenceInstanceBean.getExpire();
@@ -189,6 +197,10 @@ public class ConfluenceRefresher {
 			expire = 7;
 		}
 		return calendarUtil.getTime() - lastVisit.getTimeInMillis() > expire * EXPIRE_DAY;
+	}
+
+	private Calendar toCalendar(final Date date) {
+		return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), date, null);
 	}
 
 	private String filterContent(final String orgContent) {
