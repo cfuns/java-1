@@ -37,9 +37,9 @@ public class MicroblogPostListenerIndexer implements MicroblogPostListener {
 		try {
 			logger.trace("onNewPost");
 			final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
-			final String title = microblogPostResult.getContent();
+			final String content = microblogPostResult.getContent();
 			final String url = microblogPostResult.getPostUrl();
-			indexService.addToIndex(MicroblogConstants.INDEX, parseUtil.parseURL(url), title, null);
+			indexService.addToIndex(MicroblogConstants.INDEX, parseUtil.parseURL(url), content, content);
 		}
 		catch (final MicroblogConnectorException e) {
 			logger.warn(e.getClass().getName(), e);
