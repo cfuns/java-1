@@ -74,7 +74,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			}
 			distributedSearchPageDao.save(distributedSearchPage);
 
-			final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(content);
+			final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(url.toExternalForm(), title, content);
 			distributedIndexService.add(index, url.toExternalForm(), data);
 		}
 		catch (final DistributedIndexServiceException e) {

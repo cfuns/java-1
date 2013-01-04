@@ -9,7 +9,7 @@ import de.benjaminborbe.tools.registry.RegistryBase;
 public class MicroblogPostListenerRegistry extends RegistryBase<MicroblogPostListener> {
 
 	@Inject
-	public MicroblogPostListenerRegistry(final MicroblogPostMailerListener microblogPostMailerListener, final MicroblogPostMittagXmppListener microblogPostMittagXmppListener) {
+	public MicroblogPostListenerRegistry(final MicroblogPostListenerMailer microblogPostMailerListener, final MicroblogPostListenerMittagXmpp microblogPostMittagXmppListener) {
 		super(microblogPostMailerListener, microblogPostMittagXmppListener);
 	}
 

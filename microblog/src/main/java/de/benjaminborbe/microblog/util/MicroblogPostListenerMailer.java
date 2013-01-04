@@ -14,7 +14,7 @@ import de.benjaminborbe.microblog.post.MicroblogPostMailer;
 import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
 import de.benjaminborbe.tools.util.ParseException;
 
-public class MicroblogPostMailerListener implements MicroblogPostListener {
+public class MicroblogPostListenerMailer implements MicroblogPostListener {
 
 	private final Logger logger;
 
@@ -25,7 +25,7 @@ public class MicroblogPostMailerListener implements MicroblogPostListener {
 	private final MicroblogConversationMailer microblogConversationMailer;
 
 	@Inject
-	public MicroblogPostMailerListener(
+	public MicroblogPostListenerMailer(
 			final Logger logger,
 			final MicroblogPostMailer microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,

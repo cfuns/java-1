@@ -13,5 +13,7 @@ public class DistributedSearchAnalyserUnitTest {
 		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser();
 		assertThat(analyser.parseSearchTerm("foo").size(), is(1));
 		assertThat(analyser.parseSearchTerm("foo"), is(hasItem("foo")));
+		assertThat(analyser.parseSearchTerm("").size(), is(0));
+		assertThat(analyser.parseSearchTerm(null).size(), is(0));
 	}
 }

@@ -16,6 +16,9 @@ public class DistributedSearchAnalyser {
 	}
 
 	public Collection<String> parseSearchTerm(final String content) {
+		if (content == null) {
+			return Arrays.asList();
+		}
 		final String[] parts = content.toLowerCase().replaceAll("[^a-z]", " ").split("\\s+");
 		return filter(Arrays.asList(parts));
 	}
@@ -25,8 +28,15 @@ public class DistributedSearchAnalyser {
 		return Collections2.filter(list, Predicates.and(new MinWordLengthPredicate(), new MaxWordLengthPredicate(), new NoStopWordPredicate()));
 	}
 
-	public Map<String, Integer> parseWordRating(final String content) {
+	public Map<String, Integer> parseWordRating(final String... contents) {
 		final Map<String, Integer> result = new HashMap<String, Integer>();
+		for (final String content : contents) {
+			parseWordRating(content, result);
+		}
+		return result;
+	}
+
+	public Map<String, Integer> parseWordRating(final String content, final Map<String, Integer> result) {
 		for (final String word : parseSearchTerm(content)) {
 			final Integer m = result.get(word);
 			if (m != null) {

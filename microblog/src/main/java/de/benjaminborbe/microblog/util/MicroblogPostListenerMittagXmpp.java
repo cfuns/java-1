@@ -14,7 +14,7 @@ import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
 
-public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
+public class MicroblogPostListenerMittagXmpp implements MicroblogPostListener {
 
 	private final Collection<String> words = Arrays.asList("Essen", "Mittagessen", "Mittagstisch");
 
@@ -25,7 +25,7 @@ public class MicroblogPostMittagXmppListener implements MicroblogPostListener {
 	private final XmppService xmppService;
 
 	@Inject
-	public MicroblogPostMittagXmppListener(final Logger logger, final MicroblogConnector microblogConnector, final XmppService xmppService) {
+	public MicroblogPostListenerMittagXmpp(final Logger logger, final MicroblogConnector microblogConnector, final XmppService xmppService) {
 		this.logger = logger;
 		this.microblogConnector = microblogConnector;
 		this.xmppService = xmppService;
