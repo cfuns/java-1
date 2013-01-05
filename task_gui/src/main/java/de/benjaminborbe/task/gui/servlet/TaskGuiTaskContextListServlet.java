@@ -98,6 +98,8 @@ public class TaskGuiTaskContextListServlet extends TaskGuiWebsiteHtmlServlet {
 				row.add(" ");
 				row.add(taskGuiLinkFactory.taskContextUpdate(request, taskContext));
 				row.add(" ");
+				row.add(taskGuiLinkFactory.taskContextUser(request, taskContext.getId()));
+				row.add(" ");
 				row.add(taskGuiLinkFactory.taskContextDelete(request, taskContext));
 				ul.add(row);
 			}

@@ -88,4 +88,6 @@ public interface TaskGuiConstants {
 
 	String COOKIE_TASKCONTEXTS = "TaskContextSelected";
 
+	String URL_TASKCONTEXT_USER = "/taskcontext/user";
+
 }

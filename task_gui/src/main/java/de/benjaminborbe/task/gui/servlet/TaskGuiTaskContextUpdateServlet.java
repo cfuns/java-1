@@ -114,7 +114,7 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addValue(taskContext.getId()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME).addLabel("Name").addPlaceholder("name...")
 					.addDefaultValue(taskContext.getName()));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 
 			final ListWidget links = new ListWidget();

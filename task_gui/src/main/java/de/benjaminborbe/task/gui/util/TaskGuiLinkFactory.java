@@ -15,6 +15,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.widget.TooltipWidget;
@@ -243,5 +244,10 @@ public class TaskGuiLinkFactory {
 	public String taskViewUrl(final HttpServletRequest request, final TaskIdentifier taskIdentifier) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_VIEW,
 				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(taskIdentifier)));
+	}
+
+	public Widget taskContextUser(final HttpServletRequest request, final TaskContextIdentifier taskContextIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_USER, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContextIdentifier)), "user");
 	}
 }
