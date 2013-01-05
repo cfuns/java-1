@@ -56,7 +56,8 @@ public class ChecklistGuiListDeleteServlet extends ChecklistServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ChecklistListIdentifier checklistIdentifier = new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID));
@@ -66,12 +67,6 @@ public class ChecklistGuiListDeleteServlet extends ChecklistServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final ChecklistServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final LoginRequiredException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final PermissionDeniedException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

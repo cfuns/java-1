@@ -57,7 +57,8 @@ public class TaskGuiTaskCompleteServlet extends TaskGuiWebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			LoginRequiredException, PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
@@ -67,12 +68,6 @@ public class TaskGuiTaskCompleteServlet extends TaskGuiWebsiteServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final TaskServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final LoginRequiredException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final PermissionDeniedException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final ValidationException e) {

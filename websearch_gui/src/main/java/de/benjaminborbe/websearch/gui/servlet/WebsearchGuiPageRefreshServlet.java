@@ -57,7 +57,8 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchPageIdentifier page = websearchService.createPageIdentifier(new URL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID)));
@@ -67,9 +68,6 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final WebsearchServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final PermissionDeniedException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

@@ -57,7 +57,8 @@ public class ChecklistGuiEntryUncompleteServlet extends ChecklistServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ChecklistEntryIdentifier identifier = new ChecklistEntryIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_ENTRY_ID));
@@ -67,12 +68,6 @@ public class ChecklistGuiEntryUncompleteServlet extends ChecklistServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final ChecklistServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final LoginRequiredException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final PermissionDeniedException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final ValidationException e) {

@@ -57,7 +57,8 @@ public class GalleryGuiEntrySwapPrioServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryEntryIdentifier galleryEntryIdentifierA = galleryService.createEntryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_ENTRY_ID_A));
@@ -68,12 +69,6 @@ public class GalleryGuiEntrySwapPrioServlet extends WebsiteServlet {
 			logger.warn(e.getClass().getName(), e);
 		}
 		catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final LoginRequiredException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final PermissionDeniedException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

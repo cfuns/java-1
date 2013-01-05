@@ -209,9 +209,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public void expectUser(final UserIdentifier currentUser, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException {
+	public void expectUser(final UserIdentifier currentUser, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		if (currentUser == null) {
-			throw new PermissionDeniedException("current user is null");
+			throw new LoginRequiredException("user not logged in");
 		}
 		boolean match = false;
 		final List<String> usernames = new ArrayList<String>();
@@ -233,7 +234,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public void expectUser(final UserIdentifier currentUser, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+	public void expectUser(final UserIdentifier currentUser, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		expectUser(currentUser, Arrays.asList(userIdentifier));
 	}
 
