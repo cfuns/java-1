@@ -47,7 +47,7 @@ public class XmppConnectorImpl implements XmppConnector {
 	@Override
 	public synchronized void connect() throws XmppConnectorException {
 		try {
-			if (connection != null) {
+			if (isConnected()) {
 				logger.warn("already connected");
 				return;
 			}
