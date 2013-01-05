@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
@@ -151,6 +152,26 @@ public class TaskServiceMock implements TaskService {
 	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
 			ValidationException {
+	}
+
+	@Override
+	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException {
+	}
+
+	@Override
+	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException {
+	}
+
+	@Override
+	public Collection<UserIdentifier> getTaskContextUsers(final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<UserIdentifier> getTaskContextUsers(final TaskContext taskContext) throws TaskServiceException {
+		return null;
 	}
 
 }

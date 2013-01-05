@@ -96,7 +96,7 @@ public class TaskGuiTaskContextCreateServlet extends TaskGuiWebsiteHtmlServlet {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 					taskService.createTaskContext(sessionIdentifier, name.trim());
-					throw new RedirectException(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_CREATE);
+					throw new RedirectException(taskGuiLinkFactory.taskContextListUrl(request));
 				}
 				catch (final ValidationException e) {
 					widgets.add("create taskcontext failed!");

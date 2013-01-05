@@ -1,0 +1,48 @@
+package de.benjaminborbe.task.api;
+
+import java.util.Collection;
+import java.util.List;
+
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+
+public interface TaskServiceTask {
+
+	void completeTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException;
+
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, TaskDto taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException;
+
+	TaskIdentifier createTaskIdentifier(String id) throws TaskServiceException;
+
+	void deleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	List<Task> getTaskChilds(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	List<Task> getTasksCompleted(SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException;
+
+	List<Task> getTasksCompleted(SessionIdentifier sessionIdentifier, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException;
+
+	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException;
+
+	List<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+			LoginRequiredException;
+
+	void replaceTaskContext(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	List<TaskMatch> searchTasks(SessionIdentifier sessionIdentifier, int limit, List<String> words) throws TaskServiceException, LoginRequiredException;
+
+	void swapPrio(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifierA, TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException;
+
+	void uncompleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	void updateTask(SessionIdentifier sessionIdentifier, TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
+
+}

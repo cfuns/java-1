@@ -21,7 +21,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	private static final String COLUMN_FAMILY = "task";
 
-	private final TaskContextManyToManyRelation taskContextManyToManyRelation;
+	private final TaskToTaskContextManyToManyRelation taskContextManyToManyRelation;
 
 	private final Logger logger;
 
@@ -32,7 +32,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 			final Provider<TaskBean> beanProvider,
 			final TaskBeanMapper mapper,
 			final TaskIdentifierBuilder identifierBuilder,
-			final TaskContextManyToManyRelation taskContextManyToManyRelation,
+			final TaskToTaskContextManyToManyRelation taskContextManyToManyRelation,
 			final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.taskContextManyToManyRelation = taskContextManyToManyRelation;

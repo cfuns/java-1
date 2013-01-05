@@ -6,8 +6,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -28,6 +30,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.task.api.Task;
@@ -41,7 +44,8 @@ import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.dao.TaskBean;
 import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
-import de.benjaminborbe.task.dao.TaskContextManyToManyRelation;
+import de.benjaminborbe.task.dao.TaskContextToUserManyToManyRelation;
+import de.benjaminborbe.task.dao.TaskToTaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.task.tools.TaskComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -81,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
 		public void run() {
 			try {
 				if (taskContextIdentifiers.size() == 0) {
-					final StorageIterator a = taskContextManyToManyRelation.getA(task.getId());
+					final StorageIterator a = taskToTaskContextManyToManyRelation.getA(task.getId());
 					if (!a.hasNext()) {
 						threadResult.set(task);
 					}
@@ -89,7 +93,7 @@ public class TaskServiceImpl implements TaskService {
 				else {
 					boolean match = false;
 					for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-						if (!match && taskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
+						if (!match && taskToTaskContextManyToManyRelation.exists(task.getId(), taskContextIdentifier)) {
 							match = true;
 						}
 					}
@@ -162,7 +166,7 @@ public class TaskServiceImpl implements TaskService {
 
 	private final TaskContextDao taskContextDao;
 
-	private final TaskContextManyToManyRelation taskContextManyToManyRelation;
+	private final TaskToTaskContextManyToManyRelation taskToTaskContextManyToManyRelation;
 
 	private final TaskDao taskDao;
 
@@ -174,6 +178,8 @@ public class TaskServiceImpl implements TaskService {
 
 	private final ThreadPoolExecuterBuilder threadPoolExecuterBuilder;
 
+	private final TaskContextToUserManyToManyRelation taskContextToUserManyToManyRelation;
+
 	@Inject
 	public TaskServiceImpl(
 			final Logger logger,
@@ -184,7 +190,8 @@ public class TaskServiceImpl implements TaskService {
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final ValidationExecutor validationExecutor,
-			final TaskContextManyToManyRelation taskContextManyToManyRelation,
+			final TaskToTaskContextManyToManyRelation taskToTaskContextManyToManyRelation,
+			final TaskContextToUserManyToManyRelation taskContextToUserManyToManyRelation,
 			final CalendarUtil calendarUtil,
 			final DurationUtil durationUtil,
 			final ThreadPoolExecuterBuilder threadPoolExecuterBuilder) {
@@ -196,7 +203,8 @@ public class TaskServiceImpl implements TaskService {
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
 		this.validationExecutor = validationExecutor;
-		this.taskContextManyToManyRelation = taskContextManyToManyRelation;
+		this.taskToTaskContextManyToManyRelation = taskToTaskContextManyToManyRelation;
+		this.taskContextToUserManyToManyRelation = taskContextToUserManyToManyRelation;
 		this.calendarUtil = calendarUtil;
 		this.durationUtil = durationUtil;
 		this.threadPoolExecuterBuilder = threadPoolExecuterBuilder;
@@ -213,7 +221,7 @@ public class TaskServiceImpl implements TaskService {
 			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
 
 			logger.trace("addTaskContext");
-			taskContextManyToManyRelation.add(taskIdentifier, taskContextIdentifier);
+			taskToTaskContextManyToManyRelation.add(taskIdentifier, taskContextIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
@@ -261,7 +269,7 @@ public class TaskServiceImpl implements TaskService {
 				final Calendar due = calcRepeat(task.getRepeatDue());
 				final Calendar start = calcRepeat(task.getRepeatStart());
 				final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
-				final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
+				final StorageIterator i = taskToTaskContextManyToManyRelation.getA(taskIdentifier);
 				while (i.hasNext()) {
 					contexts.add(createTaskContextIdentifier(i.next().getString()));
 				}
@@ -351,7 +359,6 @@ public class TaskServiceImpl implements TaskService {
 	public TaskIdentifier createTaskIdentifier(final String id) throws TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-
 			if (id != null && id.length() > 0) {
 				return new TaskIdentifier(id);
 			}
@@ -381,9 +388,6 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -475,7 +479,7 @@ public class TaskServiceImpl implements TaskService {
 			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
 
 			logger.trace("getTaskContexts for task: " + taskIdentifier);
-			final StorageIterator i = taskContextManyToManyRelation.getA(taskIdentifier);
+			final StorageIterator i = taskToTaskContextManyToManyRelation.getA(taskIdentifier);
 			final List<TaskContext> result = new ArrayList<TaskContext>();
 			while (i.hasNext()) {
 				final String id = i.next().getString();
@@ -562,9 +566,9 @@ public class TaskServiceImpl implements TaskService {
 
 	private void replaceTaskContext(final Task task, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException, EntityIteratorException {
 		logger.trace("addTaskContext");
-		taskContextManyToManyRelation.removeA(task.getId());
+		taskToTaskContextManyToManyRelation.removeA(task.getId());
 		for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-			taskContextManyToManyRelation.add(task.getId(), taskContextIdentifier);
+			taskToTaskContextManyToManyRelation.add(task.getId(), taskContextIdentifier);
 		}
 
 		final EntityIterator<TaskBean> i = taskDao.getTaskChilds(task.getId());
@@ -579,9 +583,14 @@ public class TaskServiceImpl implements TaskService {
 		authorizationService.expectUser(sessionIdentifier, task.getOwner());
 	}
 
-	private void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException, AuthorizationServiceException {
-		authorizationService.expectUser(sessionIdentifier, taskContext.getOwner());
+	private void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+		try {
+			final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
+			authorizationService.expectUser(sessionIdentifier, users);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
 	}
 
 	@Override
@@ -1071,10 +1080,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
 		}
@@ -1086,4 +1091,85 @@ public class TaskServiceImpl implements TaskService {
 				logger.debug("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.debug("addUserToContext");
+
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.debug("removeUserFromContext");
+
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<UserIdentifier> getTaskContextUsers(final TaskContext taskContext) throws TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getTaskContextUsers - taskcontent: " + taskContext.getId());
+			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
+			users.add(taskContext.getOwner());
+			final StorageIterator i = taskContextToUserManyToManyRelation.getA(taskContext.getId());
+			while (i.hasNext()) {
+				final StorageValue a = i.next();
+				users.add(new UserIdentifier(a.getString()));
+			}
+			return users;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<UserIdentifier> getTaskContextUsers(final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getTaskContextUsers - taskcontent: " + taskContextIdentifier);
+			final TaskContextBean taskContext = taskContextDao.load(taskContextIdentifier);
+			return getTaskContextUsers(taskContext);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
 }

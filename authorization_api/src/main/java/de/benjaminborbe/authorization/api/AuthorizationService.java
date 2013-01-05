@@ -54,4 +54,11 @@ public interface AuthorizationService {
 
 	Collection<RoleIdentifier> roleList() throws AuthorizationServiceException;
 
+	void expectUser(UserIdentifier currentUser, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
+
+	void expectUser(SessionIdentifier sessionIdentifier, Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException;
+
+	void expectUser(UserIdentifier currentUser, Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException;
+
 }

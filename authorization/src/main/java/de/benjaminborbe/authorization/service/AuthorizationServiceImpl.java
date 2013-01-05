@@ -2,11 +2,13 @@ package de.benjaminborbe.authorization.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -38,17 +40,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	private static final String ADMIN_ROLE = "admin";
 
-	private final Logger logger;
+	private final AuthenticationService authenticationService;
 
-	private final RoleDao roleDao;
+	private final Logger logger;
 
 	private final PermissionDao permissionDao;
 
-	private final AuthenticationService authenticationService;
+	private final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation;
+
+	private final RoleDao roleDao;
 
 	private final UserRoleManyToManyRelation userRoleManyToManyRelation;
-
-	private final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation;
 
 	@Inject
 	public AuthorizationServiceImpl(
@@ -67,21 +69,197 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public boolean addPermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
+			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
 		try {
-			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
-				return true;
+			expectAdminRole(sessionIdentifier);
+
+			if (!existsPermission(permissionIdentifier)) {
+				throw new AuthorizationServiceException("permission " + permissionIdentifier + " does not exists");
 			}
-			logger.trace("hasRole " + roleIdentifier);
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			if (userIdentifier == null) {
-				return false;
+			if (!existsRole(roleIdentifier)) {
+				throw new AuthorizationServiceException("role " + roleIdentifier + " does not exists");
 			}
-			return hasRole(userIdentifier, roleIdentifier);
+
+			logger.info("addPermissionRole " + permissionIdentifier + " " + roleIdentifier);
+			permissionRoleManyToManyRelation.add(permissionIdentifier, roleIdentifier);
+
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public boolean addUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException,
+			AuthorizationServiceException, LoginRequiredException {
+		try {
+			expectAdminRole(sessionIdentifier);
+
+			if (!authenticationService.existsUser(userIdentifier)) {
+				throw new AuthorizationServiceException("user " + userIdentifier + " does not exists");
+			}
+			if (!existsRole(roleIdentifier)) {
+				throw new AuthorizationServiceException("role " + roleIdentifier + " does not exists");
+			}
+
+			logger.info("addUserRole " + userIdentifier + " " + roleIdentifier);
+			userRoleManyToManyRelation.add(userIdentifier, roleIdentifier);
+
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
+	}
+
+	@Override
+	public PermissionIdentifier createPermissionIdentifier(final String permissionName) {
+		return new PermissionIdentifier(permissionName);
+	}
+
+	@Override
+	public boolean createRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException {
+		try {
+			expectPermission(sessionIdentifier, new PermissionIdentifier("createRole"));
+
+			if (roleDao.findByRolename(roleIdentifier) != null) {
+				logger.info("role " + roleIdentifier + " already exists");
+				return false;
+			}
+			final RoleBean role = roleDao.findOrCreateByRolename(roleIdentifier);
+			roleDao.save(role);
+			return true;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public RoleIdentifier createRoleIdentifier(final String rolename) {
+		return new RoleIdentifier(rolename);
+	}
+
+	@Override
+	public boolean existsPermission(final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
+		try {
+			return permissionDao.exists(permissionIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		try {
+			return roleDao.exists(roleIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
+		expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+	}
+
+	@Override
+	public void expectPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException {
+		if (!hasPermission(sessionIdentifier, permissionIdentifier)) {
+			throw new PermissionDeniedException("no permission " + permissionIdentifier);
+		}
+	}
+
+	@Override
+	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
+				return;
+			}
+			if (!hasRole(sessionIdentifier, roleIdentifier)) {
+				throw new PermissionDeniedException("no role " + roleIdentifier);
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public void expectUser(final SessionIdentifier sessionIdentifier, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			expectUser(currentUser, userIdentifiers);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public void expectUser(final UserIdentifier currentUser, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException {
+		if (currentUser == null) {
+			throw new PermissionDeniedException("current user is null");
+		}
+		boolean match = false;
+		final List<String> usernames = new ArrayList<String>();
+		for (final UserIdentifier userIdentifier : userIdentifiers) {
+			usernames.add(userIdentifier.getId());
+			if (userIdentifier.equals(currentUser)) {
+				match = true;
+			}
+		}
+		if (!match) {
+			throw new PermissionDeniedException("expect user " + StringUtils.join(usernames, " or ") + " but was " + currentUser);
+		}
+	}
+
+	@Override
+	public void expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		expectUser(sessionIdentifier, Arrays.asList(userIdentifier));
+	}
+
+	@Override
+	public void expectUser(final UserIdentifier currentUser, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+		expectUser(currentUser, Arrays.asList(userIdentifier));
+	}
+
+	@Override
+	public Collection<UserIdentifier> getUserWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		try {
+			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
+			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
+			while (a.hasNext()) {
+				result.add(new UserIdentifier(a.next().getString()));
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+		}
+	}
+
+	@Override
+	public boolean hasAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
+		return hasRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
 	}
 
 	@Override
@@ -121,93 +299,21 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
-				return;
+				return true;
 			}
-			if (!hasRole(sessionIdentifier, roleIdentifier)) {
-				throw new PermissionDeniedException("no role " + roleIdentifier);
-			}
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-	}
-
-	@Override
-	public void expectPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
-			PermissionDeniedException {
-		if (!hasPermission(sessionIdentifier, permissionIdentifier)) {
-			throw new PermissionDeniedException("no permission " + permissionIdentifier);
-		}
-	}
-
-	@Override
-	public boolean createRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException {
-		try {
-			expectPermission(sessionIdentifier, new PermissionIdentifier("createRole"));
-
-			if (roleDao.findByRolename(roleIdentifier) != null) {
-				logger.info("role " + roleIdentifier + " already exists");
+			logger.trace("hasRole " + roleIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			if (userIdentifier == null) {
 				return false;
 			}
-			final RoleBean role = roleDao.findOrCreateByRolename(roleIdentifier);
-			roleDao.save(role);
-			return true;
-		}
-		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public boolean addUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException,
-			AuthorizationServiceException, LoginRequiredException {
-		try {
-			expectAdminRole(sessionIdentifier);
-
-			if (!authenticationService.existsUser(userIdentifier)) {
-				throw new AuthorizationServiceException("user " + userIdentifier + " does not exists");
-			}
-			if (!existsRole(roleIdentifier)) {
-				throw new AuthorizationServiceException("role " + roleIdentifier + " does not exists");
-			}
-
-			logger.info("addUserRole " + userIdentifier + " " + roleIdentifier);
-			userRoleManyToManyRelation.add(userIdentifier, roleIdentifier);
-
-			return true;
-		}
-		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			return hasRole(userIdentifier, roleIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
-	}
-
-	@Override
-	public boolean removeUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier)
-			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
-		try {
-			expectAdminRole(sessionIdentifier);
-
-			logger.info("removeUserRole " + userIdentifier + " " + roleIdentifier);
-			userRoleManyToManyRelation.remove(userIdentifier, roleIdentifier);
-
-			return true;
-		}
-		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public RoleIdentifier createRoleIdentifier(final String rolename) {
-		return new RoleIdentifier(rolename);
 	}
 
 	@Override
@@ -228,30 +334,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<RoleIdentifier> roleList() throws AuthorizationServiceException {
-		try {
-			final Set<RoleIdentifier> result = new HashSet<RoleIdentifier>();
-			final EntityIterator<RoleBean> i = roleDao.getEntityIterator();
-			while (i.hasNext()) {
-				final RoleBean role = i.next();
-				result.add(role.getId());
-			}
-			return result;
-		}
-		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public PermissionIdentifier createPermissionIdentifier(final String permissionName) {
-		return new PermissionIdentifier(permissionName);
-	}
-
-	@Override
 	public Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException {
 		try {
 			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
@@ -266,45 +348,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 		catch (final EntityIteratorException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public boolean addPermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
-			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
-		try {
-			expectAdminRole(sessionIdentifier);
-
-			if (!existsPermission(permissionIdentifier)) {
-				throw new AuthorizationServiceException("permission " + permissionIdentifier + " does not exists");
-			}
-			if (!existsRole(roleIdentifier)) {
-				throw new AuthorizationServiceException("role " + roleIdentifier + " does not exists");
-			}
-
-			logger.info("addPermissionRole " + permissionIdentifier + " " + roleIdentifier);
-			permissionRoleManyToManyRelation.add(permissionIdentifier, roleIdentifier);
-
-			return true;
-		}
-		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public boolean removePermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
-			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
-		try {
-			expectAdminRole(sessionIdentifier);
-
-			logger.info("removePermissionRole " + permissionIdentifier + " " + roleIdentifier);
-			permissionRoleManyToManyRelation.remove(permissionIdentifier, roleIdentifier);
-
-			return true;
-		}
-		catch (final StorageException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -329,9 +372,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public boolean removePermissionRole(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier, final RoleIdentifier roleIdentifier)
+			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
 		try {
-			return roleDao.exists(roleIdentifier);
+			expectAdminRole(sessionIdentifier);
+
+			logger.info("removePermissionRole " + permissionIdentifier + " " + roleIdentifier);
+			permissionRoleManyToManyRelation.remove(permissionIdentifier, roleIdentifier);
+
+			return true;
 		}
 		catch (final StorageException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
@@ -339,9 +388,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public boolean existsPermission(final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
+	public boolean removeUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier)
+			throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
 		try {
-			return permissionDao.exists(permissionIdentifier);
+			expectAdminRole(sessionIdentifier);
+
+			logger.info("removeUserRole " + userIdentifier + " " + roleIdentifier);
+			userRoleManyToManyRelation.remove(userIdentifier, roleIdentifier);
+
+			return true;
 		}
 		catch (final StorageException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
@@ -349,47 +404,21 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
-		expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
-	}
-
-	@Override
-	public boolean hasAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
-		return hasRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
-	}
-
-	@Override
-	public void expectUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public Collection<RoleIdentifier> roleList() throws AuthorizationServiceException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
-			if (userIdentifier == null || currentUser == null || !userIdentifier.equals(currentUser)) {
-				throw new PermissionDeniedException("expect user " + userIdentifier + " but was " + currentUser);
-			}
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-	}
-
-	@Override
-	public Collection<UserIdentifier> getUserWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
-		try {
-			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
-			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
-			while (a.hasNext()) {
-				result.add(new UserIdentifier(a.next().getString()));
+			final Set<RoleIdentifier> result = new HashSet<RoleIdentifier>();
+			final EntityIterator<RoleBean> i = roleDao.getEntityIterator();
+			while (i.hasNext()) {
+				final RoleBean role = i.next();
+				result.add(role.getId());
 			}
 			return result;
 		}
 		catch (final StorageException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
-		catch (final UnsupportedEncodingException e) {
+		catch (final EntityIteratorException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
 		}
 	}
 }

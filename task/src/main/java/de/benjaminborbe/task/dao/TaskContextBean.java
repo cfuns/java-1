@@ -1,7 +1,6 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.Calendar;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
@@ -70,4 +69,5 @@ public class TaskContextBean implements Entity<TaskContextIdentifier>, TaskConte
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
 	}
+
 }
