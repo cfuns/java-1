@@ -1,5 +1,6 @@
 package de.benjaminborbe.task.gui.widget;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -58,7 +59,7 @@ public class TaskNextWidget extends CompositeWidget {
 		final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
-		final List<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
+		final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
 		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
 		final List<Task> tasks = taskGuiUtil.filterNotStarted(childTasks, timeZone);
 		widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request, timeZone));

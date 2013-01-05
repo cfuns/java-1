@@ -72,11 +72,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
 	public List<TaskContext> getTasksContexts(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException {
 		return null;
 	}

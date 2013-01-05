@@ -2,7 +2,6 @@ package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +33,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -77,6 +77,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final TaskGuiSwitchWidget taskGuiSwitchWidget;
 
+	private final ComparatorUtil comparatorUtil;
+
 	@Inject
 	public TaskGuiTasksCompletedServlet(
 			final Logger logger,
@@ -92,7 +94,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiUtil taskGuiUtil,
-			final TaskGuiSwitchWidget taskGuiSwitchWidget) {
+			final TaskGuiSwitchWidget taskGuiSwitchWidget,
+			final ComparatorUtil comparatorUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -100,6 +103,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiUtil = taskGuiUtil;
 		this.taskGuiSwitchWidget = taskGuiSwitchWidget;
+		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
@@ -121,9 +125,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			{
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
-				final List<Task> tasks = taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds);
-				Collections.sort(tasks, new CompareComletionDate());
-
+				final List<Task> tasks = comparatorUtil.sort(taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds), new CompareComletionDate());
 				for (final Task task : tasks) {
 					final ListWidget row = new ListWidget();
 

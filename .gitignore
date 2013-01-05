@@ -165,7 +165,6 @@ blog_gui/target
 blog_test/target
 task/target
 task_api/target
-task_tools/target
 task_gui/target
 task_test/target
 forum/target

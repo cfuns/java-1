@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -28,13 +29,13 @@ import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskDueExpiredPredicate;
 import de.benjaminborbe.task.gui.util.TaskDueTodayPredicate;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.task.gui.util.TaskStartReadyPredicate;
-import de.benjaminborbe.task.tools.TaskComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.StringUtil;
@@ -141,7 +142,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 	private List<Task> getTasks(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, TaskServiceException, LoginRequiredException {
 		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
-		final List<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
+		final Collection<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
 		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
 		final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
 		final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);

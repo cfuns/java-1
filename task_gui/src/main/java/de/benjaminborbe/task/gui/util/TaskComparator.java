@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.tools;
+package de.benjaminborbe.task.gui.util;
 
 import com.google.inject.Inject;
 

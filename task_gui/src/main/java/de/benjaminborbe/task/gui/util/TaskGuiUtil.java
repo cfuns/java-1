@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +55,7 @@ public class TaskGuiUtil {
 		this.urlUtil = urlUtil;
 	}
 
-	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
+	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final Collection<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		final List<String> names = new ArrayList<String>();
 		Task parent = getParent(sessionIdentifier, allTasks, task);
@@ -67,7 +68,7 @@ public class TaskGuiUtil {
 		return StringUtils.join(names, " / ");
 	}
 
-	public Task getParent(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final Task task) throws TaskServiceException, LoginRequiredException,
+	public Task getParent(final SessionIdentifier sessionIdentifier, final Collection<Task> allTasks, final Task task) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		logger.trace("find parent for: " + task.getId());
 		if (task.getParentId() != null) {
@@ -104,7 +105,7 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
 		return taskService.getTasksNotCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 	}
@@ -120,7 +121,7 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getOnlyChilds(final List<Task> allTasks) {
+	public List<Task> getOnlyChilds(final Collection<Task> allTasks) {
 		final Set<TaskIdentifier> parents = new HashSet<TaskIdentifier>();
 		for (final Task task : allTasks) {
 			final TaskIdentifier parentId = task.getParentId();
@@ -148,7 +149,7 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
 		return taskService.getTasksCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 

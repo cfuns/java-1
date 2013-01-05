@@ -24,6 +24,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskServiceException;
+import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
@@ -31,6 +32,7 @@ import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -57,6 +59,10 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final TaskGuiSwitchWidget taskGuiSwitchWidget;
 
+	private final ComparatorUtil comparatorUtil;
+
+	private final TaskComparator taskComparator;
+
 	@Inject
 	public TaskGuiTasksUncompletedServlet(
 			final Logger logger,
@@ -72,7 +78,9 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiUtil taskGuiUtil,
-			final TaskGuiSwitchWidget taskGuiSwitchWidget) {
+			final TaskGuiSwitchWidget taskGuiSwitchWidget,
+			final ComparatorUtil comparatorUtil,
+			final TaskComparator taskComparator) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -80,6 +88,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 		this.taskGuiUtil = taskGuiUtil;
 		this.taskGuiSwitchWidget = taskGuiSwitchWidget;
+		this.comparatorUtil = comparatorUtil;
+		this.taskComparator = taskComparator;
 	}
 
 	@Override
@@ -100,7 +110,7 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 
-			final List<Task> tasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
+			final List<Task> tasks = comparatorUtil.sort(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds), taskComparator);
 			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 			logger.trace("found " + tasks.size() + " tasks");
 			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, tasks, null, request, timeZone));

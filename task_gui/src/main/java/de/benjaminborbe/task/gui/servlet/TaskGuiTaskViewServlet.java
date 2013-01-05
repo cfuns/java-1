@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
@@ -36,6 +38,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
@@ -71,6 +74,10 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final TaskGuiWidgetFactory taskGuiWidgetFactory;
 
+	private final ComparatorUtil comparatorUtil;
+
+	private final TaskComparator taskComparator;
+
 	@Inject
 	public TaskGuiTaskViewServlet(
 			final Logger logger,
@@ -86,7 +93,9 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			final HtmlUtil htmlUtil,
 			final TaskService taskService,
 			final TaskGuiUtil taskGuiUtil,
-			final TaskGuiLinkFactory taskGuiLinkFactory) {
+			final TaskGuiLinkFactory taskGuiLinkFactory,
+			final ComparatorUtil comparatorUtil,
+			final TaskComparator taskComparator) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
@@ -96,6 +105,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		this.taskGuiUtil = taskGuiUtil;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.calendarUtil = calendarUtil;
+		this.comparatorUtil = comparatorUtil;
+		this.taskComparator = taskComparator;
 	}
 
 	@Override
@@ -162,7 +173,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request, final Task previousTask,
 			final Task nextTask) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
-		final List<Task> childTasks = taskService.getTaskChilds(sessionIdentifier, task.getId());
+		final List<Task> childTasks = comparatorUtil.sort(taskService.getTaskChilds(sessionIdentifier, task.getId()), taskComparator);
 		addTaskEntry(widgets, sessionIdentifier, task, request, hasNotCompleted(childTasks), nextTask, previousTask);
 
 		if (childTasks.size() > 0) {
@@ -182,7 +193,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		return tasks.get(pos);
 	}
 
-	private boolean hasNotCompleted(final List<Task> tasks) {
+	private boolean hasNotCompleted(final Collection<Task> tasks) {
 		for (final Task task : tasks) {
 			if (Boolean.FALSE.equals(task.getCompleted()) || task.getCompleted() == null) {
 				return false;

@@ -32,15 +32,19 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.util.TaskNameComparator;
+import de.benjaminborbe.task.gui.util.TaskPrioComparator;
 import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.StringWidget;
@@ -162,8 +166,12 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final TaskGuiSwitchWidget taskGuiSwitchWidget = EasyMock.createNiceMock(TaskGuiSwitchWidget.class);
 		EasyMock.replay(taskGuiSwitchWidget);
 
+		final ComparatorUtil comparatorUtil = new ComparatorUtil();
+		final TaskNameComparator taskNameComparator = new TaskNameComparator();
+		final TaskPrioComparator taskPrioComparator = new TaskPrioComparator();
+		final TaskComparator taskComparator = new TaskComparator(taskNameComparator, taskPrioComparator);
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget, comparatorUtil, taskComparator);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.util;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -53,7 +54,7 @@ public class TaskGuiWidgetFactory {
 		this.calendarUtil = calendarUtil;
 	}
 
-	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final List<Task> allTasks, final HttpServletRequest request,
+	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final Collection<Task> allTasks, final HttpServletRequest request,
 			final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<Task> groupedTasks = groupByDueState(tasks, timeZone);
 
@@ -103,7 +104,7 @@ public class TaskGuiWidgetFactory {
 	}
 
 	private Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
-			final List<Task> allTasks, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
+			final Collection<Task> allTasks, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 
 		final ListWidget row = new ListWidget();
@@ -190,7 +191,7 @@ public class TaskGuiWidgetFactory {
 		return div;
 	}
 
-	private Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final List<Task> allTasks)
+	private Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final Collection<Task> allTasks)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
 		return new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle");

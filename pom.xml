@@ -258,7 +258,6 @@
 				<module>systemstatus_api</module>
 				<module>systemstatus_gui</module>
 				<module>task</module>
-				<module>task_tools</module>
 				<module>task_api</module>
 				<module>task_gui</module>
 				<module>timetracker</module>
