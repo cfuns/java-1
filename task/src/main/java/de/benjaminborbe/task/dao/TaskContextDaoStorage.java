@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	}
 
 	@Override
-	public List<TaskContextBean> getAllByUser(final UserIdentifier userIdentifier) throws StorageException {
+	public Collection<TaskContextBean> getByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
 			final Predicate<TaskContextBean> p = new TaskContextOwnerPredicate(userIdentifier);
 			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();

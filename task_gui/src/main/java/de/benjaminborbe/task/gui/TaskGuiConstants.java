@@ -2,6 +2,10 @@ package de.benjaminborbe.task.gui;
 
 public interface TaskGuiConstants {
 
+	String COOKIE_TASKCONTEXTS = "TaskContextSelected";
+
+	String EXAMPLE_SMARTDATE = "2012-12-24, 0d, 1w...";
+
 	String NAME = "task";
 
 	String PARAMETER_REFERER = "referer";
@@ -32,15 +36,25 @@ public interface TaskGuiConstants {
 
 	String PARAMETER_TASK_START_LATER = "task_start_later";
 
+	String PARAMETER_TASK_URL = "task_url";
+
 	String PARAMETER_TASKCONTEXT_ID = "taskcontext_id";
 
 	String PARAMETER_TASKCONTEXT_NAME = "taskcontext_name";
+
+	String PARAMETER_USER_ID = "user_id";
 
 	int PARENT_NAME_LENGTH = 15;
 
 	String URL_CSS = "/css";
 
 	String URL_CSS_STYLE = "/css/style.css";
+
+	String URL_IMAGES = "/images";
+
+	String URL_JS = "/js";
+
+	String URL_JS_SCRIPT = "/js/script.js";
 
 	String URL_TASK_COMPLETE = "/task/complete";
 
@@ -50,6 +64,8 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_FIRST = "/task/first";
 
+	String URL_TASK_LAST = "/task/last";
+
 	String URL_TASK_START_TOMORROW = "/task/startLater";
 
 	String URL_TASK_SWAP_PRIO = "/task/swapprio";
@@ -58,36 +74,24 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_UPDATE = "/task/update";
 
+	String URL_TASK_VIEW = "/task/view";
+
 	String URL_TASKCONTEXT_CREATE = "/taskcontext/create";
 
 	String URL_TASKCONTEXT_DELETE = "/taskcontext/delete";
 
 	String URL_TASKCONTEXT_LIST = "/taskcontext/list";
 
+	String URL_TASKCONTEXT_UPDATE = "/taskcontext/update";
+
+	String URL_TASKCONTEXT_USER = "/taskcontext/user";
+
+	String URL_TASKCONTEXT_USER_REMOVE = "/taskcontext/user/remove";
+
 	String URL_TASKS_COMPLETED = "/tasks/completed";
 
 	String URL_TASKS_NEXT = "/task/next";
 
 	String URL_TASKS_UNCOMPLETED = "/tasks/uncompletd";
-
-	String PARAMETER_TASK_URL = "task_url";
-
-	String URL_TASK_VIEW = "/task/view";
-
-	String URL_TASKCONTEXT_UPDATE = "/taskcontext/update";
-
-	String EXAMPLE_SMARTDATE = "2012-12-24, 0d, 1w...";
-
-	String URL_TASK_LAST = "/task/last";
-
-	String URL_IMAGES = "/images";
-
-	String URL_JS = "/js";
-
-	String URL_JS_SCRIPT = "/js/script.js";
-
-	String COOKIE_TASKCONTEXTS = "TaskContextSelected";
-
-	String URL_TASKCONTEXT_USER = "/taskcontext/user";
 
 }

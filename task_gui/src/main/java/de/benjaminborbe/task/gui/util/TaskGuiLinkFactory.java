@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
@@ -249,5 +250,16 @@ public class TaskGuiLinkFactory {
 	public Widget taskContextUser(final HttpServletRequest request, final TaskContextIdentifier taskContextIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_USER, getLoopThrough(request).add(
 				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContextIdentifier)), "user");
+	}
+
+	public Widget taskContextUserRemove(final HttpServletRequest request, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_USER_REMOVE, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContextIdentifier)).add(TaskGuiConstants.PARAMETER_USER_ID, String.valueOf(userIdentifier)), "remove");
+	}
+
+	public String taskContextUserUrl(final HttpServletRequest request, final TaskContextIdentifier taskContextIdentifier) throws UnsupportedEncodingException {
+		return urlUtil.buildUrl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_USER,
+				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContextIdentifier)));
 	}
 }

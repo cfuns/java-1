@@ -273,8 +273,8 @@ create column family distributed_index_entry with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
 
-drop column family task_content_user_relation;
-create column family task_content_user_relation with
+drop column family task_context_user_relation;
+create column family task_context_user_relation with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and

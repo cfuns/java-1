@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.api;
 
 import java.util.Collection;
-import java.util.List;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -27,19 +25,19 @@ public interface TaskServiceTaskContext {
 
 	TaskContext getTaskContextByName(SessionIdentifier sessionIdentifier, String taskContextName) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	List<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+	Collection<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException;
 
-	List<TaskContext> getTasksContexts(SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException;
+	Collection<TaskContext> getTasksContexts(SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException;
 
 	void updateTaskContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, String name) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException, ValidationException;
 
 	void addUserToContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, UserIdentifier userIdentifier) throws TaskServiceException,
-			LoginRequiredException;
+			LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	void removeUserFromContext(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier, UserIdentifier userIdentifier) throws TaskServiceException,
-			LoginRequiredException;
+			LoginRequiredException, PermissionDeniedException;
 
 	Collection<UserIdentifier> getTaskContextUsers(TaskContextIdentifier taskContextIdentifier) throws TaskServiceException;
 

@@ -167,7 +167,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE).addLabel("RepeatDue").addPlaceholder("repeat..."));
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description..."));
 			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
-			final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
+			final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTasksContexts(sessionIdentifier));
 			Collections.sort(taskContexts, new TaskContextComparator());
 			contextSelectBox.addOption("", "none");
 			for (final TaskContext taskContext : taskContexts) {

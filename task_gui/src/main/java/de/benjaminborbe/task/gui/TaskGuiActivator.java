@@ -20,6 +20,7 @@ import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextCreateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextDeleteServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextListServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextUpdateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextUserRemoveServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextUserServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCreateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskDeleteServlet;
@@ -40,6 +41,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class TaskGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private TaskGuiTaskContextUserRemoveServlet taskGuiTaskContextUserRemoveServlet;
 
 	@Inject
 	private TaskGuiTaskContextUserServlet taskGuiTaskContextUserServlet;
@@ -116,6 +120,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(taskGuiTaskContextUserRemoveServlet, TaskGuiConstants.URL_TASKCONTEXT_USER_REMOVE));
 		result.add(new ServletInfo(taskGuiTaskContextUserServlet, TaskGuiConstants.URL_TASKCONTEXT_USER));
 		result.add(new ServletInfo(taskGuiTaskFirstServlet, TaskGuiConstants.URL_TASK_FIRST));
 		result.add(new ServletInfo(taskGuiTaskLastServlet, TaskGuiConstants.URL_TASK_LAST));

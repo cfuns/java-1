@@ -508,23 +508,36 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskContext> getTasksContexts(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException {
+	public Collection<TaskContext> getTasksContexts(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final List<TaskContextBean> taskContexts = taskContextDao.getAllByUser(userIdentifier);
-			final List<TaskContext> result = new ArrayList<TaskContext>();
+
+			// add owner taskContexts
+			final Collection<TaskContextBean> taskContexts = taskContextDao.getByUser(userIdentifier);
+			final Set<TaskContext> result = new HashSet<TaskContext>();
 			for (final TaskContextBean taskContext : taskContexts) {
 				result.add(taskContext);
 			}
+
+			// add shared taskContexts
+			final StorageIterator i = taskContextToUserManyToManyRelation.getB(userIdentifier);
+			while (i.hasNext()) {
+				final StorageValue id = i.next();
+				result.add(taskContextDao.load(createTaskContextIdentifier(id.getString())));
+			}
+
 			return result;
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -581,6 +594,11 @@ public class TaskServiceImpl implements TaskService {
 	private void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException,
 			AuthorizationServiceException {
 		authorizationService.expectUser(sessionIdentifier, task.getOwner());
+	}
+
+	private void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException, StorageException {
+		expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
 	}
 
 	private void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
@@ -1094,15 +1112,21 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
-			throws TaskServiceException, LoginRequiredException {
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-
+			expectOwner(sessionIdentifier, taskContextIdentifier);
 			logger.debug("addUserToContext");
 
+			if (!authenticationService.existsUser(userIdentifier)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user " + userIdentifier + " not exists")));
+			}
+			taskContextToUserManyToManyRelation.add(taskContextIdentifier, userIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -1113,14 +1137,14 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
-			throws TaskServiceException, LoginRequiredException {
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectOwner(sessionIdentifier, taskContextIdentifier);
 			logger.debug("removeUserFromContext");
-
+			taskContextToUserManyToManyRelation.remove(taskContextIdentifier, userIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -1139,7 +1163,9 @@ public class TaskServiceImpl implements TaskService {
 			final StorageIterator i = taskContextToUserManyToManyRelation.getA(taskContext.getId());
 			while (i.hasNext()) {
 				final StorageValue a = i.next();
-				users.add(new UserIdentifier(a.getString()));
+				final String userId = a.getString();
+				logger.debug("found user " + userId);
+				users.add(new UserIdentifier(userId));
 			}
 			return users;
 		}

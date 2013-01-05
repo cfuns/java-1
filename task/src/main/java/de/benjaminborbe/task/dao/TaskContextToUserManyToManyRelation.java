@@ -12,7 +12,7 @@ import de.benjaminborbe.task.api.TaskContextIdentifier;
 
 public class TaskContextToUserManyToManyRelation extends ManyToManyRelationStorage<TaskContextIdentifier, UserIdentifier> {
 
-	private static final String COLUMN_FAMILY = "task_content_user_relation";
+	private static final String COLUMN_FAMILY = "task_context_user_relation";
 
 	@Inject
 	public TaskContextToUserManyToManyRelation(final Logger logger, final StorageService storageService) throws StorageException {

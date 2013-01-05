@@ -1,5 +1,6 @@
 package de.benjaminborbe.task.gui.widget;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TaskGuiSwitchWidget extends CompositeWidget {
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 		final ListWidget contextList = new ListWidget();
-		final List<TaskContext> taskContexts = taskService.getTasksContexts(sessionIdentifier);
+		final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTasksContexts(sessionIdentifier));
 		Collections.sort(taskContexts, new TaskContextComparator());
 		contextList.add("Context: ");
 		contextList.add(taskGuiLinkFactory.taskContextSwitchNone(request));
