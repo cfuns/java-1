@@ -9,7 +9,9 @@ import de.benjaminborbe.storage.tools.HasModified;
 
 public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier> implements HasCreated, ProjectileSlacktimeReport, HasModified {
 
-	private static final long serialVersionUID = -8803301003126328406L;
+	private static final long serialVersionUID = 5362529362425496903L;
+
+	private ProjectileReportIdentifier id;
 
 	private Calendar created;
 
@@ -114,6 +116,16 @@ public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier>
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	@Override
+	public ProjectileReportIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ProjectileReportIdentifier id) {
+		this.id = id;
 	}
 
 }

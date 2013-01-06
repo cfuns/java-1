@@ -12,6 +12,8 @@ public class WikiSpaceBean extends EntityBase<WikiSpaceIdentifier> implements Wi
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
+	private WikiSpaceIdentifier id;
+
 	private String name;
 
 	private Calendar modified;
@@ -45,6 +47,16 @@ public class WikiSpaceBean extends EntityBase<WikiSpaceIdentifier> implements Wi
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public WikiSpaceIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final WikiSpaceIdentifier id) {
+		this.id = id;
 	}
 
 }

@@ -11,6 +11,8 @@ public class SearchQueryHistoryBean extends EntityBase<SearchQueryHistoryIdentif
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private SearchQueryHistoryIdentifier id;
+
 	private String query;
 
 	private Calendar created;
@@ -53,6 +55,16 @@ public class SearchQueryHistoryBean extends EntityBase<SearchQueryHistoryIdentif
 
 	public void setUser(final UserIdentifier user) {
 		this.user = user;
+	}
+
+	@Override
+	public SearchQueryHistoryIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final SearchQueryHistoryIdentifier id) {
+		this.id = id;
 	}
 
 }

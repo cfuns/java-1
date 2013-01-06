@@ -169,4 +169,21 @@ public class TaskServiceMock implements TaskService {
 		return null;
 	}
 
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException {
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	}
+
 }

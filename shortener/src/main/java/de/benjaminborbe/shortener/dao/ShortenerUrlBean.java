@@ -11,6 +11,8 @@ public class ShortenerUrlBean extends EntityBase<ShortenerUrlIdentifier> impleme
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private ShortenerUrlIdentifier id;
+
 	private String url;
 
 	private Calendar created;
@@ -43,6 +45,16 @@ public class ShortenerUrlBean extends EntityBase<ShortenerUrlIdentifier> impleme
 
 	public void setUrl(final String url) {
 		this.url = url;
+	}
+
+	@Override
+	public ShortenerUrlIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ShortenerUrlIdentifier id) {
+		this.id = id;
 	}
 
 }

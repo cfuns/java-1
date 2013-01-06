@@ -223,9 +223,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
@@ -281,9 +278,6 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
@@ -424,9 +418,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
@@ -455,9 +446,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
 
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -466,8 +454,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
@@ -487,9 +475,6 @@ public class TaskServiceImpl implements TaskService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
@@ -559,9 +544,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
 		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
@@ -585,17 +567,55 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	private void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException,
-			AuthorizationServiceException {
-		authorizationService.expectUser(sessionIdentifier, task.getOwner());
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException {
+		try {
+			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
 	}
 
-	private void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException, StorageException {
-		expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+		try {
+			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			if (currentUser == null) {
+				throw new LoginRequiredException("login required");
+			}
+			if (currentUser.equals(task.getOwner())) {
+				return;
+			}
+			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
+			final Collection<TaskContext> taskContexts = getTaskContexts(sessionIdentifier, task.getId());
+			for (final TaskContext taskContext : taskContexts) {
+				users.addAll(getTaskContextUsers(taskContext));
+			}
+			authorizationService.expectUser(currentUser, users);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
 	}
 
-	private void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException {
+		try {
+			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		try {
 			final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
 			authorizationService.expectUser(sessionIdentifier, users);
@@ -661,10 +681,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
 		}
@@ -776,10 +792,6 @@ public class TaskServiceImpl implements TaskService {
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-
 		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}

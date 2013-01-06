@@ -14,6 +14,8 @@ public class WikiPageBean extends EntityBase<WikiPageIdentifier> implements Wiki
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
+	private WikiPageIdentifier id;
+
 	private String title;
 
 	private String content;
@@ -79,6 +81,16 @@ public class WikiPageBean extends EntityBase<WikiPageIdentifier> implements Wiki
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public WikiPageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final WikiPageIdentifier id) {
+		this.id = id;
 	}
 
 }

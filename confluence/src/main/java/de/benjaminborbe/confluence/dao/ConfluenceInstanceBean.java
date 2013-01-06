@@ -13,6 +13,8 @@ public class ConfluenceInstanceBean extends EntityBase<ConfluenceInstanceIdentif
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private ConfluenceInstanceIdentifier id;
+
 	private String url;
 
 	private String username;
@@ -122,6 +124,16 @@ public class ConfluenceInstanceBean extends EntityBase<ConfluenceInstanceIdentif
 
 	public void setActivated(final Boolean activated) {
 		this.activated = activated;
+	}
+
+	@Override
+	public ConfluenceInstanceIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ConfluenceInstanceIdentifier id) {
+		this.id = id;
 	}
 
 }

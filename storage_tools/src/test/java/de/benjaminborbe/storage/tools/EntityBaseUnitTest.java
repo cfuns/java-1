@@ -21,6 +21,17 @@ public class EntityBaseUnitTest {
 
 		private static final long serialVersionUID = 5598176639226547485L;
 
+		private TestIdentifier id;
+
+		@Override
+		public TestIdentifier getId() {
+			return id;
+		}
+
+		@Override
+		public void setId(final TestIdentifier id) {
+			this.id = id;
+		}
 	}
 
 	@Test

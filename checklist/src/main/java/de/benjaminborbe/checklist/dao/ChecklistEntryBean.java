@@ -14,6 +14,8 @@ public class ChecklistEntryBean extends EntityBase<ChecklistEntryIdentifier> imp
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private ChecklistEntryIdentifier id;
+
 	private String name;
 
 	private Calendar created;
@@ -80,6 +82,16 @@ public class ChecklistEntryBean extends EntityBase<ChecklistEntryIdentifier> imp
 
 	public void setCompleted(final Boolean completed) {
 		this.completed = completed;
+	}
+
+	@Override
+	public ChecklistEntryIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ChecklistEntryIdentifier id) {
+		this.id = id;
 	}
 
 }

@@ -15,6 +15,8 @@ public class BookmarkBean extends EntityBase<BookmarkIdentifier> implements Book
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
+	private BookmarkIdentifier id;
+
 	private String name;
 
 	private String url;
@@ -109,6 +111,16 @@ public class BookmarkBean extends EntityBase<BookmarkIdentifier> implements Book
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public BookmarkIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final BookmarkIdentifier id) {
+		this.id = id;
 	}
 
 }

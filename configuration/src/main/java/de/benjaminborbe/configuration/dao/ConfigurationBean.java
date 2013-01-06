@@ -11,6 +11,8 @@ public class ConfigurationBean extends EntityBase<ConfigurationIdentifier> imple
 
 	private static final long serialVersionUID = 8032652320006340164L;
 
+	private ConfigurationIdentifier id;
+
 	private String value;
 
 	private Calendar modified;
@@ -43,6 +45,16 @@ public class ConfigurationBean extends EntityBase<ConfigurationIdentifier> imple
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public ConfigurationIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ConfigurationIdentifier id) {
+		this.id = id;
 	}
 
 }

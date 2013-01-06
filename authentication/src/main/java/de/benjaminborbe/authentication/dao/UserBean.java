@@ -13,6 +13,8 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 
 	private static final long serialVersionUID = -3922883715303844030L;
 
+	private UserIdentifier id;
+
 	private byte[] password;
 
 	private byte[] passwordSalt;
@@ -139,6 +141,16 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 
 	public void setLoginCounter(final Long loginCounter) {
 		this.loginCounter = loginCounter;
+	}
+
+	@Override
+	public UserIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final UserIdentifier id) {
+		this.id = id;
 	}
 
 }

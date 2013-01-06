@@ -12,6 +12,8 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 
 	private static final long serialVersionUID = 6881926028300001598L;
 
+	private DhlIdentifier id;
+
 	private Long trackingNumber;
 
 	private Long zip;
@@ -56,6 +58,16 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public DhlIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final DhlIdentifier id) {
+		this.id = id;
 	}
 
 }

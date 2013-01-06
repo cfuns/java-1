@@ -12,6 +12,8 @@ public class SessionBean extends EntityBase<SessionIdentifier> implements HasCre
 
 	private static final long serialVersionUID = -3922883715303844030L;
 
+	private SessionIdentifier id;
+
 	private UserIdentifier currentUser;
 
 	private Calendar modified;
@@ -44,6 +46,16 @@ public class SessionBean extends EntityBase<SessionIdentifier> implements HasCre
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public SessionIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final SessionIdentifier id) {
+		this.id = id;
 	}
 
 }

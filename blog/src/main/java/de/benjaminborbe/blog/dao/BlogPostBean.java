@@ -13,6 +13,8 @@ public class BlogPostBean extends EntityBase<BlogPostIdentifier> implements Blog
 
 	private static final long serialVersionUID = -1631188424667532085L;
 
+	private BlogPostIdentifier id;
+
 	private String content;
 
 	private String title;
@@ -68,6 +70,16 @@ public class BlogPostBean extends EntityBase<BlogPostIdentifier> implements Blog
 	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	@Override
+	public BlogPostIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final BlogPostIdentifier id) {
+		this.id = id;
 	}
 
 }

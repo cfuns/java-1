@@ -11,6 +11,8 @@ public class WowAccountBean extends EntityBase<WowAccountIdentifier> implements 
 
 	private static final long serialVersionUID = 4613788971187238396L;
 
+	private WowAccountIdentifier id;
+
 	private String account;
 
 	private String password;
@@ -77,6 +79,16 @@ public class WowAccountBean extends EntityBase<WowAccountIdentifier> implements 
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public WowAccountIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final WowAccountIdentifier id) {
+		this.id = id;
 	}
 
 }

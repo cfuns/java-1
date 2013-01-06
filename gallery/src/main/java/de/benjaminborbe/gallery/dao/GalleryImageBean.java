@@ -12,6 +12,8 @@ public class GalleryImageBean extends EntityBase<GalleryImageIdentifier> impleme
 
 	private static final long serialVersionUID = 6353074828349973344L;
 
+	private GalleryImageIdentifier id;
+
 	private byte[] content;
 
 	private String contentType;
@@ -67,6 +69,16 @@ public class GalleryImageBean extends EntityBase<GalleryImageIdentifier> impleme
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public GalleryImageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final GalleryImageIdentifier id) {
+		this.id = id;
 	}
 
 }

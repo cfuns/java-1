@@ -11,6 +11,8 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
+	private WebsearchPageIdentifier id;
+
 	private Calendar lastVisit;
 
 	private Calendar modified;
@@ -53,6 +55,16 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public WebsearchPageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final WebsearchPageIdentifier id) {
+		this.id = id;
 	}
 
 }

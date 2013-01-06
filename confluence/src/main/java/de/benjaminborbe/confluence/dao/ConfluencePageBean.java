@@ -15,6 +15,8 @@ public class ConfluencePageBean extends EntityBase<ConfluencePageIdentifier> imp
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private ConfluencePageIdentifier id;
+
 	private Calendar lastVisit;
 
 	private Calendar modified;
@@ -90,6 +92,16 @@ public class ConfluencePageBean extends EntityBase<ConfluencePageIdentifier> imp
 
 	public void setUrl(final URL url) {
 		this.url = url;
+	}
+
+	@Override
+	public ConfluencePageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ConfluencePageIdentifier id) {
+		this.id = id;
 	}
 
 }

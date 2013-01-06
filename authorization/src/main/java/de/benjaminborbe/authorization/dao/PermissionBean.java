@@ -11,6 +11,8 @@ public class PermissionBean extends EntityBase<PermissionIdentifier> implements 
 
 	private static final long serialVersionUID = 5725008696995772288L;
 
+	private PermissionIdentifier id;
+
 	private Calendar created;
 
 	private Calendar modified;
@@ -33,6 +35,16 @@ public class PermissionBean extends EntityBase<PermissionIdentifier> implements 
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public PermissionIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final PermissionIdentifier id) {
+		this.id = id;
 	}
 
 }

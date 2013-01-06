@@ -13,6 +13,8 @@ public class GalleryGroupBean extends EntityBase<GalleryGroupIdentifier> impleme
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private GalleryGroupIdentifier id;
+
 	private String name;
 
 	private Calendar created;
@@ -57,6 +59,16 @@ public class GalleryGroupBean extends EntityBase<GalleryGroupIdentifier> impleme
 
 	public void setShared(final Boolean shared) {
 		this.shared = shared;
+	}
+
+	@Override
+	public GalleryGroupIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final GalleryGroupIdentifier id) {
+		this.id = id;
 	}
 
 }

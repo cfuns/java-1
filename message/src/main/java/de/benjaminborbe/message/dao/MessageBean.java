@@ -12,6 +12,8 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private MessageIdentifier id;
+
 	private String content;
 
 	private Calendar created;
@@ -86,6 +88,16 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 
 	public void setLockTime(final Calendar lockTime) {
 		this.lockTime = lockTime;
+	}
+
+	@Override
+	public MessageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final MessageIdentifier id) {
+		this.id = id;
 	}
 
 }

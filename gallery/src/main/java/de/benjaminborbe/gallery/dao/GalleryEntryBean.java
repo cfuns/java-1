@@ -15,6 +15,8 @@ public class GalleryEntryBean extends EntityBase<GalleryEntryIdentifier> impleme
 
 	private static final long serialVersionUID = 6353074828349973344L;
 
+	private GalleryEntryIdentifier id;
+
 	private String name;
 
 	private GalleryCollectionIdentifier collectionId;
@@ -103,6 +105,16 @@ public class GalleryEntryBean extends EntityBase<GalleryEntryIdentifier> impleme
 
 	public void setShared(final Boolean shared) {
 		this.shared = shared;
+	}
+
+	@Override
+	public GalleryEntryIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final GalleryEntryIdentifier id) {
+		this.id = id;
 	}
 
 }

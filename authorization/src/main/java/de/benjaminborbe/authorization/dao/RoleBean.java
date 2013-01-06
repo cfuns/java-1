@@ -12,6 +12,8 @@ public class RoleBean extends EntityBase<RoleIdentifier> implements Role, HasCre
 
 	private static final long serialVersionUID = 5954692477523378479L;
 
+	private RoleIdentifier id;
+
 	private Calendar modified;
 
 	private Calendar created;
@@ -39,6 +41,16 @@ public class RoleBean extends EntityBase<RoleIdentifier> implements Role, HasCre
 	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public RoleIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final RoleIdentifier id) {
+		this.id = id;
 	}
 
 }

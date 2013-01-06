@@ -14,6 +14,8 @@ public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCre
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
+	private TaskIdentifier id;
+
 	private Boolean completed;
 
 	private TaskIdentifier parentId;
@@ -195,6 +197,16 @@ public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCre
 
 	public void setFocus(final TaskFocus focus) {
 		this.focus = focus;
+	}
+
+	@Override
+	public TaskIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final TaskIdentifier id) {
+		this.id = id;
 	}
 
 }

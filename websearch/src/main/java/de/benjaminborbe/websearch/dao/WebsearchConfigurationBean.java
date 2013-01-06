@@ -16,6 +16,8 @@ public class WebsearchConfigurationBean extends EntityBase<WebsearchConfiguratio
 
 	private static final long serialVersionUID = -8884906884511991833L;
 
+	private WebsearchConfigurationIdentifier id;
+
 	private URL url;
 
 	private UserIdentifier owner;
@@ -104,6 +106,16 @@ public class WebsearchConfigurationBean extends EntityBase<WebsearchConfiguratio
 
 	public void setActivated(final Boolean activated) {
 		this.activated = activated;
+	}
+
+	@Override
+	public WebsearchConfigurationIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final WebsearchConfigurationIdentifier id) {
+		this.id = id;
 	}
 
 }

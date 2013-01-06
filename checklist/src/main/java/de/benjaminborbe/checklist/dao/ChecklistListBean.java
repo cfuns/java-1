@@ -13,6 +13,8 @@ public class ChecklistListBean extends EntityBase<ChecklistListIdentifier> imple
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
+	private ChecklistListIdentifier id;
+
 	private String name;
 
 	private Calendar created;
@@ -57,6 +59,16 @@ public class ChecklistListBean extends EntityBase<ChecklistListIdentifier> imple
 
 	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
+	}
+
+	@Override
+	public ChecklistListIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final ChecklistListIdentifier id) {
+		this.id = id;
 	}
 
 }

@@ -42,4 +42,8 @@ public interface TaskServiceTaskContext {
 	Collection<UserIdentifier> getTaskContextUsers(TaskContextIdentifier taskContextIdentifier) throws TaskServiceException;
 
 	Collection<UserIdentifier> getTaskContextUsers(TaskContext taskContext) throws TaskServiceException;
+
+	void expectOwner(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
+
+	void expectOwner(SessionIdentifier sessionIdentifier, TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
 }

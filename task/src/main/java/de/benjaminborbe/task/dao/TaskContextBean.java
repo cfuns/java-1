@@ -12,6 +12,8 @@ public class TaskContextBean extends EntityBase<TaskContextIdentifier> implement
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
+	private TaskContextIdentifier id;
+
 	private String name;
 
 	private UserIdentifier owner;
@@ -56,6 +58,16 @@ public class TaskContextBean extends EntityBase<TaskContextIdentifier> implement
 	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	@Override
+	public TaskContextIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final TaskContextIdentifier id) {
+		this.id = id;
 	}
 
 }

@@ -10,6 +10,8 @@ public class DistributedSearchPageBean extends EntityBase<DistributedSearchPageI
 
 	private static final long serialVersionUID = -921428835583316483L;
 
+	private DistributedSearchPageIdentifier id;
+
 	private String index;
 
 	private String title;
@@ -62,6 +64,16 @@ public class DistributedSearchPageBean extends EntityBase<DistributedSearchPageI
 
 	public void setIndex(final String indexName) {
 		this.index = indexName;
+	}
+
+	@Override
+	public DistributedSearchPageIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final DistributedSearchPageIdentifier id) {
+		this.id = id;
 	}
 
 }
