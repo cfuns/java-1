@@ -63,7 +63,7 @@ public class TaskServiceImpl implements TaskService {
 
 	private static final int FILTER_THREADS = 20;
 
-	private static final int DURATION_WARN = 150;
+	private static final int DURATION_WARN = 300;
 
 	private final class FilterRunnable implements Runnable {
 
@@ -796,12 +796,25 @@ public class TaskServiceImpl implements TaskService {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("getTasksNotCompleted for user " + userIdentifier);
-			final List<Task> result = new ArrayList<Task>();
+			final Set<Task> result = new HashSet<Task>();
+
+			// add shared tasks
+			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			for (final TaskContext context : contexts) {
+				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
+				while (i.hasNext()) {
+					final StorageValue id = i.next();
+					result.add(taskDao.load(createTaskIdentifier(id.getString())));
+				}
+			}
+
+			// add owned tasks
 			final EntityIterator<TaskBean> i = taskDao.getTasksNotCompleted(userIdentifier);
 			while (i.hasNext()) {
 				final Task task = i.next();
 				result.add(task);
 			}
+
 			return result;
 		}
 		catch (final AuthenticationServiceException e) {
@@ -811,6 +824,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {

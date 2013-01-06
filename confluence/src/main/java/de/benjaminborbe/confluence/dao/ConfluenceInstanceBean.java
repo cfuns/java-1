@@ -5,15 +5,13 @@ import java.util.Calendar;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifier>, ConfluenceInstance, HasCreated, HasModified {
+public class ConfluenceInstanceBean extends EntityBase<ConfluenceInstanceIdentifier> implements ConfluenceInstance, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private ConfluenceInstanceIdentifier id;
 
 	private String url;
 
@@ -34,16 +32,6 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 	private Long delay;
 
 	private Boolean activated;
-
-	@Override
-	public ConfluenceInstanceIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final ConfluenceInstanceIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getCreated() {
@@ -100,6 +88,7 @@ public class ConfluenceInstanceBean implements Entity<ConfluenceInstanceIdentifi
 		this.expire = expire;
 	}
 
+	@Override
 	public UserIdentifier getOwner() {
 		return owner;
 	}

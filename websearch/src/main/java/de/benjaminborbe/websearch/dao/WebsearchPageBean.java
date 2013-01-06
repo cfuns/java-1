@@ -1,33 +1,21 @@
 package de.benjaminborbe.websearch.dao;
 
 import java.util.Calendar;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
-public class WebsearchPageBean implements Entity<WebsearchPageIdentifier>, WebsearchPage, HasCreated, HasModified {
+public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> implements WebsearchPage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
 	private Calendar lastVisit;
 
-	private WebsearchPageIdentifier id;
-
 	private Calendar modified;
 
 	private Calendar created;
-
-	@Override
-	public WebsearchPageIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final WebsearchPageIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getLastVisit() {
@@ -40,11 +28,11 @@ public class WebsearchPageBean implements Entity<WebsearchPageIdentifier>, Webse
 
 	@Override
 	public String getUrl() {
-		return id != null ? id.getId() : null;
+		return getId() != null ? getId().getId() : null;
 	}
 
 	public void setUrl(final String url) {
-		id = new WebsearchPageIdentifier(url);
+		setId(new WebsearchPageIdentifier(url));
 	}
 
 	@Override

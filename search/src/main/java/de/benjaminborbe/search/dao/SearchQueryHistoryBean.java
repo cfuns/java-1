@@ -3,15 +3,13 @@ package de.benjaminborbe.search.dao;
 import java.util.Calendar;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class SearchQueryHistoryBean implements Entity<SearchQueryHistoryIdentifier>, HasCreated, HasModified {
+public class SearchQueryHistoryBean extends EntityBase<SearchQueryHistoryIdentifier> implements HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private SearchQueryHistoryIdentifier id;
 
 	private String query;
 
@@ -20,16 +18,6 @@ public class SearchQueryHistoryBean implements Entity<SearchQueryHistoryIdentifi
 	private Calendar modified;
 
 	private UserIdentifier user;
-
-	@Override
-	public SearchQueryHistoryIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final SearchQueryHistoryIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getCreated() {

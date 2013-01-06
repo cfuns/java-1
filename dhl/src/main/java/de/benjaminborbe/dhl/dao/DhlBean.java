@@ -4,15 +4,13 @@ import java.util.Calendar;
 
 import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class DhlBean implements Entity<DhlIdentifier>, Dhl, HasCreated, HasModified {
+public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6881926028300001598L;
-
-	private DhlIdentifier id;
 
 	private Long trackingNumber;
 
@@ -21,16 +19,6 @@ public class DhlBean implements Entity<DhlIdentifier>, Dhl, HasCreated, HasModif
 	private Calendar created;
 
 	private Calendar modified;
-
-	@Override
-	public DhlIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final DhlIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Long getTrackingNumber() {

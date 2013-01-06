@@ -2,33 +2,21 @@ package de.benjaminborbe.wiki.dao;
 
 import java.util.Calendar;
 
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.wiki.api.WikiSpace;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
-public class WikiSpaceBean implements Entity<WikiSpaceIdentifier>, WikiSpace, HasCreated, HasModified {
+public class WikiSpaceBean extends EntityBase<WikiSpaceIdentifier> implements WikiSpace, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
-
-	private WikiSpaceIdentifier id;
 
 	private String name;
 
 	private Calendar modified;
 
 	private Calendar created;
-
-	@Override
-	public WikiSpaceIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final WikiSpaceIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public String getName() {

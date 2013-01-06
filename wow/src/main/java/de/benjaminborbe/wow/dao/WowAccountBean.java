@@ -3,11 +3,11 @@ package de.benjaminborbe.wow.dao;
 import java.util.Calendar;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class WowAccountBean implements Entity<WowAccountIdentifier>, WowAccount, HasCreated, HasModified {
+public class WowAccountBean extends EntityBase<WowAccountIdentifier> implements WowAccount, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 4613788971187238396L;
 
@@ -16,8 +16,6 @@ public class WowAccountBean implements Entity<WowAccountIdentifier>, WowAccount,
 	private String password;
 
 	private String email;
-
-	private WowAccountIdentifier id;
 
 	private UserIdentifier owner;
 
@@ -50,16 +48,6 @@ public class WowAccountBean implements Entity<WowAccountIdentifier>, WowAccount,
 
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	@Override
-	public WowAccountIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final WowAccountIdentifier id) {
-		this.id = id;
 	}
 
 	@Override

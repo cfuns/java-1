@@ -7,15 +7,13 @@ import java.util.List;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCreated, HasModified {
+public class BookmarkBean extends EntityBase<BookmarkIdentifier> implements Bookmark, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
-
-	private BookmarkIdentifier id;
 
 	private String name;
 
@@ -49,16 +47,6 @@ public class BookmarkBean implements Entity<BookmarkIdentifier>, Bookmark, HasCr
 
 	public void setUrl(final String url) {
 		this.url = url;
-	}
-
-	@Override
-	public void setId(final BookmarkIdentifier id) {
-		this.id = id;
-	}
-
-	@Override
-	public BookmarkIdentifier getId() {
-		return id;
 	}
 
 	@Override

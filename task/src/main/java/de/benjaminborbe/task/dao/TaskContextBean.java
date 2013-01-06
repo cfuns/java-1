@@ -2,17 +2,15 @@ package de.benjaminborbe.task.dao;
 
 import java.util.Calendar;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 
-public class TaskContextBean implements Entity<TaskContextIdentifier>, TaskContext, HasCreated, HasModified {
+public class TaskContextBean extends EntityBase<TaskContextIdentifier> implements TaskContext, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
-
-	private TaskContextIdentifier id;
 
 	private String name;
 
@@ -29,16 +27,6 @@ public class TaskContextBean implements Entity<TaskContextIdentifier>, TaskConte
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	@Override
-	public void setId(final TaskContextIdentifier id) {
-		this.id = id;
-	}
-
-	@Override
-	public TaskContextIdentifier getId() {
-		return id;
 	}
 
 	@Override

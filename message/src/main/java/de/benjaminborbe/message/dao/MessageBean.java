@@ -4,15 +4,13 @@ import java.util.Calendar;
 
 import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class MessageBean implements Entity<MessageIdentifier>, Message, HasCreated, HasModified {
+public class MessageBean extends EntityBase<MessageIdentifier> implements Message, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private MessageIdentifier id;
 
 	private String content;
 
@@ -27,16 +25,6 @@ public class MessageBean implements Entity<MessageIdentifier>, Message, HasCreat
 	private String lockName;
 
 	private Calendar lockTime;
-
-	@Override
-	public MessageIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final MessageIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getCreated() {

@@ -5,15 +5,13 @@ import java.util.TimeZone;
 
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasModified {
+public class UserBean extends EntityBase<UserIdentifier> implements User, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -3922883715303844030L;
-
-	private UserIdentifier id;
 
 	private byte[] password;
 
@@ -36,16 +34,6 @@ public class UserBean implements Entity<UserIdentifier>, User, HasCreated, HasMo
 	private TimeZone timeZone;
 
 	private Long loginCounter;
-
-	@Override
-	public UserIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final UserIdentifier id) {
-		this.id = id;
-	}
 
 	public byte[] getPassword() {
 		return password;

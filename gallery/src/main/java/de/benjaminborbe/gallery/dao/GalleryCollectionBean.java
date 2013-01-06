@@ -6,15 +6,13 @@ import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.util.HasShared;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier>, GalleryCollection, HasCreated, HasModified, HasShared {
+public class GalleryCollectionBean extends EntityBase<GalleryCollectionIdentifier> implements GalleryCollection, HasCreated, HasModified, HasShared {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private GalleryCollectionIdentifier id;
 
 	private GalleryGroupIdentifier groupId;
 
@@ -27,16 +25,6 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 	private Long priority;
 
 	private Boolean shared;
-
-	@Override
-	public GalleryCollectionIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final GalleryCollectionIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public String getName() {
@@ -85,6 +73,7 @@ public class GalleryCollectionBean implements Entity<GalleryCollectionIdentifier
 		this.groupId = groupId;
 	}
 
+	@Override
 	public Boolean getShared() {
 		return shared;
 	}

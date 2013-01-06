@@ -2,15 +2,13 @@ package de.benjaminborbe.distributed.search.dao;
 
 import java.util.Calendar;
 
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class DistributedSearchPageBean implements Entity<DistributedSearchPageIdentifier>, HasCreated, HasModified {
+public class DistributedSearchPageBean extends EntityBase<DistributedSearchPageIdentifier> implements HasCreated, HasModified {
 
 	private static final long serialVersionUID = -921428835583316483L;
-
-	private DistributedSearchPageIdentifier id;
 
 	private String index;
 
@@ -21,16 +19,6 @@ public class DistributedSearchPageBean implements Entity<DistributedSearchPageId
 	private Calendar created;
 
 	private Calendar modified;
-
-	@Override
-	public DistributedSearchPageIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final DistributedSearchPageIdentifier id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;

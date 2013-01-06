@@ -3,20 +3,18 @@ package de.benjaminborbe.task.dao;
 import java.util.Calendar;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 
-public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasModified {
+public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
 
 	private Boolean completed;
-
-	private TaskIdentifier id;
 
 	private TaskIdentifier parentId;
 
@@ -55,16 +53,6 @@ public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasMo
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	@Override
-	public void setId(final TaskIdentifier id) {
-		this.id = id;
-	}
-
-	@Override
-	public TaskIdentifier getId() {
-		return id;
 	}
 
 	@Override
@@ -195,6 +183,7 @@ public class TaskBean implements Entity<TaskIdentifier>, Task, HasCreated, HasMo
 		this.url = url;
 	}
 
+	@Override
 	public TaskFocus getFocus() {
 		if (focus == null) {
 			return TaskFocus.INBOX;

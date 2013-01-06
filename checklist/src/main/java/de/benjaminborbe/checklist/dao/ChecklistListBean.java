@@ -5,15 +5,13 @@ import java.util.Calendar;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistList;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ChecklistListBean implements Entity<ChecklistListIdentifier>, ChecklistList, HasCreated, HasModified {
+public class ChecklistListBean extends EntityBase<ChecklistListIdentifier> implements ChecklistList, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private ChecklistListIdentifier id;
 
 	private String name;
 
@@ -22,16 +20,6 @@ public class ChecklistListBean implements Entity<ChecklistListIdentifier>, Check
 	private Calendar modified;
 
 	private UserIdentifier owner;
-
-	@Override
-	public ChecklistListIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final ChecklistListIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public String getName() {

@@ -3,31 +3,19 @@ package de.benjaminborbe.configuration.dao;
 import java.util.Calendar;
 
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ConfigurationBean implements Entity<ConfigurationIdentifier>, HasCreated, HasModified {
+public class ConfigurationBean extends EntityBase<ConfigurationIdentifier> implements HasCreated, HasModified {
 
 	private static final long serialVersionUID = 8032652320006340164L;
-
-	private ConfigurationIdentifier id;
 
 	private String value;
 
 	private Calendar modified;
 
 	private Calendar created;
-
-	@Override
-	public ConfigurationIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final ConfigurationIdentifier id) {
-		this.id = id;
-	}
 
 	public String getValue() {
 		return value;

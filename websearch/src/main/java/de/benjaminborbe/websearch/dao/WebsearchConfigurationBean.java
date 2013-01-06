@@ -6,17 +6,15 @@ import java.util.Calendar;
 import java.util.List;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.websearch.api.WebsearchConfiguration;
 import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 
-public class WebsearchConfigurationBean implements Entity<WebsearchConfigurationIdentifier>, WebsearchConfiguration, HasCreated, HasModified {
+public class WebsearchConfigurationBean extends EntityBase<WebsearchConfigurationIdentifier> implements WebsearchConfiguration, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8884906884511991833L;
-
-	private WebsearchConfigurationIdentifier id;
 
 	private URL url;
 
@@ -33,16 +31,6 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 	private Long delay;
 
 	private Boolean activated;
-
-	@Override
-	public WebsearchConfigurationIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final WebsearchConfigurationIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public URL getUrl() {
@@ -109,6 +97,7 @@ public class WebsearchConfigurationBean implements Entity<WebsearchConfiguration
 		this.delay = delay;
 	}
 
+	@Override
 	public Boolean getActivated() {
 		return activated;
 	}

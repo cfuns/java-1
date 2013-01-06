@@ -3,31 +3,19 @@ package de.benjaminborbe.shortener.dao;
 import java.util.Calendar;
 
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ShortenerUrlBean implements Entity<ShortenerUrlIdentifier>, HasCreated, HasModified {
+public class ShortenerUrlBean extends EntityBase<ShortenerUrlIdentifier> implements HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private ShortenerUrlIdentifier id;
 
 	private String url;
 
 	private Calendar created;
 
 	private Calendar modified;
-
-	@Override
-	public ShortenerUrlIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final ShortenerUrlIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getCreated() {

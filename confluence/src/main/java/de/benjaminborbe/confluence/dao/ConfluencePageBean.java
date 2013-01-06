@@ -7,17 +7,15 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluencePage;
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, ConfluencePage, HasCreated, HasModified {
+public class ConfluencePageBean extends EntityBase<ConfluencePageIdentifier> implements ConfluencePage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
 	private Calendar lastVisit;
-
-	private ConfluencePageIdentifier id;
 
 	private Calendar modified;
 
@@ -30,16 +28,6 @@ public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, Con
 	private UserIdentifier owner;
 
 	private URL url;
-
-	@Override
-	public ConfluencePageIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final ConfluencePageIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getCreated() {
@@ -100,7 +88,7 @@ public class ConfluencePageBean implements Entity<ConfluencePageIdentifier>, Con
 		return url;
 	}
 
-	public void setUrl(URL url) {
+	public void setUrl(final URL url) {
 		this.url = url;
 	}
 

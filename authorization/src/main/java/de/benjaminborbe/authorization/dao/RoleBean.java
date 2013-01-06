@@ -4,33 +4,21 @@ import java.util.Calendar;
 
 import de.benjaminborbe.authorization.api.Role;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class RoleBean implements Entity<RoleIdentifier>, Role, HasCreated, HasModified {
+public class RoleBean extends EntityBase<RoleIdentifier> implements Role, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 5954692477523378479L;
-
-	private RoleIdentifier id;
 
 	private Calendar modified;
 
 	private Calendar created;
 
 	@Override
-	public RoleIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final RoleIdentifier id) {
-		this.id = id;
-	}
-
-	@Override
 	public String getName() {
-		return id != null ? id.getId() : null;
+		return getId() != null ? getId().getId() : null;
 	}
 
 	@Override

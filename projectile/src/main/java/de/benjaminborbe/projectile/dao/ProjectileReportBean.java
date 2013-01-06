@@ -3,15 +3,13 @@ package de.benjaminborbe.projectile.dao;
 import java.util.Calendar;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class ProjectileReportBean implements ProjectileSlacktimeReport, Entity<ProjectileReportIdentifier>, HasCreated, HasModified {
+public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier> implements HasCreated, ProjectileSlacktimeReport, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
-
-	private ProjectileReportIdentifier id;
 
 	private Calendar created;
 
@@ -30,16 +28,6 @@ public class ProjectileReportBean implements ProjectileSlacktimeReport, Entity<P
 	private Double yearIntern;
 
 	private Double yearExtern;
-
-	@Override
-	public ProjectileReportIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final ProjectileReportIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public Calendar getCreated() {

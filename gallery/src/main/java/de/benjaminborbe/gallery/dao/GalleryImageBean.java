@@ -4,11 +4,11 @@ import java.util.Calendar;
 
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class GalleryImageBean implements Entity<GalleryImageIdentifier>, GalleryImage, HasCreated, HasModified {
+public class GalleryImageBean extends EntityBase<GalleryImageIdentifier> implements GalleryImage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6353074828349973344L;
 
@@ -19,8 +19,6 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 	private Calendar created;
 
 	private Calendar modified;
-
-	private GalleryImageIdentifier id;
 
 	private String name;
 
@@ -60,16 +58,6 @@ public class GalleryImageBean implements Entity<GalleryImageIdentifier>, Gallery
 	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
-	}
-
-	@Override
-	public GalleryImageIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final GalleryImageIdentifier id) {
-		this.id = id;
 	}
 
 	public void setName(final String name) {

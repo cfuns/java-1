@@ -2,7 +2,7 @@ package de.benjaminborbe.wiki.dao;
 
 import java.util.Calendar;
 
-import de.benjaminborbe.storage.tools.Entity;
+import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.wiki.api.WikiPage;
@@ -10,11 +10,9 @@ import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
-public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage, HasCreated, HasModified {
+public class WikiPageBean extends EntityBase<WikiPageIdentifier> implements WikiPage, HasCreated, HasModified {
 
 	private static final long serialVersionUID = 6058606350883201939L;
-
-	private WikiPageIdentifier id;
 
 	private String title;
 
@@ -27,16 +25,6 @@ public class WikiPageBean implements Entity<WikiPageIdentifier>, WikiPage, HasCr
 	private Calendar modified;
 
 	private Calendar created;
-
-	@Override
-	public WikiPageIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final WikiPageIdentifier id) {
-		this.id = id;
-	}
 
 	@Override
 	public String getTitle() {
