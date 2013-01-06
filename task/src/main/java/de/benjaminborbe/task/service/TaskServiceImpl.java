@@ -241,6 +241,11 @@ public class TaskServiceImpl implements TaskService {
 			final TaskBean task = taskDao.load(taskIdentifier);
 			expectOwner(sessionIdentifier, task);
 
+			if (Boolean.TRUE.equals(task.getCompleted())) {
+				logger.info("already completed => skip");
+				return;
+			}
+
 			// update child parent
 			final EntityIterator<TaskBean> childIterator = taskDao.getTaskChilds(taskIdentifier);
 			while (childIterator.hasNext()) {
@@ -259,7 +264,7 @@ public class TaskServiceImpl implements TaskService {
 				logger.debug("completeTask: " + taskIdentifier + " create repeat");
 				final Calendar due = calcRepeat(task.getRepeatDue());
 				final Calendar start = calcRepeat(task.getRepeatStart());
-				final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
+				final Set<TaskContextIdentifier> contexts = new HashSet<TaskContextIdentifier>();
 				final StorageIterator i = taskToTaskContextManyToManyRelation.getA(taskIdentifier);
 				while (i.hasNext()) {
 					contexts.add(createTaskContextIdentifier(i.next().getString()));
@@ -429,9 +434,9 @@ public class TaskServiceImpl implements TaskService {
 			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.debug("getTask for id: " + taskIdentifier);
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
-			logger.debug("getTask");
 			final Task task = taskDao.load(taskIdentifier);
 			if (task == null) {
 				logger.info("task not found with id " + taskIdentifier);
@@ -458,11 +463,9 @@ public class TaskServiceImpl implements TaskService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
-
 			logger.debug("getTaskContexts for task: " + taskIdentifier);
 			final StorageIterator i = taskToTaskContextManyToManyRelation.getA(taskIdentifier);
-			final List<TaskContext> result = new ArrayList<TaskContext>();
+			final Set<TaskContext> result = new HashSet<TaskContext>();
 			while (i.hasNext()) {
 				final String id = i.next().getString();
 				logger.debug("add taskcontext: " + id);
@@ -490,6 +493,7 @@ public class TaskServiceImpl implements TaskService {
 	public Collection<TaskContext> getTasksContexts(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.debug("getTasksContexts");
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -571,6 +575,7 @@ public class TaskServiceImpl implements TaskService {
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
 			TaskServiceException {
 		try {
+			logger.debug("expectOwner");
 			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
 		}
 		catch (final StorageException e) {
@@ -581,11 +586,13 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		try {
+			logger.debug("expectOwner");
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
 			if (currentUser == null) {
 				throw new LoginRequiredException("login required");
 			}
 			if (currentUser.equals(task.getOwner())) {
+				logger.debug("expectOwner => success");
 				return;
 			}
 			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
@@ -594,6 +601,7 @@ public class TaskServiceImpl implements TaskService {
 				users.addAll(getTaskContextUsers(taskContext));
 			}
 			authorizationService.expectUser(currentUser, users);
+			logger.debug("expectOwner => success");
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
@@ -607,6 +615,7 @@ public class TaskServiceImpl implements TaskService {
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
 			TaskServiceException {
 		try {
+			logger.debug("expectOwner");
 			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
 		}
 		catch (final StorageException e) {
@@ -617,6 +626,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		try {
+			logger.debug("expectOwner");
 			final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
 			authorizationService.expectUser(sessionIdentifier, users);
 		}
@@ -669,10 +679,14 @@ public class TaskServiceImpl implements TaskService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
-
 			logger.debug("unCompleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			expectOwner(sessionIdentifier, task);
+
+			if (Boolean.FALSE.equals(task.getCompleted())) {
+				logger.info("not completed => skip");
+				return;
+			}
 
 			task.setCompletionDate(null);
 			task.setCompleted(false);
@@ -701,7 +715,7 @@ public class TaskServiceImpl implements TaskService {
 				throw new TaskServiceException("taskId = parentId");
 			}
 
-			logger.debug("createTask");
+			logger.debug("updateTask - id: " + taskDto.getId());
 
 			// check parent
 			final TaskBean parentTask;
@@ -780,7 +794,7 @@ public class TaskServiceImpl implements TaskService {
 			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
 
 			logger.debug("getTaskChilds");
-			final List<Task> result = new ArrayList<Task>();
+			final Set<Task> result = new HashSet<Task>();
 			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(taskIdentifier);
 			while (i.hasNext()) {
 				final Task task = i.next();
@@ -816,7 +830,10 @@ public class TaskServiceImpl implements TaskService {
 				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
 				while (i.hasNext()) {
 					final StorageValue id = i.next();
-					result.add(taskDao.load(createTaskIdentifier(id.getString())));
+					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
+					if (!Boolean.TRUE.equals(task.getCompleted())) {
+						result.add(task);
+					}
 				}
 			}
 
@@ -855,7 +872,22 @@ public class TaskServiceImpl implements TaskService {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("getTasksCompleted for user " + userIdentifier);
-			final List<Task> result = new ArrayList<Task>();
+			final Set<Task> result = new HashSet<Task>();
+
+			// add shared tasks
+			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			for (final TaskContext context : contexts) {
+				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
+				while (i.hasNext()) {
+					final StorageValue id = i.next();
+					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
+					if (Boolean.TRUE.equals(task.getCompleted())) {
+						result.add(task);
+					}
+				}
+			}
+
+			// add owned tasks
 			final EntityIterator<TaskBean> i = taskDao.getTasksCompleted(userIdentifier);
 			while (i.hasNext()) {
 				final Task task = i.next();
@@ -870,6 +902,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -981,13 +1016,10 @@ public class TaskServiceImpl implements TaskService {
 				logger.info("taskContext not found with id " + taskContextIdentifier);
 				return null;
 			}
-			authorizationService.expectUser(sessionIdentifier, taskContext.getOwner());
+			expectOwner(sessionIdentifier, taskContext);
 			return taskContext;
 		}
 		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
