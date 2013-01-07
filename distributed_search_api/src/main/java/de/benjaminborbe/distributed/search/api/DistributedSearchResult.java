@@ -1,12 +1,5 @@
 package de.benjaminborbe.distributed.search.api;
 
-public interface DistributedSearchResult {
+public interface DistributedSearchResult extends DistributedSearchPage {
 
-	String getIndex();
-
-	String getTitle();
-
-	String getContent();
-
-	String getURL();
 }

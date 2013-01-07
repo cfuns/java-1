@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModules;
+import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiPageServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiRebuildIndexServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
@@ -16,6 +17,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class DistributedSearchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private DistributedSearchGuiPageServlet distributedSearchGuiPageServlet;
 
 	@Inject
 	private DistributedSearchGuiRebuildIndexServlet distributedSearchGuiRebuildIndexServlet;
@@ -37,6 +41,7 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(distributedSearchGuiServlet, DistributedSearchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(distributedSearchGuiRebuildIndexServlet, DistributedSearchGuiConstants.URL_REBUILD_INDEX));
+		result.add(new ServletInfo(distributedSearchGuiPageServlet, DistributedSearchGuiConstants.URL_PAGE));
 		return result;
 	}
 

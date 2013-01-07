@@ -117,6 +117,15 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		final DistributedSearchPageIdentifier distributedSearchPageIdentifier = new DistributedSearchPageIdentifier(indexResult.getIndex(), indexResult.getId());
 		final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.load(distributedSearchPageIdentifier);
 		if (distributedSearchPage != null) {
+			return buildResult(distributedSearchPage);
+		}
+		else {
+			return null;
+		}
+	}
+
+	private DistributedSearchResult buildResult(final DistributedSearchPageBean distributedSearchPage) {
+		if (distributedSearchPage != null) {
 			return new DistributedSearchResultImpl(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), distributedSearchPage.getTitle(),
 					distributedSearchPage.getContent());
 		}
@@ -188,6 +197,19 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			throw new DistributedSearchServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+	}
+
+	@Override
+	public DistributedSearchResult getPage(final String index, final String url) throws DistributedSearchServiceException {
+		try {
+			logger.debug("getPage - index: " + index + " url: " + url);
+			final DistributedSearchPageIdentifier id = new DistributedSearchPageIdentifier(index, url);
+			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.load(id);
+			return buildResult(distributedSearchPage);
+		}
+		catch (final StorageException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}

@@ -20,4 +20,8 @@ public class DistributedSearchGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_INDEX, "rebuild index");
 	}
 
+	public Widget page(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_PAGE, "show page");
+	}
+
 }

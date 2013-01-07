@@ -68,6 +68,7 @@ public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 
 		final UlWidget ul = new UlWidget();
+		ul.add(distributedSearchGuiLinkFactory.page(request));
 		ul.add(distributedSearchGuiLinkFactory.rebuildIndex(request));
 		widgets.add(ul);
 

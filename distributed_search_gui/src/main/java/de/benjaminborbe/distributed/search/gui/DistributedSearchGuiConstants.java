@@ -10,4 +10,8 @@ public interface DistributedSearchGuiConstants {
 
 	String URL_REBUILD_INDEX = "/rebuildindex";
 
+	String URL_PAGE = "/page";
+
+	String PARAMETER_URL = "url";
+
 }

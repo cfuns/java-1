@@ -48,6 +48,7 @@ public class DistributedSearchGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_HOME);
+		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_PAGE);
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_INDEX);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
