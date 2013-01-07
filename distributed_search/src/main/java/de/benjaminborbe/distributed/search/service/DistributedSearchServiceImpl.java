@@ -26,6 +26,8 @@ import de.benjaminborbe.distributed.search.dao.DistributedSearchPageIdentifier;
 import de.benjaminborbe.distributed.search.util.DistributedSearchAnalyser;
 import de.benjaminborbe.distributed.search.util.DistributedSearchResultImpl;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
@@ -161,4 +163,32 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		}
 	}
 
+	@Override
+	public void rebuildIndex(final String index) throws DistributedSearchServiceException {
+		try {
+			logger.debug("rebuildIndex - index: " + index);
+
+			final EntityIterator<DistributedSearchPageBean> i = distributedSearchPageDao.getEntityIteratorByIndex(index);
+			while (i.hasNext()) {
+				final DistributedSearchPageBean bean = i.next();
+				logger.debug("rebuildIndex - remove url from index: " + bean.getId());
+				distributedIndexService.remove(index, bean.getId().getPageId());
+
+				logger.debug("rebuildIndex - add url from index: " + bean.getId());
+				final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(bean.getId().getPageId(), bean.getTitle(), bean.getContent());
+				distributedIndexService.add(index, bean.getId().getPageId(), data);
+			}
+
+			logger.debug("rebuildIndex - finished");
+		}
+		catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+	}
 }

@@ -1,22 +1,19 @@
-package de.benjaminborbe.websearch.cron;
+package de.benjaminborbe.websearch.util;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
-import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.websearch.config.WebsearchConfig;
 import de.benjaminborbe.websearch.dao.WebsearchPageBean;
-import de.benjaminborbe.websearch.util.WebsearchUpdateDeterminer;
 
-@Singleton
-public class WebsearchRefreshPagesCronJob implements CronJob {
+public class WebsearchRefresher {
 
 	private static final int TIMEOUT = 5000;
 
@@ -42,13 +39,22 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 			try {
 				logger.debug("refresh pages started");
 				final EntityIterator<WebsearchPageBean> i = updateDeterminer.determineExpiredPages();
+				int counter = 0;
 				while (i.hasNext()) {
 					final WebsearchPageBean page = i.next();
 					try {
+						if (websearchConfig.getRefreshLimit() != null && counter > websearchConfig.getRefreshLimit()) {
+							logger.debug("refresh pages limit reached => exit");
+							return;
+						}
+
+						counter++;
+
 						final String url = page.getUrl();
 						logger.debug("trigger refresh of url " + url);
 						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
 						crawlerService.processCrawlerInstruction(crawlerInstruction);
+
 					}
 					catch (final Exception e) {
 						logger.error(e.getClass().getSimpleName(), e);
@@ -62,10 +68,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		}
 	}
 
-	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 40 * * * ?"; // ones per hour
-
-	private final Logger logger;
+	private final ThreadRunner threadRunner;
 
 	private final CrawlerService crawlerService;
 
@@ -73,37 +76,27 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
-	private final ThreadRunner threadRunner;
+	private final Logger logger;
+
+	private final WebsearchConfig websearchConfig;
 
 	@Inject
-	public WebsearchRefreshPagesCronJob(
+	public WebsearchRefresher(
 			final Logger logger,
+			final WebsearchConfig websearchConfig,
 			final WebsearchUpdateDeterminer updateDeterminer,
 			final CrawlerService crawlerService,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final ThreadRunner threadRunner) {
 		this.logger = logger;
+		this.websearchConfig = websearchConfig;
 		this.updateDeterminer = updateDeterminer;
 		this.crawlerService = crawlerService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.threadRunner = threadRunner;
 	}
 
-	@Override
-	public String getScheduleExpression() {
-		return SCHEDULE_EXPRESSION;
-	}
-
-	@Override
-	public void execute() {
-		logger.debug("execute started");
+	public void refresh() {
 		threadRunner.run("refreshpages", new RefreshRunnable());
-		logger.debug("execute finished");
 	}
-
-	@Override
-	public boolean disallowConcurrentExecution() {
-		return true;
-	}
-
 }

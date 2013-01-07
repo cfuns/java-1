@@ -46,7 +46,9 @@ public class DistributedSearchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + DistributedSearchGuiConstants.NAME);
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_HOME);
+		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_INDEX);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

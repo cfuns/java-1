@@ -6,4 +6,8 @@ public interface DistributedSearchGuiConstants {
 
 	String NAME = "distributed_search";
 
+	String PARAMETER_INDEX = "index";
+
+	String URL_REBUILD_INDEX = "/rebuildindex";
+
 }

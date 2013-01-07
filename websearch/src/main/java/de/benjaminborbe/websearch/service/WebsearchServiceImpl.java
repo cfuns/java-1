@@ -40,11 +40,11 @@ import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
-import de.benjaminborbe.websearch.cron.WebsearchRefreshPagesCronJob;
 import de.benjaminborbe.websearch.dao.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.dao.WebsearchPageBean;
 import de.benjaminborbe.websearch.dao.WebsearchPageDao;
+import de.benjaminborbe.websearch.util.WebsearchRefresher;
 
 @Singleton
 public class WebsearchServiceImpl implements WebsearchService {
@@ -52,8 +52,6 @@ public class WebsearchServiceImpl implements WebsearchService {
 	private final Logger logger;
 
 	private final WebsearchPageDao pageDao;
-
-	private final WebsearchRefreshPagesCronJob refreshPagesCronJob;
 
 	private final AuthorizationService authorizationService;
 
@@ -71,12 +69,14 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final AuthenticationService authenticationService;
 
+	private final WebsearchRefresher websearchRefresher;
+
 	@Inject
 	public WebsearchServiceImpl(
 			final Logger logger,
+			final WebsearchRefresher websearchRefresher,
 			final ValidationExecutor validationExecutor,
 			final WebsearchPageDao pageDao,
-			final WebsearchRefreshPagesCronJob refreshPagesCronJob,
 			final AuthorizationService authorizationService,
 			final AuthenticationService authenticationService,
 			final IdGeneratorUUID idGeneratorUUID,
@@ -85,9 +85,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 			final WebsearchConfigurationDao websearchConfigurationDao,
 			final DurationUtil durationUtil) {
 		this.logger = logger;
+		this.websearchRefresher = websearchRefresher;
 		this.validationExecutor = validationExecutor;
 		this.pageDao = pageDao;
-		this.refreshPagesCronJob = refreshPagesCronJob;
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;
 		this.idGeneratorUUID = idGeneratorUUID;
@@ -128,7 +128,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			logger.info("refreshPages");
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPages"));
 
-			refreshPagesCronJob.execute();
+			websearchRefresher.refresh();
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);

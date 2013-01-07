@@ -19,7 +19,7 @@ public class DistributedSearchAnalyser {
 		if (content == null) {
 			return Arrays.asList();
 		}
-		final String[] parts = content.toLowerCase().replaceAll("[^a-z]", " ").split("\\s+");
+		final String[] parts = content.toLowerCase().replaceAll("[^a-zöäüß]", " ").split("\\s+");
 		return filter(Arrays.asList(parts));
 	}
 

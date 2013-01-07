@@ -15,7 +15,9 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.distributed.search.gui.util.DistributedSearchGuiLinkFactory;
+import de.benjaminborbe.distributed.search.api.DistributedSearchService;
+import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;
+import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -23,24 +25,29 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
+public class DistributedSearchGuiRebuildIndexServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "DistributedSearch";
+	private static final String TITLE = "DistributedSearch - Rebild Index";
 
-	private final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory;
+	private final DistributedSearchService distributedSearchService;
+
+	private final Logger logger;
 
 	@Inject
-	public DistributedSearchGuiServlet(
+	public DistributedSearchGuiRebuildIndexServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -51,9 +58,10 @@ public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory) {
+			final DistributedSearchService distributedSearchService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
-		this.distributedSearchGuiLinkFactory = distributedSearchGuiLinkFactory;
+		this.distributedSearchService = distributedSearchService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -64,13 +72,30 @@ public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
 
-		final UlWidget ul = new UlWidget();
-		ul.add(distributedSearchGuiLinkFactory.rebuildIndex(request));
-		widgets.add(ul);
+			final String index = request.getParameter(DistributedSearchGuiConstants.PARAMETER_INDEX);
 
-		return widgets;
+			if (index != null) {
+
+				distributedSearchService.rebuildIndex(index);
+				widgets.add("rebuild index " + index + " done");
+			}
+
+			final FormWidget formWidget = new FormWidget();
+			formWidget.addFormInputWidget(new FormInputTextWidget(DistributedSearchGuiConstants.PARAMETER_INDEX).addLabel("Index"));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("show"));
+			widgets.add(formWidget);
+
+			return widgets;
+		}
+		catch (final DistributedSearchServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
+
 }

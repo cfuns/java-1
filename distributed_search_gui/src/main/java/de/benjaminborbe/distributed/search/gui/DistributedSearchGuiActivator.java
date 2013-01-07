@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModules;
+import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiRebuildIndexServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -17,7 +18,10 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class DistributedSearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private DistributedSearchGuiServlet distributed_searchGuiServlet;
+	private DistributedSearchGuiRebuildIndexServlet distributedSearchGuiRebuildIndexServlet;
+
+	@Inject
+	private DistributedSearchGuiServlet distributedSearchGuiServlet;
 
 	public DistributedSearchGuiActivator() {
 		super(DistributedSearchGuiConstants.NAME);
@@ -31,23 +35,9 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(distributed_searchGuiServlet, DistributedSearchGuiConstants.URL_HOME));
+		result.add(new ServletInfo(distributedSearchGuiServlet, DistributedSearchGuiConstants.URL_HOME));
+		result.add(new ServletInfo(distributedSearchGuiRebuildIndexServlet, DistributedSearchGuiConstants.URL_REBUILD_INDEX));
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(distributed_searchFilter, ".*", 998));
-	// return result;
-	// }
-
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// // result.add(new ResourceInfo("/images", "images"));
-	// return result;
-	// }
 }

@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiServlet;
+import de.benjaminborbe.distributed.search.gui.util.DistributedSearchGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -123,8 +124,9 @@ public class DistributedSearchGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final DistributedSearchGuiServlet distributed_searchServlet = new DistributedSearchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService);
+		final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory = new DistributedSearchGuiLinkFactory();
+		final DistributedSearchGuiServlet distributed_searchServlet = new DistributedSearchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, distributedSearchGuiLinkFactory);
 
 		distributed_searchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

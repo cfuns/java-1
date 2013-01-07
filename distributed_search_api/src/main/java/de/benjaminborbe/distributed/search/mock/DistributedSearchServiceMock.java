@@ -33,4 +33,8 @@ public class DistributedSearchServiceMock implements DistributedSearchService {
 	public void removeFromIndex(final String index, final URL url) throws DistributedSearchServiceException {
 	}
 
+	@Override
+	public void rebuildIndex(final String index) throws DistributedSearchServiceException {
+	}
+
 }

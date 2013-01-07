@@ -12,4 +12,6 @@ public interface DistributedSearchService {
 	List<DistributedSearchResult> search(String index, String searchQuery, int limit) throws DistributedSearchServiceException;
 
 	void removeFromIndex(String index, URL url) throws DistributedSearchServiceException;
+
+	void rebuildIndex(String index) throws DistributedSearchServiceException;
 }
