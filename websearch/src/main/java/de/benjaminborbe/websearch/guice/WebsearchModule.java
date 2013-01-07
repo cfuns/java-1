@@ -7,6 +7,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.websearch.api.WebsearchService;
+import de.benjaminborbe.websearch.config.WebsearchConfig;
+import de.benjaminborbe.websearch.config.WebsearchConfigImpl;
 import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.dao.WebsearchConfigurationDaoStorage;
 import de.benjaminborbe.websearch.dao.WebsearchPageDao;
@@ -19,6 +21,7 @@ public class WebsearchModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(WebsearchConfig.class).to(WebsearchConfigImpl.class).in(Singleton.class);
 		bind(WebsearchService.class).to(WebsearchServiceImpl.class).in(Singleton.class);
 		bind(WebsearchUpdateDeterminer.class).to(WebsearchUpdateDeterminerImpl.class).in(Singleton.class);
 		bind(WebsearchConfigurationDao.class).to(WebsearchConfigurationDaoStorage.class).in(Singleton.class);
