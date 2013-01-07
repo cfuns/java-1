@@ -101,7 +101,7 @@ public class DistributedIndexGuiWordInfoServlet extends WebsiteHtmlServlet {
 				widgets.add("Word: " + word);
 				widgets.add(new BrWidget());
 
-				final Map<String, Integer> data = distributedIndexService.getEntryRatingForWord(index, word);
+				final Map<String, Integer> data = distributedIndexService.getEntryRatingForWord(index, word.toLowerCase());
 
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
