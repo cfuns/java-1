@@ -23,6 +23,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.guice.TaskModulesMock;
@@ -657,6 +658,85 @@ public class TaskServiceImplIntegrationTest {
 			assertEquals(childStart, child.getStart());
 			assertEquals(childDue, child.getDue());
 		}
+	}
+
+	@Test
+	public void testCreateTaskFocus() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+
+		{
+			final TaskDto taskDto = new TaskDto();
+			taskDto.setName("task");
+			taskDto.setFocus(null);
+
+			final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
+			assertNotNull(taskIdentifier);
+
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertEquals(TaskFocus.INBOX, task.getFocus());
+		}
+		{
+			final TaskDto taskDto = new TaskDto();
+			taskDto.setName("task");
+			taskDto.setFocus(TaskFocus.SOMEDAY);
+
+			final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
+			assertNotNull(taskIdentifier);
+
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertEquals(TaskFocus.SOMEDAY, task.getFocus());
+		}
+	}
+
+	@Test
+	public void testUpdateTaskFocus() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+
+		final TaskDto taskDtoOrg = new TaskDto();
+		taskDtoOrg.setName("task");
+
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDtoOrg);
+		assertNotNull(taskIdentifier);
+
+		{
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertEquals(TaskFocus.INBOX, task.getFocus());
+		}
+
+		{
+			final TaskDto taskDto = new TaskDto();
+			taskDto.setId(taskIdentifier);
+			taskDto.setName("task");
+			taskDto.setFocus(TaskFocus.SOMEDAY);
+			taskService.updateTask(sessionIdentifier, taskDto);
+		}
+
+		{
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertEquals(TaskFocus.SOMEDAY, task.getFocus());
+		}
+
+		{
+			final TaskDto taskDto = new TaskDto();
+			taskDto.setId(taskIdentifier);
+			taskDto.setName("task");
+			taskDto.setFocus(null);
+			taskService.updateTask(sessionIdentifier, taskDto);
+		}
+
+		{
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertEquals(TaskFocus.INBOX, task.getFocus());
+		}
+
 	}
 
 }

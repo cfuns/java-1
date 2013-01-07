@@ -737,6 +737,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setParentId(taskDto.getParentId());
 			task.setStart(taskDto.getStart());
 			task.setDue(taskDto.getDue());
+			task.setFocus(taskDto.getFocus());
 
 			updateTaskStartDueChildAndSave(parentTask, task);
 
@@ -1081,6 +1082,7 @@ public class TaskServiceImpl implements TaskService {
 			taskBean.setParentId(taskDto.getParentId());
 			taskBean.setStart(taskDto.getStart());
 			taskBean.setDue(taskDto.getDue());
+			taskBean.setFocus(taskDto.getFocus());
 
 			updateTaskStartDueChildAndSave(parentTask, taskBean);
 
