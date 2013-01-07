@@ -2,6 +2,7 @@ package de.benjaminborbe.distributed.index.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
@@ -86,6 +88,36 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 
 	private DistributedIndexWordIdentifier buildWordId(final String index, final String word) {
 		return new DistributedIndexWordIdentifier(index, word);
+	}
+
+	@Override
+	public Map<String, Integer> getWordRatingForEntry(final String index, final String id) throws DistributedIndexServiceException {
+		try {
+			logger.debug("getWordRatingForEntry - index: " + index + " id: " + id);
+			final DistributedIndexEntryBean bean = distributedIndexDao.load(buildId(index, id));
+			return bean.getData();
+		}
+		catch (final StorageException e) {
+			throw new DistributedIndexServiceException(e);
+		}
+	}
+
+	@Override
+	public Map<String, Integer> getEntryRatingForWord(final String index, final String word) throws DistributedIndexServiceException {
+		try {
+			logger.debug("getEntryRatingForWord - index: " + index + " word: " + word);
+			final Map<String, Integer> data = new HashMap<String, Integer>();
+			final DistributedIndexSearchResultIteratorCurrent iterator = new DistributedIndexSearchResultIteratorCurrent(distributedIndexWordDao.search(buildWordId(index, word)));
+
+			while (iterator.hasNext()) {
+				final DistributedIndexSearchResult r = iterator.next();
+				data.put(r.getId(), r.getRating());
+			}
+			return data;
+		}
+		catch (final StorageException e) {
+			throw new DistributedIndexServiceException(e);
+		}
 	}
 
 }

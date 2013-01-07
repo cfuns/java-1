@@ -31,4 +31,14 @@ public class DistributedIndexServiceMock implements DistributedIndexService {
 		return null;
 	}
 
+	@Override
+	public Map<String, Integer> getWordRatingForEntry(final String index, final String url) throws DistributedIndexServiceException {
+		return null;
+	}
+
+	@Override
+	public Map<String, Integer> getEntryRatingForWord(final String index, final String word) throws DistributedIndexServiceException {
+		return null;
+	}
+
 }

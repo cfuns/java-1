@@ -46,7 +46,10 @@ public class DistributedIndexGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + DistributedIndexGuiConstants.NAME);
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_WORD_INFO);
+		paths.add("/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_ENTRY_INFO);
+		paths.add("/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_HOME);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

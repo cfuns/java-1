@@ -10,4 +10,8 @@ public interface DistributedIndexService {
 	void remove(String index, String id) throws DistributedIndexServiceException;
 
 	DistributedIndexSearchResultIterator search(String index, Collection<String> words) throws DistributedIndexServiceException;
+
+	Map<String, Integer> getWordRatingForEntry(String index, String url) throws DistributedIndexServiceException;
+
+	Map<String, Integer> getEntryRatingForWord(String index, String word) throws DistributedIndexServiceException;
 }

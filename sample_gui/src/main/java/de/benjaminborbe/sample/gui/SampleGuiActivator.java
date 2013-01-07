@@ -31,7 +31,7 @@ public class SampleGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(sampleGuiServlet, SampleGuiConstants.HOME_URL));
+		result.add(new ServletInfo(sampleGuiServlet, SampleGuiConstants.URL_HOME));
 		return result;
 	}
 

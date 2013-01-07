@@ -10,7 +10,7 @@ public interface BlogGuiConstants {
 
 	String PARAMETER_BLOG_POST_CONTENT = "post_content";
 
-	String HOME_URL = "/";
+	String URL_HOME = "/";
 
 	String POST_ADD_URL = "/create";
 

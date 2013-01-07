@@ -31,7 +31,7 @@ public class VncGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(vncGuiServlet, VncGuiConstants.HOME_URL));
+		result.add(new ServletInfo(vncGuiServlet, VncGuiConstants.URL_HOME));
 		return result;
 	}
 

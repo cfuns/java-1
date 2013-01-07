@@ -9,7 +9,9 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.distributed.index.gui.guice.DistributedIndexGuiModules;
+import de.benjaminborbe.distributed.index.gui.servlet.DistributedIndexGuiEntryInfoServlet;
 import de.benjaminborbe.distributed.index.gui.servlet.DistributedIndexGuiServlet;
+import de.benjaminborbe.distributed.index.gui.servlet.DistributedIndexGuiWordInfoServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -17,7 +19,13 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class DistributedIndexGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private DistributedIndexGuiServlet distributed_indexGuiServlet;
+	private DistributedIndexGuiEntryInfoServlet distributedIndexGuiEntryInfoServlet;
+
+	@Inject
+	private DistributedIndexGuiServlet distributedIndexGuiServlet;
+
+	@Inject
+	private DistributedIndexGuiWordInfoServlet distributedIndexGuiWordInfoServlet;
 
 	public DistributedIndexGuiActivator() {
 		super(DistributedIndexGuiConstants.NAME);
@@ -31,23 +39,10 @@ public class DistributedIndexGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(distributed_indexGuiServlet, DistributedIndexGuiConstants.HOME_URL));
+		result.add(new ServletInfo(distributedIndexGuiServlet, DistributedIndexGuiConstants.URL_HOME));
+		result.add(new ServletInfo(distributedIndexGuiEntryInfoServlet, DistributedIndexGuiConstants.URL_ENTRY_INFO));
+		result.add(new ServletInfo(distributedIndexGuiWordInfoServlet, DistributedIndexGuiConstants.URL_WORD_INFO));
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(distributed_indexFilter, ".*", 998));
-	// return result;
-	// }
-
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// // result.add(new ResourceInfo("/images", "images"));
-	// return result;
-	// }
 }

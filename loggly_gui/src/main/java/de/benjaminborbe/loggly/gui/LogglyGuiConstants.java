@@ -2,7 +2,7 @@ package de.benjaminborbe.loggly.gui;
 
 public interface LogglyGuiConstants {
 
-	String HOME_URL = "/";
+	String URL_HOME = "/";
 
 	String NAME = "loggly";
 

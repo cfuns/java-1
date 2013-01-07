@@ -2,7 +2,7 @@ package de.benjaminborbe.distributed.search.gui;
 
 public interface DistributedSearchGuiConstants {
 
-	String HOME_URL = "/";
+	String URL_HOME = "/";
 
 	String NAME = "distributed_search";
 

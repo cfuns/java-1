@@ -54,7 +54,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(blogGuiLatestPostsServlet, BlogGuiConstants.HOME_URL));
+		result.add(new ServletInfo(blogGuiLatestPostsServlet, BlogGuiConstants.URL_HOME));
 		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
 		result.add(new ServletInfo(blogGuiDeletePostServlet, BlogGuiConstants.POST_DELETE_URL));
 		result.add(new ServletInfo(blogGuiUpdatePostServlet, BlogGuiConstants.POST_UPDATE_URL));

@@ -31,7 +31,7 @@ public class ForumGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(forumGuiServlet, ForumGuiConstants.HOME_URL));
+		result.add(new ServletInfo(forumGuiServlet, ForumGuiConstants.URL_HOME));
 		return result;
 	}
 

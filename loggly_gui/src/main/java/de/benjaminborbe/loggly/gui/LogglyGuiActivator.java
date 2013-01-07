@@ -31,7 +31,7 @@ public class LogglyGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(logglyGuiServlet, LogglyGuiConstants.HOME_URL));
+		result.add(new ServletInfo(logglyGuiServlet, LogglyGuiConstants.URL_HOME));
 		return result;
 	}
 

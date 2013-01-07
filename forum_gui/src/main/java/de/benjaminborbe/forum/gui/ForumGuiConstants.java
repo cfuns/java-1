@@ -2,7 +2,7 @@ package de.benjaminborbe.forum.gui;
 
 public interface ForumGuiConstants {
 
-	String HOME_URL = "/";
+	String URL_HOME = "/";
 
 	String NAME = "forum";
 

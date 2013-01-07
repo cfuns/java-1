@@ -31,7 +31,7 @@ public class ScalaGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(scalaGuiServlet, ScalaGuiConstants.HOME_URL));
+		result.add(new ServletInfo(scalaGuiServlet, ScalaGuiConstants.URL_HOME));
 		return result;
 	}
 

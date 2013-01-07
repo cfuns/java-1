@@ -31,7 +31,7 @@ public class XmppGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(xmppGuiServlet, XmppGuiConstants.HOME_URL));
+		result.add(new ServletInfo(xmppGuiServlet, XmppGuiConstants.URL_HOME));
 		return result;
 	}
 

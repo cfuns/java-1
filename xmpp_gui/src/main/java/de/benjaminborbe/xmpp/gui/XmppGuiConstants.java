@@ -2,7 +2,7 @@ package de.benjaminborbe.xmpp.gui;
 
 public interface XmppGuiConstants {
 
-	String HOME_URL = "/";
+	String URL_HOME = "/";
 
 	String NAME = "xmpp";
 

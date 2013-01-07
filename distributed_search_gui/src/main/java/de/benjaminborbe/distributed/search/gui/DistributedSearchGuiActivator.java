@@ -31,7 +31,7 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(distributed_searchGuiServlet, DistributedSearchGuiConstants.HOME_URL));
+		result.add(new ServletInfo(distributed_searchGuiServlet, DistributedSearchGuiConstants.URL_HOME));
 		return result;
 	}
 

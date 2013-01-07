@@ -2,7 +2,7 @@ package de.benjaminborbe.scala.gui;
 
 public interface ScalaGuiConstants {
 
-	String HOME_URL = "/";
+	String URL_HOME = "/";
 
 	String NAME = "scala";
 
