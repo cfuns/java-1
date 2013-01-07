@@ -72,7 +72,9 @@ public class XmppConnectorIntegrationTest {
 			xmppConnector.connect();
 
 			final XmppUser user = new XmppUser("bborbe@openfire.benjamin-borbe.de/mobile-bb");
-			xmppConnector.sendMessage(user, "hello ben");
+			// final XmppUser user = new XmppUser("benjamin1peter@gmail.com");
+			// final XmppUser user = new XmppUser("benjamin.borbe@talk.gmail.com");
+			xmppConnector.sendMessage(user, "hello ben (" + user.getUid() + ")");
 		}
 		finally {
 			xmppConnector.disconnect();
