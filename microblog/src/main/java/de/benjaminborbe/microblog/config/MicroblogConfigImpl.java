@@ -38,11 +38,11 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 
 	@Override
 	public boolean isXmppEnabled() {
-		return false;
+		return getValueBoolean(xmppEnabled);
 	}
 
 	@Override
 	public boolean isMailEnabled() {
-		return false;
+		return getValueBoolean(mailEnabled);
 	}
 }
