@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.guice.ConfluenceModulesMock;
 import de.benjaminborbe.cron.api.CronJob;
@@ -71,6 +72,9 @@ public class ConfluenceActivatorIntegrationTest {
 		names.add(ConfluenceService.class.getName());
 		names.add(SearchServiceComponent.class.getName());
 		names.add(CronJob.class.getName());
+		names.add(ConfigurationDescription.class.getName());
+		names.add(ConfigurationDescription.class.getName());
+
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

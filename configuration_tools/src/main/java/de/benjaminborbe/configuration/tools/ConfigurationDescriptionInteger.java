@@ -3,15 +3,15 @@ package de.benjaminborbe.configuration.tools;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 
-public class ConfigurationDescriptionBoolean implements ConfigurationDescription {
+public class ConfigurationDescriptionInteger implements ConfigurationDescription {
 
 	private final String name;
 
 	private final String description;
 
-	private final Boolean defaultValue;
+	private final Integer defaultValue;
 
-	public ConfigurationDescriptionBoolean(final Boolean defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionInteger(final Integer defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;
@@ -32,7 +32,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 		return description;
 	}
 
-	public Boolean getDefaultValue() {
+	public Integer getDefaultValue() {
 		return defaultValue;
 	}
 
@@ -43,7 +43,6 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 
 	@Override
 	public String getType() {
-		return String.class.getSimpleName();
+		return Integer.class.getSimpleName();
 	}
-
 }

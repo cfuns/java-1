@@ -7,24 +7,24 @@ import java.util.Set;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInt;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 
 public class StorageConfigImpl implements StorageConfig {
 
 	private final ConfigurationDescriptionString hostname = new ConfigurationDescriptionString("localhost", "CassandraHost", "Hostname of CassandraServer");
 
-	private final ConfigurationDescriptionInt port = new ConfigurationDescriptionInt(9160, "CassandraPort", "Port of CassandraServer");
+	private final ConfigurationDescriptionInteger port = new ConfigurationDescriptionInteger(9160, "CassandraPort", "Port of CassandraServer");
 
 	private final ConfigurationDescriptionString keyspace = new ConfigurationDescriptionString("bb", "CassandraKeyspace", "Keyspace of CassandraServer");
 
 	private final ConfigurationDescriptionString encoding = new ConfigurationDescriptionString("UTF8", "CassandraEncoding", "Encoding of CassandraServer");
 
-	private final ConfigurationDescriptionInt readLimit = new ConfigurationDescriptionInt(10000, "CassandraReadLimit", "ReadLimit of CassandraServer");
+	private final ConfigurationDescriptionInteger readLimit = new ConfigurationDescriptionInteger(10000, "CassandraReadLimit", "ReadLimit of CassandraServer");
 
-	private final ConfigurationDescriptionInt maxConnections = new ConfigurationDescriptionInt(50, "CassandraMaxConnections", "MaxConnections to CassandraServer");
+	private final ConfigurationDescriptionInteger maxConnections = new ConfigurationDescriptionInteger(50, "CassandraMaxConnections", "MaxConnections to CassandraServer");
 
-	private final ConfigurationDescriptionInt socketTimeout = new ConfigurationDescriptionInt(7000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
+	private final ConfigurationDescriptionInteger socketTimeout = new ConfigurationDescriptionInteger(7000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
 
 	private final ConfigurationDescriptionString backupDirectory = new ConfigurationDescriptionString("/tmp", "CassandraBackupDirectory", "BackupDirectory of CassandraServer");
 
@@ -57,7 +57,7 @@ public class StorageConfigImpl implements StorageConfig {
 		return getValue(readLimit);
 	}
 
-	private int getValue(final ConfigurationDescriptionInt configuration) {
+	private int getValue(final ConfigurationDescriptionInteger configuration) {
 		return configuration.getDefaultValue();
 	}
 

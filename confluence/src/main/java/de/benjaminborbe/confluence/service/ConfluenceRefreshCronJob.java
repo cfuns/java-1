@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.util.ConfluenceRefresher;
 import de.benjaminborbe.cron.api.CronJob;
 
@@ -18,9 +19,12 @@ public class ConfluenceRefreshCronJob implements CronJob {
 
 	private final Logger logger;
 
+	private final ConfluenceConfig confluenceConfig;
+
 	@Inject
-	public ConfluenceRefreshCronJob(final Logger logger, final ConfluenceRefresher confluenceRefresher) {
+	public ConfluenceRefreshCronJob(final Logger logger, final ConfluenceConfig confluenceConfig, final ConfluenceRefresher confluenceRefresher) {
 		this.logger = logger;
+		this.confluenceConfig = confluenceConfig;
 		this.confluenceRefresher = confluenceRefresher;
 	}
 
@@ -31,8 +35,13 @@ public class ConfluenceRefreshCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("execute");
-		confluenceRefresher.refresh();
+		if (Boolean.TRUE.equals(confluenceConfig.getCronEnabled())) {
+			logger.debug("confluence refresh cron => started");
+			confluenceRefresher.refresh();
+		}
+		else {
+			logger.debug("confluence refresh cron => skip");
+		}
 	}
 
 	@Override

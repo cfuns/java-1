@@ -51,8 +51,8 @@ public class ConfluenceConnectorImplIntegrationTest {
 		final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
 		final String spaceName = "DEV";
 		final String pageName = "Java";
-		final String token = confluenceConnector
-				.login(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME, ConfluenceTestConstants.CONFLUENCE_PASSWORD);
+		final ConfluenceSession token = confluenceConnector.login(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME,
+				ConfluenceTestConstants.CONFLUENCE_PASSWORD);
 		final String content = confluenceConnector.getRenderedContent(ConfluenceTestConstants.CONFLUENCE_URL, token, spaceName, pageName);
 		assertTrue("didn't find expected string 'Java' in  content!", content.contains("Java"));
 	}
@@ -63,25 +63,25 @@ public class ConfluenceConnectorImplIntegrationTest {
 			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfluenceModulesMock());
 		final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
-		final String token = confluenceConnector
-				.login(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME, ConfluenceTestConstants.CONFLUENCE_PASSWORD);
+		final ConfluenceSession token = confluenceConnector.login(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME,
+				ConfluenceTestConstants.CONFLUENCE_PASSWORD);
 		final Collection<String> spaces = confluenceConnector.getSpaceKeys(ConfluenceTestConstants.CONFLUENCE_URL, token);
 		assertNotNull(spaces);
 		assertTrue(spaces.size() > 0);
 	}
 
 	@Test
-		public void testGetPageSummaries() throws Exception {
-			if (notFound)
-				return;
-			final Injector injector = GuiceInjectorBuilder.getInjector(new ConfluenceModulesMock());
-			final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
-			final String token = confluenceConnector
-					.login(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME, ConfluenceTestConstants.CONFLUENCE_PASSWORD);
-			final String spaceName = "DEV";
-			final Collection<ConfluenceConnectorPageSummary> pages = confluenceConnector.getPageSummaries(ConfluenceTestConstants.CONFLUENCE_URL, token, spaceName);
-			assertNotNull(pages);
-			assertTrue(pages.size() > 0);
-			assertNotNull(confluenceConnector.getRenderedContent(ConfluenceTestConstants.CONFLUENCE_URL, token, pages.iterator().next().getPageId()));
-		}
+	public void testGetPageSummaries() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ConfluenceModulesMock());
+		final ConfluenceConnector confluenceConnector = injector.getInstance(ConfluenceConnector.class);
+		final ConfluenceSession token = confluenceConnector.login(ConfluenceTestConstants.CONFLUENCE_URL, ConfluenceTestConstants.CONFLUENCE_USERNAME,
+				ConfluenceTestConstants.CONFLUENCE_PASSWORD);
+		final String spaceName = "DEV";
+		final Collection<ConfluenceConnectorPageSummary> pages = confluenceConnector.getPageSummaries(ConfluenceTestConstants.CONFLUENCE_URL, token, spaceName);
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+		assertNotNull(confluenceConnector.getRenderedContent(ConfluenceTestConstants.CONFLUENCE_URL, token, pages.iterator().next().getPageId()));
+	}
 }

@@ -6,6 +6,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.confluence.api.ConfluenceService;
+import de.benjaminborbe.confluence.config.ConfluenceConfig;
+import de.benjaminborbe.confluence.config.ConfluenceConfigImpl;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorImpl;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
@@ -20,6 +22,7 @@ public class ConfluenceModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfluenceConfig.class).to(ConfluenceConfigImpl.class).in(Singleton.class);
 		bind(ConfluencePageDao.class).to(ConfluencePageDaoStorage.class).in(Singleton.class);
 		bind(ConfluenceInstanceDao.class).to(ConfluenceInstanceDaoStorage.class).in(Singleton.class);
 		bind(ConfluenceConnector.class).to(ConfluenceConnectorImpl.class).in(Singleton.class);

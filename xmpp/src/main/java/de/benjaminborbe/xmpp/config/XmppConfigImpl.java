@@ -12,7 +12,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
-import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInt;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.xmpp.XmppConstants;
@@ -26,7 +26,7 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 
 	private final ConfigurationDescriptionString serverHost = new ConfigurationDescriptionString(null, XmppConstants.CONFIG_SERVERHOST, "Xmpp Host for Server");
 
-	private final ConfigurationDescriptionInt serverPort = new ConfigurationDescriptionInt(5222, XmppConstants.CONFIG_SERVERPORT, "Xmpp Port for Server");
+	private final ConfigurationDescriptionInteger serverPort = new ConfigurationDescriptionInteger(5222, XmppConstants.CONFIG_SERVERPORT, "Xmpp Port for Server");
 
 	@Inject
 	public XmppConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -50,7 +50,7 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 
 	@Override
 	public Integer getServerPort() {
-		return getValueInt(serverPort);
+		return getValueInteger(serverPort);
 	}
 
 	@Override

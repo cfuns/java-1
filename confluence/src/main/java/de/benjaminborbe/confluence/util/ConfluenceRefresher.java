@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPage;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPageSummary;
+import de.benjaminborbe.confluence.connector.ConfluenceSession;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
@@ -90,6 +92,8 @@ public class ConfluenceRefresher {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final ConfluenceConfig confluenceConfig;
+
 	@Inject
 	public ConfluenceRefresher(
 			final Logger logger,
@@ -101,6 +105,7 @@ public class ConfluenceRefresher {
 			final ConfluenceConnector confluenceConnector,
 			final HtmlUtil htmlUtil,
 			final TimeZoneUtil timeZoneUtil,
+			final ConfluenceConfig confluenceConfig,
 			final ConfluenceIndexUtil confluenceIndexUtil) {
 		this.logger = logger;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -111,17 +116,18 @@ public class ConfluenceRefresher {
 		this.confluenceConnector = confluenceConnector;
 		this.htmlUtil = htmlUtil;
 		this.timeZoneUtil = timeZoneUtil;
+		this.confluenceConfig = confluenceConfig;
 		this.confluenceIndexUtil = confluenceIndexUtil;
 	}
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
 		final long delay = getDelay(confluenceInstanceBean);
 		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
-
+		int counter = 0;
 		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
 		final String username = confluenceInstanceBean.getUsername();
 		final String password = confluenceInstanceBean.getPassword();
-		final String token = confluenceConnector.login(confluenceBaseUrl, username, password);
+		final ConfluenceSession token = confluenceConnector.login(confluenceBaseUrl, username, password);
 		final Collection<String> spaceKeys = confluenceConnector.getSpaceKeys(confluenceBaseUrl, token);
 		logger.debug("found " + spaceKeys.size() + " spaces in " + confluenceBaseUrl);
 		for (final String spaceKey : spaceKeys) {
@@ -129,6 +135,12 @@ public class ConfluenceRefresher {
 			final Collection<ConfluenceConnectorPageSummary> pageSummaries = confluenceConnector.getPageSummaries(confluenceBaseUrl, token, spaceKey);
 			logger.debug("found " + pageSummaries.size() + " pages in space " + spaceKey);
 			for (final ConfluenceConnectorPageSummary pageSummary : pageSummaries) {
+
+				if (confluenceConfig.getRefreshLimit() != null && counter >= confluenceConfig.getRefreshLimit()) {
+					logger.debug("refresh limit reached => exit refresh");
+					return;
+				}
+
 				final ConfluenceConnectorPage page = confluenceConnector.getPage(confluenceBaseUrl, token, pageSummary);
 				final Calendar pageModified = toCalendar(page.getModified());
 				logger.debug("process page " + page.getTitle() + " lastmodified: " + calendarUtil.toDateTimeString(pageModified));
@@ -136,6 +148,9 @@ public class ConfluenceRefresher {
 					// check expire
 					final ConfluencePageBean pageBean = confluencePageDao.findOrCreate(confluenceInstanceBean.getId(), indexName, page.getPageId());
 					if (isExpired(confluenceInstanceBean, pageBean, page)) {
+
+						counter++;
+						logger.debug("refresh-counter: " + counter);
 						logger.debug("update page " + page.getTitle());
 						final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
 						final URL url = new URL(page.getUrl());

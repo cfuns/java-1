@@ -34,7 +34,21 @@ public abstract class ConfigurationBase {
 		}
 	}
 
-	protected Integer getValueInt(final ConfigurationDescriptionInt configuration) {
+	protected Long getValueLong(final ConfigurationDescriptionLong configuration) {
+		try {
+			return parseUtil.parseLong(configurationService.getConfigurationValue(configuration));
+		}
+		catch (final ConfigurationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return configuration.getDefaultValue();
+		}
+		catch (final ParseException e) {
+			logger.debug(e.getClass().getName(), e);
+			return configuration.getDefaultValue();
+		}
+	}
+
+	protected Integer getValueInteger(final ConfigurationDescriptionInteger configuration) {
 		try {
 			return parseUtil.parseInt(configurationService.getConfigurationValue(configuration));
 		}

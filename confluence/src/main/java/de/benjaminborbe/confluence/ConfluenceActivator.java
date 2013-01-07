@@ -8,7 +8,9 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.confluence.api.ConfluenceService;
+import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.guice.ConfluenceModules;
 import de.benjaminborbe.confluence.search.ConfluenceSearchServiceComponent;
 import de.benjaminborbe.confluence.service.ConfluenceRefreshCronJob;
@@ -19,6 +21,9 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 
 public class ConfluenceActivator extends BaseBundleActivator {
+
+	@Inject
+	private ConfluenceConfig confluenceConfig;
 
 	@Inject
 	private ConfluenceService confluenceService;
@@ -40,6 +45,9 @@ public class ConfluenceActivator extends BaseBundleActivator {
 		result.add(new ServiceInfo(ConfluenceService.class, confluenceService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, confluenceSearchServiceComponent, confluenceSearchServiceComponent.getClass().getName()));
 		result.add(new ServiceInfo(CronJob.class, confluenceRefreshCronJob, confluenceRefreshCronJob.getClass().getName()));
+		for (final ConfigurationDescription configuration : confluenceConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 

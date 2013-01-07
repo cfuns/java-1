@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
+import de.benjaminborbe.confluence.connector.ConfluenceSession;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
@@ -57,7 +58,7 @@ public class ConfluenceInstanceValidatorUnitTest {
 
 		final ConfluenceConnector confluenceConnector = EasyMock.createMock(ConfluenceConnector.class);
 		EasyMock.expect(confluenceConnector.login(confluenceBaseUrl, username, password)).andThrow(new XmlRpcException("login failed"));
-		EasyMock.expect(confluenceConnector.login(confluenceBaseUrl, username, password)).andReturn(token);
+		EasyMock.expect(confluenceConnector.login(confluenceBaseUrl, username, password)).andReturn(new ConfluenceSession(token, 1));
 		EasyMock.replay(confluenceConnector);
 
 		final ConfluenceInstanceValidator va = new ConfluenceInstanceValidator(logger, urlUtil, validationConstraintValidator, confluenceConnector);
