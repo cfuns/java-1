@@ -48,6 +48,7 @@ public class ConfluencePageBeanMapper extends MapObjectMapperAdapter<ConfluenceP
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, String>("pageId", mapperString));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, URL>("url", mapperUrl));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("lastVisit", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("lastModified", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("modified", mapperCalendar));
 		return result;

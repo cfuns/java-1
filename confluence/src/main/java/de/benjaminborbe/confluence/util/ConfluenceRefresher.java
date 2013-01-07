@@ -42,20 +42,17 @@ public class ConfluenceRefresher {
 				int counter = 0;
 				while (i.hasNext()) {
 					counter++;
+					final ConfluenceInstanceBean confluenceInstance = i.next();
 					try {
-						final ConfluenceInstanceBean confluenceInstance = i.next();
 						handle(confluenceInstance);
 					}
-					catch (final MalformedURLException e) {
+					catch (final Exception e) {
 						logger.warn(e.getClass().getName(), e);
 					}
 				}
 				logger.debug("refresh of " + counter + " confluenceInstances finished");
 			}
 			catch (final StorageException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final XmlRpcException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 			catch (final EntityIteratorException e) {
@@ -161,7 +158,8 @@ public class ConfluenceRefresher {
 						logger.info("addToIndex " + url.toExternalForm());
 
 						// update lastVisit
-						pageBean.setLastVisit(pageModified);
+						pageBean.setLastVisit(calendarUtil.now());
+						pageBean.setLastModified(pageModified);
 						pageBean.setPageId(page.getPageId());
 						pageBean.setOwner(confluenceInstanceBean.getOwner());
 						pageBean.setInstanceId(confluenceInstanceBean.getId());
@@ -198,20 +196,29 @@ public class ConfluenceRefresher {
 
 	private boolean isExpired(final ConfluenceInstanceBean confluenceInstanceBean, final ConfluencePageBean pageBean, final ConfluenceConnectorPage page) {
 		final Calendar lastVisit = pageBean.getLastVisit();
-		if (lastVisit == null) {
+		final Calendar lastModified = pageBean.getLastModified();
+		if (lastVisit == null || lastModified == null) {
 			logger.debug("expired because never visted before");
 			return true;
 		}
 		final Calendar pageModified = toCalendar(page.getModified());
-		if (lastVisit != null && pageModified != null && lastVisit.before(pageModified)) {
-			logger.debug("expired because modified(" + pageModified.getTimeInMillis() + ") after last visit(" + lastVisit.getTimeInMillis() + ")");
+		if (lastModified != null && pageModified != null && lastModified.before(pageModified)) {
+			logger.debug("expired because modified(" + pageModified.getTimeInMillis() + ") after last visit(" + lastModified.getTimeInMillis() + ")");
 			return true;
 		}
 		Integer expire = confluenceInstanceBean.getExpire();
 		if (expire == null) {
 			expire = 7;
 		}
-		return calendarUtil.getTime() - lastVisit.getTimeInMillis() > expire * EXPIRE_DAY;
+		if (calendarUtil.getTime() - lastVisit.getTimeInMillis() > expire * EXPIRE_DAY) {
+			logger.debug("expired - " + calendarUtil.getTime() + " - " + lastVisit.getTimeInMillis() + " > " + expire + " * " + EXPIRE_DAY);
+			logger.debug("expired - " + (calendarUtil.getTime() - lastVisit.getTimeInMillis()) + " > " + (expire * EXPIRE_DAY));
+			return true;
+		}
+		else {
+			logger.debug("not expired");
+			return false;
+		}
 	}
 
 	private Calendar toCalendar(final Date date) {

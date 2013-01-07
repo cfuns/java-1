@@ -19,6 +19,8 @@ public class ConfluencePageBean extends EntityBase<ConfluencePageIdentifier> imp
 
 	private Calendar lastVisit;
 
+	private Calendar lastModified;
+
 	private Calendar modified;
 
 	private Calendar created;
@@ -102,6 +104,14 @@ public class ConfluencePageBean extends EntityBase<ConfluencePageIdentifier> imp
 	@Override
 	public void setId(final ConfluencePageIdentifier id) {
 		this.id = id;
+	}
+
+	public Calendar getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Calendar lastModified) {
+		this.lastModified = lastModified;
 	}
 
 }
