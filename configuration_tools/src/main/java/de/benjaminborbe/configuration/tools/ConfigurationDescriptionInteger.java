@@ -11,7 +11,7 @@ public class ConfigurationDescriptionInteger implements ConfigurationDescription
 
 	private final Integer defaultValue;
 
-	public ConfigurationDescriptionInteger(final Integer defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionInteger(final int defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;
@@ -44,5 +44,16 @@ public class ConfigurationDescriptionInteger implements ConfigurationDescription
 	@Override
 	public String getType() {
 		return Integer.class.getSimpleName();
+	}
+
+	@Override
+	public boolean validateValue(final String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		}
+		catch (final Exception e) {
+			return false;
+		}
 	}
 }

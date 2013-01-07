@@ -43,7 +43,7 @@ public class WebsearchRefresher {
 				while (i.hasNext()) {
 					final WebsearchPageBean page = i.next();
 					try {
-						if (websearchConfig.getRefreshLimit() != null && counter > websearchConfig.getRefreshLimit()) {
+						if (websearchConfig.getRefreshLimit() != null && websearchConfig.getRefreshLimit() >= 0 && counter > websearchConfig.getRefreshLimit()) {
 							logger.debug("refresh pages limit reached => exit");
 							return;
 						}

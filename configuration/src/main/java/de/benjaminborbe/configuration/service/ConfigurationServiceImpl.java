@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -15,6 +17,7 @@ import de.benjaminborbe.configuration.dao.ConfigurationBean;
 import de.benjaminborbe.configuration.dao.ConfigurationDao;
 import de.benjaminborbe.configuration.dao.ConfigurationRegistry;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class ConfigurationServiceImpl implements ConfigurationService {
@@ -39,7 +42,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public String getConfigurationValue(final ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException {
-		return getConfigurationValue(configurationRegistry.get(configurationIdentifier));
+		return getConfigurationValue(getConfiguration(configurationIdentifier));
+	}
+
+	@Override
+	public ConfigurationDescription getConfiguration(final ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException {
+		return configurationRegistry.get(configurationIdentifier);
 	}
 
 	@Override
@@ -60,16 +68,22 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final String value) throws ConfigurationServiceException {
+	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final String value) throws ConfigurationServiceException, ValidationException {
 		try {
-			logger.trace("setConfigurationValue");
-			ConfigurationBean configuration = configurationDao.load(configurationIdentifier);
-			if (configuration == null) {
-				configuration = configurationDao.create();
-				configuration.setId(configurationIdentifier);
+
+			final ConfigurationDescription configuration = getConfiguration(configurationIdentifier);
+			if (!configuration.validateValue(value)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("invalid value: " + value)));
 			}
-			configuration.setValue(value);
-			configurationDao.save(configuration);
+
+			logger.trace("setConfigurationValue");
+			ConfigurationBean configurationBean = configurationDao.load(configurationIdentifier);
+			if (configurationBean == null) {
+				configurationBean = configurationDao.create();
+				configurationBean.setId(configurationIdentifier);
+			}
+			configurationBean.setValue(value);
+			configurationDao.save(configurationBean);
 		}
 		catch (final StorageException e) {
 			throw new ConfigurationServiceException(e.getClass().getSimpleName(), e);

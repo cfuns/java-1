@@ -11,7 +11,7 @@ public class ConfigurationDescriptionLong implements ConfigurationDescription {
 
 	private final Long defaultValue;
 
-	public ConfigurationDescriptionLong(final Long defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionLong(final long defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;
@@ -44,5 +44,16 @@ public class ConfigurationDescriptionLong implements ConfigurationDescription {
 	@Override
 	public String getType() {
 		return Long.class.getSimpleName();
+	}
+
+	@Override
+	public boolean validateValue(final String value) {
+		try {
+			Long.parseLong(value);
+			return true;
+		}
+		catch (final Exception e) {
+			return false;
+		}
 	}
 }

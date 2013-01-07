@@ -133,7 +133,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 		return value != null ? String.valueOf(value) : "~";
 	}
 
-	private List<ConfigurationDescription> getConfigurationDescriptions() {
+	private List<ConfigurationDescription> getConfigurationDescriptions() throws ConfigurationServiceException {
 		final List<ConfigurationDescription> list = new ArrayList<ConfigurationDescription>(configurationService.listConfigurations());
 		Collections.sort(list, new ComparatorImplementation());
 		return list;

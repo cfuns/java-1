@@ -48,4 +48,10 @@ public class ConfigurationServiceMock implements ConfigurationService {
 	public Collection<ConfigurationDescription> listConfigurations() {
 		return null;
 	}
+
+	@Override
+	public ConfigurationDescription getConfiguration(final ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException {
+		return null;
+	}
+
 }

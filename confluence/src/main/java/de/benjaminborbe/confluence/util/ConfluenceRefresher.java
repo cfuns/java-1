@@ -134,7 +134,7 @@ public class ConfluenceRefresher {
 			logger.debug("found " + pageSummaries.size() + " pages in space " + spaceKey);
 			for (final ConfluenceConnectorPageSummary pageSummary : pageSummaries) {
 
-				if (confluenceConfig.getRefreshLimit() != null && counter >= confluenceConfig.getRefreshLimit()) {
+				if (confluenceConfig.getRefreshLimit() != null && confluenceConfig.getRefreshLimit() >= 0 && counter >= confluenceConfig.getRefreshLimit()) {
 					logger.debug("refresh limit reached => exit refresh");
 					return;
 				}

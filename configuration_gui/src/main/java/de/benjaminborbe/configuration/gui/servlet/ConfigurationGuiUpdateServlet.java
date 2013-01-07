@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -38,6 +39,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class ConfigurationGuiUpdateServlet extends WebsiteHtmlServlet {
@@ -86,9 +88,15 @@ public class ConfigurationGuiUpdateServlet extends WebsiteHtmlServlet {
 			final String value = configurationService.getConfigurationValue(configurationIdentifier);
 			final String newValue = request.getParameter(ConfigurationGuiConstants.PARAMETER_CONFIGURATION_VALUE);
 			if (newValue != null) {
-				logger.debug("new value saved");
-				configurationService.setConfigurationValue(configurationIdentifier, newValue);
-				return new RedirectWidget(request.getContextPath() + "/" + ConfigurationGuiConstants.NAME);
+				try {
+					configurationService.setConfigurationValue(configurationIdentifier, newValue);
+					logger.debug("new value saved");
+					return new RedirectWidget(request.getContextPath() + "/" + ConfigurationGuiConstants.NAME);
+				}
+				catch (final ValidationException e) {
+					widgets.add("create taskcontext failed!");
+					widgets.add(new ValidationExceptionWidget(e));
+				}
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);

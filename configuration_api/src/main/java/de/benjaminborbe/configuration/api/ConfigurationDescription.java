@@ -11,4 +11,6 @@ public interface ConfigurationDescription {
 	String getDefaultValueAsString();
 
 	String getType();
+
+	boolean validateValue(String value);
 }

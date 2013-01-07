@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class WebsearchConfigImpl extends ConfigurationBase implements WebsearchConfig {
 
-	private final ConfigurationDescriptionInteger refreshLimit = new ConfigurationDescriptionInteger(null, "WebsearchRefreshLimit", "Websearch Refresh Limit");
+	private final ConfigurationDescriptionInteger refreshLimit = new ConfigurationDescriptionInteger(-1, "WebsearchRefreshLimit", "Websearch Refresh Limit");
 
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "WebsearchCronEnabled", "Websearch Cron Enabled");
 

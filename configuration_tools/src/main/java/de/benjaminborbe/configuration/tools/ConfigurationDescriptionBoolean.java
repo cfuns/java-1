@@ -11,7 +11,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 
 	private final Boolean defaultValue;
 
-	public ConfigurationDescriptionBoolean(final Boolean defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionBoolean(final boolean defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;
@@ -44,6 +44,17 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 	@Override
 	public String getType() {
 		return String.class.getSimpleName();
+	}
+
+	@Override
+	public boolean validateValue(final String value) {
+		try {
+			Boolean.parseBoolean(value);
+			return true;
+		}
+		catch (final Exception e) {
+			return false;
+		}
 	}
 
 }

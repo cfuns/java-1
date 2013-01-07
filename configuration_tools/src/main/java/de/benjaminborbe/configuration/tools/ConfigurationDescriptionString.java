@@ -46,4 +46,9 @@ public class ConfigurationDescriptionString implements ConfigurationDescription 
 		return String.class.getSimpleName();
 	}
 
+	@Override
+	public boolean validateValue(final String value) {
+		return true;
+	}
+
 }

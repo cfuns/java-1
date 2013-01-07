@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class ConfluenceConfigImpl extends ConfigurationBase implements ConfluenceConfig {
 
-	private final ConfigurationDescriptionInteger refreshLimit = new ConfigurationDescriptionInteger(null, "ConfluenceRefreshLimit", "Confluence Refresh Limit");
+	private final ConfigurationDescriptionInteger refreshLimit = new ConfigurationDescriptionInteger(-1, "ConfluenceRefreshLimit", "Confluence Refresh Limit");
 
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "ConfluenceCronEnabled", "Confluence Cron Enabled");
 
