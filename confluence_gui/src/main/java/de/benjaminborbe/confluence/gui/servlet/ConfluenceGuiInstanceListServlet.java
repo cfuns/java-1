@@ -38,6 +38,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -104,7 +105,7 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 				list.add(linkFactory.updateInstance(request, confluenceInstance.getId()));
 				list.add(" ");
 				list.add(linkFactory.deleteInstance(request, confluenceInstance.getId()));
-				ul.add(list);
+				ul.add(new SpanWidget(list).addClass(Boolean.TRUE.equals(confluenceInstance.getActivated()) ? "confluenceInstanceActive" : "confluenceInstanceInactive"));
 			}
 			widgets.add(ul);
 
