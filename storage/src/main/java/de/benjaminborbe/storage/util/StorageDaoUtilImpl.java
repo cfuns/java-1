@@ -5,6 +5,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,7 +214,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
 
 			final SlicePredicate predicate = new SlicePredicate();
-			predicate.setColumn_names(buildColumnNames(columnNames));
+			predicate.setColumn_names(buildByteBufferList(columnNames));
 			final List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(key.getByte()), column_parent, predicate, consistency_level);
 
 			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
@@ -242,7 +243,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 		}
 	}
 
-	private List<ByteBuffer> buildColumnNames(final List<StorageValue> columnNames) throws UnsupportedEncodingException {
+	private List<ByteBuffer> buildByteBufferList(final Collection<StorageValue> columnNames) throws UnsupportedEncodingException {
 		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
 		for (final StorageValue columnName : columnNames) {
 			result.add(ByteBuffer.wrap(columnName.getByte()));
@@ -362,5 +363,55 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	@Override
 	public StorageColumnIterator columnIterator(final String keySpace, final String columnFamily, final StorageValue key) throws UnsupportedEncodingException {
 		return new StorageColumnIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), key);
+	}
+
+	@Override
+	public Collection<List<StorageValue>> read(final String keySpace, final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames)
+			throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException, TException, StorageConnectionPoolException {
+		StorageConnection connection = null;
+		try {
+			connection = storageConnectionPool.getConnection();
+			final Iface client = connection.getClient(keySpace);
+
+			logger.trace("read keyspace: " + keySpace + " columnFamily: " + columnFamily + " keys: " + keys + " columnNames: " + columnNames);
+
+			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
+			final ColumnParent column_parent = new ColumnParent(columnFamily);
+
+			final SlicePredicate predicate = new SlicePredicate();
+			predicate.setColumn_names(buildByteBufferList(columnNames));
+			final Map<ByteBuffer, List<ColumnOrSuperColumn>> columnsData = client.multiget_slice(buildByteBufferList(keys), column_parent, predicate, consistency_level);
+
+			final List<List<StorageValue>> results = new ArrayList<List<StorageValue>>();
+
+			for (final Entry<ByteBuffer, List<ColumnOrSuperColumn>> e : columnsData.entrySet()) {
+				final List<ColumnOrSuperColumn> columns = e.getValue();
+
+				final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+				for (final ColumnOrSuperColumn column : columns) {
+					final StorageValue name = new StorageValue(column.getColumn().getName(), config.getEncoding());
+					final StorageValue value = new StorageValue(column.getColumn().getValue(), config.getEncoding());
+					data.put(name, value);
+				}
+
+				final List<StorageValue> result = new ArrayList<StorageValue>();
+
+				for (final StorageValue columnName : columnNames) {
+					final StorageValue value = data.get(columnName);
+					if (value != null) {
+						result.add(value);
+					}
+					else {
+						result.add(new StorageValue());
+					}
+				}
+				results.add(result);
+			}
+
+			return results;
+		}
+		finally {
+			storageConnectionPool.releaseConnection(connection);
+		}
 	}
 }

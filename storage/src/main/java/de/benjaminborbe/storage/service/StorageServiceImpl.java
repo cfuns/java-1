@@ -1,7 +1,6 @@
 package de.benjaminborbe.storage.service;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +29,8 @@ import de.benjaminborbe.tools.util.DurationUtil;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
+
+	private static final long DURATION_WARN = 200;
 
 	private final StorageConfig config;
 
@@ -76,7 +77,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -94,7 +96,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -105,7 +108,8 @@ public class StorageServiceImpl implements StorageService {
 			delete(columnFamily, id, Arrays.asList(key));
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -118,7 +122,8 @@ public class StorageServiceImpl implements StorageService {
 			set(columnFamily, id, data);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -133,7 +138,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -147,7 +153,9 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+
 		}
 	}
 
@@ -161,7 +169,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -182,7 +191,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -196,7 +206,9 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+
 		}
 	}
 
@@ -213,7 +225,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -224,7 +237,8 @@ public class StorageServiceImpl implements StorageService {
 			return storageConnectionPool.getFreeConnections();
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -235,7 +249,8 @@ public class StorageServiceImpl implements StorageService {
 			return storageConnectionPool.getConnections();
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -246,7 +261,8 @@ public class StorageServiceImpl implements StorageService {
 			return storageConnectionPool.getMaxConnections();
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -260,7 +276,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -274,7 +291,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -289,7 +307,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -305,7 +324,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -319,7 +339,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -333,7 +354,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -347,7 +369,9 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+
 		}
 	}
 
@@ -361,7 +385,8 @@ public class StorageServiceImpl implements StorageService {
 			throw new StorageException(e);
 		}
 		finally {
-			logger.trace("duration " + duration.getTime());
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -372,11 +397,17 @@ public class StorageServiceImpl implements StorageService {
 
 	@Override
 	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames) throws StorageException {
-		final List<List<StorageValue>> result = new ArrayList<List<StorageValue>>();
-		for (final StorageValue key : keys) {
-			result.add(get(columnFamily, key, columnNames));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.read(config.getKeySpace(), columnFamily, keys, columnNames);
 		}
-		return result;
+		catch (final Exception e) {
+			throw new StorageException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 }

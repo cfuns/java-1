@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -65,5 +66,8 @@ public interface StorageDaoUtil {
 			StorageConnectionPoolException, InvalidRequestException, TException, UnavailableException, TimedOutException;
 
 	StorageColumnIterator columnIterator(String keySpace, String columnFamily, StorageValue key) throws UnsupportedEncodingException;
+
+	Collection<List<StorageValue>> read(String keySpace, String columnFamily, Collection<StorageValue> keys, List<StorageValue> columnNames) throws UnsupportedEncodingException,
+			InvalidRequestException, UnavailableException, TimedOutException, TException, StorageConnectionPoolException;
 
 }
