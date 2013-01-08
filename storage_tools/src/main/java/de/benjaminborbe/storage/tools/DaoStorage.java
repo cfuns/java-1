@@ -300,9 +300,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void load(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
+		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
+		load(entity, fieldNames, values);
+	}
+
+	private void load(final E entity, final Collection<StorageValue> fieldNames, final List<StorageValue> values) throws StorageException {
 		try {
 			final Map<String, String> data = new HashMap<String, String>();
-			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
 			final Iterator<StorageValue> fi = fieldNames.iterator();
 			final Iterator<StorageValue> vi = values.iterator();
 			while (fi.hasNext() && vi.hasNext()) {
@@ -411,10 +415,24 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public Collection<E> load(final Collection<I> ids) throws StorageException {
-		final Set<E> result = new HashSet<E>();
-		for (final I id : ids) {
-			result.add(load(id));
+		try {
+			final Set<StorageValue> keys = new HashSet<StorageValue>();
+			for (final I id : ids) {
+				keys.add(new StorageValue(id.getId(), getEncoding()));
+			}
+			final List<StorageValue> columnNames = getFieldNames(create());
+			final Collection<List<StorageValue>> data = storageService.get(getColumnFamily(), keys, columnNames);
+			final Set<E> result = new HashSet<E>();
+			for (final List<StorageValue> columnValues : data) {
+				final E entity = create();
+				load(entity, columnNames, columnValues);
+				result.add(entity);
+			}
+			return result;
 		}
-		return result;
+		catch (final MapException e) {
+			throw new StorageException(e);
+		}
+
 	}
 }

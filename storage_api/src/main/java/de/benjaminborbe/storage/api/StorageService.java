@@ -26,6 +26,8 @@ public interface StorageService {
 
 	List<StorageValue> get(String columnFamily, StorageValue key, List<StorageValue> columnNames) throws StorageException;
 
+	Collection<List<StorageValue>> get(String columnFamily, Collection<StorageValue> key, List<StorageValue> columnNames) throws StorageException;
+
 	StorageValue get(String columnFamily, StorageValue key, StorageValue columnName) throws StorageException;
 
 	int getConnections();

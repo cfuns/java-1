@@ -320,4 +320,9 @@ public class StorageServiceMock implements StorageService {
 	public String getEncoding() {
 		return encoding;
 	}
+
+	@Override
+	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> key, final List<StorageValue> columnNames) throws StorageException {
+		throw new NotImplementedException();
+	}
 }

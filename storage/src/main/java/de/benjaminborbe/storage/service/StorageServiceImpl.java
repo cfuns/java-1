@@ -1,6 +1,7 @@
 package de.benjaminborbe.storage.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -367,6 +368,15 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public String getEncoding() {
 		return config.getEncoding();
+	}
+
+	@Override
+	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames) throws StorageException {
+		final List<List<StorageValue>> result = new ArrayList<List<StorageValue>>();
+		for (final StorageValue key : keys) {
+			result.add(get(columnFamily, key, columnNames));
+		}
+		return result;
 	}
 
 }
