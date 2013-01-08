@@ -371,7 +371,6 @@ public class StorageServiceImpl implements StorageService {
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
-
 		}
 	}
 

@@ -24,7 +24,7 @@ public class MetaOfficeBundlesUnitTest {
 		final BundleResolver bundleResolver = new BundleResolverImpl(logger);
 		final List<String> names = bundleResolver.getBundleSymbolicNames();
 		assertNotNull(names);
-		assertTrue(names.size() > 0);
+		assertTrue(names.size() == 0);
 		final Set<String> namesUnique = new HashSet<String>(names);
 		assertEquals("dupplicate bundle!", names.size(), namesUnique.size());
 	}
