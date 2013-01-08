@@ -11,7 +11,7 @@ public class TaskNotCompletedPredicateUnitTest {
 
 	@Test
 	public void testApply() {
-		final TaskNotCompletedPredicate p = new TaskNotCompletedPredicate();
+		final TaskNotCompletedPredicate<TaskBean> p = new TaskNotCompletedPredicate<TaskBean>();
 		{
 			final TaskBean task = new TaskBean();
 			task.setCompleted(null);

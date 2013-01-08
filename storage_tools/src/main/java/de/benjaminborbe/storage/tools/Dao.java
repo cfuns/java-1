@@ -21,6 +21,8 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	E load(I id) throws StorageException;
 
+	Collection<E> load(Collection<I> ids) throws StorageException;
+
 	boolean exists(I id) throws StorageException;
 
 	EntityIterator<E> getEntityIterator() throws StorageException;

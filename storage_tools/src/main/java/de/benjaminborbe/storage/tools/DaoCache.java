@@ -4,8 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -145,5 +147,14 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 	@Override
 	public String getEncoding() {
 		return encoding;
+	}
+
+	@Override
+	public Collection<E> load(final Collection<I> ids) throws StorageException {
+		final Set<E> result = new HashSet<E>();
+		for (final I id : ids) {
+			result.add(load(id));
+		}
+		return result;
 	}
 }

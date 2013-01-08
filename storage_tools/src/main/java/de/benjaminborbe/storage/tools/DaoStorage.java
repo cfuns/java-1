@@ -4,11 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.slf4j.Logger;
 
@@ -405,5 +407,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	@Override
 	public String getEncoding() {
 		return storageService.getEncoding();
+	}
+
+	@Override
+	public Collection<E> load(final Collection<I> ids) throws StorageException {
+		final Set<E> result = new HashSet<E>();
+		for (final I id : ids) {
+			result.add(load(id));
+		}
+		return result;
 	}
 }

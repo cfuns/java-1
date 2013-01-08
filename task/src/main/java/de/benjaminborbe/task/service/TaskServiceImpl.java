@@ -49,6 +49,7 @@ import de.benjaminborbe.task.dao.TaskContextToUserManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.task.dao.TaskToTaskContextManyToManyRelation;
 import de.benjaminborbe.task.util.TaskFocusPredicate;
+import de.benjaminborbe.task.util.TaskNotCompletedPredicate;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
@@ -933,13 +934,7 @@ public class TaskServiceImpl implements TaskService {
 				logger.debug("search task in context: " + context.getId() + " finished");
 			}
 
-			for (final TaskIdentifier taskIdentifier : taskIdentifiers) {
-				logger.debug("load task " + taskIdentifier);
-				final TaskBean task = taskDao.load(taskIdentifier);
-				if (task != null && !Boolean.TRUE.equals(task.getCompleted())) {
-					result.add(task);
-				}
-			}
+			result.addAll(taskDao.load(taskIdentifiers));
 			logger.debug("tasks from context: " + result.size());
 
 			// add owned tasks
@@ -950,7 +945,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 			logger.debug("tasks: " + result.size());
 
-			return result;
+			return Collections2.filter(result, new TaskNotCompletedPredicate<Task>());
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
