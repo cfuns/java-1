@@ -322,7 +322,11 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> key, final List<StorageValue> columnNames) throws StorageException {
-		throw new NotImplementedException();
+	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames) throws StorageException {
+		final List<List<StorageValue>> result = new ArrayList<List<StorageValue>>();
+		for (final StorageValue key : keys) {
+			result.add(get(columnFamily, key, columnNames));
+		}
+		return result;
 	}
 }
