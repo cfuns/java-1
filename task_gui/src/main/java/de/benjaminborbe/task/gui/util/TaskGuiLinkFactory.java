@@ -94,7 +94,10 @@ public class TaskGuiLinkFactory {
 	public Widget taskFocusSwitch(final HttpServletRequest request, final String name, final TaskFocus taskFocus) throws MalformedURLException, UnsupportedEncodingException {
 		final MapParameter parameter = getLoopThrough(request);
 		parameter.add(TaskGuiConstants.PARAMETER_SELECTED_TASKFOCUS, taskFocus.name());
-		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), parameter, name);
+
+		final TaskFocus selectedTaskFocus = taskGuiUtil.getSelectedTaskFocus(request);
+		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), parameter, new SpanWidget(name).addClass(taskFocus.equals(selectedTaskFocus) ? "taskFocusSelected"
+				: "taskFocusNotSelected"));
 	}
 
 	public Widget taskContextSwitch(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {

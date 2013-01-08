@@ -52,6 +52,10 @@
 	font-weight: bold;
 }
 
+.task .taskFocusSelected {
+	font-weight: bold;
+}
+
 .task ul.taskList {
 	margin: 0px;
 }
