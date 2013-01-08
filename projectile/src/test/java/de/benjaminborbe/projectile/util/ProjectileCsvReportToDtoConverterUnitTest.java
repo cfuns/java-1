@@ -29,16 +29,19 @@ public class ProjectileCsvReportToDtoConverterUnitTest {
 		final String csvString = resourceUtil.getResourceContentAsString("sample_report.csv");
 		assertThat(converter.convert(null).size(), is(0));
 		assertThat(converter.convert("").size(), is(0));
-		assertThat(converter.convert(csvString).size(), is(2));
+		assertThat(converter.convert(csvString).size(), is(3));
 
 		assertThat(converter.convert(csvString).get(0).getUsername(), is("whans"));
 		assertThat(converter.convert(csvString).get(1).getUsername(), is("bfoo"));
+		assertThat(converter.convert(csvString).get(2).getUsername(), is("bgates"));
 
 		assertThat(converter.convert(csvString).get(0).getExtern(), is(131.25));
 		assertThat(converter.convert(csvString).get(1).getExtern(), is(74.25));
+		assertThat(converter.convert(csvString).get(2).getExtern(), is(138.25));
 
 		assertThat(converter.convert(csvString).get(0).getIntern(), is(29.5));
 		assertThat(converter.convert(csvString).get(1).getIntern(), is(14.25));
+		assertThat(converter.convert(csvString).get(2).getIntern(), is(28.5));
 
 	}
 }

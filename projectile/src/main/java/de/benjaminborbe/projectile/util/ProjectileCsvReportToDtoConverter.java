@@ -49,6 +49,7 @@ public class ProjectileCsvReportToDtoConverter {
 				}
 			}
 		}
+		logger.debug("convert result.size " + result.size());
 
 		return result;
 	}
@@ -68,8 +69,11 @@ public class ProjectileCsvReportToDtoConverter {
 	private void consumeHeader(final LineIterator lineIterator) {
 		while (lineIterator.hasNext()) {
 			final String line = lineIterator.next();
-			if (line != null && line.startsWith("Mitarbeiter")) {
+			if (line != null && (line.contains("Mitarbeiter") || line.contains("Login"))) {
 				return;
+			}
+			else {
+				logger.trace("consume line: " + line);
 			}
 		}
 	}
