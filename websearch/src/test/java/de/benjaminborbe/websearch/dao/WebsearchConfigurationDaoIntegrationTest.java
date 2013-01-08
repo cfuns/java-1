@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.guice.WebsearchModulesMock;
 
 public class WebsearchConfigurationDaoIntegrationTest {

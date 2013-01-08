@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.distributed.search.DistributedSearchActivator;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.guice.DistributedSearchModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

@@ -1,6 +1,9 @@
 package de.benjaminborbe.distributed.search.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
@@ -11,7 +14,6 @@ import com.google.inject.Injector;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.dao.DistributedSearchPageDao;
 import de.benjaminborbe.distributed.search.guice.DistributedSearchModulesMock;
-import de.benjaminborbe.distributed.search.service.DistributedSearchServiceImpl;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class DistributedSearchServiceImplIntegrationTest {

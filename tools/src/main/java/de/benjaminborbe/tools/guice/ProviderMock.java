@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.guice;
 
 import java.lang.reflect.Constructor;
+
 import com.google.inject.Provider;
 
 public class ProviderMock<T> implements Provider<T> {

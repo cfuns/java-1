@@ -12,8 +12,6 @@ import org.junit.Test;
 
 import de.benjaminborbe.storage.tools.EntityIteratorImpl;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
-import de.benjaminborbe.websearch.dao.WebsearchPageBean;
-import de.benjaminborbe.websearch.dao.WebsearchPageDaoSubPagesAction;
 
 public class WebsearchPageDaoSubPagesActionUnitTest {
 

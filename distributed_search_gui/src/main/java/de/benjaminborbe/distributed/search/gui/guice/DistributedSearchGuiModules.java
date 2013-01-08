@@ -23,6 +23,7 @@ public class DistributedSearchGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedSearchGuiOsgiModule(), new DistributedSearchGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedSearchGuiOsgiModule(), new DistributedSearchGuiModule(), new ToolModule(),
+				new WebsiteModule());
 	}
 }

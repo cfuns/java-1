@@ -133,8 +133,8 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public void expectUser(final SessionIdentifier sessionIdentifier, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public void expectUser(final SessionIdentifier sessionIdentifier, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override

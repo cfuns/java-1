@@ -15,8 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.shortener.gui.ShortenerGuiActivator;
-import de.benjaminborbe.shortener.gui.ShortenerGuiConstants;
 import de.benjaminborbe.shortener.gui.guice.ShortenerGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

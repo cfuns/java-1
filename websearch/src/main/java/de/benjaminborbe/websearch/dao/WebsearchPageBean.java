@@ -1,6 +1,7 @@
 package de.benjaminborbe.websearch.dao;
 
 import java.util.Calendar;
+
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;

@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.date.CurrentTime;
-import de.benjaminborbe.tools.mapper.MapperTimeZone;
 
 public class MapperTimeZoneUnitTest {
 

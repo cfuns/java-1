@@ -5,7 +5,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import de.benjaminborbe.lucene.index.service.LuceneIndexSearchResultImpl;
 import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
 
 public class LuceneIndexSearchResultImplUnitTest {

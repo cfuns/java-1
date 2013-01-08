@@ -7,9 +7,6 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.authentication.dao.UserBean;
-import de.benjaminborbe.authentication.dao.UserDao;
-import de.benjaminborbe.authentication.dao.UserValidator;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidatorMock;
 

@@ -15,8 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiActivator;
-import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiConstants;
 import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

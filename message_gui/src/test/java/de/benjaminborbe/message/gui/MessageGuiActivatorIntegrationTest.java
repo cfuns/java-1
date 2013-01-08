@@ -15,8 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.message.gui.MessageGuiActivator;
-import de.benjaminborbe.message.gui.MessageGuiConstants;
 import de.benjaminborbe.message.gui.guice.MessageGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

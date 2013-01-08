@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;

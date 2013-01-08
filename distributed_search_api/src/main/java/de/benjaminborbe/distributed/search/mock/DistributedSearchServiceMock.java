@@ -2,6 +2,7 @@ package de.benjaminborbe.distributed.search.mock;
 
 import java.net.URL;
 import java.util.List;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

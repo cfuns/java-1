@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.authentication.dao.UserBean;
-import de.benjaminborbe.authentication.dao.UserBeanMapper;
 import de.benjaminborbe.authentication.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.guice.ProviderMock;

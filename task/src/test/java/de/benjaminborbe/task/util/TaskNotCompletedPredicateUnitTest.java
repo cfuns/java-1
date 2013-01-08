@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import de.benjaminborbe.task.dao.TaskBean;
-import de.benjaminborbe.task.util.TaskNotCompletedPredicate;
 
 public class TaskNotCompletedPredicateUnitTest {
 

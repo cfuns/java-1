@@ -23,7 +23,6 @@ public class MessageGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays
-				.asList(Peaberry.osgiModule(context), new ServletModule(), new MessageGuiOsgiModule(), new MessageGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MessageGuiOsgiModule(), new MessageGuiModule(), new ToolModule(), new WebsiteModule());
 	}
 }

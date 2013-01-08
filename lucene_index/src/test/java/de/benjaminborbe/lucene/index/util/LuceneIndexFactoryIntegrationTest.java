@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.lucene.index.util.LuceneIndexFactory;
 import de.benjaminborbe.lucene.index.guice.LuceneIndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

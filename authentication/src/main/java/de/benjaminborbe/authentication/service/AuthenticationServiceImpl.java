@@ -37,8 +37,8 @@ import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionServ
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
 import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.api.ShortenerServiceException;
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;

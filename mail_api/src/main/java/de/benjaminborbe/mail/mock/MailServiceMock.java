@@ -6,8 +6,8 @@ import java.util.List;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.api.MailServiceException;
 
 @Singleton
 public class MailServiceMock implements MailService {

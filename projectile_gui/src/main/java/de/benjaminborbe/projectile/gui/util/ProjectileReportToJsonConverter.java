@@ -3,6 +3,7 @@ package de.benjaminborbe.projectile.gui.util;
 import java.io.IOException;
 
 import org.json.simple.JSONObject;
+
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 
 public class ProjectileReportToJsonConverter {

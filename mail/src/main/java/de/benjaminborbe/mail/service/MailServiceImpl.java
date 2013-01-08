@@ -7,8 +7,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.mail.MailConstants;
 import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.util.MailJsonMapper;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;

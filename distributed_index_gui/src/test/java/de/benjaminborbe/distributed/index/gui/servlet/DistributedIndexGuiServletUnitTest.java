@@ -24,7 +24,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.distributed.index.gui.servlet.DistributedIndexGuiServlet;
 import de.benjaminborbe.distributed.index.gui.util.DistributedIndexGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;

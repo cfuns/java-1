@@ -14,7 +14,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.message.MessageActivator;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.guice.MessageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

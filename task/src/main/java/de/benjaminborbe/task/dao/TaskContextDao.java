@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.Collection;
+
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.Dao;

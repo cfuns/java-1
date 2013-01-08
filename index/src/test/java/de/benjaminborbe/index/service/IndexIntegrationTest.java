@@ -1,6 +1,7 @@
 package de.benjaminborbe.index.service;
 
 import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;

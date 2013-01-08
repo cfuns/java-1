@@ -15,9 +15,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 
 public class TaskValidator implements Validator<TaskBean> {
 

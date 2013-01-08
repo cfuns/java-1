@@ -35,8 +35,7 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 2429004714466731564L;
 
-	private static final PasswordCharacter[] DEFAULT_CHARACTERS = { PasswordCharacter.LOWER, PasswordCharacter.UPPER, PasswordCharacter.NUMBER,
-			PasswordCharacter.SPECIAL };
+	private static final PasswordCharacter[] DEFAULT_CHARACTERS = { PasswordCharacter.LOWER, PasswordCharacter.UPPER, PasswordCharacter.NUMBER, PasswordCharacter.SPECIAL };
 
 	private static final int DEFAULT_LENGHT = 8;
 

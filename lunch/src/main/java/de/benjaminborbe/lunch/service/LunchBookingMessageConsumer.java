@@ -24,7 +24,11 @@ public class LunchBookingMessageConsumer implements MessageConsumer {
 	private final KioskBookingConnector kioskConnector;
 
 	@Inject
-	public LunchBookingMessageConsumer(final Logger logger, final LunchBookingMessageMapper bookingMessageMapper, final CalendarUtil calendarUtil, final KioskBookingConnector kioskConnector) {
+	public LunchBookingMessageConsumer(
+			final Logger logger,
+			final LunchBookingMessageMapper bookingMessageMapper,
+			final CalendarUtil calendarUtil,
+			final KioskBookingConnector kioskConnector) {
 		this.logger = logger;
 		this.bookingMessageMapper = bookingMessageMapper;
 		this.calendarUtil = calendarUtil;

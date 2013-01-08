@@ -10,8 +10,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.monitoring.api.CheckResult;
 import de.benjaminborbe.monitoring.check.NodeChecker;
 import de.benjaminborbe.monitoring.check.RootNode;

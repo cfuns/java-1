@@ -61,7 +61,8 @@ public class WebsearchGuiConfigurationDeleteServlet extends WebsiteServlet {
 			PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(request.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID));
+			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(request
+					.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID));
 			websearchService.deleteConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
 		}
 		catch (final WebsearchServiceException e) {

@@ -9,7 +9,9 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.message.gui.guice.MessageGuiModules;
-import de.benjaminborbe.message.gui.servlet.*;
+import de.benjaminborbe.message.gui.servlet.MessageGuiDeleteByTypeServlet;
+import de.benjaminborbe.message.gui.servlet.MessageGuiServlet;
+import de.benjaminborbe.message.gui.servlet.MessageGuiUnlockExpiredMessagesServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;

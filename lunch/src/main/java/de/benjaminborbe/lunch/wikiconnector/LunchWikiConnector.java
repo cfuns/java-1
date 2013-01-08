@@ -2,6 +2,7 @@ package de.benjaminborbe.lunch.wikiconnector;
 
 import java.util.Calendar;
 import java.util.Collection;
+
 import javax.xml.rpc.ServiceException;
 
 import com.atlassian.confluence.rpc.AuthenticationFailedException;

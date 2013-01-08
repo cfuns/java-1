@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.distributed.index.DistributedIndexActivator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.guice.DistributedIndexModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

@@ -6,6 +6,7 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
+
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;

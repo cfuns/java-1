@@ -23,6 +23,7 @@ public class DistributedIndexGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedIndexGuiOsgiModule(), new DistributedIndexGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedIndexGuiOsgiModule(), new DistributedIndexGuiModule(), new ToolModule(),
+				new WebsiteModule());
 	}
 }

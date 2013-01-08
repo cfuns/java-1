@@ -2,7 +2,8 @@ package de.benjaminborbe.task.dao;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+
 import java.util.Calendar;
 
 import org.junit.Test;

@@ -3,6 +3,7 @@ package de.benjaminborbe.lunch.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.gui.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.servlet.http.HttpServletRequest;
 

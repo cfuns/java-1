@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.shortener.gui.guice.ShortenerGuiModulesMock;
-import de.benjaminborbe.shortener.gui.servlet.ShortenerGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class ShortenerGuiServletIntegrationTest {

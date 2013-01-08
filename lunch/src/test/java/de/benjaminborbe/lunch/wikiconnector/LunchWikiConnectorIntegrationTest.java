@@ -12,7 +12,6 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.guice.LunchModulesMock;
-import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

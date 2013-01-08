@@ -9,8 +9,8 @@ import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class DistributedSearchGuiOsgiModule extends AbstractModule {
 

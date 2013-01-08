@@ -10,9 +10,6 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.gui.util.TaskComparator;
-import de.benjaminborbe.task.gui.util.TaskNameComparator;
-import de.benjaminborbe.task.gui.util.TaskPrioComparator;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 
 public class TaskComparatorUnitTest {

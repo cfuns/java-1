@@ -11,8 +11,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.util.MapperGalleryImageIdentifier;
-import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
