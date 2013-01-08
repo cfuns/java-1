@@ -1,5 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -8,6 +11,8 @@ import com.google.inject.Inject;
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 
@@ -15,11 +20,11 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	private final class StorageIdIterator implements StorageIterator {
 
-		private final StorageIterator i;
+		private final StorageRowIterator i;
 
 		private final StorageValue key;
 
-		private StorageIdIterator(final StorageIterator i, final StorageValue key) {
+		private StorageIdIterator(final StorageRowIterator i, final StorageValue key) {
 			this.i = i;
 			this.key = key;
 		}
@@ -31,8 +36,8 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 		@Override
 		public StorageValue next() throws StorageException {
-			final StorageValue id = i.next();
-			return storageService.get(getColumnFamily(), id, key);
+			final StorageRow row = i.next();
+			return row.getValue(key);
 		}
 	}
 
@@ -91,14 +96,18 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 
 	@Override
 	public StorageIterator getA(final A identifierA) throws StorageException {
-		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new StorageValueMap(getEncoding()).add(KEY_A, String.valueOf(identifierA)));
-		return new StorageIdIterator(i, new StorageValue(KEY_B, getEncoding()));
+		final StorageValue c = new StorageValue(KEY_B, getEncoding());
+		final List<StorageValue> columnNames = Arrays.asList(c);
+		final StorageRowIterator i = storageService.rowIterator(getColumnFamily(), columnNames, new StorageValueMap(getEncoding()).add(KEY_A, String.valueOf(identifierA)));
+		return new StorageIdIterator(i, c);
 	}
 
 	@Override
 	public StorageIterator getB(final B identifierB) throws StorageException {
-		final StorageIterator i = storageService.keyIterator(getColumnFamily(), new StorageValueMap(getEncoding()).add(KEY_B, String.valueOf(identifierB)));
-		return new StorageIdIterator(i, new StorageValue(KEY_A, getEncoding()));
+		final StorageValue c = new StorageValue(KEY_A, getEncoding());
+		final List<StorageValue> columnNames = Arrays.asList(c);
+		final StorageRowIterator i = storageService.rowIterator(getColumnFamily(), columnNames, new StorageValueMap(getEncoding()).add(KEY_B, String.valueOf(identifierB)));
+		return new StorageIdIterator(i, c);
 	}
 
 	@Override

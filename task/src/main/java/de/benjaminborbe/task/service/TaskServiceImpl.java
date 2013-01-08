@@ -919,24 +919,28 @@ public class TaskServiceImpl implements TaskService {
 			logger.debug("getTasksNotCompleted for user " + userIdentifier);
 			final Set<Task> result = new HashSet<Task>();
 
-			if (false) {
-				// add shared tasks
-				final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
-				logger.debug("found " + contexts.size() + " contexts");
-				for (final TaskContext context : contexts) {
-					logger.debug("search task in context: " + context.getId() + " started");
-					final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
-					while (i.hasNext()) {
-						final StorageValue id = i.next();
-						final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
-						if (task != null && !Boolean.TRUE.equals(task.getCompleted())) {
-							result.add(task);
-						}
-					}
-					logger.debug("search task in context: " + context.getId() + " finished");
+			// add shared tasks
+			final Set<TaskIdentifier> taskIdentifiers = new HashSet<TaskIdentifier>();
+			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			logger.debug("found " + contexts.size() + " contexts");
+			for (final TaskContext context : contexts) {
+				logger.debug("search task in context: " + context.getId() + " started");
+				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
+				while (i.hasNext()) {
+					final StorageValue id = i.next();
+					taskIdentifiers.add(createTaskIdentifier(id.getString()));
 				}
-				logger.debug("tasks from context: " + result.size());
+				logger.debug("search task in context: " + context.getId() + " finished");
 			}
+
+			for (final TaskIdentifier taskIdentifier : taskIdentifiers) {
+				logger.debug("load task " + taskIdentifier);
+				final TaskBean task = taskDao.load(taskIdentifier);
+				if (task != null && !Boolean.TRUE.equals(task.getCompleted())) {
+					result.add(task);
+				}
+			}
+			logger.debug("tasks from context: " + result.size());
 
 			// add owned tasks
 			final EntityIterator<TaskBean> i = taskDao.getTasksNotCompleted(userIdentifier);

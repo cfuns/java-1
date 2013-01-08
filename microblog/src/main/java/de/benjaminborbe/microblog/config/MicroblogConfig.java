@@ -6,6 +6,8 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface MicroblogConfig {
 
+	boolean isCronEnabled();
+
 	boolean isXmppEnabled();
 
 	boolean isMailEnabled();

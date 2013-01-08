@@ -23,6 +23,8 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 
 	private final ConfigurationDescriptionBoolean mailEnabled = new ConfigurationDescriptionBoolean(false, MicroblogConstants.CONFIG_MAIL_ENABLED, "Microblog Mail Enabled");
 
+	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "MicroblogCronEnabled", "Microblog Cron Enabled");
+
 	@Inject
 	public MicroblogConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
 		super(logger, configurationService, parseUtil);
@@ -32,6 +34,7 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(xmppEnabled);
+		result.add(cronEnabled);
 		result.add(mailEnabled);
 		return result;
 	}
@@ -44,5 +47,10 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 	@Override
 	public boolean isMailEnabled() {
 		return getValueBoolean(mailEnabled);
+	}
+
+	@Override
+	public boolean isCronEnabled() {
+		return getValueBoolean(cronEnabled);
 	}
 }
