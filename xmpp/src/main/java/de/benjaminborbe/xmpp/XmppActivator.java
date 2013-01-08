@@ -63,19 +63,6 @@ public class XmppActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected void onStarted() {
-		super.onStarted();
-
-		try {
-			xmppConnector.connect();
-		}
-		catch (final XmppConnectorException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-
-	}
-
-	@Override
 	protected void onStopped() {
 		super.onStopped();
 

@@ -921,16 +921,20 @@ public class TaskServiceImpl implements TaskService {
 
 			// add shared tasks
 			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			logger.debug("found " + contexts.size() + " contexts");
 			for (final TaskContext context : contexts) {
+				logger.debug("search task in context: " + context.getId() + " started");
 				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
 				while (i.hasNext()) {
 					final StorageValue id = i.next();
 					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
-					if (!Boolean.TRUE.equals(task.getCompleted())) {
+					if (task != null && !Boolean.TRUE.equals(task.getCompleted())) {
 						result.add(task);
 					}
 				}
+				logger.debug("search task in context: " + context.getId() + " finished");
 			}
+			logger.debug("tasks from context: " + result.size());
 
 			// add owned tasks
 			final EntityIterator<TaskBean> i = taskDao.getTasksNotCompleted(userIdentifier);
@@ -938,6 +942,7 @@ public class TaskServiceImpl implements TaskService {
 				final Task task = i.next();
 				result.add(task);
 			}
+			logger.debug("tasks: " + result.size());
 
 			return result;
 		}
