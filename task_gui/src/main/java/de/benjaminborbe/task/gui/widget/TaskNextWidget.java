@@ -14,6 +14,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
@@ -57,9 +58,10 @@ public class TaskNextWidget extends CompositeWidget {
 
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 		final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
+		final TaskFocus taskFocus = taskGuiUtil.getSelectedTaskFocus(request);
 		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
-		final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds);
+		final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds);
 		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
 		final List<Task> tasks = taskGuiUtil.filterNotStarted(childTasks, timeZone);
 		widgets.add(taskGuiWidgetFactory.taskListWithoutParents(sessionIdentifier, tasks, allTasks, request, timeZone));

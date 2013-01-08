@@ -78,12 +78,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
-			LoginRequiredException {
-		return null;
-	}
-
-	@Override
 	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
@@ -189,8 +183,14 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException {
+	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
+			LoginRequiredException, TaskServiceException {
+	}
+
+	@Override
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskFocus taskFocus, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException {
+		return null;
 	}
 
 }

@@ -1,6 +1,8 @@
-package de.benjaminborbe.task.dao;
+package de.benjaminborbe.task.util;
 
 import com.google.common.base.Predicate;
+
+import de.benjaminborbe.task.dao.TaskBean;
 
 public class TaskNotCompletedPredicate implements Predicate<TaskBean> {
 

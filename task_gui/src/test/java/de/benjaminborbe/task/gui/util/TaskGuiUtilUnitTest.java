@@ -38,7 +38,7 @@ public class TaskGuiUtilUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null, null, null, null);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null, null, null, null, null);
 
 		{
 			final List<Task> allTasks = new ArrayList<Task>();
@@ -94,7 +94,7 @@ public class TaskGuiUtilUnitTest {
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, taskService, stringUtil, calendarUtil, urlUtil);
+		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, taskService, stringUtil, calendarUtil, urlUtil, parseUtil);
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, null).getName(), is(nullValue()));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, "bla").getName(), is("bla"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla ").getName(), is("bla"));

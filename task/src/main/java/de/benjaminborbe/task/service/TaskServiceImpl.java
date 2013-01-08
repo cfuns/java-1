@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -47,6 +48,7 @@ import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextToUserManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskToTaskContextManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
+import de.benjaminborbe.task.util.TaskFocusPredicate;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
@@ -958,11 +960,13 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskFocus taskFocus, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 			throws TaskServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			return filterWithContexts(getTasksNotCompleted(sessionIdentifier), taskContextIdentifiers);
+			final Collection<Task> tasks = getTasksNotCompleted(sessionIdentifier);
+			Collections2.filter(tasks, new TaskFocusPredicate(taskFocus));
+			return filterWithContexts(tasks, taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);

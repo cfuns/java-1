@@ -30,6 +30,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskComparator;
@@ -78,6 +79,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.expect(request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKFOCUS)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(TaskGuiConstants.PARAMETER_TASK_LIMIT)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
@@ -156,7 +158,8 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final List<String> list = new ArrayList<String>();
 		final TaskGuiUtil taskGuiUtil = EasyMock.createMock(TaskGuiUtil.class);
 		EasyMock.expect(taskGuiUtil.getSelectedTaskContextIds(request)).andReturn(list).anyTimes();
-		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, list)).andReturn(allTasks).anyTimes();
+		EasyMock.expect(taskGuiUtil.getSelectedTaskFocus(request)).andReturn(TaskFocus.INBOX).anyTimes();
+		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, TaskFocus.INBOX, list)).andReturn(allTasks).anyTimes();
 		EasyMock.replay(taskGuiUtil);
 
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
@@ -171,7 +174,8 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final TaskPrioComparator taskPrioComparator = new TaskPrioComparator();
 		final TaskComparator taskComparator = new TaskComparator(taskNameComparator, taskPrioComparator);
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget, comparatorUtil, taskComparator);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget, comparatorUtil,
+				taskComparator);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

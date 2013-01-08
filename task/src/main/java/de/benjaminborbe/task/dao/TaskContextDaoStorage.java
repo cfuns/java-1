@@ -19,6 +19,7 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.util.TaskContextOwnerPredicate;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton

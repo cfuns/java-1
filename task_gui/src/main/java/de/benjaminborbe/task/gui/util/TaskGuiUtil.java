@@ -25,6 +25,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -32,6 +33,7 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 
 public class TaskGuiUtil {
@@ -46,13 +48,22 @@ public class TaskGuiUtil {
 
 	private final UrlUtil urlUtil;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public TaskGuiUtil(final Logger logger, final TaskService taskService, final StringUtil stringUtil, final CalendarUtil calendarUtil, final UrlUtil urlUtil) {
+	public TaskGuiUtil(
+			final Logger logger,
+			final TaskService taskService,
+			final StringUtil stringUtil,
+			final CalendarUtil calendarUtil,
+			final UrlUtil urlUtil,
+			final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
 		this.stringUtil = stringUtil;
 		this.calendarUtil = calendarUtil;
 		this.urlUtil = urlUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final Collection<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
@@ -105,9 +116,10 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskFocus taskFocus, final List<String> taskContextIds)
+			throws TaskServiceException, LoginRequiredException {
 		logger.trace("task list for context: " + taskContextIds);
-		return taskService.getTasksNotCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
+		return taskService.getTasksNotCompleted(sessionIdentifier, taskFocus, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 	}
 
 	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException,
@@ -237,5 +249,10 @@ public class TaskGuiUtil {
 			}
 		}
 		return result;
+	}
+
+	public TaskFocus getSelectedTaskFocus(final HttpServletRequest request) {
+		final String focus = request.getParameter(TaskGuiConstants.PARAMETER_SELECTED_TASKFOCUS);
+		return parseUtil.parseEnum(TaskFocus.class, focus, TaskFocus.INBOX);
 	}
 }

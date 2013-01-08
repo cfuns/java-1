@@ -23,6 +23,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
@@ -109,8 +110,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
-
-			final List<Task> tasks = comparatorUtil.sort(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskContextIds), taskComparator);
+			final TaskFocus taskFocus = taskGuiUtil.getSelectedTaskFocus(request);
+			final List<Task> tasks = comparatorUtil.sort(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds), taskComparator);
 			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 			logger.trace("found " + tasks.size() + " tasks");
 			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, tasks, null, request, timeZone));
