@@ -50,7 +50,7 @@ public class ConfigurationDescriptionInteger implements ConfigurationDescription
 	public boolean validateValue(final String value) {
 		try {
 			Integer.parseInt(value);
-			return true;
+			return value != null;
 		}
 		catch (final Exception e) {
 			return false;

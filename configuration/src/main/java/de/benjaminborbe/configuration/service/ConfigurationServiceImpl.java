@@ -52,8 +52,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public String getConfigurationValue(final ConfigurationDescription configuration) throws ConfigurationServiceException {
-		logger.trace("getConfigurationValue");
 		try {
+			logger.trace("getConfigurationValue");
 			final ConfigurationBean configurationBean = configurationDao.load(configuration.getId());
 			if (configurationBean != null) {
 				return configurationBean.getValue();
@@ -70,13 +70,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	@Override
 	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final String value) throws ConfigurationServiceException, ValidationException {
 		try {
+			logger.debug("setConfigurationValue - key: " + configurationIdentifier + " value: " + value);
 
 			final ConfigurationDescription configuration = getConfiguration(configurationIdentifier);
 			if (!configuration.validateValue(value)) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("invalid value: " + value)));
 			}
 
-			logger.trace("setConfigurationValue");
 			ConfigurationBean configurationBean = configurationDao.load(configurationIdentifier);
 			if (configurationBean == null) {
 				configurationBean = configurationDao.create();

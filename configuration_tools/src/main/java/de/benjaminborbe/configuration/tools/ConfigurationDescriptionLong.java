@@ -50,7 +50,7 @@ public class ConfigurationDescriptionLong implements ConfigurationDescription {
 	public boolean validateValue(final String value) {
 		try {
 			Long.parseLong(value);
-			return true;
+			return value != null;
 		}
 		catch (final Exception e) {
 			return false;

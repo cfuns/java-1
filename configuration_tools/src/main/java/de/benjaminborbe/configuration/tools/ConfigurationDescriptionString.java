@@ -48,7 +48,7 @@ public class ConfigurationDescriptionString implements ConfigurationDescription 
 
 	@Override
 	public boolean validateValue(final String value) {
-		return true;
+		return value != null;
 	}
 
 }

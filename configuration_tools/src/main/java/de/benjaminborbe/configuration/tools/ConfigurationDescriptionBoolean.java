@@ -49,8 +49,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 	@Override
 	public boolean validateValue(final String value) {
 		try {
-			Boolean.parseBoolean(value);
-			return true;
+			return value != null && ("true".equals(value) || "false".equals(value));
 		}
 		catch (final Exception e) {
 			return false;

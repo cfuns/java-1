@@ -159,9 +159,9 @@
 				<module>checklist_api</module>
 				<module>checklist_gui</module>
 				<module>configuration</module>
+				<module>configuration_tools</module>
 				<module>configuration_api</module>
 				<module>configuration_gui</module>
-				<module>configuration_tools</module>
 				<module>confluence</module>
 				<module>confluence_api</module>
 				<module>confluence_gui</module>
