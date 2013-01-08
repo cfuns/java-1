@@ -15,6 +15,7 @@ public class ProjectileNameMapperUnitTest {
 		EasyMock.replay(logger);
 
 		final ProjectileNameMapper mapper = new ProjectileNameMapper(logger);
+		assertThat(mapper.fullnameToLogin("bgates"), is("bgates"));
 		assertThat(mapper.fullnameToLogin("Foo Bar"), is("bfoo"));
 		assertThat(mapper.fullnameToLogin("van Foo Bar"), is("bfoo"));
 		assertThat(mapper.fullnameToLogin("Foo v b a Bar"), is("bfoo"));
