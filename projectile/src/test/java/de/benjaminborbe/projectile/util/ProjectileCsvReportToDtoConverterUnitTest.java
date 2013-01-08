@@ -22,7 +22,7 @@ public class ProjectileCsvReportToDtoConverterUnitTest {
 
 		final ParseUtil parseUtil = new ParseUtilImpl();
 
-		final ProjectileNameMapper projectileNameMapper = new ProjectileNameMapper();
+		final ProjectileNameMapper projectileNameMapper = new ProjectileNameMapper(logger);
 		final ProjectileCsvReportToDtoConverter converter = new ProjectileCsvReportToDtoConverter(logger, parseUtil, projectileNameMapper);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
