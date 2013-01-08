@@ -207,7 +207,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			connection = storageConnectionPool.getConnection();
 			final Iface client = connection.getClient(keySpace);
 
-			logger.debug("read keyspace: " + keySpace + " columnFamily: " + columnFamily + " key: " + key + " columnNames: " + columnNames);
+			logger.trace("read keyspace: " + keySpace + " columnFamily: " + columnFamily + " key: " + key + " columnNames: " + columnNames);
 
 			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
@@ -215,7 +215,6 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			final SlicePredicate predicate = new SlicePredicate();
 			predicate.setColumn_names(buildColumnNames(columnNames));
 			final List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(key.getByte()), column_parent, predicate, consistency_level);
-			logger.debug("found " + columns.size() + " columns");
 
 			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			for (final ColumnOrSuperColumn column : columns) {
