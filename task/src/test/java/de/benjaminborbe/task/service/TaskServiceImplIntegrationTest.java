@@ -736,7 +736,5 @@ public class TaskServiceImplIntegrationTest {
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 			assertEquals(TaskFocus.INBOX, task.getFocus());
 		}
-
 	}
-
 }

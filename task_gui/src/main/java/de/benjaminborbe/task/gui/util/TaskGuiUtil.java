@@ -216,7 +216,7 @@ public class TaskGuiUtil {
 	public List<String> getSelectedTaskContextIds(final HttpServletRequest request) {
 		final String[] list = request.getParameterValues(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 		if (list != null && list.length > 0) {
-			logger.debug("use parameter");
+			logger.trace("use parameter");
 			return filterEmpty(list);
 		}
 		for (final Cookie cookie : request.getCookies()) {

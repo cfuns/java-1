@@ -94,4 +94,10 @@ public interface TaskGuiConstants {
 
 	String URL_TASKS_UNCOMPLETED = "/tasks/uncompletd";
 
+	String PARAMETER_SELECTED_TASKFOCUS = "tf";
+
+	String PARAMETER_TASK_FOCUS = "task_focus";
+
+	String URL_TASK_UPDATE_FOCUS = "/task/focus";
+
 }

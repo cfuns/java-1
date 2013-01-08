@@ -21,6 +21,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
@@ -169,6 +170,16 @@ public class TaskGuiWidgetFactory {
 		options.add(taskGuiLinkFactory.taskStartLater(request, task.getId()));
 		options.add(" ");
 		options.add(taskGuiLinkFactory.taskStartTomorrow(request, task.getId()));
+		options.add(" ");
+		options.add(buildImage(request, "empty"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.INBOX, "inbox"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.TODAY, "today"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.NEXT, "next"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.SOMEDAY, "someday"));
 
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		final DivWidget div = new DivWidget(row).addClass("taskEntry");

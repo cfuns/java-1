@@ -29,6 +29,7 @@ import de.benjaminborbe.task.gui.servlet.TaskGuiTaskLastServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskStartLaterServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskSwapPrioServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUncompleteServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUpdateFocusServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskUpdateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskViewServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTasksCompletedServlet;
@@ -41,6 +42,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class TaskGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private TaskGuiTaskUpdateFocusServlet taskGuiTaskUpdateFocusServlet;
 
 	@Inject
 	private TaskGuiTaskContextUserRemoveServlet taskGuiTaskContextUserRemoveServlet;
@@ -120,6 +124,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(taskGuiTaskUpdateFocusServlet, TaskGuiConstants.URL_TASK_UPDATE_FOCUS));
 		result.add(new ServletInfo(taskGuiTaskContextUserRemoveServlet, TaskGuiConstants.URL_TASKCONTEXT_USER_REMOVE));
 		result.add(new ServletInfo(taskGuiTaskContextUserServlet, TaskGuiConstants.URL_TASKCONTEXT_USER));
 		result.add(new ServletInfo(taskGuiTaskFirstServlet, TaskGuiConstants.URL_TASK_FIRST));

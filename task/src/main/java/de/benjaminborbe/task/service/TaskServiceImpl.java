@@ -36,6 +36,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
@@ -61,17 +62,13 @@ import de.benjaminborbe.tools.validation.ValidationResultImpl;
 @Singleton
 public class TaskServiceImpl implements TaskService {
 
-	private static final int FILTER_THREADS = 20;
-
-	private static final int DURATION_WARN = 300;
-
 	private final class FilterRunnable implements Runnable {
+
+		private final Task task;
 
 		private final Collection<TaskContextIdentifier> taskContextIdentifiers;
 
 		private final ThreadResult<Task> threadResult;
-
-		private final Task task;
 
 		private FilterRunnable(final Collection<TaskContextIdentifier> taskContextIdentifiers, final ThreadResult<Task> threadResult, final Task task) {
 			this.taskContextIdentifiers = taskContextIdentifiers;
@@ -115,32 +112,23 @@ public class TaskServiceImpl implements TaskService {
 		}
 
 		@Override
-		public Task getTask() {
-			return match.getBean();
+		public int getMatchCounter() {
+			return match.getMatchCounter();
 		}
 
 		@Override
-		public int getMatchCounter() {
-			return match.getMatchCounter();
+		public Task getTask() {
+			return match.getBean();
 		}
 	}
 
 	private final class TaskSearcher extends BeanSearcher<Task> {
 
-		private static final String URL = "url";
+		private static final String DESCRIPTION = "title";
 
 		private static final String NAME = "content";
 
-		private static final String DESCRIPTION = "title";
-
-		@Override
-		protected Map<String, String> getSearchValues(final Task bean) {
-			final Map<String, String> values = new HashMap<String, String>();
-			values.put(DESCRIPTION, bean.getDescription());
-			values.put(NAME, bean.getName());
-			values.put(URL, bean.getUrl());
-			return values;
-		}
+		private static final String URL = "url";
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
@@ -150,7 +138,20 @@ public class TaskServiceImpl implements TaskService {
 			values.put(URL, 1);
 			return values;
 		}
+
+		@Override
+		protected Map<String, String> getSearchValues(final Task bean) {
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put(DESCRIPTION, bean.getDescription());
+			values.put(NAME, bean.getName());
+			values.put(URL, bean.getUrl());
+			return values;
+		}
 	}
+
+	private static final int DURATION_WARN = 300;
+
+	private static final int FILTER_THREADS = 20;
 
 	private final AuthenticationService authenticationService;
 
@@ -158,23 +159,23 @@ public class TaskServiceImpl implements TaskService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final DurationUtil durationUtil;
+
 	private final IdGeneratorUUID idGeneratorUUID;
 
 	private final Logger logger;
 
 	private final TaskContextDao taskContextDao;
 
-	private final TaskToTaskContextManyToManyRelation taskToTaskContextManyToManyRelation;
+	private final TaskContextToUserManyToManyRelation taskContextToUserManyToManyRelation;
 
 	private final TaskDao taskDao;
 
-	private final ValidationExecutor validationExecutor;
-
-	private final DurationUtil durationUtil;
+	private final TaskToTaskContextManyToManyRelation taskToTaskContextManyToManyRelation;
 
 	private final ThreadPoolExecuterBuilder threadPoolExecuterBuilder;
 
-	private final TaskContextToUserManyToManyRelation taskContextToUserManyToManyRelation;
+	private final ValidationExecutor validationExecutor;
 
 	@Inject
 	public TaskServiceImpl(
@@ -226,6 +227,40 @@ public class TaskServiceImpl implements TaskService {
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectOwner(sessionIdentifier, taskContextIdentifier);
+			logger.debug("addUserToContext");
+
+			if (!authenticationService.existsUser(userIdentifier)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user " + userIdentifier + " not exists")));
+			}
+			taskContextToUserManyToManyRelation.add(taskContextIdentifier, userIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	private Calendar calcRepeat(final Long repeat) {
+		if (repeat != null && repeat > 0) {
+			return calendarUtil.addDays(calendarUtil.today(), repeat);
+		}
+		else {
+			return null;
 		}
 	}
 
@@ -286,6 +321,73 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.debug("createTask");
+
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final TaskBean parentTask;
+			final Integer prio;
+			// check parent
+			if (taskDto.getParentId() != null) {
+				parentTask = taskDao.load(taskDto.getParentId());
+				prio = parentTask.getPriority();
+				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
+			}
+			else {
+				prio = taskDao.getMaxPriority(userIdentifier) + 1;
+				parentTask = null;
+			}
+
+			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
+			final TaskBean taskBean = taskDao.create();
+
+			taskBean.setId(taskIdentifier);
+			taskBean.setName(taskDto.getName());
+			taskBean.setDescription(taskDto.getDescription());
+			taskBean.setOwner(userIdentifier);
+			taskBean.setCompleted(false);
+			taskBean.setRepeatDue(taskDto.getRepeatDue());
+			taskBean.setRepeatStart(taskDto.getRepeatStart());
+			taskBean.setUrl(taskDto.getUrl());
+			taskBean.setPriority(prio);
+			taskBean.setParentId(taskDto.getParentId());
+			taskBean.setStart(taskDto.getStart());
+			taskBean.setDue(taskDto.getDue());
+			taskBean.setFocus(taskDto.getFocus());
+
+			saveTaskAndChilds(parentTask, taskBean);
+
+			// only update if set
+			if (taskDto.getContexts() != null) {
+				replaceTaskContext(sessionIdentifier, taskIdentifier, taskDto.getContexts());
+			}
+
+			return taskIdentifier;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -430,6 +532,100 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+		try {
+			logger.debug("expectOwner");
+			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			if (currentUser == null) {
+				throw new LoginRequiredException("login required");
+			}
+			if (currentUser.equals(task.getOwner())) {
+				logger.debug("expectOwner => success");
+				return;
+			}
+			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
+			final Collection<TaskContext> taskContexts = getTaskContexts(sessionIdentifier, task.getId());
+			for (final TaskContext taskContext : taskContexts) {
+				users.addAll(getTaskContextUsers(taskContext));
+			}
+			authorizationService.expectUser(currentUser, users);
+			logger.debug("expectOwner => success");
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+		try {
+			logger.debug("expectOwner");
+			final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
+			authorizationService.expectUser(sessionIdentifier, users);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException {
+		try {
+			logger.debug("expectOwner");
+			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException {
+		try {
+			logger.debug("expectOwner");
+			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+	}
+
+	private Collection<Task> filterWithContexts(final Collection<Task> tasks, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException {
+		logger.debug("filterWithContexts: " + tasks.size());
+
+		final List<ThreadResult<Task>> threadResults = new ArrayList<ThreadResult<Task>>();
+
+		final ThreadPoolExecuter threadPoolExecuter = threadPoolExecuterBuilder.build("filter task by context", FILTER_THREADS);
+		for (final Task task : tasks) {
+			final ThreadResult<Task> threadResult = new ThreadResult<Task>();
+			threadResults.add(threadResult);
+			threadPoolExecuter.execute(new FilterRunnable(taskContextIdentifiers, threadResult, task));
+		}
+
+		try {
+			threadPoolExecuter.shutDown();
+			threadPoolExecuter.awaitTermination(1, TimeUnit.SECONDS);
+		}
+		catch (final InterruptedException e) {
+		}
+
+		final List<Task> result = new ArrayList<Task>();
+		for (final ThreadResult<Task> threadResult : threadResults) {
+			final Task task = threadResult.get();
+			if (task != null) {
+				result.add(task);
+			}
+		}
+		logger.debug("filterWithContexts: " + tasks.size() + " => " + result.size());
+		return result;
+	}
+
+	@Override
 	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
@@ -459,6 +655,95 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public Collection<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
+
+			logger.debug("getTaskChilds");
+			final Set<Task> result = new HashSet<Task>();
+			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(taskIdentifier);
+			while (i.hasNext()) {
+				final Task task = i.next();
+				result.add(task);
+			}
+			logger.debug("getTasksCompleted found " + result.size());
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.debug("getTaskContext");
+			final TaskContext taskContext = taskContextDao.load(taskContextIdentifier);
+			if (taskContext == null) {
+				logger.info("taskContext not found with id " + taskContextIdentifier);
+				return null;
+			}
+			expectOwner(sessionIdentifier, taskContext);
+			return taskContext;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			logger.debug("getTaskContextByName");
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final TaskContext taskContext = taskContextDao.findByName(userIdentifier, taskContextName);
+			if (taskContext == null) {
+				logger.info("taskContext not found with name " + taskContextName);
+				return null;
+			}
+			expectOwner(sessionIdentifier, taskContext);
+			return taskContext;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
 	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
@@ -478,6 +763,100 @@ public class TaskServiceImpl implements TaskService {
 			return result;
 		}
 		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<UserIdentifier> getTaskContextUsers(final TaskContext taskContext) throws TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getTaskContextUsers - taskcontent: " + taskContext.getId());
+			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
+			users.add(taskContext.getOwner());
+			final StorageIterator i = taskContextToUserManyToManyRelation.getA(taskContext.getId());
+			while (i.hasNext()) {
+				final StorageValue a = i.next();
+				final String userId = a.getString();
+				logger.debug("found user " + userId);
+				users.add(new UserIdentifier(userId));
+			}
+			return users;
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<UserIdentifier> getTaskContextUsers(final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("getTaskContextUsers - taskcontent: " + taskContextIdentifier);
+			final TaskContextBean taskContext = taskContextDao.load(taskContextIdentifier);
+			return getTaskContextUsers(taskContext);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+			LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			logger.debug("getTasksCompleted for user " + userIdentifier);
+			final Set<Task> result = new HashSet<Task>();
+
+			// add shared tasks
+			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			for (final TaskContext context : contexts) {
+				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
+				while (i.hasNext()) {
+					final StorageValue id = i.next();
+					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
+					if (Boolean.TRUE.equals(task.getCompleted())) {
+						result.add(task);
+					}
+				}
+			}
+
+			// add owned tasks
+			final EntityIterator<TaskBean> i = taskDao.getTasksCompleted(userIdentifier);
+			while (i.hasNext()) {
+				final Task task = i.next();
+				result.add(task);
+			}
+			return filterWithContexts(result, taskContextIdentifiers);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
@@ -530,6 +909,89 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			logger.debug("getTasksNotCompleted for user " + userIdentifier);
+			final Set<Task> result = new HashSet<Task>();
+
+			// add shared tasks
+			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			for (final TaskContext context : contexts) {
+				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
+				while (i.hasNext()) {
+					final StorageValue id = i.next();
+					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
+					if (!Boolean.TRUE.equals(task.getCompleted())) {
+						result.add(task);
+					}
+				}
+			}
+
+			// add owned tasks
+			final EntityIterator<TaskBean> i = taskDao.getTasksNotCompleted(userIdentifier);
+			while (i.hasNext()) {
+				final Task task = i.next();
+				result.add(task);
+			}
+
+			return result;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return filterWithContexts(getTasksNotCompleted(sessionIdentifier), taskContextIdentifiers);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectOwner(sessionIdentifier, taskContextIdentifier);
+			logger.debug("removeUserFromContext");
+			taskContextToUserManyToManyRelation.remove(taskContextIdentifier, userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
 	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
@@ -571,68 +1033,43 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException {
-		try {
-			logger.debug("expectOwner");
-			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
+	private void saveTaskAndChilds(final TaskBean task) throws StorageException, EntityIteratorException, ValidationException {
+		saveTaskAndChilds(null, task);
+	}
+
+	private void saveTaskAndChilds(final TaskBean parentTask, final TaskBean task) throws StorageException, EntityIteratorException, ValidationException {
+		if (parentTask != null) {
+			task.setStart(calendarUtil.max(task.getStart(), parentTask.getStart()));
+			task.setDue(calendarUtil.min(task.getDue(), parentTask.getDue()));
+			task.setFocus(parentTask.getFocus());
 		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
+
+		final ValidationResult errors = validationExecutor.validate(task);
+		if (errors.hasErrors()) {
+			logger.warn("Task " + errors.toString());
+			throw new ValidationException(errors);
+		}
+
+		taskDao.save(task);
+
+		// update childs
+		final EntityIterator<TaskBean> i = taskDao.getTaskChilds(task.getId());
+		while (i.hasNext()) {
+			final TaskBean child = i.next();
+			saveTaskAndChilds(task, child);
 		}
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
-		try {
-			logger.debug("expectOwner");
-			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
-			if (currentUser == null) {
-				throw new LoginRequiredException("login required");
-			}
-			if (currentUser.equals(task.getOwner())) {
-				logger.debug("expectOwner => success");
-				return;
-			}
-			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
-			final Collection<TaskContext> taskContexts = getTaskContexts(sessionIdentifier, task.getId());
-			for (final TaskContext taskContext : taskContexts) {
-				users.addAll(getTaskContextUsers(taskContext));
-			}
-			authorizationService.expectUser(currentUser, users);
-			logger.debug("expectOwner => success");
+	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException {
+		final Collection<Task> beans = getTasksNotCompleted(sessionIdentifier);
+		final BeanSearcher<Task> beanSearch = new TaskSearcher();
+		final List<BeanMatch<Task>> matches = beanSearch.search(beans, limit, words);
+		final List<TaskMatch> result = new ArrayList<TaskMatch>();
+		for (final BeanMatch<Task> match : matches) {
+			result.add(new TaskMatchImpl(match));
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-	}
-
-	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException {
-		try {
-			logger.debug("expectOwner");
-			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-	}
-
-	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
-		try {
-			logger.debug("expectOwner");
-			final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
-			authorizationService.expectUser(sessionIdentifier, users);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new TaskServiceException(e);
-		}
+		return result;
 	}
 
 	@Override
@@ -739,7 +1176,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setDue(taskDto.getDue());
 			task.setFocus(taskDto.getFocus());
 
-			updateTaskStartDueChildAndSave(parentTask, task);
+			saveTaskAndChilds(parentTask, task);
 
 			// only update if set
 			if (taskDto.getContexts() != null) {
@@ -757,201 +1194,6 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	private void updateTaskStartDueChildAndSave(final TaskBean parentTask, final TaskBean task) throws StorageException, EntityIteratorException, ValidationException {
-		if (parentTask != null) {
-			task.setStart(calendarUtil.max(task.getStart(), parentTask.getStart()));
-			task.setDue(calendarUtil.min(task.getDue(), parentTask.getDue()));
-		}
-
-		final ValidationResult errors = validationExecutor.validate(task);
-		if (errors.hasErrors()) {
-			logger.warn("Task " + errors.toString());
-			throw new ValidationException(errors);
-		}
-
-		taskDao.save(task);
-
-		// update childs
-		final EntityIterator<TaskBean> i = taskDao.getTaskChilds(task.getId());
-		while (i.hasNext()) {
-			final TaskBean child = i.next();
-			updateTaskStartDueChildAndSave(task, child);
-		}
-	}
-
-	@Override
-	public Collection<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			expectOwner(sessionIdentifier, taskDao.load(taskIdentifier));
-
-			logger.debug("getTaskChilds");
-			final Set<Task> result = new HashSet<Task>();
-			final EntityIterator<TaskBean> i = taskDao.getTaskChilds(taskIdentifier);
-			while (i.hasNext()) {
-				final Task task = i.next();
-				result.add(task);
-			}
-			logger.debug("getTasksCompleted found " + result.size());
-			return result;
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			logger.debug("getTasksNotCompleted for user " + userIdentifier);
-			final Set<Task> result = new HashSet<Task>();
-
-			// add shared tasks
-			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
-			for (final TaskContext context : contexts) {
-				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
-				while (i.hasNext()) {
-					final StorageValue id = i.next();
-					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
-					if (!Boolean.TRUE.equals(task.getCompleted())) {
-						result.add(task);
-					}
-				}
-			}
-
-			// add owned tasks
-			final EntityIterator<TaskBean> i = taskDao.getTasksNotCompleted(userIdentifier);
-			while (i.hasNext()) {
-				final Task task = i.next();
-				result.add(task);
-			}
-
-			return result;
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
-			LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			logger.debug("getTasksCompleted for user " + userIdentifier);
-			final Set<Task> result = new HashSet<Task>();
-
-			// add shared tasks
-			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
-			for (final TaskContext context : contexts) {
-				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
-				while (i.hasNext()) {
-					final StorageValue id = i.next();
-					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
-					if (Boolean.TRUE.equals(task.getCompleted())) {
-						result.add(task);
-					}
-				}
-			}
-
-			// add owned tasks
-			final EntityIterator<TaskBean> i = taskDao.getTasksCompleted(userIdentifier);
-			while (i.hasNext()) {
-				final Task task = i.next();
-				result.add(task);
-			}
-			return filterWithContexts(result, taskContextIdentifiers);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	private Collection<Task> filterWithContexts(final Collection<Task> tasks, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException {
-		logger.debug("filterWithContexts: " + tasks.size());
-
-		final List<ThreadResult<Task>> threadResults = new ArrayList<ThreadResult<Task>>();
-
-		final ThreadPoolExecuter threadPoolExecuter = threadPoolExecuterBuilder.build("filter task by context", FILTER_THREADS);
-		for (final Task task : tasks) {
-			final ThreadResult<Task> threadResult = new ThreadResult<Task>();
-			threadResults.add(threadResult);
-			threadPoolExecuter.execute(new FilterRunnable(taskContextIdentifiers, threadResult, task));
-		}
-
-		try {
-			threadPoolExecuter.shutDown();
-			threadPoolExecuter.awaitTermination(1, TimeUnit.SECONDS);
-		}
-		catch (final InterruptedException e) {
-		}
-
-		final List<Task> result = new ArrayList<Task>();
-		for (final ThreadResult<Task> threadResult : threadResults) {
-			final Task task = threadResult.get();
-			if (task != null) {
-				result.add(task);
-			}
-		}
-		logger.debug("filterWithContexts: " + tasks.size() + " => " + result.size());
-		return result;
-	}
-
-	@Override
-	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
-			throws TaskServiceException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			return filterWithContexts(getTasksNotCompleted(sessionIdentifier), taskContextIdentifiers);
-		}
-		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -995,234 +1237,25 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	private Calendar calcRepeat(final Long repeat) {
-		if (repeat != null && repeat > 0) {
-			return calendarUtil.addDays(calendarUtil.today(), repeat);
-		}
-		else {
-			return null;
-		}
-	}
-
 	@Override
-	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
-			PermissionDeniedException, LoginRequiredException {
+	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
+			LoginRequiredException, TaskServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.debug("updateTaskFocus - task: " + taskIdentifier + " focus: " + taskFocus);
+			TaskBean task = taskDao.load(taskIdentifier);
 
-			logger.debug("getTaskContext");
-			final TaskContext taskContext = taskContextDao.load(taskContextIdentifier);
-			if (taskContext == null) {
-				logger.info("taskContext not found with id " + taskContextIdentifier);
-				return null;
+			while (task.getParentId() != null) {
+				task = taskDao.load(task.getParentId());
 			}
-			expectOwner(sessionIdentifier, taskContext);
-			return taskContext;
+
+			task.setFocus(taskFocus);
+			saveTaskAndChilds(task);
 		}
 		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException {
-		final Collection<Task> beans = getTasksNotCompleted(sessionIdentifier);
-		final BeanSearcher<Task> beanSearch = new TaskSearcher();
-		final List<BeanMatch<Task>> matches = beanSearch.search(beans, limit, words);
-		final List<TaskMatch> result = new ArrayList<TaskMatch>();
-		for (final BeanMatch<Task> match : matches) {
-			result.add(new TaskMatchImpl(match));
-		}
-		return result;
-	}
-
-	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-
-			logger.debug("createTask");
-
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskBean parentTask;
-			final Integer prio;
-			// check parent
-			if (taskDto.getParentId() != null) {
-				parentTask = taskDao.load(taskDto.getParentId());
-				prio = parentTask.getPriority();
-				authorizationService.expectUser(sessionIdentifier, parentTask.getOwner());
-			}
-			else {
-				prio = taskDao.getMaxPriority(userIdentifier) + 1;
-				parentTask = null;
-			}
-
-			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
-			final TaskBean taskBean = taskDao.create();
-
-			taskBean.setId(taskIdentifier);
-			taskBean.setName(taskDto.getName());
-			taskBean.setDescription(taskDto.getDescription());
-			taskBean.setOwner(userIdentifier);
-			taskBean.setCompleted(false);
-			taskBean.setRepeatDue(taskDto.getRepeatDue());
-			taskBean.setRepeatStart(taskDto.getRepeatStart());
-			taskBean.setUrl(taskDto.getUrl());
-			taskBean.setPriority(prio);
-			taskBean.setParentId(taskDto.getParentId());
-			taskBean.setStart(taskDto.getStart());
-			taskBean.setDue(taskDto.getDue());
-			taskBean.setFocus(taskDto.getFocus());
-
-			updateTaskStartDueChildAndSave(parentTask, taskBean);
-
-			// only update if set
-			if (taskDto.getContexts() != null) {
-				replaceTaskContext(sessionIdentifier, taskIdentifier, taskDto.getContexts());
-			}
-
-			return taskIdentifier;
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-
-			logger.debug("getTaskContextByName");
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final TaskContext taskContext = taskContextDao.findByName(userIdentifier, taskContextName);
-			if (taskContext == null) {
-				logger.info("taskContext not found with name " + taskContextName);
-				return null;
-			}
-			expectOwner(sessionIdentifier, taskContext);
-			return taskContext;
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			expectOwner(sessionIdentifier, taskContextIdentifier);
-			logger.debug("addUserToContext");
-
-			if (!authenticationService.existsUser(userIdentifier)) {
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("user " + userIdentifier + " not exists")));
-			}
-			taskContextToUserManyToManyRelation.add(taskContextIdentifier, userIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			expectOwner(sessionIdentifier, taskContextIdentifier);
-			logger.debug("removeUserFromContext");
-			taskContextToUserManyToManyRelation.remove(taskContextIdentifier, userIdentifier);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<UserIdentifier> getTaskContextUsers(final TaskContext taskContext) throws TaskServiceException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			logger.debug("getTaskContextUsers - taskcontent: " + taskContext.getId());
-			final Set<UserIdentifier> users = new HashSet<UserIdentifier>();
-			users.add(taskContext.getOwner());
-			final StorageIterator i = taskContextToUserManyToManyRelation.getA(taskContext.getId());
-			while (i.hasNext()) {
-				final StorageValue a = i.next();
-				final String userId = a.getString();
-				logger.debug("found user " + userId);
-				users.add(new UserIdentifier(userId));
-			}
-			return users;
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<UserIdentifier> getTaskContextUsers(final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			logger.debug("getTaskContextUsers - taskcontent: " + taskContextIdentifier);
-			final TaskContextBean taskContext = taskContextDao.load(taskContextIdentifier);
-			return getTaskContextUsers(taskContext);
-		}
-		catch (final StorageException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {

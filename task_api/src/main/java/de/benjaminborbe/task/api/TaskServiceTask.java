@@ -48,4 +48,7 @@ public interface TaskServiceTask {
 
 	void expectOwner(SessionIdentifier sessionIdentifier, Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
 
+	void updateTaskFocus(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskFocus taskFocus) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException, ValidationException;
+
 }
