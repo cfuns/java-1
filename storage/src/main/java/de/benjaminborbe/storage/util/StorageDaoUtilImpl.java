@@ -197,10 +197,17 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	public List<StorageValue> read(final String keySpace, final String columnFamily, final StorageValue key, final List<StorageValue> columnNames) throws InvalidRequestException,
 			NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
+		if (key == null || key.isEmpty()) {
+			logger.info("can't read with null id");
+			return null;
+		}
+
 		StorageConnection connection = null;
 		try {
 			connection = storageConnectionPool.getConnection();
 			final Iface client = connection.getClient(keySpace);
+
+			logger.debug("read keyspace: " + keySpace + " columnFamily: " + columnFamily + " key: " + key + " columnNames: " + columnNames);
 
 			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
@@ -208,11 +215,27 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			final SlicePredicate predicate = new SlicePredicate();
 			predicate.setColumn_names(buildColumnNames(columnNames));
 			final List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(key.getByte()), column_parent, predicate, consistency_level);
+			logger.debug("found " + columns.size() + " columns");
+
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+			for (final ColumnOrSuperColumn column : columns) {
+				final StorageValue name = new StorageValue(column.getColumn().getName(), config.getEncoding());
+				final StorageValue value = new StorageValue(column.getColumn().getValue(), config.getEncoding());
+				data.put(name, value);
+			}
 
 			final List<StorageValue> result = new ArrayList<StorageValue>();
-			for (final ColumnOrSuperColumn column : columns) {
-				result.add(new StorageValue(column.getColumn().getValue(), config.getEncoding()));
+
+			for (final StorageValue columnName : columnNames) {
+				final StorageValue value = data.get(columnName);
+				if (value != null) {
+					result.add(value);
+				}
+				else {
+					result.add(new StorageValue());
+				}
 			}
+
 			return result;
 		}
 		finally {

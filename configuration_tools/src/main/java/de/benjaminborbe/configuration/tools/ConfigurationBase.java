@@ -43,7 +43,7 @@ public abstract class ConfigurationBase {
 			return configuration.getDefaultValue();
 		}
 		catch (final ParseException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 	}
@@ -57,7 +57,7 @@ public abstract class ConfigurationBase {
 			return configuration.getDefaultValue();
 		}
 		catch (final ParseException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 	}
@@ -71,7 +71,7 @@ public abstract class ConfigurationBase {
 			return configuration.getDefaultValue();
 		}
 		catch (final ParseException e) {
-			logger.debug(e.getClass().getName(), e);
+			logger.trace(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
 	}

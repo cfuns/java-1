@@ -360,6 +360,51 @@ public class StorageDaoUtilImplIntegrationTest {
 	}
 
 	@Test
+	public void testReadMultiRow() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
+
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyA", encoding), c("valueA", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyB", encoding), c("valueB", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyC", encoding), c("valueC", encoding));
+
+		final List<StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding),
+				Arrays.asList(c("keyA", encoding), c("keyB", encoding), c("keyC", encoding)));
+		assertNotNull(data);
+		assertEquals(3, data.size());
+		assertEquals(c("valueA", encoding), data.get(0));
+		assertEquals(c("valueB", encoding), data.get(1));
+		assertEquals(c("valueC", encoding), data.get(2));
+	}
+
+	@Test
+	public void testReadMultiRowMissingColumns() throws Exception {
+		if (notFound)
+			return;
+		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
+
+		final StorageConfig config = injector.getInstance(StorageConfig.class);
+		final StorageDaoUtil daoUtil = injector.getInstance(StorageDaoUtil.class);
+		final String encoding = config.getEncoding();
+
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyA", encoding), c("valueA", encoding));
+		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyC", encoding), c("valueC", encoding));
+
+		final List<StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding),
+				Arrays.asList(c("keyA", encoding), c("keyB", encoding), c("keyC", encoding)));
+		assertNotNull(data);
+		assertEquals(3, data.size());
+		assertEquals(c("valueA", encoding), data.get(0));
+		assertEquals(c(), data.get(1));
+		assertEquals(c("valueC", encoding), data.get(2));
+	}
+
+	@Test
 	public void testReadRow() throws Exception {
 		if (notFound)
 			return;
