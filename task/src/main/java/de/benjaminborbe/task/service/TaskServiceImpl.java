@@ -965,8 +965,7 @@ public class TaskServiceImpl implements TaskService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final Collection<Task> tasks = getTasksNotCompleted(sessionIdentifier);
-			Collections2.filter(tasks, new TaskFocusPredicate(taskFocus));
-			return filterWithContexts(tasks, taskContextIdentifiers);
+			return filterWithContexts(Collections2.filter(tasks, new TaskFocusPredicate(taskFocus)), taskContextIdentifiers);
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
