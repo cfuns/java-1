@@ -194,13 +194,36 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public List<StorageValue> read(final String keySpace, final String columnFamily, final StorageValue id, final List<StorageValue> columnNames) throws InvalidRequestException,
+	public List<StorageValue> read(final String keySpace, final String columnFamily, final StorageValue key, final List<StorageValue> columnNames) throws InvalidRequestException,
 			NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
-		final List<StorageValue> result = new ArrayList<StorageValue>();
+		StorageConnection connection = null;
+		try {
+			connection = storageConnectionPool.getConnection();
+			final Iface client = connection.getClient(keySpace);
+
+			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
+			final ColumnParent column_parent = new ColumnParent(columnFamily);
+
+			final SlicePredicate predicate = new SlicePredicate();
+			predicate.setColumn_names(buildColumnNames(columnNames));
+			final List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(key.getByte()), column_parent, predicate, consistency_level);
+
+			final List<StorageValue> result = new ArrayList<StorageValue>();
+			for (final ColumnOrSuperColumn column : columns) {
+				result.add(new StorageValue(column.getColumn().getValue(), config.getEncoding()));
+			}
+			return result;
+		}
+		finally {
+			storageConnectionPool.releaseConnection(connection);
+		}
+	}
+
+	private List<ByteBuffer> buildColumnNames(final List<StorageValue> columnNames) throws UnsupportedEncodingException {
+		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
 		for (final StorageValue columnName : columnNames) {
-			final StorageValue value = read(keySpace, columnFamily, id, columnName);
-			result.add(value);
+			result.add(ByteBuffer.wrap(columnName.getByte()));
 		}
 		return result;
 	}

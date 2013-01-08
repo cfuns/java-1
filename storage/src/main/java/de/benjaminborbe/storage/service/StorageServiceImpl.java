@@ -72,7 +72,6 @@ public class StorageServiceImpl implements StorageService {
 			return null;
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -144,7 +143,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -180,7 +178,6 @@ public class StorageServiceImpl implements StorageService {
 			}
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -212,7 +209,6 @@ public class StorageServiceImpl implements StorageService {
 			return null;
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -260,7 +256,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -275,7 +270,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames, where);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -291,7 +285,6 @@ public class StorageServiceImpl implements StorageService {
 			storageExporter.export(targetDirectory, config.getKeySpace());
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -308,7 +301,6 @@ public class StorageServiceImpl implements StorageService {
 			storageImporter.importJson(config.getKeySpace(), columnfamily, jsonContent);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -323,7 +315,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -338,7 +329,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -353,7 +343,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName, columnValue);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
@@ -368,7 +357,6 @@ public class StorageServiceImpl implements StorageService {
 			return storageDaoUtil.columnIterator(config.getKeySpace(), columnFamily, key);
 		}
 		catch (final Exception e) {
-			logger.trace("Exception", e);
 			throw new StorageException(e);
 		}
 		finally {
