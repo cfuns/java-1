@@ -357,23 +357,25 @@ public class TaskServiceImpl implements TaskService {
 			}
 
 			final TaskIdentifier taskIdentifier = createTaskIdentifier(idGeneratorUUID.nextId());
-			final TaskBean taskBean = taskDao.create();
+			final TaskBean task = taskDao.create();
 
-			taskBean.setId(taskIdentifier);
-			taskBean.setName(taskDto.getName());
-			taskBean.setDescription(taskDto.getDescription());
-			taskBean.setOwner(userIdentifier);
-			taskBean.setCompleted(false);
-			taskBean.setRepeatDue(taskDto.getRepeatDue());
-			taskBean.setRepeatStart(taskDto.getRepeatStart());
-			taskBean.setUrl(taskDto.getUrl());
-			taskBean.setPriority(prio);
-			taskBean.setParentId(taskDto.getParentId());
-			taskBean.setStart(taskDto.getStart());
-			taskBean.setDue(taskDto.getDue());
-			taskBean.setFocus(taskDto.getFocus());
+			task.setId(taskIdentifier);
+			task.setName(taskDto.getName());
+			task.setDescription(taskDto.getDescription());
+			task.setOwner(userIdentifier);
+			task.setCompleted(false);
+			task.setRepeatDue(taskDto.getRepeatDue());
+			task.setRepeatStart(taskDto.getRepeatStart());
+			task.setUrl(taskDto.getUrl());
+			task.setPriority(prio);
+			task.setParentId(taskDto.getParentId());
+			task.setStart(taskDto.getStart());
+			task.setDue(taskDto.getDue());
+			if (taskDto.getFocus() != null) {
+				task.setFocus(taskDto.getFocus());
+			}
 
-			saveTaskAndChilds(parentTask, taskBean);
+			saveTaskAndChilds(parentTask, task);
 
 			// only update if set
 			if (taskDto.getContexts() != null) {
@@ -1189,7 +1191,9 @@ public class TaskServiceImpl implements TaskService {
 			task.setParentId(taskDto.getParentId());
 			task.setStart(taskDto.getStart());
 			task.setDue(taskDto.getDue());
-			task.setFocus(taskDto.getFocus());
+			if (taskDto.getFocus() != null) {
+				task.setFocus(taskDto.getFocus());
+			}
 
 			saveTaskAndChilds(parentTask, task);
 
