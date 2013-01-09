@@ -117,6 +117,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			connection.setConnectTimeout(timeout);
 			connection.setReadTimeout(timeout);
 			connection.setRequestProperty("Cookie", buildCookieString(cookies));
+			connection.setRequestProperty("User-Agent", USERAGENT);
 			connection.connect();
 
 			final Encoding contentEncoding = new Encoding(connection.getContentEncoding());
@@ -192,6 +193,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			connection.setConnectTimeout(timeout);
 			connection.setReadTimeout(timeout);
 			connection.setRequestProperty("Cookie", buildCookieString(cookies));
+			connection.setRequestProperty("User-Agent", USERAGENT);
 			connection.setDoOutput(true);
 			connection.connect();
 			final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());

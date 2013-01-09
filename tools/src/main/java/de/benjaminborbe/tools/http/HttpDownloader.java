@@ -5,6 +5,8 @@ import java.util.Map;
 
 public interface HttpDownloader {
 
+	String USERAGENT = "Yet Another Bot";
+
 	HttpDownloadResult getUrl(URL url, int timeOut) throws HttpDownloaderException;
 
 	HttpDownloadResult getUrl(URL url, int timeOut, Map<String, String> cookies) throws HttpDownloaderException;

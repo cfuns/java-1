@@ -47,14 +47,17 @@ public class WebsearchRefresher {
 							logger.debug("refresh pages limit reached => exit");
 							return;
 						}
-
-						counter++;
-
 						final String url = page.getUrl();
-						logger.debug("trigger refresh of url " + url);
-						final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
-						crawlerService.processCrawlerInstruction(crawlerInstruction);
+						if (!websearchRobotsTxtUtil.isAllowed(url)) {
+							logger.debug("robots.txt disallow url: " + url);
+						}
+						else {
+							counter++;
 
+							logger.debug("trigger refresh of url " + url);
+							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
+							crawlerService.processCrawlerInstruction(crawlerInstruction);
+						}
 					}
 					catch (final Exception e) {
 						logger.error(e.getClass().getSimpleName(), e);
@@ -80,6 +83,8 @@ public class WebsearchRefresher {
 
 	private final WebsearchConfig websearchConfig;
 
+	private final WebsearchRobotsTxtUtil websearchRobotsTxtUtil;
+
 	@Inject
 	public WebsearchRefresher(
 			final Logger logger,
@@ -87,13 +92,15 @@ public class WebsearchRefresher {
 			final WebsearchUpdateDeterminer updateDeterminer,
 			final CrawlerService crawlerService,
 			final RunOnlyOnceATime runOnlyOnceATime,
-			final ThreadRunner threadRunner) {
+			final ThreadRunner threadRunner,
+			final WebsearchRobotsTxtUtil websearchRobotsTxtUtil) {
 		this.logger = logger;
 		this.websearchConfig = websearchConfig;
 		this.updateDeterminer = updateDeterminer;
 		this.crawlerService = crawlerService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.threadRunner = threadRunner;
+		this.websearchRobotsTxtUtil = websearchRobotsTxtUtil;
 	}
 
 	public void refresh() {
