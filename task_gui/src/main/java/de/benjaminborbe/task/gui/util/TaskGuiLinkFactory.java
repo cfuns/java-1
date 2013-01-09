@@ -274,9 +274,17 @@ public class TaskGuiLinkFactory {
 				getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, String.valueOf(taskContextIdentifier)));
 	}
 
-	public Widget taskUpdateFocus(final HttpServletRequest request, final TaskIdentifier id, final TaskFocus taskFocus, final String name) throws MalformedURLException,
+	public Widget taskUpdateFocus(final HttpServletRequest request, final Task task, final TaskFocus taskFocus, final String name) throws MalformedURLException,
 			UnsupportedEncodingException {
-		return new TooltipWidget(new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UPDATE_FOCUS, getLoopThrough(request).add(
-				TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(id)).add(TaskGuiConstants.PARAMETER_TASK_FOCUS, taskFocus.name()), name)).addTooltip("update focus to " + name);
+		return new TooltipWidget(
+
+		new SpanWidget(
+
+		new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UPDATE_FOCUS, getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID,
+				String.valueOf(task.getId())).add(TaskGuiConstants.PARAMETER_TASK_FOCUS, taskFocus.name()), name)
+
+		).addClass(taskFocus.equals(task.getFocus()) ? "taskFocusSelected" : "taskFocusNotSelected")
+
+		).addTooltip("update focus to " + name);
 	}
 }

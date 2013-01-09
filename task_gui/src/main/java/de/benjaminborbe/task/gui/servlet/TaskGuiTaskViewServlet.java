@@ -25,6 +25,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -244,6 +245,13 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		options.add(" ");
 		options.add(taskGuiLinkFactory.taskCreateSubTask(request, taskGuiWidgetFactory.buildImage(request, "subtask"), task.getId()));
 		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.INBOX, "inbox"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.TODAY, "today"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.NEXT, "next"));
+		options.add(" ");
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.SOMEDAY, "someday"));
 		widgets.add(options);
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {

@@ -185,13 +185,13 @@ public class TaskGuiWidgetFactory {
 		options.add(" ");
 		options.add(buildImage(request, "empty"));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.INBOX, "inbox"));
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.INBOX, "inbox"));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.TODAY, "today"));
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.TODAY, "today"));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.NEXT, "next"));
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.NEXT, "next"));
 		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task.getId(), TaskFocus.SOMEDAY, "someday"));
+		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.SOMEDAY, "someday"));
 
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		final DivWidget div = new DivWidget(row).addClass("taskEntry");
