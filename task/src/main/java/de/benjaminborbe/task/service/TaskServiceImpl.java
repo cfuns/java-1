@@ -48,6 +48,7 @@ import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextToUserManyToManyRelation;
 import de.benjaminborbe.task.dao.TaskDao;
 import de.benjaminborbe.task.dao.TaskToTaskContextManyToManyRelation;
+import de.benjaminborbe.task.util.TaskCompletedPredicate;
 import de.benjaminborbe.task.util.TaskFocusPredicate;
 import de.benjaminborbe.task.util.TaskNotCompletedPredicate;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -833,17 +834,21 @@ public class TaskServiceImpl implements TaskService {
 			final Set<Task> result = new HashSet<Task>();
 
 			// add shared tasks
+			final Set<TaskIdentifier> taskIdentifiers = new HashSet<TaskIdentifier>();
 			final Collection<TaskContext> contexts = getTasksContexts(sessionIdentifier);
+			logger.debug("found " + contexts.size() + " contexts");
 			for (final TaskContext context : contexts) {
+				logger.debug("search task in context: " + context.getId() + " started");
 				final StorageIterator i = taskToTaskContextManyToManyRelation.getB(context.getId());
 				while (i.hasNext()) {
 					final StorageValue id = i.next();
-					final TaskBean task = taskDao.load(createTaskIdentifier(id.getString()));
-					if (Boolean.TRUE.equals(task.getCompleted())) {
-						result.add(task);
-					}
+					taskIdentifiers.add(createTaskIdentifier(id.getString()));
 				}
+				logger.debug("search task in context: " + context.getId() + " finished");
 			}
+
+			result.addAll(taskDao.load(taskIdentifiers));
+			logger.debug("tasks from context: " + result.size());
 
 			// add owned tasks
 			final EntityIterator<TaskBean> i = taskDao.getTasksCompleted(userIdentifier);
@@ -851,7 +856,8 @@ public class TaskServiceImpl implements TaskService {
 				final Task task = i.next();
 				result.add(task);
 			}
-			return filterWithContexts(result, taskContextIdentifiers);
+
+			return filterWithContexts(Collections2.filter(result, new TaskCompletedPredicate<Task>()), taskContextIdentifiers);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
