@@ -11,6 +11,6 @@ public class TaskCompletedPredicate<E extends Task> implements Predicate<E> {
 
 	@Override
 	public boolean apply(final E task) {
-		return task != null && task.getCompleted();
+		return task != null && Boolean.TRUE.equals(task.getCompleted());
 	}
 }
