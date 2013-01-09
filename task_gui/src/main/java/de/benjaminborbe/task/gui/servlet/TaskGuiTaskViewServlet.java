@@ -250,16 +250,16 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
 		}
 		if (task.getStart() != null) {
-			widgets.add(new DivWidget("Start: " + calendarUtil.toDateTimeString(task.getStart())
+			widgets.add(new DivWidget("Start: " + calendarUtil.toDateTimeString(task.getStart()) + " " + calendarUtil.getWeekday(task.getStart())
 					+ (task.getRepeatStart() != null ? " (repeat in + " + task.getRepeatStart() + " days)" : "")));
 		}
 		if (task.getDue() != null) {
-			widgets.add(new DivWidget("Due: " + calendarUtil.toDateTimeString(task.getDue()) + (task.getRepeatDue() != null ? " (repeat in + " + task.getRepeatDue() + " days)" : "")));
+			widgets.add(new DivWidget("Due: " + calendarUtil.toDateTimeString(task.getDue()) + " " + calendarUtil.getWeekday(task.getDue())
+					+ (task.getRepeatDue() != null ? " (repeat in + " + task.getRepeatDue() + " days)" : "")));
 		}
 		if (task.getDescription() != null) {
 			widgets.add(new PreWidget(buildDescription(task.getDescription())));
 		}
-
 	}
 
 	private Widget buildDescription(final String description) {

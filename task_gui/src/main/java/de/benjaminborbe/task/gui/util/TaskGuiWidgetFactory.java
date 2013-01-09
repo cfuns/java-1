@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -47,12 +48,20 @@ public class TaskGuiWidgetFactory {
 
 	private final Logger logger;
 
+	private final TaskComparator taskComparator;
+
 	@Inject
-	public TaskGuiWidgetFactory(final Logger logger, final TaskGuiLinkFactory taskGuiLinkFactory, final TaskGuiUtil taskGuiUtil, final CalendarUtil calendarUtil) {
+	public TaskGuiWidgetFactory(
+			final Logger logger,
+			final TaskGuiLinkFactory taskGuiLinkFactory,
+			final TaskGuiUtil taskGuiUtil,
+			final CalendarUtil calendarUtil,
+			final TaskComparator taskComparator) {
 		this.logger = logger;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiUtil = taskGuiUtil;
 		this.calendarUtil = calendarUtil;
+		this.taskComparator = taskComparator;
 	}
 
 	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final Collection<Task> allTasks, final HttpServletRequest request,
@@ -72,6 +81,9 @@ public class TaskGuiWidgetFactory {
 	}
 
 	private List<Task> groupByDueState(final List<Task> tasks, final TimeZone timeZone) {
+
+		Collections.sort(tasks, taskComparator);
+
 		final TaskDueTodayPredicate taskDueTodayPredicate = new TaskDueTodayPredicate(logger, calendarUtil, timeZone);
 		final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
 		final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate = new TaskDueNotExpiredPredicate(logger, calendarUtil, timeZone);
