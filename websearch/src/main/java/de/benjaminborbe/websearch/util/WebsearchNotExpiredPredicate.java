@@ -39,17 +39,19 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 			final List<WebsearchConfigurationBean> pageConfigurations = getConfigurationForPage(page, configurations);
 			// handle only pages configuration exists for
 			if (!pageConfigurations.isEmpty()) {
+
+				final long delay = getDelay(pageConfigurations);
+				try {
+					logger.debug("sleep: " + delay);
+					Thread.sleep(delay);
+				}
+				catch (final InterruptedException e) {
+				}
+
 				logger.debug("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
 				if (isExpired(time, page, pageConfigurations)) {
 					logger.debug("url " + page.getId() + " is expired");
-
-					final long delay = getDelay(pageConfigurations);
-					try {
-						Thread.sleep(delay);
-					}
-					catch (final InterruptedException e) {
-					}
 
 					return true;
 				}

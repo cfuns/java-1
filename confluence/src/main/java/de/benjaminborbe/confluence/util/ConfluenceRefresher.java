@@ -134,6 +134,14 @@ public class ConfluenceRefresher {
 			logger.debug("found " + pageSummaries.size() + " pages in space " + spaceKey);
 			for (final ConfluenceConnectorPageSummary pageSummary : pageSummaries) {
 
+				// Throttle crawling
+				try {
+					logger.debug("sleep: " + delay);
+					Thread.sleep(delay);
+				}
+				catch (final InterruptedException e) {
+				}
+
 				if (confluenceConfig.getRefreshLimit() != null && confluenceConfig.getRefreshLimit() >= 0 && counter >= confluenceConfig.getRefreshLimit()) {
 					logger.debug("refresh limit reached => exit refresh");
 					return;
@@ -166,13 +174,6 @@ public class ConfluenceRefresher {
 						pageBean.setInstanceId(confluenceInstanceBean.getId());
 						pageBean.setUrl(url);
 						confluencePageDao.save(pageBean);
-
-						// Throttle crawling
-						try {
-							Thread.sleep(delay);
-						}
-						catch (final InterruptedException e) {
-						}
 					}
 					else {
 						logger.debug("skip page " + page.getTitle());
