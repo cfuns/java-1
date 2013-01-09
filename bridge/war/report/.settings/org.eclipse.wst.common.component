@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="bb_bridge_war_office">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="de.benjaminborbe.bridge.lib-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bb_bridge_lib/bb_bridge_lib">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="bridge"/>
+        <property name="java-output-path" value="/bb_bridge_war_office/target/classes"/>
+    </wb-module>
+</project-modules>

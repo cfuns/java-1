@@ -17,6 +17,7 @@
 		<module>office</module>
 		<module>online</module>
 		<module>obr</module>
+		<module>report</module>
 	</modules>
 	<build>
 		<plugins>

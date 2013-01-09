@@ -24,6 +24,10 @@ packageobr:
 	cd bridge/war/obr && make installwotest
 deployobr:
 	cd bridge/war/obr && make deployforce
+packagereport:
+	cd bridge/war/report && make installwotest
+deployreport:
+	cd bridge/war/report && make deployforce
 packageoffice:
 	cd bridge/war/office && make installwotest
 deployoffice:
