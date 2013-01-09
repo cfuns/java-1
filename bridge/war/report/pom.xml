@@ -17,7 +17,7 @@
 			de.benjaminborbe.authorization, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization.gui, de.benjaminborbe.configuration, de.benjaminborbe.configuration.api,
 			de.benjaminborbe.configuration.gui, de.benjaminborbe.cron.api, de.benjaminborbe.cron, de.benjaminborbe.cron.gui, de.benjaminborbe.shortener.api, de.benjaminborbe.shortener,
 			de.benjaminborbe.shortener.gui, de.benjaminborbe.mail.api, de.benjaminborbe.mail, de.benjaminborbe.mail.gui, de.benjaminborbe.dashboard.api, de.benjaminborbe.message.api, de.benjaminborbe.message,
-			de.benjaminborbe.message.gui 
+			de.benjaminborbe.message.gui, de.benjaminborbe.slash, de.benjaminborbe.slash.api, de.benjaminborbe.slash.gui 
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -219,6 +219,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.message.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.slash</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.slash.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.slash.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
