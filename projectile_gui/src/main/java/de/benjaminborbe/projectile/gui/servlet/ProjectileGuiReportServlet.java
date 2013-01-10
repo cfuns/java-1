@@ -112,8 +112,8 @@ public class ProjectileGuiReportServlet extends WebsiteHtmlServlet {
 	private Widget createBlock(final String name, final Double intern, final Double extern, final Double billable) {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H2Widget(name));
-		final double total = extern + intern;
-		if (extern != null && intern != null && billable != null && (total > 0)) {
+		if (extern != null && intern != null && billable != null && (extern + intern > 0)) {
+			final double total = extern + intern;
 			final double externPercent = (extern / total) * 100;
 			final double billableExternPercent = (billable / total) * 100;
 			final DecimalFormat df = new DecimalFormat("#####0.0h");
