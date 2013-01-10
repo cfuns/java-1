@@ -16,4 +16,16 @@ public interface ProjectileSlacktimeReport {
 
 	Double getYearExtern();
 
+	Double getWeekTarget();
+
+	Double getWeekBillable();
+
+	Double getMonthTarget();
+
+	Double getMonthBillable();
+
+	Double getYearTarget();
+
+	Double getYearBillable();
+
 }

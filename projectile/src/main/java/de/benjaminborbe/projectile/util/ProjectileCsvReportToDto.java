@@ -8,6 +8,10 @@ public class ProjectileCsvReportToDto {
 
 	private Double extern;
 
+	private Double billable;
+
+	private Double target;
+
 	public String getUsername() {
 		return username;
 	}
@@ -30,5 +34,21 @@ public class ProjectileCsvReportToDto {
 
 	public void setExtern(final Double extern) {
 		this.extern = extern;
+	}
+
+	public Double getBillable() {
+		return billable;
+	}
+
+	public void setBillable(final Double billable) {
+		this.billable = billable;
+	}
+
+	public Double getTarget() {
+		return target;
+	}
+
+	public void setTarget(final Double target) {
+		this.target = target;
 	}
 }

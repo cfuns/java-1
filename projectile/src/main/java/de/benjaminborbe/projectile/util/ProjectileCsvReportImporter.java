@@ -36,14 +36,20 @@ public class ProjectileCsvReportImporter {
 			if (ProjectileSlacktimeReportInterval.WEEK.equals(interval)) {
 				bean.setWeekExtern(dto.getExtern());
 				bean.setWeekIntern(dto.getIntern());
+				bean.setWeekBillable(dto.getBillable());
+				bean.setWeekTarget(dto.getTarget());
 			}
 			if (ProjectileSlacktimeReportInterval.MONTH.equals(interval)) {
 				bean.setMonthExtern(dto.getExtern());
 				bean.setMonthIntern(dto.getIntern());
+				bean.setMonthBillable(dto.getBillable());
+				bean.setMonthTarget(dto.getTarget());
 			}
 			if (ProjectileSlacktimeReportInterval.YEAR.equals(interval)) {
 				bean.setYearExtern(dto.getExtern());
 				bean.setYearIntern(dto.getIntern());
+				bean.setYearBillable(dto.getBillable());
+				bean.setYearTarget(dto.getTarget());
 			}
 			projectileReportDao.save(bean);
 		}

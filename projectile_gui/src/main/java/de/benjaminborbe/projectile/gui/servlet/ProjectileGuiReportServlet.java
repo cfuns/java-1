@@ -88,9 +88,9 @@ public class ProjectileGuiReportServlet extends WebsiteHtmlServlet {
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(sessionIdentifier);
 
 			if (report != null) {
-				widgets.add(createBlock("Week", report.getWeekIntern(), report.getWeekExtern()));
-				widgets.add(createBlock("Month", report.getMonthIntern(), report.getMonthExtern()));
-				widgets.add(createBlock("Year", report.getYearIntern(), report.getYearExtern()));
+				widgets.add(createBlock("Week", report.getWeekIntern(), report.getWeekExtern(), report.getWeekBillable()));
+				widgets.add(createBlock("Month", report.getMonthIntern(), report.getMonthExtern(), report.getMonthBillable()));
+				widgets.add(createBlock("Year", report.getYearIntern(), report.getYearExtern(), report.getYearBillable()));
 			}
 			else {
 				widgets.add("no data found");
@@ -109,16 +109,22 @@ public class ProjectileGuiReportServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private Widget createBlock(final String name, final Double intern, final Double extern) {
+	private Widget createBlock(final String name, final Double intern, final Double extern, final Double billable) {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H2Widget(name));
-		if (extern != null && intern != null && (extern > 0 || intern > 0)) {
-			final double total = extern + intern;
-			final double procent = (extern / total) * 100;
+		final double total = extern + intern;
+		if (extern != null && intern != null && billable != null && (total > 0)) {
+			final double externPercent = (extern / total) * 100;
+			final double billableExternPercent = (billable / total) * 100;
 			final DecimalFormat df = new DecimalFormat("#####0.0h");
-			widgets.add(df.format(procent) + "%");
+			widgets.add("Extern: ");
+			widgets.add(df.format(externPercent) + "%");
+			widgets.add("Billable: ");
+			widgets.add(df.format(billableExternPercent) + "%");
 			widgets.add(" ");
 			widgets.add("(");
+			widgets.add("total: " + df.format(total));
+			widgets.add(" ");
 			widgets.add("extern: " + df.format(extern));
 			widgets.add(" ");
 			widgets.add("intern: " + df.format(intern));

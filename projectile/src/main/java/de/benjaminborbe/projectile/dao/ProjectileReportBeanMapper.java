@@ -39,12 +39,18 @@ public class ProjectileReportBeanMapper extends MapObjectMapperAdapter<Projectil
 
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("weekIntern", mapperDouble));
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("weekExtern", mapperDouble));
+		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("weekTarget", mapperDouble));
+		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("weekBillable", mapperDouble));
 
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("monthIntern", mapperDouble));
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("monthExtern", mapperDouble));
+		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("monthTarget", mapperDouble));
+		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("monthBillable", mapperDouble));
 
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("yearIntern", mapperDouble));
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("yearExtern", mapperDouble));
+		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("yearTarget", mapperDouble));
+		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Double>("yearBillable", mapperDouble));
 
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, Calendar>("modified", mapperCalendar));

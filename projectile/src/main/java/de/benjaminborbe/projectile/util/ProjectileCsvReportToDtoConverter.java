@@ -39,12 +39,14 @@ public class ProjectileCsvReportToDtoConverter {
 			final String line = lineIterator.next();
 			if (line != null) {
 				final String[] parts = line.split(";");
-				if (parts != null && parts.length >= 4) {
+				if (parts != null && parts.length >= 5) {
 					final String username = parts[0];
+					final String target = parts[1];
 					final String extern = parts[2];
 					final String intern = parts[3];
+					final String billable = parts[4];
 					if (username != null && username.trim().length() > 0) {
-						result.add(buildBean(username, extern, intern));
+						result.add(buildBean(username, target, extern, intern, billable));
 					}
 				}
 			}
@@ -54,12 +56,14 @@ public class ProjectileCsvReportToDtoConverter {
 		return result;
 	}
 
-	private ProjectileCsvReportToDto buildBean(final String username, final String extern, final String intern) throws ParseException {
-		final ProjectileCsvReportToDto projectileReportBean = new ProjectileCsvReportToDto();
-		projectileReportBean.setUsername(projectileNameMapper.fullnameToLogin(username));
-		projectileReportBean.setExtern(parseDouble(extern));
-		projectileReportBean.setIntern(parseDouble(intern));
-		return projectileReportBean;
+	private ProjectileCsvReportToDto buildBean(final String username, final String target, final String extern, final String intern, final String billable) throws ParseException {
+		final ProjectileCsvReportToDto projectileReport = new ProjectileCsvReportToDto();
+		projectileReport.setUsername(projectileNameMapper.fullnameToLogin(username));
+		projectileReport.setExtern(parseDouble(extern));
+		projectileReport.setIntern(parseDouble(intern));
+		projectileReport.setBillable(parseDouble(billable));
+		projectileReport.setTarget(parseDouble(target));
+		return projectileReport;
 	}
 
 	private Double parseDouble(final String number) throws ParseException {
