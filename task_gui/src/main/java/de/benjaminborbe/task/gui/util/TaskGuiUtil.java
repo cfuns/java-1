@@ -180,9 +180,25 @@ public class TaskGuiUtil {
 					logger.debug("parseSmart token " + nextToken + " failed", e);
 				}
 			}
-			else if (urlUtil.isUrl(token)) {
-				logger.debug("url: " + token);
-				task.setUrl(token);
+			else if (hasNext && "url:".equalsIgnoreCase(token)) {
+				final String nextToken = st.nextToken();
+				logger.debug("url: " + nextToken);
+				if (urlUtil.isUrl(nextToken)) {
+					task.setUrl(nextToken);
+				}
+				else {
+					logger.debug("invalid url: " + nextToken);
+				}
+			}
+			else if (hasNext && "focus:".equalsIgnoreCase(token)) {
+				final String nextToken = st.nextToken();
+				logger.debug("focus: " + nextToken);
+				try {
+					task.setFocus(parseUtil.parseEnum(TaskFocus.class, nextToken.toUpperCase()));
+				}
+				catch (final ParseException e) {
+					logger.debug("parseEnum token " + nextToken + " failed", e);
+				}
 			}
 			else {
 				remainingTokens.add(token);

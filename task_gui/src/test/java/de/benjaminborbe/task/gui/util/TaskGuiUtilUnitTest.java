@@ -14,6 +14,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.widget.TaskCache;
@@ -97,8 +98,14 @@ public class TaskGuiUtilUnitTest {
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla ").getName(), is("bla"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla: ").getName(), is("bla:"));
 
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla http://www.google.de ").getName(), is("bla"));
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla http://www.google.de ").getUrl(), is("http://www.google.de"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla url: http://www.google.de ").getName(), is("bla"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla url: http://www.google.de ").getUrl(), is("http://www.google.de"));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: next ").getName(), is("bla"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: next ").getFocus(), is(TaskFocus.NEXT));
+
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: bla ").getName(), is("bla"));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: bla ").getFocus(), is(nullValue()));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getName(), is("bla foo"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContexts().size(), is(1));
