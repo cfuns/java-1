@@ -252,10 +252,10 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.NEXT, "next"));
 		options.add(" ");
 		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.SOMEDAY, "someday"));
-		widgets.add(options);
+		widgets.add(new DivWidget(options).addClass("options"));
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
-			widgets.add(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK));
+			widgets.add(new DivWidget(new LinkWidget(task.getUrl(), task.getUrl()).addTarget(Target.BLANK)));
 		}
 		if (task.getStart() != null) {
 			widgets.add(new DivWidget("Start: " + calendarUtil.toDateTimeString(task.getStart()) + " " + calendarUtil.getWeekday(task.getStart())
