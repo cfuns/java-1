@@ -376,12 +376,12 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public boolean refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("refreshSearchIndex");
 			authorizationService.expectAdminRole(sessionIdentifier);
-			return confluenceRefresher.refresh();
+			confluenceRefresher.refresh();
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new ConfluenceServiceException(e);
