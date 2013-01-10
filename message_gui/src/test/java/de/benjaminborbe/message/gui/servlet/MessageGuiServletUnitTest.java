@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.message.gui.util.MessageGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -122,8 +123,11 @@ public class MessageGuiServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final MessageGuiLinkFactory messageGuiLinkFactory = EasyMock.createNiceMock(MessageGuiLinkFactory.class);
+		EasyMock.replay(messageGuiLinkFactory);
+
 		final MessageGuiServlet messageserviceServlet = new MessageGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, messageGuiLinkFactory);
 
 		messageserviceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
