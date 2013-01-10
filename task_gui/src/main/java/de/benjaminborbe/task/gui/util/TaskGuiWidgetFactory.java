@@ -9,7 +9,6 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.common.collect.Collections2;
@@ -21,15 +20,11 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.widget.TaskCache;
-import de.benjaminborbe.task.gui.widget.TooltipWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.html.Target;
-import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
@@ -100,106 +95,8 @@ public class TaskGuiWidgetFactory {
 		return ul;
 	}
 
-	public Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
-			final TaskCache taskCache, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-
-		final ListWidget row = new ListWidget();
-		if (position > 0) {
-			row.add(taskGuiLinkFactory.taskPrioFirst(request, buildImage(request, "first"), task.getId()));
-			row.add(" ");
-			row.add(taskGuiLinkFactory.taskPrioSwap(request, buildImage(request, "up"), task.getId(), tasks.get(position - 1).getId()));
-			row.add(" ");
-		}
-		else {
-			row.add(buildImage(request, "empty"));
-			row.add(" ");
-			row.add(buildImage(request, "empty"));
-			row.add(" ");
-		}
-		if (position < tasks.size() - 1) {
-			row.add(taskGuiLinkFactory.taskPrioSwap(request, buildImage(request, "down"), task.getId(), tasks.get(position + 1).getId()));
-			row.add(" ");
-			row.add(taskGuiLinkFactory.taskPrioLast(request, buildImage(request, "last"), task.getId()));
-			row.add(" ");
-		}
-		else {
-			row.add(buildImage(request, "empty"));
-			row.add(" ");
-			row.add(buildImage(request, "empty"));
-			row.add(" ");
-		}
-		row.add(taskGuiLinkFactory.taskUpdate(request, buildImage(request, "update"), task));
-		row.add(" ");
-		row.add(taskGuiLinkFactory.taskView(request, buildImage(request, "view"), task));
-		row.add(" ");
-		row.add(taskGuiLinkFactory.taskCreateSubTask(request, buildImage(request, "subtask"), task.getId()));
-		row.add(" ");
-		row.add(taskGuiLinkFactory.taskDelete(request, buildImage(request, "delete"), task));
-		row.add(" ");
-		row.add(taskGuiLinkFactory.taskComplete(request, buildImage(request, "complete"), task));
-		row.add(" ");
-
-		final ListWidget rowText = new ListWidget();
-
-		rowText.add(buildTaskName(sessionIdentifier, request, task, taskCache));
-		rowText.add(" ");
-
-		if (task.getUrl() != null && task.getUrl().length() > 0) {
-			rowText.add(new LinkWidget(task.getUrl(), "goto ").addTarget(Target.BLANK));
-		}
-
-		if (task.getRepeatDue() != null && task.getRepeatDue() > 0 || task.getRepeatStart() != null && task.getRepeatStart() > 0) {
-			final List<String> parts = new ArrayList<String>();
-			if (task.getRepeatDue() != null && task.getRepeatDue() > 0) {
-				parts.add("due: " + task.getRepeatDue() + " day");
-			}
-			if (task.getRepeatStart() != null && task.getRepeatStart() > 0) {
-				parts.add("start: " + task.getRepeatStart() + " day");
-			}
-			rowText.add(new TooltipWidget("(repeat) ").addTooltip(StringUtils.join(parts, " ")));
-		}
-		row.add(new SpanWidget(rowText).addClass("taskText"));
-
-		final ListWidget options = new ListWidget();
-
-		options.add(taskGuiLinkFactory.taskStartLater(request, task.getId()));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskStartTomorrow(request, task.getId()));
-		options.add(" ");
-		options.add(buildImage(request, "empty"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.INBOX, "inbox"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.TODAY, "today"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.NEXT, "next"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.SOMEDAY, "someday"));
-
-		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
-		final DivWidget div = new DivWidget(row).addClass("taskEntry");
-		if (task.getDue() != null) {
-			final TaskDueTodayPredicate taskDueTodayPredicate = new TaskDueTodayPredicate(logger, calendarUtil, timeZone);
-			final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
-			if (taskDueTodayPredicate.apply(task)) {
-				div.addClass("dueToday");
-			}
-			else if (taskDueExpiredPredicate.apply(task)) {
-				div.addClass("dueExpired");
-			}
-		}
-		if (task.getStart() != null) {
-			final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
-			if (!taskStartReadyPredicate.apply(task)) {
-				div.addClass("startNotReached");
-			}
-		}
-		return div;
-	}
-
-	private Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final TaskCache taskCache)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+	public Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final TaskCache taskCache) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, taskCache, task, TaskGuiConstants.PARENT_NAME_LENGTH);
 		return new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle");
 	}

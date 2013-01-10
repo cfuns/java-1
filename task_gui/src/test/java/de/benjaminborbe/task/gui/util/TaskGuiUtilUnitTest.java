@@ -42,26 +42,27 @@ public class TaskGuiUtilUnitTest {
 		}
 		{
 			final TaskCache taskCache = new TaskCache(logger, null);
-			taskCache.add(buildTask(null));
+			taskCache.add(buildTask(new TaskIdentifier(1), null));
 			assertEquals(1, taskCache.getChildTasks(null).size());
 		}
 		{
 			final TaskCache taskCache = new TaskCache(logger, null);
-			taskCache.add(buildTask(null));
-			taskCache.add(buildTask(new TaskIdentifier(123)));
+			taskCache.add(buildTask(new TaskIdentifier(2), null));
+			taskCache.add(buildTask(new TaskIdentifier(3), new TaskIdentifier(123)));
 			assertEquals(1, taskCache.getChildTasks(null).size());
 		}
 		{
 			final TaskCache taskCache = new TaskCache(logger, null);
-			taskCache.add(buildTask(null));
-			taskCache.add(buildTask(new TaskIdentifier(123)));
+			taskCache.add(buildTask(new TaskIdentifier(4), null));
+			taskCache.add(buildTask(new TaskIdentifier(5), new TaskIdentifier(123)));
 			assertEquals(1, taskCache.getChildTasks(new TaskIdentifier(123)).size());
 		}
 	}
 
-	private Task buildTask(final TaskIdentifier value) {
+	private Task buildTask(final TaskIdentifier id, final TaskIdentifier parentId) {
 		final Task task = EasyMock.createMock(Task.class);
-		EasyMock.expect(task.getParentId()).andReturn(value).anyTimes();
+		EasyMock.expect(task.getId()).andReturn(id).anyTimes();
+		EasyMock.expect(task.getParentId()).andReturn(parentId).anyTimes();
 		EasyMock.replay(task);
 		return task;
 	}
