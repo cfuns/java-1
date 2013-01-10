@@ -138,7 +138,8 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 				while (i.hasNext()) {
 					final StorageRow e = i.next();
-					if (e.getValue(new StorageValue(ID_FIELD, getEncoding())) != null) {
+					final StorageValue value = e.getValue(new StorageValue(ID_FIELD, getEncoding()));
+					if (value != null && !value.isEmpty()) {
 						next = e;
 						return true;
 					}
@@ -310,9 +311,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			final Iterator<StorageValue> fi = fieldNames.iterator();
 			final Iterator<StorageValue> vi = values.iterator();
 			while (fi.hasNext() && vi.hasNext()) {
-				final String fieldname = fi.next().getString();
-				final String fieldvalue = vi.next().getString();
-				data.put(fieldname, fieldvalue);
+				final StorageValue fieldname = fi.next();
+				final StorageValue fieldvalue = vi.next();
+				data.put(fieldname.getString(), fieldvalue != null ? fieldvalue.getString() : null);
 			}
 			mapper.map(data, entity);
 		}
@@ -330,14 +331,16 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			if (id == null || id.getId() == null) {
 				throw new NullPointerException("can't load without id");
 			}
-			if (!exists(id)) {
+			final E entity = create();
+			final List<StorageValue> fieldNames = getFieldNames(entity);
+			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(id.getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
+			load(entity, fieldNames, values);
+			if (entity.getId() != null && entity.getId().getId() != null) {
+				return entity;
+			}
+			else {
 				return null;
 			}
-			final E entity = create();
-			entity.setId(id);
-			final List<StorageValue> fieldNames = getFieldNames(entity);
-			load(entity, fieldNames);
-			return entity;
 		}
 		catch (final MapException e) {
 			throw new StorageException("MapException load with id " + id + " failed]", e);
@@ -426,7 +429,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			for (final List<StorageValue> columnValues : data) {
 				final E entity = create();
 				load(entity, columnNames, columnValues);
-				result.add(entity);
+				if (entity.getId() != null && entity.getId().getId() != null) {
+					result.add(entity);
+				}
 			}
 			return result;
 		}

@@ -64,16 +64,16 @@ public class TaskGuiTaskLastServlet extends TaskGuiWebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-			logger.trace("move task " + taskIdentifier + " last");
+			logger.debug("move task " + taskIdentifier + " last");
 			final List<Task> tasks = new ArrayList<Task>(taskService.getTasksNotCompleted(sessionIdentifier));
 			final int pos = findPosition(tasks, taskIdentifier);
-			logger.trace("found task at pos " + pos);
+			logger.debug("found task at pos " + pos);
 			for (int i = pos; i < tasks.size(); i++) {
 				final Task task = tasks.get(i);
-				logger.trace("swap position " + taskIdentifier + " <=> " + task.getId());
+				logger.debug("swap position " + taskIdentifier + " <=> " + task.getId());
 				taskService.swapPrio(sessionIdentifier, taskIdentifier, task.getId());
 			}
-			logger.trace("done");
+			logger.debug("done");
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
