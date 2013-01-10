@@ -104,6 +104,6 @@ public class WebsearchRefresher {
 	}
 
 	public void refresh() {
-		threadRunner.run("refreshpages", new RefreshRunnable());
+		threadRunner.run("refreshWebsearchPages", new RefreshRunnable());
 	}
 }

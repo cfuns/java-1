@@ -238,6 +238,6 @@ public class ConfluenceRefresher {
 	}
 
 	public void refresh() {
-		threadRunner.run("refreshpages", new RefreshRunnable());
+		threadRunner.run("refreshConfluencePages", new RefreshRunnable());
 	}
 }
