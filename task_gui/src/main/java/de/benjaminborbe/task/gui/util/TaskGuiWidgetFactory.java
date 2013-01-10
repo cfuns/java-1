@@ -3,7 +3,6 @@ package de.benjaminborbe.task.gui.util;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
@@ -26,6 +25,7 @@ import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.task.gui.widget.TooltipWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.Target;
@@ -64,23 +64,7 @@ public class TaskGuiWidgetFactory {
 		this.taskComparator = taskComparator;
 	}
 
-	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final Collection<Task> allTasks, final HttpServletRequest request,
-			final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<Task> groupedTasks = groupByDueState(tasks, timeZone);
-
-		final UlWidget ul = new UlWidget();
-		for (int i = 0; i < groupedTasks.size(); ++i) {
-			final Task task = groupedTasks.get(i);
-			final ListWidget widgets = new ListWidget();
-			final Widget div = buildTaskListRow(sessionIdentifier, request, groupedTasks, i, task, allTasks, timeZone);
-			widgets.add(div);
-			ul.add(widgets);
-		}
-		ul.addClass("taskList");
-		return ul;
-	}
-
-	private List<Task> groupByDueState(final List<Task> tasks, final TimeZone timeZone) {
+	public List<Task> groupByDueState(final List<Task> tasks, final TimeZone timeZone) {
 
 		Collections.sort(tasks, taskComparator);
 
@@ -95,9 +79,9 @@ public class TaskGuiWidgetFactory {
 		return result;
 	}
 
-	public Widget taskListWithChilds(final SessionIdentifier sessionIdentifier, final List<Task> allTasks, final TaskIdentifier parentId, final HttpServletRequest request,
+	public Widget taskListWithChilds(final SessionIdentifier sessionIdentifier, final TaskCache taskCache, final TaskIdentifier parentId, final HttpServletRequest request,
 			final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<Task> tasks = taskGuiUtil.getChildTasks(allTasks, parentId);
+		final List<Task> tasks = taskCache.getChildTasks(parentId);
 		if (tasks.isEmpty()) {
 			return null;
 		}
@@ -106,18 +90,18 @@ public class TaskGuiWidgetFactory {
 			final Task task = tasks.get(i);
 			final ListWidget widgets = new ListWidget();
 			{
-				widgets.add(buildTaskName(sessionIdentifier, request, task, allTasks));
+				widgets.add(buildTaskName(sessionIdentifier, request, task, taskCache));
 			}
 			{
-				widgets.add(new DivWidget(taskListWithChilds(sessionIdentifier, allTasks, task.getId(), request, timeZone)));
+				widgets.add(new DivWidget(taskListWithChilds(sessionIdentifier, taskCache, task.getId(), request, timeZone)));
 			}
 			ul.add(widgets);
 		}
 		return ul;
 	}
 
-	private Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
-			final Collection<Task> allTasks, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
+	public Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
+			final TaskCache taskCache, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 
 		final ListWidget row = new ListWidget();
@@ -158,7 +142,7 @@ public class TaskGuiWidgetFactory {
 
 		final ListWidget rowText = new ListWidget();
 
-		rowText.add(buildTaskName(sessionIdentifier, request, task, allTasks));
+		rowText.add(buildTaskName(sessionIdentifier, request, task, taskCache));
 		rowText.add(" ");
 
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
@@ -214,9 +198,9 @@ public class TaskGuiWidgetFactory {
 		return div;
 	}
 
-	private Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final Collection<Task> allTasks)
+	private Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final TaskCache taskCache)
 			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
-		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, allTasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
+		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, taskCache, task, TaskGuiConstants.PARENT_NAME_LENGTH);
 		return new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle");
 	}
 

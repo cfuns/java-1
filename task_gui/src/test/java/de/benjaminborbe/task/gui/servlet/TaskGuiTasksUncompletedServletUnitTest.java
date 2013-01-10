@@ -39,6 +39,7 @@ import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.task.gui.util.TaskNameComparator;
 import de.benjaminborbe.task.gui.util.TaskPrioComparator;
+import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -162,8 +163,10 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, TaskFocus.INBOX, list)).andReturn(allTasks).anyTimes();
 		EasyMock.replay(taskGuiUtil);
 
+		final TaskCache taskCache = new TaskCache(logger, taskService);
+
 		final TaskGuiWidgetFactory taskGuiWidgetFactory = EasyMock.createMock(TaskGuiWidgetFactory.class);
-		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, allTasks, null, request, timeZone)).andReturn(new StringWidget(""));
+		EasyMock.expect(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, taskCache, null, request, timeZone)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiWidgetFactory);
 
 		final TaskGuiSwitchWidget taskGuiSwitchWidget = EasyMock.createNiceMock(TaskGuiSwitchWidget.class);
@@ -175,7 +178,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final TaskComparator taskComparator = new TaskComparator(taskNameComparator, taskPrioComparator);
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
 				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget, comparatorUtil,
-				taskComparator);
+				taskComparator, new ProviderAdapter<TaskCache>(taskCache));
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

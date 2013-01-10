@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -29,6 +30,7 @@ import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -64,6 +66,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final TaskComparator taskComparator;
 
+	private final Provider<TaskCache> taskCacheProvider;
+
 	@Inject
 	public TaskGuiTasksUncompletedServlet(
 			final Logger logger,
@@ -81,7 +85,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiUtil taskGuiUtil,
 			final TaskGuiSwitchWidget taskGuiSwitchWidget,
 			final ComparatorUtil comparatorUtil,
-			final TaskComparator taskComparator) {
+			final TaskComparator taskComparator,
+			final Provider<TaskCache> taskCacheProvider) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -91,6 +96,7 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 		this.taskGuiSwitchWidget = taskGuiSwitchWidget;
 		this.comparatorUtil = comparatorUtil;
 		this.taskComparator = taskComparator;
+		this.taskCacheProvider = taskCacheProvider;
 	}
 
 	@Override
@@ -111,10 +117,15 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 			final TaskFocus taskFocus = taskGuiUtil.getSelectedTaskFocus(request);
-			final List<Task> tasks = comparatorUtil.sort(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds), taskComparator);
+
+			final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds);
+			final TaskCache taskCache = taskCacheProvider.get();
+			taskCache.addAll(allTasks);
+
+			final List<Task> tasks = comparatorUtil.sort(allTasks, taskComparator);
 			final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 			logger.trace("found " + tasks.size() + " tasks");
-			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, tasks, null, request, timeZone));
+			widgets.add(taskGuiWidgetFactory.taskListWithChilds(sessionIdentifier, taskCache, null, request, timeZone));
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.tasksNext(request));

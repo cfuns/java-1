@@ -6,9 +6,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -19,6 +16,7 @@ import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
+import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -38,28 +36,26 @@ public class TaskGuiUtilUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final TaskGuiUtil taskGuiUtil = new TaskGuiUtil(logger, null, null, null, null, null);
-
 		{
-			final List<Task> allTasks = new ArrayList<Task>();
-			assertEquals(0, taskGuiUtil.getChildTasks(allTasks, null).size());
+			final TaskCache taskCache = new TaskCache(logger, null);
+			assertEquals(0, taskCache.getChildTasks(null).size());
 		}
 		{
-			final List<Task> allTasks = new ArrayList<Task>();
-			allTasks.add(buildTask(null));
-			assertEquals(1, taskGuiUtil.getChildTasks(allTasks, null).size());
+			final TaskCache taskCache = new TaskCache(logger, null);
+			taskCache.add(buildTask(null));
+			assertEquals(1, taskCache.getChildTasks(null).size());
 		}
 		{
-			final List<Task> allTasks = new ArrayList<Task>();
-			allTasks.add(buildTask(null));
-			allTasks.add(buildTask(new TaskIdentifier(123)));
-			assertEquals(1, taskGuiUtil.getChildTasks(allTasks, null).size());
+			final TaskCache taskCache = new TaskCache(logger, null);
+			taskCache.add(buildTask(null));
+			taskCache.add(buildTask(new TaskIdentifier(123)));
+			assertEquals(1, taskCache.getChildTasks(null).size());
 		}
 		{
-			final List<Task> allTasks = new ArrayList<Task>();
-			allTasks.add(buildTask(null));
-			allTasks.add(buildTask(new TaskIdentifier(123)));
-			assertEquals(1, taskGuiUtil.getChildTasks(allTasks, new TaskIdentifier(123)).size());
+			final TaskCache taskCache = new TaskCache(logger, null);
+			taskCache.add(buildTask(null));
+			taskCache.add(buildTask(new TaskIdentifier(123)));
+			assertEquals(1, taskCache.getChildTasks(new TaskIdentifier(123)).size());
 		}
 	}
 

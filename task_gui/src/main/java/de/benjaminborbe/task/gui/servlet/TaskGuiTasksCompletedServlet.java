@@ -2,6 +2,7 @@ package de.benjaminborbe.task.gui.servlet;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
+import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -79,6 +81,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final ComparatorUtil comparatorUtil;
 
+	private final Provider<TaskCache> taskCacheProvider;
+
 	@Inject
 	public TaskGuiTasksCompletedServlet(
 			final Logger logger,
@@ -95,7 +99,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiWidgetFactory taskGuiWidgetFactory,
 			final TaskGuiUtil taskGuiUtil,
 			final TaskGuiSwitchWidget taskGuiSwitchWidget,
-			final ComparatorUtil comparatorUtil) {
+			final ComparatorUtil comparatorUtil,
+			final Provider<TaskCache> taskCacheProvider) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -104,6 +109,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 		this.taskGuiUtil = taskGuiUtil;
 		this.taskGuiSwitchWidget = taskGuiSwitchWidget;
 		this.comparatorUtil = comparatorUtil;
+		this.taskCacheProvider = taskCacheProvider;
 	}
 
 	@Override
@@ -125,14 +131,19 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			{
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
-				final List<Task> tasks = comparatorUtil.sort(taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds), new CompareComletionDate());
+
+				final Collection<Task> allTasks = taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds);
+				final TaskCache taskCache = taskCacheProvider.get();
+				taskCache.addAll(allTasks);
+
+				final List<Task> tasks = comparatorUtil.sort(allTasks, new CompareComletionDate());
 				for (final Task task : tasks) {
 					final ListWidget row = new ListWidget();
 
 					row.add(calendarUtil.toDateTimeString(task.getCompletionDate()));
 					row.add(" ");
 
-					final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, tasks, task, TaskGuiConstants.PARENT_NAME_LENGTH);
+					final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, taskCache, task, TaskGuiConstants.PARENT_NAME_LENGTH);
 					row.add(new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle"));
 					row.add(" ");
 

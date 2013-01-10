@@ -30,6 +30,7 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -66,31 +67,17 @@ public class TaskGuiUtil {
 		this.parseUtil = parseUtil;
 	}
 
-	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final Collection<Task> allTasks, final Task task, final int nameLength) throws TaskServiceException,
+	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final TaskCache taskCache, final Task task, final int nameLength) throws TaskServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		final List<String> names = new ArrayList<String>();
-		Task parent = getParent(sessionIdentifier, allTasks, task);
+		Task parent = taskCache.getParent(sessionIdentifier, task);
 		while (parent != null) {
 			names.add(stringUtil.shortenDots(parent.getName(), nameLength));
-			parent = getParent(sessionIdentifier, allTasks, parent);
+			parent = taskCache.getParent(sessionIdentifier, parent);
 		}
 		Collections.reverse(names);
 		names.add(task.getName());
 		return StringUtils.join(names, " / ");
-	}
-
-	public Task getParent(final SessionIdentifier sessionIdentifier, final Collection<Task> allTasks, final Task task) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		logger.trace("find parent for: " + task.getId());
-		if (task.getParentId() != null) {
-			for (final Task parent : allTasks) {
-				if (parent.getId().equals(task.getParentId())) {
-					return parent;
-				}
-			}
-			return taskService.getTask(sessionIdentifier, task.getParentId());
-		}
-		return null;
 	}
 
 	public boolean hasChildTasks(final List<Task> allTasks, final TaskIdentifier parentId) {
@@ -100,20 +87,6 @@ public class TaskGuiUtil {
 			}
 		}
 		return false;
-	}
-
-	public List<Task> getChildTasks(final List<Task> allTasks, final TaskIdentifier parentId) {
-		logger.trace("getChildTasks for parent: " + parentId + " allTasks " + allTasks.size());
-		final List<Task> result = new ArrayList<Task>();
-		for (final Task task : allTasks) {
-			logger.trace("getChildTasks compare " + parentId + " eq " + task.getParentId());
-			if ((task.getParentId() == null && parentId == null) || (task.getParentId() != null && parentId != null && task.getParentId().equals(parentId))) {
-				logger.trace("match");
-				result.add(task);
-			}
-		}
-		logger.trace("getChildTasks for parent: " + parentId + " => found: " + result.size());
-		return result;
 	}
 
 	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskFocus taskFocus, final List<String> taskContextIds)
@@ -165,11 +138,6 @@ public class TaskGuiUtil {
 		logger.trace("task list for context: " + taskContextIds);
 		return taskService.getTasksCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
 
-	}
-
-	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final Task task, final int nameLength) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		return buildCompleteName(sessionIdentifier, new ArrayList<Task>(), task, nameLength);
 	}
 
 	public TaskDto quickStringToTask(final SessionIdentifier sessionIdentifier, final String text) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {

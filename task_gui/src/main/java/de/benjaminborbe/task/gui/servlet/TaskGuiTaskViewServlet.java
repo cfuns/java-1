@@ -65,8 +65,6 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final TaskGuiUtil taskGuiUtil;
-
 	private final TaskGuiLinkFactory taskGuiLinkFactory;
 
 	private final HtmlUtil htmlUtil;
@@ -103,7 +101,6 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		this.htmlUtil = htmlUtil;
 		this.taskService = taskService;
 		this.authenticationService = authenticationService;
-		this.taskGuiUtil = taskGuiUtil;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.calendarUtil = calendarUtil;
 		this.comparatorUtil = comparatorUtil;
@@ -207,7 +204,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			final boolean hasNotCompletedChilds, final Task previousTask, final Task nextTask) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
 			MalformedURLException, UnsupportedEncodingException {
 
-		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, task, Integer.MAX_VALUE);
+		final String taskName = task.getName();
 		final H2Widget title = new H2Widget(taskName);
 		if (Boolean.TRUE.equals(task.getCompleted())) {
 			title.addAttribute("class", "completed");
