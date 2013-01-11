@@ -16,7 +16,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -30,7 +29,7 @@ import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class AuthorizationGuiUserRemoveRoleServlet extends WebsiteServlet {
+public class AuthorizationGuiRoleDeleteServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -41,7 +40,7 @@ public class AuthorizationGuiUserRemoveRoleServlet extends WebsiteServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public AuthorizationGuiUserRemoveRoleServlet(
+	public AuthorizationGuiRoleDeleteServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -60,9 +59,8 @@ public class AuthorizationGuiUserRemoveRoleServlet extends WebsiteServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID));
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
-			authorizationService.removeUserRole(sessionIdentifier, userIdentifier, roleIdentifier);
+			authorizationService.deleteRole(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);

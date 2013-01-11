@@ -45,9 +45,20 @@ public class AuthorizationGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/authorization", "/authorization/role", "/authorization/role/create", "/authorization/role/remove", "/authorization/user/addRole",
-				"/authorization/user/removeRole", "/authorization/role/addPermission", "/authorization/role/removePermission", "/authorization/role/info", "/authorization/user/info",
-				"/authorization/user", "/authorization/permission", "/authorization/permissionDenied");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DENIED);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_ADD_PERMISSION);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_CREATE);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_INFO);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_LIST);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_DELETE);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_SLASH);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_INFO);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_REMOVE_ROLE);
 		assertEquals("servlet-count not match", paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

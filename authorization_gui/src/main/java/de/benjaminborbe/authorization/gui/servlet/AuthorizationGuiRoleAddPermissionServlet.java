@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -19,6 +20,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -37,6 +39,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
+@Singleton
 public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
@@ -79,8 +82,8 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final String roleName = request.getParameter(AuthorizationGuiParameter.PARAMETER_ROLE);
-			final String permissionName = request.getParameter(AuthorizationGuiParameter.PARAMETER_PERMISSION);
+			final String roleName = request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID);
+			final String permissionName = request.getParameter(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID);
 			if (roleName != null && roleName.length() > 0 && permissionName != null && permissionName.length() > 0) {
 				final PermissionIdentifier permission = authorizationService.createPermissionIdentifier(permissionName);
 				final RoleIdentifier role = authorizationService.createRoleIdentifier(roleName);
@@ -95,8 +98,8 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 			else {
 				final FormWidget form = new FormWidget();
 				form.addMethod(FormMethod.POST);
-				form.addFormInputWidget(new FormInputHiddenWidget(AuthorizationGuiParameter.PARAMETER_ROLE));
-				form.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiParameter.PARAMETER_PERMISSION));
+				form.addFormInputWidget(new FormInputHiddenWidget(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
+				form.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID));
 				form.addFormInputWidget(new FormInputSubmitWidget("add permission"));
 				widgets.add(form);
 			}

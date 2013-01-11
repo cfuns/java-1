@@ -16,15 +16,14 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -41,9 +40,9 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 
 	private final AuthorizationService authorizationService;
 
-	private final UrlUtil urlUtil;
-
 	private final Logger logger;
+
+	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
 
 	@Inject
 	public AuthorizationGuiRoleListServlet(
@@ -56,11 +55,12 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final AuthorizationService authorizationService,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.authorizationService = authorizationService;
-		this.urlUtil = urlUtil;
 		this.logger = logger;
+		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
 	}
 
 	@Override
@@ -77,11 +77,14 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			for (final RoleIdentifier roleIdentifier : authorizationService.roleList()) {
-				ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_ROLE, roleIdentifier.getId()),
-						roleIdentifier.getId()));
+				final ListWidget row = new ListWidget();
+				row.add(authorizationGuiLinkFactory.roleInfo(request, roleIdentifier));
+				row.add(" ");
+				row.add(authorizationGuiLinkFactory.roleDelete(request, roleIdentifier));
+				ul.add(row);
 			}
 			widgets.add(ul);
-			widgets.add(new LinkRelativWidget(request, "/authorization/role/create", "add role"));
+			widgets.add(authorizationGuiLinkFactory.roleCreate(request));
 			return widgets;
 		}
 		catch (final AuthorizationServiceException e) {

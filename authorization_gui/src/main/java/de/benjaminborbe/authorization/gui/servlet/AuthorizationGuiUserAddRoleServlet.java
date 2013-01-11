@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -19,6 +20,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -37,15 +39,12 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
+@Singleton
 public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Authorization - User add Role";
-
-	private static final String PARAMETER_USERNANE = "user";
-
-	private static final String PARAMETER_ROLENANE = "role";
 
 	private final AuthorizationService authorizationService;
 
@@ -84,8 +83,8 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String username = request.getParameter(PARAMETER_USERNANE);
-			final String rolename = request.getParameter(PARAMETER_ROLENANE);
+			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
+			final String rolename = request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(rolename);
 			if (username != null && rolename != null && authorizationService.addUserRole(sessionIdentifier, userIdentifier, roleIdentifier)) {
@@ -93,8 +92,8 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 			}
 			else {
 				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_USERNANE).addLabel("Username").addPlaceholder("Username..."));
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_ROLENANE).addLabel("Rolename").addPlaceholder("Rolename..."));
+				formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_USER_ID).addLabel("Username").addPlaceholder("Username..."));
+				formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_ROLE_ID).addLabel("Rolename").addPlaceholder("Rolename..."));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("grant"));
 				widgets.add(formWidget);
 				return widgets;

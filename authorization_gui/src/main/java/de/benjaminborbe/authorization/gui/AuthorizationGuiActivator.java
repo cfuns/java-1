@@ -17,7 +17,7 @@ import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleCreateServ
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleInfoServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleRemovePermissionServlet;
-import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleRemoveServlet;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleDeleteServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserAddRoleServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserInfoServlet;
@@ -47,7 +47,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 	private AuthorizationGuiRoleCreateServlet authorizationGuiRoleCreateServlet;
 
 	@Inject
-	private AuthorizationGuiRoleRemoveServlet authorizationGuiRoleRemoveServlet;
+	private AuthorizationGuiRoleDeleteServlet authorizationGuiRoleRemoveServlet;
 
 	@Inject
 	private AuthorizationGuiUserAddRoleServlet authorizationGuiUserAddRoleServlet;
@@ -88,11 +88,11 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authorizationGuiServlet, AuthorizationGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(authorizationGuiRoleListServlet, AuthorizationGuiConstants.URL_ROLE_LIST));
 		result.add(new ServletInfo(authorizationGuiRoleCreateServlet, AuthorizationGuiConstants.URL_ROLE_CREATE));
-		result.add(new ServletInfo(authorizationGuiRoleRemoveServlet, AuthorizationGuiConstants.URL_ROLE_REMOVE));
+		result.add(new ServletInfo(authorizationGuiRoleRemoveServlet, AuthorizationGuiConstants.URL_ROLE_DELETE));
 		result.add(new ServletInfo(authorizationGuiUserAddRoleServlet, AuthorizationGuiConstants.URL_ADD_ROLE));
 		result.add(new ServletInfo(authorizationGuiUserRemoveRoleServlet, AuthorizationGuiConstants.URL_USER_REMOVE_ROLE));
 		result.add(new ServletInfo(authorizationGuiRoleAddPermissionServlet, AuthorizationGuiConstants.URL_ROLE_ADD_PERMISSION));
-		result.add(new ServletInfo(authorizationGuiRoleRemovePermissionServlet, AuthorizationGuiConstants.URL_ROLE_REMOVE_PERMISSION));
+		result.add(new ServletInfo(authorizationGuiRoleRemovePermissionServlet, AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE));
 		result.add(new ServletInfo(authorizationGuiUserListServlet, AuthorizationGuiConstants.URL_USER));
 		result.add(new ServletInfo(authorizationGuiUserInfoServlet, AuthorizationGuiConstants.URL_USER_INFO));
 		result.add(new ServletInfo(authorizationGuiRoleInfoServlet, AuthorizationGuiConstants.URL_ROLE_INFO));

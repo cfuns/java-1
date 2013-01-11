@@ -18,6 +18,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -80,7 +81,7 @@ public class AuthorizationGuiUserListServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			for (final UserIdentifier userIdentifier : authenticationService.userList(sessionIdentifier)) {
-				ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_USER, userIdentifier.getId()),
+				ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()),
 						userIdentifier.getId()));
 			}
 			widgets.add(ul);

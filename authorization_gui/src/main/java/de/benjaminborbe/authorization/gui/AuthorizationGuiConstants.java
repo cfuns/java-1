@@ -4,30 +4,40 @@ public interface AuthorizationGuiConstants {
 
 	String NAME = "authorization";
 
-	String URL_SLASH = "/";
+	String PARAMETER_PERMISSION_ID = "permission_id";
 
-	String URL_ROLE_LIST = "/role";
+	String PARAMETER_ROLE_ID = "role_id";
 
-	String URL_ROLE_CREATE = "/role/create";
-
-	String URL_ROLE_REMOVE = "/role/remove";
+	String PARAMETER_USER_ID = "user_id";
 
 	String URL_ADD_ROLE = "/user/addRole";
 
-	String URL_USER_REMOVE_ROLE = "/user/removeRole";
+	String URL_PERMISSION = "/permission";
+
+	String URL_PERMISSION_DENIED = "/permissionDenied";
 
 	String URL_ROLE_ADD_PERMISSION = "/role/addPermission";
 
-	String URL_ROLE_REMOVE_PERMISSION = "/role/removePermission";
+	String URL_ROLE_CREATE = "/role/create";
+
+	String URL_ROLE_INFO = "/role/info";
+
+	String URL_ROLE_LIST = "/role";
+
+	String URL_ROLE_DELETE = "/role/remove";
+
+	String URL_ROLE_PERMISSION_REMOVE = "/role/removePermission";
+
+	String URL_SLASH = "/";
 
 	String URL_USER = "/user";
 
 	String URL_USER_INFO = "/user/info";
 
-	String URL_ROLE_INFO = "/role/info";
+	String URL_USER_REMOVE_ROLE = "/user/removeRole";
 
-	String URL_PERMISSION = "/permission";
+	String PARAMETER_ROLE_NAME = "role_name";
 
-	String URL_PERMISSION_DENIED = "/permissionDenied";
+	String PARAMETER_REFERER = "referer";
 
 }

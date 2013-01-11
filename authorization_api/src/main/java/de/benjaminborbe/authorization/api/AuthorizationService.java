@@ -2,6 +2,7 @@ package de.benjaminborbe.authorization.api;
 
 import java.util.Collection;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -16,7 +17,7 @@ public interface AuthorizationService {
 
 	PermissionIdentifier createPermissionIdentifier(String permissionName);
 
-	boolean createRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException;
+	boolean createRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException, ValidationException;
 
 	RoleIdentifier createRoleIdentifier(String roleName);
 
@@ -60,5 +61,7 @@ public interface AuthorizationService {
 			LoginRequiredException;
 
 	void expectUser(UserIdentifier currentUser, Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
+
+	void deleteRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
 }

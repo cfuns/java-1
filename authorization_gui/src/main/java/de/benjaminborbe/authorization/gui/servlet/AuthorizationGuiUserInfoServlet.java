@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -17,6 +18,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -34,13 +36,12 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
+@Singleton
 public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Authorization - User info";
-
-	private static final String PARAMETER_USER = "user";
 
 	private final AuthorizationService authorizationSerivce;
 
@@ -83,20 +84,20 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
 		try {
-			final String username = request.getParameter(PARAMETER_USER);
+			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 			// roles
 			{
 				widgets.add(new H2Widget("Roles"));
 				for (final RoleIdentifier roleIdentifier : authorizationSerivce.roleList()) {
 					if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
-						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_ROLE, roleIdentifier.getId()),
+						ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/role/info", new MapParameter().add(AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()),
 								roleIdentifier.getId()));
 					}
 				}
 				widgets.add(ul);
-				widgets.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/addRole",
-						new MapParameter().add(AuthorizationGuiParameter.PARAMETER_USER, userIdentifier.getId()), "add role"));
+				widgets.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/addRole", new MapParameter().add(AuthorizationGuiConstants.PARAMETER_USER_ID,
+						userIdentifier.getId()), "add role"));
 			}
 			return widgets;
 		}

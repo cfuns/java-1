@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -20,16 +21,15 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -38,6 +38,7 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
+@Singleton
 public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
@@ -45,8 +46,6 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 	private static final String TITLE = "Authorization - Role info";
 
 	private final AuthorizationService authorizationSerivce;
-
-	private final UrlUtil urlUtil;
 
 	private final Logger logger;
 
@@ -71,7 +70,6 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authorizationSerivce = authorizationSerivce;
-		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
 		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
 	}
@@ -89,7 +87,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final String rolename = request.getParameter(AuthorizationGuiParameter.PARAMETER_ROLE);
+			final String rolename = request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID);
 			final RoleIdentifier roleIdentifier = authorizationSerivce.createRoleIdentifier(rolename);
 
 			// users
@@ -98,8 +96,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 				final UlWidget ul = new UlWidget();
 
 				for (final UserIdentifier userIdentifier : authorizationSerivce.getUserWithRole(sessionIdentifier, roleIdentifier)) {
-					ul.add(new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthorizationGuiParameter.PARAMETER_USER, userIdentifier.getId()),
-							userIdentifier.getId()));
+					ul.add(authorizationGuiLinkFactory.userInfo(request, userIdentifier));
 				}
 				widgets.add(ul);
 			}
