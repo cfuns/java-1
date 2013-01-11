@@ -64,7 +64,7 @@ public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier>
 	}
 
 	@Override
-	public String getUsername() {
+	public String getName() {
 		return username;
 	}
 

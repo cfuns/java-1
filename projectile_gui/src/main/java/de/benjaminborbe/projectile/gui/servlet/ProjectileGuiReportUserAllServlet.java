@@ -46,7 +46,7 @@ import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class ProjectileGuiReportAllServlet extends WebsiteHtmlServlet {
+public class ProjectileGuiReportUserAllServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 8865908885832843737L;
 
@@ -61,7 +61,7 @@ public class ProjectileGuiReportAllServlet extends WebsiteHtmlServlet {
 	private final ComparatorUtil comparatorUtil;
 
 	@Inject
-	public ProjectileGuiReportAllServlet(
+	public ProjectileGuiReportUserAllServlet(
 			final Logger logger,
 			final ComparatorUtil comparatorUtil,
 			final CalendarUtil calendarUtil,
@@ -99,7 +99,7 @@ public class ProjectileGuiReportAllServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final Collection<ProjectileSlacktimeReport> reports = projectileService.getSlacktimeReportAll(sessionIdentifier);
+			final Collection<ProjectileSlacktimeReport> reports = projectileService.getSlacktimeReportAllUsers(sessionIdentifier);
 			final List<ProjectileSlacktimeReport> reportList = comparatorUtil.sort(reports, new ProjectileSlacktimeReportComparator());
 
 			final TableWidget table = new TableWidget();
@@ -121,7 +121,7 @@ public class ProjectileGuiReportAllServlet extends WebsiteHtmlServlet {
 			for (final ProjectileSlacktimeReport report : reportList) {
 				if (hasData(report)) {
 					final TableRowWidget row = new TableRowWidget();
-					row.addCell(report.getUsername());
+					row.addCell(report.getName());
 					addCells(row, report.getWeekIntern(), report.getWeekExtern());
 					addCells(row, report.getMonthIntern(), report.getMonthExtern());
 					addCells(row, report.getYearIntern(), report.getYearExtern());

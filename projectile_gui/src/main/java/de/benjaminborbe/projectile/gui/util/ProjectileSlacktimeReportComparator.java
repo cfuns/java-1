@@ -7,7 +7,7 @@ public class ProjectileSlacktimeReportComparator extends ComparatorBase<Projecti
 
 	@Override
 	public String getValue(final ProjectileSlacktimeReport o) {
-		return o.getUsername() != null ? o.getUsername().toLowerCase() : null;
+		return o.getName() != null ? o.getName().toLowerCase() : null;
 	}
 
 }

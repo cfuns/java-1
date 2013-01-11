@@ -14,6 +14,8 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
+import de.benjaminborbe.projectile.api.TeamDto;
+import de.benjaminborbe.projectile.api.TeamIdentifier;
 
 @Singleton
 public class ProjectileServiceMock implements ProjectileService {
@@ -37,13 +39,13 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileSlacktimeReport getSlacktimeReport(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException,
+	public ProjectileSlacktimeReport getSlacktimeReportCurrentUser(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public ProjectileSlacktimeReport getSlacktimeReport(final String token, final UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileSlacktimeReport getSlacktimeReportForUser(final String token, final UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 
@@ -52,8 +54,43 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAll(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllUsers(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<ProjectileSlacktimeReport> getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException,
+			ProjectileServiceException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public void deleteTeam(final SessionIdentifier sessionIdentifier, final TeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException {
+	}
+
+	@Override
+	public void updateTeam(final SessionIdentifier sessionIdentifier, final TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
+	}
+
+	@Override
+	public TeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public TeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public Collection<TeamIdentifier> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 

@@ -2,7 +2,7 @@ package de.benjaminborbe.projectile.api;
 
 public interface ProjectileSlacktimeReport {
 
-	String getUsername();
+	String getName();
 
 	Double getWeekIntern();
 

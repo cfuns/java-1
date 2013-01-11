@@ -19,7 +19,7 @@ public class ProjectileReportToJsonConverterUnitTest {
 
 		{
 			final ProjectileSlacktimeReport report = EasyMock.createMock(ProjectileSlacktimeReport.class);
-			EasyMock.expect(report.getUsername()).andReturn("foobar").anyTimes();
+			EasyMock.expect(report.getName()).andReturn("foobar").anyTimes();
 			EasyMock.expect(report.getWeekExtern()).andReturn(null).anyTimes();
 			EasyMock.expect(report.getWeekIntern()).andReturn(null).anyTimes();
 			EasyMock.expect(report.getMonthExtern()).andReturn(null).anyTimes();
@@ -34,7 +34,7 @@ public class ProjectileReportToJsonConverterUnitTest {
 
 		{
 			final ProjectileSlacktimeReport report = EasyMock.createMock(ProjectileSlacktimeReport.class);
-			EasyMock.expect(report.getUsername()).andReturn("foobar").anyTimes();
+			EasyMock.expect(report.getName()).andReturn("foobar").anyTimes();
 			EasyMock.expect(report.getWeekExtern()).andReturn(1.1).anyTimes();
 			EasyMock.expect(report.getWeekIntern()).andReturn(2.2).anyTimes();
 			EasyMock.expect(report.getMonthExtern()).andReturn(3.3).anyTimes();

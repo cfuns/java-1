@@ -36,7 +36,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class ProjectileGuiReportServletUnitTest {
+public class ProjectileGuiReportUserCurrentServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -128,10 +128,10 @@ public class ProjectileGuiReportServletUnitTest {
 		EasyMock.replay(report);
 
 		final ProjectileService projectileService = EasyMock.createMock(ProjectileService.class);
-		EasyMock.expect(projectileService.getSlacktimeReport(sessionIdentifier)).andReturn(report);
+		EasyMock.expect(projectileService.getSlacktimeReportCurrentUser(sessionIdentifier)).andReturn(report);
 		EasyMock.replay(projectileService);
 
-		final ProjectileGuiReportServlet projectileServlet = new ProjectileGuiReportServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService,
+		final ProjectileGuiReportUserCurrentServlet projectileServlet = new ProjectileGuiReportUserCurrentServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService,
 				authorizationService, httpContextProvider, urlUtil, projectileService);
 
 		projectileServlet.service(request, response);

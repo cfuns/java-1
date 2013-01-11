@@ -12,7 +12,7 @@ public class ProjectileReportToJsonConverter {
 	public JSONObject convert(final ProjectileSlacktimeReport report) throws IOException {
 		final JSONObject object = new JSONObject();
 		{
-			object.put("username", report.getUsername());
+			object.put("username", report.getName());
 		}
 		{
 			final JSONObject week = new JSONObject();

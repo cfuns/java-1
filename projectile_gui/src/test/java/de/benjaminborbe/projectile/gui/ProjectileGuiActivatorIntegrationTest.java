@@ -45,11 +45,18 @@ public class ProjectileGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_HOME);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT);
-		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_FETCH);
-		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_JSON);
-		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_IMPORT);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_ALL);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_FETCH);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_IMPORT);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_JSON);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_TEAM_ALL);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_TEAM_CURRENT);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_CREATE);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_DELETE);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_LIST);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_UPDATE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

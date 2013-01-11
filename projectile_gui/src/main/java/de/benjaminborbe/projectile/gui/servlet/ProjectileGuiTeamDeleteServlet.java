@@ -1,0 +1,47 @@
+package de.benjaminborbe.projectile.gui.servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.website.servlet.WebsiteServlet;
+
+@Singleton
+public class ProjectileGuiTeamDeleteServlet extends WebsiteServlet {
+
+	private static final long serialVersionUID = -7862318070826148848L;
+
+	@Inject
+	public ProjectileGuiTeamDeleteServlet(
+			final Logger logger,
+			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+	}
+
+	@Override
+	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+	}
+
+}

@@ -17,12 +17,28 @@ public interface ProjectileService {
 	void importReport(SessionIdentifier sessionIdentifier, String content, ProjectileSlacktimeReportInterval interval) throws ProjectileServiceException, PermissionDeniedException,
 			LoginRequiredException, ValidationException;
 
-	ProjectileSlacktimeReport getSlacktimeReport(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
+	ProjectileSlacktimeReport getSlacktimeReportCurrentUser(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
 
-	ProjectileSlacktimeReport getSlacktimeReport(String token, UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+	ProjectileSlacktimeReport getSlacktimeReportForUser(String token, UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException;
 
 	void fetchMailReport(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException;
 
-	Collection<ProjectileSlacktimeReport> getSlacktimeReportAll(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+	Collection<ProjectileSlacktimeReport> getSlacktimeReportAllUsers(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException;
+
+	Collection<ProjectileSlacktimeReport> getSlacktimeReportCurrentTeam(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException;
+
+	Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException;
+
+	void deleteTeam(SessionIdentifier sessionIdentifier, TeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException;
+
+	void updateTeam(SessionIdentifier sessionIdentifier, TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException;
+
+	TeamIdentifier createTeam(SessionIdentifier sessionIdentifier, TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException;
+
+	TeamIdentifier getCurrentTeam(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+
+	Collection<TeamIdentifier> listTeams(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
 }

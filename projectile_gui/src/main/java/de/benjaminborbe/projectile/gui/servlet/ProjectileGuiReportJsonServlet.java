@@ -84,7 +84,7 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 			final String username = request.getParameter(ProjectileGuiConstants.PARAMETER_USERNAME);
 			if (token != null && username != null) {
 				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
-				final ProjectileSlacktimeReport report = projectileService.getSlacktimeReport(token, userIdentifier);
+				final ProjectileSlacktimeReport report = projectileService.getSlacktimeReportForUser(token, userIdentifier);
 				if (report != null) {
 					final JSONObject jsonObject = projectileReportToJsonConverter.convert(report);
 					printJson(response, jsonObject);
