@@ -34,6 +34,11 @@ public class AuthorizationGuiLinkFactory {
 				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()), "add user");
 	}
 
+	public Widget userAddRole(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE, new MapParameter().add(
+				AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), "add role");
+	}
+
 	public Widget roleInfo(final HttpServletRequest request, final RoleIdentifier roleIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_INFO, new MapParameter().add(
 				AuthorizationGuiConstants.PARAMETER_ROLE_ID, String.valueOf(roleIdentifier)), roleIdentifier.getId());
@@ -51,5 +56,23 @@ public class AuthorizationGuiLinkFactory {
 	public Widget userInfo(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_INFO, new MapParameter().add(
 				AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), userIdentifier.getId());
+	}
+
+	public Widget roleRemoveUser(final HttpServletRequest request, final RoleIdentifier roleIdentifier, final UserIdentifier userIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_REMOVE_ROLE, new MapParameter().add(
+				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), "remove");
+	}
+
+	public Widget permissionList(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_LIST, "permissions");
+	}
+
+	public Widget userList(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_LIST, "users");
+	}
+
+	public Widget roleList(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_LIST, "roles");
 	}
 }

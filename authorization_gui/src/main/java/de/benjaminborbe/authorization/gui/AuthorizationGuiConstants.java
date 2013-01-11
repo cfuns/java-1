@@ -12,7 +12,7 @@ public interface AuthorizationGuiConstants {
 
 	String URL_ADD_ROLE = "/user/addRole";
 
-	String URL_PERMISSION = "/permission";
+	String URL_PERMISSION_LIST = "/permission";
 
 	String URL_PERMISSION_DENIED = "/permissionDenied";
 
@@ -30,7 +30,7 @@ public interface AuthorizationGuiConstants {
 
 	String URL_SLASH = "/";
 
-	String URL_USER = "/user";
+	String URL_USER_LIST = "/user";
 
 	String URL_USER_INFO = "/user/info";
 

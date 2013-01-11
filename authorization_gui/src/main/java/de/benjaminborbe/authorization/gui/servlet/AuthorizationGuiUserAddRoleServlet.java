@@ -28,6 +28,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -85,19 +86,28 @@ public class AuthorizationGuiUserAddRoleServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
 			final String rolename = request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID);
+			final String referer = request.getParameter(AuthorizationGuiConstants.PARAMETER_REFERER);
+
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(rolename);
-			if (username != null && rolename != null && authorizationService.addUserRole(sessionIdentifier, userIdentifier, roleIdentifier)) {
-				throw new RedirectException(request.getContextPath() + "/authorization/role");
+			if (username != null && rolename != null) {
+				authorizationService.addUserRole(sessionIdentifier, userIdentifier, roleIdentifier);
+
+				if (referer != null) {
+					throw new RedirectException(referer);
+				}
+				else {
+					throw new RedirectException(request.getContextPath() + "/authorization/role");
+				}
 			}
-			else {
-				final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-				formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_USER_ID).addLabel("Username").addPlaceholder("Username..."));
-				formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_ROLE_ID).addLabel("Rolename").addPlaceholder("Rolename..."));
-				formWidget.addFormInputWidget(new FormInputSubmitWidget("grant"));
-				widgets.add(formWidget);
-				return widgets;
-			}
+
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(AuthorizationGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+			formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_USER_ID).addLabel("Username").addPlaceholder("Username..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(AuthorizationGuiConstants.PARAMETER_ROLE_ID).addLabel("Rolename").addPlaceholder("Rolename..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("grant"));
+			widgets.add(formWidget);
+			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);

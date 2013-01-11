@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -21,7 +22,6 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
@@ -37,6 +37,8 @@ public class AuthorizationGuiServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
+
 	@Inject
 	public AuthorizationGuiServlet(
 			final Logger logger,
@@ -48,9 +50,11 @@ public class AuthorizationGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
 	}
 
 	@Override
@@ -65,8 +69,9 @@ public class AuthorizationGuiServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
-		ul.add(new LinkRelativWidget(request, "/authorization/role", "Roles"));
-		ul.add(new LinkRelativWidget(request, "/authorization/role", "User"));
+		ul.add(authorizationGuiLinkFactory.roleList(request));
+		ul.add(authorizationGuiLinkFactory.userList(request));
+		ul.add(authorizationGuiLinkFactory.permissionList(request));
 		widgets.add(ul);
 		return widgets;
 	}

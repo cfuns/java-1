@@ -47,7 +47,7 @@ public class AuthorizationGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE);
-		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_LIST);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DENIED);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_ADD_PERMISSION);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_CREATE);
@@ -56,7 +56,7 @@ public class AuthorizationGuiActivatorIntegrationTest {
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_DELETE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_SLASH);
-		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_LIST);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_INFO);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_REMOVE_ROLE);
 		assertEquals("servlet-count not match", paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

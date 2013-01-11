@@ -35,7 +35,7 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Authorization - Users";
+	private static final String TITLE = "Authorization - Permissions";
 
 	private final AuthorizationService authorizationService;
 
