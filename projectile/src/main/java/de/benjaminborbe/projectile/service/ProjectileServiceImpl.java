@@ -20,6 +20,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
@@ -112,6 +113,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public void fetchMailReport(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+
 			logger.debug("fetchMailReport");
 			projectileMailReportFetcher.fetch();
 		}
@@ -168,7 +170,9 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllUsers(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException {
 		try {
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+
 			logger.debug("getSlacktimeReportAllUsers");
 			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
 			final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
@@ -325,7 +329,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createTeam");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 
 			final ProjectileTeamIdentifier id = new ProjectileTeamIdentifier(idGeneratorUUID.nextId());
 
@@ -359,7 +364,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateTeam");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 
 			final ProjectileTeamBean team = projectileTeamDao.load(teamDto.getId());
 			team.setName(teamDto.getName());
@@ -388,7 +394,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteTeam");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 
 			projectileTeamUserManyToManyRelation.removeA(id);
 			projectileTeamDao.delete(id);
@@ -409,7 +416,9 @@ public class ProjectileServiceImpl implements ProjectileService {
 			PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+
 			logger.debug("getTeam");
 
 			return projectileTeamDao.load(projectileTeamIdentifier);
@@ -430,7 +439,9 @@ public class ProjectileServiceImpl implements ProjectileService {
 			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+
 			logger.debug("addUserToTeam");
 
 			projectileTeamUserManyToManyRelation.removeB(userIdentifier);
@@ -452,7 +463,9 @@ public class ProjectileServiceImpl implements ProjectileService {
 			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authorizationService.expectAdminRole(sessionIdentifier);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+
 			logger.debug("removeUserFromTeam");
 
 			projectileTeamUserManyToManyRelation.remove(projectileTeamIdentifier, userIdentifier);

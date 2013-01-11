@@ -10,6 +10,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface ProjectileService {
 
+	String PROJECTILE_ADMIN_ROLENAME = "ProjectileAdmin";
+
 	boolean validateAuthToken(String token) throws ProjectileServiceException;
 
 	void expectAuthToken(String token) throws ProjectileServiceException, PermissionDeniedException;
