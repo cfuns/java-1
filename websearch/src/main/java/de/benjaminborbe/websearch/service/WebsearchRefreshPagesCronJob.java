@@ -38,6 +38,7 @@ public class WebsearchRefreshPagesCronJob implements CronJob {
 		if (Boolean.TRUE.equals(websearchConfig.getCronEnabled())) {
 			logger.debug("websearch refresh cron => started");
 			websearchRefresher.refresh();
+			logger.debug("websearch refresh cron => finished");
 		}
 		else {
 			logger.debug("websearch refresh cron => skip");

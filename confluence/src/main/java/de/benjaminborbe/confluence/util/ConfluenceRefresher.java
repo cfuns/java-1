@@ -29,24 +29,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
-import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class ConfluenceRefresher {
-
-	private final class RefreshRunnable implements Runnable {
-
-		@Override
-		public void run() {
-			try {
-				logger.debug("RefreshRunnable started");
-				runOnlyOnceATime.run(new RefreshPages());
-				logger.debug("RefreshRunnable finished");
-			}
-			catch (final Exception e) {
-				logger.error(e.getClass().getSimpleName(), e);
-			}
-		}
-	}
 
 	private final class RefreshPages implements Runnable {
 
@@ -106,8 +90,6 @@ public class ConfluenceRefresher {
 
 	private final ConfluencePageExpiredCalculator confluencePageExpiredCalculator;
 
-	private final ThreadRunner threadRunner;
-
 	@Inject
 	public ConfluenceRefresher(
 			final Logger logger,
@@ -121,8 +103,7 @@ public class ConfluenceRefresher {
 			final TimeZoneUtil timeZoneUtil,
 			final ConfluenceConfig confluenceConfig,
 			final ConfluenceIndexUtil confluenceIndexUtil,
-			final ConfluencePageExpiredCalculator confluencePageExpiredCalculator,
-			final ThreadRunner threadRunner) {
+			final ConfluencePageExpiredCalculator confluencePageExpiredCalculator) {
 		this.logger = logger;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.calendarUtil = calendarUtil;
@@ -135,7 +116,6 @@ public class ConfluenceRefresher {
 		this.confluenceConfig = confluenceConfig;
 		this.confluenceIndexUtil = confluenceIndexUtil;
 		this.confluencePageExpiredCalculator = confluencePageExpiredCalculator;
-		this.threadRunner = threadRunner;
 	}
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
@@ -237,7 +217,15 @@ public class ConfluenceRefresher {
 		return filteredContent;
 	}
 
-	public void refresh() {
-		threadRunner.run("refreshConfluencePages", new RefreshRunnable());
+	public boolean refresh() {
+		logger.debug("confluence refresh - started");
+		if (runOnlyOnceATime.run(new RefreshPages())) {
+			logger.debug("confluence refresh - finished");
+			return true;
+		}
+		else {
+			logger.debug("confluence refresh - skipped");
+			return false;
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package de.benjaminborbe.message.service;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.cron.api.CronJob;
@@ -12,8 +14,11 @@ public class MessageUnlockCronJob implements CronJob {
 
 	private final MessageUnlock messageUnlock;
 
+	private final Logger logger;
+
 	@Inject
-	public MessageUnlockCronJob(final MessageUnlock messageUnlock) {
+	public MessageUnlockCronJob(final Logger logger, final MessageUnlock messageUnlock) {
+		this.logger = logger;
 		this.messageUnlock = messageUnlock;
 	}
 
@@ -24,6 +29,7 @@ public class MessageUnlockCronJob implements CronJob {
 
 	@Override
 	public void execute() {
+		logger.debug("execute");
 		messageUnlock.execute();
 	}
 

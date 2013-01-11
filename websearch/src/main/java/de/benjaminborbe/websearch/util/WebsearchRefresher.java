@@ -9,28 +9,12 @@ import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
-import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.websearch.config.WebsearchConfig;
 import de.benjaminborbe.websearch.dao.WebsearchPageBean;
 
 public class WebsearchRefresher {
 
 	private static final int TIMEOUT = 5000;
-
-	private final class RefreshRunnable implements Runnable {
-
-		@Override
-		public void run() {
-			try {
-				logger.debug("RefreshRunnable started");
-				runOnlyOnceATime.run(new RefreshPages());
-				logger.debug("RefreshRunnable finished");
-			}
-			catch (final Exception e) {
-				logger.error(e.getClass().getSimpleName(), e);
-			}
-		}
-	}
 
 	private final class RefreshPages implements Runnable {
 
@@ -71,8 +55,6 @@ public class WebsearchRefresher {
 		}
 	}
 
-	private final ThreadRunner threadRunner;
-
 	private final CrawlerService crawlerService;
 
 	private final WebsearchUpdateDeterminer updateDeterminer;
@@ -92,18 +74,24 @@ public class WebsearchRefresher {
 			final WebsearchUpdateDeterminer updateDeterminer,
 			final CrawlerService crawlerService,
 			final RunOnlyOnceATime runOnlyOnceATime,
-			final ThreadRunner threadRunner,
 			final WebsearchRobotsTxtUtil websearchRobotsTxtUtil) {
 		this.logger = logger;
 		this.websearchConfig = websearchConfig;
 		this.updateDeterminer = updateDeterminer;
 		this.crawlerService = crawlerService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
-		this.threadRunner = threadRunner;
 		this.websearchRobotsTxtUtil = websearchRobotsTxtUtil;
 	}
 
-	public void refresh() {
-		threadRunner.run("refreshWebsearchPages", new RefreshRunnable());
+	public boolean refresh() {
+		logger.debug("websearch refresh - started");
+		if (runOnlyOnceATime.run(new RefreshPages())) {
+			logger.debug("websearch refresh - finished");
+			return true;
+		}
+		else {
+			logger.debug("websearch refresh - skipped");
+			return false;
+		}
 	}
 }

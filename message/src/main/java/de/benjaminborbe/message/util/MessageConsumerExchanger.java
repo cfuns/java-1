@@ -36,13 +36,12 @@ public class MessageConsumerExchanger {
 		@Override
 		public void run() {
 			try {
+				logger.trace("exchange - started");
 				exchange(messageConsumer);
+				logger.trace("exchange - finished");
 			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final EntityIteratorException e) {
-				logger.warn(e.getClass().getName(), e);
+			catch (final Exception e) {
+				logger.trace("exchange - failed", e);
 			}
 		}
 	}
@@ -51,23 +50,10 @@ public class MessageConsumerExchanger {
 
 		@Override
 		public void run() {
-			logger.trace("exchange - started");
-
 			final List<Thread> threads = new ArrayList<Thread>();
-
 			for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
 				threads.add(threadRunner.run("messageConsumerExchange", new HandleConsumer(messageConsumer)));
 			}
-
-			for (final Thread thread : threads) {
-				try {
-					thread.join();
-				}
-				catch (final InterruptedException e) {
-				}
-			}
-
-			logger.trace("exchange - finished");
 		}
 	}
 

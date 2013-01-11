@@ -62,7 +62,7 @@ public class CronJobOsgi implements Job {
 			final CronJob cronJob = cronJobRegistry.getByName(name);
 			if (cronJob.disallowConcurrentExecution()) {
 				final CronMessage cronMessage = new CronMessage(name);
-				final String id = name + "_" + dateUtil.dateTimeString(fireTime);
+				final String id = name; // + "_" + dateUtil.dateTimeString(fireTime);
 				final String content = cronMessageMapper.map(cronMessage);
 				logger.trace("send cron to queue");
 				messageService.sendMessage(CronConstants.MESSSAGE_TYPE, id, content);
