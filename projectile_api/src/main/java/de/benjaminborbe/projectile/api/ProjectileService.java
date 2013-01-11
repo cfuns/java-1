@@ -26,8 +26,7 @@ public interface ProjectileService {
 	Collection<ProjectileSlacktimeReport> getSlacktimeReportAllUsers(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException;
 
-	Collection<ProjectileSlacktimeReport> getSlacktimeReportCurrentTeam(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
-			LoginRequiredException;
+	ProjectileSlacktimeReport getSlacktimeReportCurrentTeam(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException, LoginRequiredException;
 
 	Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException;
@@ -40,11 +39,23 @@ public interface ProjectileService {
 	ProjectileTeamIdentifier createTeam(SessionIdentifier sessionIdentifier, ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException,
 			ValidationException, LoginRequiredException;
 
-	ProjectileTeamIdentifier getCurrentTeam(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+	ProjectileTeamIdentifier getCurrentTeam(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
 
 	Collection<ProjectileTeam> listTeams(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
 
 	ProjectileTeam getTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException, PermissionDeniedException,
 			LoginRequiredException;
+
+	void addUserToTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
+
+	void removeUserFromTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
+
+	ProjectileTeamIdentifier getTeamForUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException,
+			LoginRequiredException;
+
+	Collection<UserIdentifier> getUsersForTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
+			PermissionDeniedException, LoginRequiredException;
 
 }

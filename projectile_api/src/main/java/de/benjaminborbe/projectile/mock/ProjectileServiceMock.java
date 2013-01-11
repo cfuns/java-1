@@ -61,12 +61,6 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public Collection<ProjectileSlacktimeReport> getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException,
-			ProjectileServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
 	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException {
 		return null;
@@ -99,6 +93,34 @@ public class ProjectileServiceMock implements ProjectileService {
 	@Override
 	public ProjectileTeam getTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
 			PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public void addUserToTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public void removeUserFromTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public ProjectileTeamIdentifier getTeamForUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws ProjectileServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<UserIdentifier> getUsersForTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public ProjectileSlacktimeReport getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException {
 		return null;
 	}
 

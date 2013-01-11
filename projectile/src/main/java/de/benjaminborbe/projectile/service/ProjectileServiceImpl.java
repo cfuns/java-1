@@ -1,5 +1,6 @@
 package de.benjaminborbe.projectile.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,9 +32,12 @@ import de.benjaminborbe.projectile.dao.ProjectileReportBean;
 import de.benjaminborbe.projectile.dao.ProjectileReportDao;
 import de.benjaminborbe.projectile.dao.ProjectileTeamBean;
 import de.benjaminborbe.projectile.dao.ProjectileTeamDao;
+import de.benjaminborbe.projectile.dao.ProjectileTeamUserManyToManyRelation;
 import de.benjaminborbe.projectile.util.ProjectileCsvReportImporter;
 import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
+import de.benjaminborbe.projectile.util.ProjectileSlacktimeReportAggregate;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.util.Duration;
@@ -67,9 +71,12 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
+	private final ProjectileTeamUserManyToManyRelation projectileTeamUserManyToManyRelation;
+
 	@Inject
 	public ProjectileServiceImpl(
 			final Logger logger,
+			final ProjectileTeamUserManyToManyRelation projectileTeamUserManyToManyRelation,
 			final ValidationExecutor validationExecutor,
 			final DurationUtil durationUtil,
 			final AuthenticationService authenticationService,
@@ -81,6 +88,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			final ProjectileMailReportFetcher projectileMailReportFetcher,
 			final IdGeneratorUUID idGeneratorUUID) {
 		this.logger = logger;
+		this.projectileTeamUserManyToManyRelation = projectileTeamUserManyToManyRelation;
 		this.validationExecutor = validationExecutor;
 		this.durationUtil = durationUtil;
 		this.authenticationService = authenticationService;
@@ -116,12 +124,42 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException {
 		try {
-			authorizationService.expectAdminRole(sessionIdentifier);
+			authenticationService.expectLoggedIn(sessionIdentifier);
 			logger.debug("getSlacktimeReportAllTeams");
+
 			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
+
+			final EntityIterator<ProjectileTeamBean> it = projectileTeamDao.getEntityIterator();
+			while (it.hasNext()) {
+				final ProjectileTeamBean team = it.next();
+
+				final Collection<UserIdentifier> users = getUsersForTeam(sessionIdentifier, team.getId());
+
+				final List<ProjectileSlacktimeReport> userResult = new ArrayList<ProjectileSlacktimeReport>();
+				final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
+				while (i.hasNext()) {
+					final ProjectileReportBean report = i.next();
+					boolean match = false;
+					for (final UserIdentifier user : users) {
+						if (report.getName().equals(user.getId())) {
+							match = true;
+						}
+					}
+					if (match) {
+						userResult.add(report);
+					}
+				}
+				result.add(aggregateReports(team.getName(), userResult));
+			}
 			return result;
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final AuthenticationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
@@ -151,19 +189,47 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public Collection<ProjectileSlacktimeReport> getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException,
-			ProjectileServiceException, LoginRequiredException {
+	public ProjectileSlacktimeReport getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
+			LoginRequiredException {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("getSlacktimeReportCurrentTeam for user " + currentUser);
 
+			final ProjectileTeamIdentifier projectileTeamIdentifier = getTeamForUser(sessionIdentifier, currentUser);
+			final ProjectileTeamBean team = projectileTeamDao.load(projectileTeamIdentifier);
+			final Collection<UserIdentifier> users = getUsersForTeam(sessionIdentifier, projectileTeamIdentifier);
+
 			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
-			return result;
+			final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
+			while (i.hasNext()) {
+				final ProjectileReportBean report = i.next();
+				boolean match = false;
+				for (final UserIdentifier user : users) {
+					if (report.getName().equals(user.getId())) {
+						match = true;
+					}
+				}
+				if (match) {
+					result.add(report);
+				}
+			}
+
+			return aggregateReports(team.getName(), result);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new ProjectileServiceException(e);
+		}
+	}
+
+	private ProjectileSlacktimeReport aggregateReports(final String name, final List<ProjectileSlacktimeReport> result) {
+		return new ProjectileSlacktimeReportAggregate(name, result);
 	}
 
 	@Override
@@ -242,8 +308,15 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileTeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
-		return null;
+	public ProjectileTeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		try {
+			authenticationService.isLoggedIn(sessionIdentifier);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			return getTeamForUser(sessionIdentifier, userIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
 	}
 
 	@Override
@@ -317,6 +390,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			logger.debug("deleteTeam");
 			authorizationService.expectAdminRole(sessionIdentifier);
 
+			projectileTeamUserManyToManyRelation.removeA(id);
 			projectileTeamDao.delete(id);
 		}
 		catch (final StorageException e) {
@@ -335,8 +409,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 			PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("getTeam");
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("getTeam");
 
 			return projectileTeamDao.load(projectileTeamIdentifier);
 		}
@@ -350,4 +424,106 @@ public class ProjectileServiceImpl implements ProjectileService {
 			logger.trace("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public void addUserToTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("addUserToTeam");
+
+			projectileTeamUserManyToManyRelation.removeB(userIdentifier);
+			projectileTeamUserManyToManyRelation.add(projectileTeamIdentifier, userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void removeUserFromTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("removeUserFromTeam");
+
+			projectileTeamUserManyToManyRelation.remove(projectileTeamIdentifier, userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public ProjectileTeamIdentifier getTeamForUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws ProjectileServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.isLoggedIn(sessionIdentifier);
+			logger.debug("removeUserFromTeam");
+
+			final StorageIterator i = projectileTeamUserManyToManyRelation.getB(userIdentifier);
+			while (i.hasNext()) {
+				return new ProjectileTeamIdentifier(i.next().getString());
+			}
+			return null;
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<UserIdentifier> getUsersForTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("removeUserFromTeam");
+
+			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
+
+			final StorageIterator i = projectileTeamUserManyToManyRelation.getA(projectileTeamIdentifier);
+			while (i.hasNext()) {
+				result.add(new UserIdentifier(i.next().getString()));
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new ProjectileServiceException(e);
+		}
+		finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
 }

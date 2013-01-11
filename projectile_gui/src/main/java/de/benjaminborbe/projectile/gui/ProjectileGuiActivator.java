@@ -21,11 +21,19 @@ import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamCreateServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamDeleteServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamListServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamUpdateServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamUserRemoveServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamViewServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ProjectileGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ProjectileGuiTeamUserRemoveServlet projectileGuiTeamUserRemoveServlet;
+
+	@Inject
+	private ProjectileGuiTeamViewServlet projectileGuiTeamViewServlet;
 
 	@Inject
 	private ProjectileGuiServlet projectileGuiServlet;
@@ -75,6 +83,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(projectileGuiTeamViewServlet, ProjectileGuiConstants.URL_TEAM_VIEW));
 		result.add(new ServletInfo(projectileGuiServlet, ProjectileGuiConstants.URL_HOME));
 		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_REPORT_USER_CURRENT));
 		result.add(new ServletInfo(projectileGuiReportAllServlet, ProjectileGuiConstants.URL_REPORT_USER_ALL));
@@ -87,6 +96,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(projectileGuiTeamDeleteServlet, ProjectileGuiConstants.URL_TEAM_DELETE));
 		result.add(new ServletInfo(projectileGuiTeamListServlet, ProjectileGuiConstants.URL_TEAM_LIST));
 		result.add(new ServletInfo(projectileGuiTeamUpdateServlet, ProjectileGuiConstants.URL_TEAM_UPDATE));
+		result.add(new ServletInfo(projectileGuiTeamUserRemoveServlet, ProjectileGuiConstants.URL_TEAM_USER_REMOVE));
 		return result;
 	}
 

@@ -57,6 +57,8 @@ public class ProjectileGuiActivatorIntegrationTest {
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_DELETE);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_LIST);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_UPDATE);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_VIEW);
+		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_USER_REMOVE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

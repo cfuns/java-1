@@ -42,4 +42,12 @@ public interface ProjectileGuiConstants {
 
 	String PARAMETER_TEAM_NAME = "team_name";
 
+	String URL_TEAM_VIEW = "/team";
+
+	String URL_TEAM_USER_REMOVE = "/team/user/remove";
+
+	String URL_TEAM_ADD_USER = "/team/user/add";
+
+	String PARAMETER_USER_ID = "user_id";
+
 }

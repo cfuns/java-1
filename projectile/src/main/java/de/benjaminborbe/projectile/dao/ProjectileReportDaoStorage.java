@@ -49,7 +49,7 @@ public class ProjectileReportDaoStorage extends DaoStorage<ProjectileReportBean,
 		{
 			final ProjectileReportBean bean = create();
 			bean.setId(new ProjectileReportIdentifier(username));
-			bean.setUsername(username);
+			bean.setName(username);
 			return bean;
 		}
 	}

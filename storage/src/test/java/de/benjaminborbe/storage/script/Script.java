@@ -14,7 +14,7 @@ public class Script {
 	public static void main(final String[] args) {
 		try {
 			final String keySpace = "bb";
-			final String columnFamily = "task";
+			final String columnFamily = "projectile_report";
 
 			final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 			final StorageDaoUtil storageDaoUtil = injector.getInstance(StorageDaoUtil.class);
@@ -24,20 +24,8 @@ public class Script {
 
 			while (i.hasNext()) {
 				final StorageValue key = i.next();
-				final StorageValue completed = storageDaoUtil.read(keySpace, columnFamily, key, new StorageValue("completed", encoding));
-				if ("true".equals(completed)) {
-					// final String[] parts = datetime.split(" ");
-					storageDaoUtil.insert(keySpace, columnFamily, key, new StorageValue("completionDate", encoding), new StorageValue(String.valueOf(System.currentTimeMillis()), encoding));
-					System.err.println("insert");
-				}
-
-				// final byte[] key = i.nextByte();
-				// try {
-				// storageDaoUtil.delete(keySpace, columnFamily, key, "ownerUsername");
-				// }
-				// catch (final NotFoundException e) {
-				// }
-				//
+				final StorageValue name = storageDaoUtil.read(keySpace, columnFamily, key, new StorageValue("username", encoding));
+				storageDaoUtil.insert(keySpace, columnFamily, key, new StorageValue("name", encoding), name);
 			}
 		}
 		catch (final Exception e) {

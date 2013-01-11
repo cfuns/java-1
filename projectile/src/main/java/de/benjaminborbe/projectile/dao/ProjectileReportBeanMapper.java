@@ -20,7 +20,7 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class ProjectileReportBeanMapper extends MapObjectMapperAdapter<ProjectileReportBean> {
 
-	public static final String USERNAME = "username";
+	public static final String USERNAME = "name";
 
 	@Inject
 	public ProjectileReportBeanMapper(

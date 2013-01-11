@@ -91,7 +91,7 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 			Collections.sort(teams, new TeamComparator());
 			for (final ProjectileTeam team : teams) {
 				final ListWidget list = new ListWidget();
-				list.add(team.getName());
+				list.add(projectileLinkFactory.viewTeam(request, team.getId(), team.getName()));
 				list.add(" ");
 				list.add(projectileLinkFactory.updateTeam(request, team.getId()));
 				list.add(" ");

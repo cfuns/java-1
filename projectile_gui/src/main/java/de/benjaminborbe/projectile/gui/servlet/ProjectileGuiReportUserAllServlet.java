@@ -1,7 +1,6 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +28,7 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.gui.util.ProjectileSlacktimeReportComparator;
+import de.benjaminborbe.projectile.gui.widget.ProjectileMultiReport;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -36,10 +36,6 @@ import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.table.TableCellHeadWidget;
-import de.benjaminborbe.website.table.TableCellWidget;
-import de.benjaminborbe.website.table.TableRowWidget;
-import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
@@ -101,35 +97,7 @@ public class ProjectileGuiReportUserAllServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final Collection<ProjectileSlacktimeReport> reports = projectileService.getSlacktimeReportAllUsers(sessionIdentifier);
 			final List<ProjectileSlacktimeReport> reportList = comparatorUtil.sort(reports, new ProjectileSlacktimeReportComparator());
-
-			final TableWidget table = new TableWidget();
-			table.addClass("sortable");
-			{
-				final TableRowWidget row = new TableRowWidget();
-				row.addCell(new TableCellHeadWidget("Name"));
-				row.addCell(new TableCellHeadWidget("Week %"));
-				row.addCell(new TableCellHeadWidget("Week Extern"));
-				row.addCell(new TableCellHeadWidget("Week Intern"));
-				row.addCell(new TableCellHeadWidget("Month %"));
-				row.addCell(new TableCellHeadWidget("Month Extern"));
-				row.addCell(new TableCellHeadWidget("Month Intern"));
-				row.addCell(new TableCellHeadWidget("Year %"));
-				row.addCell(new TableCellHeadWidget("Year Extern"));
-				row.addCell(new TableCellHeadWidget("Year Intern"));
-				table.addRow(row);
-			}
-			for (final ProjectileSlacktimeReport report : reportList) {
-				if (hasData(report)) {
-					final TableRowWidget row = new TableRowWidget();
-					row.addCell(report.getName());
-					addCells(row, report.getWeekIntern(), report.getWeekExtern());
-					addCells(row, report.getMonthIntern(), report.getMonthExtern());
-					addCells(row, report.getYearIntern(), report.getYearExtern());
-					table.addRow(row);
-				}
-			}
-			widgets.add(table);
-
+			widgets.add(new ProjectileMultiReport(reportList));
 			return widgets;
 		}
 		catch (final ProjectileServiceException e) {
@@ -141,43 +109,6 @@ public class ProjectileGuiReportUserAllServlet extends WebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-	}
-
-	private boolean hasData(final ProjectileSlacktimeReport report) {
-		return report.getWeekIntern() != null && report.getWeekIntern() > 0 || report.getWeekExtern() != null && report.getWeekExtern() > 0 || report.getMonthIntern() != null
-				&& report.getMonthIntern() > 0 || report.getMonthExtern() != null && report.getMonthExtern() > 0 || report.getYearIntern() != null && report.getYearIntern() > 0
-				|| report.getYearExtern() != null && report.getYearExtern() > 0;
-	}
-
-	private void addCells(final TableRowWidget row, final Double intern, final Double extern) {
-		if (extern != null && intern != null && (extern > 0 || intern > 0)) {
-			final double total = extern + intern;
-			final double procent = (extern / total);
-			final DecimalFormat df = new DecimalFormat("#####0.0");
-			final DecimalFormat dfHour = new DecimalFormat("#####0.0h");
-			final DecimalFormat dfPercent = new DecimalFormat("#####0.0%");
-
-			{
-				final TableCellWidget cell = new TableCellWidget(dfPercent.format(procent));
-				cell.addAttribute("sorttable_customkey", df.format(procent));
-				row.addCell(cell);
-			}
-			{
-				final TableCellWidget cell = new TableCellWidget(dfHour.format(extern));
-				cell.addAttribute("sorttable_customkey", df.format(extern));
-				row.addCell(cell);
-			}
-			{
-				final TableCellWidget cell = new TableCellWidget(dfHour.format(intern));
-				cell.addAttribute("sorttable_customkey", df.format(intern));
-				row.addCell(cell);
-			}
-		}
-		else {
-			row.addCell("-");
-			row.addCell("-");
-			row.addCell("-");
 		}
 	}
 

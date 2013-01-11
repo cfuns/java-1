@@ -17,7 +17,7 @@ public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier>
 
 	private Calendar modified;
 
-	private String username;
+	private String name;
 
 	private Double weekIntern;
 
@@ -65,11 +65,11 @@ public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier>
 
 	@Override
 	public String getName() {
-		return username;
+		return name;
 	}
 
-	public void setUsername(final String username) {
-		this.username = username;
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 	@Override
