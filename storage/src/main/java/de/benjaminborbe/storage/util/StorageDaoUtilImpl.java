@@ -362,7 +362,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 
 	@Override
 	public StorageColumnIterator columnIterator(final String keySpace, final String columnFamily, final StorageValue key) throws UnsupportedEncodingException {
-		return new StorageColumnIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), key);
+		return new StorageColumnIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), key, false);
+	}
+
+	@Override
+	public StorageColumnIterator columnIteratorReversed(final String keySpace, final String columnFamily, final StorageValue key) throws UnsupportedEncodingException {
+		return new StorageColumnIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), key, true);
 	}
 
 	@Override

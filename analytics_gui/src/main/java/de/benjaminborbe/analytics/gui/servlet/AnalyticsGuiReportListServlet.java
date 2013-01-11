@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +12,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReport;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -26,21 +32,28 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AnalyticsGuiServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Analytics";
+	private static final String TITLE = "Analytics - Reports";
 
 	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
 
+	private final AnalyticsService analyticsService;
+
+	private final AuthenticationService authenticationService;
+
+	private final Logger logger;
+
 	@Inject
-	public AnalyticsGuiServlet(
+	public AnalyticsGuiReportListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -51,9 +64,13 @@ public class AnalyticsGuiServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
+			final AnalyticsService analyticsService,
 			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.analyticsService = analyticsService;
 		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
+		this.authenticationService = authenticationService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -64,14 +81,32 @@ public class AnalyticsGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final Collection<AnalyticsReport> reports = analyticsService.getReports(sessionIdentifier);
+			final UlWidget ul = new UlWidget();
+			for (final AnalyticsReport report : reports) {
+				final ListWidget row = new ListWidget();
+				ul.add(analyticsGuiLinkFactory.reportTable(request, report.getId(), report.getName()));
+				ul.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
+				ul.add(row);
+			}
+			widgets.add(ul);
+			widgets.add(analyticsGuiLinkFactory.addReport(request));
 
-		final UlWidget ul = new UlWidget();
-		ul.add(analyticsGuiLinkFactory.tableReport(request));
-		ul.add(analyticsGuiLinkFactory.addData(request));
-		widgets.add(ul);
-		return widgets;
+			return widgets;
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final AnalyticsServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
-
 }

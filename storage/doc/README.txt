@@ -298,3 +298,15 @@ create column family task_context_user_relation with
     {column_name: key_a, validation_class: UTF8Type, index_type: KEYS},
     {column_name: key_b, validation_class: UTF8Type, index_type: KEYS}
   ];
+
+drop column family analytics_report;
+create column family analytics_report with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+  
+drop column family analytics_report_value;
+create column family analytics_report_value with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;

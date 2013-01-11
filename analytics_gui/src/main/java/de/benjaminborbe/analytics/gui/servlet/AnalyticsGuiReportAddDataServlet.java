@@ -14,8 +14,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+import de.benjaminborbe.analytics.api.ReportValueDto;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
@@ -36,6 +38,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -50,11 +53,11 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Analytics";
+	private static final String TITLE = "Analytics - Report add data";
 
 	private final AnalyticsService analyticsService;
 
@@ -69,7 +72,7 @@ public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 	private final ParseUtil parseUtil;
 
 	@Inject
-	public AnalyticsGuiAddDataServlet(
+	public AnalyticsGuiReportAddDataServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -103,13 +106,15 @@ public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
+			final String reportId = request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID);
 			final String date = request.getParameter(AnalyticsGuiConstants.PARAMETER_DATE);
 			final String value = request.getParameter(AnalyticsGuiConstants.PARAMETER_VALUE);
-			if (date != null && value != null) {
+			if (reportId != null && date != null && value != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 				try {
-					addData(sessionIdentifier, date, value);
+					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(reportId);
+					addData(sessionIdentifier, analyticsReportIdentifier, date, value);
 					widgets.add("add data => success");
 				}
 				catch (final ValidationException e) {
@@ -119,6 +124,7 @@ public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_DATE).addLabel("Date:").addPlaceholder("date..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_VALUE).addLabel("Value:").addPlaceholder("value..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("add"));
@@ -138,7 +144,8 @@ public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void addData(final SessionIdentifier sessionIdentifier, final String dateString, final String valueString) throws AnalyticsServiceException, ValidationException {
+	private void addData(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier, final String dateString, final String valueString)
+			throws AnalyticsServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		Calendar calendar = null;
 		{
@@ -164,7 +171,8 @@ public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			analyticsService.addData(sessionIdentifier, calendar, value);
+			final ReportValueDto reportValue = new ReportValueDto(calendar, value);
+			analyticsService.addReportData(sessionIdentifier, analyticsReportIdentifier, reportValue);
 		}
 	}
 

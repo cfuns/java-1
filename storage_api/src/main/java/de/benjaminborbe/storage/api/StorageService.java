@@ -38,6 +38,8 @@ public interface StorageService {
 
 	StorageColumnIterator columnIterator(String columnFamily, StorageValue key) throws StorageException;
 
+	StorageColumnIterator columnIteratorReversed(String columnFamily, StorageValue storageValue) throws StorageException;
+
 	StorageIterator keyIterator(String columnFamily) throws StorageException;
 
 	StorageIterator keyIterator(String columnFamily, Map<StorageValue, StorageValue> where) throws StorageException;

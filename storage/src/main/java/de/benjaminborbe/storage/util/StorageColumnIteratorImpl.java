@@ -45,8 +45,13 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 
 	private int pos = 0;
 
-	public StorageColumnIteratorImpl(final StorageConnectionPool storageConnectionPool, final String keySpace, final String columnFamily, final String encoding, final StorageValue id)
-			throws UnsupportedEncodingException {
+	public StorageColumnIteratorImpl(
+			final StorageConnectionPool storageConnectionPool,
+			final String keySpace,
+			final String columnFamily,
+			final String encoding,
+			final StorageValue id,
+			final boolean reversed) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.encoding = encoding;
@@ -58,6 +63,7 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 		this.slice_range.setCount(count);
 		this.slice_range.setStart(new byte[0]);
 		this.slice_range.setFinish(new byte[0]);
+		this.slice_range.setReversed(reversed);
 	}
 
 	@Override

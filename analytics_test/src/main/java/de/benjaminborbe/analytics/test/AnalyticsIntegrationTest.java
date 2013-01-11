@@ -2,7 +2,6 @@ package de.benjaminborbe.analytics.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -22,7 +21,6 @@ public class AnalyticsIntegrationTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();
@@ -50,22 +48,10 @@ public class AnalyticsIntegrationTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// @Test public void testServices() throws Exception {
-	// final BundleContext bundleContext = getContext();
-	// assertNotNull(bundleContext);
-	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
-	// // final Bundle bundle = a.getBundle();
-	// final Object service = bundleContext.getService(a);
-	// System.err.println(service);
-	// }
-	// }
-
-	@Test
 	public void testAnalyticsService() {
 		final Object serviceObject = getServiceObject(AnalyticsService.class.getName(), null);
 		final AnalyticsService service = (AnalyticsService) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.analytics.service.AnalyticsServiceImpl", service.getClass().getName());
 	}
-
 }

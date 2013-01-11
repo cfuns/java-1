@@ -70,4 +70,6 @@ public interface StorageDaoUtil {
 	Collection<List<StorageValue>> read(String keySpace, String columnFamily, Collection<StorageValue> keys, List<StorageValue> columnNames) throws UnsupportedEncodingException,
 			InvalidRequestException, UnavailableException, TimedOutException, TException, StorageConnectionPoolException;
 
+	StorageColumnIterator columnIteratorReversed(String keySpace, String columnFamily, StorageValue key) throws UnsupportedEncodingException;
+
 }

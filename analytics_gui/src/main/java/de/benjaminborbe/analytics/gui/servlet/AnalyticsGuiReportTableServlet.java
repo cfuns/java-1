@@ -14,9 +14,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.ReportValue;
+import de.benjaminborbe.analytics.api.ReportValueIterator;
+import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -44,11 +47,11 @@ import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Analytics";
+	private static final String TITLE = "Analytics - Report view";
 
 	private final AnalyticsService analyticsService;
 
@@ -59,7 +62,7 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public AnalyticsGuiTableServlet(
+	public AnalyticsGuiReportTableServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -92,7 +95,8 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<ReportValue> reports = analyticsService.getReport(sessionIdentifier);
+			final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
+			final ReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, analyticsReportIdentifier);
 
 			final DecimalFormat df = new DecimalFormat("#####0.0");
 
@@ -104,14 +108,15 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 				row.addCell(new TableCellHeadWidget("Value"));
 				table.addRow(row);
 			}
-			for (final ReportValue report : reports) {
+			while (reportValueIterator.hasNext()) {
+				final ReportValue reportValue = reportValueIterator.next();
 				final TableRowWidget row = new TableRowWidget();
 				{
-					row.addCell(calendarUtil.toDateTimeString(report.getDate()));
+					row.addCell(calendarUtil.toDateTimeString(reportValue.getDate()));
 				}
 				{
-					final TableCellWidget cell = new TableCellWidget(df.format(report.getValue()));
-					cell.addAttribute("sorttable_customkey", df.format(report.getValue()));
+					final TableCellWidget cell = new TableCellWidget(df.format(reportValue.getValue()));
+					cell.addAttribute("sorttable_customkey", df.format(reportValue.getValue()));
 					row.addCell(cell);
 				}
 				table.addRow(row);

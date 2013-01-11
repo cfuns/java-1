@@ -425,4 +425,19 @@ public class StorageServiceImpl implements StorageService {
 		}
 	}
 
+	@Override
+	public StorageColumnIterator columnIteratorReversed(final String columnFamily, final StorageValue storageValue) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return storageDaoUtil.columnIteratorReversed(config.getKeySpace(), columnFamily, storageValue);
+		}
+		catch (final Exception e) {
+			throw new StorageException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
 }

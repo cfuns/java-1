@@ -20,7 +20,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
-import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiServlet;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -36,7 +37,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class AnalyticsGuiServletUnitTest {
+public class AnalyticsGuiReportListServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -124,9 +125,13 @@ public class AnalyticsGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory = new AnalyticsGuiLinkFactory();
-		final AnalyticsGuiServlet analyticsServlet = new AnalyticsGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsGuiLinkFactory);
+		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory = new AnalyticsGuiLinkFactory(urlUtil);
+
+		final AnalyticsService analyticsService = EasyMock.createMock(AnalyticsService.class);
+		EasyMock.replay(analyticsService);
+
+		final AnalyticsGuiReportListServlet analyticsServlet = new AnalyticsGuiReportListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsService, analyticsGuiLinkFactory);
 
 		analyticsServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

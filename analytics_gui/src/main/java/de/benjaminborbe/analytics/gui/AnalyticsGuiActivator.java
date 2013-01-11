@@ -9,9 +9,9 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
-import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiAddDataServlet;
-import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiServlet;
-import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiTableServlet;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAddDataServlet;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportTableServlet;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -25,13 +25,13 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 	private AnalyticsGuiNavigationEntry analyticsGuiNavigationEntry;
 
 	@Inject
-	private AnalyticsGuiAddDataServlet analyticsGuiAddDataServlet;
+	private AnalyticsGuiReportAddDataServlet analyticsGuiAddDataServlet;
 
 	@Inject
-	private AnalyticsGuiTableServlet analyticsGuiTableServlet;
+	private AnalyticsGuiReportTableServlet analyticsGuiTableServlet;
 
 	@Inject
-	private AnalyticsGuiServlet analyticsGuiServlet;
+	private AnalyticsGuiReportListServlet analyticsGuiServlet;
 
 	public AnalyticsGuiActivator() {
 		super(AnalyticsGuiConstants.NAME);
@@ -45,9 +45,9 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(analyticsGuiServlet, AnalyticsGuiConstants.URL_HOME));
+		result.add(new ServletInfo(analyticsGuiServlet, AnalyticsGuiConstants.URL_REPORT_LIST));
 		result.add(new ServletInfo(analyticsGuiTableServlet, AnalyticsGuiConstants.URL_REPORT_TABLE));
-		result.add(new ServletInfo(analyticsGuiAddDataServlet, AnalyticsGuiConstants.URL_ADD_DATA));
+		result.add(new ServletInfo(analyticsGuiAddDataServlet, AnalyticsGuiConstants.URL_REPORT_CREATE));
 		return result;
 	}
 

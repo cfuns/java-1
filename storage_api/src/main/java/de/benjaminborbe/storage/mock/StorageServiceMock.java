@@ -317,6 +317,11 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
+	public StorageColumnIterator columnIteratorReversed(final String columnFamily, final StorageValue key) throws StorageException {
+		return new StorageColumnIteratorMock(get(columnFamily, key));
+	}
+
+	@Override
 	public String getEncoding() {
 		return encoding;
 	}

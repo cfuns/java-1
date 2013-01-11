@@ -48,9 +48,9 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_HOME);
+		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_LIST);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_TABLE);
-		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_ADD_DATA);
+		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
