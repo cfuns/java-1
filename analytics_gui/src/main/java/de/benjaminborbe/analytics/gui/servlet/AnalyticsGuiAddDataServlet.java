@@ -1,8 +1,8 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,10 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.api.ReportValue;
+import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -30,21 +33,25 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormInputTextareaWidget;
+import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.table.TableCellHeadWidget;
-import de.benjaminborbe.website.table.TableCellWidget;
-import de.benjaminborbe.website.table.TableRowWidget;
-import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -58,8 +65,12 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
+	private final TimeZoneUtil timeZoneUtil;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public AnalyticsGuiTableServlet(
+	public AnalyticsGuiAddDataServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -73,8 +84,10 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 			final AnalyticsService analyticsService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 		this.analyticsService = analyticsService;
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.authenticationService = authenticationService;
 	}
 
@@ -91,32 +104,26 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<ReportValue> reports = analyticsService.getReport(sessionIdentifier);
+			final String date = request.getParameter(AnalyticsGuiConstants.PARAMETER_DATE);
+			final String value = request.getParameter(AnalyticsGuiConstants.PARAMETER_VALUE);
+			if (date != null && value != null) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-			final DecimalFormat df = new DecimalFormat("#####0.0");
+				try {
+					addData(sessionIdentifier, date, value);
+					widgets.add("add data => success");
+				}
+				catch (final ValidationException e) {
+					widgets.add("add data => failed");
+					widgets.add(new ValidationExceptionWidget(e));
+				}
+			}
 
-			final TableWidget table = new TableWidget();
-			table.addClass("sortable");
-			{
-				final TableRowWidget row = new TableRowWidget();
-				row.addCell(new TableCellHeadWidget("Name"));
-				row.addCell(new TableCellHeadWidget("Value"));
-				table.addRow(row);
-			}
-			for (final ReportValue report : reports) {
-				final TableRowWidget row = new TableRowWidget();
-				{
-					row.addCell(calendarUtil.toDateTimeString(report.getDate()));
-				}
-				{
-					final TableCellWidget cell = new TableCellWidget(df.format(report.getValue()));
-					cell.addAttribute("sorttable_customkey", df.format(report.getValue()));
-					row.addCell(cell);
-				}
-				table.addRow(row);
-			}
-			widgets.add(table);
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_DATE).addLabel("Date:").addPlaceholder("date..."));
+			formWidget.addFormInputWidget(new FormInputTextareaWidget(AnalyticsGuiConstants.PARAMETER_VALUE).addLabel("Value:").addPlaceholder("value..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("add"));
+			widgets.add(formWidget);
 
 			return widgets;
 		}
@@ -129,6 +136,36 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	private void addData(final SessionIdentifier sessionIdentifier, final String dateString, final String valueString) throws AnalyticsServiceException, ValidationException {
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		Calendar calendar = null;
+		{
+			try {
+				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), dateString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal date"));
+			}
+		}
+
+		double value = 0;
+		{
+			try {
+				value = parseUtil.parseDouble(valueString);
+			}
+			catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal delay"));
+			}
+		}
+
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
+		else {
+			analyticsService.addData(sessionIdentifier, calendar, value);
 		}
 	}
 

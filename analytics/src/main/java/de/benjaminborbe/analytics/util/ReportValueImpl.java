@@ -1,26 +1,27 @@
 package de.benjaminborbe.analytics.util;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.analytics.api.ReportValue;
 
 public class ReportValueImpl implements ReportValue {
 
-	private final String name;
-
 	private final Double value;
 
-	public ReportValueImpl(final String name, final Double value) {
-		this.name = name;
-		this.value = value;
-	}
+	private final Calendar date;
 
-	@Override
-	public String getName() {
-		return name;
+	public ReportValueImpl(final Calendar date, final Double value) {
+		this.date = date;
+		this.value = value;
 	}
 
 	@Override
 	public Double getValue() {
 		return value;
+	}
+
+	public Calendar getDate() {
+		return date;
 	}
 
 }

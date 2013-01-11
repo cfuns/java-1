@@ -8,4 +8,10 @@ public interface AnalyticsGuiConstants {
 
 	String URL_TABLE = "/table";
 
+	String URL_ADD_DATA = "/addData";
+
+	String PARAMETER_DATE = "date";
+
+	String PARAMETER_VALUE = "value";
+
 }

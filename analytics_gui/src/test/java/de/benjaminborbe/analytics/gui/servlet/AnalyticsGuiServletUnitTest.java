@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiServlet;
+import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -123,8 +124,9 @@ public class AnalyticsGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
-		final AnalyticsGuiServlet analyticsServlet = new AnalyticsGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService);
+		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory = new AnalyticsGuiLinkFactory();
+		final AnalyticsGuiServlet analyticsServlet = new AnalyticsGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsGuiLinkFactory);
 
 		analyticsServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

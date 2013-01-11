@@ -1,5 +1,6 @@
 package de.benjaminborbe.analytics.mock;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -20,6 +21,10 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	@Override
 	public List<ReportValue> getReport(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException {
 		return null;
+	}
+
+	@Override
+	public void addData(final SessionIdentifier sessionIdentifier, final Calendar calendar, final double value) throws AnalyticsServiceException {
 	}
 
 }

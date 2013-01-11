@@ -1,8 +1,10 @@
 package de.benjaminborbe.analytics.api;
 
+import java.util.Calendar;
+
 public interface ReportValue {
 
-	String getName();
-
 	Double getValue();
+
+	Calendar getDate();
 }
