@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
+import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
@@ -33,6 +35,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -123,19 +126,21 @@ public class AnalyticsGuiReportListServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.expect(urlUtil.buildUrl("/analytics/report/create", new MapParameter())).andReturn("");
 		EasyMock.replay(urlUtil);
 
 		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory = new AnalyticsGuiLinkFactory(urlUtil);
 
 		final AnalyticsService analyticsService = EasyMock.createMock(AnalyticsService.class);
+		EasyMock.expect(analyticsService.getReports(sessionIdentifier)).andReturn(new ArrayList<AnalyticsReport>());
 		EasyMock.replay(analyticsService);
 
-		final AnalyticsGuiReportListServlet analyticsServlet = new AnalyticsGuiReportListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsService, analyticsGuiLinkFactory);
+		final AnalyticsGuiReportListServlet analyticsServlet = new AnalyticsGuiReportListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsService, analyticsGuiLinkFactory);
 
 		analyticsServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Analytics</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Analytics - Reports</h1>") != -1);
 	}
 }
