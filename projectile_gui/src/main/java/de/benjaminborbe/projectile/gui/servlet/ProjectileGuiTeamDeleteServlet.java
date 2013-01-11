@@ -17,7 +17,9 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
@@ -40,6 +42,8 @@ public class ProjectileGuiTeamDeleteServlet extends WebsiteServlet {
 
 	private final Logger logger;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public ProjectileGuiTeamDeleteServlet(
 			final Logger logger,
@@ -54,6 +58,7 @@ public class ProjectileGuiTeamDeleteServlet extends WebsiteServlet {
 		this.projectileService = projectileService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -73,4 +78,26 @@ public class ProjectileGuiTeamDeleteServlet extends WebsiteServlet {
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
 		widget.render(request, response, context);
 	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(ProjectileService.PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

@@ -89,24 +89,23 @@ public class ProjectileGuiServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final UlWidget ul = new UlWidget();
-			ul.add(projectileLinkFactory.reportForCurrentUser(request));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileTeamIdentifier team = projectileService.getCurrentTeam(sessionIdentifier);
 			if (team != null) {
+				ul.add(projectileLinkFactory.reportForCurrentUser(request));
 				ul.add(projectileLinkFactory.reportForCurrentTeam(request));
 			}
 
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(ProjectileService.PROJECTILE_ADMIN_ROLENAME);
 			if (authorizationService.hasRole(sessionIdentifier, roleIdentifier)) {
-
 				ul.add(projectileLinkFactory.reportForAllUser(request));
 				ul.add(projectileLinkFactory.reportForAllTeam(request));
-
+				ul.add(projectileLinkFactory.teamList(request));
+			}
+			if (authorizationService.hasAdminRole(sessionIdentifier)) {
 				ul.add(projectileLinkFactory.fetchReport(request));
 				ul.add(projectileLinkFactory.importReport(request));
-
-				ul.add(projectileLinkFactory.teamList(request));
 			}
 			widgets.add(ul);
 

@@ -84,9 +84,13 @@ public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReportCurrentUser(sessionIdentifier);
 
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle() + " " + report.getName()));
-			widgets.add(new ProjectileSingleReport(report));
-
+			if (report != null) {
+				widgets.add(new H1Widget(getTitle() + " " + report.getName()));
+				widgets.add(new ProjectileSingleReport(report));
+			}
+			else {
+				widgets.add("no data found");
+			}
 			return widgets;
 		}
 		catch (final ProjectileServiceException e) {

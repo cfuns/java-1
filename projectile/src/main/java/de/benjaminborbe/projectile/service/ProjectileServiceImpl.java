@@ -201,6 +201,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 			logger.debug("getSlacktimeReportCurrentTeam for user " + currentUser);
 
 			final ProjectileTeamIdentifier projectileTeamIdentifier = getTeamForUser(sessionIdentifier, currentUser);
+			if (projectileTeamIdentifier == null) {
+				logger.debug("no team found for user " + currentUser);
+				return null;
+			}
 			final ProjectileTeamBean team = projectileTeamDao.load(projectileTeamIdentifier);
 			final Collection<UserIdentifier> users = getUsersForTeam(sessionIdentifier, projectileTeamIdentifier);
 
@@ -487,7 +491,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authenticationService.isLoggedIn(sessionIdentifier);
-			logger.debug("removeUserFromTeam");
+			logger.debug("getTeamForUser");
 
 			final StorageIterator i = projectileTeamUserManyToManyRelation.getB(userIdentifier);
 			while (i.hasNext()) {

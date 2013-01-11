@@ -2,6 +2,7 @@ package de.benjaminborbe.projectile.gui.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,7 +18,9 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -57,6 +60,8 @@ public class ProjectileGuiTeamCreateServlet extends WebsiteHtmlServlet {
 
 	private final ProjectileLinkFactory projectileLinkFactory;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public ProjectileGuiTeamCreateServlet(
 			final Logger logger,
@@ -73,6 +78,7 @@ public class ProjectileGuiTeamCreateServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.projectileService = projectileService;
 		this.projectileLinkFactory = projectileLinkFactory;
 	}
@@ -130,6 +136,27 @@ public class ProjectileGuiTeamCreateServlet extends WebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(ProjectileService.PROJECTILE_ADMIN_ROLENAME);
+			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
 	}
 
 }

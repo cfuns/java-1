@@ -85,23 +85,27 @@ public class ProjectileGuiReportTeamCurrentServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
-
+			final ListWidget widgets = new ListWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReportCurrentTeam(sessionIdentifier);
+			if (report != null) {
+				final ProjectileTeamIdentifier projectileTeamIdentifier = projectileService.getCurrentTeam(sessionIdentifier);
+				final Collection<UserIdentifier> users = projectileService.getUsersForTeam(sessionIdentifier, projectileTeamIdentifier);
 
-			final ProjectileTeamIdentifier projectileTeamIdentifier = projectileService.getCurrentTeam(sessionIdentifier);
-			final Collection<UserIdentifier> users = projectileService.getUsersForTeam(sessionIdentifier, projectileTeamIdentifier);
+				widgets.add(new H1Widget(getTitle() + " " + report.getName()));
+				widgets.add(new ProjectileSingleReport(report));
 
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle() + " " + report.getName()));
-			widgets.add(new ProjectileSingleReport(report));
-
-			widgets.add(new H2Widget("Users:"));
-			final UlWidget ul = new UlWidget();
-			for (final UserIdentifier user : users) {
-				ul.add(user.getId());
+				widgets.add(new H2Widget("Users:"));
+				final UlWidget ul = new UlWidget();
+				for (final UserIdentifier user : users) {
+					ul.add(user.getId());
+				}
+				widgets.add(ul);
 			}
-			widgets.add(ul);
+			else {
+				widgets.add("no data found");
+			}
+
 			return widgets;
 		}
 		catch (final ProjectileServiceException e) {

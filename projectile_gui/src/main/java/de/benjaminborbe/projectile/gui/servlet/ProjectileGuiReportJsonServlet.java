@@ -72,6 +72,7 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 		}
 		catch (final ProjectileServiceException e) {
 			logger.warn(e.getClass().getName(), e);
+			throw new PermissionDeniedException(e);
 		}
 	}
 
