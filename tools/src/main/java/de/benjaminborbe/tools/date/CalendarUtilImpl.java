@@ -208,10 +208,13 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public Calendar parseDate(final TimeZone timeZone, final String dateTime) throws ParseException {
 		try {
 			final String[] dateParts = dateTime.split("-");
+			if (dateParts.length != 3) {
+				throw new ParseException("parse date failed");
+			}
 			return getCalendar(timeZone, parseUtil.parseInt(dateParts[0]), parseUtil.parseInt(dateParts[1]) - 1, parseUtil.parseInt(dateParts[2]));
 		}
-		catch (final NullPointerException e) {
-			throw new ParseException("NullPointerException while parseing timeZone " + (timeZone != null ? timeZone.getID() : "null") + " dateTime: " + dateTime);
+		catch (final Exception e) {
+			throw new ParseException("parse date failed");
 		}
 	}
 
@@ -223,6 +226,10 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	private Calendar getCalendar(final TimeZone timeZone) {
+		if (timeZone == null) {
+			throw new IllegalArgumentException("parameter timezone = null");
+		}
+
 		final Calendar calendar = Calendar.getInstance();
 		calendar.clear();
 		calendar.setTimeZone(timeZone);

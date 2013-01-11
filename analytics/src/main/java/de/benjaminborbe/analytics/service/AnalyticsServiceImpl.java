@@ -39,18 +39,18 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		try {
 			logger.debug("getReport");
 			final List<ReportValue> result = new ArrayList<ReportValue>();
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-01"), 12d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-02"), 1d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-03"), 10d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-04"), 11d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-05"), 13d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-06"), 14d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-07"), 5d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-08"), 6d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-09"), 3d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-10"), 20d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-11"), 22d));
-			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-12"), 11d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-01-01"), 12d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-02-01"), 1d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-03-01"), 10d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-04-01"), 11d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-05-01"), 13d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-06-01"), 14d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-07-01"), 5d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-08-01"), 6d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-09-01"), 3d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-10-01"), 20d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-11-01"), 22d));
+			result.add(new ReportValueImpl(calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), "2012-12-01"), 11d));
 			return result;
 		}
 		catch (final ParseException e) {

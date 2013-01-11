@@ -69,13 +69,6 @@ public class BlogGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(blogFilter, ".*", 998));
-	// return result;
-	// }
-
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
 		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());

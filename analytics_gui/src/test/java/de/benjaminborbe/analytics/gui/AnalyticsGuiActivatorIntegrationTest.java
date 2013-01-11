@@ -18,6 +18,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiActivator;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModulesMock;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -48,7 +49,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_HOME);
-		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_TABLE);
+		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_TABLE);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_ADD_DATA);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
@@ -114,6 +115,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

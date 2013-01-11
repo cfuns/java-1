@@ -70,6 +70,7 @@ public class AnalyticsGuiServlet extends WebsiteHtmlServlet {
 		final UlWidget ul = new UlWidget();
 		ul.add(analyticsGuiLinkFactory.tableReport(request));
 		ul.add(analyticsGuiLinkFactory.addData(request));
+		widgets.add(ul);
 		return widgets;
 	}
 

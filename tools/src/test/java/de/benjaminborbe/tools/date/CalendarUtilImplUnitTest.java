@@ -511,15 +511,60 @@ public class CalendarUtilImplUnitTest {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
 		EasyMock.replay(timeZoneUtil);
-		final CalendarUtil u = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final Calendar c = u.parseDate(timeZone, "2012-11-09");
-		assertEquals(2012, c.get(Calendar.YEAR));
-		assertEquals(10, c.get(Calendar.MONTH));
-		assertEquals(9, c.get(Calendar.DAY_OF_MONTH));
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
-		assertEquals(0, c.get(Calendar.SECOND));
-		assertEquals(0, c.get(Calendar.MILLISECOND));
+
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		final Calendar calendar = calendarUtil.parseDate(timeZone, "2012-11-09");
+		assertEquals(2012, calendar.get(Calendar.YEAR));
+		assertEquals(10, calendar.get(Calendar.MONTH));
+		assertEquals(9, calendar.get(Calendar.DAY_OF_MONTH));
+		assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
+		assertEquals(0, calendar.get(Calendar.MINUTE));
+		assertEquals(0, calendar.get(Calendar.SECOND));
+		assertEquals(0, calendar.get(Calendar.MILLISECOND));
+
+		try {
+			calendarUtil.parseDate(null, "2012-11-09");
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
+
+		try {
+			final String dateString = null;
+			calendarUtil.parseDate(timeZone, dateString);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
+
+		try {
+			final String dateString = "";
+			calendarUtil.parseDate(timeZone, dateString);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
+
+		try {
+			final String dateString = "2012-01";
+			calendarUtil.parseDate(timeZone, dateString);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
+
+		try {
+			final String dateString = "2012-01-a";
+			calendarUtil.parseDate(timeZone, dateString);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
 	}
 
 	@Test

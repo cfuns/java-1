@@ -38,7 +38,6 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
-import de.benjaminborbe.website.form.FormInputTextareaWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
@@ -121,7 +120,7 @@ public class AnalyticsGuiAddDataServlet extends WebsiteHtmlServlet {
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_DATE).addLabel("Date:").addPlaceholder("date..."));
-			formWidget.addFormInputWidget(new FormInputTextareaWidget(AnalyticsGuiConstants.PARAMETER_VALUE).addLabel("Value:").addPlaceholder("value..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_VALUE).addLabel("Value:").addPlaceholder("value..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("add"));
 			widgets.add(formWidget);
 

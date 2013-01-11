@@ -12,11 +12,17 @@ import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiAddDataServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiTableServlet;
+import de.benjaminborbe.analytics.gui.util.AnalyticsGuiNavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AnalyticsGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AnalyticsGuiNavigationEntry analyticsGuiNavigationEntry;
 
 	@Inject
 	private AnalyticsGuiAddDataServlet analyticsGuiAddDataServlet;
@@ -40,9 +46,15 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(analyticsGuiServlet, AnalyticsGuiConstants.URL_HOME));
-		result.add(new ServletInfo(analyticsGuiTableServlet, AnalyticsGuiConstants.URL_TABLE));
+		result.add(new ServletInfo(analyticsGuiTableServlet, AnalyticsGuiConstants.URL_REPORT_TABLE));
 		result.add(new ServletInfo(analyticsGuiAddDataServlet, AnalyticsGuiConstants.URL_ADD_DATA));
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, analyticsGuiNavigationEntry));
+		return result;
+	}
 }
