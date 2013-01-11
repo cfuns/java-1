@@ -1,12 +1,12 @@
 package de.benjaminborbe.projectile.gui.util;
 
-import de.benjaminborbe.projectile.api.Team;
+import de.benjaminborbe.projectile.api.ProjectileTeam;
 import de.benjaminborbe.tools.util.ComparatorBase;
 
-public class TeamComparator extends ComparatorBase<Team, String> {
+public class TeamComparator extends ComparatorBase<ProjectileTeam, String> {
 
 	@Override
-	public String getValue(final Team o) {
+	public String getValue(final ProjectileTeam o) {
 		return o.getName() != null ? o.getName().toLowerCase() : null;
 	}
 

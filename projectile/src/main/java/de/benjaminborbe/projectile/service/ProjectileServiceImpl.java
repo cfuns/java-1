@@ -22,12 +22,14 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
-import de.benjaminborbe.projectile.api.Team;
-import de.benjaminborbe.projectile.api.TeamDto;
-import de.benjaminborbe.projectile.api.TeamIdentifier;
+import de.benjaminborbe.projectile.api.ProjectileTeam;
+import de.benjaminborbe.projectile.api.ProjectileTeamDto;
+import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.dao.ProjectileReportBean;
 import de.benjaminborbe.projectile.dao.ProjectileReportDao;
+import de.benjaminborbe.projectile.dao.ProjectileTeamBean;
+import de.benjaminborbe.projectile.dao.ProjectileTeamDao;
 import de.benjaminborbe.projectile.util.ProjectileCsvReportImporter;
 import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 import de.benjaminborbe.storage.api.StorageException;
@@ -52,6 +54,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	private final ProjectileReportDao projectileReportDao;
 
+	private final ProjectileTeamDao projectileTeamDao;
+
 	@Inject
 	public ProjectileServiceImpl(
 			final Logger logger,
@@ -60,6 +64,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			final ProjectileConfig projectileConfig,
 			final ProjectileCsvReportImporter projectileCsvReportImporter,
 			final ProjectileReportDao projectileReportDao,
+			final ProjectileTeamDao projectileTeamDao,
 			final ProjectileMailReportFetcher projectileMailReportFetcher) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -67,6 +72,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 		this.projectileConfig = projectileConfig;
 		this.projectileCsvReportImporter = projectileCsvReportImporter;
 		this.projectileReportDao = projectileReportDao;
+		this.projectileTeamDao = projectileTeamDao;
 		this.projectileMailReportFetcher = projectileMailReportFetcher;
 	}
 
@@ -201,25 +207,39 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public Collection<Team> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public Collection<ProjectileTeam> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+		try {
+			final List<ProjectileTeam> result = new ArrayList<ProjectileTeam>();
+			final EntityIterator<ProjectileTeamBean> i = projectileTeamDao.getEntityIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final EntityIteratorException e) {
+			throw new ProjectileServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new ProjectileServiceException(e);
+		}
+	}
+
+	@Override
+	public ProjectileTeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public TeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileTeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException,
+			PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public TeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
-		return null;
+	public void updateTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
 	}
 
 	@Override
-	public void updateTeam(final SessionIdentifier sessionIdentifier, final TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
-	}
-
-	@Override
-	public void deleteTeam(final SessionIdentifier sessionIdentifier, final TeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException {
+	public void deleteTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException {
 	}
 }

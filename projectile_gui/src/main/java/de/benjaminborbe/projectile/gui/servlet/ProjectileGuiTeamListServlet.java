@@ -25,7 +25,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
-import de.benjaminborbe.projectile.api.Team;
+import de.benjaminborbe.projectile.api.ProjectileTeam;
 import de.benjaminborbe.projectile.gui.util.ProjectileLinkFactory;
 import de.benjaminborbe.projectile.gui.util.TeamComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -87,9 +87,9 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
-			final List<Team> teams = Lists.newArrayList(projectileService.listTeams(sessionIdentifier));
+			final List<ProjectileTeam> teams = Lists.newArrayList(projectileService.listTeams(sessionIdentifier));
 			Collections.sort(teams, new TeamComparator());
-			for (final Team team : teams) {
+			for (final ProjectileTeam team : teams) {
 				final ListWidget list = new ListWidget();
 				list.add(team.getName());
 				list.add(" ");

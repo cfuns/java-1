@@ -1,5 +1,6 @@
-package de.benjaminborbe.projectile.dao;
+package de.benjaminborbe.projectile.util;
 
+import de.benjaminborbe.projectile.dao.ProjectileReportIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 public class MapperProjectileReportIdentifier implements Mapper<ProjectileReportIdentifier> {

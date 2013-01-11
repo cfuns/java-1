@@ -1,17 +1,17 @@
 package de.benjaminborbe.projectile.api;
 
-public class TeamDto implements Team {
+public class ProjectileTeamDto implements ProjectileTeam {
 
-	private TeamIdentifier id;
+	private ProjectileTeamIdentifier id;
 
 	private String name;
 
 	@Override
-	public TeamIdentifier getId() {
+	public ProjectileTeamIdentifier getId() {
 		return id;
 	}
 
-	public void setId(final TeamIdentifier id) {
+	public void setId(final ProjectileTeamIdentifier id) {
 		this.id = id;
 	}
 

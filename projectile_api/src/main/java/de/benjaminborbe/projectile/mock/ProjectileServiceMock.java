@@ -14,9 +14,9 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
-import de.benjaminborbe.projectile.api.Team;
-import de.benjaminborbe.projectile.api.TeamDto;
-import de.benjaminborbe.projectile.api.TeamIdentifier;
+import de.benjaminborbe.projectile.api.ProjectileTeam;
+import de.benjaminborbe.projectile.api.ProjectileTeamDto;
+import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 
 @Singleton
 public class ProjectileServiceMock implements ProjectileService {
@@ -73,25 +73,25 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public void deleteTeam(final SessionIdentifier sessionIdentifier, final TeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException {
+	public void deleteTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException {
 	}
 
 	@Override
-	public void updateTeam(final SessionIdentifier sessionIdentifier, final TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
+	public void updateTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
 	}
 
 	@Override
-	public TeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final TeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileTeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public TeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileTeamIdentifier getCurrentTeam(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public Collection<Team> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public Collection<ProjectileTeam> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 

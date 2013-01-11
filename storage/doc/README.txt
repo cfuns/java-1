@@ -246,6 +246,12 @@ create column family projectile_report with
     {column_name: username, validation_class: UTF8Type, index_type: KEYS}
   ];
 
+drop column family projectile_team;
+create column family projectile_team with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
 drop column family shortener_url;
 create column family shortener_url with
   comparator = UTF8Type and
