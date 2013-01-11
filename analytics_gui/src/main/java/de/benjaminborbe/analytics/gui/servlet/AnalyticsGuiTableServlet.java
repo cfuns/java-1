@@ -2,6 +2,7 @@ package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -38,6 +40,7 @@ import de.benjaminborbe.website.table.TableRowWidget;
 import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
@@ -95,7 +98,7 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 			{
 				final TableRowWidget row = new TableRowWidget();
 				row.addCell(new TableCellHeadWidget("Name"));
-				row.addCell(new TableCellHeadWidget("Value %"));
+				row.addCell(new TableCellHeadWidget("Value"));
 				table.addRow(row);
 			}
 			for (final ReportValue report : reports) {
@@ -126,4 +129,11 @@ public class AnalyticsGuiTableServlet extends WebsiteHtmlServlet {
 		}
 	}
 
+	@Override
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final String contextPath = request.getContextPath();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
+		return result;
+	}
 }
