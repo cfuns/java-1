@@ -279,3 +279,8 @@ builddistributedsearch:
 	cd distributed_search && make all
 	cd distributed_search_gui && make all
 	cd distributed_search_test && make all
+buildanalytics:
+	cd analytics_api && make all
+	cd analytics && make all
+	cd analytics_gui && make all
+	cd analytics_test && make all

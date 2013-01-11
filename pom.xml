@@ -109,6 +109,7 @@
 				<module>streamcache_test</module>
 				<module>systemstatus_test</module>
 				<module>task_test</module>
+				<module>analytics_test</module>
 				<module>timetracker_test</module>
 				<module>translate_test</module>
 				<module>util_test</module>
@@ -257,6 +258,9 @@
 				<module>systemstatus</module>
 				<module>systemstatus_api</module>
 				<module>systemstatus_gui</module>
+				<module>analytics</module>
+				<module>analytics_api</module>
+				<module>analytics_gui</module>
 				<module>task</module>
 				<module>task_api</module>
 				<module>task_gui</module>

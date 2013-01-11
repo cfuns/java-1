@@ -223,3 +223,7 @@ lucene_index/target
 lucene_index_api/target
 lucene_index_gui/target
 lucene_index_test/target
+analytics/target
+analytics_api/target
+analytics_gui/target
+analytics_test/target
