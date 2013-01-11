@@ -6,4 +6,6 @@ public interface AnalyticsGuiConstants {
 
 	String NAME = "analytics";
 
+	String URL_TABLE = "/table";
+
 }
