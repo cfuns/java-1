@@ -121,9 +121,8 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
-			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_DATE).addLabel("Date:").addPlaceholder("date..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_VALUE).addLabel("Value:").addPlaceholder("value..."));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("add"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_REPORT_NAME).addLabel("Name:").addPlaceholder("name..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("create report"));
 			widgets.add(formWidget);
 
 			return widgets;

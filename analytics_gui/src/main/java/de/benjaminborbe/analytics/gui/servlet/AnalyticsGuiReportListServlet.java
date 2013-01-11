@@ -89,8 +89,9 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			for (final AnalyticsReport report : reports) {
 				final ListWidget row = new ListWidget();
-				ul.add(analyticsGuiLinkFactory.reportTable(request, report.getId(), report.getName()));
-				ul.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
+				row.add(analyticsGuiLinkFactory.reportTable(request, report.getId(), report.getName()));
+				row.add(" ");
+				row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
 				ul.add(row);
 			}
 			widgets.add(ul);
