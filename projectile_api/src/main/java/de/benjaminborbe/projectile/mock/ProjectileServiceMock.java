@@ -81,7 +81,8 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileTeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileTeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException,
+			PermissionDeniedException {
 		return null;
 	}
 
@@ -92,6 +93,12 @@ public class ProjectileServiceMock implements ProjectileService {
 
 	@Override
 	public Collection<ProjectileTeam> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public ProjectileTeam getTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
+			PermissionDeniedException {
 		return null;
 	}
 

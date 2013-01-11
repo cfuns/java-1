@@ -65,4 +65,8 @@ public class ProjectileLinkFactory {
 		return new LinkRelativWidget(request, "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_IMPORT, "Import Reports");
 	}
 
+	public String teamListUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_LIST;
+	}
+
 }

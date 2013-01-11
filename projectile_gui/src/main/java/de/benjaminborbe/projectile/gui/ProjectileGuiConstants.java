@@ -38,4 +38,8 @@ public interface ProjectileGuiConstants {
 
 	String PARAMETER_TEAM_ID = "team_id";
 
+	String PARAMETER_REFERER = "referer";
+
+	String PARAMETER_TEAM_NAME = "team_name";
+
 }

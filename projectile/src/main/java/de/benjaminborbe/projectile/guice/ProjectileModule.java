@@ -27,5 +27,7 @@ public class ProjectileModule extends AbstractModule {
 		bind(ProjectileConnector.class).to(ProjectileConnectorImpl.class).in(Singleton.class);
 		bind(ProjectileService.class).to(ProjectileServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(ProjectileValidatorLinker.class);
 	}
 }

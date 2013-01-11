@@ -32,14 +32,19 @@ public interface ProjectileService {
 	Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException;
 
-	void deleteTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException;
+	void deleteTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
 
-	void updateTeam(SessionIdentifier sessionIdentifier, ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException;
+	void updateTeam(SessionIdentifier sessionIdentifier, ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException, ValidationException,
+			LoginRequiredException;
 
-	ProjectileTeamIdentifier createTeam(SessionIdentifier sessionIdentifier, ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException;
+	ProjectileTeamIdentifier createTeam(SessionIdentifier sessionIdentifier, ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException,
+			ValidationException, LoginRequiredException;
 
 	ProjectileTeamIdentifier getCurrentTeam(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
 
 	Collection<ProjectileTeam> listTeams(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+
+	ProjectileTeam getTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
 }
