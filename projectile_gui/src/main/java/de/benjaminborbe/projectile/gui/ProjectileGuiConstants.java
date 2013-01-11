@@ -14,9 +14,9 @@ public interface ProjectileGuiConstants {
 
 	String URL_HOME = "/";
 
-	String URL_REPORT = "/report/user/current";
+	String URL_REPORT_USER_CURRENT = "/report/user/current";
 
-	String URL_REPORT_ALL = "/report/user/all";
+	String URL_REPORT_USER_ALL = "/report/user/all";
 
 	String URL_REPORT_FETCH = "/report/fetch";
 
@@ -35,4 +35,7 @@ public interface ProjectileGuiConstants {
 	String URL_TEAM_LIST = "/team/list";
 
 	String URL_TEAM_UPDATE = "/team/update";
+
+	String PARAMETER_TEAM_ID = "team_id";
+
 }

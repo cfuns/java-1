@@ -14,6 +14,7 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
+import de.benjaminborbe.projectile.api.Team;
 import de.benjaminborbe.projectile.api.TeamDto;
 import de.benjaminborbe.projectile.api.TeamIdentifier;
 
@@ -90,7 +91,7 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public Collection<TeamIdentifier> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public Collection<Team> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 

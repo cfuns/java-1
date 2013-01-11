@@ -76,8 +76,8 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(projectileGuiServlet, ProjectileGuiConstants.URL_HOME));
-		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_REPORT));
-		result.add(new ServletInfo(projectileGuiReportAllServlet, ProjectileGuiConstants.URL_REPORT_ALL));
+		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_REPORT_USER_CURRENT));
+		result.add(new ServletInfo(projectileGuiReportAllServlet, ProjectileGuiConstants.URL_REPORT_USER_ALL));
 		result.add(new ServletInfo(projectileGuiFetchMailReportServlet, ProjectileGuiConstants.URL_REPORT_FETCH));
 		result.add(new ServletInfo(projectileGuiSlacktimeReportServlet, ProjectileGuiConstants.URL_REPORT_JSON));
 		result.add(new ServletInfo(projectileGuiSlacktimeImportServlet, ProjectileGuiConstants.URL_REPORT_IMPORT));

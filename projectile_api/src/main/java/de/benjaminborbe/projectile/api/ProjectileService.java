@@ -40,5 +40,6 @@ public interface ProjectileService {
 
 	TeamIdentifier getCurrentTeam(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
 
-	Collection<TeamIdentifier> listTeams(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+	Collection<Team> listTeams(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException;
+
 }
