@@ -92,8 +92,8 @@ public class ProjectileGuiServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileTeamIdentifier team = projectileService.getCurrentTeam(sessionIdentifier);
+			ul.add(projectileLinkFactory.reportForCurrentUser(request));
 			if (team != null) {
-				ul.add(projectileLinkFactory.reportForCurrentUser(request));
 				ul.add(projectileLinkFactory.reportForCurrentTeam(request));
 			}
 
