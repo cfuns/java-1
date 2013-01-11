@@ -52,4 +52,6 @@ public interface StorageService {
 
 	void set(String columnFamily, StorageValue key, StorageValue columnName, StorageValue columnValue) throws StorageException;
 
+	void backup(String columnFamily) throws StorageException;
+
 }

@@ -4,7 +4,7 @@ public interface StorageGuiConstants {
 
 	String PARAMETER_RESTORE_JSON = "restore_json";
 
-	String PARAMETER_RESTORE_COLUMNFAMILY = "restore_columnfamily";
+	String PARAMETER_COLUMNFAMILY = "columnfamily";
 
 	String URL_HOME = "/";
 

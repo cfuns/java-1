@@ -297,6 +297,22 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
+	public void backup(final String columnFamily) throws StorageException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			final File targetDirectory = new File(config.getBackpuDirectory());
+			storageExporter.export(targetDirectory, config.getKeySpace(), columnFamily);
+		}
+		catch (final Exception e) {
+			throw new StorageException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
 	public void backup() throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {

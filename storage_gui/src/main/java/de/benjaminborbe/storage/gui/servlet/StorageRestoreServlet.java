@@ -108,7 +108,7 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 					}
 
 					if (containsRequireParameter(parameter) && containsRequireFiles(files)) {
-						final String columnfamily = parameter.get(StorageGuiConstants.PARAMETER_RESTORE_COLUMNFAMILY);
+						final String columnfamily = parameter.get(StorageGuiConstants.PARAMETER_COLUMNFAMILY);
 						final FileItem item = files.get(StorageGuiConstants.PARAMETER_RESTORE_JSON);
 						final byte[] content = item.get();
 						storageService.restore(columnfamily, new String(content, "UTF-8"));
@@ -125,7 +125,7 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 			}
 
 			final FormWidget form = new FormWidget().addEncType(FormEncType.MULTIPART).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(StorageGuiConstants.PARAMETER_RESTORE_COLUMNFAMILY).addLabel("ColumnFamily"));
+			form.addFormInputWidget(new FormInputTextWidget(StorageGuiConstants.PARAMETER_COLUMNFAMILY).addLabel("ColumnFamily"));
 			form.addFormInputWidget(new FormInputFileWidget(StorageGuiConstants.PARAMETER_RESTORE_JSON).addLabel("Json"));
 			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
 			widgets.add(form);
@@ -155,7 +155,7 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 	}
 
 	private boolean containsRequireParameter(final Map<String, String> parameter) {
-		final List<String> parameters = Arrays.asList(StorageGuiConstants.PARAMETER_RESTORE_COLUMNFAMILY);
+		final List<String> parameters = Arrays.asList(StorageGuiConstants.PARAMETER_COLUMNFAMILY);
 
 		for (final String p : parameters) {
 			if (!parameter.containsKey(p)) {

@@ -20,6 +20,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.gui.StorageGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -64,8 +65,21 @@ public class StorageBackupServlet extends StorageHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			persistentStorageService.backup();
-			widgets.add("backup done");
+
+			final String cf = request.getParameter(StorageGuiConstants.PARAMETER_COLUMNFAMILY);
+			if (cf != null) {
+				if ("all".equals("cf")) {
+					persistentStorageService.backup();
+				}
+				else {
+					persistentStorageService.backup(cf);
+				}
+				widgets.add("backup done");
+			}
+			else {
+				widgets.add("add parameter " + StorageGuiConstants.PARAMETER_COLUMNFAMILY + "=[cf|all]");
+			}
+
 			return widgets;
 		}
 		catch (final StorageException e) {

@@ -54,6 +54,11 @@ public class StorageExporter {
 
 	public void export(final File targetDirectory, final String keyspace) throws StorageConnectionPoolException, InvalidRequestException, TException, NotFoundException,
 			StorageException, UnavailableException, TimedOutException, IOException {
+		export(targetDirectory, keyspace, null);
+	}
+
+	public void export(final File targetDirectory, final String keyspace, final String columnFamily) throws StorageConnectionPoolException, InvalidRequestException, TException,
+			NotFoundException, StorageException, UnavailableException, TimedOutException, IOException {
 		if (!targetDirectory.exists()) {
 			throw new StorageException("targetdirectory not exists");
 		}
@@ -73,13 +78,15 @@ public class StorageExporter {
 
 			final KsDef ks = client.describe_keyspace(keyspace);
 			for (final CfDef cf : ks.getCf_defs()) {
-				logger.debug("start backup of " + cf.getName());
-				final Duration duration = durationUtil.getDuration();
-				final String file = targetDirectory.getAbsolutePath() + "/backup_" + datetime + "_" + cf.getName() + ".json";
-				final FileWriter fileWriter = new FileWriter(file);
-				export(fileWriter, keyspace, cf.getName());
-				fileWriter.close();
-				logger.info("completed backup of " + cf.getName() + " after " + duration.getTime() + " ms");
+				if (columnFamily == null || cf.getName().equals(columnFamily)) {
+					logger.debug("start backup of " + cf.getName());
+					final Duration duration = durationUtil.getDuration();
+					final String file = targetDirectory.getAbsolutePath() + "/backup_" + datetime + "_" + cf.getName() + ".json";
+					final FileWriter fileWriter = new FileWriter(file);
+					export(fileWriter, keyspace, cf.getName());
+					fileWriter.close();
+					logger.info("completed backup of " + cf.getName() + " after " + duration.getTime() + " ms");
+				}
 			}
 		}
 		finally {
