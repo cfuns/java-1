@@ -79,12 +79,14 @@ public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReportCurrentUser(sessionIdentifier);
+
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle() + " " + report.getName()));
 			widgets.add(new ProjectileSingleReport(report));
+
 			return widgets;
 		}
 		catch (final ProjectileServiceException e) {
@@ -98,5 +100,4 @@ public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }

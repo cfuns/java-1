@@ -501,7 +501,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authorizationService.expectAdminRole(sessionIdentifier);
+			authenticationService.isLoggedIn(sessionIdentifier);
 			logger.debug("removeUserFromTeam");
 
 			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
@@ -515,10 +515,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 		catch (final StorageException e) {
 			throw new ProjectileServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final UnsupportedEncodingException e) {
 			throw new ProjectileServiceException(e);
 		}
-		catch (final UnsupportedEncodingException e) {
+		catch (final AuthenticationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
 		finally {

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
+import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
@@ -127,12 +129,16 @@ public class ProjectileGuiReportUserCurrentServletUnitTest {
 		final ProjectileSlacktimeReport report = EasyMock.createNiceMock(ProjectileSlacktimeReport.class);
 		EasyMock.replay(report);
 
+		final ProjectileTeamIdentifier team = new ProjectileTeamIdentifier("team foo");
+
 		final ProjectileService projectileService = EasyMock.createMock(ProjectileService.class);
 		EasyMock.expect(projectileService.getSlacktimeReportCurrentUser(sessionIdentifier)).andReturn(report);
+		EasyMock.expect(projectileService.getCurrentTeam(sessionIdentifier)).andReturn(team);
+		EasyMock.expect(projectileService.getUsersForTeam(sessionIdentifier, team)).andReturn(new ArrayList<UserIdentifier>());
 		EasyMock.replay(projectileService);
 
-		final ProjectileGuiReportUserCurrentServlet projectileServlet = new ProjectileGuiReportUserCurrentServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService,
-				authorizationService, httpContextProvider, urlUtil, projectileService);
+		final ProjectileGuiReportUserCurrentServlet projectileServlet = new ProjectileGuiReportUserCurrentServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
+				authenticationService, authorizationService, httpContextProvider, urlUtil, projectileService);
 
 		projectileServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

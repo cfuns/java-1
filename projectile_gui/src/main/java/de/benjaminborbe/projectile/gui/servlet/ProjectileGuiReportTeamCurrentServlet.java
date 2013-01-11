@@ -1,6 +1,7 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -23,6 +25,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
+import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.projectile.gui.widget.ProjectileSingleReport;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -32,7 +35,9 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class ProjectileGuiReportTeamCurrentServlet extends WebsiteHtmlServlet {
@@ -80,12 +85,23 @@ public class ProjectileGuiReportTeamCurrentServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileSlacktimeReport report = projectileService.getSlacktimeReportCurrentTeam(sessionIdentifier);
+
+			final ProjectileTeamIdentifier projectileTeamIdentifier = projectileService.getCurrentTeam(sessionIdentifier);
+			final Collection<UserIdentifier> users = projectileService.getUsersForTeam(sessionIdentifier, projectileTeamIdentifier);
+
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle() + " " + report.getName()));
 			widgets.add(new ProjectileSingleReport(report));
+
+			widgets.add(new H2Widget("Users:"));
+			final UlWidget ul = new UlWidget();
+			for (final UserIdentifier user : users) {
+				ul.add(user.getId());
+			}
+			widgets.add(ul);
 			return widgets;
 		}
 		catch (final ProjectileServiceException e) {
