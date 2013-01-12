@@ -34,10 +34,46 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.queue.Queue;
+import de.benjaminborbe.tools.queue.QueueBuilder;
+import de.benjaminborbe.tools.queue.QueueConsumer;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class AnalyticsServiceImpl implements AnalyticsService {
+
+	private final class AddMessage {
+
+		private final AnalyticsReportIdentifier reportIdentifier;
+
+		private final AnalyticsReportValue reportValue;
+
+		public AddMessage(final AnalyticsReportIdentifier reportIdentifier, final AnalyticsReportValue reportValue) {
+			this.reportIdentifier = reportIdentifier;
+			this.reportValue = reportValue;
+		}
+
+		public AnalyticsReportValue getReportValue() {
+			return reportValue;
+		}
+
+		public AnalyticsReportIdentifier getReportIdentifier() {
+			return reportIdentifier;
+		}
+	}
+
+	private final class AddMessageConsumer implements QueueConsumer<AddMessage> {
+
+		@Override
+		public void consume(final AddMessage message) {
+			try {
+				analyticsReportLogDao.addReportValue(message.getReportIdentifier(), message.getReportValue());
+			}
+			catch (final StorageException e) {
+				logger.warn(e.getClass().getName());
+			}
+		}
+	}
 
 	private final Logger logger;
 
@@ -55,9 +91,12 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final AnalyticsReportLogDao analyticsReportLogDao;
 
+	private final Queue<AddMessage> queue;
+
 	@Inject
 	public AnalyticsServiceImpl(
 			final Logger logger,
+			final QueueBuilder queueBuilder,
 			final AnalyticsAggregator analyticsAggregator,
 			final CalendarUtil calendarUtil,
 			final AuthorizationService authorizationService,
@@ -73,6 +112,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		this.validationExecutor = validationExecutor;
 		this.analyticsReportLogDao = analyticsReportLogDao;
 		this.analyticsReportValueDao = analyticsReportValueDao;
+
+		queue = queueBuilder.buildQueue(new AddMessageConsumer());
 	}
 
 	@Override
@@ -109,10 +150,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		try {
 			logger.debug("addReportValue");
 
-			analyticsReportLogDao.addReportValue(analyticsReportIdentifier, reportValue);
-		}
-		catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
+			queue.put(new AddMessage(analyticsReportIdentifier, reportValue));
 		}
 		finally {
 		}
