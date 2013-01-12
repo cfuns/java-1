@@ -26,4 +26,6 @@ public interface AnalyticsGuiConstants {
 
 	String PARAMETER_REPORT_AGGREGATION = "report_aggregation";
 
+	String URL_REPORT_AGGREGATE = "/report/aggregate";
+
 }

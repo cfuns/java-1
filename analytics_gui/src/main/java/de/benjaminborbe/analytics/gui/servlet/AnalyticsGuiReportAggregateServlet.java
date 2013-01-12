@@ -1,8 +1,6 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,10 +10,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -35,25 +31,22 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiReportAggregateServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Analytics - Reports";
-
-	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
+	private static final String TITLE = "Analytics - Report aggregate";
 
 	private final AnalyticsService analyticsService;
 
-	private final AuthenticationService authenticationService;
-
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public AnalyticsGuiReportListServlet(
+	public AnalyticsGuiReportAggregateServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -64,13 +57,11 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AnalyticsService analyticsService,
-			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
+			final AnalyticsService analyticsService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.analyticsService = analyticsService;
-		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
-		this.authenticationService = authenticationService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -82,27 +73,12 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final Collection<AnalyticsReport> reports = analyticsService.getReports(sessionIdentifier);
-			final UlWidget ul = new UlWidget();
-			for (final AnalyticsReport report : reports) {
-				final ListWidget row = new ListWidget();
-				row.add(analyticsGuiLinkFactory.reportTable(request, report.getId(), report.getName()));
-				row.add(" ");
-				row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
-				row.add(" ");
-				row.add(analyticsGuiLinkFactory.reportDelete(request, report.getId()));
-				ul.add(row);
-			}
-			widgets.add(ul);
-
-			final ListWidget links = new ListWidget();
-			links.add(analyticsGuiLinkFactory.addReport(request));
-			links.add(" ");
-			links.add(analyticsGuiLinkFactory.aggregateReport(request));
-			widgets.add(links);
+			analyticsService.aggreate(sessionIdentifier);
+			widgets.add("aggreate log triggered");
 
 			return widgets;
 		}
@@ -117,4 +93,5 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
+
 }

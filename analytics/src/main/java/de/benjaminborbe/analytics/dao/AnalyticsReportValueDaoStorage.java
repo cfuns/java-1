@@ -1,8 +1,6 @@
 package de.benjaminborbe.analytics.dao;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
@@ -78,33 +76,11 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 	}
 
 	@Override
-	public void setReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws StorageException {
-		set(analyticsReportIdentifier, reportValue.getDate(), reportValue.getValue());
-	}
-
-	@Override
-	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws StorageException,
+	public void setReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws StorageException,
 			UnsupportedEncodingException, ParseException {
 		final String encoding = storageService.getEncoding();
-
-		final StorageValue oldValue = storageService.get(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding),
-				new StorageValue(mapperCalendar.toString(reportValue.getDate()), encoding));
-
-		final Double value;
-		if (oldValue != null && !oldValue.isEmpty()) {
-			value = reportValue.getValue() + parseUtil.parseDouble(oldValue.getString());
-		}
-		else {
-			value = reportValue.getValue();
-		}
-		set(analyticsReportIdentifier, reportValue.getDate(), value);
-	}
-
-	private void set(final AnalyticsReportIdentifier analyticsReportIdentifier, final Calendar date, final Double value) throws StorageException {
-		final String encoding = storageService.getEncoding();
-		storageService.set(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding), new StorageValue(mapperCalendar.toString(date), encoding), new StorageValue(
-				String.valueOf(value), encoding));
-
+		storageService.set(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding), new StorageValue(mapperCalendar.toString(reportValue.getDate()), encoding),
+				new StorageValue(String.valueOf(reportValue.getValue()), encoding));
 	}
 
 	@Override

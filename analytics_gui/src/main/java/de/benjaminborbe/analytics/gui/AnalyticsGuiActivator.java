@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAddDataServlet;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAggregateServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportCreateServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportDeleteServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
@@ -41,6 +42,9 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 	@Inject
 	private AnalyticsGuiReportListServlet analyticsGuiServlet;
 
+	@Inject
+	private AnalyticsGuiReportAggregateServlet analyticsGuiReportAggregateServlet;
+
 	public AnalyticsGuiActivator() {
 		super(AnalyticsGuiConstants.NAME);
 	}
@@ -58,6 +62,7 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(analyticsGuiAddDataServlet, AnalyticsGuiConstants.URL_REPORT_ADD_DATA));
 		result.add(new ServletInfo(analyticsGuiReportCreateServlet, AnalyticsGuiConstants.URL_REPORT_CREATE));
 		result.add(new ServletInfo(analyticsGuiReportDeleteServlet, AnalyticsGuiConstants.URL_REPORT_DELETE));
+		result.add(new ServletInfo(analyticsGuiReportAggregateServlet, AnalyticsGuiConstants.URL_REPORT_AGGREGATE));
 		return result;
 	}
 

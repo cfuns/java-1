@@ -14,6 +14,10 @@ public class Counter {
 		counter.incrementAndGet();
 	}
 
+	public long incrementAndGet() {
+		return counter.incrementAndGet();
+	}
+
 	public void reset() {
 		counter.set(0);
 	}

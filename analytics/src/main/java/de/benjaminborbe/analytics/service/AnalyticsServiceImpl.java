@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +19,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
 import de.benjaminborbe.analytics.dao.AnalyticsReportDao;
+import de.benjaminborbe.analytics.dao.AnalyticsReportLogDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.analytics.util.AnalyticsAggregator;
 import de.benjaminborbe.api.ValidationException;
@@ -33,7 +33,6 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
@@ -53,14 +52,17 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final AnalyticsAggregator analyticsAggregator;
 
+	private final AnalyticsReportLogDao analyticsReportLogDao;
+
 	@Inject
 	public AnalyticsServiceImpl(
 			final Logger logger,
 			final AnalyticsAggregator analyticsAggregator,
 			final CalendarUtil calendarUtil,
 			final AuthorizationService authorizationService,
-			final AnalyticsReportDao analyticsReportDao,
 			final ValidationExecutor validationExecutor,
+			final AnalyticsReportDao analyticsReportDao,
+			final AnalyticsReportLogDao analyticsReportLogDao,
 			final AnalyticsReportValueDao analyticsReportValueDao) {
 		this.logger = logger;
 		this.analyticsAggregator = analyticsAggregator;
@@ -68,6 +70,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		this.authorizationService = authorizationService;
 		this.analyticsReportDao = analyticsReportDao;
 		this.validationExecutor = validationExecutor;
+		this.analyticsReportLogDao = analyticsReportLogDao;
 		this.analyticsReportValueDao = analyticsReportValueDao;
 	}
 
@@ -105,15 +108,9 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		try {
 			logger.debug("addReportValue");
 
-			analyticsReportValueDao.addReportValue(analyticsReportIdentifier, reportValue);
+			analyticsReportLogDao.addReportValue(analyticsReportIdentifier, reportValue);
 		}
 		catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new AnalyticsServiceException(e);
-		}
-		catch (final ParseException e) {
 			throw new AnalyticsServiceException(e);
 		}
 		finally {
@@ -180,6 +177,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("deleteReport");
 			analyticsReportValueDao.delete(analyticsIdentifier);
+			analyticsReportLogDao.delete(analyticsIdentifier);
 			analyticsReportDao.delete(analyticsIdentifier);
 		}
 		catch (final StorageException e) {
