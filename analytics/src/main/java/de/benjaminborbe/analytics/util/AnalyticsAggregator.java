@@ -2,7 +2,6 @@ package de.benjaminborbe.analytics.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -10,18 +9,19 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.config.AnalyticsConfig;
 import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
 import de.benjaminborbe.analytics.dao.AnalyticsReportDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportLogDao;
+import de.benjaminborbe.analytics.dao.AnalyticsReportLogIterator;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -106,10 +106,11 @@ public class AnalyticsAggregator {
 	}
 
 	private void aggregateReport(final AnalyticsReportBean report) throws StorageException, AnalyticsServiceException, UnsupportedEncodingException, ParseException {
-		final AnalyticsReportValueIterator i = analyticsReportLogDao.valueIterator(report.getId());
+		final AnalyticsReportLogIterator i = analyticsReportLogDao.valueIterator(report.getId());
 
 		// read chunkSize values to aggregate
 		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
+		final List<String> columnNames = new ArrayList<String>();
 		final long chunkSize = analyticsConfig.getAggregationChunkSize();
 		long counter = 0;
 		while (i.hasNext() && counter < chunkSize) {
@@ -117,6 +118,8 @@ public class AnalyticsAggregator {
 			final AnalyticsReportValue value = i.next();
 			values.add(value);
 		}
+
+		analyticsReportLogDao.delete(report.getId(), columnNames);
 
 		for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
 			final Map<String, List<AnalyticsReportValue>> data = groupByInterval(values, analyticsReportInterval);
@@ -154,7 +157,7 @@ public class AnalyticsAggregator {
 				list.add(value);
 			}
 			else {
-				data.put(key, Arrays.asList(value));
+				data.put(key, Lists.newArrayList(value));
 			}
 		}
 		return data;

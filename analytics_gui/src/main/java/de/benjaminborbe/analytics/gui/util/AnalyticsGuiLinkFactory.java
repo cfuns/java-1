@@ -28,7 +28,7 @@ public class AnalyticsGuiLinkFactory {
 			final String name) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_TABLE, new MapParameter().add(
 				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)).add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL,
-				String.valueOf(analyticsReportInterval)), name + " per " + analyticsReportInterval.name().toLowerCase());
+				String.valueOf(analyticsReportInterval)), name);
 	}
 
 	public Widget reportAddData(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,

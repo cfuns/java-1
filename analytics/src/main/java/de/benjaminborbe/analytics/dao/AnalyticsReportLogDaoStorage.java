@@ -1,13 +1,14 @@
 package de.benjaminborbe.analytics.dao;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.util.MapperCalendarFixLength;
 import de.benjaminborbe.storage.api.StorageColumn;
@@ -23,7 +24,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 
 	private static final String SEPERATOR = "-";
 
-	private final class ReportValueIteratorImpl implements AnalyticsReportValueIterator {
+	private final class ReportValueIteratorImpl implements AnalyticsReportLogIterator {
 
 		private final StorageColumnIterator i;
 
@@ -42,12 +43,12 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		}
 
 		@Override
-		public AnalyticsReportValue next() throws AnalyticsServiceException {
+		public AnalyticsReportLogValue next() throws AnalyticsServiceException {
 			try {
 				final StorageColumn column = i.next();
 				final String columnName = column.getColumnName().getString();
 				final String[] parts = columnName.split(SEPERATOR);
-				return new AnalyticsReportValueDto(mapperCalendar.fromString(parts[0]), parseUtil.parseDouble(column.getColumnValue().getString()));
+				return new AnalyticsReportLogValueDto(columnName, mapperCalendar.fromString(parts[0]), parseUtil.parseDouble(column.getColumnValue().getString()));
 			}
 			catch (final StorageException e) {
 				throw new AnalyticsServiceException(e);
@@ -80,7 +81,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 	}
 
 	@Override
-	public AnalyticsReportValueIterator valueIterator(final AnalyticsReportIdentifier analyticsReportIdentifier) throws StorageException {
+	public AnalyticsReportLogIterator valueIterator(final AnalyticsReportIdentifier analyticsReportIdentifier) throws StorageException {
 		return new ReportValueIteratorImpl(storageService.columnIteratorReversed(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), storageService.getEncoding())));
 	}
 
@@ -101,4 +102,14 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		storageService.delete(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding));
 	}
 
+	@Override
+	public void delete(final AnalyticsReportIdentifier analyticsReportIdentifier, final Collection<String> columnNames) throws StorageException {
+		final String encoding = storageService.getEncoding();
+
+		final List<StorageValue> columns = new ArrayList<StorageValue>();
+		for (final String columnName : columnNames) {
+			columns.add(new StorageValue(columnName, encoding));
+		}
+		storageService.delete(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding), columns);
+	}
 }

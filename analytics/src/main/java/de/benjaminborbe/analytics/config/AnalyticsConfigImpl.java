@@ -21,8 +21,6 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 
 	private final ConfigurationDescriptionBoolean cronActive = new ConfigurationDescriptionBoolean(false, AnalyticsConstants.CONFIG_CRON_ACTIVE, "Analytics Cron Active");
 
-	private final ConfigurationDescriptionBoolean deleteLog = new ConfigurationDescriptionBoolean(false, AnalyticsConstants.CONFIG_DELETE_LOG, "Analytics Delete Log");
-
 	@Inject
 	public AnalyticsConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
 		super(logger, configurationService, parseUtil);
@@ -32,18 +30,12 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronActive);
-		result.add(deleteLog);
 		return result;
 	}
 
 	@Override
 	public Boolean getCronActive() {
 		return getValueBoolean(cronActive);
-	}
-
-	@Override
-	public Boolean getDeleteLog() {
-		return getValueBoolean(deleteLog);
 	}
 
 	@Override

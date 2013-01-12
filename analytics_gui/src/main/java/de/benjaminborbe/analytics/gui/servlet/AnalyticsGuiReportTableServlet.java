@@ -111,7 +111,9 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 			for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
 				final ListWidget list = new ListWidget();
-				list.add(analyticsGuiLinkFactory.reportTable(request, analyticsReportIdentifier, analyticsReportInterval, analyticsReportInterval.name().toLowerCase()));
+				list.add(analyticsGuiLinkFactory.reportTable(request, analyticsReportIdentifier, analyticsReportInterval, analyticsReportIdentifier.getId() + " per "
+						+ analyticsReportInterval.name().toLowerCase()));
+				list.add(" ");
 				widgets.add(list);
 			}
 

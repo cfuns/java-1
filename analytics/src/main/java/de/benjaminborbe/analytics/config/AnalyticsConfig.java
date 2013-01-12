@@ -10,8 +10,6 @@ public interface AnalyticsConfig {
 
 	Boolean getCronActive();
 
-	Boolean getDeleteLog();
-
 	long getAggregationChunkSize();
 
 }
