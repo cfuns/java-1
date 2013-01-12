@@ -4,6 +4,8 @@ public interface AnalyticsReport {
 
 	AnalyticsReportIdentifier getId();
 
+	AnalyticsReportAggregation getAggregation();
+
 	String getName();
 
 }

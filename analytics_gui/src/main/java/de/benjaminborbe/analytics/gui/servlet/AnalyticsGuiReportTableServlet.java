@@ -17,8 +17,8 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.api.ReportValue;
-import de.benjaminborbe.analytics.api.ReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsReportValue;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -96,7 +96,7 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
-			final ReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, analyticsReportIdentifier);
+			final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, analyticsReportIdentifier);
 
 			final DecimalFormat df = new DecimalFormat("#####0.0");
 
@@ -109,7 +109,7 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 				table.addRow(row);
 			}
 			while (reportValueIterator.hasNext()) {
-				final ReportValue reportValue = reportValueIterator.next();
+				final AnalyticsReportValue reportValue = reportValueIterator.next();
 				final TableRowWidget row = new TableRowWidget();
 				{
 					row.addCell(calendarUtil.toDateTimeString(reportValue.getDate()));

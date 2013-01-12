@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -32,20 +33,27 @@ public class AnalyticsReportValidator implements Validator<AnalyticsReportBean> 
 	}
 
 	@Override
-	public Collection<ValidationError> validate(final AnalyticsReportBean team) {
+	public Collection<ValidationError> validate(final AnalyticsReportBean bean) {
 		final Set<ValidationError> result = new HashSet<ValidationError>();
 
 		// id
 		{
-			final AnalyticsReportIdentifier id = team.getId();
+			final AnalyticsReportIdentifier id = bean.getId();
 			final List<ValidationConstraint<AnalyticsReportIdentifier>> constraints = new ArrayList<ValidationConstraint<AnalyticsReportIdentifier>>();
 			constraints.add(new ValidationConstraintNotNull<AnalyticsReportIdentifier>());
 			result.addAll(validationConstraintValidator.validate("id", id, constraints));
 		}
 
+		// aggregation
+		{
+			final AnalyticsReportAggregation aggregation = bean.getAggregation();
+			final List<ValidationConstraint<AnalyticsReportAggregation>> constraints = new ArrayList<ValidationConstraint<AnalyticsReportAggregation>>();
+			constraints.add(new ValidationConstraintNotNull<AnalyticsReportAggregation>());
+			result.addAll(validationConstraintValidator.validate("aggregation", aggregation, constraints));
+		}
 		// name
 		{
-			final String name = team.getName();
+			final String name = bean.getName();
 			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));

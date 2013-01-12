@@ -46,4 +46,10 @@ public class AnalyticsGuiLinkFactory {
 	public String reportListUrl(final HttpServletRequest request) {
 		return request.getContextPath() + "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_LIST;
 	}
+
+	public Widget reportDelete(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_DELETE, new MapParameter().add(
+				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "delete").addConfirm("delete report?");
+	}
 }

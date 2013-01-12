@@ -6,12 +6,15 @@ public class AnalyticsReportDto implements AnalyticsReport {
 
 	private String name;
 
+	private AnalyticsReportAggregation aggregation;
+
 	public AnalyticsReportDto() {
 	}
 
-	public AnalyticsReportDto(final AnalyticsReportIdentifier id, final String name) {
+	public AnalyticsReportDto(final AnalyticsReportIdentifier id, final String name, final AnalyticsReportAggregation aggregation) {
 		this.id = id;
 		this.name = name;
+		this.aggregation = aggregation;
 	}
 
 	@Override
@@ -30,6 +33,15 @@ public class AnalyticsReportDto implements AnalyticsReport {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	@Override
+	public AnalyticsReportAggregation getAggregation() {
+		return aggregation;
+	}
+
+	public void setAggregation(final AnalyticsReportAggregation aggregation) {
+		this.aggregation = aggregation;
 	}
 
 }

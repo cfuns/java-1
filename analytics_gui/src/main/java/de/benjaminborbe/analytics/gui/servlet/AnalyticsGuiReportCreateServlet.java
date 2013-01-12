@@ -13,12 +13,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -33,12 +35,14 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormSelectboxWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -64,6 +68,8 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 
 	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public AnalyticsGuiReportCreateServlet(
 			final Logger logger,
@@ -79,6 +85,7 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 			final AnalyticsService analyticsService,
 			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+		this.parseUtil = parseUtil;
 		this.analyticsService = analyticsService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -99,12 +106,13 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final String name = request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_NAME);
+			final String aggregation = request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_AGGREGATION);
 			final String referer = request.getParameter(AnalyticsGuiConstants.PARAMETER_REFERER);
-			if (name != null) {
+			if (name != null && aggregation != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 				try {
-					addData(sessionIdentifier, name);
+					addData(sessionIdentifier, name, aggregation);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -122,6 +130,11 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(AnalyticsGuiConstants.PARAMETER_REPORT_NAME).addLabel("Name:").addPlaceholder("name..."));
+			final FormSelectboxWidget aggregationSelectBox = new FormSelectboxWidget(AnalyticsGuiConstants.PARAMETER_REPORT_AGGREGATION).addLabel("Aggregation");
+			for (final AnalyticsReportAggregation analyticsReportAggregation : AnalyticsReportAggregation.values()) {
+				aggregationSelectBox.addOption(analyticsReportAggregation.name(), analyticsReportAggregation.name().toLowerCase());
+			}
+			formWidget.addFormInputWidget(aggregationSelectBox);
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create report"));
 			widgets.add(formWidget);
 
@@ -139,16 +152,23 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void addData(final SessionIdentifier sessionIdentifier, final String name) throws AnalyticsServiceException, ValidationException, PermissionDeniedException,
-			LoginRequiredException {
+	private void addData(final SessionIdentifier sessionIdentifier, final String name, final String aggregationString) throws AnalyticsServiceException, ValidationException,
+			PermissionDeniedException, LoginRequiredException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
-
+		AnalyticsReportAggregation aggregation = null;
+		try {
+			aggregation = parseUtil.parseEnum(AnalyticsReportAggregation.class, aggregationString);
+		}
+		catch (final ParseException e) {
+			errors.add(new ValidationErrorSimple("invalid aggregation"));
+		}
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
 			final AnalyticsReportDto report = new AnalyticsReportDto();
 			report.setName(name);
+			report.setAggregation(aggregation);
 			analyticsService.createReport(sessionIdentifier, report);
 		}
 	}

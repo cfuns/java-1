@@ -17,7 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.api.ReportValueDto;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
@@ -171,8 +171,8 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			final ReportValueDto reportValue = new ReportValueDto(calendar, value);
-			analyticsService.addReportData(sessionIdentifier, analyticsReportIdentifier, reportValue);
+			final AnalyticsReportValueDto reportValue = new AnalyticsReportValueDto(calendar, value);
+			analyticsService.addReportValue(analyticsReportIdentifier, reportValue);
 		}
 	}
 

@@ -9,15 +9,21 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface AnalyticsService {
 
-	void addReportData(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier, ReportValue reportValue) throws AnalyticsServiceException,
-			PermissionDeniedException, LoginRequiredException;
-
-	ReportValueIterator getReportIterator(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException,
+	AnalyticsReportValueIterator getReportIterator(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException,
 			PermissionDeniedException, LoginRequiredException;
 
 	Collection<AnalyticsReport> getReports(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
 	void createReport(SessionIdentifier sessionIdentifier, AnalyticsReportDto report) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException,
 			ValidationException;
+
+	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, AnalyticsReportValue reportValue) throws AnalyticsServiceException;
+
+	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException;
+
+	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, Double value) throws AnalyticsServiceException;
+
+	void deleteReport(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
 }

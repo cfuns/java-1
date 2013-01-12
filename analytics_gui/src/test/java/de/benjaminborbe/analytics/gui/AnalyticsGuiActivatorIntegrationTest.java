@@ -51,6 +51,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_LIST);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_TABLE);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE);
+		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_DELETE);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_ADD_DATA);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {

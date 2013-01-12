@@ -2,16 +2,16 @@ package de.benjaminborbe.analytics.api;
 
 import java.util.Calendar;
 
-public class ReportValueDto implements ReportValue {
+public class AnalyticsReportValueDto implements AnalyticsReportValue {
 
 	private Double value;
 
 	private Calendar date;
 
-	public ReportValueDto() {
+	public AnalyticsReportValueDto() {
 	}
 
-	public ReportValueDto(final Calendar date, final Double value) {
+	public AnalyticsReportValueDto(final Calendar date, final Double value) {
 		this.date = date;
 		this.value = value;
 	}

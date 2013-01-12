@@ -2,7 +2,7 @@ package de.benjaminborbe.analytics.api;
 
 import java.util.Calendar;
 
-public interface ReportValue {
+public interface AnalyticsReportValue {
 
 	Double getValue();
 

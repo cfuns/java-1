@@ -22,4 +22,8 @@ public interface AnalyticsGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
+	String URL_REPORT_DELETE = "/report/delete";
+
+	String PARAMETER_REPORT_AGGREGATION = "report_aggregation";
+
 }

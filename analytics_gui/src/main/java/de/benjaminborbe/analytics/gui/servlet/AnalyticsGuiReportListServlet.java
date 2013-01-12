@@ -92,6 +92,8 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 				row.add(analyticsGuiLinkFactory.reportTable(request, report.getId(), report.getName()));
 				row.add(" ");
 				row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
+				row.add(" ");
+				row.add(analyticsGuiLinkFactory.reportDelete(request, report.getId()));
 				ul.add(row);
 			}
 			widgets.add(ul);

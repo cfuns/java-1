@@ -15,14 +15,25 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+
 @Singleton
 public class SlashGuiLogFilter implements Filter {
 
+	private static final String REPORT_NAME = "RequestCounter";
+
 	private final Logger logger;
 
+	private final AnalyticsService analyticsService;
+
+	private final AnalyticsReportIdentifier id = new AnalyticsReportIdentifier(REPORT_NAME);
+
 	@Inject
-	public SlashGuiLogFilter(final Logger logger) {
+	public SlashGuiLogFilter(final Logger logger, final AnalyticsService analyticsService) {
 		this.logger = logger;
+		this.analyticsService = analyticsService;
 	}
 
 	@Override
@@ -33,6 +44,13 @@ public class SlashGuiLogFilter implements Filter {
 				final HttpServletRequest request = (HttpServletRequest) servletRequest;
 				final String requestUrl = request.getRequestURL().toString();
 				logger.trace("requestUrl: " + requestUrl);
+			}
+
+			try {
+				analyticsService.addReportValue(id);
+			}
+			catch (final AnalyticsServiceException e) {
+				logger.debug(e.getClass().getName(), e);
 			}
 		}
 		finally {
