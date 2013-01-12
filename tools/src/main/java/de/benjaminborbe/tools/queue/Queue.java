@@ -9,7 +9,7 @@ import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class Queue<M> {
 
-	private boolean running = true;
+	private boolean running = false;
 
 	private final class R implements Runnable {
 
@@ -44,7 +44,10 @@ public class Queue<M> {
 	public void put(final M message) {
 		logger.debug("put message");
 		queue.offer(message);
-		threadRunner.run("queueConsumer", new R());
+		if (!running) {
+			threadRunner.run("queueConsumer", new R());
+			running = true;
+		}
 	}
 
 	public M get() throws InterruptedException {
