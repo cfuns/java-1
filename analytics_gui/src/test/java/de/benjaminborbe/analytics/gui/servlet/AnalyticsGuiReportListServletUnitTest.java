@@ -127,6 +127,7 @@ public class AnalyticsGuiReportListServletUnitTest {
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.expect(urlUtil.buildUrl("/analytics/report/create", new MapParameter())).andReturn("");
+		EasyMock.expect(urlUtil.buildUrl("/analytics/report/aggregate", new MapParameter())).andReturn("");
 		EasyMock.replay(urlUtil);
 
 		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory = new AnalyticsGuiLinkFactory(urlUtil);
