@@ -12,6 +12,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -75,13 +76,13 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier)
-			throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getReport");
 
-			return analyticsReportValueDao.valueIterator(analyticsReportIdentifier);
+			return analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);

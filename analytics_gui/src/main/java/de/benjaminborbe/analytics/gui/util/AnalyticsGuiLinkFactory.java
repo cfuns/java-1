@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
@@ -23,10 +24,11 @@ public class AnalyticsGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget reportTable(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier, final String name) throws MalformedURLException,
-			UnsupportedEncodingException {
+	public Widget reportTable(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
+			final String name) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_TABLE, new MapParameter().add(
-				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), name);
+				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)).add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL,
+				String.valueOf(analyticsReportInterval)), name + " per " + analyticsReportInterval.name().toLowerCase());
 	}
 
 	public Widget reportAddData(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,

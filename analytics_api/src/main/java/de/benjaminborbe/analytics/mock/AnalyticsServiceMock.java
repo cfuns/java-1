@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -21,12 +22,6 @@ public class AnalyticsServiceMock implements AnalyticsService {
 
 	@Inject
 	public AnalyticsServiceMock() {
-	}
-
-	@Override
-	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier)
-			throws AnalyticsServiceException {
-		return null;
 	}
 
 	@Override
@@ -58,6 +53,12 @@ public class AnalyticsServiceMock implements AnalyticsService {
 
 	@Override
 	public void aggreate(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
 	}
 
 }

@@ -46,4 +46,9 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 		return getValueBoolean(deleteLog);
 	}
 
+	@Override
+	public long getAggregationChunkSize() {
+		return 100l;
+	}
+
 }

@@ -9,8 +9,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface AnalyticsService {
 
-	AnalyticsReportValueIterator getReportIterator(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException,
-			PermissionDeniedException, LoginRequiredException;
+	AnalyticsReportValueIterator getReportIterator(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier,
+			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
 	Collection<AnalyticsReport> getReports(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 

@@ -12,4 +12,6 @@ public interface AnalyticsConfig {
 
 	Boolean getDeleteLog();
 
+	long getAggregationChunkSize();
+
 }

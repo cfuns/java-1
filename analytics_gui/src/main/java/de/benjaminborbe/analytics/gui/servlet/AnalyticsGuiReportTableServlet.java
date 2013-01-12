@@ -15,11 +15,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
+import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -61,6 +63,10 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
+	private final ParseUtil parseUtil;
+
+	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
+
 	@Inject
 	public AnalyticsGuiReportTableServlet(
 			final Logger logger,
@@ -73,12 +79,15 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AnalyticsService analyticsService) {
+			final AnalyticsService analyticsService,
+			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.calendarUtil = calendarUtil;
+		this.parseUtil = parseUtil;
 		this.analyticsService = analyticsService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
 	}
 
 	@Override
@@ -96,7 +105,15 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
-			final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, analyticsReportIdentifier);
+			final AnalyticsReportInterval selectedAnalyticsReportInterval = parseUtil.parseEnum(AnalyticsReportInterval.class,
+					request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL), AnalyticsReportInterval.HOUR);
+			final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, analyticsReportIdentifier, selectedAnalyticsReportInterval);
+
+			for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
+				final ListWidget list = new ListWidget();
+				list.add(analyticsGuiLinkFactory.reportTable(request, analyticsReportIdentifier, analyticsReportInterval, analyticsReportInterval.name().toLowerCase()));
+				widgets.add(list);
+			}
 
 			final DecimalFormat df = new DecimalFormat("#####0.0");
 

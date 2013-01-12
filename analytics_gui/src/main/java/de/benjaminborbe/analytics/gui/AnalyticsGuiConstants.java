@@ -28,4 +28,6 @@ public interface AnalyticsGuiConstants {
 
 	String URL_REPORT_AGGREGATE = "/report/aggregate";
 
+	String PARAMETER_REPORT_INTERVAL = "report_interval";
+
 }
