@@ -5,17 +5,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
-
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.config.AnalyticsConfig;
 import de.benjaminborbe.analytics.guice.AnalyticsModules;
+import de.benjaminborbe.analytics.service.AnalyticsAggregationCronJob;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 
 public class AnalyticsActivator extends BaseBundleActivator {
+
+	@Inject
+	private AnalyticsConfig analyticsConfig;
+
+	@Inject
+	private AnalyticsAggregationCronJob analyticsAggregationCronJob;
 
 	@Inject
 	private AnalyticsService analyticsService;
@@ -29,14 +37,12 @@ public class AnalyticsActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(AnalyticsService.class, analyticsService));
+
+		result.add(new ServiceInfo(CronJob.class, analyticsAggregationCronJob, analyticsAggregationCronJob.getClass().getName()));
+		for (final ConfigurationDescription configuration : analyticsConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new AnalyticsServiceTracker(analyticsRegistry, context,
-		// AnalyticsService.class));
-		return serviceTrackers;
-	}
 }

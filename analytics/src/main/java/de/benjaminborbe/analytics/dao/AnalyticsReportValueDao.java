@@ -15,4 +15,6 @@ public interface AnalyticsReportValueDao {
 	void setReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws StorageException;
 
 	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, AnalyticsReportValue reportValue) throws StorageException, UnsupportedEncodingException, ParseException;
+
+	void delete(AnalyticsReportIdentifier analyticsIdentifier) throws StorageException;
 }

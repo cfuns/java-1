@@ -21,6 +21,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
 import de.benjaminborbe.analytics.dao.AnalyticsReportDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
+import de.benjaminborbe.analytics.util.AnalyticsAggregator;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -50,15 +51,19 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final AnalyticsAggregator analyticsAggregator;
+
 	@Inject
 	public AnalyticsServiceImpl(
 			final Logger logger,
+			final AnalyticsAggregator analyticsAggregator,
 			final CalendarUtil calendarUtil,
 			final AuthorizationService authorizationService,
 			final AnalyticsReportDao analyticsReportDao,
 			final ValidationExecutor validationExecutor,
 			final AnalyticsReportValueDao analyticsReportValueDao) {
 		this.logger = logger;
+		this.analyticsAggregator = analyticsAggregator;
 		this.calendarUtil = calendarUtil;
 		this.authorizationService = authorizationService;
 		this.analyticsReportDao = analyticsReportDao;
@@ -174,10 +179,23 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("deleteReport");
+			analyticsReportValueDao.delete(analyticsIdentifier);
 			analyticsReportDao.delete(analyticsIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new AnalyticsServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new AnalyticsServiceException(e);
+		}
+	}
+
+	@Override
+	public void aggreate(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("aggreate");
+			analyticsAggregator.aggregate();
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);

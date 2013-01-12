@@ -26,4 +26,6 @@ public interface AnalyticsService {
 	void deleteReport(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
+	void aggreate(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+
 }

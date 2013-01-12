@@ -83,8 +83,8 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 	}
 
 	@Override
-	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws StorageException, UnsupportedEncodingException,
-			ParseException {
+	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws StorageException,
+			UnsupportedEncodingException, ParseException {
 		final String encoding = storageService.getEncoding();
 
 		final StorageValue oldValue = storageService.get(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding),
@@ -105,5 +105,11 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 		storageService.set(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding), new StorageValue(mapperCalendar.toString(date), encoding), new StorageValue(
 				String.valueOf(value), encoding));
 
+	}
+
+	@Override
+	public void delete(final AnalyticsReportIdentifier analyticsReportIdentifier) throws StorageException {
+		final String encoding = storageService.getEncoding();
+		storageService.delete(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding));
 	}
 }

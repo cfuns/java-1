@@ -56,4 +56,8 @@ public class AnalyticsServiceMock implements AnalyticsService {
 			PermissionDeniedException, LoginRequiredException {
 	}
 
+	@Override
+	public void aggreate(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	}
+
 }
