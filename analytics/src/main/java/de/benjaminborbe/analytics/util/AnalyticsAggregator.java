@@ -22,6 +22,7 @@ import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
 import de.benjaminborbe.analytics.dao.AnalyticsReportDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportLogDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportLogIterator;
+import de.benjaminborbe.analytics.dao.AnalyticsReportLogValue;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -115,8 +116,9 @@ public class AnalyticsAggregator {
 		long counter = 0;
 		while (i.hasNext() && counter < chunkSize) {
 			counter++;
-			final AnalyticsReportValue value = i.next();
+			final AnalyticsReportLogValue value = i.next();
 			values.add(value);
+			columnNames.add(value.getColumnName());
 		}
 
 		analyticsReportLogDao.delete(report.getId(), columnNames);

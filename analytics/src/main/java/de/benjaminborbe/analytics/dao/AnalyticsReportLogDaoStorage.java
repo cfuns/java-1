@@ -105,7 +105,6 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 	@Override
 	public void delete(final AnalyticsReportIdentifier analyticsReportIdentifier, final Collection<String> columnNames) throws StorageException {
 		final String encoding = storageService.getEncoding();
-
 		final List<StorageValue> columns = new ArrayList<StorageValue>();
 		for (final String columnName : columnNames) {
 			columns.add(new StorageValue(columnName, encoding));
