@@ -28,7 +28,7 @@ public class SlashGuiLogFilter implements Filter {
 
 	private final AnalyticsService analyticsService;
 
-	private final AnalyticsReportIdentifier id = new AnalyticsReportIdentifier(REPORT_NAME);
+	private final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(REPORT_NAME);
 
 	@Inject
 	public SlashGuiLogFilter(final Logger logger, final AnalyticsService analyticsService) {
@@ -47,10 +47,10 @@ public class SlashGuiLogFilter implements Filter {
 			}
 
 			try {
-				analyticsService.addReportValue(id);
+				analyticsService.addReportValue(analyticsReportIdentifier);
 			}
 			catch (final AnalyticsServiceException e) {
-				logger.debug(e.getClass().getName(), e);
+				logger.warn(e.getClass().getName(), e);
 			}
 		}
 		finally {

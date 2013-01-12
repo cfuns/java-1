@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.tools.http.HttpFilter;
 import de.benjaminborbe.tools.util.Duration;
@@ -20,15 +23,22 @@ import de.benjaminborbe.tools.util.DurationUtil;
 @Singleton
 public class PerformanceGuiFilter extends HttpFilter {
 
+	private static final String REPORT_NAME = "RequestDuration";
+
 	private final DurationUtil durationUtil;
 
 	private final PerformanceService performanceService;
 
+	private final AnalyticsService analyticsService;
+
+	private final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(REPORT_NAME);
+
 	@Inject
-	public PerformanceGuiFilter(final Logger logger, final DurationUtil durationUtil, final PerformanceService performanceService) {
+	public PerformanceGuiFilter(final Logger logger, final DurationUtil durationUtil, final PerformanceService performanceService, final AnalyticsService analyticsService) {
 		super(logger);
 		this.durationUtil = durationUtil;
 		this.performanceService = performanceService;
+		this.analyticsService = analyticsService;
 	}
 
 	@Override
@@ -42,6 +52,12 @@ public class PerformanceGuiFilter extends HttpFilter {
 		finally {
 			final long time = duration.getTime();
 			performanceService.track(uri, time);
+			try {
+				analyticsService.addReportValue(analyticsReportIdentifier, time);
+			}
+			catch (final AnalyticsServiceException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
 		}
 	}
 

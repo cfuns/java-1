@@ -7,6 +7,7 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -16,6 +17,8 @@ public class PerformanceGuiOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+
+		bind(AnalyticsService.class).toProvider(service(AnalyticsService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(PerformanceService.class).toProvider(service(PerformanceService.class).single());

@@ -14,7 +14,6 @@ import de.benjaminborbe.performance.gui.servlet.PerformanceGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
-import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PerformanceGuiActivator extends HttpBundleActivator {
@@ -45,14 +44,6 @@ public class PerformanceGuiActivator extends HttpBundleActivator {
 	protected Collection<FilterInfo> getFilterInfos() {
 		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
 		result.add(new FilterInfo(performanceFilter, ".*", 998, true));
-		return result;
-	}
-
-	@Override
-	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-		// result.add(new ResourceInfo("/css", "css"));
-		// result.add(new ResourceInfo("/js", "js"));
 		return result;
 	}
 

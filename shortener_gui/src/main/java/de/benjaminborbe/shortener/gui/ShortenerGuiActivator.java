@@ -40,19 +40,4 @@ public class ShortenerGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-	// @Override
-	// protected Collection<FilterInfo> getFilterInfos() {
-	// final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
-	// result.add(new FilterInfo(shortenerFilter, ".*", 998));
-	// return result;
-	// }
-
-	// @Override
-	// protected Collection<ResourceInfo> getResouceInfos() {
-	// final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
-	// // result.add(new ResourceInfo("/css", "css"));
-	// // result.add(new ResourceInfo("/js", "js"));
-	// // result.add(new ResourceInfo("/images", "images"));
-	// return result;
-	// }
 }

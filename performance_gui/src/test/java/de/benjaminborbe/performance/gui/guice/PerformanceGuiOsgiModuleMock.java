@@ -6,6 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -21,6 +23,8 @@ public class PerformanceGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+
+		bind(AnalyticsService.class).to(AnalyticsServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(PerformanceService.class).to(PerformanceServiceMock.class).in(Singleton.class);

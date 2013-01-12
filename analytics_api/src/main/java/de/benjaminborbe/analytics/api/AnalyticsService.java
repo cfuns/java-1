@@ -21,7 +21,9 @@ public interface AnalyticsService {
 
 	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException;
 
-	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, Double value) throws AnalyticsServiceException;
+	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, long time) throws AnalyticsServiceException;
+
+	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, double value) throws AnalyticsServiceException;
 
 	void deleteReport(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException, PermissionDeniedException,
 			LoginRequiredException;

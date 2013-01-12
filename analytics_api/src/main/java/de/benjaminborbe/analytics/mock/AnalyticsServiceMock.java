@@ -43,10 +43,6 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	}
 
 	@Override
-	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final Double value) throws AnalyticsServiceException {
-	}
-
-	@Override
 	public void deleteReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException,
 			PermissionDeniedException, LoginRequiredException {
 	}
@@ -59,6 +55,14 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
 			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		return null;
+	}
+
+	@Override
+	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final long time) throws AnalyticsServiceException {
+	}
+
+	@Override
+	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final double value) throws AnalyticsServiceException {
 	}
 
 }

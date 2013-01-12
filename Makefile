@@ -284,3 +284,8 @@ buildanalytics:
 	cd analytics && make all
 	cd analytics_gui && make all
 	cd analytics_test && make all
+buildperformance:
+	cd performance_api && make all
+	cd performance && make all
+	cd performance_gui && make all
+	cd performance_test && make all
