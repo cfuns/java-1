@@ -80,6 +80,6 @@ public class AnalyticsGuiLinkFactory {
 
 	public Widget aggregateReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_AGGREGATE, new MapParameter(), "aggregate")
-				.addConfirm("aggregate ?");
+				.addConfirm("aggregate?");
 	}
 }

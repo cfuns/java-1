@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -16,6 +15,7 @@ import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPage;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPageSummary;
 import de.benjaminborbe.confluence.connector.ConfluenceSession;
+import de.benjaminborbe.confluence.connector.ConfluenceXmlRpcClientException;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
@@ -118,7 +118,7 @@ public class ConfluenceRefresher {
 		this.confluencePageExpiredCalculator = confluencePageExpiredCalculator;
 	}
 
-	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, XmlRpcException {
+	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, ConfluenceXmlRpcClientException {
 		final long delay = getDelay(confluenceInstanceBean);
 		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
 		int counter = 0;

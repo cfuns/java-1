@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.crawler.CrawlerConstants;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
@@ -34,14 +36,20 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 
 	private final CrawlerMessageMapper crawlerMessageMapper;
 
+	private final AnalyticsService analyticsService;
+
+	private final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier("CrawlerHttpRequestCounter");
+
 	@Inject
 	public CrawlerMessageConsumer(
 			final Logger logger,
+			final AnalyticsService analyticsService,
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
 			final CrawlerNotifier crawlerNotifier,
 			final CrawlerMessageMapper crawlerMessageMapper) {
 		this.logger = logger;
+		this.analyticsService = analyticsService;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.crawlerNotifier = crawlerNotifier;
@@ -55,6 +63,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();
 			crawlerNotifier.notifiy(new CrawlerResultImpl(url, content, contentType, true));
+			track();
 		}
 		catch (final HttpDownloaderException e) {
 			logger.trace("HttpDownloaderException url: " + url, e);
@@ -64,6 +73,15 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 		catch (final UnsupportedEncodingException e) {
 			logger.warn("UnsupportedEncodingException url: " + url, e);
 			crawlerNotifier.notifiy(new CrawlerResultImpl(url, null, null, false));
+		}
+	}
+
+	private void track() {
+		try {
+			analyticsService.addReportValue(analyticsReportIdentifier);
+		}
+		catch (final Exception e) {
+			logger.warn(e.getClass().getName(), e);
 		}
 	}
 

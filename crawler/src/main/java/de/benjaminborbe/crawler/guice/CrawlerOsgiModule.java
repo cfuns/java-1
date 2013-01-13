@@ -7,6 +7,7 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 
@@ -14,6 +15,7 @@ public class CrawlerOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AnalyticsService.class).toProvider(service(AnalyticsService.class).single());
 		bind(MessageService.class).toProvider(service(MessageService.class).single());
 		bind(NavigationWidget.class).toProvider(service(NavigationWidget.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());

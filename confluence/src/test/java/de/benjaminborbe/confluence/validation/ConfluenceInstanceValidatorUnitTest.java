@@ -3,7 +3,6 @@ package de.benjaminborbe.confluence.validation;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.slf4j.Logger;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceSession;
+import de.benjaminborbe.confluence.connector.ConfluenceXmlRpcClientException;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
@@ -57,7 +57,7 @@ public class ConfluenceInstanceValidatorUnitTest {
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
 
 		final ConfluenceConnector confluenceConnector = EasyMock.createMock(ConfluenceConnector.class);
-		EasyMock.expect(confluenceConnector.login(confluenceBaseUrl, username, password)).andThrow(new XmlRpcException("login failed"));
+		EasyMock.expect(confluenceConnector.login(confluenceBaseUrl, username, password)).andThrow(new ConfluenceXmlRpcClientException("login failed"));
 		EasyMock.expect(confluenceConnector.login(confluenceBaseUrl, username, password)).andReturn(new ConfluenceSession(token, 1));
 		EasyMock.replay(confluenceConnector);
 

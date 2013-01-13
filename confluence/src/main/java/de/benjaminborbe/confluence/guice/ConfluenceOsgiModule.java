@@ -7,6 +7,7 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -17,6 +18,7 @@ public class ConfluenceOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AnalyticsService.class).toProvider(service(AnalyticsService.class).single());
 		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(IndexService.class).toProvider(service(IndexService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
