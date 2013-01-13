@@ -14,7 +14,6 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
-import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.tools.http.HttpFilter;
 import de.benjaminborbe.tools.util.Duration;
@@ -55,7 +54,7 @@ public class PerformanceGuiFilter extends HttpFilter {
 			try {
 				analyticsService.addReportValue(analyticsReportIdentifier, time);
 			}
-			catch (final AnalyticsServiceException e) {
+			catch (final Exception e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}

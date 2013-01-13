@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.message.dao.MessageBean;
@@ -73,9 +75,18 @@ public class MessageConsumerExchanger {
 
 	private final ThreadRunner threadRunner;
 
+	private final AnalyticsService analyticsService;
+
+	private final AnalyticsReportIdentifier analyticsReportIdentifierSuccess = new AnalyticsReportIdentifier("MessageSuccess");
+
+	private final AnalyticsReportIdentifier analyticsReportIdentifierRetry = new AnalyticsReportIdentifier("MessageRetry");
+
+	private final AnalyticsReportIdentifier analyticsReportIdentifierMaxRetry = new AnalyticsReportIdentifier("MessageMaxRetry");
+
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
+			final AnalyticsService analyticsService,
 			final RandomUtil randomUtil,
 			final CalendarUtil calendarUtil,
 			final MessageConsumerRegistry messageConsumerRegistry,
@@ -83,6 +94,7 @@ public class MessageConsumerExchanger {
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final ThreadRunner threadRunner) {
 		this.logger = logger;
+		this.analyticsService = analyticsService;
 		this.randomUtil = randomUtil;
 		this.calendarUtil = calendarUtil;
 		this.messageConsumerRegistry = messageConsumerRegistry;
@@ -127,16 +139,31 @@ public class MessageConsumerExchanger {
 			result = false;
 		}
 		long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
-		if (result || counter >= MessageConstants.MAX_RETRY) {
+		if (result) {
 			messageDao.delete(message);
+			track(analyticsReportIdentifierSuccess);
+		}
+		else if (counter >= MessageConstants.MAX_RETRY) {
+			messageDao.delete(message);
+			track(analyticsReportIdentifierMaxRetry);
 		}
 		else {
 			counter++;
 			logger.debug("process message failed, increase retrycounter to " + counter);
 			message.setRetryCounter(counter);
 			messageDao.save(message);
+			track(analyticsReportIdentifierRetry);
 		}
 		logger.trace("process message done");
+	}
+
+	private void track(final AnalyticsReportIdentifier id) {
+		try {
+			analyticsService.addReportValue(id);
+		}
+		catch (final Exception e) {
+			logger.warn("track " + id + " failed", e);
+		}
 	}
 
 	private boolean lock(final MessageBean message) throws StorageException {

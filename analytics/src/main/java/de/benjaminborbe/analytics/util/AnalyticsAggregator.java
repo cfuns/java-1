@@ -26,7 +26,6 @@ import de.benjaminborbe.analytics.dao.AnalyticsReportLogValue;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
-import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
 
@@ -43,19 +42,7 @@ public class AnalyticsAggregator {
 					aggregateReport(report);
 				}
 			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName());
-			}
-			catch (final EntityIteratorException e) {
-				logger.warn(e.getClass().getName());
-			}
-			catch (final AnalyticsServiceException e) {
-				logger.warn(e.getClass().getName());
-			}
-			catch (final UnsupportedEncodingException e) {
-				logger.warn(e.getClass().getName());
-			}
-			catch (final ParseException e) {
+			catch (final Exception e) {
 				logger.warn(e.getClass().getName());
 			}
 		}

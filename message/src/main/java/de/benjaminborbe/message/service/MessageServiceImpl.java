@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -34,14 +36,20 @@ public class MessageServiceImpl implements MessageService {
 
 	private final AuthorizationService authorizationService;
 
+	private final AnalyticsService analyticsService;
+
+	private final AnalyticsReportIdentifier analyticsReportIdentifierMessageInsert = new AnalyticsReportIdentifier("MessageInsert");
+
 	@Inject
 	public MessageServiceImpl(
 			final Logger logger,
+			final AnalyticsService analyticsService,
 			final MessageDao messageDao,
 			final IdGeneratorUUID idGeneratorUUID,
 			final MessageUnlock messageUnlock,
 			final AuthorizationService authorizationService) {
 		this.logger = logger;
+		this.analyticsService = analyticsService;
 		this.messageDao = messageDao;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.messageUnlock = messageUnlock;
@@ -58,9 +66,19 @@ public class MessageServiceImpl implements MessageService {
 			bean.setContent(content);
 			bean.setRetryCounter(0l);
 			messageDao.save(bean);
+			track(analyticsReportIdentifierMessageInsert);
 		}
 		catch (final StorageException e) {
 			throw new MessageServiceException(e);
+		}
+	}
+
+	private void track(final AnalyticsReportIdentifier id) {
+		try {
+			analyticsService.addReportValue(id);
+		}
+		catch (final Exception e) {
+			logger.warn("track " + id + " failed", e);
 		}
 	}
 

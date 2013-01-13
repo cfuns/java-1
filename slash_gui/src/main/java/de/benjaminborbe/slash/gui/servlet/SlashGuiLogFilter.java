@@ -17,7 +17,6 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
-import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 
 @Singleton
 public class SlashGuiLogFilter implements Filter {
@@ -49,7 +48,7 @@ public class SlashGuiLogFilter implements Filter {
 			try {
 				analyticsService.addReportValue(analyticsReportIdentifier);
 			}
-			catch (final AnalyticsServiceException e) {
+			catch (final Exception e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
