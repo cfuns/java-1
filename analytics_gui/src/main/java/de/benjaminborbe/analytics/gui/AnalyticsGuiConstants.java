@@ -1,5 +1,8 @@
 package de.benjaminborbe.analytics.gui;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
+import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartType;
+
 public interface AnalyticsGuiConstants {
 
 	String URL_REPORT_LIST = "/";
@@ -31,5 +34,9 @@ public interface AnalyticsGuiConstants {
 	String PARAMETER_REPORT_INTERVAL = "report_interval";
 
 	String PARAMETER_CHART_TYPE = "chart_type";
+
+	AnalyticsReportInterval DEFAULT_INTERVAL = AnalyticsReportInterval.MINUTE;
+
+	AnalyticsReportChartType DEFAULT_VIEW = AnalyticsReportChartType.LINECHART;
 
 }

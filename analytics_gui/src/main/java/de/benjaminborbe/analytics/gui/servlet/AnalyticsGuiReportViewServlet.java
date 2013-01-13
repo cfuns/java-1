@@ -99,9 +99,9 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final AnalyticsReportIdentifier reportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
 			final AnalyticsReportInterval selectedAnalyticsReportInterval = parseUtil.parseEnum(AnalyticsReportInterval.class,
-					request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL), AnalyticsReportInterval.HOUR);
+					request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL), AnalyticsGuiConstants.DEFAULT_INTERVAL);
 			final AnalyticsReportChartType selectedChartType = parseUtil.parseEnum(AnalyticsReportChartType.class, request.getParameter(AnalyticsGuiConstants.PARAMETER_CHART_TYPE),
-					AnalyticsReportChartType.TABLE);
+					AnalyticsGuiConstants.DEFAULT_VIEW);
 
 			widgets.add(new H1Widget(getTitle() + " - " + reportIdentifier));
 
