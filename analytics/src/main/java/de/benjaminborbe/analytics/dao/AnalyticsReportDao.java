@@ -5,4 +5,6 @@ import de.benjaminborbe.storage.tools.Dao;
 
 public interface AnalyticsReportDao extends Dao<AnalyticsReportBean, AnalyticsReportIdentifier> {
 
+	char SEPERATOR = '_';
+
 }

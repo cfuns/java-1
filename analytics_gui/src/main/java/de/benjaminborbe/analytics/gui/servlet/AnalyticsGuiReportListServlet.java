@@ -96,6 +96,8 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 				final ListWidget row = new ListWidget();
 				row.add(analyticsGuiLinkFactory.reportView(request, report.getId(), AnalyticsGuiConstants.DEFAULT_INTERVAL, AnalyticsGuiConstants.DEFAULT_VIEW, report.getName()));
 				row.add(" ");
+				row.add("(" + report.getAggregation().name().toLowerCase() + ")");
+				row.add(" ");
 				row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
 				row.add(" ");
 				row.add(analyticsGuiLinkFactory.reportDelete(request, report.getId()));

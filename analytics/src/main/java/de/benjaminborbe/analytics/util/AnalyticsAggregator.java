@@ -173,6 +173,30 @@ public class AnalyticsAggregator {
 			}
 			return new AnalyticsReportValueDto(calendar, value / counter, counter);
 		}
+		if (AnalyticsReportAggregation.MIN.equals(aggregation)) {
+			Double value = null;
+			if (oldValue != null) {
+				value = oldValue.getValue();
+			}
+			for (final AnalyticsReportValue e : list) {
+				if (value == null || value > e.getValue()) {
+					value = e.getValue();
+				}
+			}
+			return new AnalyticsReportValueDto(calendar, value, 1l);
+		}
+		if (AnalyticsReportAggregation.MAX.equals(aggregation)) {
+			Double value = null;
+			if (oldValue != null) {
+				value = oldValue.getValue();
+			}
+			for (final AnalyticsReportValue e : list) {
+				if (value == null || value < e.getValue()) {
+					value = e.getValue();
+				}
+			}
+			return new AnalyticsReportValueDto(calendar, value, 1l);
+		}
 		return null;
 	}
 

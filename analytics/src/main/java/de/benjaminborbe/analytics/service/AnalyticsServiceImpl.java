@@ -225,13 +225,13 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			logger.debug("createReport");
 
 			final AnalyticsReportBean bean = analyticsReportDao.create();
-			bean.setId(new AnalyticsReportIdentifier(report.getName()));
+			bean.setId(new AnalyticsReportIdentifier(report.getName() + AnalyticsReportDao.SEPERATOR + report.getAggregation()));
 			bean.setName(report.getName());
 			bean.setAggregation(report.getAggregation());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
-				logger.warn("Bookmark " + errors.toString());
+				logger.warn("createReport " + errors.toString());
 				throw new ValidationException(errors);
 			}
 			analyticsReportDao.save(bean);

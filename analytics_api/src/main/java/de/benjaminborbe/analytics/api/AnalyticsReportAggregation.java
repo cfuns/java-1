@@ -5,5 +5,7 @@ public enum AnalyticsReportAggregation {
 	SUM,
 	LATEST,
 	OLDEST,
-	AVG;
+	AVG,
+	MAX,
+	MIN;
 }

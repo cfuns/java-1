@@ -48,7 +48,7 @@ public class AnalyticsGuiLinkFactory {
 
 		.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier))
 
-		, "add data");
+		, "insert");
 	}
 
 	public Widget addReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
