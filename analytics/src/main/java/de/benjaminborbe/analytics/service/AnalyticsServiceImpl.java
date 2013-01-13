@@ -16,13 +16,14 @@ import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
 import de.benjaminborbe.analytics.dao.AnalyticsReportDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportLogDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
+import de.benjaminborbe.analytics.util.AddValueAction;
 import de.benjaminborbe.analytics.util.AnalyticsAggregator;
+import de.benjaminborbe.analytics.util.AnalyticsReportValueIteratorFillMissingValues;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -34,9 +35,6 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.queue.Queue;
-import de.benjaminborbe.tools.queue.QueueBuilder;
-import de.benjaminborbe.tools.queue.QueueConsumer;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
@@ -44,40 +42,7 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 @Singleton
 public class AnalyticsServiceImpl implements AnalyticsService {
 
-	private final class AddMessage {
-
-		private final AnalyticsReportIdentifier reportIdentifier;
-
-		private final AnalyticsReportValue reportValue;
-
-		public AddMessage(final AnalyticsReportIdentifier reportIdentifier, final AnalyticsReportValue reportValue) {
-			this.reportIdentifier = reportIdentifier;
-			this.reportValue = reportValue;
-		}
-
-		public AnalyticsReportValue getReportValue() {
-			return reportValue;
-		}
-
-		public AnalyticsReportIdentifier getReportIdentifier() {
-			return reportIdentifier;
-		}
-	}
-
-	private final class AddMessageConsumer implements QueueConsumer<AddMessage> {
-
-		@Override
-		public void consume(final AddMessage message) {
-			try {
-				analyticsReportLogDao.addReportValue(message.getReportIdentifier(), message.getReportValue());
-			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName());
-			}
-		}
-	}
-
-	private static final int DURATION_WARN = 1;
+	private static final int DURATION_WARN = 300;
 
 	private final Logger logger;
 
@@ -89,21 +54,19 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final AnalyticsReportValueDao analyticsReportValueDao;
 
-	private final CalendarUtil calendarUtil;
-
 	private final AnalyticsAggregator analyticsAggregator;
 
 	private final AnalyticsReportLogDao analyticsReportLogDao;
 
-	private final Queue<AddMessage> queue;
-
 	private final DurationUtil durationUtil;
+
+	private final AddValueAction addValueAction;
 
 	@Inject
 	public AnalyticsServiceImpl(
 			final Logger logger,
+			final AddValueAction addValueAction,
 			final DurationUtil durationUtil,
-			final QueueBuilder queueBuilder,
 			final AnalyticsAggregator analyticsAggregator,
 			final CalendarUtil calendarUtil,
 			final AuthorizationService authorizationService,
@@ -112,16 +75,36 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			final AnalyticsReportLogDao analyticsReportLogDao,
 			final AnalyticsReportValueDao analyticsReportValueDao) {
 		this.logger = logger;
+		this.addValueAction = addValueAction;
 		this.durationUtil = durationUtil;
 		this.analyticsAggregator = analyticsAggregator;
-		this.calendarUtil = calendarUtil;
 		this.authorizationService = authorizationService;
 		this.analyticsReportDao = analyticsReportDao;
 		this.validationExecutor = validationExecutor;
 		this.analyticsReportLogDao = analyticsReportLogDao;
 		this.analyticsReportValueDao = analyticsReportValueDao;
+	}
 
-		queue = queueBuilder.buildQueue(new AddMessageConsumer());
+	@Override
+	public AnalyticsReportValueIterator getReportIteratorFillMissing(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("getReportIteratorFillMissing");
+
+			return new AnalyticsReportValueIteratorFillMissingValues(analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
@@ -130,7 +113,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
-			logger.debug("getReport");
+			logger.debug("getReportIterator");
 
 			return analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval);
 		}
@@ -150,7 +133,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			addReportValue(analyticsReportIdentifier, 1d);
+			logger.debug("addReportValue");
+			addValueAction.addReportValue(analyticsReportIdentifier);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -162,7 +146,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final double value) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), value));
+			logger.debug("addReportValue");
+			addValueAction.addReportValue(analyticsReportIdentifier, value);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -174,7 +159,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final long value) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), new Long(value).doubleValue()));
+			logger.debug("addReportValue");
+			addValueAction.addReportValue(analyticsReportIdentifier, value);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -187,8 +173,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("addReportValue");
-
-			queue.put(new AddMessage(analyticsReportIdentifier, reportValue));
+			addValueAction.addReportValue(analyticsReportIdentifier, reportValue);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)

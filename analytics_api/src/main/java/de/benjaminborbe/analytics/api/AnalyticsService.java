@@ -30,4 +30,7 @@ public interface AnalyticsService {
 
 	void aggreate(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
+	AnalyticsReportValueIterator getReportIteratorFillMissing(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier,
+			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+
 }
