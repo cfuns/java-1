@@ -82,7 +82,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 
 	@Override
 	public AnalyticsReportLogIterator valueIterator(final AnalyticsReportIdentifier analyticsReportIdentifier) throws StorageException {
-		return new ReportValueIteratorImpl(storageService.columnIteratorReversed(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), storageService.getEncoding())));
+		return new ReportValueIteratorImpl(storageService.columnIteratorReversed(COLUMN_FAMILY, new StorageValue(buildKey(analyticsReportIdentifier), storageService.getEncoding())));
 	}
 
 	@Override
@@ -92,14 +92,14 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		columnName.append(mapperCalendar.toString(reportValue.getDate()));
 		columnName.append(SEPERATOR);
 		columnName.append(String.valueOf(counter.incrementAndGet()));
-		storageService.set(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding), new StorageValue(columnName.toString(), encoding),
+		storageService.set(COLUMN_FAMILY, new StorageValue(buildKey(analyticsReportIdentifier), encoding), new StorageValue(columnName.toString(), encoding),
 				new StorageValue(String.valueOf(reportValue.getValue()), encoding));
 	}
 
 	@Override
 	public void delete(final AnalyticsReportIdentifier analyticsReportIdentifier) throws StorageException {
 		final String encoding = storageService.getEncoding();
-		storageService.delete(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding));
+		storageService.delete(COLUMN_FAMILY, new StorageValue(buildKey(analyticsReportIdentifier), encoding));
 	}
 
 	@Override
@@ -109,6 +109,12 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		for (final String columnName : columnNames) {
 			columns.add(new StorageValue(columnName, encoding));
 		}
-		storageService.delete(COLUMN_FAMILY, new StorageValue(analyticsReportIdentifier.getId(), encoding), columns);
+		storageService.delete(COLUMN_FAMILY, new StorageValue(buildKey(analyticsReportIdentifier), encoding), columns);
+	}
+
+	private String buildKey(final AnalyticsReportIdentifier analyticsReportIdentifier) {
+		final String id = analyticsReportIdentifier.getId();
+		final String[] parts = id.split(String.valueOf(AnalyticsReportDao.SEPERATOR));
+		return parts[0];
 	}
 }

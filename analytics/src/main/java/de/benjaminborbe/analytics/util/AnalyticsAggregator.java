@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 
@@ -13,6 +14,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
@@ -26,6 +28,7 @@ import de.benjaminborbe.analytics.dao.AnalyticsReportLogValue;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.tools.map.MapList;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
 
@@ -36,17 +39,27 @@ public class AnalyticsAggregator {
 		@Override
 		public void run() {
 			try {
+				logger.debug("aggregate started");
+
+				final MapList<String, AnalyticsReportBean> reportMap = new MapList<String, AnalyticsReportBean>();
+
 				final EntityIterator<AnalyticsReportBean> i = analyticsReportDao.getEntityIterator();
 				while (i.hasNext()) {
 					final AnalyticsReportBean report = i.next();
-					aggregateReport(report);
+					reportMap.add(report.getName(), report);
 				}
+
+				for (final Entry<String, List<AnalyticsReportBean>> e : reportMap.entrySet()) {
+					logger.debug("aggregate report: " + e.getKey());
+					aggregateReport(e.getValue());
+				}
+
+				logger.debug("aggregate finished");
 			}
 			catch (final Exception e) {
-				logger.warn(e.getClass().getName());
+				logger.warn("aggregate failed: " + e.getClass().getName(), e);
 			}
 		}
-
 	}
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
@@ -93,8 +106,9 @@ public class AnalyticsAggregator {
 		}
 	}
 
-	private void aggregateReport(final AnalyticsReportBean report) throws StorageException, AnalyticsServiceException, UnsupportedEncodingException, ParseException {
-		final AnalyticsReportLogIterator i = analyticsReportLogDao.valueIterator(report.getId());
+	private void aggregateReport(final List<AnalyticsReportBean> reports) throws StorageException, AnalyticsServiceException, UnsupportedEncodingException, ParseException {
+		final AnalyticsReportIdentifier id = reports.get(0).getId();
+		final AnalyticsReportLogIterator i = analyticsReportLogDao.valueIterator(id);
 
 		// read chunkSize values to aggregate
 		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
@@ -108,17 +122,20 @@ public class AnalyticsAggregator {
 			columnNames.add(value.getColumnName());
 		}
 
-		analyticsReportLogDao.delete(report.getId(), columnNames);
+		analyticsReportLogDao.delete(id, columnNames);
 
-		for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
-			final Map<String, List<AnalyticsReportValue>> data = groupByInterval(values, analyticsReportInterval);
+		for (final AnalyticsReportBean report : reports) {
+			logger.debug("aggregate report: " + report.getName() + " method: " + report.getAggregation().name().toLowerCase());
+			for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
+				final Map<String, List<AnalyticsReportValue>> data = groupByInterval(values, analyticsReportInterval);
 
-			for (final List<AnalyticsReportValue> list : data.values()) {
-				final Calendar calendar = analyticsIntervalUtil.buildIntervalCalendar(list.get(0).getDate(), analyticsReportInterval);
-				final AnalyticsReportValue oldValue = analyticsReportValueDao.getReportValue(report.getId(), analyticsReportInterval, calendar);
-				final AnalyticsReportValue reportValue = buildAggregatedValue(report.getAggregation(), oldValue, calendar, list);
-				if (reportValue != null) {
-					analyticsReportValueDao.setReportValue(report.getId(), analyticsReportInterval, reportValue);
+				for (final List<AnalyticsReportValue> list : data.values()) {
+					final Calendar calendar = analyticsIntervalUtil.buildIntervalCalendar(list.get(0).getDate(), analyticsReportInterval);
+					final AnalyticsReportValue oldValue = analyticsReportValueDao.getReportValue(report.getId(), analyticsReportInterval, calendar);
+					final AnalyticsReportValue reportValue = buildAggregatedValue(report.getAggregation(), oldValue, calendar, list);
+					if (reportValue != null) {
+						analyticsReportValueDao.setReportValue(report.getId(), analyticsReportInterval, reportValue);
+					}
 				}
 			}
 		}
