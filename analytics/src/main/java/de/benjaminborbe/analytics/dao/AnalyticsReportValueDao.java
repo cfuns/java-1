@@ -28,8 +28,9 @@ public interface AnalyticsReportValueDao {
 
 	void delete(AnalyticsReportValueIdentifier analyticsReportValueIdentifier) throws StorageException;
 
-	Double getReportValue(AnalyticsReportIdentifier id, AnalyticsReportInterval analyticsReportInterval, Calendar calendar) throws StorageException, UnsupportedEncodingException,
-			ParseException;
+	AnalyticsReportValue getReportValue(AnalyticsReportIdentifier id, AnalyticsReportInterval analyticsReportInterval, Calendar calendar) throws StorageException,
+			UnsupportedEncodingException, ParseException;
 
-	Double getReportValue(AnalyticsReportValueIdentifier analyticsReportValueIdentifier, Calendar calendar) throws StorageException, UnsupportedEncodingException, ParseException;
+	AnalyticsReportValue getReportValue(AnalyticsReportValueIdentifier analyticsReportValueIdentifier, Calendar calendar) throws StorageException, UnsupportedEncodingException,
+			ParseException;
 }

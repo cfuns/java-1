@@ -23,6 +23,8 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 
+	private static final String VALUE_SEPERATOR = "_";
+
 	private final class ReportValueIteratorImpl implements AnalyticsReportValueIterator {
 
 		private final StorageColumnIterator i;
@@ -45,7 +47,7 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 		public AnalyticsReportValue next() throws AnalyticsServiceException {
 			try {
 				final StorageColumn column = i.next();
-				return new AnalyticsReportValueDto(mapperCalendar.fromString(column.getColumnName().getString()), parseUtil.parseDouble(column.getColumnValue().getString()));
+				return buildAnalyticsReportValue(column.getColumnName().getString(), column.getColumnValue().getString());
 			}
 			catch (final StorageException e) {
 				throw new AnalyticsServiceException(e);
@@ -102,9 +104,17 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 	public void setReportValue(final AnalyticsReportValueIdentifier analyticsReportValueIdentifier, final AnalyticsReportValue reportValue) throws StorageException,
 			UnsupportedEncodingException, ParseException {
 		final String encoding = storageService.getEncoding();
-		storageService.set(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), encoding),
-				new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(reportValue.getDate(), analyticsReportValueIdentifier.getReportInterval())), encoding),
-				new StorageValue(String.valueOf(reportValue.getValue()), encoding));
+		storageService.set(
+
+		COLUMN_FAMILY,
+
+		new StorageValue(analyticsReportValueIdentifier.getId(), encoding),
+
+		new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(reportValue.getDate(), analyticsReportValueIdentifier.getReportInterval())), encoding),
+
+		new StorageValue(String.valueOf(reportValue.getValue()) + VALUE_SEPERATOR + String.valueOf(reportValue.getCounter()), encoding)
+
+		);
 	}
 
 	@Override
@@ -131,22 +141,36 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 	}
 
 	@Override
-	public Double getReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval, final Calendar calendar)
-			throws StorageException, UnsupportedEncodingException, ParseException {
+	public AnalyticsReportValue getReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
+			final Calendar calendar) throws StorageException, UnsupportedEncodingException, ParseException {
 		return getReportValue(createAnalyticsReportValueIdentifier(analyticsReportIdentifier, analyticsReportInterval), calendar);
 	}
 
 	@Override
-	public Double getReportValue(final AnalyticsReportValueIdentifier analyticsReportValueIdentifier, final Calendar calendar) throws StorageException, UnsupportedEncodingException,
-			ParseException {
+	public AnalyticsReportValue getReportValue(final AnalyticsReportValueIdentifier analyticsReportValueIdentifier, final Calendar calendar) throws StorageException,
+			UnsupportedEncodingException, ParseException {
+		final String columnName = mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(calendar, analyticsReportValueIdentifier.getReportInterval()));
 		final String encoding = storageService.getEncoding();
-		final StorageValue value = storageService.get(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), encoding),
-				new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(calendar, analyticsReportValueIdentifier.getReportInterval())), encoding));
+		final StorageValue value = storageService.get(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), encoding), new StorageValue(columnName, encoding));
 		if (value != null && !value.isEmpty()) {
-			return parseUtil.parseDouble(value.getString());
+			final String columnValue = value.getString();
+			return buildAnalyticsReportValue(columnName, columnValue);
 		}
 		else {
 			return null;
 		}
+	}
+
+	private AnalyticsReportValue buildAnalyticsReportValue(final String columnName, final String columnValue) throws ParseException {
+		final Calendar calendar = mapperCalendar.fromString(columnName);
+
+		final String[] parts = columnValue.split(VALUE_SEPERATOR, 2);
+		if (parts.length == 2) {
+			return new AnalyticsReportValueDto(calendar, parseUtil.parseDouble(parts[0]), parseUtil.parseLong(parts[1]));
+		}
+		else {
+			return new AnalyticsReportValueDto(calendar, parseUtil.parseDouble(parts[0]), 1l);
+		}
+
 	}
 }

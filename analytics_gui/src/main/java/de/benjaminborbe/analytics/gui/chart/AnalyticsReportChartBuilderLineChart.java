@@ -34,7 +34,7 @@ import de.benjaminborbe.website.util.ListWidget;
 
 public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChartBuilder {
 
-	private static final int LIMIT = 40;
+	private static final int LIMIT = 60;
 
 	private final ResourceUtil resourceUtil;
 

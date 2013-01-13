@@ -13,7 +13,7 @@ public class AnalyticsReportLogValueDto extends AnalyticsReportValueDto implemen
 	}
 
 	public AnalyticsReportLogValueDto(final String columnName, final Calendar date, final Double value) {
-		super(date, value);
+		super(date, value, 1l);
 		this.columnName = columnName;
 	}
 

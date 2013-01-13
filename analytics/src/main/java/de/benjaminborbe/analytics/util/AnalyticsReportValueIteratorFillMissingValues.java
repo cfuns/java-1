@@ -49,7 +49,7 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 			current = null;
 		}
 		else {
-			result = new AnalyticsReportValueDto(nextDate, new Double(0));
+			result = new AnalyticsReportValueDto(nextDate, new Double(0), 0l);
 		}
 		nextDate = analyticsIntervalUtil.buildIntervalCalendarNext(nextDate, interval);
 		return result;

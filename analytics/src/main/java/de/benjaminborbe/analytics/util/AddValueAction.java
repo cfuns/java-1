@@ -72,11 +72,11 @@ public class AddValueAction {
 	}
 
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final double value) throws AnalyticsServiceException {
-		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), value));
+		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), value, 1l));
 	}
 
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final long value) throws AnalyticsServiceException {
-		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), new Long(value).doubleValue()));
+		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), new Long(value).doubleValue(), 1l));
 	}
 
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {

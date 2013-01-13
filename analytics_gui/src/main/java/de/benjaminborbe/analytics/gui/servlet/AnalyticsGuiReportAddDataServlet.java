@@ -171,7 +171,7 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		else {
-			final AnalyticsReportValueDto reportValue = new AnalyticsReportValueDto(calendar, value);
+			final AnalyticsReportValueDto reportValue = new AnalyticsReportValueDto(calendar, value, 1l);
 			analyticsService.addReportValue(analyticsReportIdentifier, reportValue);
 		}
 	}
