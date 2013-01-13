@@ -1,8 +1,7 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +17,11 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
+import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilder;
+import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilderFactory;
+import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartType;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -28,6 +29,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
@@ -39,17 +41,14 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.table.TableCellHeadWidget;
-import de.benjaminborbe.website.table.TableCellWidget;
-import de.benjaminborbe.website.table.TableRowWidget;
-import de.benjaminborbe.website.table.TableWidget;
+import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.JavascriptResourceImpl;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -61,14 +60,14 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final CalendarUtil calendarUtil;
-
 	private final ParseUtil parseUtil;
 
 	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
 
+	private final AnalyticsReportChartBuilderFactory chartBuilderFactory;
+
 	@Inject
-	public AnalyticsGuiReportTableServlet(
+	public AnalyticsGuiReportViewServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -80,14 +79,15 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final AnalyticsService analyticsService,
-			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
+			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory,
+			final AnalyticsReportChartBuilderFactory chartBuilderFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
-		this.calendarUtil = calendarUtil;
 		this.parseUtil = parseUtil;
 		this.analyticsService = analyticsService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
+		this.chartBuilderFactory = chartBuilderFactory;
 	}
 
 	@Override
@@ -101,46 +101,49 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
+			final AnalyticsReportIdentifier reportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
 			final AnalyticsReportInterval selectedAnalyticsReportInterval = parseUtil.parseEnum(AnalyticsReportInterval.class,
 					request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL), AnalyticsReportInterval.HOUR);
-			final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, analyticsReportIdentifier, selectedAnalyticsReportInterval);
+			final AnalyticsReportChartType selectedChartType = parseUtil.parseEnum(AnalyticsReportChartType.class, request.getParameter(AnalyticsGuiConstants.PARAMETER_CHART_TYPE),
+					AnalyticsReportChartType.TABLE);
+			final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval);
 
-			for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
-				final ListWidget list = new ListWidget();
-				list.add(analyticsGuiLinkFactory.reportTable(request, analyticsReportIdentifier, analyticsReportInterval, analyticsReportIdentifier.getId() + " per "
-						+ analyticsReportInterval.name().toLowerCase()));
-				list.add(" ");
-				widgets.add(list);
-			}
+			widgets.add(new H1Widget(getTitle() + " - " + reportIdentifier));
 
-			final DecimalFormat df = new DecimalFormat("#####0.0");
-
-			final TableWidget table = new TableWidget();
-			table.addClass("sortable");
+			// interval
 			{
-				final TableRowWidget row = new TableRowWidget();
-				row.addCell(new TableCellHeadWidget("Name"));
-				row.addCell(new TableCellHeadWidget("Value"));
-				table.addRow(row);
-			}
-			while (reportValueIterator.hasNext()) {
-				final AnalyticsReportValue reportValue = reportValueIterator.next();
-				final TableRowWidget row = new TableRowWidget();
-				{
-					row.addCell(calendarUtil.toDateTimeString(reportValue.getDate()));
+				widgets.add(new H2Widget("Interval:"));
+				for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
+					final ListWidget list = new ListWidget();
+					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, analyticsReportInterval, selectedChartType, analyticsReportInterval.name().toLowerCase()));
+					list.add(" ");
+					widgets.add(list);
 				}
-				{
-					final TableCellWidget cell = new TableCellWidget(df.format(reportValue.getValue()));
-					cell.addAttribute("sorttable_customkey", df.format(reportValue.getValue()));
-					row.addCell(cell);
-				}
-				table.addRow(row);
 			}
-			widgets.add(table);
+
+			// chart type
+			{
+				widgets.add(new H2Widget("ChartType:"));
+				for (final AnalyticsReportChartType chartType : AnalyticsReportChartType.values()) {
+					final ListWidget list = new ListWidget();
+					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, selectedAnalyticsReportInterval, chartType, chartType.name().toLowerCase()));
+					list.add(" ");
+					widgets.add(list);
+				}
+			}
+
+			// chart
+			{
+				final AnalyticsReportChartBuilder builder = chartBuilderFactory.get(selectedChartType);
+				if (builder == null) {
+					widgets.add("no chart found for type: " + selectedChartType);
+				}
+				else {
+					widgets.add(builder.buildChart(reportValueIterator));
+				}
+			}
 
 			return widgets;
 		}
@@ -158,9 +161,13 @@ public class AnalyticsGuiReportTableServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
-		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
-		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
+		return chartBuilderFactory.getJavascriptResource(request, response);
+	}
+
+	@Override
+	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final Collection<CssResource> result = super.getCssResources(request, response);
+		result.add(new CssResourceImpl(request.getContextPath() + "/" + AnalyticsGuiConstants.NAME + "/css/style.css"));
 		return result;
 	}
 }

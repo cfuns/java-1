@@ -13,12 +13,15 @@ import org.apache.commons.lang.StringUtils;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.form.HasClass;
+import de.benjaminborbe.website.form.HasId;
 
-public class DivWidget extends TagWidget implements HasClass<DivWidget> {
+public class DivWidget extends TagWidget implements HasClass<DivWidget>, HasId<DivWidget> {
 
 	private static final String TAG = "div";
 
 	private final Set<String> classes = new HashSet<String>();
+
+	private String id;
 
 	public DivWidget() {
 		super(TAG);
@@ -54,6 +57,20 @@ public class DivWidget extends TagWidget implements HasClass<DivWidget> {
 		if (classes.size() > 0) {
 			addAttribute("class", StringUtils.join(classes, " "));
 		}
+		if (id != null) {
+			addAttribute("id", id);
+		}
 		super.render(request, response, context);
+	}
+
+	@Override
+	public DivWidget addId(final String id) {
+		this.id = id;
+		return this;
+	}
+
+	@Override
+	public String getId() {
+		return id;
 	}
 }

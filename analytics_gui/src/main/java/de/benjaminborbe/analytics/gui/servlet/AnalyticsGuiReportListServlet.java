@@ -16,6 +16,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartType;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -90,7 +91,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			for (final AnalyticsReport report : reports) {
 				final ListWidget row = new ListWidget();
-				row.add(analyticsGuiLinkFactory.reportTable(request, report.getId(), AnalyticsReportInterval.HOUR, report.getName()));
+				row.add(analyticsGuiLinkFactory.reportView(request, report.getId(), AnalyticsReportInterval.HOUR, AnalyticsReportChartType.TABLE, report.getName()));
 				row.add(" ");
 				row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
 				row.add(" ");

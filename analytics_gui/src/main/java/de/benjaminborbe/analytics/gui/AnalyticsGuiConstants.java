@@ -6,7 +6,7 @@ public interface AnalyticsGuiConstants {
 
 	String NAME = "analytics";
 
-	String URL_REPORT_TABLE = "/report/table";
+	String URL_REPORT_VIEW = "/report/view";
 
 	String URL_REPORT_CREATE = "/report/create";
 
@@ -29,5 +29,7 @@ public interface AnalyticsGuiConstants {
 	String URL_REPORT_AGGREGATE = "/report/aggregate";
 
 	String PARAMETER_REPORT_INTERVAL = "report_interval";
+
+	String PARAMETER_CHART_TYPE = "chart_type";
 
 }

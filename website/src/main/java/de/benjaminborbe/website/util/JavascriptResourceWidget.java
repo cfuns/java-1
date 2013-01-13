@@ -29,4 +29,5 @@ public class JavascriptResourceWidget implements Widget {
 		}
 		widgets.render(request, response, context);
 	}
+
 }
