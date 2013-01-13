@@ -1,8 +1,7 @@
 package de.benjaminborbe.storage.api;
 
-public interface StorageColumnIterator {
+import de.benjaminborbe.api.IteratorBase;
 
-	boolean hasNext() throws StorageException;
+public interface StorageColumnIterator extends IteratorBase<StorageColumn, StorageException> {
 
-	StorageColumn next() throws StorageException;
 }

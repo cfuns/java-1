@@ -1,8 +1,7 @@
 package de.benjaminborbe.storage.tools;
 
-public interface IdentifierIterator<T> {
+import de.benjaminborbe.api.IteratorBase;
 
-	boolean hasNext() throws IdentifierIteratorException;
+public interface IdentifierIterator<T> extends IteratorBase<T, IdentifierIteratorException> {
 
-	T next() throws IdentifierIteratorException;
 }

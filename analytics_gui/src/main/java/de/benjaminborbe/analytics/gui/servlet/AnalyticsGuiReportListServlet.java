@@ -1,7 +1,9 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartType;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
+import de.benjaminborbe.analytics.gui.util.AnalyticsReportComparator;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -87,7 +90,8 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final Collection<AnalyticsReport> reports = analyticsService.getReports(sessionIdentifier);
+			final List<AnalyticsReport> reports = new ArrayList<AnalyticsReport>(analyticsService.getReports(sessionIdentifier));
+			Collections.sort(reports, new AnalyticsReportComparator());
 			final UlWidget ul = new UlWidget();
 			for (final AnalyticsReport report : reports) {
 				final ListWidget row = new ListWidget();

@@ -1,8 +1,7 @@
 package de.benjaminborbe.storage.tools;
 
-public interface EntityIterator<T> {
+import de.benjaminborbe.api.IteratorBase;
 
-	boolean hasNext() throws EntityIteratorException;
+public interface EntityIterator<T> extends IteratorBase<T, EntityIteratorException> {
 
-	T next() throws EntityIteratorException;
 }

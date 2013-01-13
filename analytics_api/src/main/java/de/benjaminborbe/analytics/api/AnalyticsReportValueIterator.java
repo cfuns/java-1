@@ -1,8 +1,7 @@
 package de.benjaminborbe.analytics.api;
 
-public interface AnalyticsReportValueIterator {
+import de.benjaminborbe.api.IteratorBase;
 
-	boolean hasNext() throws AnalyticsServiceException;
+public interface AnalyticsReportValueIterator extends IteratorBase<AnalyticsReportValue, AnalyticsServiceException> {
 
-	AnalyticsReportValue next() throws AnalyticsServiceException;
 }
