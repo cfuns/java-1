@@ -7,6 +7,7 @@ import java.util.Calendar;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
@@ -39,7 +40,8 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 		final AnalyticsReportInterval analyticsReportInterval = AnalyticsReportInterval.YEAR;
 		final AnalyticsIntervalUtil analyticsIntervalUtil = new AnalyticsIntervalUtil();
 		final AnalyticsReportValueIterator analyticsReportValueIterator = buildIterator(buildAnalyticsReportValue(2012, v), buildAnalyticsReportValue(2009, v));
-		final AnalyticsReportValueIteratorFillMissingValues i = new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueIterator,
+		final AnalyticsReportAggregation analyticsReportAggregation = AnalyticsReportAggregation.SUM;
+		final AnalyticsReportValueIteratorFillMissingValues i = new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueIterator, analyticsReportAggregation,
 				analyticsReportInterval);
 
 		{

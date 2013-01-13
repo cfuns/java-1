@@ -98,8 +98,9 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getReportIteratorFillMissing");
 
+			final AnalyticsReportBean report = analyticsReportDao.load(analyticsReportIdentifier);
 			return new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval),
-					analyticsReportInterval);
+					report.getAggregation(), analyticsReportInterval);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);

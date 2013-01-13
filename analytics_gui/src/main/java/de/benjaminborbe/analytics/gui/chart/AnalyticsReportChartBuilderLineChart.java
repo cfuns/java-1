@@ -65,7 +65,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 			counter++;
 			final AnalyticsReportValue reportValue = reportValueIterator.next();
 			tooltips.add(calendarUtil.toDateTimeString(reportValue.getDate()));
-			values.add(df.format(reportValue.getValue()));
+			values.add(reportValue.getValue() != null ? df.format(reportValue.getValue()) : null);
 		}
 		Collections.reverse(tooltips);
 		Collections.reverse(values);

@@ -2,6 +2,7 @@ package de.benjaminborbe.analytics.util;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
@@ -20,12 +21,16 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 
 	private AnalyticsReportValue current;
 
+	private final AnalyticsReportAggregation analyticsReportAggregation;
+
 	public AnalyticsReportValueIteratorFillMissingValues(
 			final AnalyticsIntervalUtil analyticsIntervalUtil,
 			final AnalyticsReportValueIterator iterator,
+			final AnalyticsReportAggregation analyticsReportAggregation,
 			final AnalyticsReportInterval interval) {
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
 		this.iterator = iterator;
+		this.analyticsReportAggregation = analyticsReportAggregation;
 		this.interval = interval;
 	}
 
@@ -49,10 +54,19 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 			current = null;
 		}
 		else {
-			result = new AnalyticsReportValueDto(nextDate, new Double(0), 0l);
+			result = buildDefaultValue();
 		}
 		nextDate = analyticsIntervalUtil.buildIntervalCalendarNext(nextDate, interval);
 		return result;
+	}
+
+	private AnalyticsReportValue buildDefaultValue() {
+		if (AnalyticsReportAggregation.SUM.equals(analyticsReportAggregation)) {
+			return new AnalyticsReportValueDto(nextDate, new Double(0), 0l);
+		}
+		else {
+			return new AnalyticsReportValueDto(nextDate, null, 0l);
+		}
 	}
 
 	private boolean compareDates() {
