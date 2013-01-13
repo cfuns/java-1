@@ -37,6 +37,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.queue.Queue;
 import de.benjaminborbe.tools.queue.QueueBuilder;
 import de.benjaminborbe.tools.queue.QueueConsumer;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
@@ -75,6 +77,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		}
 	}
 
+	private static final int DURATION_WARN = 1;
+
 	private final Logger logger;
 
 	private final AuthorizationService authorizationService;
@@ -93,9 +97,12 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final Queue<AddMessage> queue;
 
+	private final DurationUtil durationUtil;
+
 	@Inject
 	public AnalyticsServiceImpl(
 			final Logger logger,
+			final DurationUtil durationUtil,
 			final QueueBuilder queueBuilder,
 			final AnalyticsAggregator analyticsAggregator,
 			final CalendarUtil calendarUtil,
@@ -105,6 +112,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			final AnalyticsReportLogDao analyticsReportLogDao,
 			final AnalyticsReportValueDao analyticsReportValueDao) {
 		this.logger = logger;
+		this.durationUtil = durationUtil;
 		this.analyticsAggregator = analyticsAggregator;
 		this.calendarUtil = calendarUtil;
 		this.authorizationService = authorizationService;
@@ -119,6 +127,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
 			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getReport");
@@ -132,37 +141,64 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			throw new AnalyticsServiceException(e);
 		}
 		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
-		addReportValue(analyticsReportIdentifier, 1d);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			addReportValue(analyticsReportIdentifier, 1d);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final double value) throws AnalyticsServiceException {
-		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), value));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), value));
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final long value) throws AnalyticsServiceException {
-		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), new Long(value).doubleValue()));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), new Long(value).doubleValue()));
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("addReportValue");
 
 			queue.put(new AddMessage(analyticsReportIdentifier, reportValue));
 		}
 		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<AnalyticsReport> getReports(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getReports");
@@ -184,12 +220,15 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			throw new AnalyticsServiceException(e);
 		}
 		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void createReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportDto report) throws AnalyticsServiceException, PermissionDeniedException,
 			LoginRequiredException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("createReport");
@@ -212,11 +251,16 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void deleteReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException,
 			PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("deleteReport");
@@ -230,10 +274,15 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void aggreate(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("aggreate");
@@ -241,6 +290,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 

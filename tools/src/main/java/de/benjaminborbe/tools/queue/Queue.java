@@ -11,7 +11,27 @@ public class Queue<M> {
 
 	private boolean running = false;
 
-	private final class R implements Runnable {
+	private final class AddMessage implements Runnable {
+
+		private final M message;
+
+		public AddMessage(final M message) {
+			this.message = message;
+		}
+
+		@Override
+		public void run() {
+			logger.trace("put message");
+			queue.offer(message);
+			if (!running) {
+				threadRunner.run("queueConsumer", new ConsumeMessage());
+				running = true;
+			}
+		}
+
+	}
+
+	private final class ConsumeMessage implements Runnable {
 
 		@Override
 		public void run() {
@@ -42,16 +62,11 @@ public class Queue<M> {
 	}
 
 	public void put(final M message) {
-		logger.debug("put message");
-		queue.offer(message);
-		if (!running) {
-			threadRunner.run("queueConsumer", new R());
-			running = true;
-		}
+		threadRunner.run("add message", new AddMessage(message));
 	}
 
 	public M get() throws InterruptedException {
-		logger.debug("get message");
+		logger.trace("get message");
 		return queue.take();
 	}
 
