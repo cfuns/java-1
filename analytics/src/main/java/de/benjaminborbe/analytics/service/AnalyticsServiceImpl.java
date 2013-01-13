@@ -139,7 +139,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("addReportValue");
+			logger.trace("addReportValue");
 			addValueAction.addReportValue(analyticsReportIdentifier);
 		}
 		finally {
@@ -152,7 +152,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final double value) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("addReportValue");
+			logger.trace("addReportValue");
 			addValueAction.addReportValue(analyticsReportIdentifier, value);
 		}
 		finally {
@@ -165,7 +165,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final long value) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("addReportValue");
+			logger.trace("addReportValue");
 			addValueAction.addReportValue(analyticsReportIdentifier, value);
 		}
 		finally {
@@ -178,7 +178,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("addReportValue");
+			logger.trace("addReportValue");
 			addValueAction.addReportValue(analyticsReportIdentifier, reportValue);
 		}
 		finally {

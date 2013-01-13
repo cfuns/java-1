@@ -34,6 +34,8 @@ import de.benjaminborbe.website.util.ListWidget;
 
 public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChartBuilder {
 
+	private static final int LIMIT = 40;
+
 	private final ResourceUtil resourceUtil;
 
 	private final CalendarUtil calendarUtil;
@@ -58,7 +60,9 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		final List<String> values = new ArrayList<String>();
 		final DecimalFormat df = new DecimalFormat("#####0.0");
 
-		while (reportValueIterator.hasNext()) {
+		int counter = 0;
+		while (reportValueIterator.hasNext() && counter < LIMIT) {
+			counter++;
 			final AnalyticsReportValue reportValue = reportValueIterator.next();
 			tooltips.add(calendarUtil.toDateTimeString(reportValue.getDate()));
 			values.add(df.format(reportValue.getValue()));

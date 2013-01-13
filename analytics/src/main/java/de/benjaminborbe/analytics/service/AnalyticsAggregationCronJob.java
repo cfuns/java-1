@@ -13,7 +13,7 @@ import de.benjaminborbe.cron.api.CronJob;
 public class AnalyticsAggregationCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 */15 * * * ?"; // ones per hour
+	private static final String SCHEDULE_EXPRESSION = "0 * * * * ?"; // ones per hour
 
 	private final AnalyticsAggregator analyticsAggregator;
 

@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
@@ -53,9 +52,6 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 			result = new AnalyticsReportValueDto(nextDate, new Double(0));
 		}
 		nextDate = analyticsIntervalUtil.buildIntervalCalendarNext(nextDate, interval);
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.err.println("next=" + sdf.format(nextDate.getTime()));
-
 		return result;
 	}
 

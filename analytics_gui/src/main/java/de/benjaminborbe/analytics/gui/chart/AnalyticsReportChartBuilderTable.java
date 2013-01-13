@@ -29,6 +29,8 @@ import de.benjaminborbe.website.util.JavascriptResourceImpl;
 
 public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBuilder {
 
+	private static final int LIMIT = 100;
+
 	private final CalendarUtil calendarUtil;
 
 	private final AnalyticsService analyticsService;
@@ -53,7 +55,10 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 			row.addCell(new TableCellHeadWidget("Value"));
 			table.addRow(row);
 		}
-		while (reportValueIterator.hasNext()) {
+
+		int counter = 0;
+		while (reportValueIterator.hasNext() && counter < LIMIT) {
+			counter++;
 			final AnalyticsReportValue reportValue = reportValueIterator.next();
 			final TableRowWidget row = new TableRowWidget();
 			{
