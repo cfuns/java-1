@@ -1,35 +1,16 @@
 package de.benjaminborbe.distributed.index.util;
 
+import de.benjaminborbe.api.IteratorBase;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
+import de.benjaminborbe.tools.iterator.IteratorCurrent;
 
-public class DistributedIndexSearchResultIteratorCurrent implements DistributedIndexSearchResultIterator {
+public class DistributedIndexSearchResultIteratorCurrent extends IteratorCurrent<DistributedIndexSearchResult, DistributedIndexServiceException> implements
+		DistributedIndexSearchResultIterator {
 
-	private final DistributedIndexSearchResultIterator distributedIndexSearchResultIterator;
-
-	private DistributedIndexSearchResult current;
-
-	public DistributedIndexSearchResultIteratorCurrent(final DistributedIndexSearchResultIterator distributedIndexSearchResultIterator) {
-		this.distributedIndexSearchResultIterator = distributedIndexSearchResultIterator;
-	}
-
-	@Override
-	public boolean hasNext() throws DistributedIndexServiceException {
-		return distributedIndexSearchResultIterator.hasNext();
-	}
-
-	@Override
-	public DistributedIndexSearchResult next() throws DistributedIndexServiceException {
-		return current = distributedIndexSearchResultIterator.next();
-	}
-
-	public DistributedIndexSearchResult getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(final DistributedIndexSearchResult current) {
-		this.current = current;
+	public DistributedIndexSearchResultIteratorCurrent(final IteratorBase<DistributedIndexSearchResult, DistributedIndexServiceException> iterator) {
+		super(iterator);
 	}
 
 }

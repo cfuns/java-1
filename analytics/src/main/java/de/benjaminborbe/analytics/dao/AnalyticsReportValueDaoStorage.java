@@ -103,7 +103,7 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 			UnsupportedEncodingException, ParseException {
 		final String encoding = storageService.getEncoding();
 		storageService.set(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), encoding),
-				new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildCalendar(reportValue.getDate(), analyticsReportValueIdentifier.getReportInterval())), encoding),
+				new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(reportValue.getDate(), analyticsReportValueIdentifier.getReportInterval())), encoding),
 				new StorageValue(String.valueOf(reportValue.getValue()), encoding));
 	}
 
@@ -141,7 +141,7 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 			ParseException {
 		final String encoding = storageService.getEncoding();
 		final StorageValue value = storageService.get(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), encoding),
-				new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildCalendar(calendar, analyticsReportValueIdentifier.getReportInterval())), encoding));
+				new StorageValue(mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(calendar, analyticsReportValueIdentifier.getReportInterval())), encoding));
 		if (value != null && !value.isEmpty()) {
 			return parseUtil.parseDouble(value.getString());
 		}

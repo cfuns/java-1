@@ -15,9 +15,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
-import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilder;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilderFactory;
@@ -54,8 +52,6 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Analytics - Report view";
 
-	private final AnalyticsService analyticsService;
-
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
@@ -78,12 +74,10 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AnalyticsService analyticsService,
 			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory,
 			final AnalyticsReportChartBuilderFactory chartBuilderFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.parseUtil = parseUtil;
-		this.analyticsService = analyticsService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
@@ -108,7 +102,6 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 					request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL), AnalyticsReportInterval.HOUR);
 			final AnalyticsReportChartType selectedChartType = parseUtil.parseEnum(AnalyticsReportChartType.class, request.getParameter(AnalyticsGuiConstants.PARAMETER_CHART_TYPE),
 					AnalyticsReportChartType.TABLE);
-			final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval);
 
 			widgets.add(new H1Widget(getTitle() + " - " + reportIdentifier));
 
@@ -141,7 +134,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 					widgets.add("no chart found for type: " + selectedChartType);
 				}
 				else {
-					widgets.add(builder.buildChart(reportValueIterator));
+					widgets.add(builder.buildChart(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval));
 				}
 			}
 

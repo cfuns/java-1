@@ -12,7 +12,30 @@ public class AnalyticsIntervalUtil {
 	public AnalyticsIntervalUtil() {
 	}
 
-	public Calendar buildCalendar(final Calendar calendar, final AnalyticsReportInterval analyticsReportInterval) {
+	public Calendar buildIntervalCalendarNext(final Calendar calendar, final AnalyticsReportInterval analyticsReportInterval) {
+		final Calendar result = buildIntervalCalendar(calendar, analyticsReportInterval);
+		if (AnalyticsReportInterval.MINUTE.equals(analyticsReportInterval)) {
+			result.add(Calendar.MINUTE, -1);
+		}
+		if (AnalyticsReportInterval.HOUR.equals(analyticsReportInterval)) {
+			result.add(Calendar.HOUR_OF_DAY, -1);
+		}
+		if (AnalyticsReportInterval.DAY.equals(analyticsReportInterval)) {
+			result.add(Calendar.DAY_OF_MONTH, -1);
+		}
+		if (AnalyticsReportInterval.WEEK.equals(analyticsReportInterval)) {
+			result.add(Calendar.WEEK_OF_YEAR, -1);
+		}
+		if (AnalyticsReportInterval.MONTH.equals(analyticsReportInterval)) {
+			result.add(Calendar.MONTH, -1);
+		}
+		if (AnalyticsReportInterval.YEAR.equals(analyticsReportInterval)) {
+			result.add(Calendar.YEAR, -1);
+		}
+		return result;
+	}
+
+	public Calendar buildIntervalCalendar(final Calendar calendar, final AnalyticsReportInterval analyticsReportInterval) {
 		final Calendar result = Calendar.getInstance(calendar.getTimeZone());
 		if (AnalyticsReportInterval.MINUTE.equals(analyticsReportInterval)) {
 			result.set(Calendar.YEAR, calendar.get(Calendar.YEAR));

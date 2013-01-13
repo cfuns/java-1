@@ -114,7 +114,7 @@ public class AnalyticsAggregator {
 			final Map<String, List<AnalyticsReportValue>> data = groupByInterval(values, analyticsReportInterval);
 
 			for (final List<AnalyticsReportValue> list : data.values()) {
-				final Calendar calendar = analyticsIntervalUtil.buildCalendar(list.get(0).getDate(), analyticsReportInterval);
+				final Calendar calendar = analyticsIntervalUtil.buildIntervalCalendar(list.get(0).getDate(), analyticsReportInterval);
 				final Double oldValue = analyticsReportValueDao.getReportValue(report.getId(), analyticsReportInterval, calendar);
 				final double value = buildAggregatedValue(report.getAggregation(), oldValue, list);
 				final AnalyticsReportValueDto reportValue = new AnalyticsReportValueDto();
@@ -153,7 +153,7 @@ public class AnalyticsAggregator {
 	}
 
 	private String buildKey(final AnalyticsReportInterval analyticsReportInterval, final Calendar date) {
-		final Calendar calendar = analyticsIntervalUtil.buildCalendar(date, analyticsReportInterval);
+		final Calendar calendar = analyticsIntervalUtil.buildIntervalCalendar(date, analyticsReportInterval);
 		return String.valueOf(calendar.getTimeInMillis());
 	}
 }

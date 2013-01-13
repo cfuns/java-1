@@ -13,10 +13,16 @@ import org.apache.commons.lang.StringUtils;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -32,14 +38,19 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 
 	private final CalendarUtil calendarUtil;
 
+	private final AnalyticsService analyticsService;
+
 	@Inject
-	public AnalyticsReportChartBuilderLineChart(final ResourceUtil resourceUtil, final CalendarUtil calendarUtil) {
+	public AnalyticsReportChartBuilderLineChart(final AnalyticsService analyticsService, final ResourceUtil resourceUtil, final CalendarUtil calendarUtil) {
+		this.analyticsService = analyticsService;
 		this.resourceUtil = resourceUtil;
 		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
-	public Widget buildChart(final AnalyticsReportValueIterator reportValueIterator) throws AnalyticsServiceException, IOException {
+	public Widget buildChart(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier reportIdentifier,
+			final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
+		final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIteratorFillMissing(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval);
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new DivWidget().addId("chart"));
 

@@ -9,9 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -25,13 +31,18 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 
 	private final CalendarUtil calendarUtil;
 
+	private final AnalyticsService analyticsService;
+
 	@Inject
-	public AnalyticsReportChartBuilderTable(final CalendarUtil calendarUtil) {
+	public AnalyticsReportChartBuilderTable(final AnalyticsService analyticsService, final CalendarUtil calendarUtil) {
+		this.analyticsService = analyticsService;
 		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
-	public Widget buildChart(final AnalyticsReportValueIterator reportValueIterator) throws AnalyticsServiceException {
+	public Widget buildChart(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier reportIdentifier,
+			final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval);
 		final DecimalFormat df = new DecimalFormat("#####0.0");
 
 		final TableWidget table = new TableWidget();

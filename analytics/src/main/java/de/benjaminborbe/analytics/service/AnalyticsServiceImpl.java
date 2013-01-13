@@ -23,6 +23,7 @@ import de.benjaminborbe.analytics.dao.AnalyticsReportLogDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.analytics.util.AddValueAction;
 import de.benjaminborbe.analytics.util.AnalyticsAggregator;
+import de.benjaminborbe.analytics.util.AnalyticsIntervalUtil;
 import de.benjaminborbe.analytics.util.AnalyticsReportValueIteratorFillMissingValues;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
@@ -62,9 +63,12 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final AddValueAction addValueAction;
 
+	private final AnalyticsIntervalUtil analyticsIntervalUtil;
+
 	@Inject
 	public AnalyticsServiceImpl(
 			final Logger logger,
+			final AnalyticsIntervalUtil analyticsIntervalUtil,
 			final AddValueAction addValueAction,
 			final DurationUtil durationUtil,
 			final AnalyticsAggregator analyticsAggregator,
@@ -75,6 +79,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			final AnalyticsReportLogDao analyticsReportLogDao,
 			final AnalyticsReportValueDao analyticsReportValueDao) {
 		this.logger = logger;
+		this.analyticsIntervalUtil = analyticsIntervalUtil;
 		this.addValueAction = addValueAction;
 		this.durationUtil = durationUtil;
 		this.analyticsAggregator = analyticsAggregator;
@@ -93,7 +98,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getReportIteratorFillMissing");
 
-			return new AnalyticsReportValueIteratorFillMissingValues(analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval));
+			return new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval),
+					analyticsReportInterval);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
