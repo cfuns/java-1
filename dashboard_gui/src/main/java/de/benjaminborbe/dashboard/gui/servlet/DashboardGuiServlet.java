@@ -28,7 +28,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
@@ -41,6 +41,8 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 	private final DashboardWidget dashboardWidget;
 
 	private final DashboardGuiLinkFactory dashboardGuiLinkFactory;
+
+	private final Logger logger;
 
 	@Inject
 	public DashboardGuiServlet(
@@ -59,16 +61,17 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.dashboardWidget = dashboardWidget;
 		this.dashboardGuiLinkFactory = dashboardGuiLinkFactory;
+		this.logger = logger;
 	}
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException {
+		logger.debug("createContentWidget");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
 		widgets.add(dashboardWidget);
-		widgets.add(dashboardGuiLinkFactory.configure(request));
-		return dashboardWidget;
+		widgets.add(new DivWidget(dashboardGuiLinkFactory.configure(request)));
+		return widgets;
 	}
 
 	@Override

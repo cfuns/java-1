@@ -316,3 +316,9 @@ create column family analytics_report_value with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family dashboard;
+create column family dashboard with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
