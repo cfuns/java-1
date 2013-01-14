@@ -13,7 +13,7 @@ import de.benjaminborbe.websearch.util.WebsearchRefresher;
 public class WebsearchRefreshPagesCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 40 * * * ?"; // ones per hour
+	private static final String SCHEDULE_EXPRESSION = "0 */15 * * * ?"; // ones per hour
 
 	private final Logger logger;
 

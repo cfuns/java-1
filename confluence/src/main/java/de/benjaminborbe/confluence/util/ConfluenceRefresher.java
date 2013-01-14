@@ -3,8 +3,9 @@ package de.benjaminborbe.confluence.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 
@@ -28,6 +29,7 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
 public class ConfluenceRefresher {
@@ -90,6 +92,8 @@ public class ConfluenceRefresher {
 
 	private final ConfluencePageExpiredCalculator confluencePageExpiredCalculator;
 
+	private final ListUtil listUtil;
+
 	@Inject
 	public ConfluenceRefresher(
 			final Logger logger,
@@ -100,6 +104,7 @@ public class ConfluenceRefresher {
 			final ConfluencePageDao confluencePageDao,
 			final ConfluenceConnector confluenceConnector,
 			final HtmlUtil htmlUtil,
+			final ListUtil listUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ConfluenceConfig confluenceConfig,
 			final ConfluenceIndexUtil confluenceIndexUtil,
@@ -112,6 +117,7 @@ public class ConfluenceRefresher {
 		this.confluencePageDao = confluencePageDao;
 		this.confluenceConnector = confluenceConnector;
 		this.htmlUtil = htmlUtil;
+		this.listUtil = listUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.confluenceConfig = confluenceConfig;
 		this.confluenceIndexUtil = confluenceIndexUtil;
@@ -126,11 +132,17 @@ public class ConfluenceRefresher {
 		final String username = confluenceInstanceBean.getUsername();
 		final String password = confluenceInstanceBean.getPassword();
 		final ConfluenceSession token = confluenceConnector.login(confluenceBaseUrl, username, password);
-		final Collection<String> spaceKeys = confluenceConnector.getSpaceKeys(confluenceBaseUrl, token);
+		final List<String> spaceKeys = listUtil.toList(confluenceConnector.getSpaceKeys(confluenceBaseUrl, token));
+
+		Collections.shuffle(spaceKeys);
+
 		logger.debug("found " + spaceKeys.size() + " spaces in " + confluenceBaseUrl);
 		for (final String spaceKey : spaceKeys) {
 			logger.debug("process space " + spaceKey);
-			final Collection<ConfluenceConnectorPageSummary> pageSummaries = confluenceConnector.getPageSummaries(confluenceBaseUrl, token, spaceKey);
+			final List<ConfluenceConnectorPageSummary> pageSummaries = listUtil.toList(confluenceConnector.getPageSummaries(confluenceBaseUrl, token, spaceKey));
+
+			Collections.shuffle(pageSummaries);
+
 			logger.debug("found " + pageSummaries.size() + " pages in space " + spaceKey);
 			for (final ConfluenceConnectorPageSummary pageSummary : pageSummaries) {
 

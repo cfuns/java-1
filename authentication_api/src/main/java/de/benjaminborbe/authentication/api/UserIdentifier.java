@@ -7,4 +7,5 @@ public class UserIdentifier extends IdentifierBase<String> {
 	public UserIdentifier(final String id) {
 		super(id);
 	}
+
 }

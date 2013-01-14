@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +28,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.gui.util.DashboardContentWidgetComparator;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -37,7 +37,6 @@ import de.benjaminborbe.html.api.RequireJavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpServletResponseBuffer;
-import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.util.CssResourceImpl;
@@ -66,20 +65,6 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 			}
 			return true;
 		}
-	}
-
-	private final class DashboardContentWidgetComparator extends ComparatorBase<DashboardContentWidget, Long> {
-
-		@Override
-		public Long getValue(final DashboardContentWidget o) {
-			return new Long(o.getPriority());
-		}
-
-		@Override
-		public boolean inverted() {
-			return true;
-		}
-
 	}
 
 	private final class DashboardWidgetRenderRunnable implements Runnable {
@@ -129,14 +114,6 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 		}
 	}
 
-	private final class ComparatorImplementation implements Comparator<DashboardContentWidget> {
-
-		@Override
-		public int compare(final DashboardContentWidget w1, final DashboardContentWidget w2) {
-			return w1.getTitle().compareTo(w2.getTitle());
-		}
-	}
-
 	private final Logger logger;
 
 	private final DashboardGuiWidgetRegistry dashboardWidgetRegistry;
@@ -149,15 +126,19 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 
 	private final AuthenticationService authenticationService;
 
+	private final DashboardContentWidgetComparator dashboardContentWidgetComparator;
+
 	@Inject
 	public DashboardGuiWidgetImpl(
 			final Logger logger,
+			final DashboardContentWidgetComparator dashboardContentWidgetComparator,
 			final DashboardGuiWidgetRegistry dashboardWidgetRegistry,
 			final ThreadRunner threadRunner,
 			final CalendarUtil calendarUtil,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService) {
 		this.logger = logger;
+		this.dashboardContentWidgetComparator = dashboardContentWidgetComparator;
 		this.dashboardWidgetRegistry = dashboardWidgetRegistry;
 		this.threadRunner = threadRunner;
 		this.calendarUtil = calendarUtil;
@@ -169,15 +150,13 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final PrintWriter out = response.getWriter();
-			final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
-			Collections.sort(dashboardWidgets, new ComparatorImplementation());
+
 			final Set<Thread> threads = new HashSet<Thread>();
 			final List<ThreadResult<String>> results = new ArrayList<ThreadResult<String>>();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final boolean hasAdmin = authorizationService.hasAdminRole(sessionIdentifier);
-			final Predicate<DashboardContentWidget> p = new HasAdminPredicate(hasAdmin);
+
 			// render all widgets
-			for (final DashboardContentWidget dashboardWidget : sortWidgets(Collections2.filter(dashboardWidgets, p))) {
+			for (final DashboardContentWidget dashboardWidget : getWidgets(sessionIdentifier)) {
 				final ThreadResult<String> result = new ThreadResult<String>();
 				results.add(result);
 				threads.add(threadRunner.run("dashboard-widget-render " + dashboardWidget.getClass().getSimpleName(), new DashboardWidgetRenderRunnable(request, response, context,
@@ -228,6 +207,14 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 		}
 	}
 
+	private Collection<DashboardContentWidget> getWidgets(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
+		final boolean hasAdmin = authorizationService.hasAdminRole(sessionIdentifier);
+		final Predicate<DashboardContentWidget> predicate = new HasAdminPredicate(hasAdmin);
+		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
+		Collections.sort(dashboardWidgets, dashboardContentWidgetComparator);
+		return Collections2.filter(dashboardWidgets, predicate);
+	}
+
 	protected Widget createDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context,
 			final DashboardContentWidget dashboardWidget) throws IOException, PermissionDeniedException {
 		final DivWidget div = new DivWidget().addClass("dashboardWidget");
@@ -252,12 +239,6 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 			}
 		}
 		logger.trace("found " + result + " required css resources");
-		return result;
-	}
-
-	protected List<DashboardContentWidget> sortWidgets(final Collection<DashboardContentWidget> dashboardContentWidgets) {
-		final List<DashboardContentWidget> result = new ArrayList<DashboardContentWidget>(dashboardContentWidgets);
-		Collections.sort(result, new DashboardContentWidgetComparator());
 		return result;
 	}
 

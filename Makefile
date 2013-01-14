@@ -289,3 +289,8 @@ buildperformance:
 	cd performance && make all
 	cd performance_gui && make all
 	cd performance_test && make all
+builddashboard:
+	cd dashboard_api && make all
+	cd dashboard && make all
+	cd dashboard_gui && make all
+	cd dashboard_test && make all
