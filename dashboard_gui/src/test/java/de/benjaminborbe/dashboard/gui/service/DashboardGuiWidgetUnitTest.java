@@ -9,9 +9,9 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
-import de.benjaminborbe.dashboard.gui.util.DashboardContentWidgetComparator;
-import de.benjaminborbe.dashboard.gui.util.DashboardContentWidgetComparatorPrio;
-import de.benjaminborbe.dashboard.gui.util.DashboardContentWidgetComparatorTitle;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparator;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparatorPrio;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparatorTitle;
 
 public class DashboardGuiWidgetUnitTest {
 
@@ -25,7 +25,7 @@ public class DashboardGuiWidgetUnitTest {
 		result.add(buildDashboardWidgetWithPrio(23, "a"));
 		result.add(buildDashboardWidgetWithPrio(1337, "a"));
 
-		final DashboardContentWidgetComparator c = new DashboardContentWidgetComparator(new DashboardContentWidgetComparatorPrio(), new DashboardContentWidgetComparatorTitle());
+		final DashboardGuiContentWidgetComparator c = new DashboardGuiContentWidgetComparator(new DashboardGuiContentWidgetComparatorPrio(), new DashboardGuiContentWidgetComparatorTitle());
 		Collections.sort(result, c);
 		assertEquals(1337, result.get(0).getPriority());
 		assertEquals("a", result.get(0).getTitle());

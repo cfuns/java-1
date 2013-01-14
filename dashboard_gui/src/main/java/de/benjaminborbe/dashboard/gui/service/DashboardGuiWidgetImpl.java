@@ -28,7 +28,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
-import de.benjaminborbe.dashboard.gui.util.DashboardContentWidgetComparator;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparator;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -126,12 +126,12 @@ public class DashboardGuiWidgetImpl implements DashboardWidget {
 
 	private final AuthenticationService authenticationService;
 
-	private final DashboardContentWidgetComparator dashboardContentWidgetComparator;
+	private final DashboardGuiContentWidgetComparator dashboardContentWidgetComparator;
 
 	@Inject
 	public DashboardGuiWidgetImpl(
 			final Logger logger,
-			final DashboardContentWidgetComparator dashboardContentWidgetComparator,
+			final DashboardGuiContentWidgetComparator dashboardContentWidgetComparator,
 			final DashboardGuiWidgetRegistry dashboardWidgetRegistry,
 			final ThreadRunner threadRunner,
 			final CalendarUtil calendarUtil,

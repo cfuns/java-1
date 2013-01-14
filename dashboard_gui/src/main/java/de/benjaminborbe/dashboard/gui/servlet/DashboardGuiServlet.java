@@ -18,6 +18,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -39,6 +40,8 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 
 	private final DashboardWidget dashboardWidget;
 
+	private final DashboardGuiLinkFactory dashboardGuiLinkFactory;
+
 	@Inject
 	public DashboardGuiServlet(
 			final Logger logger,
@@ -51,9 +54,11 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final DashboardGuiLinkFactory dashboardGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.dashboardWidget = dashboardWidget;
+		this.dashboardGuiLinkFactory = dashboardGuiLinkFactory;
 	}
 
 	@Override
@@ -62,6 +67,7 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		widgets.add(dashboardWidget);
+		widgets.add(dashboardGuiLinkFactory.configure(request));
 		return dashboardWidget;
 	}
 

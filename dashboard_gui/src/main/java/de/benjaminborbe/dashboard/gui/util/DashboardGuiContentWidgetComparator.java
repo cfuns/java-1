@@ -5,11 +5,11 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.util.ComparatorChain;
 
-public class DashboardContentWidgetComparator extends ComparatorChain<DashboardContentWidget> {
+public class DashboardGuiContentWidgetComparator extends ComparatorChain<DashboardContentWidget> {
 
 	@SuppressWarnings("unchecked")
 	@Inject
-	public DashboardContentWidgetComparator(final DashboardContentWidgetComparatorPrio prio, final DashboardContentWidgetComparatorTitle title) {
+	public DashboardGuiContentWidgetComparator(final DashboardGuiContentWidgetComparatorPrio prio, final DashboardGuiContentWidgetComparatorTitle title) {
 		super(prio, title);
 	}
 
