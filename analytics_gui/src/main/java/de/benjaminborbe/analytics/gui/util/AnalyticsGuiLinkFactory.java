@@ -26,7 +26,7 @@ public class AnalyticsGuiLinkFactory {
 	}
 
 	public Widget reportView(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
-			final AnalyticsReportChartType type, final String name) throws MalformedURLException, UnsupportedEncodingException {
+			final AnalyticsReportChartType type, final Widget widget) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW,
 
 		new MapParameter()
@@ -37,7 +37,7 @@ public class AnalyticsGuiLinkFactory {
 
 		.add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type))
 
-		, name);
+		, widget);
 	}
 
 	public Widget reportAddData(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,

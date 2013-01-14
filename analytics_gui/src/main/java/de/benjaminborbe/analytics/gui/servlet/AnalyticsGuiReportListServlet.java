@@ -39,6 +39,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -94,7 +95,8 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			for (final AnalyticsReport report : reports) {
 				final ListWidget row = new ListWidget();
-				row.add(analyticsGuiLinkFactory.reportView(request, report.getId(), AnalyticsGuiConstants.DEFAULT_INTERVAL, AnalyticsGuiConstants.DEFAULT_VIEW, report.getName()));
+				row.add(analyticsGuiLinkFactory.reportView(request, report.getId(), AnalyticsGuiConstants.DEFAULT_INTERVAL, AnalyticsGuiConstants.DEFAULT_VIEW,
+						new SpanWidget(report.getName())));
 				row.add(" ");
 				row.add("(" + report.getAggregation().name().toLowerCase() + ")");
 				row.add(" ");

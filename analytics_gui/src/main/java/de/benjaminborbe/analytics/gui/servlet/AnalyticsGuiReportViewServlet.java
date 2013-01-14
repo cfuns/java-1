@@ -44,6 +44,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 
 @Singleton
 public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
@@ -110,7 +111,11 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 				widgets.add(new H2Widget("Interval:"));
 				for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
 					final ListWidget list = new ListWidget();
-					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, analyticsReportInterval, selectedChartType, analyticsReportInterval.name().toLowerCase()));
+					final SpanWidget name = new SpanWidget(analyticsReportInterval.name().toLowerCase());
+					if (analyticsReportInterval.equals(selectedAnalyticsReportInterval)) {
+						name.addClass("selected");
+					}
+					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, analyticsReportInterval, selectedChartType, name));
 					list.add(" ");
 					widgets.add(list);
 				}
@@ -121,7 +126,11 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 				widgets.add(new H2Widget("ChartType:"));
 				for (final AnalyticsReportChartType chartType : AnalyticsReportChartType.values()) {
 					final ListWidget list = new ListWidget();
-					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, selectedAnalyticsReportInterval, chartType, chartType.name().toLowerCase()));
+					final SpanWidget name = new SpanWidget(chartType.name().toLowerCase());
+					if (selectedChartType.equals(chartType)) {
+						name.addClass("selected");
+					}
+					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, selectedAnalyticsReportInterval, chartType, name));
 					list.add(" ");
 					widgets.add(list);
 				}
