@@ -133,8 +133,9 @@ public class AnalyticsGuiReportListServletUnitTest {
 		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory = new AnalyticsGuiLinkFactory(urlUtil);
 
 		final AnalyticsService analyticsService = EasyMock.createMock(AnalyticsService.class);
-		EasyMock.expect(analyticsService.getReports(sessionIdentifier)).andReturn(new ArrayList<AnalyticsReport>());
+		EasyMock.expect(analyticsService.getReports(sessionIdentifier)).andReturn(new ArrayList<AnalyticsReport>()).anyTimes();
 		analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
+		EasyMock.expect(analyticsService.hasAnalyticsAdminRole(sessionIdentifier)).andReturn(false).anyTimes();
 		EasyMock.replay(analyticsService);
 
 		final AnalyticsGuiReportListServlet analyticsServlet = new AnalyticsGuiReportListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,

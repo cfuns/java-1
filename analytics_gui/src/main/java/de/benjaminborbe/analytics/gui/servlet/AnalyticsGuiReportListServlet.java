@@ -100,19 +100,23 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 						new SpanWidget(report.getName())));
 				row.add(" ");
 				row.add("(" + report.getAggregation().name().toLowerCase() + ")");
-				row.add(" ");
-				row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
-				row.add(" ");
-				row.add(analyticsGuiLinkFactory.reportDelete(request, report.getId()));
+				if (analyticsService.hasAnalyticsAdminRole(sessionIdentifier)) {
+					row.add(" ");
+					row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
+					row.add(" ");
+					row.add(analyticsGuiLinkFactory.reportDelete(request, report.getId()));
+				}
 				ul.add(row);
 			}
 			widgets.add(ul);
 
-			final ListWidget links = new ListWidget();
-			links.add(analyticsGuiLinkFactory.addReport(request));
-			links.add(" ");
-			links.add(analyticsGuiLinkFactory.aggregateReport(request));
-			widgets.add(links);
+			if (analyticsService.hasAnalyticsAdminRole(sessionIdentifier)) {
+				final ListWidget links = new ListWidget();
+				links.add(analyticsGuiLinkFactory.addReport(request));
+				links.add(" ");
+				links.add(analyticsGuiLinkFactory.aggregateReport(request));
+				widgets.add(links);
+			}
 
 			return widgets;
 		}
