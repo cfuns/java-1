@@ -9,6 +9,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface LunchService {
 
+	String LUNCH_ADMIN_ROLENAME = "LunchAdmin";
+
 	Collection<Lunch> getLunchs(SessionIdentifier sessionIdentifier, String fullname) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Collection<Lunch> getLunchs(SessionIdentifier sessionIdentifier) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;

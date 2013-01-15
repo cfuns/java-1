@@ -38,8 +38,6 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 @Singleton
 public class AuthorizationServiceImpl implements AuthorizationService {
 
-	private static final String ADMIN_ROLE = "admin";
-
 	private final AuthenticationService authenticationService;
 
 	private final Logger logger;
@@ -181,18 +179,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException {
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
-				return;
-			}
-			if (!hasRole(sessionIdentifier, roleIdentifier)) {
-				throw new PermissionDeniedException("no role " + roleIdentifier);
-			}
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
+		expectOneOfRoles(sessionIdentifier, roleIdentifier);
 	}
 
 	@Override
@@ -302,20 +289,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
-		try {
-			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
-				return true;
-			}
-			logger.trace("hasRole " + roleIdentifier);
-			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			if (userIdentifier == null) {
-				return false;
-			}
-			return hasRole(userIdentifier, roleIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
-		}
+		return hasOneOfRoles(sessionIdentifier, roleIdentifier);
 	}
 
 	@Override
@@ -436,6 +410,47 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			roleDao.delete(roleIdentifier);
 		}
 		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public void expectOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
+				return;
+			}
+			if (!hasOneOfRoles(sessionIdentifier, roleIdentifiers)) {
+				throw new PermissionDeniedException("no role " + roleIdentifiers);
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public boolean hasOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException {
+		try {
+			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
+				return true;
+			}
+			logger.trace("hasRole " + roleIdentifiers);
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			if (userIdentifier == null) {
+				return false;
+			}
+			boolean hasRole = false;
+			for (final RoleIdentifier roleIdentifier : roleIdentifiers) {
+				if (hasRole || hasRole(userIdentifier, roleIdentifier)) {
+					hasRole = true;
+				}
+			}
+			return hasRole;
+		}
+		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

@@ -64,14 +64,12 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 	@Override
 	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
-
-		final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
 		try {
+			final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
 			logger.debug("doCheckPermission");
 			projectileService.expectAuthToken(token);
 		}
 		catch (final ProjectileServiceException e) {
-			logger.warn(e.getClass().getName(), e);
 			throw new PermissionDeniedException(e);
 		}
 	}

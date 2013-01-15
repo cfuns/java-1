@@ -130,4 +130,10 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 }

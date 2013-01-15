@@ -1,6 +1,9 @@
 package de.benjaminborbe.authorization.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +20,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
+import de.benjaminborbe.authorization.gui.util.RoleIdentifierComparator;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -76,7 +80,9 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
-			for (final RoleIdentifier roleIdentifier : authorizationService.roleList()) {
+			final List<RoleIdentifier> rs = new ArrayList<RoleIdentifier>(authorizationService.roleList());
+			Collections.sort(rs, new RoleIdentifierComparator());
+			for (final RoleIdentifier roleIdentifier : rs) {
 				final ListWidget row = new ListWidget();
 				row.add(authorizationGuiLinkFactory.roleInfo(request, roleIdentifier));
 				row.add(" ");

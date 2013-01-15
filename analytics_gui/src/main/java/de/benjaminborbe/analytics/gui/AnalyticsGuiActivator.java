@@ -9,13 +9,13 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
+import de.benjaminborbe.analytics.gui.service.AnalyticsGuiNavigationEntry;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAddDataServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAggregateServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportCreateServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportDeleteServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportViewServlet;
-import de.benjaminborbe.analytics.gui.util.AnalyticsGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;

@@ -9,6 +9,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface AuthorizationService {
 
+	String ADMIN_ROLE = "admin";
+
 	boolean addPermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException, LoginRequiredException;
 
@@ -63,5 +65,10 @@ public interface AuthorizationService {
 	void expectUser(UserIdentifier currentUser, Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
 	void deleteRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
+
+	void expectOneOfRoles(SessionIdentifier sessionIdentifier, RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException;
+
+	boolean hasOneOfRoles(SessionIdentifier sessionIdentifier, RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException;
 
 }

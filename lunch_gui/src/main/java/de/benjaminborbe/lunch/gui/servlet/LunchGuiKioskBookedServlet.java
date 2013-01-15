@@ -138,14 +138,14 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchGuiConstants.LUNCH_ADMIN_ROLENAME);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchService.LUNCH_ADMIN_ROLENAME);
 			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
+			throw new PermissionDeniedException(e);
 		}
 		catch (final AuthorizationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
+			throw new PermissionDeniedException(e);
 		}
 	}
 }

@@ -134,6 +134,7 @@ public class AnalyticsGuiReportListServletUnitTest {
 
 		final AnalyticsService analyticsService = EasyMock.createMock(AnalyticsService.class);
 		EasyMock.expect(analyticsService.getReports(sessionIdentifier)).andReturn(new ArrayList<AnalyticsReport>());
+		analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
 		EasyMock.replay(analyticsService);
 
 		final AnalyticsGuiReportListServlet analyticsServlet = new AnalyticsGuiReportListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,

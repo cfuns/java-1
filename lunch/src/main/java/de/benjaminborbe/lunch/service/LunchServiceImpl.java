@@ -258,7 +258,7 @@ public class LunchServiceImpl implements LunchService {
 			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchConstants.LUNCH_ADMIN_ROLENAME);
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LUNCH_ADMIN_ROLENAME);
 			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 			logger.info("book  - day: " + calendarUtil.toDateString(day) + " users: " + StringUtils.join(users, ','));
 

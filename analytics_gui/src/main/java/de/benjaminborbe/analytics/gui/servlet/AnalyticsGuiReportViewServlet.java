@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilder;
@@ -63,6 +65,8 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 
 	private final AnalyticsReportChartBuilderFactory chartBuilderFactory;
 
+	private final AnalyticsService analyticsService;
+
 	@Inject
 	public AnalyticsGuiReportViewServlet(
 			final Logger logger,
@@ -76,13 +80,15 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory,
-			final AnalyticsReportChartBuilderFactory chartBuilderFactory) {
+			final AnalyticsReportChartBuilderFactory chartBuilderFactory,
+			final AnalyticsService analyticsService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.parseUtil = parseUtil;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
 		this.chartBuilderFactory = chartBuilderFactory;
+		this.analyticsService = analyticsService;
 	}
 
 	@Override
@@ -171,5 +177,25 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 		final Collection<CssResource> result = super.getCssResources(request, response);
 		result.add(new CssResourceImpl(request.getContextPath() + "/" + AnalyticsGuiConstants.NAME + "/css/style.css"));
 		return result;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final AnalyticsServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
 	}
 }

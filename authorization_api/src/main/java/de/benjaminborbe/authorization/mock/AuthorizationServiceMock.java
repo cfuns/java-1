@@ -146,4 +146,14 @@ public class AuthorizationServiceMock implements AuthorizationService {
 			LoginRequiredException {
 	}
 
+	@Override
+	public void expectOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException {
+	}
+
+	@Override
+	public boolean hasOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException {
+		return false;
+	}
+
 }
