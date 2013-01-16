@@ -80,7 +80,7 @@ public class AddValueAction {
 	}
 
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
-		logger.debug("addReportValue " + analyticsReportIdentifier);
+		logger.trace("addReportValue " + analyticsReportIdentifier);
 		queue.put(new AddMessage(analyticsReportIdentifier, reportValue));
 	}
 }

@@ -22,15 +22,15 @@ public class CronExecutor {
 	}
 
 	public void execute(final String name) {
-		logger.debug("CronJobOsgi.execute - starting job: " + name);
+		logger.trace("execute - starting job: " + name);
 		final CronJob cronJob = cronJobRegistry.getByName(name);
 		if (cronJob != null) {
 			cronJob.execute();
 			cronExecutionHistory.add(name);
-			logger.debug("CronJobOsgi.execute - finished job: " + name);
+			logger.trace("execute - finished job: " + name);
 		}
 		else {
-			logger.error("CronJobOsgi.execute - found no cronJob for name: " + name);
+			logger.error("execute - found no cronJob for name: " + name);
 		}
 	}
 }

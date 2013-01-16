@@ -59,7 +59,7 @@ public class CronActivator extends BaseBundleActivator {
 			quartz.stop();
 		}
 		catch (final SchedulerException e) {
-			logger.error("SchedulerException", e);
+			logger.trace("SchedulerException", e);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class AnalyticsAggregator {
 				}
 
 				for (final Entry<String, List<AnalyticsReportBean>> e : reportMap.entrySet()) {
-					logger.debug("aggregate report: " + e.getKey());
+					logger.trace("aggregate report: " + e.getKey());
 					aggregateReport(e.getValue());
 				}
 
@@ -125,7 +125,7 @@ public class AnalyticsAggregator {
 		analyticsReportLogDao.delete(id, columnNames);
 
 		for (final AnalyticsReportBean report : reports) {
-			logger.debug("aggregate report: " + report.getName() + " method: " + report.getAggregation().name().toLowerCase());
+			logger.trace("aggregate report: " + report.getName() + " method: " + report.getAggregation().name().toLowerCase());
 			for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
 				final Map<String, List<AnalyticsReportValue>> data = groupByInterval(values, analyticsReportInterval);
 
