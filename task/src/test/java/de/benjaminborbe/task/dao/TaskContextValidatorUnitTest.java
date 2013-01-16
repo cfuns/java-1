@@ -29,6 +29,14 @@ public class TaskContextValidatorUnitTest {
 			final TaskContextBean taskContext = buildTaskContext("a-b");
 			assertThat(taskContextValidator.validate(taskContext).size(), is(0));
 		}
+		{
+			final TaskContextBean taskContext = buildTaskContext("all");
+			assertThat(taskContextValidator.validate(taskContext).size(), is(1));
+		}
+		{
+			final TaskContextBean taskContext = buildTaskContext("none");
+			assertThat(taskContextValidator.validate(taskContext).size(), is(1));
+		}
 	}
 
 	private TaskContextBean buildTaskContext(final String string) {

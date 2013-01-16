@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
 
 public class TaskContextValidator implements Validator<TaskContextBean> {
 
@@ -61,6 +62,7 @@ public class TaskContextValidator implements Validator<TaskContextBean> {
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));
 			constraints.add(new ValidationConstrainAllowedCharacters());
+			constraints.add(new ValidationConstraintStringNot("all", "none"));
 			result.addAll(validationConstraintValidator.validate("name", name, constraints));
 		}
 
