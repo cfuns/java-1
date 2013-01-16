@@ -9,12 +9,16 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.kiosk.gui.guice.KioskGuiModules;
+import de.benjaminborbe.kiosk.gui.servlet.KioskGuiBookServlet;
 import de.benjaminborbe.kiosk.gui.servlet.KioskGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class KioskGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private KioskGuiBookServlet kioskGuiBookServlet;
 
 	@Inject
 	private KioskGuiServlet kioskGuiServlet;
@@ -32,6 +36,7 @@ public class KioskGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(kioskGuiServlet, KioskGuiConstants.URL_HOME));
+		result.add(new ServletInfo(kioskGuiBookServlet, KioskGuiConstants.URL_BOOK));
 		return result;
 	}
 

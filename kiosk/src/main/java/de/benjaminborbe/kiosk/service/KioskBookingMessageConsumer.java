@@ -14,12 +14,12 @@ public class KioskBookingMessageConsumer implements MessageConsumer {
 
 	private final Logger logger;
 
-	private final LunchBookingMessageMapper bookingMessageMapper;
+	private final KioskBookingMessageMapper bookingMessageMapper;
 
 	private final KioskBookingConnector kioskConnector;
 
 	@Inject
-	public KioskBookingMessageConsumer(final Logger logger, final LunchBookingMessageMapper bookingMessageMapper, final KioskBookingConnector kioskConnector) {
+	public KioskBookingMessageConsumer(final Logger logger, final KioskBookingMessageMapper bookingMessageMapper, final KioskBookingConnector kioskConnector) {
 		this.logger = logger;
 		this.bookingMessageMapper = bookingMessageMapper;
 		this.kioskConnector = kioskConnector;
@@ -34,7 +34,7 @@ public class KioskBookingMessageConsumer implements MessageConsumer {
 	public boolean process(final Message message) {
 		logger.debug("process");
 		try {
-			final LunchBookingMessage bookingMessage = bookingMessageMapper.map(message.getContent());
+			final KioskBookingMessage bookingMessage = bookingMessageMapper.map(message.getContent());
 			logger.debug("book - customer: " + bookingMessage.getCustomer() + " ean: " + bookingMessage.getEan());
 
 			return kioskConnector.book(bookingMessage.getCustomer(), bookingMessage.getEan());

@@ -46,7 +46,9 @@ public class KioskGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + KioskGuiConstants.NAME);
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + KioskGuiConstants.NAME + KioskGuiConstants.URL_BOOK);
+		paths.add("/" + KioskGuiConstants.NAME + KioskGuiConstants.URL_HOME);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

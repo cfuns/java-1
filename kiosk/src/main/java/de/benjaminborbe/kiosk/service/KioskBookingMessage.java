@@ -1,15 +1,15 @@
 package de.benjaminborbe.kiosk.service;
 
-public class LunchBookingMessage {
+public class KioskBookingMessage {
 
 	private Long customer;
 
 	private Long ean;
 
-	public LunchBookingMessage() {
+	public KioskBookingMessage() {
 	}
 
-	public LunchBookingMessage(final Long customer, final Long ean) {
+	public KioskBookingMessage(final Long customer, final Long ean) {
 		this.customer = customer;
 		this.setEan(ean);
 	}

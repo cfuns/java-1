@@ -43,4 +43,5 @@ public class KioskGuiServlet extends WebsiteHtmlServlet {
 	protected String getTitle() {
 		return TITLE;
 	}
+
 }

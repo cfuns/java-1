@@ -90,19 +90,19 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 			{
 				final String htmlContent = addProduct(sessionId, ean);
 				if (htmlContent.indexOf("Redirect-URL") == -1) {
-					logger.warn("add lunch failed");
+					logger.warn("add failed");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
 				else {
-					logger.debug("add lunch success");
+					logger.debug("add success");
 				}
 			}
 			// check cart content
 			{
 				final String htmlContent = getCartContent(sessionId);
 				if (htmlContent.indexOf("Bastians - Mittagstisch") == -1) {
-					logger.warn("lunch not in cart");
+					logger.warn("product not in cart");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
