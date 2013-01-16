@@ -210,7 +210,6 @@
 				<module>kiosk</module>
 				<module>kiosk_api</module>
 				<module>kiosk_gui</module>
-				<module>mail</module>
 				<module>lunch</module>
 				<module>lunch_api</module>
 				<module>lunch_gui</module>
