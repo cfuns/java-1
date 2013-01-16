@@ -31,19 +31,19 @@ public class DistributedSearchAnalyser {
 	public Map<String, Integer> parseWordRating(final String... contents) {
 		final Map<String, Integer> result = new HashMap<String, Integer>();
 		for (final String content : contents) {
-			parseWordRating(content, result);
+			parseWordRating(content, 1, result);
 		}
 		return result;
 	}
 
-	public Map<String, Integer> parseWordRating(final String content, final Map<String, Integer> result) {
+	public Map<String, Integer> parseWordRating(final String content, final int rating, final Map<String, Integer> result) {
 		for (final String word : parseSearchTerm(content)) {
 			final Integer m = result.get(word);
 			if (m != null) {
-				result.put(word, m + 1);
+				result.put(word, m + rating);
 			}
 			else {
-				result.put(word, 1);
+				result.put(word, rating);
 			}
 		}
 		return result;

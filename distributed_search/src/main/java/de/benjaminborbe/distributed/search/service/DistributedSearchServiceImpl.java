@@ -3,6 +3,7 @@ package de.benjaminborbe.distributed.search.service;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,8 +77,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			}
 			distributedSearchPageDao.save(distributedSearchPage);
 
-			final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(url.toExternalForm(), title, content);
-			distributedIndexService.add(index, url.toExternalForm(), data);
+			distributedIndexService.add(index, url.toExternalForm(), buildData(distributedSearchPage));
 		}
 		catch (final DistributedIndexServiceException e) {
 			throw new DistributedSearchServiceException(e);
@@ -177,15 +177,14 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		try {
 			logger.debug("rebuildIndex - index: " + index);
 
-			final EntityIterator<DistributedSearchPageBean> i = distributedSearchPageDao.getEntityIteratorByIndex(index);
-			while (i.hasNext()) {
-				final DistributedSearchPageBean bean = i.next();
-				logger.debug("rebuildIndex - remove url from index: " + bean.getId());
-				distributedIndexService.remove(index, bean.getId().getPageId());
+			final EntityIterator<DistributedSearchPageBean> distributedSearchPageIterator = distributedSearchPageDao.getEntityIteratorByIndex(index);
+			while (distributedSearchPageIterator.hasNext()) {
+				final DistributedSearchPageBean distributedSearchPage = distributedSearchPageIterator.next();
+				logger.debug("rebuildIndex - remove url from index: " + distributedSearchPage.getId());
+				distributedIndexService.remove(index, distributedSearchPage.getId().getPageId());
 
-				logger.debug("rebuildIndex - add url from index: " + bean.getId());
-				final Map<String, Integer> data = distributedSearchAnalyser.parseWordRating(bean.getId().getPageId(), bean.getTitle(), bean.getContent());
-				distributedIndexService.add(index, bean.getId().getPageId(), data);
+				logger.debug("rebuildIndex - add url from index: " + distributedSearchPage.getId());
+				distributedIndexService.add(index, distributedSearchPage.getId().getPageId(), buildData(distributedSearchPage));
 			}
 
 			logger.debug("rebuildIndex - finished");
@@ -212,5 +211,13 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		catch (final StorageException e) {
 			throw new DistributedSearchServiceException(e);
 		}
+	}
+
+	private Map<String, Integer> buildData(final DistributedSearchPageBean bean) {
+		final Map<String, Integer> data = new HashMap<String, Integer>();
+		distributedSearchAnalyser.parseWordRating(bean.getId().getPageId(), 3, data);
+		distributedSearchAnalyser.parseWordRating(bean.getTitle(), 3, data);
+		distributedSearchAnalyser.parseWordRating(bean.getContent(), 1, data);
+		return data;
 	}
 }
