@@ -93,6 +93,7 @@
 				<module>lucene_index_test</module>
 				<module>loggly_test</module>
 				<module>lunch_test</module>
+				<module>kiosk_test</module>
 				<module>mail_test</module>
 				<module>message_test</module>
 				<module>microblog_test</module>
@@ -206,6 +207,10 @@
 				<module>loggly</module>
 				<module>loggly_api</module>
 				<module>loggly_gui</module>
+				<module>kiosk</module>
+				<module>kiosk_api</module>
+				<module>kiosk_gui</module>
+				<module>mail</module>
 				<module>lunch</module>
 				<module>lunch_api</module>
 				<module>lunch_gui</module>

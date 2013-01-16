@@ -227,3 +227,7 @@ analytics/target
 analytics_api/target
 analytics_gui/target
 analytics_test/target
+kiosk/target
+kiosk_api/target
+kiosk_gui/target
+kiosk_test/target

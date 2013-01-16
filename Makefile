@@ -294,3 +294,8 @@ builddashboard:
 	cd dashboard && make all
 	cd dashboard_gui && make all
 	cd dashboard_test && make all
+buildkiosk:
+	cd kiosk_api && make all
+	cd kiosk && make all
+	cd kiosk_gui && make all
+	cd kiosk_test && make all
