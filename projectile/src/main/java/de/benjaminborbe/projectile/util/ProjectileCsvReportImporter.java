@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
-import de.benjaminborbe.projectile.dao.ProjectileReportBean;
-import de.benjaminborbe.projectile.dao.ProjectileReportDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.util.ParseException;
 
@@ -18,12 +16,15 @@ public class ProjectileCsvReportImporter {
 
 	private final ProjectileCsvReportToDtoConverter projectileCsvReportToBeanConverter;
 
-	private final ProjectileReportDao projectileReportDao;
+	private final ProjectileReportListenerRegistry projectileReportListenerRegistry;
 
 	@Inject
-	public ProjectileCsvReportImporter(final Logger logger, final ProjectileReportDao projectileReportDao, final ProjectileCsvReportToDtoConverter projectileCsvReportToBeanConverter) {
+	public ProjectileCsvReportImporter(
+			final Logger logger,
+			final ProjectileReportListenerRegistry projectileReportListenerRegistry,
+			final ProjectileCsvReportToDtoConverter projectileCsvReportToBeanConverter) {
 		this.logger = logger;
-		this.projectileReportDao = projectileReportDao;
+		this.projectileReportListenerRegistry = projectileReportListenerRegistry;
 		this.projectileCsvReportToBeanConverter = projectileCsvReportToBeanConverter;
 	}
 
@@ -31,27 +32,10 @@ public class ProjectileCsvReportImporter {
 		logger.debug("importCsvReport");
 		final List<ProjectileCsvReportToDto> dtos = projectileCsvReportToBeanConverter.convert(csvString);
 		logger.debug("extracted " + dtos.size() + " report");
-		for (final ProjectileCsvReportToDto dto : dtos) {
-			final ProjectileReportBean bean = projectileReportDao.findOrCreateByUsername(dto.getUsername());
-			if (ProjectileSlacktimeReportInterval.WEEK.equals(interval)) {
-				bean.setWeekExtern(dto.getExtern());
-				bean.setWeekIntern(dto.getIntern());
-				bean.setWeekBillable(dto.getBillable());
-				bean.setWeekTarget(dto.getTarget());
+		for (final ProjectileReportListener listener : projectileReportListenerRegistry.getAll()) {
+			for (final ProjectileCsvReportToDto dto : dtos) {
+				listener.onReport(interval, dto);
 			}
-			if (ProjectileSlacktimeReportInterval.MONTH.equals(interval)) {
-				bean.setMonthExtern(dto.getExtern());
-				bean.setMonthIntern(dto.getIntern());
-				bean.setMonthBillable(dto.getBillable());
-				bean.setMonthTarget(dto.getTarget());
-			}
-			if (ProjectileSlacktimeReportInterval.YEAR.equals(interval)) {
-				bean.setYearExtern(dto.getExtern());
-				bean.setYearIntern(dto.getIntern());
-				bean.setYearBillable(dto.getBillable());
-				bean.setYearTarget(dto.getTarget());
-			}
-			projectileReportDao.save(bean);
 		}
 	}
 }
