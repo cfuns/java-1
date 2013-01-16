@@ -1,5 +1,6 @@
 package de.benjaminborbe.projectile.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -28,19 +29,19 @@ public class ProjectileReportListenerAnalytics implements ProjectileReportListen
 		try {
 			if (ProjectileSlacktimeReportInterval.YEAR.equals(interval)) {
 				{
-					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(PREFIX + "_" + report.getUsername() + "_BILLABLE");
+					final AnalyticsReportIdentifier analyticsReportIdentifier = buildAnalyticsReportIdentifier(PREFIX, report.getUsername(), "BILLABLE");
 					analyticsService.addReportValue(analyticsReportIdentifier, report.getBillable());
 				}
 				{
-					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(PREFIX + "_" + report.getUsername() + "_EXTERN");
+					final AnalyticsReportIdentifier analyticsReportIdentifier = buildAnalyticsReportIdentifier(PREFIX, report.getUsername(), "EXTERN");
 					analyticsService.addReportValue(analyticsReportIdentifier, report.getExtern());
 				}
 				{
-					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(PREFIX + "_" + report.getUsername() + "_INTERN");
+					final AnalyticsReportIdentifier analyticsReportIdentifier = buildAnalyticsReportIdentifier(PREFIX, report.getUsername(), "INTERN");
 					analyticsService.addReportValue(analyticsReportIdentifier, report.getIntern());
 				}
 				{
-					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(PREFIX + "_" + report.getUsername() + "_TARGET");
+					final AnalyticsReportIdentifier analyticsReportIdentifier = buildAnalyticsReportIdentifier(PREFIX, report.getUsername(), "TARGET");
 					analyticsService.addReportValue(analyticsReportIdentifier, report.getTarget());
 				}
 			}
@@ -48,6 +49,10 @@ public class ProjectileReportListenerAnalytics implements ProjectileReportListen
 		catch (final AnalyticsServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
+	}
+
+	private AnalyticsReportIdentifier buildAnalyticsReportIdentifier(final String... parts) {
+		return new AnalyticsReportIdentifier(StringUtils.join(parts, '-'));
 	}
 
 }
