@@ -18,8 +18,6 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
-import de.benjaminborbe.xmpp.api.XmppService;
-import de.benjaminborbe.xmpp.mock.XmppServiceMock;
 
 public class MicroblogOsgiModuleMock extends AbstractModule {
 
@@ -28,7 +26,6 @@ public class MicroblogOsgiModuleMock extends AbstractModule {
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(IndexService.class).to(IndexServiceMock.class).in(Singleton.class);
-		bind(XmppService.class).to(XmppServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);

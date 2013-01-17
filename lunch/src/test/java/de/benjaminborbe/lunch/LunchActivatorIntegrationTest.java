@@ -16,6 +16,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.guice.LunchModulesMock;
+import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -68,6 +69,7 @@ public class LunchActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
 		names.add(LunchService.class.getName());
+		names.add(MicroblogPostListener.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());

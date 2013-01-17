@@ -8,8 +8,6 @@ public interface MicroblogConfig {
 
 	boolean isCronEnabled();
 
-	boolean isXmppEnabled();
-
 	boolean isMailEnabled();
 
 	Collection<ConfigurationDescription> getConfigurations();

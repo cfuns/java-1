@@ -73,7 +73,6 @@ public class MicroblogActivatorIntegrationTest {
 		names.add(SearchServiceComponent.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
-		names.add(ConfigurationDescription.class.getName());
 
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
