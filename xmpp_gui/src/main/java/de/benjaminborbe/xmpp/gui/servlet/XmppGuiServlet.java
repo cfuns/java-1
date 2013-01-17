@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -24,6 +25,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -32,6 +36,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
+import de.benjaminborbe.xmpp.gui.XmppGuiConstants;
 
 @Singleton
 public class XmppGuiServlet extends WebsiteHtmlServlet {
@@ -77,8 +82,22 @@ public class XmppGuiServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			xmppService.send(sessionIdentifier, "hello world");
+
+			final String user = request.getParameter(XmppGuiConstants.PARAMETER_USER);
+			final String message = request.getParameter(XmppGuiConstants.PARAMETER_MESSAGE);
+
+			if (user != null && message != null) {
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				xmppService.send(sessionIdentifier, new UserIdentifier("bborbe"), "hello world");
+				widgets.add("message sent");
+			}
+
+			final FormWidget form = new FormWidget();
+			form.addFormInputWidget(new FormInputTextWidget(XmppGuiConstants.PARAMETER_USER).addLabel("User:"));
+			form.addFormInputWidget(new FormInputTextWidget(XmppGuiConstants.PARAMETER_MESSAGE).addLabel("Message:"));
+			form.addFormInputWidget(new FormInputSubmitWidget("send"));
+			widgets.add(form);
+
 			return widgets;
 		}
 		catch (final XmppServiceException e) {

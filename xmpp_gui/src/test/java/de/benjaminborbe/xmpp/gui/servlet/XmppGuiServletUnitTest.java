@@ -34,6 +34,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.xmpp.api.XmppService;
+import de.benjaminborbe.xmpp.gui.XmppGuiConstants;
 
 public class XmppGuiServletUnitTest {
 
@@ -63,6 +64,8 @@ public class XmppGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(XmppGuiConstants.PARAMETER_MESSAGE)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(XmppGuiConstants.PARAMETER_USER)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
