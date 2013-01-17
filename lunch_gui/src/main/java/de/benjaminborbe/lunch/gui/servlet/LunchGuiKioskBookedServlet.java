@@ -26,11 +26,11 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.kiosk.api.KioskUser;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
-import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
-import de.benjaminborbe.lunch.gui.util.LunchUserComparator;
+import de.benjaminborbe.lunch.gui.util.KioskUserComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -103,16 +103,16 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			widgets.add(new H1Widget(getTitle() + " - " + calendarUtil.toDateString(calendar)));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<LunchUser> list = new ArrayList<LunchUser>(lunchService.getBookedUser(sessionIdentifier, calendar));
+			final List<KioskUser> list = new ArrayList<KioskUser>(lunchService.getBookedUser(sessionIdentifier, calendar));
 
 			if (list.isEmpty()) {
 				widgets.add("no bookings found");
 			}
 			else {
-				Collections.sort(list, new LunchUserComparator());
+				Collections.sort(list, new KioskUserComparator());
 				final UlWidget ul = new UlWidget();
 				int counter = 0;
-				for (final LunchUser user : list) {
+				for (final KioskUser user : list) {
 					counter++;
 					ul.add(counter + ". " + user.getName());
 				}

@@ -6,17 +6,21 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.kiosk.api.KioskService;
-import de.benjaminborbe.kiosk.connector.KioskBookingConnector;
-import de.benjaminborbe.kiosk.connector.KioskBookingConnectorImpl;
+import de.benjaminborbe.kiosk.booking.KioskBookingConnector;
+import de.benjaminborbe.kiosk.booking.KioskBookingConnectorImpl;
+import de.benjaminborbe.kiosk.database.KioskDatabaseConnector;
+import de.benjaminborbe.kiosk.database.KioskDatabaseConnectorImpl;
 import de.benjaminborbe.kiosk.service.KioskServiceImpl;
-import de.benjaminborbe.kiosk.service.KioskBookingMessageMapper;
-import de.benjaminborbe.kiosk.service.KioskBookingMessageMapperImpl;
+import de.benjaminborbe.kiosk.util.KioskBookingMessageMapper;
+import de.benjaminborbe.kiosk.util.KioskBookingMessageMapperImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class KioskModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(KioskDatabaseConnector.class).to(KioskDatabaseConnectorImpl.class).in(Singleton.class);
+		bind(KioskBookingConnector.class).to(KioskBookingConnectorImpl.class).in(Singleton.class);
 		bind(KioskBookingMessageMapper.class).to(KioskBookingMessageMapperImpl.class).in(Singleton.class);
 		bind(KioskBookingConnector.class).to(KioskBookingConnectorImpl.class).in(Singleton.class);
 		bind(KioskService.class).to(KioskServiceImpl.class).in(Singleton.class);

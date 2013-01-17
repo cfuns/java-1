@@ -5,7 +5,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.kiosk.KioskConstants;
-import de.benjaminborbe.kiosk.connector.KioskBookingConnector;
+import de.benjaminborbe.kiosk.booking.KioskBookingConnector;
+import de.benjaminborbe.kiosk.util.KioskBookingMessage;
+import de.benjaminborbe.kiosk.util.KioskBookingMessageMapper;
 import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -36,7 +38,6 @@ public class KioskBookingMessageConsumer implements MessageConsumer {
 		try {
 			final KioskBookingMessage bookingMessage = bookingMessageMapper.map(message.getContent());
 			logger.debug("book - customer: " + bookingMessage.getCustomer() + " ean: " + bookingMessage.getEan());
-
 			return kioskConnector.book(bookingMessage.getCustomer(), bookingMessage.getEan());
 		}
 		catch (final MapException e) {

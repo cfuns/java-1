@@ -1,4 +1,4 @@
-package de.benjaminborbe.kiosk.service;
+package de.benjaminborbe.kiosk.util;
 
 import de.benjaminborbe.tools.mapper.MapException;
 

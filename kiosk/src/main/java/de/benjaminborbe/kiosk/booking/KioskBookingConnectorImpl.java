@@ -1,4 +1,4 @@
-package de.benjaminborbe.lunch.kioskconnector;
+package de.benjaminborbe.kiosk.booking;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.lunch.LunchConstants;
+import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -53,12 +53,12 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 	}
 
 	@Override
-	public boolean bookLunch(final String customerNumber) {
+	public boolean book(final long customer, final long ean) {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.info("bookLunch - customerNumber: " + customerNumber);
+			logger.info("book - customer: " + customer);
 			// login
-			final String sessionId = getLogin(customerNumber);
+			final String sessionId = getLogin(customer);
 
 			// open cart
 			{
@@ -75,7 +75,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// delete all
 			{
-				final String htmlContent = addProduct(sessionId, LunchConstants.DELETE_EAN);
+				final String htmlContent = addProduct(sessionId, KioskConstants.DELETE_EAN);
 				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/cart\">Redirect-URL</a>") == -1) {
 					logger.warn("clear cart failed");
 					logger.debug("htmlContent: " + htmlContent);
@@ -88,21 +88,21 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// add mittag essen
 			{
-				final String htmlContent = addProduct(sessionId, LunchConstants.MITTAG_EAN);
+				final String htmlContent = addProduct(sessionId, ean);
 				if (htmlContent.indexOf("Redirect-URL") == -1) {
-					logger.warn("add lunch failed");
+					logger.warn("add failed");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
 				else {
-					logger.debug("add lunch success");
+					logger.debug("add success");
 				}
 			}
 			// check cart content
 			{
 				final String htmlContent = getCartContent(sessionId);
-				if (htmlContent.indexOf("Bastians - Mittagstisch") == -1) {
-					logger.warn("lunch not in cart");
+				if (count(htmlContent, "list_row_uneven") == 1) {
+					logger.warn("product not in cart");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
@@ -113,7 +113,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 			// logout
 			{
-				final String htmlContent = logout(sessionId, customerNumber);
+				final String htmlContent = logout(sessionId, customer);
 				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/end_shopping\">Redirect-URL</a>") == -1) {
 					logger.warn("book cart failed");
 					logger.debug("htmlContent: " + htmlContent);
@@ -155,13 +155,13 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		}
 	}
 
-	private String logout(final String sessionId, final String customerNumber) throws MalformedURLException, HttpDownloaderException, UnsupportedEncodingException {
-		return addProduct(sessionId, customerNumber);
+	private String logout(final String sessionId, final long customer) throws MalformedURLException, HttpDownloaderException, UnsupportedEncodingException {
+		return addProduct(sessionId, customer);
 	}
 
-	private String addProduct(final String sessionId, final String ean) throws HttpDownloaderException, MalformedURLException, UnsupportedEncodingException {
+	private String addProduct(final String sessionId, final long ean) throws HttpDownloaderException, MalformedURLException, UnsupportedEncodingException {
 		final String url = "https://kiosk.lf.seibert-media.net/index.cgi/cart";
-		final HttpDownloadResult result = httpDownloader.postUrl(new URL(url), new MapChain<String, String>().add("ean", ean).add("form_action", "add"),
+		final HttpDownloadResult result = httpDownloader.postUrl(new URL(url), new MapChain<String, String>().add("ean", String.valueOf(ean)).add("form_action", "add"),
 				new MapChain<String, String>().add("sessionID", sessionId), TIMEOUT);
 		final String htmlContent = httpDownloadUtil.getContent(result);
 		return htmlContent;
@@ -181,8 +181,8 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		return htmlContent;
 	}
 
-	private String getLogin(final String customerNumber) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
-		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi", new MapParameter().add("customer_no", customerNumber));
+	private String getLogin(final long customer) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
+		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi", new MapParameter().add("customer_no", String.valueOf(customer)));
 		final HttpDownloadResult result = httpDownloader.getUrl(new URL(url), TIMEOUT);
 		final Map<String, List<String>> headers = result.getHeaders();
 		final List<String> cookies = headers.get("Set-Cookie");
@@ -203,5 +203,14 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 			return cookie.substring(pos + s.length(), pos2);
 		}
 		return null;
+	}
+
+	private int count(final String content, final String search) {
+		int counter = 0;
+		int pos = -1;
+		while ((pos = content.indexOf(search, pos + 1)) != -1) {
+			counter++;
+		}
+		return counter;
 	}
 }

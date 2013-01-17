@@ -2,9 +2,6 @@ package de.benjaminborbe.lunch;
 
 public interface LunchConstants {
 
-	String BOOKING_MESSAGE_TYPE = "lunch_booking";
+	long MITTAG_EAN = 9780201379624l;
 
-	String MITTAG_EAN = "9780201379624";
-
-	String DELETE_EAN = "2030066600003";
 }

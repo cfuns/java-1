@@ -1,8 +1,8 @@
-package de.benjaminborbe.lunch.kioskconnector;
+package de.benjaminborbe.kiosk.database;
 
-import de.benjaminborbe.lunch.api.LunchUser;
+import de.benjaminborbe.kiosk.api.KioskUser;
 
-public class KioskUserBean implements LunchUser {
+public class KioskUserBean implements KioskUser {
 
 	private String prename;
 

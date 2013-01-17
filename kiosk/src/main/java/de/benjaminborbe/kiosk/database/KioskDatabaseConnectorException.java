@@ -1,4 +1,4 @@
-package de.benjaminborbe.lunch.kioskconnector;
+package de.benjaminborbe.kiosk.database;
 
 public class KioskDatabaseConnectorException extends Exception {
 

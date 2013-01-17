@@ -6,14 +6,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.lunch.api.LunchService;
-import de.benjaminborbe.lunch.booking.LunchBookingMessageMapper;
-import de.benjaminborbe.lunch.booking.LunchBookingMessageMapperImpl;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.config.LunchConfigImpl;
-import de.benjaminborbe.lunch.kioskconnector.KioskBookingConnector;
-import de.benjaminborbe.lunch.kioskconnector.KioskBookingConnectorImpl;
-import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnector;
-import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnectorImpl;
 import de.benjaminborbe.lunch.service.LunchServiceImpl;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnectorImpl;
@@ -23,9 +17,6 @@ public class LunchModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(LunchBookingMessageMapper.class).to(LunchBookingMessageMapperImpl.class).in(Singleton.class);
-		bind(KioskDatabaseConnector.class).to(KioskDatabaseConnectorImpl.class).in(Singleton.class);
-		bind(KioskBookingConnector.class).to(KioskBookingConnectorImpl.class).in(Singleton.class);
 		bind(LunchWikiConnector.class).to(LunchWikiConnectorImpl.class).in(Singleton.class);
 		bind(LunchConfig.class).to(LunchConfigImpl.class).in(Singleton.class);
 		bind(LunchService.class).to(LunchServiceImpl.class).in(Singleton.class);

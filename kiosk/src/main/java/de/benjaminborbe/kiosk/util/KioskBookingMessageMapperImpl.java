@@ -1,4 +1,4 @@
-package de.benjaminborbe.kiosk.service;
+package de.benjaminborbe.kiosk.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

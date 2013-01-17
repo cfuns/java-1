@@ -2,8 +2,8 @@ package de.benjaminborbe.lunch.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,12 +28,12 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.kiosk.api.KioskUser;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
-import de.benjaminborbe.lunch.api.LunchUser;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.lunch.gui.util.LunchGuiLinkFactory;
-import de.benjaminborbe.lunch.gui.util.LunchUserComparator;
+import de.benjaminborbe.lunch.gui.util.KioskUserComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -74,6 +74,8 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 	private final AuthorizationService authorizationService;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public LunchGuiKioskBookingServlet(
 			final Logger logger,
@@ -95,6 +97,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 		this.timeZoneUtil = timeZoneUtil;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -123,7 +126,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			final String[] selectedUsers = request.getParameterValues(LunchGuiConstants.PARAMETER_BOOKING_USER);
 			if (selectedUsers != null && selectedUsers.length > 0) {
 				logger.info("book user: " + StringUtils.join(selectedUsers, ","));
-				lunchService.book(sessionIdentifier, calendar, Arrays.asList(selectedUsers));
+				lunchService.book(sessionIdentifier, calendar, build(selectedUsers));
 				widgets.add("booking completed");
 				return widgets;
 			}
@@ -139,13 +142,13 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				widgets.add(links);
 			}
 
-			final List<LunchUser> users = new ArrayList<LunchUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
-			Collections.sort(users, new LunchUserComparator());
+			final List<KioskUser> users = new ArrayList<KioskUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
+			Collections.sort(users, new KioskUserComparator());
 
 			final FormWidget form = new FormWidget().addId("bookings");
 
 			int counter = 0;
-			for (final LunchUser user : users) {
+			for (final KioskUser user : users) {
 				counter++;
 				if (user.getCustomerNumber() != null) {
 					final FormElementWidget input = new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(counter + ". " + user.getName())
@@ -180,6 +183,19 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+		catch (final ParseException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+	}
+
+	private Collection<Long> build(final String[] users) throws ParseException {
+		final List<Long> result = new ArrayList<Long>();
+		for (final String user : users) {
+			result.add(parseUtil.parseLong(user));
+		}
+		return result;
 	}
 
 	@Override

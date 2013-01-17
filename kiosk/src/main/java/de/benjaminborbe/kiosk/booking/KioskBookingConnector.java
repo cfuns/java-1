@@ -1,4 +1,4 @@
-package de.benjaminborbe.kiosk.connector;
+package de.benjaminborbe.kiosk.booking;
 
 public interface KioskBookingConnector {
 

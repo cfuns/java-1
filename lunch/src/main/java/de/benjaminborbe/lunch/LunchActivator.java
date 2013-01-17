@@ -12,8 +12,6 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.guice.LunchModules;
-import de.benjaminborbe.lunch.service.LunchBookingMessageConsumer;
-import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -25,9 +23,6 @@ public class LunchActivator extends BaseBundleActivator {
 
 	@Inject
 	private LunchConfig lunchConfig;
-
-	@Inject
-	private LunchBookingMessageConsumer lunchMessageConsumer;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -41,7 +36,6 @@ public class LunchActivator extends BaseBundleActivator {
 		for (final ConfigurationDescription configuration : lunchConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}
-		result.add(new ServiceInfo(MessageConsumer.class, lunchMessageConsumer));
 		return result;
 	}
 

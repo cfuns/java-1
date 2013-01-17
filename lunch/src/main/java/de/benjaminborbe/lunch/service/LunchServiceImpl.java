@@ -24,25 +24,20 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.kiosk.api.KioskService;
+import de.benjaminborbe.kiosk.api.KioskServiceException;
+import de.benjaminborbe.kiosk.api.KioskUser;
+import de.benjaminborbe.kiosk.api.KioskUserDto;
 import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
-import de.benjaminborbe.lunch.api.LunchUser;
-import de.benjaminborbe.lunch.booking.LunchBookingMessage;
-import de.benjaminborbe.lunch.booking.LunchBookingMessageMapper;
 import de.benjaminborbe.lunch.config.LunchConfig;
-import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnector;
-import de.benjaminborbe.lunch.kioskconnector.KioskDatabaseConnectorException;
-import de.benjaminborbe.lunch.kioskconnector.KioskUserBean;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
-import de.benjaminborbe.message.api.MessageService;
-import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -64,22 +59,16 @@ public class LunchServiceImpl implements LunchService {
 
 	private final CalendarUtil calendarUtil;
 
-	private final MessageService messageService;
-
-	private final LunchBookingMessageMapper bookingMessageMapper;
-
-	private final KioskDatabaseConnector kioskDatabaseConnector;
-
 	private final AuthorizationService authorizationService;
 
 	private final MailService mailService;
 
+	private final KioskService kioskService;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
-			final KioskDatabaseConnector kioskDatabaseConnector,
-			final LunchBookingMessageMapper bookingMessageMapper,
-			final MessageService messageService,
+			final KioskService kioskService,
 			final LunchWikiConnector wikiConnector,
 			final LunchConfig lunchConfig,
 			final AuthenticationService authenticationService,
@@ -88,9 +77,7 @@ public class LunchServiceImpl implements LunchService {
 			final CalendarUtil calendarUtil,
 			final MailService mailService) {
 		this.logger = logger;
-		this.kioskDatabaseConnector = kioskDatabaseConnector;
-		this.bookingMessageMapper = bookingMessageMapper;
-		this.messageService = messageService;
+		this.kioskService = kioskService;
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
 		this.authenticationService = authenticationService;
@@ -189,7 +176,7 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<LunchUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
+	public Collection<KioskUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getSubscribeUser for day: " + calendarUtil.toDateString(day));
@@ -198,14 +185,9 @@ public class LunchServiceImpl implements LunchService {
 			final String confluencePassword = lunchConfig.getConfluencePassword();
 			final Collection<String> list = wikiConnector.extractSubscriptions(confluenceSpaceKey, confluenceUsername, confluencePassword, day);
 
-			final List<LunchUser> result = new ArrayList<LunchUser>();
+			final List<KioskUser> result = new ArrayList<KioskUser>();
 			for (final String username : list) {
-				try {
-					result.add(buildUser(username));
-				}
-				catch (final KioskDatabaseConnectorException e) {
-					logger.warn(e.getClass().getName(), e);
-				}
+				result.add(buildUser(username));
 			}
 			return result;
 		}
@@ -224,37 +206,40 @@ public class LunchServiceImpl implements LunchService {
 		catch (final java.rmi.RemoteException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
+		catch (final KioskServiceException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
-	private LunchUser buildUser(final String username) throws KioskDatabaseConnectorException {
+	private KioskUser buildUser(final String username) throws KioskServiceException {
 		final String[] parts = username.split(" ", 2);
 		if (parts.length == 2) {
 			{
-				final KioskUserBean user = kioskDatabaseConnector.getCustomerNumber(parts[0], parts[1]);
+				final KioskUser user = kioskService.getCustomerNumber(parts[0], parts[1]);
 				if (user != null) {
 					return user;
 				}
 			}
 			{
-				final KioskUserBean user = new KioskUserBean();
+				final KioskUserDto user = new KioskUserDto();
 				user.setPrename(parts[0]);
 				user.setSurname(parts[1]);
 				return user;
 			}
 		}
 		else {
-			final KioskUserBean user = new KioskUserBean();
+			final KioskUserDto user = new KioskUserDto();
 			user.setPrename(username);
 			return user;
 		}
 	}
 
 	@Override
-	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<String> users) throws LunchServiceException, LoginRequiredException,
+	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -262,21 +247,16 @@ public class LunchServiceImpl implements LunchService {
 			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 			logger.info("book  - day: " + calendarUtil.toDateString(day) + " users: " + StringUtils.join(users, ','));
 
-			for (final String user : users) {
-				logger.info("send booking message for " + user + " " + calendarUtil.toDateString(day));
-				final LunchBookingMessage bookingMessage = new LunchBookingMessage(user, day);
-				messageService.sendMessage(LunchConstants.BOOKING_MESSAGE_TYPE, bookingMessageMapper.map(bookingMessage));
+			for (final Long customer : users) {
+				kioskService.book(customer, LunchConstants.MITTAG_EAN);
 			}
 
 			sendBookMail(day, users);
 		}
-		catch (final MessageServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final MapException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
-		}
 		catch (final AuthorizationServiceException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
+		catch (final KioskServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {
@@ -285,7 +265,7 @@ public class LunchServiceImpl implements LunchService {
 		}
 	}
 
-	private void sendBookMail(final Calendar day, final Collection<String> users) {
+	private void sendBookMail(final Calendar day, final Collection<Long> users) {
 		try {
 			final String from = "bborbe@seibert-media.net";
 			final String to = "bborbe@seibert-media.net";
@@ -296,9 +276,9 @@ public class LunchServiceImpl implements LunchService {
 			sb.append("\n");
 			sb.append("\n");
 			sb.append("users:\n");
-			for (final String user : users) {
+			for (final Long user : users) {
 				sb.append("- ");
-				sb.append(user);
+				sb.append(String.valueOf(user));
 				sb.append("\n");
 			}
 			final String contentType = "text/plain";
@@ -311,16 +291,16 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<LunchUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
+	public Collection<KioskUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		try {
-			final List<LunchUser> result = new ArrayList<LunchUser>();
-			for (final KioskUserBean user : kioskDatabaseConnector.getBookingsForDay(day)) {
+			final List<KioskUser> result = new ArrayList<KioskUser>();
+			for (final KioskUser user : kioskService.getBookingsForDay(day, LunchConstants.MITTAG_EAN)) {
 				result.add(user);
 			}
 			return result;
 		}
-		catch (final KioskDatabaseConnectorException e) {
+		catch (final KioskServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

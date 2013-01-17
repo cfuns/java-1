@@ -14,10 +14,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.kiosk.api.KioskUser;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
-import de.benjaminborbe.lunch.api.LunchUser;
 
 @Singleton
 public class LunchServiceMock implements LunchService {
@@ -71,18 +71,19 @@ public class LunchServiceMock implements LunchService {
 	}
 
 	@Override
-	public Collection<LunchUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
-		return null;
-	}
-
-	@Override
-	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<String> users) throws LunchServiceException {
-	}
-
-	@Override
-	public Collection<LunchUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
+	public Collection<KioskUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		return null;
+	}
+
+	@Override
+	public Collection<KioskUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.benjaminborbe.kiosk.service;
+package de.benjaminborbe.kiosk.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
-import de.benjaminborbe.kiosk.service.KioskBookingMessage;
-import de.benjaminborbe.kiosk.service.KioskBookingMessageMapper;
-import de.benjaminborbe.kiosk.service.KioskBookingMessageMapperImpl;
+import de.benjaminborbe.kiosk.util.KioskBookingMessage;
+import de.benjaminborbe.kiosk.util.KioskBookingMessageMapper;
+import de.benjaminborbe.kiosk.util.KioskBookingMessageMapperImpl;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTimeImpl;

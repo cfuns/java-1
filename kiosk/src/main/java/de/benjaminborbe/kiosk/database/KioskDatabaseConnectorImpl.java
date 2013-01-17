@@ -1,4 +1,4 @@
-package de.benjaminborbe.lunch.kioskconnector;
+package de.benjaminborbe.kiosk.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
@@ -106,7 +105,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 	}
 
 	@Override
-	public Collection<KioskUserBean> getBookingsForDay(final Calendar calendar) throws KioskDatabaseConnectorException {
+	public Collection<KioskUserBean> getBookingsForDay(final Calendar calendar, final long ean) throws KioskDatabaseConnectorException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
@@ -127,7 +126,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 			sb.append("AND DATE(FROM_UNIXTIME(cart.booked_time)) = DATE(FROM_UNIXTIME(?)) ");
 
 			statement = connection.prepareStatement(sb.toString());
-			statement.setString(1, LunchConstants.MITTAG_EAN);
+			statement.setLong(1, ean);
 			statement.setLong(2, calendar.getTimeInMillis() / 1000);
 
 			final ResultSet r = statement.executeQuery();
