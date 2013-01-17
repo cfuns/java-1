@@ -23,8 +23,7 @@ import de.benjaminborbe.tools.util.DurationUtil;
 
 public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
-	// 10 seconds
-	private static final int TIMEOUT = 20000;
+	private static final int TIMEOUT = 60 * 1000; // 60 sec
 
 	private static final long DURATION_WARN = 5000;
 
