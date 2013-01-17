@@ -3,6 +3,7 @@ package de.benjaminborbe.lunch.api;
 import java.util.Calendar;
 import java.util.Collection;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -27,7 +28,7 @@ public interface LunchService {
 
 	boolean isNotificationActivated(UserIdentifier userIdentifier) throws LunchServiceException;
 
-	void activateNotification(UserIdentifier userIdentifier) throws LunchServiceException;
+	void activateNotification(UserIdentifier userIdentifier) throws LunchServiceException, ValidationException;
 
-	void deactivateNotification(UserIdentifier userIdentifier) throws LunchServiceException;
+	void deactivateNotification(UserIdentifier userIdentifier) throws LunchServiceException, ValidationException;
 }

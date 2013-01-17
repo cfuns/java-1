@@ -15,6 +15,8 @@ import com.atlassian.confluence.rpc.RemoteException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -33,14 +35,18 @@ import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.config.LunchConfig;
+import de.benjaminborbe.lunch.dao.LunchUserSettingsBean;
+import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class LunchServiceImpl implements LunchService {
@@ -65,6 +71,10 @@ public class LunchServiceImpl implements LunchService {
 
 	private final KioskService kioskService;
 
+	private final LunchUserSettingsDao lunchUserSettingsDao;
+
+	private final ValidationExecutor validationExecutor;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
@@ -75,7 +85,9 @@ public class LunchServiceImpl implements LunchService {
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
 			final CalendarUtil calendarUtil,
-			final MailService mailService) {
+			final MailService mailService,
+			final LunchUserSettingsDao lunchUserSettingsDao,
+			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.kioskService = kioskService;
 		this.wikiConnector = wikiConnector;
@@ -85,6 +97,8 @@ public class LunchServiceImpl implements LunchService {
 		this.durationUtil = durationUtil;
 		this.calendarUtil = calendarUtil;
 		this.mailService = mailService;
+		this.lunchUserSettingsDao = lunchUserSettingsDao;
+		this.validationExecutor = validationExecutor;
 	}
 
 	@Override
@@ -307,14 +321,51 @@ public class LunchServiceImpl implements LunchService {
 
 	@Override
 	public boolean isNotificationActivated(final UserIdentifier userIdentifier) throws LunchServiceException {
-		return false;
+		try {
+			final LunchUserSettingsBean bean = lunchUserSettingsDao.findOrCreate(userIdentifier);
+			final Boolean value = bean.getNotificationActivated();
+			logger.debug("activ = " + value);
+			return Boolean.TRUE.equals(value);
+		}
+		catch (final StorageException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override
-	public void activateNotification(final UserIdentifier userIdentifier) throws LunchServiceException {
+	public void activateNotification(final UserIdentifier userIdentifier) throws LunchServiceException, ValidationException {
+		try {
+			final LunchUserSettingsBean bean = lunchUserSettingsDao.findOrCreate(userIdentifier);
+			bean.setNotificationActivated(true);
+
+			final ValidationResult errors = validationExecutor.validate(bean);
+			if (errors.hasErrors()) {
+				logger.warn("TaskContext " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			lunchUserSettingsDao.save(bean);
+		}
+		catch (final StorageException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	@Override
-	public void deactivateNotification(final UserIdentifier userIdentifier) throws LunchServiceException {
+	public void deactivateNotification(final UserIdentifier userIdentifier) throws LunchServiceException, ValidationException {
+		try {
+			final LunchUserSettingsBean bean = lunchUserSettingsDao.findOrCreate(userIdentifier);
+			bean.setNotificationActivated(false);
+
+			final ValidationResult errors = validationExecutor.validate(bean);
+			if (errors.hasErrors()) {
+				logger.warn("TaskContext " + errors.toString());
+				throw new ValidationException(errors);
+			}
+			lunchUserSettingsDao.save(bean);
+		}
+		catch (final StorageException e) {
+			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+		}
 	}
 }

@@ -12,11 +12,13 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.storage.api.StorageService;
 
 public class LunchOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(StorageService.class).toProvider(service(StorageService.class).single());
 		bind(KioskService.class).toProvider(service(KioskService.class).single());
 		bind(MailService.class).toProvider(service(MailService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());

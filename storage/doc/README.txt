@@ -322,3 +322,9 @@ create column family dashboard with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family lunch_user_settings;
+create column family lunch_user_settings with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;

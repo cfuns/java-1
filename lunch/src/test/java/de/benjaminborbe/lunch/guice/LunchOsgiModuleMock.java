@@ -16,6 +16,8 @@ import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.mock.KioskServiceMock;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.mock.MailServiceMock;
+import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 
@@ -23,6 +25,7 @@ public class LunchOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(KioskService.class).to(KioskServiceMock.class).in(Singleton.class);
 		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);

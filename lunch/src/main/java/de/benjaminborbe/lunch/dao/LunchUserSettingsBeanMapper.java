@@ -1,0 +1,41 @@
+package de.benjaminborbe.lunch.dao;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import de.benjaminborbe.tools.mapper.MapperBoolean;
+import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperString;
+import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
+
+@Singleton
+public class LunchUserSettingsBeanMapper extends MapObjectMapperAdapter<LunchUserSettingsBean> {
+
+	@Inject
+	public LunchUserSettingsBeanMapper(
+			final Provider<LunchUserSettingsBean> provider,
+			final MapperListIdentifier mapperListIdentifier,
+			final MapperString mapperString,
+			final MapperCalendar mapperCalendar,
+			final MapperBoolean mapperBoolean) {
+		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperBoolean));
+	}
+
+	private static Collection<StringObjectMapper<LunchUserSettingsBean>> buildMappings(final MapperListIdentifier mapperListIdentifier, final MapperString mapperString,
+			final MapperCalendar mapperCalendar, final MapperBoolean mapperBoolean) {
+		final List<StringObjectMapper<LunchUserSettingsBean>> result = new ArrayList<StringObjectMapper<LunchUserSettingsBean>>();
+		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, LunchUserSettingsIdentifier>("id", mapperListIdentifier));
+		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, Boolean>("notificationActivated", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, Calendar>("created", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, Calendar>("modified", mapperCalendar));
+		return result;
+	}
+}

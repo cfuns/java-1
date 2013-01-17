@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -72,13 +73,17 @@ public class LunchGuiNotificationDeactivate extends WebsiteJsonServlet {
 			}
 
 			logger.debug("deactivate notification for user: " + login);
-			lunchService.deactivateNotification(new UserIdentifier("login"));
+			lunchService.deactivateNotification(new UserIdentifier(login));
 
 			final JSONObject jsonObject = new JSONObject();
 			jsonObject.put("result", "success");
 			printJson(response, jsonObject);
 		}
 		catch (final LunchServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+			printException(response, e);
+		}
+		catch (final ValidationException e) {
 			logger.warn(e.getClass().getName(), e);
 			printException(response, e);
 		}
