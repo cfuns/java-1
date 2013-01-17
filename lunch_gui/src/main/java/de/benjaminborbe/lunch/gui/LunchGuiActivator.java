@@ -12,6 +12,9 @@ import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookedServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookingServlet;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationActivate;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationDeactivate;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationIsActivated;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
 import de.benjaminborbe.lunch.gui.util.LunchGuiBookingNavigationEntry;
@@ -24,6 +27,15 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class LunchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private LunchGuiNotificationActivate lunchGuiNotificationActivate;
+
+	@Inject
+	private LunchGuiNotificationDeactivate lunchGuiNotificationDeactivate;
+
+	@Inject
+	private LunchGuiNotificationIsActivated lunchGuiNotificationIsActivated;
 
 	@Inject
 	private LunchGuiKioskBookedServlet lunchGuiKioskBookedServlet;
@@ -62,6 +74,11 @@ public class LunchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(lunchGuiKioskBooking, LunchGuiConstants.URL_BOOKING));
 		result.add(new ServletInfo(lunchGuiServlet, LunchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(lunchGuiArchivServlet, LunchGuiConstants.URL_ARCHIV));
+
+		result.add(new ServletInfo(lunchGuiNotificationActivate, LunchGuiConstants.URL_NOTIFICATION_ACTIVATE));
+		result.add(new ServletInfo(lunchGuiNotificationDeactivate, LunchGuiConstants.URL_NOTIFICATION_DEACTIVATE));
+		result.add(new ServletInfo(lunchGuiNotificationIsActivated, LunchGuiConstants.URL_NOTIFICATION_ISACTIVATED));
+
 		return result;
 	}
 

@@ -50,6 +50,11 @@ public class LunchGuiActivatorIntegrationTest {
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_HOME);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKING);
+
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_NOTIFICATION_ACTIVATE);
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_NOTIFICATION_DEACTIVATE);
+		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_NOTIFICATION_ISACTIVATED);
+
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

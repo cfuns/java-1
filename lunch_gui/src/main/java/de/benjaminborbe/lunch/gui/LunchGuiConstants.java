@@ -26,4 +26,10 @@ public interface LunchGuiConstants {
 
 	String PARAMETER_BOOKED_DATE = "booked_date";
 
+	String URL_NOTIFICATION_ACTIVATE = "/notification/activate";
+
+	String URL_NOTIFICATION_DEACTIVATE = "/notification/deactivate";
+
+	String URL_NOTIFICATION_ISACTIVATED = "/notification/isactivated";
+
 }
