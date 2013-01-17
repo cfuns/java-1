@@ -88,7 +88,7 @@ public class XmppGuiServlet extends WebsiteHtmlServlet {
 
 			if (user != null && message != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				xmppService.send(sessionIdentifier, new UserIdentifier("bborbe"), "hello world");
+				xmppService.send(sessionIdentifier, new UserIdentifier(user), message);
 				widgets.add("message sent");
 			}
 
@@ -109,5 +109,4 @@ public class XmppGuiServlet extends WebsiteHtmlServlet {
 			return new ExceptionWidget(e);
 		}
 	}
-
 }
