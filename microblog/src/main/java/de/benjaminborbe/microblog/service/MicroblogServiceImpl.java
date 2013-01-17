@@ -9,9 +9,11 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
+import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
+import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationMailer;
@@ -25,6 +27,8 @@ import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class MicroblogServiceImpl implements MicroblogService {
+
+	private final MicroblogConnector microblogConnector;
 
 	private final MicroblogRevisionStorage microblogRevisionStorage;
 
@@ -40,12 +44,14 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	@Inject
 	public MicroblogServiceImpl(
+			final MicroblogConnector microblogConnector,
 			final AuthorizationService authorizationService,
 			final MicroblogRefresher microblogRefresher,
 			final MicroblogRevisionStorage microblogRevisionStorage,
 			final MicroblogPostMailer microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,
 			final MicroblogConversationMailer microblogConversationMailer) {
+		this.microblogConnector = microblogConnector;
 		this.authorizationService = authorizationService;
 		this.microblogRefresher = microblogRefresher;
 		this.microblogRevisionStorage = microblogRevisionStorage;
@@ -67,9 +73,13 @@ public class MicroblogServiceImpl implements MicroblogService {
 	@Override
 	public void mailPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException {
 		try {
-			microblogPostMailer.mailPost(microblogPostIdentifier);
+			final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
+			microblogPostMailer.mailPost(microblogPost);
 		}
 		catch (final MicroblogPostMailerException e) {
+			throw new MicroblogServiceException(e.getClass().getName(), e);
+		}
+		catch (final MicroblogConnectorException e) {
 			throw new MicroblogServiceException(e.getClass().getName(), e);
 		}
 	}

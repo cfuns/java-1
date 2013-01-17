@@ -271,6 +271,8 @@ public class MicroblogConnectorImplUnitTest {
 		EasyMock.replay(httpDownloadUtil);
 
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.expect(parseUtil.parseLong("13")).andReturn(13l);
+		EasyMock.expect(parseUtil.parseLong("14")).andReturn(14l);
 		EasyMock.replay(parseUtil);
 
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);

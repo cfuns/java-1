@@ -92,10 +92,10 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	@Override
-	public MicroblogPostResult getPost(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
+	public MicroblogPostResult getPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogConnectorException {
 		logger.trace("getPost");
 		try {
-			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + revision;
+			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + microblogPostIdentifier;
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(postUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
 			final String content = extractContent(pageContent);
@@ -107,7 +107,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final String conversationUrl = extractConversationUrl(pageContent);
 			if (logger.isTraceEnabled())
 				logger.trace("conversationUrl=" + conversationUrl);
-			return new MicroblogPostResult(content, author, postUrl, conversationUrl);
+			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl);
 		}
 		catch (final MalformedURLException e) {
 			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
@@ -233,9 +233,12 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		catch (final UnsupportedEncodingException e) {
 			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
+		catch (final ParseException e) {
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+		}
 	}
 
-	protected MicroblogConversationResult buildMicroblogConversationResult(final String conversationUrl, final String pageContent) {
+	protected MicroblogConversationResult buildMicroblogConversationResult(final String conversationUrl, final String pageContent) throws ParseException {
 		final List<MicroblogPostResult> list = new ArrayList<MicroblogPostResult>();
 		int itemIndexOpen = pageContent.indexOf("<item>");
 		int itemIndexClose = pageContent.indexOf("</item>", itemIndexOpen);
@@ -252,7 +255,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	}
 
-	protected MicroblogPostResult buildPost(final String conversationUrl, final String itemContent) {
+	protected MicroblogPostResult buildPost(final String conversationUrl, final String itemContent) throws ParseException {
 		final int titleIndexOpen = itemContent.indexOf("<title>");
 		final int titleIndexClose = itemContent.indexOf("</title>");
 
@@ -263,6 +266,9 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final int linkIndexOpen = itemContent.indexOf("<link>");
 		final int linkIndexClose = itemContent.indexOf("</link>");
 		final String postUrl = itemContent.substring(linkIndexOpen + 6, linkIndexClose);
-		return new MicroblogPostResult(filterContent(content), author, postUrl, conversationUrl);
+		final int slashpos = postUrl.lastIndexOf("/");
+		final String id = postUrl.substring(slashpos + 1);
+		final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(parseUtil.parseLong(id));
+		return new MicroblogPostResult(microblogPostIdentifier, filterContent(content), author, postUrl, conversationUrl);
 	}
 }

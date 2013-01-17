@@ -7,11 +7,9 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.api.MicroblogPost;
+import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
-import de.benjaminborbe.microblog.connector.MicroblogConnector;
-import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
-import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
 
@@ -21,35 +19,28 @@ public class MicroblogPostListenerMittagXmpp implements MicroblogPostListener {
 
 	private final Logger logger;
 
-	private final MicroblogConnector microblogConnector;
-
 	private final XmppService xmppService;
 
 	private final MicroblogConfig microblogConfig;
 
 	@Inject
-	public MicroblogPostListenerMittagXmpp(final Logger logger, final MicroblogConfig microblogConfig, final MicroblogConnector microblogConnector, final XmppService xmppService) {
+	public MicroblogPostListenerMittagXmpp(final Logger logger, final MicroblogConfig microblogConfig, final XmppService xmppService) {
 		this.logger = logger;
 		this.microblogConfig = microblogConfig;
-		this.microblogConnector = microblogConnector;
 		this.xmppService = xmppService;
 	}
 
 	@Override
-	public void onNewPost(final MicroblogPostIdentifier microblogPostIdentifier) {
+	public void onNewPost(final MicroblogPost microblogPost) {
 		try {
 			if (microblogConfig.isXmppEnabled()) {
 				logger.trace("onNewPost");
-				final MicroblogPostResult microblogPostResult = microblogConnector.getPost(microblogPostIdentifier);
-				final String content = microblogPostResult.getContent();
+				final String content = microblogPost.getContent();
 				if (isLunch(content)) {
 					logger.trace("isLunch = true, sending message");
 					xmppService.send(content);
 				}
 			}
-		}
-		catch (final MicroblogConnectorException e) {
-			logger.debug(e.getClass().getName(), e);
 		}
 		catch (final XmppServiceException e) {
 			logger.debug(e.getClass().getName(), e);

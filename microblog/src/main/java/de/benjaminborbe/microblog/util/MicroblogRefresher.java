@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
@@ -33,7 +35,8 @@ public class MicroblogRefresher {
 						microblogRevisionStorage.setLastRevision(microblogPostIdentifier);
 						for (final MicroblogPostListener microblogPostListener : microblogPostListenerRegistry.getAll()) {
 							try {
-								microblogPostListener.onNewPost(microblogPostIdentifier);
+								final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
+								microblogPostListener.onNewPost(microblogPost);
 							}
 							catch (final Exception e) {
 								logger.warn(e.getClass().getName(), e);

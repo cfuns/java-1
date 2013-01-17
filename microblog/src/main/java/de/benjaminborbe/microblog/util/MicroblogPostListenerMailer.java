@@ -5,7 +5,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
-import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.api.MicroblogPost;
+import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
@@ -42,18 +43,18 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 	}
 
 	@Override
-	public void onNewPost(final MicroblogPostIdentifier microblogPostIdentifier) {
+	public void onNewPost(final MicroblogPost microblogPost) {
 		try {
 			if (microblogConfig.isMailEnabled()) {
-				final MicroblogConversationIdentifier microblogConversationIdentifier = microblogConversationFinder.findIdentifier(microblogPostIdentifier);
+				final MicroblogConversationIdentifier microblogConversationIdentifier = microblogConversationFinder.findIdentifier(microblogPost.getId());
 				logger.trace("found microblogConversationIdentifier = " + microblogConversationIdentifier);
 				if (microblogConversationIdentifier != null) {
 					logger.trace("mailConversation: " + microblogConversationIdentifier);
 					microblogConversationMailer.mailConversation(microblogConversationIdentifier);
 				}
 				else {
-					logger.trace("mailPost: " + microblogPostIdentifier);
-					microblogPostMailer.mailPost(microblogPostIdentifier);
+					logger.trace("mailPost: " + microblogPost.getId());
+					microblogPostMailer.mailPost(microblogPost);
 				}
 			}
 		}

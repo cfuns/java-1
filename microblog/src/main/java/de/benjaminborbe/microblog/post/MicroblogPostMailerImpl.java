@@ -8,8 +8,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
-import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
-import de.benjaminborbe.microblog.connector.MicroblogConnector;
+import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.tools.util.StringUtil;
 
@@ -22,20 +21,17 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 
 	private final MailService mailService;
 
-	private final MicroblogConnector microblogConnector;
-
 	private final StringUtil stringUtil;
 
 	@Inject
-	public MicroblogPostMailerImpl(final Logger logger, final MailService mailService, final MicroblogConnector microblogConnector, final StringUtil stringUtil) {
+	public MicroblogPostMailerImpl(final Logger logger, final MailService mailService, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.mailService = mailService;
-		this.microblogConnector = microblogConnector;
 		this.stringUtil = stringUtil;
 	}
 
 	@Override
-	public void mailPost(final MicroblogPostIdentifier rev) throws MicroblogPostMailerException {
+	public void mailPost(final MicroblogPost rev) throws MicroblogPostMailerException {
 		logger.trace("send rev = " + rev);
 		try {
 			final MailDto mail = buildMail(rev);
@@ -51,8 +47,7 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		}
 	}
 
-	protected MailDto buildMail(final MicroblogPostIdentifier revision) throws MicroblogConnectorException {
-		final MicroblogPostResult post = microblogConnector.getPost(revision);
+	protected MailDto buildMail(final MicroblogPost post) throws MicroblogConnectorException {
 		final StringBuffer mailContent = new StringBuffer();
 		mailContent.append(post.getContent());
 		mailContent.append("\n\n");
