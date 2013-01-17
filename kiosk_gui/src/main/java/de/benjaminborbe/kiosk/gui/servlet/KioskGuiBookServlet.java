@@ -61,21 +61,30 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 		try {
-			final String customerNumber = request.getParameter(KioskGuiConstants.PARAMETER_CUSTOMER_NUMBER);
-			final String eanNumber = request.getParameter(KioskGuiConstants.PARAMETER_EAN_NUMBER);
-			logger.debug("book - customer: " + customerNumber + " ean: " + eanNumber);
-			final long ean = parseUtil.parseLong(eanNumber);
-			final long customer = parseUtil.parseLong(customerNumber);
+			long ean;
+			try {
+				ean = parseUtil.parseLong(request.getParameter(KioskGuiConstants.PARAMETER_EAN_NUMBER));
+			}
+			catch (final ParseException e) {
+				printError(response, "parameter " + KioskGuiConstants.PARAMETER_EAN_NUMBER + " missing or invalid number");
+				return;
+			}
+			long customer;
+			try {
+				customer = parseUtil.parseLong(request.getParameter(KioskGuiConstants.PARAMETER_CUSTOMER_NUMBER));
+			}
+			catch (final ParseException e) {
+				printError(response, "parameter " + KioskGuiConstants.PARAMETER_CUSTOMER_NUMBER + " missing or invalid number");
+				return;
+			}
+
+			logger.debug("book - customer: " + customer + " ean: " + ean);
 			kioskService.book(customer, ean);
 			final JSONObject jsonObject = new JSONObject();
 			jsonObject.put("result", "success");
 			printJson(response, jsonObject);
 		}
 		catch (final KioskServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-			printException(response, e);
-		}
-		catch (final ParseException e) {
 			logger.warn(e.getClass().getName(), e);
 			printException(response, e);
 		}

@@ -101,13 +101,13 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 			// check cart content
 			{
 				final String htmlContent = getCartContent(sessionId);
-				if (count(htmlContent, "list_row_uneven") == 1) {
+				if (count(htmlContent, "list_row_uneven") != 1) {
 					logger.warn("product not in cart");
 					logger.debug("htmlContent: " + htmlContent);
 					return false;
 				}
 				else {
-					logger.debug("lunch in cart");
+					logger.debug("product in cart");
 				}
 			}
 
