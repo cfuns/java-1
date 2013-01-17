@@ -9,8 +9,11 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBean, LunchUserSettingsIdentifier> implements LunchUserSettingsDao {
@@ -51,5 +54,10 @@ public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBea
 	@Override
 	public LunchUserSettingsBean findOrCreate(final UserIdentifier userIdentifier) throws StorageException {
 		return findOrCreate(new LunchUserSettingsIdentifier(userIdentifier.getId()));
+	}
+
+	@Override
+	public IdentifierIterator<LunchUserSettingsIdentifier> getActivIdentifierIterator() throws StorageException {
+		return getIdentifierIterator(new MapChain<StorageValue, StorageValue>().add(buildValue("notificationActivated"), buildValue("true")));
 	}
 }

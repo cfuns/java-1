@@ -416,6 +416,10 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		return storageService.getEncoding();
 	}
 
+	public StorageValue buildValue(final String content) {
+		return new StorageValue(content, getEncoding());
+	}
+
 	@Override
 	public Collection<E> load(final Collection<I> ids) throws StorageException {
 		try {
