@@ -2,6 +2,7 @@ package de.benjaminborbe.lunch.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -54,6 +55,10 @@ public class LunchUserSettingsBean extends EntityBase<LunchUserSettingsIdentifie
 
 	public void setNotificationActivated(final Boolean notificationActivated) {
 		this.notificationActivated = notificationActivated;
+	}
+
+	public UserIdentifier getOwner() {
+		return new UserIdentifier(id.getId());
 	}
 
 }

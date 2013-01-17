@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -46,6 +47,21 @@ public class XmppServiceImpl implements XmppService {
 
 	@Override
 	public void send(final String message) throws XmppServiceException {
+		final XmppUser user = new XmppUser("bborbe@openfire.benjamin-borbe.de/mobile-bb");
+		try {
+			if (!xmppConnector.isConnected()) {
+				xmppConnector.connect();
+			}
+
+			xmppConnector.sendMessage(user, message);
+		}
+		catch (final XmppConnectorException e) {
+			throw new XmppServiceException("fail to send message " + message + " to user " + user);
+		}
+	}
+
+	@Override
+	public void send(final UserIdentifier userIdentifer, final String message) throws XmppServiceException {
 		final XmppUser user = new XmppUser("bborbe@openfire.benjamin-borbe.de/mobile-bb");
 		try {
 			if (!xmppConnector.isConnected()) {

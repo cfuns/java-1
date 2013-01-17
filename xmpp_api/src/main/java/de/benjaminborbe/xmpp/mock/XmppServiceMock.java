@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
 
@@ -20,6 +21,10 @@ public class XmppServiceMock implements XmppService {
 
 	@Override
 	public void send(final String content) throws XmppServiceException {
+	}
+
+	@Override
+	public void send(final UserIdentifier userIdentifer, final String content) throws XmppServiceException {
 	}
 
 }

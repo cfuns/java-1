@@ -12,11 +12,31 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
 
 @Singleton
 public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBean, LunchUserSettingsIdentifier> implements LunchUserSettingsDao {
+
+	private final class UserIterator implements IdentifierIterator<UserIdentifier> {
+
+		private final IdentifierIterator<LunchUserSettingsIdentifier> i;
+
+		private UserIterator(IdentifierIterator<LunchUserSettingsIdentifier> i) {
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws IdentifierIteratorException {
+			return i.hasNext();
+		}
+
+		@Override
+		public UserIdentifier next() throws IdentifierIteratorException {
+			return new UserIdentifier(i.next().getId());
+		}
+	}
 
 	@Inject
 	public LunchUserSettingsDaoStorage(
@@ -57,7 +77,8 @@ public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBea
 	}
 
 	@Override
-	public IdentifierIterator<LunchUserSettingsIdentifier> getActivIdentifierIterator() throws StorageException {
-		return getIdentifierIterator(new MapChain<StorageValue, StorageValue>().add(buildValue("notificationActivated"), buildValue("true")));
+	public IdentifierIterator<UserIdentifier> getActivUserIdentifierIterator() throws StorageException {
+		return new UserIterator(getIdentifierIterator(new MapChain<StorageValue, StorageValue>().add(buildValue("notificationActivated"),
+				buildValue("true"))));
 	}
 }

@@ -6,9 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.Validator;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
@@ -18,9 +24,15 @@ public class LunchUserSettingsValidator implements Validator<LunchUserSettingsBe
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
+	private final AuthenticationService authenticationService;
+
+	private final Logger logger;
+
 	@Inject
-	public LunchUserSettingsValidator(final ValidationConstraintValidator validationConstraintValidator) {
+	public LunchUserSettingsValidator(final Logger logger, final ValidationConstraintValidator validationConstraintValidator, final AuthenticationService authenticationService) {
+		this.logger = logger;
 		this.validationConstraintValidator = validationConstraintValidator;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -38,6 +50,19 @@ public class LunchUserSettingsValidator implements Validator<LunchUserSettingsBe
 			final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<ValidationConstraint<LunchUserSettingsIdentifier>>();
 			constraints.add(new ValidationConstraintNotNull<LunchUserSettingsIdentifier>());
 			result.addAll(validationConstraintValidator.validate("id", id, constraints));
+		}
+
+		{
+			final UserIdentifier owner = bean.getOwner();
+			try {
+				if (!authenticationService.existsUser(owner)) {
+					result.add(new ValidationErrorSimple("unkown user " + owner));
+				}
+			}
+			catch (final AuthenticationServiceException e) {
+				logger.warn(e.getClass().getName(), e);
+				result.add(new ValidationErrorSimple("validate user failed"));
+			}
 		}
 
 		return result;

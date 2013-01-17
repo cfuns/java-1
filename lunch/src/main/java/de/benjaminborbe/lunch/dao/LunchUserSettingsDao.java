@@ -11,6 +11,6 @@ public interface LunchUserSettingsDao extends Dao<LunchUserSettingsBean, LunchUs
 
 	LunchUserSettingsBean findOrCreate(LunchUserSettingsIdentifier id) throws StorageException;
 
-	IdentifierIterator<LunchUserSettingsIdentifier> getActivIdentifierIterator() throws StorageException;
+	IdentifierIterator<UserIdentifier> getActivUserIdentifierIterator() throws StorageException;
 
 }
