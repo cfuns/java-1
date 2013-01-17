@@ -8,6 +8,8 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.lunch.gui.config.LunchGuiConfig;
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookedServlet;
@@ -27,6 +29,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class LunchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private LunchGuiConfig lunchGuiConfig;
 
 	@Inject
 	private LunchGuiNotificationActivate lunchGuiNotificationActivate;
@@ -96,6 +101,9 @@ public class LunchGuiActivator extends HttpBundleActivator {
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiArchivNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiBookingNavigationEntry));
+		for (final ConfigurationDescription configuration : lunchGuiConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 }

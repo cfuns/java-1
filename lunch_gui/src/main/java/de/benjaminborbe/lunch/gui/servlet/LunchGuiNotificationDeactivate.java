@@ -14,9 +14,14 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.lunch.api.LunchService;
+import de.benjaminborbe.lunch.api.LunchServiceException;
+import de.benjaminborbe.lunch.gui.LunchGuiConstants;
+import de.benjaminborbe.lunch.gui.config.LunchGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -26,6 +31,12 @@ public class LunchGuiNotificationDeactivate extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 1885838810460233686L;
 
+	private final Logger logger;
+
+	private final LunchGuiConfig lunchGuiConfig;
+
+	private final LunchService lunchService;
+
 	@Inject
 	public LunchGuiNotificationDeactivate(
 			final Logger logger,
@@ -34,17 +45,43 @@ public class LunchGuiNotificationDeactivate extends WebsiteJsonServlet {
 			final AuthorizationService authorizationService,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
+			final Provider<HttpContext> httpContextProvider,
+			final LunchGuiConfig lunchGuiConfig,
+			final LunchService lunchService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+		this.logger = logger;
+		this.lunchGuiConfig = lunchGuiConfig;
+		this.lunchService = lunchService;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
-		final JSONObject jsonObject = new JSONObject();
-		jsonObject.put("result", "success");
-		printJson(response, jsonObject);
+		try {
+			final String token = request.getParameter(LunchGuiConstants.PARAEMTER_NOTIFICATION_TOKEN);
+			if (token == null || token.isEmpty() || !token.equals(lunchGuiConfig.getAuthToken())) {
+				printError(response, "parameter " + LunchGuiConstants.PARAEMTER_NOTIFICATION_TOKEN + " missing or invalid");
+				return;
+			}
+
+			final String login = request.getParameter(LunchGuiConstants.PARAEMTER_NOTIFICATION_LOGIN);
+			if (login == null || login.isEmpty()) {
+				printError(response, "parameter " + LunchGuiConstants.PARAEMTER_NOTIFICATION_LOGIN + " missing");
+				return;
+			}
+
+			logger.debug("deactivate notification for user: " + login);
+			lunchService.deactivateNotification(new UserIdentifier("login"));
+
+			final JSONObject jsonObject = new JSONObject();
+			jsonObject.put("result", "success");
+			printJson(response, jsonObject);
+		}
+		catch (final LunchServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+			printException(response, e);
+		}
 	}
 
 	@Override

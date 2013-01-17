@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.kiosk.api.KioskUser;
 import de.benjaminborbe.lunch.api.Lunch;
@@ -83,7 +84,21 @@ public class LunchServiceMock implements LunchService {
 	}
 
 	@Override
-	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException, PermissionDeniedException {
+	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
+	}
+
+	@Override
+	public boolean isNotificationActivated(final UserIdentifier userIdentifier) throws LunchServiceException {
+		return false;
+	}
+
+	@Override
+	public void activateNotification(final UserIdentifier userIdentifier) throws LunchServiceException {
+	}
+
+	@Override
+	public void deactivateNotification(final UserIdentifier userIdentifier) throws LunchServiceException {
 	}
 
 }

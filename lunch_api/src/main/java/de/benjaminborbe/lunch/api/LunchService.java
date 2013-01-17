@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.kiosk.api.KioskUser;
 
@@ -24,4 +25,9 @@ public interface LunchService {
 
 	void book(SessionIdentifier sessionIdentifier, Calendar day, Collection<Long> users) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
+	boolean isNotificationActivated(UserIdentifier userIdentifier) throws LunchServiceException;
+
+	void activateNotification(UserIdentifier userIdentifier) throws LunchServiceException;
+
+	void deactivateNotification(UserIdentifier userIdentifier) throws LunchServiceException;
 }

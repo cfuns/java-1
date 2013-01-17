@@ -304,4 +304,17 @@ public class LunchServiceImpl implements LunchService {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 	}
+
+	@Override
+	public boolean isNotificationActivated(final UserIdentifier userIdentifier) throws LunchServiceException {
+		return false;
+	}
+
+	@Override
+	public void activateNotification(final UserIdentifier userIdentifier) throws LunchServiceException {
+	}
+
+	@Override
+	public void deactivateNotification(final UserIdentifier userIdentifier) throws LunchServiceException {
+	}
 }
