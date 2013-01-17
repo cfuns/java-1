@@ -39,7 +39,7 @@ public class LunchGuiLinkFactory {
 				dateString), "next day");
 	}
 
-	public Widget booking(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget bookingToday(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKING, new MapParameter(), "today");
 	}
 
@@ -47,5 +47,21 @@ public class LunchGuiLinkFactory {
 		final String dateString = calendarUtil.toDateString(calendar);
 		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED, new MapParameter().add(LunchGuiConstants.PARAMETER_BOOKED_DATE,
 				dateString), "booked");
+	}
+
+	public Widget bookedToday(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED, new MapParameter(), "today");
+	}
+
+	public Widget bookedSubDay(final HttpServletRequest request, final Calendar calendar) throws MalformedURLException, UnsupportedEncodingException {
+		final String dateString = calendarUtil.toDateString(calendarUtil.addDays(calendar, -1));
+		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED, new MapParameter().add(LunchGuiConstants.PARAMETER_BOOKED_DATE,
+				dateString), "previous day");
+	}
+
+	public Widget bookedAddDay(final HttpServletRequest request, final Calendar calendar) throws MalformedURLException, UnsupportedEncodingException {
+		final String dateString = calendarUtil.toDateString(calendarUtil.addDays(calendar, 1));
+		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED, new MapParameter().add(LunchGuiConstants.PARAMETER_BOOKED_DATE,
+				dateString), "next day");
 	}
 }

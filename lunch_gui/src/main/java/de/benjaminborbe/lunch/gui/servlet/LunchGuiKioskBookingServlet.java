@@ -48,6 +48,7 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -135,11 +136,11 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				final ListWidget links = new ListWidget();
 				links.add(lunchGuiLinkFactory.bookingSubDay(request, calendar));
 				links.add(" ");
-				links.add(lunchGuiLinkFactory.booking(request));
+				links.add(lunchGuiLinkFactory.bookingToday(request));
 				links.add(" ");
 				links.add(lunchGuiLinkFactory.bookingAddDay(request, calendar));
 				links.add(" ");
-				widgets.add(links);
+				widgets.add(new DivWidget(links));
 			}
 
 			final List<KioskUser> users = new ArrayList<KioskUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));

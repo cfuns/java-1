@@ -31,6 +31,7 @@ import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.lunch.gui.util.KioskUserComparator;
+import de.benjaminborbe.lunch.gui.util.LunchGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -38,6 +39,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -62,6 +64,8 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 
 	private final AuthorizationService authorizationService;
 
+	private final LunchGuiLinkFactory lunchGuiLinkFactory;
+
 	@Inject
 	public LunchGuiKioskBookedServlet(
 			final Logger logger,
@@ -73,7 +77,8 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
-			final LunchService lunchService) {
+			final LunchService lunchService,
+			final LunchGuiLinkFactory lunchGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.lunchService = lunchService;
@@ -81,6 +86,8 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 		this.timeZoneUtil = timeZoneUtil;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
+		this.lunchGuiLinkFactory = lunchGuiLinkFactory;
+
 	}
 
 	@Override
@@ -101,6 +108,17 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			}
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle() + " - " + calendarUtil.toDateString(calendar)));
+
+			{
+				final ListWidget links = new ListWidget();
+				links.add(lunchGuiLinkFactory.bookedSubDay(request, calendar));
+				links.add(" ");
+				links.add(lunchGuiLinkFactory.bookedToday(request));
+				links.add(" ");
+				links.add(lunchGuiLinkFactory.bookedAddDay(request, calendar));
+				links.add(" ");
+				widgets.add(new DivWidget(links));
+			}
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<KioskUser> list = new ArrayList<KioskUser>(lunchService.getBookedUser(sessionIdentifier, calendar));
