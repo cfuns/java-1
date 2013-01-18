@@ -26,6 +26,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
@@ -171,9 +172,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			}
 			// set context to parent if exists
 			if (taskParentIdentifier != null) {
-				for (final TaskContext taskContext : taskService.getTaskContexts(sessionIdentifier, taskParentIdentifier)) {
-					contextSelectBox.addDefaultValue(taskContext.getId());
-				}
+				final Task parentTask = taskService.getTask(sessionIdentifier, taskParentIdentifier);
+				contextSelectBox.addDefaultValue(parentTask.getContext());
 			}
 
 			formWidget.addFormInputWidget(contextSelectBox);

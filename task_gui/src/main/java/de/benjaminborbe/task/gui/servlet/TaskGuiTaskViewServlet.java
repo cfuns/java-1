@@ -3,9 +3,7 @@ package de.benjaminborbe.task.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +25,12 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskComparator;
-import de.benjaminborbe.task.gui.util.TaskContextComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
@@ -278,13 +274,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		// taskContext
 		{
 			final ListWidget contextList = new ListWidget();
-			final List<TaskContext> contexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier, task.getId()));
-			Collections.sort(contexts, new TaskContextComparator());
-			contextList.add("Contexts: ");
-			for (final TaskContext context : contexts) {
-				contextList.add(context.getName());
-				contextList.add(" ");
-			}
+			contextList.add("Context: " + task.getContext());
 			widgets.add(new DivWidget(contextList).addClass("contextList"));
 		}
 
