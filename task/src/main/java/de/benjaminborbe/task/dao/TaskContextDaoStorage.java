@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -19,7 +18,6 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
-import de.benjaminborbe.task.util.TaskContextOwnerPredicate;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -46,14 +44,11 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	@Override
 	public Collection<TaskContextBean> getByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
-			final Predicate<TaskContextBean> p = new TaskContextOwnerPredicate(userIdentifier);
 			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();
-			final EntityIterator<TaskContextBean> i = getEntityIterator();
+			final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
 			while (i.hasNext()) {
 				final TaskContextBean task = i.next();
-				if (p.apply(task)) {
-					result.add(task);
-				}
+				result.add(task);
 			}
 			return result;
 		}

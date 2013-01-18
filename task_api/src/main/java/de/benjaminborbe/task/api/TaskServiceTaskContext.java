@@ -10,7 +10,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface TaskServiceTaskContext {
 
-	Collection<TaskContext> getTasksContexts(SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException;
+	Collection<TaskContext> getTaskContexts(SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException;
 
 	TaskContextIdentifier createTaskContext(SessionIdentifier sessionIdentifier, String name) throws TaskServiceException, PermissionDeniedException, ValidationException,
 			LoginRequiredException;

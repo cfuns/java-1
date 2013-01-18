@@ -173,7 +173,7 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskContext> getTasksContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
 		return null;
 	}
 

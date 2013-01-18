@@ -190,12 +190,7 @@ public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCre
 
 	@Override
 	public TaskFocus getFocus() {
-		if (focus == null) {
-			return TaskFocus.INBOX;
-		}
-		else {
-			return focus;
-		}
+		return focus;
 	}
 
 	public void setFocus(final TaskFocus focus) {

@@ -174,8 +174,9 @@ create column family task with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and
   column_metadata = [
-    {column_name: owner, validation_class: UTF8Type, index_type: KEYS},
     {column_name: parentId, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: owner, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: context, validation_class: UTF8Type, index_type: KEYS},
     {column_name: completed, validation_class: UTF8Type, index_type: KEYS}
   ];
 
@@ -189,8 +190,8 @@ create column family task_context with
     {column_name: name, validation_class: UTF8Type, index_type: KEYS}
   ];
 
-drop column family task_context_relation;
-create column family task_context_relation with
+drop column family task_context_user_relation;
+create column family task_context_user_relation with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and
@@ -288,16 +289,6 @@ create column family distributed_index_entry with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
-
-drop column family task_context_user_relation;
-create column family task_context_user_relation with
-  comparator = UTF8Type and
-  key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type and
-  column_metadata = [
-    {column_name: key_a, validation_class: UTF8Type, index_type: KEYS},
-    {column_name: key_b, validation_class: UTF8Type, index_type: KEYS}
-  ];
 
 drop column family analytics_report_log;
 create column family analytics_report_log with

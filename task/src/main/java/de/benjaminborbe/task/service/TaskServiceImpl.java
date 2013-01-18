@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang.NotImplementedException;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -440,7 +440,43 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
-		throw new NotImplementedException();
+		try {
+			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+			if (currentUser == null) {
+				throw new LoginRequiredException("login required");
+			}
+			if (currentUser.equals(task.getOwner())) {
+				logger.debug("expectOwner => success");
+				return;
+			}
+			if (task.getContext() != null) {
+				final TaskContextBean context = taskContextDao.load(task.getContext());
+				if (currentUser.equals(context.getOwner())) {
+					logger.debug("expectOwner => success");
+					return;
+				}
+				final StorageIterator userIterator = taskContextToUserManyToManyRelation.getA(task.getContext());
+				while (userIterator.hasNext()) {
+					final UserIdentifier user = new UserIdentifier(userIterator.next().getString());
+					if (currentUser.equals(user)) {
+						logger.debug("expectOwner => success");
+						return;
+					}
+				}
+			}
+			throw new PermissionDeniedException(currentUser + " has no permisson to task " + task.getId());
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+		}
 	}
 
 	@Override
@@ -940,8 +976,35 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskContext> getTasksContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
-		return null;
-	}
+	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+			logger.debug("updateTaskContext");
 
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+			final Set<TaskContext> result = new HashSet<TaskContext>();
+			result.addAll(taskContextDao.getByUser(userIdentifier));
+
+			final StorageIterator taskContextIterator = taskContextToUserManyToManyRelation.getB(userIdentifier);
+			while (taskContextIterator.hasNext()) {
+				final TaskContextIdentifier taskContextIdentifier = new TaskContextIdentifier(taskContextIterator.next().getString());
+				result.add(taskContextDao.load(taskContextIdentifier));
+			}
+			return result;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }

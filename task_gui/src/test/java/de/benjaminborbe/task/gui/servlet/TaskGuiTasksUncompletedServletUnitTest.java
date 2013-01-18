@@ -145,7 +145,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 
 		final TaskService taskService = EasyMock.createMock(TaskService.class);
 		EasyMock.expect(taskService.getTasksNotCompleted(sessionIdentifier)).andReturn(new ArrayList<Task>());
-		EasyMock.expect(taskService.getTasksContexts(sessionIdentifier)).andReturn(new ArrayList<TaskContext>());
+		EasyMock.expect(taskService.getTaskContexts(sessionIdentifier)).andReturn(new ArrayList<TaskContext>());
 		EasyMock.replay(taskService);
 
 		final TaskGuiLinkFactory taskGuiLinkFactory = EasyMock.createMock(TaskGuiLinkFactory.class);
