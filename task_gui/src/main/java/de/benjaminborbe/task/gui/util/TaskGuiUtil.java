@@ -1,7 +1,6 @@
 package de.benjaminborbe.task.gui.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -157,7 +156,7 @@ public class TaskGuiUtil {
 				logger.debug("taskContextName: " + taskContextName);
 				final TaskContext taskContext = taskService.getTaskContextByName(sessionIdentifier, taskContextName);
 				if (taskContext != null) {
-					task.setContexts(Arrays.asList(taskContext.getId()));
+					task.setContext(taskContext.getId());
 				}
 			}
 			else if (hasNext && "due:".equalsIgnoreCase(token)) {

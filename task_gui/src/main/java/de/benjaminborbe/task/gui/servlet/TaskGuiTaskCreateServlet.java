@@ -133,14 +133,10 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 					final Long repeatDue = parseLong(repeatDueString);
 					final Long repeatStart = parseLong(repeatStartString);
 
-					final List<TaskContextIdentifier> contexts = new ArrayList<TaskContextIdentifier>();
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
-					if (taskContextIdentifier != null) {
-						contexts.add(taskContextIdentifier);
-					}
 
 					final TaskIdentifier taskIdentifier = createTask(sessionIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart,
-							repeatDue, contexts);
+							repeatDue, taskContextIdentifier);
 					logger.trace("task created " + taskIdentifier);
 
 					if (referer != null) {
@@ -225,7 +221,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	private TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final List<TaskContextIdentifier> contexts)
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context)
 			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
@@ -237,7 +233,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 		taskDto.setDue(due);
 		taskDto.setRepeatStart(repeatStart);
 		taskDto.setRepeatDue(repeatDue);
-		taskDto.setContexts(contexts);
+		taskDto.setContext(context);
 
 		return taskService.createTask(sessionIdentifier, taskDto);
 	}

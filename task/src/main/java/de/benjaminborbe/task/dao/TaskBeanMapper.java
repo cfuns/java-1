@@ -9,8 +9,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.util.MapperTaskContextIdentifier;
 import de.benjaminborbe.task.util.MapperTaskFocus;
 import de.benjaminborbe.task.util.MapperTaskIdentifier;
 import de.benjaminborbe.task.util.MapperUserIdentifier;
@@ -29,6 +31,7 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 	public TaskBeanMapper(
 			final Provider<TaskBean> provider,
 			final MapperTaskIdentifier mapperTaskIdentifier,
+			final MapperTaskContextIdentifier mapperTaskContextIdentifier,
 			final MapperString mapperString,
 			final MapperUserIdentifier mapperUserIdentifier,
 			final MapperLong mapperLong,
@@ -36,15 +39,17 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 			final MapperCalendar mapperCalendar,
 			final MapperInteger mapperInteger,
 			final MapperTaskFocus mapperTaskFocus) {
-		super(provider, buildMappings(mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger, mapperTaskFocus));
+		super(provider, buildMappings(mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger, mapperTaskFocus,
+				mapperTaskContextIdentifier));
 	}
 
 	private static Collection<StringObjectMapper<TaskBean>> buildMappings(final MapperTaskIdentifier mapperTaskIdentifier, final MapperString mapperString,
 			final MapperUserIdentifier mapperUserIdentifier, final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar,
-			final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus) {
+			final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus, final MapperTaskContextIdentifier mapperTaskContextIdentifier) {
 		final List<StringObjectMapper<TaskBean>> result = new ArrayList<StringObjectMapper<TaskBean>>();
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("id", mapperTaskIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("parentId", mapperTaskIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskBean, TaskContextIdentifier>("context", mapperTaskContextIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, String>("name", mapperString));
 		result.add(new StringObjectMapperAdapter<TaskBean, String>("description", mapperString));
 		result.add(new StringObjectMapperAdapter<TaskBean, UserIdentifier>("owner", mapperUserIdentifier));

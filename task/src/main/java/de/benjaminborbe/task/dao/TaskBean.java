@@ -7,6 +7,7 @@ import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 
@@ -47,6 +48,8 @@ public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCre
 	private String url;
 
 	private TaskFocus focus;
+
+	private TaskContextIdentifier context;
 
 	@Override
 	public String getName() {
@@ -207,6 +210,15 @@ public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCre
 	@Override
 	public void setId(final TaskIdentifier id) {
 		this.id = id;
+	}
+
+	@Override
+	public TaskContextIdentifier getContext() {
+		return context;
+	}
+
+	public void setContext(final TaskContextIdentifier context) {
+		this.context = context;
 	}
 
 }

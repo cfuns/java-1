@@ -35,4 +35,6 @@ public interface Task {
 	String getUrl();
 
 	TaskFocus getFocus();
+
+	TaskContextIdentifier getContext();
 }

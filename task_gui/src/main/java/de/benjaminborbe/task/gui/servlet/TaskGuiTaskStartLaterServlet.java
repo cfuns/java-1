@@ -76,7 +76,7 @@ public class TaskGuiTaskStartLaterServlet extends TaskGuiWebsiteServlet {
 			final Calendar start = calendarUtil.parseSmart(timeZone, now, request.getParameter(TaskGuiConstants.PARAMETER_TASK_START_LATER));
 			final Calendar due = calcDue(start, task.getDue());
 
-			final TaskDto taskDto = new TaskDto(task, null);
+			final TaskDto taskDto = new TaskDto(task);
 			taskDto.setStart(start);
 			taskDto.setDue(due);
 

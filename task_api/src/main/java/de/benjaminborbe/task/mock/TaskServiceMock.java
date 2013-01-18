@@ -135,11 +135,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
-	}
-
-	@Override
 	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
 			ValidationException {
 	}

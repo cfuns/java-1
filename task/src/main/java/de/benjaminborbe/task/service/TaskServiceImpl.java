@@ -303,12 +303,7 @@ public class TaskServiceImpl implements TaskService {
 				logger.debug("completeTask: " + taskIdentifier + " create repeat");
 				final Calendar due = calcRepeat(task.getRepeatDue());
 				final Calendar start = calcRepeat(task.getRepeatStart());
-				final Set<TaskContextIdentifier> contexts = new HashSet<TaskContextIdentifier>();
-				final StorageIterator i = taskToTaskContextManyToManyRelation.getA(taskIdentifier);
-				while (i.hasNext()) {
-					contexts.add(createTaskContextIdentifier(i.next().getString()));
-				}
-				final TaskDto taskDto = new TaskDto(task, contexts);
+				final TaskDto taskDto = new TaskDto(task);
 				taskDto.setStart(start);
 				taskDto.setDue(due);
 				createTask(sessionIdentifier, taskDto);
@@ -322,9 +317,6 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
@@ -371,16 +363,10 @@ public class TaskServiceImpl implements TaskService {
 			task.setParentId(taskDto.getParentId());
 			task.setStart(taskDto.getStart());
 			task.setDue(taskDto.getDue());
-			if (taskDto.getFocus() != null) {
-				task.setFocus(taskDto.getFocus());
-			}
+			task.setContext(taskDto.getContext());
+			task.setFocus(taskDto.getFocus());
 
 			saveTaskAndChilds(parentTask, task);
-
-			// only update if set
-			if (taskDto.getContexts() != null) {
-				replaceTaskContext(sessionIdentifier, taskIdentifier, taskDto.getContexts());
-			}
 
 			return taskIdentifier;
 		}
@@ -1008,48 +994,6 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	@Override
-	public void replaceTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			TaskBean task = taskDao.load(taskIdentifier);
-			expectOwner(sessionIdentifier, task);
-			for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-				expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
-			}
-
-			while (task.getParentId() != null) {
-				task = taskDao.load(task.getParentId());
-			}
-			replaceTaskContext(task, taskContextIdentifiers);
-		}
-		catch (final StorageException e) {
-			throw new TaskServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new TaskServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	private void replaceTaskContext(final Task task, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws StorageException, EntityIteratorException {
-		logger.debug("addTaskContext");
-		taskToTaskContextManyToManyRelation.removeA(task.getId());
-		for (final TaskContextIdentifier taskContextIdentifier : taskContextIdentifiers) {
-			taskToTaskContextManyToManyRelation.add(task.getId(), taskContextIdentifier);
-		}
-
-		final EntityIterator<TaskBean> i = taskDao.getTaskChilds(task.getId());
-		while (i.hasNext()) {
-			final Task taskChild = i.next();
-			replaceTaskContext(taskChild, taskContextIdentifiers);
-		}
-	}
-
 	private void saveTaskAndChilds(final TaskBean task) throws StorageException, EntityIteratorException, ValidationException {
 		saveTaskAndChilds(null, task);
 	}
@@ -1191,17 +1135,10 @@ public class TaskServiceImpl implements TaskService {
 			task.setParentId(taskDto.getParentId());
 			task.setStart(taskDto.getStart());
 			task.setDue(taskDto.getDue());
-			if (taskDto.getFocus() != null) {
-				task.setFocus(taskDto.getFocus());
-			}
+			task.setContext(taskDto.getContext());
+			task.setFocus(taskDto.getFocus());
 
 			saveTaskAndChilds(parentTask, task);
-
-			// only update if set
-			if (taskDto.getContexts() != null) {
-				replaceTaskContext(sessionIdentifier, taskDto.getId(), taskDto.getContexts());
-			}
-
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);

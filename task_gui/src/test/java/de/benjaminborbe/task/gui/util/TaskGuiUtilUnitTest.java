@@ -108,8 +108,7 @@ public class TaskGuiUtilUnitTest {
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: bla ").getFocus(), is(nullValue()));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getName(), is("bla foo"));
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContexts().size(), is(1));
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContexts().iterator().next(), is(taskContext.getId()));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContext(), is(taskContext.getId()));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla due: 0d foo ").getName(), is("bla foo"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla due: 0d foo ").getDue(), is(notNullValue()));
@@ -118,8 +117,7 @@ public class TaskGuiUtilUnitTest {
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla start: 0d foo ").getStart(), is(notNullValue()));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getName(), is("bla foo"));
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getContexts().size(), is(1));
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getContexts().iterator().next(), is(taskContext.getId()));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getContext(), is(taskContext.getId()));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getName(), is("bla foo"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getDue(), is(notNullValue()));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home due: 0d start: 0d foo ").getName(), is("bla foo"));

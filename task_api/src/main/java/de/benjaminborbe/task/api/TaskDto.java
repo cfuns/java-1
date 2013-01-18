@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.api;
 
 import java.util.Calendar;
-import java.util.Collection;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public class TaskDto implements Task {
@@ -35,15 +33,15 @@ public class TaskDto implements Task {
 
 	private String url;
 
-	private Collection<TaskContextIdentifier> contexts;
+	private TaskContextIdentifier context;
 
 	private TaskFocus focus;
 
 	public TaskDto() {
 	}
 
-	public TaskDto(final Task task, final Collection<TaskContextIdentifier> contexts) {
-		this.contexts = contexts;
+	public TaskDto(final Task task) {
+		setContext(task.getContext());
 		setCompleted(task.getCompleted());
 		setId(task.getId());
 		setParentId(task.getParentId());
@@ -187,14 +185,6 @@ public class TaskDto implements Task {
 		this.url = url;
 	}
 
-	public Collection<TaskContextIdentifier> getContexts() {
-		return contexts;
-	}
-
-	public void setContexts(final Collection<TaskContextIdentifier> contexts) {
-		this.contexts = contexts;
-	}
-
 	@Override
 	public TaskFocus getFocus() {
 		return focus;
@@ -202,5 +192,14 @@ public class TaskDto implements Task {
 
 	public void setFocus(final TaskFocus focus) {
 		this.focus = focus;
+	}
+
+	@Override
+	public TaskContextIdentifier getContext() {
+		return context;
+	}
+
+	public void setContext(final TaskContextIdentifier context) {
+		this.context = context;
 	}
 }
