@@ -9,13 +9,13 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
+import de.benjaminborbe.lunch.util.LunchUserNotifier;
+import de.benjaminborbe.lunch.util.LunchUserNotifierRegistry;
 import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
-import de.benjaminborbe.xmpp.api.XmppService;
-import de.benjaminborbe.xmpp.api.XmppServiceException;
 
 public class LunchMicroblogPostListener implements MicroblogPostListener {
 
@@ -23,14 +23,14 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 
 	private final Logger logger;
 
-	private final XmppService xmppService;
-
 	private final LunchUserSettingsDao lunchUserSettingsDao;
 
+	private final LunchUserNotifierRegistry lunchUserNotifierRegistry;
+
 	@Inject
-	public LunchMicroblogPostListener(final Logger logger, final XmppService xmppService, final LunchUserSettingsDao lunchUserSettingsDao) {
+	public LunchMicroblogPostListener(final Logger logger, final LunchUserNotifierRegistry lunchUserNotifierRegistry, final LunchUserSettingsDao lunchUserSettingsDao) {
 		this.logger = logger;
-		this.xmppService = xmppService;
+		this.lunchUserNotifierRegistry = lunchUserNotifierRegistry;
 		this.lunchUserSettingsDao = lunchUserSettingsDao;
 	}
 
@@ -42,14 +42,18 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 			if (isLunch(content)) {
 				logger.debug("isLunch = true, sending message");
 				final IdentifierIterator<UserIdentifier> i = lunchUserSettingsDao.getActivUserIdentifierIterator();
-				while (i.hasNext()) {
-					final UserIdentifier userIdentifer = i.next();
-					try {
-						xmppService.send(userIdentifer, content);
+				if (i.hasNext()) {
+					while (i.hasNext()) {
+						final UserIdentifier userIdentifer = i.next();
+						logger.debug("notify user " + userIdentifer);
+						for (final LunchUserNotifier lunchUserNotifier : lunchUserNotifierRegistry.getAll()) {
+							logger.debug("notify user " + userIdentifer + " via " + lunchUserNotifier.getClass().getSimpleName());
+							lunchUserNotifier.notify(userIdentifer, content);
+						}
 					}
-					catch (final XmppServiceException e) {
-						logger.debug(e.getClass().getName(), e);
-					}
+				}
+				else {
+					logger.debug("no user to notify found");
 				}
 			}
 		}

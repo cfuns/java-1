@@ -327,4 +327,7 @@ drop column family lunch_user_settings;
 create column family lunch_user_settings with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: notificationActivated, validation_class: UTF8Type, index_type: KEYS}
+  ];
