@@ -74,7 +74,7 @@ public class LunchGuiNotificationIsActivated extends WebsiteJsonServlet {
 			logger.debug("check notification-setting for user: " + login);
 			final JSONObject jsonObject = new JSONObject();
 			jsonObject.put("result", "success");
-			jsonObject.put("activ", String.valueOf(lunchService.isNotificationActivated(new UserIdentifier(login))));
+			jsonObject.put("active", String.valueOf(lunchService.isNotificationActivated(new UserIdentifier(login))));
 			printJson(response, jsonObject);
 		}
 		catch (final LunchServiceException e) {
