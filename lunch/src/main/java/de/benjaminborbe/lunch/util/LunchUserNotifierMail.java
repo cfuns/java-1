@@ -25,7 +25,7 @@ public class LunchUserNotifierMail implements LunchUserNotifier {
 	public void notify(final UserIdentifier userIdentifier, final String message) {
 		try {
 			logger.debug("notify user: " + userIdentifier);
-			final String from = "mittag@seibert-media.net";
+			final String from = "noreply@seibert-media.net";
 			final String to = userIdentifier.getId() + "@seibert-media.net";
 			final String subject = "Mittagessen ist da!";
 			final StringBuilder sb = new StringBuilder();

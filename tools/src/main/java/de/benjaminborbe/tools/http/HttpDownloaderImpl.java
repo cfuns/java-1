@@ -61,12 +61,6 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 		@Override
 		public void checkServerTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
-			// System.out.println("authType is " + authType);
-			// System.out.println("cert issuers");
-			// for (int i = 0; i < certs.length; i++) {
-			// System.out.println("\t" + certs[i].getIssuerX500Principal().getName());
-			// System.out.println("\t" + certs[i].getIssuerDN().getName());
-			// }
 		}
 	}
 

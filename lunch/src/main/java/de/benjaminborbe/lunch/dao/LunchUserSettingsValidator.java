@@ -22,6 +22,30 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 
 public class LunchUserSettingsValidator implements Validator<LunchUserSettingsBean> {
 
+	private class ValidationConstraintUsername implements ValidationConstraint<LunchUserSettingsIdentifier> {
+
+		private final String[] disallowedStrings;
+
+		public ValidationConstraintUsername(final String... disallowedStrings) {
+			this.disallowedStrings = disallowedStrings;
+		}
+
+		@Override
+		public boolean precondition(final LunchUserSettingsIdentifier object) {
+			return object != null;
+		}
+
+		@Override
+		public boolean validate(final LunchUserSettingsIdentifier object) {
+			for (final String disallowedString : disallowedStrings) {
+				if (disallowedString.equals(object.getId())) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
 	private final ValidationConstraintValidator validationConstraintValidator;
 
 	private final AuthenticationService authenticationService;
@@ -49,6 +73,9 @@ public class LunchUserSettingsValidator implements Validator<LunchUserSettingsBe
 			final LunchUserSettingsIdentifier id = bean.getId();
 			final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<ValidationConstraint<LunchUserSettingsIdentifier>>();
 			constraints.add(new ValidationConstraintNotNull<LunchUserSettingsIdentifier>());
+			constraints.add(new ValidationConstraintUsername("alle", "root", "admin") {
+
+			});
 			result.addAll(validationConstraintValidator.validate("id", id, constraints));
 		}
 

@@ -1,6 +1,8 @@
 package de.benjaminborbe.lunch.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -70,20 +73,28 @@ public class LunchGuiNotificationActivate extends WebsiteJsonServlet {
 				printError(response, "parameter " + LunchGuiConstants.PARAEMTER_NOTIFICATION_LOGIN + " missing");
 				return;
 			}
-			logger.debug("activate notification for user: " + login);
-
-			lunchService.activateNotification(new UserIdentifier(login));
 
 			final JSONObject jsonObject = new JSONObject();
-			jsonObject.put("result", "success");
+			boolean result;
+			try {
+				logger.debug("activate notification for user: " + login);
+				lunchService.activateNotification(new UserIdentifier(login));
+				result = true;
+			}
+			catch (final ValidationException e) {
+				final List<String> messages = new ArrayList<String>();
+				for (final ValidationError error : e.getErrors()) {
+					messages.add(error.getMessage());
+				}
+				jsonObject.put("messages", messages);
+				result = false;
+			}
+
+			jsonObject.put("result", result ? "success" : "failure");
 			printJson(response, jsonObject);
 
 		}
 		catch (final LunchServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-			printException(response, e);
-		}
-		catch (final ValidationException e) {
 			logger.warn(e.getClass().getName(), e);
 			printException(response, e);
 		}
