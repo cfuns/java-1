@@ -57,19 +57,20 @@ public class XmppConnectorImpl implements XmppConnector {
 				return;
 			}
 
-			final ConnectionConfiguration connectionConfiguration = new ConnectionConfiguration(xmppConfig.getServerHost(), xmppConfig.getServerPort(), "gmail.com");
+			logger.debug("connect to: " + xmppConfig.getServerHost() + ":" + xmppConfig.getServerPort());
+			final ConnectionConfiguration connectionConfiguration = new ConnectionConfiguration(xmppConfig.getServerHost(), xmppConfig.getServerPort());
 			// connectionConfiguration.setCompressionEnabled(false);
 			// connectionConfiguration.setSASLAuthenticationEnabled(true);
 			// connectionConfiguration.setSecurityMode(SecurityMode.disabled);
 
 			final XMPPConnection connection = new XMPPConnection(connectionConfiguration);
 			connection.connect();
-
-			connection.addConnectionListener(new MyConnectionListener());
-
 			logger.debug("isConnected: " + connection.isConnected());
+
 			connection.login(xmppConfig.getUsername(), xmppConfig.getPassword());
 			logger.debug("isAuthenticated: " + connection.isAuthenticated());
+
+			connection.addConnectionListener(new MyConnectionListener());
 
 			// set status
 			final Presence presence = new Presence(Presence.Type.available);
