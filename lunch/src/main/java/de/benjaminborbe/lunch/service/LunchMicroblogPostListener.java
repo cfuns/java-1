@@ -1,13 +1,13 @@
 package de.benjaminborbe.lunch.service;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
 import de.benjaminborbe.lunch.util.LunchUserNotifier;
 import de.benjaminborbe.lunch.util.LunchUserNotifierRegistry;
@@ -19,19 +19,24 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 
 public class LunchMicroblogPostListener implements MicroblogPostListener {
 
-	private final Collection<String> words = Arrays.asList("Essen", "Mittagessen", "Mittagstisch");
-
 	private final Logger logger;
 
 	private final LunchUserSettingsDao lunchUserSettingsDao;
 
 	private final LunchUserNotifierRegistry lunchUserNotifierRegistry;
 
+	private final LunchConfig lunchConfig;
+
 	@Inject
-	public LunchMicroblogPostListener(final Logger logger, final LunchUserNotifierRegistry lunchUserNotifierRegistry, final LunchUserSettingsDao lunchUserSettingsDao) {
+	public LunchMicroblogPostListener(
+			final Logger logger,
+			final LunchUserNotifierRegistry lunchUserNotifierRegistry,
+			final LunchUserSettingsDao lunchUserSettingsDao,
+			final LunchConfig lunchConfig) {
 		this.logger = logger;
 		this.lunchUserNotifierRegistry = lunchUserNotifierRegistry;
 		this.lunchUserSettingsDao = lunchUserSettingsDao;
+		this.lunchConfig = lunchConfig;
 	}
 
 	@Override
@@ -56,6 +61,9 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 					logger.debug("no user to notify found");
 				}
 			}
+			else {
+				logger.debug("isLunch = false, skip");
+			}
 		}
 		catch (final StorageException e) {
 			logger.debug(e.getClass().getName(), e);
@@ -66,9 +74,13 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 	}
 
 	private boolean isLunch(final String content) {
-		if (content != null) {
-			for (final String word : words) {
-				if (content.indexOf(word) != -1) {
+		logger.debug("isLunch - content: " + content);
+		final List<String> keywords = lunchConfig.getMittagNotifyKeywords();
+		if (content != null && keywords != null) {
+			final String lowerContent = content.toLowerCase();
+			for (final String word : keywords) {
+				logger.debug("search word: " + word);
+				if (lowerContent.contains(word.trim().toLowerCase())) {
 					return true;
 				}
 			}

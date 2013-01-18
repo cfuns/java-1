@@ -1,7 +1,9 @@
 package de.benjaminborbe.lunch.config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -21,6 +23,9 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 	private final ConfigurationDescriptionString confluenceUsername = new ConfigurationDescriptionString(null, "LunchConfluenceUsername", "Lunch Username for Confluence");
 
 	private final ConfigurationDescriptionString confluencePassword = new ConfigurationDescriptionString(null, "LunchConfluencePassword", "Lunch Password for Confluence");
+
+	private final ConfigurationDescriptionString mittagNotifyKeywords = new ConfigurationDescriptionString("Essen, Mittagessen, Mittagstisch", "LunchNotifyKeywords",
+			"Lunch Notify Keywords");
 
 	@Inject
 	public LunchConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -43,6 +48,7 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 		result.add(confluenceSpaceKey);
 		result.add(confluenceUsername);
 		result.add(confluencePassword);
+		result.add(mittagNotifyKeywords);
 		return result;
 	}
 
@@ -51,4 +57,15 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 		return getValueString(confluenceSpaceKey);
 	}
 
+	@Override
+	public List<String> getMittagNotifyKeywords() {
+		final String value = getValueString(mittagNotifyKeywords);
+		final List<String> result = new ArrayList<String>();
+		if (value != null) {
+			for (final String part : value.split(",")) {
+				result.add(part.trim());
+			}
+		}
+		return result;
+	}
 }

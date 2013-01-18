@@ -1,6 +1,7 @@
 package de.benjaminborbe.lunch.config;
 
 import java.util.Collection;
+import java.util.List;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
@@ -13,4 +14,6 @@ public interface LunchConfig {
 	String getConfluencePassword();
 
 	String getConfluenceSpaceKey();
+
+	List<String> getMittagNotifyKeywords();
 }
