@@ -1,11 +1,6 @@
 package de.benjaminborbe.task.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -785,5 +780,41 @@ public class TaskServiceImplIntegrationTest {
 
 		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<TaskContextIdentifier>();
 		assertNotNull(taskService.getTasks(sessionIdentifier, true, taskContextIdentifiers));
+	}
+
+	@Test
+	public void testDeleteContext() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final String taskContextName = "testContext";
+		final String taskName = "testName";
+
+		final TaskContextIdentifier taskContextId = taskService.createTaskContext(sessionIdentifier, taskContextName);
+
+		final TaskDto taskDto = new TaskDto();
+		taskDto.setName(taskName);
+		taskDto.setContext(taskContextId);
+		taskDto.setFocus(TaskFocus.INBOX);
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
+
+		// before delete
+		{
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertNotNull(task);
+			assertNotNull(task.getContext());
+			assertEquals(taskContextId, task.getContext());
+		}
+
+		taskService.deleteContextTask(sessionIdentifier, taskContextId);
+
+		// after delete
+		{
+			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
+			assertNotNull(task);
+			assertNull(task.getContext());
+		}
 	}
 }

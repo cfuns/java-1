@@ -202,8 +202,15 @@ public class StorageServiceMock implements StorageService {
 			cfData = new HashMap<StorageValue, HashMap<StorageValue, StorageValue>>();
 			storageData.put(columnFamily, cfData);
 		}
-		final HashMap<StorageValue, StorageValue> idData = new HashMap<StorageValue, StorageValue>();
-		cfData.put(id, idData);
+		final HashMap<StorageValue, StorageValue> idData;
+		if (cfData.containsKey(id)) {
+			idData = cfData.get(id);
+		}
+		else {
+			idData = new HashMap<StorageValue, StorageValue>();
+			cfData.put(id, idData);
+		}
+
 		for (final Entry<StorageValue, StorageValue> e : data.entrySet()) {
 			logger.info("write " + e.getKey() + " " + e.getValue());
 			idData.put(e.getKey(), e.getValue());
