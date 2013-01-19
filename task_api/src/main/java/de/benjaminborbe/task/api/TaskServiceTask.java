@@ -20,17 +20,28 @@ public interface TaskServiceTask {
 
 	void deleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
+	void expectOwner(SessionIdentifier sessionIdentifier, Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
+
+	void expectOwner(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
+
 	Task getTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Collection<Task> getTaskChilds(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	Collection<Task> getTasksCompleted(SessionIdentifier sessionIdentifier, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+
+	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
 			LoginRequiredException;
 
-	Collection<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
+	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException,
+			PermissionDeniedException;
 
-	Collection<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, TaskFocus taskFocus, Collection<TaskContextIdentifier> taskContextIdentifiers)
+	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus, Collection<TaskContextIdentifier> taskContextIdentifiers)
 			throws TaskServiceException, LoginRequiredException;
+
+	Collection<Task> getTasksWithoutContext(SessionIdentifier sessionIdentifier, boolean completed) throws LoginRequiredException, TaskServiceException;
+
+	Collection<Task> getTasksWithoutContext(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException;
 
 	List<TaskMatch> searchTasks(SessionIdentifier sessionIdentifier, int limit, List<String> words) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
@@ -41,14 +52,7 @@ public interface TaskServiceTask {
 
 	void updateTask(SessionIdentifier sessionIdentifier, TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
 
-	void expectOwner(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
-
-	void expectOwner(SessionIdentifier sessionIdentifier, Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
-
 	void updateTaskFocus(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskFocus taskFocus) throws PermissionDeniedException, LoginRequiredException,
 			TaskServiceException, ValidationException;
-
-	Collection<Task> getTasksNotCompleted(SessionIdentifier sessionIdentifier, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
-			LoginRequiredException;
 
 }

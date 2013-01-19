@@ -29,65 +29,13 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 	}
 
 	@Override
-	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public void deleteContextTask(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
-			PermissionDeniedException {
-	}
-
-	@Override
-	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-	}
-
-	@Override
-	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		return null;
-	}
-
-	@Override
-	public List<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-		return null;
-	}
-
-	@Override
-	public List<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
-			LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public List<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier) throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
-			PermissionDeniedException, LoginRequiredException {
-	}
-
-	@Override
-	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
-	}
-
-	@Override
-	public void updateTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final String name) throws TaskServiceException,
-			PermissionDeniedException, LoginRequiredException, ValidationException {
-	}
-
-	@Override
-	public TaskContextIdentifier createTaskContextIdentifier(final String id) throws TaskServiceException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		return null;
 	}
 
@@ -97,40 +45,131 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
-			PermissionDeniedException, LoginRequiredException {
+	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	}
+
+	@Override
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	}
+
+	@Override
+	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+	public Collection<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+			LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
-			ValidationException {
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException,
+			PermissionDeniedException {
+		return null;
 	}
 
 	@Override
-	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
-			throws TaskServiceException {
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException {
+		return null;
 	}
 
 	@Override
-	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
-			throws TaskServiceException {
+	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed) throws LoginRequiredException, TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException {
+	}
+
+	@Override
+	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+	}
+
+	@Override
+	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException, ValidationException {
+	}
+
+	@Override
+	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, PermissionDeniedException, ValidationException,
+			LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public TaskContextIdentifier createTaskContextIdentifier(final String id) throws TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public void deleteContextTask(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
+			PermissionDeniedException {
+	}
+
+	@Override
+	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public void updateTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final String name) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException, ValidationException {
+	}
+
+	@Override
+	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException, ValidationException {
+	}
+
+	@Override
+	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier) throws TaskServiceException,
+			LoginRequiredException, PermissionDeniedException {
 	}
 
 	@Override
@@ -144,15 +183,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException {
-	}
-
-	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
-	}
-
-	@Override
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
 			TaskServiceException {
 	}
@@ -162,31 +192,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
-			LoginRequiredException, TaskServiceException {
-	}
-
-	@Override
-	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskFocus taskFocus, final Collection<TaskContextIdentifier> taskContextIdentifiers)
-			throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
-			throws TaskServiceException, LoginRequiredException {
-		return null;
-	}
-
-	@Override
 	public Collection<TaskContextIdentifier> getTaskContextIdentifiers(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		return null;
 	}
-
 }

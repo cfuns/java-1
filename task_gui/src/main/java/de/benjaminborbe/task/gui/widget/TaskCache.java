@@ -40,7 +40,7 @@ public class TaskCache {
 	}
 
 	public void add(final Task task) {
-		logger.debug("add");
+		logger.trace("add");
 		tasks.put(task.getId(), task);
 	}
 

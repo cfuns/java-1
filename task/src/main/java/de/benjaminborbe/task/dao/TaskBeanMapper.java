@@ -27,6 +27,8 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 
+	public static final String FOCUS = "focus";
+
 	public static final String PARENT_ID = "parentId";
 
 	public static final String COMPLETED = "completed";
@@ -72,7 +74,7 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 		result.add(new StringObjectMapperAdapter<TaskBean, Long>("repeatStart", mapperLong));
 		result.add(new StringObjectMapperAdapter<TaskBean, Long>("repeatDue", mapperLong));
 		result.add(new StringObjectMapperAdapter<TaskBean, String>("url", mapperString));
-		result.add(new StringObjectMapperAdapter<TaskBean, TaskFocus>("focus", mapperTaskFocus));
+		result.add(new StringObjectMapperAdapter<TaskBean, TaskFocus>(FOCUS, mapperTaskFocus));
 		return result;
 	}
 }

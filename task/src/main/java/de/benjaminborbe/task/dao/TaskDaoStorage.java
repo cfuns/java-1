@@ -14,6 +14,7 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
@@ -42,15 +43,9 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	}
 
 	@Override
-	public EntityIterator<TaskBean> getTasksNotCompleted(final UserIdentifier userIdentifier) throws StorageException {
-		logger.trace("getTasksNotCompleted for user: " + userIdentifier);
-		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.COMPLETED, "false"));
-	}
-
-	@Override
-	public EntityIterator<TaskBean> getTasksCompleted(final UserIdentifier userIdentifier) throws StorageException {
+	public EntityIterator<TaskBean> getTasks(final UserIdentifier userIdentifier, final boolean completed) throws StorageException {
 		logger.trace("getTasksCompleted for user: " + userIdentifier);
-		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.COMPLETED, "true"));
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.COMPLETED, String.valueOf(completed)));
 	}
 
 	@Override
@@ -82,7 +77,20 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	}
 
 	@Override
-	public EntityIterator<TaskBean> getTasksNotCompletedByTaskContext(final TaskContextIdentifier taskContextIdentifier) throws StorageException {
-		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier)).add(TaskBeanMapper.COMPLETED, "true"));
+	public EntityIterator<TaskBean> getTasks(final TaskContextIdentifier taskContextIdentifier, final boolean completed) throws StorageException {
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier)).add(TaskBeanMapper.COMPLETED,
+				String.valueOf(completed)));
+	}
+
+	@Override
+	public EntityIterator<TaskBean> getTasks(final TaskContextIdentifier taskContextIdentifier, final TaskFocus taskFocus, final boolean completed) throws StorageException {
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier))
+				.add(TaskBeanMapper.COMPLETED, String.valueOf(completed)).add(TaskBeanMapper.FOCUS, String.valueOf(taskFocus)));
+	}
+
+	@Override
+	public EntityIterator<TaskBean> getTasks(final UserIdentifier userIdentifier, final TaskFocus taskFocus, final boolean completed) throws StorageException {
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.FOCUS, String.valueOf(taskFocus))
+				.add(TaskBeanMapper.COMPLETED, String.valueOf(completed)));
 	}
 }

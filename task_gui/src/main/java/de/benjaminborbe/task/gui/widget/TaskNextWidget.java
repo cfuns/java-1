@@ -92,6 +92,7 @@ public class TaskNextWidget extends CompositeWidget {
 		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
 		final TaskCache taskCache = taskCacheProvider.get();
+
 		final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds);
 		taskCache.addAll(allTasks);
 

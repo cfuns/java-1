@@ -144,7 +144,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 	private List<Task> getTasks(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
-		final Collection<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
+		final Collection<Task> allTasks = taskService.getTasks(sessionIdentifier, false);
 		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);
 		final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
 		final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);

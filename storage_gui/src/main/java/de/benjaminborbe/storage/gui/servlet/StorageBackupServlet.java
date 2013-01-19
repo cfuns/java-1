@@ -33,6 +33,8 @@ import de.benjaminborbe.website.util.ListWidget;
 @Singleton
 public class StorageBackupServlet extends StorageHtmlServlet {
 
+	private static final String ALL = "all";
+
 	private static final long serialVersionUID = 1048276599809672509L;
 
 	private static final String TITLE = "Storage - Backup";
@@ -68,7 +70,7 @@ public class StorageBackupServlet extends StorageHtmlServlet {
 
 			final String cf = request.getParameter(StorageGuiConstants.PARAMETER_COLUMNFAMILY);
 			if (cf != null) {
-				if ("all".equals("cf")) {
+				if (ALL.equals(cf)) {
 					persistentStorageService.backup();
 				}
 				else {
@@ -77,7 +79,7 @@ public class StorageBackupServlet extends StorageHtmlServlet {
 				widgets.add("backup done");
 			}
 			else {
-				widgets.add("add parameter " + StorageGuiConstants.PARAMETER_COLUMNFAMILY + "=[cf|all]");
+				widgets.add("add parameter " + StorageGuiConstants.PARAMETER_COLUMNFAMILY + "=[" + StorageGuiConstants.PARAMETER_COLUMNFAMILY + "|" + ALL + "]");
 			}
 
 			return widgets;

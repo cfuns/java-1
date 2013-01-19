@@ -89,13 +89,23 @@ public class TaskGuiUtil {
 	}
 
 	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final TaskFocus taskFocus, final List<String> taskContextIds)
-			throws TaskServiceException, LoginRequiredException {
-		logger.trace("task list for context: " + taskContextIds);
-		return taskService.getTasksNotCompleted(sessionIdentifier, taskFocus, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+		logger.debug("task list for context: " + taskContextIds);
+		if (taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
+			logger.debug("get tasks with focus " + taskFocus);
+			return taskService.getTasks(sessionIdentifier, false, taskFocus);
+		}
+		else if (taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
+			logger.debug("get tasks without context and focus " + taskFocus);
+			return taskService.getTasksWithoutContext(sessionIdentifier, false, taskFocus);
+		}
+		else {
+			logger.debug("get tasks with contexts " + taskContextIds + " and focus " + taskFocus);
+			return taskService.getTasks(sessionIdentifier, false, taskFocus, createTaskContextIdentifiers(taskContextIds));
+		}
 	}
 
-	public List<TaskContextIdentifier> createTaskContextIdentifiers(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException,
-			LoginRequiredException {
+	public List<TaskContextIdentifier> createTaskContextIdentifiers(final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
 		final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
 		if (taskContextIds != null) {
 			for (final String taskContextId : taskContextIds) {
@@ -133,9 +143,21 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public Collection<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
-		logger.trace("task list for context: " + taskContextIds);
-		return taskService.getTasksCompleted(sessionIdentifier, createTaskContextIdentifiers(sessionIdentifier, taskContextIds));
+	public Collection<Task> getTasksCompleted(final SessionIdentifier sessionIdentifier, final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		logger.debug("get completed tasks for context: " + taskContextIds);
+		if (taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
+			logger.debug("get tasks completed");
+			return taskService.getTasks(sessionIdentifier, true);
+		}
+		else if (taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
+			logger.debug("get tasks without context");
+			return taskService.getTasksWithoutContext(sessionIdentifier, true);
+		}
+		else {
+			logger.debug("get tasks with contexts " + taskContextIds);
+			return taskService.getTasks(sessionIdentifier, true, createTaskContextIdentifiers(taskContextIds));
+		}
 
 	}
 

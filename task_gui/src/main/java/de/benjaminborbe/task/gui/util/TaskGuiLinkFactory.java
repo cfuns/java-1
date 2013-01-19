@@ -3,6 +3,7 @@ package de.benjaminborbe.task.gui.util;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -122,39 +123,32 @@ public class TaskGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), parameter, content);
 	}
 
-	public Widget taskContextSwitchAll(final HttpServletRequest request, final List<TaskContext> taskContexts) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget taskContextSwitchAll(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 		final MapParameter parameter = getLoopThrough(request);
-		final Set<String> ids = new HashSet<String>();
-		for (final TaskContext taskContext : taskContexts) {
-			ids.add(String.valueOf(taskContext.getId()));
-		}
-		final SpanWidget content = new SpanWidget("all");
-		if (taskContextIds != null && taskContextIds.size() == taskContexts.size()) {
+		final SpanWidget content = new SpanWidget(TaskGuiConstants.ALL);
+		if (taskContextIds != null && taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
 			content.addAttribute("class", "taskContextSelected");
 		}
 		else {
 			content.addAttribute("class", "taskContextNotSelected");
 		}
-
-		parameter.add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, ids);
+		parameter.add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, Arrays.asList(TaskGuiConstants.ALL));
 		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), parameter, content);
 	}
 
 	public Widget taskContextSwitchNone(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-
-		final List<String> ls = taskGuiUtil.getSelectedTaskContextIds(request);
-
-		final SpanWidget content = new SpanWidget("none");
-		if (ls != null && !ls.isEmpty()) {
-			content.addAttribute("class", "taskContextNotSelected");
-		}
-		else {
+		final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
+		final MapParameter parameter = getLoopThrough(request);
+		final SpanWidget content = new SpanWidget(TaskGuiConstants.NONE);
+		if (taskContextIds != null && taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
 			content.addAttribute("class", "taskContextSelected");
 		}
-
-		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), getLoopThrough(request).add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, new String[] { "" }),
-				content);
+		else {
+			content.addAttribute("class", "taskContextNotSelected");
+		}
+		parameter.add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID, Arrays.asList(TaskGuiConstants.NONE));
+		return new LinkRelativWidget(urlUtil, request, getCurrentUri(request), parameter, content);
 	}
 
 	public Widget taskContextUpdate(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {

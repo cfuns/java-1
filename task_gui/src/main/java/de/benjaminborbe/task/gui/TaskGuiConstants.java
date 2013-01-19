@@ -100,4 +100,8 @@ public interface TaskGuiConstants {
 
 	String URL_TASK_UPDATE_FOCUS = "/task/focus";
 
+	String ALL = "all";
+
+	String NONE = "none";
+
 }

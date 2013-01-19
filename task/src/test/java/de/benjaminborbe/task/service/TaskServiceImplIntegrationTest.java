@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
@@ -75,7 +78,7 @@ public class TaskServiceImplIntegrationTest {
 
 		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
 
-		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
 		final String name = "nameA";
 		final String description = "descriptionA";
@@ -87,11 +90,11 @@ public class TaskServiceImplIntegrationTest {
 		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
 		assertNotNull(taskIdentifier);
 
-		assertEquals(1, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(1, taskService.getTasks(sessionIdentifier, false).size());
 
 		taskService.deleteTask(sessionIdentifier, taskIdentifier);
 
-		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 	}
 
 	@Test
@@ -102,7 +105,7 @@ public class TaskServiceImplIntegrationTest {
 
 		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
 
-		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
 		final TaskDto taskDtoA = new TaskDto();
 		taskDtoA.setName("nameA");
@@ -125,7 +128,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskIdentifier taskIdentifierC = taskService.createTask(sessionIdentifier, taskDtoC);
 		assertNotNull(taskIdentifierC);
 
-		assertEquals(3, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(3, taskService.getTasks(sessionIdentifier, false).size());
 
 		{
 			final Task taskA = taskService.getTask(sessionIdentifier, taskIdentifierA);
@@ -137,7 +140,7 @@ public class TaskServiceImplIntegrationTest {
 		}
 
 		taskService.deleteTask(sessionIdentifier, taskIdentifierB);
-		assertEquals(2, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(2, taskService.getTasks(sessionIdentifier, false).size());
 
 		{
 			final Task taskA = taskService.getTask(sessionIdentifier, taskIdentifierA);
@@ -149,7 +152,7 @@ public class TaskServiceImplIntegrationTest {
 		}
 
 		taskService.deleteTask(sessionIdentifier, taskIdentifierA);
-		assertEquals(1, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(1, taskService.getTasks(sessionIdentifier, false).size());
 
 		{
 			final Task taskA = taskService.getTask(sessionIdentifier, taskIdentifierA);
@@ -169,7 +172,7 @@ public class TaskServiceImplIntegrationTest {
 
 		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
 
-		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
 		final TaskDto taskDtoA = new TaskDto();
 		taskDtoA.setName("nameA");
@@ -187,7 +190,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskIdentifier taskIdentifierB = taskService.createTask(sessionIdentifier, taskDtoB);
 		assertNotNull(taskIdentifierB);
 
-		assertEquals(2, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(2, taskService.getTasks(sessionIdentifier, false).size());
 
 		try {
 			taskService.completeTask(sessionIdentifier, taskIdentifierA);
@@ -197,15 +200,15 @@ public class TaskServiceImplIntegrationTest {
 			assertNotNull(e);
 		}
 
-		assertEquals(2, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(2, taskService.getTasks(sessionIdentifier, false).size());
 
 		taskService.completeTask(sessionIdentifier, taskIdentifierB);
 
-		assertEquals(1, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(1, taskService.getTasks(sessionIdentifier, false).size());
 
 		taskService.completeTask(sessionIdentifier, taskIdentifierA);
 
-		assertEquals(0, taskService.getTasksNotCompleted(sessionIdentifier).size());
+		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
 	}
 
@@ -770,5 +773,17 @@ public class TaskServiceImplIntegrationTest {
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 			assertEquals(TaskFocus.SOMEDAY, task.getFocus());
 		}
+	}
+
+	@Test
+	public void testGetTasksCompleted() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+
+		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<TaskContextIdentifier>();
+		assertNotNull(taskService.getTasks(sessionIdentifier, true, taskContextIdentifiers));
 	}
 }

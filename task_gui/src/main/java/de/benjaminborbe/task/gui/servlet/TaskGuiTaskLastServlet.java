@@ -65,7 +65,7 @@ public class TaskGuiTaskLastServlet extends TaskGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			logger.debug("move task " + taskIdentifier + " last");
-			final List<Task> tasks = new ArrayList<Task>(taskService.getTasksNotCompleted(sessionIdentifier));
+			final List<Task> tasks = new ArrayList<Task>(taskService.getTasks(sessionIdentifier, false));
 			final int pos = findPosition(tasks, taskIdentifier);
 			logger.debug("found task at pos " + pos);
 			for (int i = pos; i < tasks.size(); i++) {
