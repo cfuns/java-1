@@ -6,11 +6,14 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import de.benjaminborbe.tools.search.SearchUtil;
+
 public class DistributedSearchAnalyserUnitTest {
 
 	@Test
 	public void testParse() throws Exception {
-		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser();
+		final SearchUtil searchUtil = new SearchUtil();
+		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser(searchUtil);
 		assertThat(analyser.parseSearchTerm("foo").size(), is(1));
 		assertThat(analyser.parseSearchTerm("foo"), is(hasItem("foo")));
 		assertThat(analyser.parseSearchTerm("").size(), is(0));
@@ -19,7 +22,8 @@ public class DistributedSearchAnalyserUnitTest {
 
 	@Test
 	public void testUmlaut() {
-		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser();
+		final SearchUtil searchUtil = new SearchUtil();
+		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser(searchUtil);
 		assertThat(analyser.parseSearchTerm("aüb"), is(hasItem("aüb")));
 		assertThat(analyser.parseSearchTerm("aäb"), is(hasItem("aäb")));
 		assertThat(analyser.parseSearchTerm("aöb"), is(hasItem("aöb")));
@@ -33,7 +37,8 @@ public class DistributedSearchAnalyserUnitTest {
 
 	@Test
 	public void testparseWordRatingCount() {
-		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser();
+		final SearchUtil searchUtil = new SearchUtil();
+		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser(searchUtil);
 		assertThat(analyser.parseWordRating("foo").get("foo"), is(1));
 		assertThat(analyser.parseWordRating("foo foo").get("foo"), is(2));
 		assertThat(analyser.parseWordRating("foo foo foo").get("foo"), is(3));
