@@ -160,7 +160,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final TaskGuiUtil taskGuiUtil = EasyMock.createMock(TaskGuiUtil.class);
 		EasyMock.expect(taskGuiUtil.getSelectedTaskContextIds(request)).andReturn(list).anyTimes();
 		EasyMock.expect(taskGuiUtil.getSelectedTaskFocus(request)).andReturn(TaskFocus.INBOX).anyTimes();
-		EasyMock.expect(taskGuiUtil.getTasksNotCompleted(sessionIdentifier, TaskFocus.INBOX, list)).andReturn(allTasks).anyTimes();
+		EasyMock.expect(taskGuiUtil.getTasks(sessionIdentifier, false, list)).andReturn(allTasks).anyTimes();
 		EasyMock.replay(taskGuiUtil);
 
 		final TaskCache taskCache = new TaskCache(logger, taskService);

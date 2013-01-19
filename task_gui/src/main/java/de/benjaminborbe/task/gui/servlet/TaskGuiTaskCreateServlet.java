@@ -30,6 +30,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -234,6 +235,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 		taskDto.setRepeatStart(repeatStart);
 		taskDto.setRepeatDue(repeatDue);
 		taskDto.setContext(context);
+		taskDto.setFocus(TaskFocus.INBOX);
 
 		return taskService.createTask(sessionIdentifier, taskDto);
 	}

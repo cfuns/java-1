@@ -132,7 +132,7 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
 
-				final Collection<Task> allTasks = taskGuiUtil.getTasksCompleted(sessionIdentifier, taskContextIds);
+				final Collection<Task> allTasks = taskGuiUtil.getTasks(sessionIdentifier, true, taskContextIds);
 				final TaskCache taskCache = taskCacheProvider.get();
 				taskCache.addAll(allTasks);
 

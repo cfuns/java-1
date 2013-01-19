@@ -93,7 +93,7 @@ public class TaskNextWidget extends CompositeWidget {
 
 		final TaskCache taskCache = taskCacheProvider.get();
 
-		final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds);
+		final Collection<Task> allTasks = taskGuiUtil.getTasksWithFocus(sessionIdentifier, false, taskFocus, taskContextIds);
 		taskCache.addAll(allTasks);
 
 		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);

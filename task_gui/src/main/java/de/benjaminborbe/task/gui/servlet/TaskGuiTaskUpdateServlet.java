@@ -30,6 +30,7 @@ import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -141,7 +142,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
 
 					updateTask(sessionIdentifier, taskIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart, repeatDue,
-							taskContextIdentifier);
+							taskContextIdentifier, task.getFocus());
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -209,8 +210,8 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	private void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context)
-			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
+			final TaskFocus focus) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setId(taskIdentifier);
@@ -223,6 +224,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 		taskDto.setRepeatStart(repeatStart);
 		taskDto.setRepeatDue(repeatDue);
 		taskDto.setContext(context);
+		taskDto.setFocus(focus);
 
 		taskService.updateTask(sessionIdentifier, taskDto);
 	}

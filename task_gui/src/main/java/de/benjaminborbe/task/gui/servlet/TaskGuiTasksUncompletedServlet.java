@@ -24,7 +24,6 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
-import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.util.TaskComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
@@ -116,9 +115,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<String> taskContextIds = taskGuiUtil.getSelectedTaskContextIds(request);
-			final TaskFocus taskFocus = taskGuiUtil.getSelectedTaskFocus(request);
 
-			final Collection<Task> allTasks = taskGuiUtil.getTasksNotCompleted(sessionIdentifier, taskFocus, taskContextIds);
+			final Collection<Task> allTasks = taskGuiUtil.getTasks(sessionIdentifier, false, taskContextIds);
 			final TaskCache taskCache = taskCacheProvider.get();
 			taskCache.addAll(allTasks);
 
