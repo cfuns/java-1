@@ -1,8 +1,6 @@
 package de.benjaminborbe.tools.http;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.net.URL;
 
@@ -10,13 +8,17 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import com.google.inject.Injector;
+
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ToolModules;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.StreamUtil;
 
-public class HttpDownloaderIntegrationTest {
+public class HttpDownloaderImplIntegrationTest {
 
 	private static final int TIMEOUT = 3000;
 
@@ -133,5 +135,37 @@ public class HttpDownloaderIntegrationTest {
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
+	}
+
+	@Test
+	public void testInject() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
+		assertNotNull(httpDownloader);
+		assertEquals(HttpDownloaderImpl.class, httpDownloader.getClass());
+	}
+
+	@Test
+	public void testEncodingContentType() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
+		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
+		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.spiegel.de/netzwelt/web/29c3-was-hacker-auf-einem-kongress-alles-machen-a-875161.html"), 5000);
+		assertNotNull(result);
+		final String content = httpDownloadUtil.getContent(result);
+		assertNotNull(content);
+		assertTrue(content.contains("für"));
+	}
+
+	@Test
+	public void testEncodingMeta() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
+		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
+		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.seibert-media.net/unternehmen/index.shtml"), 5000);
+		assertNotNull(result);
+		final String content = httpDownloadUtil.getContent(result);
+		assertNotNull(content);
+		assertTrue(content.contains("für"));
 	}
 }

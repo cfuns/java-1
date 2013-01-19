@@ -30,8 +30,6 @@ public interface WebsearchGuiConstants {
 
 	String URL_CONFIGURATION_UPDATE = "/configuration/update";
 
-	String URL_CONFIGURATION_LIST = "/configuration";
-
 	String URL_CONFIGURATION_DELETE = "/configuration/delete";
 
 	String URL_CONFIGURATION_CREATE = "/configuration/create";

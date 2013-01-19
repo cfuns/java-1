@@ -14,9 +14,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.websearch.gui.guice.WebsearchGuiModules;
+import de.benjaminborbe.websearch.gui.service.WebsearchGuiNavigationEntry;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationCreateServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationDeleteServlet;
-import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationListServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationUpdateServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiIndexClearServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
@@ -25,7 +25,6 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
-import de.benjaminborbe.websearch.gui.util.WebsearchGuiNavigationEntry;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
 
@@ -57,9 +56,6 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 	private WebsearchGuiConfigurationDeleteServlet websearchGuiConfigurationDeleteServlet;
 
 	@Inject
-	private WebsearchGuiConfigurationListServlet websearchGuiConfigurationListServlet;
-
-	@Inject
 	private WebsearchGuiConfigurationUpdateServlet websearchGuiConfigurationUpdateServlet;
 
 	@Inject
@@ -86,7 +82,6 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiPageRefreshServlet, WebsearchGuiConstants.URL_REFRESH_PAGE));
 		result.add(new ServletInfo(websearchGuiConfigurationCreateServlet, WebsearchGuiConstants.URL_CONFIGURATION_CREATE));
 		result.add(new ServletInfo(websearchGuiConfigurationDeleteServlet, WebsearchGuiConstants.URL_CONFIGURATION_DELETE));
-		result.add(new ServletInfo(websearchGuiConfigurationListServlet, WebsearchGuiConstants.URL_CONFIGURATION_LIST));
 		result.add(new ServletInfo(websearchGuiConfigurationUpdateServlet, WebsearchGuiConstants.URL_CONFIGURATION_UPDATE));
 		return result;
 	}

@@ -58,7 +58,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 
 	protected void crawleDomain(final URL url, final int timeout) throws CrawlerException {
 		try {
-			logger.trace("crawle domain: " + url);
+			logger.debug("crawle domain: " + url);
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, timeout);
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();

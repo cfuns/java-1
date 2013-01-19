@@ -114,13 +114,13 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			connection.setRequestProperty("User-Agent", USERAGENT);
 			connection.connect();
 
-			final Encoding contentEncoding = new Encoding(connection.getContentEncoding());
 			inputStream = connection.getInputStream();
 			outputStream = new ByteArrayOutputStream();
 			streamUtil.copy(inputStream, outputStream);
 			final byte[] content = outputStream.toByteArray();
 			final String contentType = connection.getContentType();
 			final Map<String, List<String>> headers = connection.getHeaderFields();
+			final Encoding contentEncoding = extractEncoding(connection, contentType);
 			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
@@ -131,6 +131,22 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			if (outputStream != null)
 				outputStream.close();
 		}
+	}
+
+	private Encoding extractEncoding(final URLConnection connection, final String contentType) {
+		{
+			if (connection.getContentEncoding() != null) {
+				return new Encoding(connection.getContentEncoding());
+			}
+		}
+		{
+			final String s = "charset=";
+			final int charsetPos = contentType.indexOf(s);
+			if (charsetPos != -1) {
+				return new Encoding(contentType.substring(charsetPos + s.length()).trim());
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -193,13 +209,13 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
 			wr.write(data.toString());
 			wr.flush();
-			final Encoding contentEncoding = new Encoding(connection.getContentEncoding());
 			final InputStream inputStream = connection.getInputStream();
 			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			streamUtil.copy(inputStream, outputStream);
 			final byte[] content = outputStream.toByteArray();
 			final String contentType = connection.getContentType();
 			final Map<String, List<String>> headers = connection.getHeaderFields();
+			final Encoding contentEncoding = extractEncoding(connection, contentType);
 			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;

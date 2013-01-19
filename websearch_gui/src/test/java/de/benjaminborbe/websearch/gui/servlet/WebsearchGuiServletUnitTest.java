@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,8 @@ import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.websearch.api.WebsearchConfiguration;
+import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
@@ -126,8 +129,12 @@ public class WebsearchGuiServletUnitTest {
 		final WebsearchGuiLinkFactory websearchGuiLinkFactory = EasyMock.createNiceMock(WebsearchGuiLinkFactory.class);
 		EasyMock.replay(websearchGuiLinkFactory);
 
+		final WebsearchService websearchService = EasyMock.createMock(WebsearchService.class);
+		EasyMock.expect(websearchService.getConfigurations(sessionIdentifier)).andReturn(new ArrayList<WebsearchConfiguration>());
+		EasyMock.replay(websearchService);
+
 		final WebsearchGuiServlet websearchServlet = new WebsearchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, websearchGuiLinkFactory);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, websearchGuiLinkFactory, websearchService);
 
 		websearchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

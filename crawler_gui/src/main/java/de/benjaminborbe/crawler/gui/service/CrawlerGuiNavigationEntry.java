@@ -1,30 +1,30 @@
-package de.benjaminborbe.websearch.gui.util;
+package de.benjaminborbe.crawler.gui.service;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.crawler.gui.CrawlerGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 
-public class WebsearchGuiNavigationEntry implements NavigationEntry {
+public class CrawlerGuiNavigationEntry implements NavigationEntry {
 
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public WebsearchGuiNavigationEntry(final AuthenticationService authenticationService) {
+	public CrawlerGuiNavigationEntry(final AuthenticationService authenticationService) {
 		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	public String getTitle() {
-		return "Websearch";
+		return "Crawler";
 	}
 
 	@Override
 	public String getURL() {
-		return "/" + WebsearchGuiConstants.NAME;
+		return "/" + CrawlerGuiConstants.NAME;
 	}
 
 	@Override

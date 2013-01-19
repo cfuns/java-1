@@ -54,11 +54,11 @@ public class WebsearchGuiLinkFactory {
 	}
 
 	public String configurationListUrl(final HttpServletRequest request) {
-		return request.getContextPath() + "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_LIST;
+		return request.getContextPath() + "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_HOME;
 	}
 
 	public Widget configurationList(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_LIST, "list configurations");
+		return new LinkRelativWidget(request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_HOME, "list configurations");
 	}
 
 	public Widget clearIndex(final HttpServletRequest request) throws MalformedURLException {

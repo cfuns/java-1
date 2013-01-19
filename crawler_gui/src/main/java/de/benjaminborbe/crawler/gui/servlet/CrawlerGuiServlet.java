@@ -93,7 +93,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		else {
 			final String action = request.getContextPath() + "/crawler";
 			final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
-			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
 			widgets.add(formWidget);
 		}
