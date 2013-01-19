@@ -281,4 +281,10 @@ public class TaskGuiLinkFactory {
 
 		).addTooltip("update focus to " + name);
 	}
+
+	public Widget taskSelectTaskContext(final HttpServletRequest request, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier, final Widget name)
+			throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_SELECT_TASKCONTEXT, getLoopThrough(request).add(
+				TaskGuiConstants.PARAMETER_TASKCONTEXT_ID, taskContextIdentifier).add(TaskGuiConstants.PARAMETER_TASK_ID, taskIdentifier), name);
+	}
 }

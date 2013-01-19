@@ -8,8 +8,23 @@ public class MapParameter extends MapChain<String, String[]> {
 
 	private static final long serialVersionUID = 7577476284489842653L;
 
+	public MapParameter add(final String key, final Object value) {
+		if (value == null) {
+			add(key, new String[0]);
+		}
+		else {
+			add(key, new String[] { String.valueOf(value) });
+		}
+		return this;
+	}
+
 	public MapParameter add(final String key, final String value) {
-		add(key, new String[] { value });
+		if (value == null) {
+			add(key, new String[0]);
+		}
+		else {
+			add(key, new String[] { value });
+		}
 		return this;
 	}
 

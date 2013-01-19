@@ -29,13 +29,13 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+	public void completeTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 		return null;
 	}
 
@@ -45,7 +45,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public void deleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 	@Override
@@ -53,11 +54,13 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			TaskServiceException {
 	}
 
 	@Override
-	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Task getTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		return null;
 	}
 
@@ -68,25 +71,26 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
-		return null;
-	}
-
-	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
-			LoginRequiredException {
-		return null;
-	}
-
-	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException,
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed) throws TaskServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 			throws TaskServiceException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException,
+			TaskServiceException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus,
+			final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
 
@@ -96,7 +100,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException {
+	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException,
+			TaskServiceException {
 		return null;
 	}
 
@@ -107,21 +112,23 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
-	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+			ValidationException {
 	}
 
 	@Override
-	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException, LoginRequiredException,
-			TaskServiceException, ValidationException {
+	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
+			LoginRequiredException, TaskServiceException, ValidationException {
 	}
 
 	@Override
@@ -130,8 +137,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, PermissionDeniedException, ValidationException,
-			LoginRequiredException {
+	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, PermissionDeniedException,
+			ValidationException, LoginRequiredException {
 		return null;
 	}
 
@@ -146,8 +153,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public TaskContext getTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws TaskServiceException,
+			PermissionDeniedException, LoginRequiredException {
 		return null;
 	}
 
@@ -163,13 +170,13 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 	}
 
 	@Override
-	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException {
+	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 	@Override
@@ -195,5 +202,9 @@ public class TaskServiceMock implements TaskService {
 	public Collection<TaskContextIdentifier> getTaskContextIdentifiers(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		return null;
+	}
+
+	@Override
+	public void taskSelectTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier) {
 	}
 }

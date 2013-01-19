@@ -2,6 +2,7 @@ package de.benjaminborbe.task.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.dao.TaskBean;
+import de.benjaminborbe.task.dao.TaskBeanMapper;
 import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextToUserManyToManyRelation;
@@ -485,8 +487,10 @@ public class TaskServiceImpl implements TaskService {
 	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		try {
 			logger.debug("expectOwner");
-			final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
-			authorizationService.expectUser(sessionIdentifier, users);
+			if (taskContext != null) {
+				final Collection<UserIdentifier> users = getTaskContextUsers(taskContext);
+				authorizationService.expectUser(sessionIdentifier, users);
+			}
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
@@ -498,7 +502,9 @@ public class TaskServiceImpl implements TaskService {
 			TaskServiceException {
 		try {
 			logger.debug("expectOwner");
-			expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+			if (taskContextIdentifier != null) {
+				expectOwner(sessionIdentifier, taskContextDao.load(taskContextIdentifier));
+			}
 		}
 		catch (final StorageException e) {
 			throw new TaskServiceException(e);
@@ -1192,6 +1198,42 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void taskSelectTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
+			throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authenticationService.expectLoggedIn(sessionIdentifier);
+
+			final TaskBean task = taskDao.load(taskIdentifier);
+			authorizationService.expectUser(sessionIdentifier, task.getOwner());
+			expectOwner(sessionIdentifier, taskContextIdentifier);
+
+			task.setContext(taskContextIdentifier);
+
+			final ValidationResult errors = validationExecutor.validate(task, Arrays.asList(TaskBeanMapper.CONTEXT));
+			if (errors.hasErrors()) {
+				logger.warn("Task " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			taskDao.save(task);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final AuthorizationServiceException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {

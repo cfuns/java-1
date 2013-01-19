@@ -3,7 +3,9 @@ package de.benjaminborbe.task.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +27,14 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskComparator;
+import de.benjaminborbe.task.gui.util.TaskContextComparator;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
@@ -52,6 +56,7 @@ import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.PreWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 
 @Singleton
 public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
@@ -273,8 +278,33 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 		// taskContext
 		{
+			final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
+			Collections.sort(taskContexts, new TaskContextComparator());
 			final ListWidget contextList = new ListWidget();
-			contextList.add("Context: " + task.getContext());
+			contextList.add("Context: ");
+			{
+				final Widget name;
+				if (task.getContext() == null) {
+					name = new SpanWidget("none").addClass("taskContextSelected");
+				}
+				else {
+					name = new SpanWidget("none").addClass("taskContextNotSelected");
+				}
+				contextList.add(taskGuiLinkFactory.taskSelectTaskContext(request, task.getId(), null, name));
+				contextList.add(" ");
+			}
+			for (final TaskContext taskContext : taskContexts) {
+				final Widget name;
+				if (taskContext.getId().equals(task.getContext())) {
+					name = new SpanWidget(taskContext.getName()).addClass("taskContextSelected");
+				}
+				else {
+					name = new SpanWidget(taskContext.getName()).addClass("taskContextNotSelected");
+				}
+				contextList.add(taskGuiLinkFactory.taskSelectTaskContext(request, task.getId(), taskContext.getId(), name));
+				contextList.add(" ");
+			}
+
 			widgets.add(new DivWidget(contextList).addClass("contextList"));
 		}
 

@@ -104,4 +104,6 @@ public interface TaskGuiConstants {
 
 	String NONE = "none";
 
+	String URL_TASK_SELECT_TASKCONTEXT = "/task/selectContext";
+
 }
