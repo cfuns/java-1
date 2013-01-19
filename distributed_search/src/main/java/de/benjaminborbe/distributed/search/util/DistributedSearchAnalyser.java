@@ -1,6 +1,5 @@
 package de.benjaminborbe.distributed.search.util;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,18 +8,19 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 
+import de.benjaminborbe.tools.search.SearchUtil;
+
 public class DistributedSearchAnalyser {
 
+	private final SearchUtil searchUtil;
+
 	@Inject
-	public DistributedSearchAnalyser() {
+	public DistributedSearchAnalyser(final SearchUtil searchUtil) {
+		this.searchUtil = searchUtil;
 	}
 
 	public Collection<String> parseSearchTerm(final String content) {
-		if (content == null) {
-			return Arrays.asList();
-		}
-		final String[] parts = content.toLowerCase().replaceAll("[^a-zöäüß]", " ").split("\\s+");
-		return filter(Arrays.asList(parts));
+		return filter(searchUtil.buildSearchParts(content));
 	}
 
 	@SuppressWarnings("unchecked")
