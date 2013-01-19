@@ -24,4 +24,6 @@ public interface TaskDao extends Dao<TaskBean, TaskIdentifier> {
 
 	EntityIterator<TaskBean> getTaskChilds(TaskIdentifier taskIdentifier) throws StorageException;
 
+	EntityIterator<TaskBean> getTasks(TaskContextIdentifier taskContextIdentifier) throws StorageException;
+
 }

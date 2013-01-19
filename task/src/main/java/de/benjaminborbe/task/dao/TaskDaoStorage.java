@@ -93,4 +93,9 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.FOCUS, String.valueOf(taskFocus))
 				.add(TaskBeanMapper.COMPLETED, String.valueOf(completed)));
 	}
+
+	@Override
+	public EntityIterator<TaskBean> getTasks(final TaskContextIdentifier taskContextIdentifier) throws StorageException {
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier)));
+	}
 }

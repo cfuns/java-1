@@ -1,6 +1,7 @@
 package de.benjaminborbe.task.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,15 +28,22 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 
 	private static final String COLUMN_FAMILY = "task_context";
 
+	private final TaskDao taskDao;
+
+	private final Logger logger;
+
 	@Inject
 	public TaskContextDaoStorage(
 			final Logger logger,
 			final StorageService storageService,
 			final Provider<TaskContextBean> beanProvider,
 			final TaskContextBeanMapper mapper,
+			final TaskDao taskDao,
 			final TaskContextIdentifierBuilder identifierBuilder,
 			final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
+		this.taskDao = taskDao;
+		this.logger = logger;
 	}
 
 	@Override
@@ -86,6 +94,24 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 		}
 		catch (final EntityIteratorException e) {
 			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public void onDelete(final TaskContextIdentifier id) {
+		try {
+			final EntityIterator<TaskBean> ti = taskDao.getTasks(id);
+			while (ti.hasNext()) {
+				final TaskBean task = ti.next();
+				task.setContext(null);
+				taskDao.save(task, Arrays.asList(buildValue(TaskBeanMapper.CONTEXT)));
+			}
+		}
+		catch (final EntityIteratorException e) {
+			logger.debug(e.getClass().getName(), e);
+		}
+		catch (final StorageException e) {
+			logger.debug(e.getClass().getName(), e);
 		}
 	}
 }

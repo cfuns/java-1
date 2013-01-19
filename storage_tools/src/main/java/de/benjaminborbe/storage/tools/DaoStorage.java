@@ -236,9 +236,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		try {
 			logger.trace("delete");
 			storageService.delete(getColumnFamily(), new StorageValue(id.getId(), getEncoding()));
+			onDelete(id);
 		}
 		finally {
 		}
+	}
+
+	public void onDelete(final I id) {
 	}
 
 	@Override
