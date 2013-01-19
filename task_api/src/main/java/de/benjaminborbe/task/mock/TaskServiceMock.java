@@ -177,4 +177,16 @@ public class TaskServiceMock implements TaskService {
 		return null;
 	}
 
+	@Override
+	public Collection<Task> getTasksNotCompleted(final SessionIdentifier sessionIdentifier, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+			throws TaskServiceException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public Collection<TaskContextIdentifier> getTaskContextIdentifiers(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		return null;
+	}
+
 }

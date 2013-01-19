@@ -20,6 +20,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
@@ -140,7 +141,8 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 		}
 	}
 
-	private List<Task> getTasks(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, TaskServiceException, LoginRequiredException {
+	private List<Task> getTasks(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, TaskServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 		final Collection<Task> allTasks = taskService.getTasksNotCompleted(sessionIdentifier);
 		final List<Task> childTasks = taskGuiUtil.getOnlyChilds(allTasks);

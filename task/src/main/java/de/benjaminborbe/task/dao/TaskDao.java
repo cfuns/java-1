@@ -4,6 +4,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.Dao;
 import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 
 public interface TaskDao extends Dao<TaskBean, TaskIdentifier> {
@@ -17,4 +18,6 @@ public interface TaskDao extends Dao<TaskBean, TaskIdentifier> {
 	int getMaxPriority(UserIdentifier userIdentifier) throws StorageException;
 
 	EntityIterator<TaskBean> getTaskChilds(TaskIdentifier taskIdentifier) throws StorageException;
+
+	EntityIterator<TaskBean> getTasksNotCompletedByTaskContext(TaskContextIdentifier taskContextIdentifier) throws StorageException;
 }

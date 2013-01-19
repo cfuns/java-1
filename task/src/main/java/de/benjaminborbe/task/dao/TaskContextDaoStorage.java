@@ -16,6 +16,8 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -42,7 +44,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	}
 
 	@Override
-	public Collection<TaskContextBean> getByUser(final UserIdentifier userIdentifier) throws StorageException {
+	public Collection<TaskContextBean> getTaskContextsByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
 			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();
 			final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
@@ -58,12 +60,32 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	}
 
 	@Override
-	public TaskContextBean findByName(final UserIdentifier userIdentifier, final String taskContextName) throws StorageException, EntityIteratorException {
-		final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)).add(
-				TaskContextBeanMapper.NAME, taskContextName));
-		while (i.hasNext()) {
-			return i.next();
+	public Collection<TaskContextIdentifier> getTaskContextIdentifiersByUser(final UserIdentifier userIdentifier) throws StorageException {
+		try {
+			final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
+			final IdentifierIterator<TaskContextIdentifier> i = getIdentifierIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
 		}
-		return null;
+		catch (final IdentifierIteratorException e) {
+			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public TaskContextBean findByName(final UserIdentifier userIdentifier, final String taskContextName) throws StorageException {
+		try {
+			final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)).add(
+					TaskContextBeanMapper.NAME, taskContextName));
+			while (i.hasNext()) {
+				return i.next();
+			}
+			return null;
+		}
+		catch (final EntityIteratorException e) {
+			throw new StorageException(e);
+		}
 	}
 }

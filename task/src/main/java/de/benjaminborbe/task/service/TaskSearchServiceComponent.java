@@ -14,6 +14,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
@@ -63,6 +64,9 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 			logger.trace(e.getClass().getName(), e);
 		}
 		catch (final LoginRequiredException e) {
+			logger.trace(e.getClass().getName(), e);
+		}
+		catch (final PermissionDeniedException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		return results;

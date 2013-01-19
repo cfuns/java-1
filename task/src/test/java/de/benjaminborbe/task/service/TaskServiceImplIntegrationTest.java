@@ -82,6 +82,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setName(name);
 		taskDto.setDescription(description);
+		taskDto.setFocus(TaskFocus.INBOX);
 
 		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
 		assertNotNull(taskIdentifier);
@@ -106,6 +107,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskDto taskDtoA = new TaskDto();
 		taskDtoA.setName("nameA");
 		taskDtoA.setDescription("descriptionA");
+		taskDtoA.setFocus(TaskFocus.INBOX);
 		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, taskDtoA);
 		assertNotNull(taskIdentifierA);
 
@@ -172,6 +174,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskDto taskDtoA = new TaskDto();
 		taskDtoA.setName("nameA");
 		taskDtoA.setDescription("descriptionA");
+		taskDtoA.setFocus(TaskFocus.INBOX);
 
 		final TaskIdentifier taskIdentifierA = taskService.createTask(sessionIdentifier, taskDtoA);
 		assertNotNull(taskIdentifierA);
@@ -219,6 +222,7 @@ public class TaskServiceImplIntegrationTest {
 
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -239,6 +243,7 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -267,6 +272,7 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoA.setName("parent");
 			taskDtoA.setStart(start);
 			taskDtoA.setDue(due);
+			taskDtoA.setFocus(TaskFocus.INBOX);
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -291,6 +297,7 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoA.setName("parent");
 			taskDtoA.setStart(parentStart);
 			taskDtoA.setDue(parentDue);
+			taskDtoA.setFocus(TaskFocus.INBOX);
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -319,6 +326,7 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoA.setName("parent");
 			taskDtoA.setStart(parentStart);
 			taskDtoA.setDue(parentDue);
+			taskDtoA.setFocus(TaskFocus.INBOX);
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -352,6 +360,8 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -379,6 +389,8 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -413,6 +425,8 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoA.setName("parent");
 			taskDtoA.setStart(start);
 			taskDtoA.setDue(due);
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -445,6 +459,8 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoA.setName("parent");
 			taskDtoA.setStart(parentStart);
 			taskDtoA.setDue(parentDue);
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -479,6 +495,8 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoA.setName("parent");
 			taskDtoA.setStart(parentStart);
 			taskDtoA.setDue(parentDue);
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -518,6 +536,8 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -533,6 +553,7 @@ public class TaskServiceImplIntegrationTest {
 			final TaskDto taskDtoC = new TaskDto();
 			taskDtoC.setId(parentTaskIdentifier);
 			taskDtoC.setName("parent");
+			taskDtoC.setFocus(TaskFocus.INBOX);
 			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
@@ -544,6 +565,8 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 			final Task parent = taskService.getTask(sessionIdentifier, parentTaskIdentifier);
@@ -563,6 +586,7 @@ public class TaskServiceImplIntegrationTest {
 			final TaskDto taskDtoC = new TaskDto();
 			taskDtoC.setId(parentTaskIdentifier);
 			taskDtoC.setName("parent");
+			taskDtoC.setFocus(TaskFocus.INBOX);
 			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
@@ -576,6 +600,8 @@ public class TaskServiceImplIntegrationTest {
 			final Calendar parentDue = calendarUtil.parseSmart("2d");
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 
@@ -590,6 +616,7 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoC.setName("child");
 			taskDtoC.setStart(parentStart);
 			taskDtoC.setDue(parentDue);
+			taskDtoC.setFocus(TaskFocus.INBOX);
 			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
@@ -603,6 +630,8 @@ public class TaskServiceImplIntegrationTest {
 			final Calendar parentDue = calendarUtil.parseSmart("3d");
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 
@@ -621,6 +650,7 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoC.setName("child");
 			taskDtoC.setStart(parentStart);
 			taskDtoC.setDue(parentDue);
+			taskDtoC.setFocus(TaskFocus.INBOX);
 			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
@@ -634,6 +664,8 @@ public class TaskServiceImplIntegrationTest {
 			final Calendar parentDue = calendarUtil.parseSmart("5d");
 			final TaskDto taskDtoA = new TaskDto();
 			taskDtoA.setName("parent");
+			taskDtoA.setFocus(TaskFocus.INBOX);
+
 			final TaskIdentifier parentTaskIdentifier = taskService.createTask(sessionIdentifier, taskDtoA);
 			assertNotNull(parentTaskIdentifier);
 
@@ -652,6 +684,7 @@ public class TaskServiceImplIntegrationTest {
 			taskDtoC.setName("child");
 			taskDtoC.setStart(parentStart);
 			taskDtoC.setDue(parentDue);
+			taskDtoC.setFocus(TaskFocus.INBOX);
 			taskService.updateTask(sessionIdentifier, taskDtoC);
 
 			final Task child = taskService.getTask(sessionIdentifier, childTaskIdentifier);
@@ -671,7 +704,7 @@ public class TaskServiceImplIntegrationTest {
 		{
 			final TaskDto taskDto = new TaskDto();
 			taskDto.setName("task");
-			taskDto.setFocus(null);
+			taskDto.setFocus(TaskFocus.INBOX);
 
 			final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDto);
 			assertNotNull(taskIdentifier);
@@ -702,6 +735,7 @@ public class TaskServiceImplIntegrationTest {
 
 		final TaskDto taskDtoOrg = new TaskDto();
 		taskDtoOrg.setName("task");
+		taskDtoOrg.setFocus(TaskFocus.INBOX);
 
 		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskDtoOrg);
 		assertNotNull(taskIdentifier);
@@ -728,7 +762,7 @@ public class TaskServiceImplIntegrationTest {
 			final TaskDto taskDto = new TaskDto();
 			taskDto.setId(taskIdentifier);
 			taskDto.setName("task");
-			taskDto.setFocus(null);
+			taskDto.setFocus(TaskFocus.SOMEDAY);
 			taskService.updateTask(sessionIdentifier, taskDto);
 		}
 

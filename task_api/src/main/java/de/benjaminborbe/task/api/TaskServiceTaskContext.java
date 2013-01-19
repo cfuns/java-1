@@ -41,4 +41,6 @@ public interface TaskServiceTaskContext {
 	void expectOwner(SessionIdentifier sessionIdentifier, TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
 
 	void expectOwner(SessionIdentifier sessionIdentifier, TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException;
+
+	Collection<TaskContextIdentifier> getTaskContextIdentifiers(SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException;
 }

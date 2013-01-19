@@ -27,6 +27,14 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
 public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 
+	public static final String PARENT_ID = "parentId";
+
+	public static final String COMPLETED = "completed";
+
+	public static final String OWNER = "owner";
+
+	public static final String CONTEXT = "context";
+
 	@Inject
 	public TaskBeanMapper(
 			final Provider<TaskBean> provider,
@@ -48,13 +56,13 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 			final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus, final MapperTaskContextIdentifier mapperTaskContextIdentifier) {
 		final List<StringObjectMapper<TaskBean>> result = new ArrayList<StringObjectMapper<TaskBean>>();
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("id", mapperTaskIdentifier));
-		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("parentId", mapperTaskIdentifier));
-		result.add(new StringObjectMapperAdapter<TaskBean, TaskContextIdentifier>("context", mapperTaskContextIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>(PARENT_ID, mapperTaskIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskBean, TaskContextIdentifier>(CONTEXT, mapperTaskContextIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, String>("name", mapperString));
 		result.add(new StringObjectMapperAdapter<TaskBean, String>("description", mapperString));
-		result.add(new StringObjectMapperAdapter<TaskBean, UserIdentifier>("owner", mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskBean, UserIdentifier>(OWNER, mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, Long>("duration", mapperLong));
-		result.add(new StringObjectMapperAdapter<TaskBean, Boolean>("completed", mapperBoolean));
+		result.add(new StringObjectMapperAdapter<TaskBean, Boolean>(COMPLETED, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<TaskBean, Calendar>("completionDate", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<TaskBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<TaskBean, Calendar>("modified", mapperCalendar));
