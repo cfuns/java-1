@@ -440,4 +440,15 @@ public class StorageServiceImpl implements StorageService {
 		}
 	}
 
+	@Override
+	public boolean isAvailable() {
+		try {
+			storageDaoUtil.count(config.getKeySpace(), "user");
+			return true;
+		}
+		catch (final Exception e) {
+			return false;
+		}
+	}
+
 }

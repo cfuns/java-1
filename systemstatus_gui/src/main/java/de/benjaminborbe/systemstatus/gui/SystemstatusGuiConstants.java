@@ -4,4 +4,6 @@ public interface SystemstatusGuiConstants {
 
 	String NAME = "systemstatus";
 
+	String URL_HOME = "/";
+
 }

@@ -31,7 +31,7 @@ public class SystemstatusGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(systemstatusGuiServlet, "/"));
+		result.add(new ServletInfo(systemstatusGuiServlet, SystemstatusGuiConstants.URL_HOME));
 		return result;
 	}
 

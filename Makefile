@@ -299,3 +299,8 @@ buildkiosk:
 	cd kiosk && make all
 	cd kiosk_gui && make all
 	cd kiosk_test && make all
+buildsystemstatus:
+	cd systemstatus_api && make all
+	cd systemstatus && make all
+	cd systemstatus_gui && make all
+	cd systemstatus_test && make all

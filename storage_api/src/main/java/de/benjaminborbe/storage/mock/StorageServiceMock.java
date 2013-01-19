@@ -338,4 +338,9 @@ public class StorageServiceMock implements StorageService {
 	@Override
 	public void backup(final String columnFamily) throws StorageException {
 	}
+
+	@Override
+	public boolean isAvailable() {
+		return true;
+	}
 }

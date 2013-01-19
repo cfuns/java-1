@@ -56,4 +56,6 @@ public interface StorageService {
 
 	void backup(String columnFamily) throws StorageException;
 
+	boolean isAvailable();
+
 }

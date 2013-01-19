@@ -26,6 +26,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -47,6 +48,8 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final StorageService storageService;
+
 	@Inject
 	public SystemstatusGuiServlet(
 			final Logger logger,
@@ -58,9 +61,11 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final StorageService storageService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.storageService = storageService;
 	}
 
 	@Override
@@ -78,8 +83,21 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		sessionData(request, widgets);
 		memoryState(widgets);
 		diskUsage(widgets);
+		storageState(widgets);
 
 		return widgets;
+	}
+
+	private void storageState(final ListWidget widgets) {
+		widgets.add(new H2Widget("Storage"));
+		final NumberFormat nf = NumberFormat.getNumberInstance();
+		final UlWidget ul = new UlWidget();
+		ul.add("Is available: " + storageService.isAvailable());
+		ul.add("Open Connections: " + nf.format(storageService.getConnections()));
+		ul.add("Free Connections: " + nf.format(storageService.getFreeConnections()));
+		ul.add("Max Connections: " + nf.format(storageService.getMaxConnections()));
+		ul.add("Encoding: " + storageService.getEncoding());
+		widgets.add(ul);
 	}
 
 	private void diskUsage(final ListWidget widgets) {
