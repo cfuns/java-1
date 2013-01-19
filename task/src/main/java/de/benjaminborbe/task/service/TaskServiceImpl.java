@@ -2,7 +2,6 @@ package de.benjaminborbe.task.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -43,7 +42,6 @@ import de.benjaminborbe.task.api.TaskMatch;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.dao.TaskBean;
-import de.benjaminborbe.task.dao.TaskBeanMapper;
 import de.benjaminborbe.task.dao.TaskContextBean;
 import de.benjaminborbe.task.dao.TaskContextDao;
 import de.benjaminborbe.task.dao.TaskContextToUserManyToManyRelation;
@@ -814,6 +812,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setStart(calendarUtil.max(task.getStart(), parentTask.getStart()));
 			task.setDue(calendarUtil.min(task.getDue(), parentTask.getDue()));
 			task.setFocus(parentTask.getFocus());
+			task.setContext(parentTask.getContext());
 		}
 
 		final ValidationResult errors = validationExecutor.validate(task);
@@ -1213,19 +1212,17 @@ public class TaskServiceImpl implements TaskService {
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 
-			final TaskBean task = taskDao.load(taskIdentifier);
+			TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
 			expectOwner(sessionIdentifier, taskContextIdentifier);
 
-			task.setContext(taskContextIdentifier);
-
-			final ValidationResult errors = validationExecutor.validate(task, Arrays.asList(TaskBeanMapper.CONTEXT));
-			if (errors.hasErrors()) {
-				logger.warn("Task " + errors.toString());
-				throw new ValidationException(errors);
+			while (task.getParentId() != null) {
+				task = taskDao.load(task.getParentId());
 			}
 
-			taskDao.save(task);
+			task.setContext(taskContextIdentifier);
+
+			saveTaskAndChilds(task);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new TaskServiceException(e);
@@ -1234,6 +1231,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new TaskServiceException(e);
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new TaskServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new TaskServiceException(e);
 		}
 		finally {
