@@ -2,8 +2,10 @@ package de.benjaminborbe.lunch.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -16,11 +18,12 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.Validator;
+import de.benjaminborbe.tools.validation.ValidatorBase;
+import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 
-public class LunchUserSettingsValidator implements Validator<LunchUserSettingsBean> {
+public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsBean> {
 
 	private class ValidationConstraintUsername implements ValidationConstraint<LunchUserSettingsIdentifier> {
 
@@ -65,38 +68,48 @@ public class LunchUserSettingsValidator implements Validator<LunchUserSettingsBe
 	}
 
 	@Override
-	public Collection<ValidationError> validate(final LunchUserSettingsBean object) {
-		final LunchUserSettingsBean bean = object;
-		final Set<ValidationError> result = new HashSet<ValidationError>();
+	protected Map<String, ValidatorRule<LunchUserSettingsBean>> buildRules() {
+		final Map<String, ValidatorRule<LunchUserSettingsBean>> result = new HashMap<String, ValidatorRule<LunchUserSettingsBean>>();
 
+		// id
 		{
-			final LunchUserSettingsIdentifier id = bean.getId();
-			final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<ValidationConstraint<LunchUserSettingsIdentifier>>();
-			constraints.add(new ValidationConstraintNotNull<LunchUserSettingsIdentifier>());
-			constraints.add(new ValidationConstraintUsername("alle", "root", "admin") {
+			final String field = "id";
+			result.put(field, new ValidatorRule<LunchUserSettingsBean>() {
 
+				@Override
+				public Collection<ValidationError> validate(final LunchUserSettingsBean bean) {
+					final LunchUserSettingsIdentifier value = bean.getId();
+					final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<ValidationConstraint<LunchUserSettingsIdentifier>>();
+					constraints.add(new ValidationConstraintNotNull<LunchUserSettingsIdentifier>());
+					constraints.add(new ValidationConstraintUsername("alle", "root", "admin"));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
 			});
-			result.addAll(validationConstraintValidator.validate("id", id, constraints));
 		}
 
+		// owner
 		{
-			final UserIdentifier owner = bean.getOwner();
-			try {
-				if (!authenticationService.existsUser(owner)) {
-					result.add(new ValidationErrorSimple("unkown user " + owner));
+			final String field = "owner";
+			result.put(field, new ValidatorRule<LunchUserSettingsBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final LunchUserSettingsBean bean) {
+					final Set<ValidationError> result = new HashSet<ValidationError>();
+					final UserIdentifier owner = bean.getOwner();
+					try {
+						if (!authenticationService.existsUser(owner)) {
+							result.add(new ValidationErrorSimple("unkown user " + owner));
+						}
+					}
+					catch (final AuthenticationServiceException e) {
+						logger.warn(e.getClass().getName(), e);
+						result.add(new ValidationErrorSimple("validate user failed"));
+					}
+					return result;
 				}
-			}
-			catch (final AuthenticationServiceException e) {
-				logger.warn(e.getClass().getName(), e);
-				result.add(new ValidationErrorSimple("validate user failed"));
-			}
+			});
 		}
 
 		return result;
-	}
-
-	@Override
-	public Collection<ValidationError> validateObject(final Object object) {
-		return validate((LunchUserSettingsBean) object);
 	}
 }

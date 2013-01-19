@@ -38,6 +38,8 @@ import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.tools.util.StringUtilImpl;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerImpl;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
+import de.benjaminborbe.tools.validation.ValidationExecutorImpl;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 import de.benjaminborbe.tools.validation.ValidatorRegistryImpl;
 
@@ -45,6 +47,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ValidationExecutor.class).to(ValidationExecutorImpl.class).in(Singleton.class);
 		bind(PasswordGenerator.class).to(PasswordGeneratorImpl.class).in(Singleton.class);
 		bind(PasswordValidator.class).to(PasswordValidatorImpl.class).in(Singleton.class);
 		bind(CurrentTime.class).to(CurrentTimeImpl.class);

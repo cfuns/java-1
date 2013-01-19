@@ -1,28 +1,22 @@
 package de.benjaminborbe.gallery.validation;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import de.benjaminborbe.api.ValidationError;
+import java.util.HashMap;
+import java.util.Map;
 import de.benjaminborbe.gallery.dao.GalleryEntryBean;
-import de.benjaminborbe.tools.validation.Validator;
+import de.benjaminborbe.tools.validation.ValidatorBase;
+import de.benjaminborbe.tools.validation.ValidatorRule;
 
-public class GalleryEntryValidator implements Validator<GalleryEntryBean> {
+public class GalleryEntryValidator extends ValidatorBase<GalleryEntryBean> {
 
 	@Override
 	public Class<GalleryEntryBean> getType() {
 		return GalleryEntryBean.class;
 	}
 
-	public Collection<ValidationError> validate(final GalleryEntryBean object) {
-		final Set<ValidationError> result = new HashSet<ValidationError>();
-		return result;
-	}
-
 	@Override
-	public Collection<ValidationError> validateObject(final Object object) {
-		return validate((GalleryEntryBean) object);
+	protected Map<String, ValidatorRule<GalleryEntryBean>> buildRules() {
+		final Map<String, ValidatorRule<GalleryEntryBean>> result = new HashMap<String, ValidatorRule<GalleryEntryBean>>();
+		return result;
 	}
 
 }

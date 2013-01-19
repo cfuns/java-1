@@ -9,6 +9,7 @@ import java.util.Calendar;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -22,11 +23,11 @@ public class TaskValidatorUnitTest {
 	public void testValidName() throws Exception {
 		final TaskValidator taskValidator = getValidator();
 		{
-			final TaskBean task = buildTask("bla", 1, 2);
+			final TaskBean task = buildTask("bla", 1, 2, TaskFocus.INBOX);
 			assertThat(taskValidator.validate(task).size(), is(0));
 		}
 		{
-			final TaskBean task = buildTask("bla bla", 1, 2);
+			final TaskBean task = buildTask("bla bla", 1, 2, TaskFocus.INBOX);
 			assertThat(taskValidator.validate(task).size(), is(0));
 		}
 	}
@@ -36,25 +37,25 @@ public class TaskValidatorUnitTest {
 		final TaskValidator taskValidator = getValidator();
 
 		{
-			final TaskBean task = buildTask("bla", 1, 2);
+			final TaskBean task = buildTask("bla", 1, 2, TaskFocus.INBOX);
 			assertThat(task.getStart(), is(notNullValue()));
 			assertThat(task.getDue(), is(notNullValue()));
 			assertThat(taskValidator.validate(task).size(), is(0));
 		}
 		{
-			final TaskBean task = buildTask("bla", 1, 1);
+			final TaskBean task = buildTask("bla", 1, 1, TaskFocus.INBOX);
 			assertThat(taskValidator.validate(task).size(), is(0));
 		}
 		{
-			final TaskBean task = buildTask("bla", null, 1);
+			final TaskBean task = buildTask("bla", null, 1, TaskFocus.INBOX);
 			assertThat(taskValidator.validate(task).size(), is(0));
 		}
 		{
-			final TaskBean task = buildTask("bla", 1, null);
+			final TaskBean task = buildTask("bla", 1, null, TaskFocus.INBOX);
 			assertThat(taskValidator.validate(task).size(), is(0));
 		}
 		{
-			final TaskBean task = buildTask("bla", 2, 1);
+			final TaskBean task = buildTask("bla", 2, 1, TaskFocus.INBOX);
 			assertThat(taskValidator.validate(task).size(), is(1));
 		}
 	}
@@ -70,11 +71,12 @@ public class TaskValidatorUnitTest {
 		return taskValidator;
 	}
 
-	private TaskBean buildTask(final String name, final Integer start, final Integer due) {
+	private TaskBean buildTask(final String name, final Integer start, final Integer due, final TaskFocus focus) {
 		final TaskBean task = new TaskBean();
 		task.setName(name);
 		task.setStart(buildCalendar(start));
 		task.setDue(buildCalendar(due));
+		task.setFocus(focus);
 		return task;
 	}
 

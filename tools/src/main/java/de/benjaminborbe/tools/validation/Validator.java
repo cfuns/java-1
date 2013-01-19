@@ -12,4 +12,8 @@ public interface Validator<T> {
 
 	Collection<ValidationError> validate(T object);
 
+	Collection<ValidationError> validateObject(Object object, Collection<String> fields);
+
+	Collection<ValidationError> validate(T object, Collection<String> fields);
+
 }
