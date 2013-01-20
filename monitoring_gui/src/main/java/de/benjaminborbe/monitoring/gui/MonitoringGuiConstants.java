@@ -14,4 +14,12 @@ public interface MonitoringGuiConstants {
 
 	String PARAMETER_NODE_ID = "node_id";
 
+	String URL_NODE_UPDATE = "/node/update";
+
+	String URL_NODE_LIST = "/node";
+
+	String URL_NODE_DELETE = "/node/delete";
+
+	String URL_NODE_CREATE = "/node/create";
+
 }
