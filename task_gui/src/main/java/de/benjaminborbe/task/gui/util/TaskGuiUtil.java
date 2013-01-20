@@ -166,6 +166,7 @@ public class TaskGuiUtil {
 		if (text == null) {
 			return task;
 		}
+		task.setFocus(TaskFocus.INBOX);
 
 		final List<String> remainingTokens = new ArrayList<String>();
 
