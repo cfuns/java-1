@@ -1,12 +1,13 @@
-package de.benjaminborbe.search.gui.config;
+package de.benjaminborbe.search.config;
 
 import java.util.Collection;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
-public interface SearchGuiConfig {
+public interface SearchConfig {
 
 	Collection<ConfigurationDescription> getConfigurations();
 
-	String getAuthToken();
+	boolean isUrlSearchActive();
+
 }

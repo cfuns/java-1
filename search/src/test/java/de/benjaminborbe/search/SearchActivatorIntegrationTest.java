@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModulesMock;
@@ -47,6 +48,7 @@ public class SearchActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(SearchService.class.getName());
 		names.add(SearchServiceComponent.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

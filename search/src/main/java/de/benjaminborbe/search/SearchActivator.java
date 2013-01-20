@@ -9,8 +9,10 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.search.config.SearchConfig;
 import de.benjaminborbe.search.guice.SearchModules;
 import de.benjaminborbe.search.service.SearchServiceComponentServiceTracker;
 import de.benjaminborbe.search.util.SearchServiceComponentRegistry;
@@ -30,6 +32,9 @@ public class SearchActivator extends BaseBundleActivator {
 	@Inject
 	private UrlSearchServiceComponent urlSearchServiceComponent;
 
+	@Inject
+	private SearchConfig searchConfig;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new SearchModules(context);
@@ -47,6 +52,9 @@ public class SearchActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchService.class, searchService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, urlSearchServiceComponent, urlSearchServiceComponent.getClass().getName()));
+		for (final ConfigurationDescription configuration : searchConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 }

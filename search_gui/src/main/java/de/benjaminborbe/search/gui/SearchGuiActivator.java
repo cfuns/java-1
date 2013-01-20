@@ -9,10 +9,12 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
+import de.benjaminborbe.search.gui.config.SearchGuiConfig;
 import de.benjaminborbe.search.gui.guice.SearchGuiModules;
 import de.benjaminborbe.search.gui.service.SearchGuiDashboardWidget;
 import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchRegistry;
@@ -62,6 +64,9 @@ public class SearchGuiActivator extends HttpBundleActivator {
 	@Inject
 	private SearchGuiNavigationEntry searchGuiNavigationEntry;
 
+	@Inject
+	private SearchGuiConfig searchGuiConfig;
+
 	public SearchGuiActivator() {
 		super(SearchGuiConstants.NAME);
 	}
@@ -96,6 +101,9 @@ public class SearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchWidget.class, searchWidget));
 		result.add(new ServiceInfo(NavigationEntry.class, searchGuiNavigationEntry));
+		for (final ConfigurationDescription configuration : searchGuiConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 

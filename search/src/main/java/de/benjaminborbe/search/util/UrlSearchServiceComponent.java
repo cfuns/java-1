@@ -15,14 +15,18 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.search.config.SearchConfig;
 
 public class UrlSearchServiceComponent implements SearchServiceComponent {
 
 	private final Logger logger;
 
+	private final SearchConfig searchConfig;
+
 	@Inject
-	public UrlSearchServiceComponent(final Logger logger) {
+	public UrlSearchServiceComponent(final Logger logger, final SearchConfig searchConfig) {
 		this.logger = logger;
+		this.searchConfig = searchConfig;
 	}
 
 	@Override
@@ -35,7 +39,7 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 		logger.trace("search");
 		final List<SearchResult> result = new ArrayList<SearchResult>();
 		try {
-			if (query != null) {
+			if (query != null && searchConfig.isUrlSearchActive()) {
 				final String queryTrimed = query.trim();
 				if (!queryTrimed.isEmpty() && queryTrimed.indexOf(" ") == -1) {
 					final String urlString = new URL("http://" + query).toExternalForm();

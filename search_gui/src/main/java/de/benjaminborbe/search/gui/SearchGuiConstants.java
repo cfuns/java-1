@@ -28,4 +28,6 @@ public interface SearchGuiConstants {
 
 	String PARAMETER_AUTH_TOKEN = "token";
 
+	String CONFIG_AUTH_TOKEN = "SearchGuiAuthToken";
+
 }
