@@ -1,7 +1,9 @@
 package de.benjaminborbe.search.gui.servlet;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.servlet.WebsiteConstants;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
 @Singleton
@@ -53,6 +57,12 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 
 	private final SearchUtil searchUtil;
 
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public SearchGuiJsonServlet(
 			final Logger logger,
@@ -65,14 +75,18 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 			final SearchService searchService,
 			final SearchGuiConfig searchGuiConfig,
 			final SearchGuiShortener searchGuiShortener,
-			final SearchUtil searchUtil) {
+			final SearchUtil searchUtil,
+			final ParseUtil parseUtil) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 		this.searchService = searchService;
 		this.authenticationService = authenticationService;
 		this.searchGuiConfig = searchGuiConfig;
 		this.searchGuiShortener = searchGuiShortener;
 		this.searchUtil = searchUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -115,6 +129,12 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 				object.put("results", array);
 				object.put("searchQuery", searchQuery);
 				object.put("maxResults", MAXRESULTS);
+				object.put("matches", String.valueOf(results.size()));
+				final long now = getNowAsLong();
+				final long startTime = parseUtil.parseLong(context.getData().get(WebsiteConstants.START_TIME), now);
+				final long duration = (now - startTime);
+				object.put("duration", String.valueOf(duration));
+
 				printJson(response, object);
 			}
 			else {
@@ -127,6 +147,12 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 		catch (final AuthenticationServiceException e) {
 			printException(response, e);
 		}
+	}
+
+	private long getNowAsLong() {
+		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
+		final Calendar now = calendarUtil.now(timeZone);
+		return now.getTimeInMillis();
 	}
 
 	@Override
