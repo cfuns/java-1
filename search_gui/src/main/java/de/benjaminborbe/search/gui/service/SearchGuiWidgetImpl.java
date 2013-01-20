@@ -29,7 +29,7 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.search.api.SearchWidget;
-import de.benjaminborbe.search.gui.SearchGuiConstants;
+import de.benjaminborbe.search.gui.util.SearchGuiShortener;
 import de.benjaminborbe.search.gui.util.SearchGuiTermHighlighter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -37,7 +37,6 @@ import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.website.servlet.WebsiteConstants;
 import de.benjaminborbe.website.util.ExceptionWidget;
 
@@ -62,8 +61,6 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final AuthenticationService authenticationService;
 
-	private final StringUtil stringUtil;
-
 	private final SearchGuiTermHighlighter searchGuiTermHighlighter;
 
 	private final TimeZoneUtil timeZoneUtil;
@@ -74,6 +71,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	private final UrlUtil urlUtil;
 
+	private final SearchGuiShortener searchGuiShortener;
+
 	@Inject
 	public SearchGuiWidgetImpl(
 			final Logger logger,
@@ -82,24 +81,24 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			final SearchGuiDashboardWidget searchDashboardWidget,
 			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
 			final AuthenticationService authenticationService,
-			final StringUtil stringUtil,
 			final SearchGuiTermHighlighter searchGuiTermHighlighter,
 			final ParseUtil parseUtil,
 			final UrlUtil urlUtil,
 			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil) {
+			final TimeZoneUtil timeZoneUtil,
+			final SearchGuiShortener searchGuiShortener) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
 		this.searchDashboardWidget = searchDashboardWidget;
 		this.searchGuiSpecialSearchFactory = searchGuiSpecialSearchFactory;
 		this.authenticationService = authenticationService;
-		this.stringUtil = stringUtil;
 		this.searchGuiTermHighlighter = searchGuiTermHighlighter;
 		this.parseUtil = parseUtil;
 		this.urlUtil = urlUtil;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
+		this.searchGuiShortener = searchGuiShortener;
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("<div class=\"title\">");
 			out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
 			out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, SearchGuiConstants.TITLE_MAX_CHARS)), escapedWords));
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenTitle(title)), escapedWords));
 			out.println("</a>");
 			if (result.getMatchCounter() > 0 && result.getMatchCounter() < Integer.MAX_VALUE) {
 				out.println("<span class=\"matchCounter\">( hitrate: " + result.getMatchCounter() + " )</span>");
@@ -201,10 +200,10 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("</div>");
 			out.println("<div class=\"link\">");
 			out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, SearchGuiConstants.URL_MAX_CHARS)), escapedWords) + "</a>");
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenUrl(urlString)), escapedWords) + "</a>");
 			out.println("</div>");
 			out.println("<div class=\"description\">");
-			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(buildDescriptionPreview(description, words)), escapedWords));
+			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenDescription(description, words)), escapedWords));
 			out.println("<br/>");
 			out.println("</div>");
 			out.println("</div>");
@@ -221,22 +220,6 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			result.add(StringEscapeUtils.escapeHtml(word));
 		}
 		return result;
-	}
-
-	private String buildDescriptionPreview(final String content, final List<String> words) {
-		if (content.length() > SearchGuiConstants.CONTENT_MAX_CHARS) {
-			Integer firstMatch = null;
-			for (final String word : words) {
-				final int pos = content.indexOf(word);
-				if (firstMatch == null || pos != -1 && firstMatch > pos) {
-					firstMatch = pos;
-				}
-			}
-			if (firstMatch != null && firstMatch > 0) {
-				return "..." + stringUtil.shortenDots(content.substring(Math.max(0, firstMatch - 20)), SearchGuiConstants.CONTENT_MAX_CHARS);
-			}
-		}
-		return stringUtil.shortenDots(content, SearchGuiConstants.CONTENT_MAX_CHARS);
 	}
 
 }

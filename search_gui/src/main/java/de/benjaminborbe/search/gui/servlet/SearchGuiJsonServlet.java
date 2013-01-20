@@ -27,8 +27,10 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.search.gui.SearchGuiConstants;
 import de.benjaminborbe.search.gui.config.SearchGuiConfig;
+import de.benjaminborbe.search.gui.util.SearchGuiShortener;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
@@ -47,6 +49,10 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 
 	private final SearchGuiConfig searchGuiConfig;
 
+	private final SearchGuiShortener searchGuiShortener;
+
+	private final SearchUtil searchUtil;
+
 	@Inject
 	public SearchGuiJsonServlet(
 			final Logger logger,
@@ -57,12 +63,16 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final SearchService searchService,
-			final SearchGuiConfig searchGuiConfig) {
+			final SearchGuiConfig searchGuiConfig,
+			final SearchGuiShortener searchGuiShortener,
+			final SearchUtil searchUtil) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.searchService = searchService;
 		this.authenticationService = authenticationService;
 		this.searchGuiConfig = searchGuiConfig;
+		this.searchGuiShortener = searchGuiShortener;
+		this.searchUtil = searchUtil;
 	}
 
 	@Override
@@ -90,16 +100,16 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 			if (token != null && searchQuery != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAXRESULTS);
-
+				final List<String> words = searchUtil.buildSearchParts(searchQuery);
 				final JSONObject object = new JSONObject();
 				final JSONArray array = new JSONArray();
 				for (final SearchResult result : results) {
 					final JSONObject resultObject = new JSONObject();
-					resultObject.put("description", result.getDescription());
+					resultObject.put("description", searchGuiShortener.shortenDescription(result.getDescription(), words));
 					resultObject.put("matchcounter", result.getMatchCounter());
-					resultObject.put("title", result.getTitle());
+					resultObject.put("title", searchGuiShortener.shortenTitle(result.getTitle()));
 					resultObject.put("type", result.getType());
-					resultObject.put("url", result.getUrl());
+					resultObject.put("url", searchGuiShortener.shortenUrl(result.getUrl()));
 					array.add(resultObject);
 				}
 				object.put("results", array);
