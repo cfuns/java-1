@@ -7,7 +7,6 @@ import java.util.List;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
@@ -17,19 +16,13 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.PermissionIdentifier;
-import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
-import de.benjaminborbe.monitoring.check.NodeCheckerCache;
-import de.benjaminborbe.monitoring.check.RootNode;
-import de.benjaminborbe.monitoring.check.SilentNodeRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
-import de.benjaminborbe.monitoring.util.MonitoringMailer;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -45,15 +38,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final Logger logger;
 
-	private final Provider<RootNode> rootNodeProvider;
-
-	private final NodeCheckerCache nodeChecker;
-
-	private final SilentNodeRegistry silentNodeRegistry;
-
 	private final AuthorizationService authorizationService;
-
-	private final MonitoringMailer monitoringMailer;
 
 	private final DurationUtil durationUtil;
 
@@ -68,90 +53,15 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final Logger logger,
 			final ValidationExecutor validationExecutor,
 			final IdGeneratorUUID idGeneratorUUID,
-			final Provider<RootNode> rootNodeProvider,
-			final NodeCheckerCache nodeChecker,
-			final SilentNodeRegistry silentNodeRegistry,
-			final MonitoringMailer monitoringMailer,
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
 			final MonitoringNodeDao monitoringNodeDao) {
 		this.logger = logger;
 		this.validationExecutor = validationExecutor;
 		this.idGeneratorUUID = idGeneratorUUID;
-		this.rootNodeProvider = rootNodeProvider;
-		this.nodeChecker = nodeChecker;
-		this.silentNodeRegistry = silentNodeRegistry;
-		this.monitoringMailer = monitoringMailer;
 		this.authorizationService = authorizationService;
 		this.durationUtil = durationUtil;
 		this.monitoringNodeDao = monitoringNodeDao;
-	}
-
-	@Override
-	public Collection<MonitoringCheckResult> checkRootNode(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.checkRootNode"));
-			logger.trace("checkRootNode");
-			return nodeChecker.checkNode(rootNodeProvider.get());
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MonitoringServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<MonitoringCheckResult> checkRootNodeWithCache(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.checkRootNodeWithCache"));
-			logger.trace("checkRootNodeWithCache");
-			return nodeChecker.checkNodeWithCache(rootNodeProvider.get());
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MonitoringServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public void silentCheck(final SessionIdentifier sessionIdentifier, final String checkName) throws MonitoringServiceException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.silentCheck"));
-			logger.trace("silentCheck");
-			silentNodeRegistry.add(checkName);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MonitoringServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public void sendmail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.sendmail"));
-			monitoringMailer.run();
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MonitoringServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
 	}
 
 	@Override

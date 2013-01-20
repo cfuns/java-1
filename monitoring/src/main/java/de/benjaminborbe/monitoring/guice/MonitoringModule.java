@@ -6,8 +6,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.monitoring.api.MonitoringService;
-import de.benjaminborbe.monitoring.check.NodeChecker;
-import de.benjaminborbe.monitoring.check.NodeCheckerCache;
 import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.monitoring.config.MonitoringConfigImpl;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
@@ -22,7 +20,6 @@ public class MonitoringModule extends AbstractModule {
 		bind(MonitoringNodeDao.class).to(MonitoringNodeDaoStorage.class).in(Singleton.class);
 		bind(MonitoringConfig.class).to(MonitoringConfigImpl.class).in(Singleton.class);
 		bind(MonitoringService.class).to(MonitoringServiceImpl.class).in(Singleton.class);
-		bind(NodeChecker.class).to(NodeCheckerCache.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
 
 		requestStaticInjection(MonitoringValidatorLinker.class);

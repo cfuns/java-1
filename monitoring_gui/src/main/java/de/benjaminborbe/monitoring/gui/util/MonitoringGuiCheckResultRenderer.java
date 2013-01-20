@@ -42,6 +42,6 @@ public class MonitoringGuiCheckResultRenderer implements Widget {
 		if (checkResult.getUrl() != null) {
 			out.println("</a>");
 		}
-		out.println(" <a href=\"" + request.getContextPath() + "/monitoring/silent?check=" + urlUtil.encode(checkResult.getCheck().getName()) + "\">silent</a>");
+		out.println(" <a href=\"" + request.getContextPath() + "/monitoring/silent?check=" + urlUtil.encode(checkResult.getName()) + "\">silent</a>");
 	}
 }

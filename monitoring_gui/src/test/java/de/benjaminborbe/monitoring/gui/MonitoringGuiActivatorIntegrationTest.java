@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -48,10 +47,6 @@ public class MonitoringGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_HOME);
-		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_CHECK_LIVE);
-		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_CHECK_SILENT);
-		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_CHECK_CACHE);
-		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_SENDMAIL);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_CREATE);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_DELETE);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST);
@@ -126,7 +121,6 @@ public class MonitoringGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
-		names.add(DashboardContentWidget.class.getName());
 		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

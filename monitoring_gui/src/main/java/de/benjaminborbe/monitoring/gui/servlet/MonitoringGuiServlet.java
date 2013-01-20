@@ -69,8 +69,6 @@ public class MonitoringGuiServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
-		ul.add(monitoringGuiLinkFactory.checkCache(request));
-		ul.add(monitoringGuiLinkFactory.checkLive(request));
 		ul.add(monitoringGuiLinkFactory.nodeList(request));
 		widgets.add(ul);
 		return widgets;

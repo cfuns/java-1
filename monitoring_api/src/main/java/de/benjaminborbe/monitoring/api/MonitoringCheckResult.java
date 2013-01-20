@@ -5,8 +5,6 @@ import java.net.URL;
 
 public interface MonitoringCheckResult extends Serializable {
 
-	MonitoringCheck getCheck();
-
 	boolean isSuccess();
 
 	String getMessage();

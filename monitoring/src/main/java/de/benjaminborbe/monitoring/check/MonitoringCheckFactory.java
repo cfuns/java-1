@@ -1,5 +1,5 @@
 package de.benjaminborbe.monitoring.check;
 
-public interface Node {
+public class MonitoringCheckFactory {
 
 }

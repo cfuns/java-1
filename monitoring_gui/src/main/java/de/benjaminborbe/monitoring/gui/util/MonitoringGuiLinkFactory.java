@@ -23,14 +23,6 @@ public class MonitoringGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget checkLive(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_CHECK_LIVE, new MapParameter(), "check live");
-	}
-
-	public Widget checkCache(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_CHECK_CACHE, new MapParameter(), "check cache");
-	}
-
 	public Widget nodeList(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST, new MapParameter(), "node list");
 	}

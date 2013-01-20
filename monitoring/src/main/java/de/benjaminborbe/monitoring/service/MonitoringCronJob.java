@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.monitoring.util.MonitoringMailer;
 
 @Singleton
 public class MonitoringCronJob implements CronJob {
@@ -16,12 +15,9 @@ public class MonitoringCronJob implements CronJob {
 
 	private final Logger logger;
 
-	private final MonitoringMailer monitoringMailer;
-
 	@Inject
-	public MonitoringCronJob(final Logger logger, final MonitoringMailer monitoringMailer) {
+	public MonitoringCronJob(final Logger logger) {
 		this.logger = logger;
-		this.monitoringMailer = monitoringMailer;
 	}
 
 	@Override
@@ -32,7 +28,6 @@ public class MonitoringCronJob implements CronJob {
 	@Override
 	public void execute() {
 		logger.trace("MonitoringCronJob.execute()");
-		monitoringMailer.run();
 		logger.trace("MonitoringCronJob.execute() - finished");
 	}
 
