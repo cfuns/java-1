@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -14,6 +15,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.util.MapperMonitoringCheck;
 import de.benjaminborbe.monitoring.util.MapperMonitoringNodeIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperMapString;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
@@ -28,15 +30,17 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 			final MapperMonitoringNodeIdentifier mapperMonitoringNodeIdentifier,
 			final MapperString mapperString,
 			final MapperCalendar mapperCalendar,
+			final MapperMapString mapperMapString,
 			final MapperMonitoringCheck mapperMonitoringCheck) {
-		super(provider, buildMappings(mapperMonitoringNodeIdentifier, mapperString, mapperCalendar, mapperMonitoringCheck));
+		super(provider, buildMappings(mapperMonitoringNodeIdentifier, mapperString, mapperCalendar, mapperMonitoringCheck, mapperMapString));
 	}
 
 	private static Collection<StringObjectMapper<MonitoringNodeBean>> buildMappings(final MapperMonitoringNodeIdentifier mapperMonitoringNodeIdentifier,
-			final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperMonitoringCheck mapperMonitoringCheck) {
+			final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperMonitoringCheck mapperMonitoringCheck, final MapperMapString mapperMapString) {
 		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<StringObjectMapper<MonitoringNodeBean>>();
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>("id", mapperMonitoringNodeIdentifier));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckType>("checkType", mapperMonitoringCheck));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Map<String, String>>("parameter", mapperMapString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>("name", mapperString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>("modified", mapperCalendar));

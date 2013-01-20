@@ -3,8 +3,8 @@ package de.benjaminborbe.monitoring.api;
 public enum MonitoringCheckType {
 
 	NOP("nop"),
-	TCP("tcp"),
-	URL("url");
+	HTTP("http"),
+	TCP("tcp");
 
 	private final String title;
 

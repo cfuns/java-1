@@ -16,11 +16,14 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
+import de.benjaminborbe.monitoring.check.MonitoringCheck;
+import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -48,15 +51,19 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final MonitoringCheckFactory monitoringCheckFactory;
+
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
+			final MonitoringCheckFactory monitoringCheckFactory,
 			final ValidationExecutor validationExecutor,
 			final IdGeneratorUUID idGeneratorUUID,
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
 			final MonitoringNodeDao monitoringNodeDao) {
 		this.logger = logger;
+		this.monitoringCheckFactory = monitoringCheckFactory;
 		this.validationExecutor = validationExecutor;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.authorizationService = authorizationService;
@@ -204,6 +211,24 @@ public class MonitoringServiceImpl implements MonitoringService {
 			throw new MonitoringServiceException(e);
 		}
 		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckType monitoringCheckType) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			final MonitoringCheck check = monitoringCheckFactory.get(monitoringCheckType);
+			return check.getRequireParameters();
+		}
+		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
 		}
 		finally {

@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.api;
 
+import java.util.Map;
+
 public interface MonitoringNode {
 
 	MonitoringNodeIdentifier getId();
@@ -7,4 +9,6 @@ public interface MonitoringNode {
 	String getName();
 
 	MonitoringCheckType getCheckType();
+
+	Map<String, String> getParameter();
 }

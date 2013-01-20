@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.gui;
 
+import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+
 public interface MonitoringGuiConstants {
 
 	String NAME = "monitoring";
@@ -21,5 +23,9 @@ public interface MonitoringGuiConstants {
 	String URL_NODE_LIST = "/node";
 
 	String URL_NODE_UPDATE = "/node/update";
+
+	MonitoringCheckType DFEAULT_CHECK = MonitoringCheckType.NOP;
+
+	String PARAMETER_PREFIX = "parameter_";
 
 }

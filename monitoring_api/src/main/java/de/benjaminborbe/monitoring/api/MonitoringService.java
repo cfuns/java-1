@@ -24,4 +24,7 @@ public interface MonitoringService {
 
 	MonitoringNode getNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
 			PermissionDeniedException;
+
+	Collection<String> getRequireParameter(SessionIdentifier sessionIdentifier, MonitoringCheckType monitoringCheckType) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException;
 }

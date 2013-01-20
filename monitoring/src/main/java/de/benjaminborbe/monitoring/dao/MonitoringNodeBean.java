@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.dao;
 
 import java.util.Calendar;
+import java.util.Map;
 
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
@@ -22,6 +23,8 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 	private Calendar modified;
 
 	private MonitoringCheckType checkType;
+
+	private Map<String, String> parameter;
 
 	@Override
 	public String getName() {
@@ -62,12 +65,22 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.id = id;
 	}
 
+	@Override
 	public MonitoringCheckType getCheckType() {
 		return checkType;
 	}
 
-	public void setCheckType(MonitoringCheckType checkType) {
+	public void setCheckType(final MonitoringCheckType checkType) {
 		this.checkType = checkType;
+	}
+
+	@Override
+	public Map<String, String> getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(final Map<String, String> parameter) {
+		this.parameter = parameter;
 	}
 
 }

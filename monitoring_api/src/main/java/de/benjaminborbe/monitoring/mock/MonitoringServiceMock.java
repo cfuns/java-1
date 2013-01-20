@@ -6,6 +6,7 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
@@ -42,6 +43,12 @@ public class MonitoringServiceMock implements MonitoringService {
 
 	@Override
 	public MonitoringNode getNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckType monitoringCheckType) throws MonitoringServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		return null;
 	}

@@ -2,7 +2,10 @@ package de.benjaminborbe.monitoring.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,10 +105,16 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 			final String name = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME);
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
 			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final MonitoringCheckType type = parseUtil.parseEnum(MonitoringCheckType.class, checkType, MonitoringGuiConstants.DFEAULT_CHECK);
+			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
+			final Map<String, String> parameter = new HashMap<String, String>();
+			for (final String requiredParameter : requiredParameters) {
+				parameter.put(requiredParameter, request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter));
+			}
 			if (name != null && checkType != null) {
 				try {
-					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-					createNode(sessionIdentifier, name, checkType);
+					createNode(sessionIdentifier, name, checkType, parameter);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -127,7 +136,11 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 			for (final MonitoringCheckType monitoringCheckType : MonitoringCheckType.values()) {
 				checkTypeInput.addOption(monitoringCheckType.name(), monitoringCheckType.getTitle());
 			}
+			checkTypeInput.addDefaultValue(MonitoringGuiConstants.DFEAULT_CHECK);
 			formWidget.addFormInputWidget(checkTypeInput);
+			for (final String requiredParameter : requiredParameters) {
+				formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter).addLabel(requiredParameter).addPlaceholder("..."));
+			}
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 
@@ -145,8 +158,8 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void createNode(final SessionIdentifier sessionIdentifier, final String name, final String checkTypeString) throws ValidationException, MonitoringServiceException,
-			LoginRequiredException, PermissionDeniedException {
+	private void createNode(final SessionIdentifier sessionIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter)
+			throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		MonitoringCheckType checkType = null;
 		{
@@ -164,6 +177,7 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 			final MonitoringNodeDto nodeDto = new MonitoringNodeDto();
 			nodeDto.setName(name);
 			nodeDto.setCheckType(checkType);
+			nodeDto.setParameter(parameter);
 			monitoringService.createNode(sessionIdentifier, nodeDto);
 		}
 	}

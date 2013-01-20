@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.api;
 
+import java.util.Map;
+
 public class MonitoringNodeDto implements MonitoringNode {
 
 	private MonitoringCheckType checkType;
@@ -7,6 +9,8 @@ public class MonitoringNodeDto implements MonitoringNode {
 	private String name;
 
 	private MonitoringNodeIdentifier id;
+
+	private Map<String, String> parameter;
 
 	@Override
 	public MonitoringNodeIdentifier getId() {
@@ -26,12 +30,21 @@ public class MonitoringNodeDto implements MonitoringNode {
 		this.id = id;
 	}
 
+	@Override
 	public MonitoringCheckType getCheckType() {
 		return checkType;
 	}
 
-	public void setCheckType(MonitoringCheckType checkType) {
+	public void setCheckType(final MonitoringCheckType checkType) {
 		this.checkType = checkType;
+	}
+
+	public Map<String, String> getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(Map<String, String> parameter) {
+		this.parameter = parameter;
 	}
 
 }
