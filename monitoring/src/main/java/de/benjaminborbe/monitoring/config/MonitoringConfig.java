@@ -6,11 +6,11 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface MonitoringConfig {
 
+	Collection<ConfigurationDescription> getConfigurations();
+
 	String getAzUsername();
 
 	String getAzPassword();
-
-	Collection<ConfigurationDescription> getConfigurations();
 
 	String getTwentyfeetAdminUsername();
 

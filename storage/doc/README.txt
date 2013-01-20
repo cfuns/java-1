@@ -322,3 +322,9 @@ create column family lunch_user_settings with
   column_metadata = [
     {column_name: notificationActivated, validation_class: UTF8Type, index_type: KEYS}
   ];
+
+drop column family monitoring_node;
+create column family monitoring_node with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
