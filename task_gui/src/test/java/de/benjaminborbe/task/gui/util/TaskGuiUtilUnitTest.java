@@ -105,7 +105,7 @@ public class TaskGuiUtilUnitTest {
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: next ").getFocus(), is(TaskFocus.NEXT));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: bla ").getName(), is("bla"));
-		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: bla ").getFocus(), is(nullValue()));
+		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla focus: bla ").getFocus(), is(TaskFocus.INBOX));
 
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getName(), is("bla foo"));
 		assertThat(taskGuiUtil.quickStringToTask(sessionIdentifier, " bla context: home foo ").getContext(), is(taskContext.getId()));
