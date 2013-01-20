@@ -13,11 +13,7 @@
 	</listener>
 	<filter>
 		<filter-name>SetCharacterEncoding</filter-name>
-		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
+		<filter-class>de.benjaminborbe.bridge.filter.SetCharacterEncodingFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>SetCharacterEncoding</filter-name>
