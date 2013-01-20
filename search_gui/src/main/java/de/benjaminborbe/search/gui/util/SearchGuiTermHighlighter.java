@@ -2,19 +2,36 @@ package de.benjaminborbe.search.gui.util;
 
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import org.slf4j.Logger;
+
+import com.google.inject.Inject;
+
+import de.benjaminborbe.tools.util.ComparatorLength;
 
 public class SearchGuiTermHighlighter {
+
+	private final Logger logger;
+
+	@Inject
+	public SearchGuiTermHighlighter(final Logger logger) {
+		this.logger = logger;
+	}
 
 	public String highlightSearchTerms(final String content, final String[] words) {
 		return highlightSearchTerms(content, Arrays.asList(words));
 	}
 
-	public String highlightSearchTerms(final String content, final Collection<String> words) {
+	public String highlightSearchTerms(final String content, final List<String> words) {
 		if (content == null) {
 			return content;
 		}
 		String result = content;
+
+		Collections.sort(words, new ComparatorLength());
+
 		for (final String word : words) {
 			result = highlightSearchTerms(result, word);
 		}
@@ -25,6 +42,8 @@ public class SearchGuiTermHighlighter {
 		if (content == null || word == null || word.length() == 0) {
 			return content;
 		}
+		logger.debug("highlight word: " + word + " in content " + content);
+
 		final StringWriter result = new StringWriter();
 		final String lowerContent = content.toLowerCase();
 		final String wordLower = word.toLowerCase();

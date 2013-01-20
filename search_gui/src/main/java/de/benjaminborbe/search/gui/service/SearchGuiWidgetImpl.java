@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -180,6 +181,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final List<String> words) throws IOException {
 		try {
+			final List<String> escapedWords = buildEscapedWords(words);
+
 			final PrintWriter out = response.getWriter();
 			final URL url = urlUtil.buildUrl(request, result.getUrl());
 			final String urlString = url.toExternalForm();
@@ -190,7 +193,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("<div class=\"title\">");
 			out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
 			out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, SearchGuiConstants.TITLE_MAX_CHARS)), words));
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(title, SearchGuiConstants.TITLE_MAX_CHARS)), escapedWords));
 			out.println("</a>");
 			if (result.getMatchCounter() > 0 && result.getMatchCounter() < Integer.MAX_VALUE) {
 				out.println("<span class=\"matchCounter\">( hitrate: " + result.getMatchCounter() + " )</span>");
@@ -198,10 +201,10 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("</div>");
 			out.println("<div class=\"link\">");
 			out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, SearchGuiConstants.URL_MAX_CHARS)), words) + "</a>");
+					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(stringUtil.shortenDots(urlString, SearchGuiConstants.URL_MAX_CHARS)), escapedWords) + "</a>");
 			out.println("</div>");
 			out.println("<div class=\"description\">");
-			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(buildDescriptionPreview(description, words)), words));
+			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(buildDescriptionPreview(description, words)), escapedWords));
 			out.println("<br/>");
 			out.println("</div>");
 			out.println("</div>");
@@ -210,6 +213,14 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			logger.debug("illegal type: " + result.getType() + " url: " + result.getUrl());
 			// nop
 		}
+	}
+
+	private List<String> buildEscapedWords(final List<String> words) {
+		final List<String> result = new ArrayList<String>();
+		for (final String word : words) {
+			result.add(StringEscapeUtils.escapeHtml(word));
+		}
+		return result;
 	}
 
 	private String buildDescriptionPreview(final String content, final List<String> words) {
