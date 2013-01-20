@@ -36,7 +36,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 			final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperMonitoringCheck mapperMonitoringCheck) {
 		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<StringObjectMapper<MonitoringNodeBean>>();
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>("id", mapperMonitoringNodeIdentifier));
-		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckType>("check", mapperMonitoringCheck));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckType>("checkType", mapperMonitoringCheck));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>("name", mapperString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>("modified", mapperCalendar));

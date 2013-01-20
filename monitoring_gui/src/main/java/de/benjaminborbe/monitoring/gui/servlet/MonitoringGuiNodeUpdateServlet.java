@@ -31,6 +31,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
+import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -65,6 +66,8 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
+
 	@Inject
 	public MonitoringGuiNodeUpdateServlet(
 			final Logger logger,
@@ -76,12 +79,14 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final MonitoringService monitoringService,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final MonitoringGuiLinkFactory monitoringGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
 		this.logger = logger;
 		this.parseUtil = parseUtil;
+		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 	}
 
 	@Override
@@ -99,7 +104,7 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 			final String id = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ID);
 			final String name = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME);
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
-
+			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringNodeIdentifier monitoringNodeIdentifier = monitoringService.createNodeIdentifier(id);
 			final MonitoringNode node = monitoringService.getNode(sessionIdentifier, monitoringNodeIdentifier);
@@ -107,6 +112,13 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 			if (name != null && checkType != null) {
 				try {
 					updateNode(sessionIdentifier, monitoringNodeIdentifier, name, checkType);
+
+					if (referer != null) {
+						throw new RedirectException(referer);
+					}
+					else {
+						throw new RedirectException(monitoringGuiLinkFactory.nodeListUrl(request));
+					}
 				}
 				catch (final ValidationException e) {
 					widgets.add("update node failed!");
@@ -114,17 +126,19 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 				}
 			}
 
-			final FormWidget form = new FormWidget();
-			form.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_NODE_ID));
-			form.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ...").addDefaultValue(node.getName()));
+			final FormWidget formWidget = new FormWidget();
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_NODE_ID));
+			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ...")
+					.addDefaultValue(node.getName()));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
 			for (final MonitoringCheckType monitoringCheckType : MonitoringCheckType.values()) {
 				checkTypeInput.addOption(monitoringCheckType.name(), monitoringCheckType.getTitle());
 			}
 			checkTypeInput.addDefaultValue(node.getCheckType());
-			form.addFormInputWidget(checkTypeInput);
-			form.addFormInputWidget(new FormInputSubmitWidget("update"));
-			widgets.add(form);
+			formWidget.addFormInputWidget(checkTypeInput);
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
+			widgets.add(formWidget);
 
 			return widgets;
 		}

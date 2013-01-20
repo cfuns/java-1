@@ -4,7 +4,7 @@ public interface MonitoringGuiConstants {
 
 	String NAME = "monitoring";
 
-	String URL_CHECK_CACHE = "/";
+	String URL_CHECK_CACHE = "/cache";
 
 	String URL_CHECK_LIVE = "/live";
 
@@ -27,5 +27,7 @@ public interface MonitoringGuiConstants {
 	String PARAMETER_NODE_NAME = "node_name";
 
 	String PARAMETER_NODE_CHECK_TYPE = "node_check_type";
+
+	String PARAMETER_REFERER = "referer";
 
 }

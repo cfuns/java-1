@@ -49,4 +49,8 @@ public class MonitoringGuiLinkFactory {
 				MonitoringGuiConstants.PARAMETER_NODE_ID, id), "delete");
 	}
 
+	public String nodeListUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST;
+	}
+
 }

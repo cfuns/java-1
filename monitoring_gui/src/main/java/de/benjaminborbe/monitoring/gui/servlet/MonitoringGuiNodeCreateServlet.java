@@ -29,6 +29,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
+import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -36,6 +37,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormSelectboxWidget;
@@ -62,6 +64,8 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 
 	private final ParseUtil parseUtil;
 
+	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
+
 	@Inject
 	public MonitoringGuiNodeCreateServlet(
 			final Logger logger,
@@ -73,12 +77,14 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final MonitoringService monitoringService,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final MonitoringGuiLinkFactory monitoringGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
 		this.logger = logger;
 		this.parseUtil = parseUtil;
+		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 	}
 
 	@Override
@@ -95,10 +101,18 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 
 			final String name = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME);
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
+			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
 			if (name != null && checkType != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 					createNode(sessionIdentifier, name, checkType);
+
+					if (referer != null) {
+						throw new RedirectException(referer);
+					}
+					else {
+						throw new RedirectException(monitoringGuiLinkFactory.nodeListUrl(request));
+					}
 				}
 				catch (final ValidationException e) {
 					widgets.add("create node failed!");
@@ -106,15 +120,16 @@ public class MonitoringGuiNodeCreateServlet extends WebsiteHtmlServlet {
 				}
 			}
 
-			final FormWidget form = new FormWidget();
-			form.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ..."));
+			final FormWidget formWidget = new FormWidget();
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ..."));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
 			for (final MonitoringCheckType monitoringCheckType : MonitoringCheckType.values()) {
 				checkTypeInput.addOption(monitoringCheckType.name(), monitoringCheckType.getTitle());
 			}
-			form.addFormInputWidget(checkTypeInput);
-			form.addFormInputWidget(new FormInputSubmitWidget("create"));
-			widgets.add(form);
+			formWidget.addFormInputWidget(checkTypeInput);
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			widgets.add(formWidget);
 
 			return widgets;
 		}
