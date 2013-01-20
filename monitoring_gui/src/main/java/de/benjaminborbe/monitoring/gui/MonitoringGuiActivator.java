@@ -19,6 +19,7 @@ import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeDeleteServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeListServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUpdateServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSendmailServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiSilentCheckServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -28,6 +29,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class MonitoringGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MonitoringGuiServlet monitoringGuiServlet;
 
 	@Inject
 	private MonitoringGuiNodeCreateServlet monitoringGuiNodeCreateServlet;
@@ -80,7 +84,8 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(monitoringCacheServlet, MonitoringGuiConstants.URL_HOME));
+		result.add(new ServletInfo(monitoringGuiServlet, MonitoringGuiConstants.URL_HOME));
+		result.add(new ServletInfo(monitoringCacheServlet, MonitoringGuiConstants.URL_CHECK_CACHE));
 		result.add(new ServletInfo(monitoringLiveServlet, MonitoringGuiConstants.URL_CHECK_LIVE));
 		result.add(new ServletInfo(monitoringGuiSilentCheckServlet, MonitoringGuiConstants.URL_CHECK_SILENT));
 		result.add(new ServletInfo(monitoringGuiSendmailServlet, MonitoringGuiConstants.URL_SENDMAIL));

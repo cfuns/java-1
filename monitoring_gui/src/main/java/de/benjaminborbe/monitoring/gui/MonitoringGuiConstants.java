@@ -4,7 +4,7 @@ public interface MonitoringGuiConstants {
 
 	String NAME = "monitoring";
 
-	String URL_HOME = "/";
+	String URL_CHECK_CACHE = "/";
 
 	String URL_CHECK_LIVE = "/live";
 
@@ -21,5 +21,7 @@ public interface MonitoringGuiConstants {
 	String URL_NODE_DELETE = "/node/delete";
 
 	String URL_NODE_CREATE = "/node/create";
+
+	String URL_HOME = "/";
 
 }
