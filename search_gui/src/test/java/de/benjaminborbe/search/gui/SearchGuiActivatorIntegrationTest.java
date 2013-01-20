@@ -50,6 +50,7 @@ public class SearchGuiActivatorIntegrationTest {
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_OSD);
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH);
+		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_JSON);
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_COMPONENT);
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_HELP);
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_SUGGEST);

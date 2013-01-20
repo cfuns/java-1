@@ -24,4 +24,8 @@ public interface SearchGuiConstants {
 
 	int CONTENT_MAX_CHARS = 400;
 
+	String URL_SEARCH_JSON = "/json";
+
+	String PARAMETER_AUTH_TOKEN = "token";
+
 }

@@ -18,6 +18,7 @@ import de.benjaminborbe.search.gui.service.SearchGuiDashboardWidget;
 import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchRegistry;
 import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchServiceTracker;
 import de.benjaminborbe.search.gui.servlet.SearchGuiHelpServlet;
+import de.benjaminborbe.search.gui.servlet.SearchGuiJsonServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiOsdServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiServiceComponentsServlet;
 import de.benjaminborbe.search.gui.servlet.SearchGuiServlet;
@@ -30,6 +31,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class SearchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private SearchGuiJsonServlet searchGuiJsonServlet;
 
 	@Inject
 	private SearchGuiOsdServlet searchOsdServlet;
@@ -78,6 +82,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(searchServlet, SearchGuiConstants.URL_SEARCH));
+		result.add(new ServletInfo(searchGuiJsonServlet, SearchGuiConstants.URL_SEARCH_JSON));
 		result.add(new ServletInfo(searchSuggestServlet, SearchGuiConstants.URL_SEARCH_SUGGEST));
 		result.add(new ServletInfo(searchServiceComponentsServlet, SearchGuiConstants.URL_SEARCH_COMPONENT));
 		result.add(new ServletInfo(searchOsdServlet, SearchGuiConstants.URL_OSD));

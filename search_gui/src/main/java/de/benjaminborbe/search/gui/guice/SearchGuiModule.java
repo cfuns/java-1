@@ -6,6 +6,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.search.api.SearchWidget;
+import de.benjaminborbe.search.gui.config.SearchGuiConfig;
+import de.benjaminborbe.search.gui.config.SearchGuiConfigImpl;
 import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchFactory;
 import de.benjaminborbe.search.gui.service.SearchGuiSpecialSearchFactoryImpl;
 import de.benjaminborbe.search.gui.service.SearchGuiWidgetImpl;
@@ -15,6 +17,7 @@ public class SearchGuiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(SearchGuiConfig.class).to(SearchGuiConfigImpl.class).in(Singleton.class);
 		bind(SearchGuiSpecialSearchFactory.class).to(SearchGuiSpecialSearchFactoryImpl.class).in(Singleton.class);
 		bind(SearchWidget.class).to(SearchGuiWidgetImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
