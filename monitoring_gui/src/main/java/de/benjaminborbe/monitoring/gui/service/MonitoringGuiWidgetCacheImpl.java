@@ -8,9 +8,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -27,7 +28,8 @@ public class MonitoringGuiWidgetCacheImpl extends MonitoringGuiWidgetBase implem
 	}
 
 	@Override
-	protected Collection<CheckResult> getResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
+	protected Collection<MonitoringCheckResult> getResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException,
+			LoginRequiredException {
 		return monitoringService.checkRootNodeWithCache(sessionIdentifier);
 	}
 }

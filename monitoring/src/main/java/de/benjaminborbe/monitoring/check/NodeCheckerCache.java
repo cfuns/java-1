@@ -7,14 +7,14 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 @Singleton
 public class NodeCheckerCache implements NodeChecker {
 
 	private final NodeChecker nodeChecker;
 
-	private final Map<Node, Collection<CheckResult>> lastResults = new HashMap<Node, Collection<CheckResult>>();
+	private final Map<Node, Collection<MonitoringCheckResult>> lastResults = new HashMap<Node, Collection<MonitoringCheckResult>>();
 
 	@Inject
 	public NodeCheckerCache(final NodeCheckerImpl nodeChecker) {
@@ -22,13 +22,13 @@ public class NodeCheckerCache implements NodeChecker {
 	}
 
 	@Override
-	public Collection<CheckResult> checkNode(final Node node) {
-		final Collection<CheckResult> lastResult = nodeChecker.checkNode(node);
+	public Collection<MonitoringCheckResult> checkNode(final Node node) {
+		final Collection<MonitoringCheckResult> lastResult = nodeChecker.checkNode(node);
 		lastResults.put(node, lastResult);
 		return lastResult;
 	}
 
-	public Collection<CheckResult> checkNodeWithCache(final Node node) {
+	public Collection<MonitoringCheckResult> checkNodeWithCache(final Node node) {
 		if (lastResults.containsKey(node)) {
 			return lastResults.get(node);
 		}

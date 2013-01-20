@@ -1,17 +1,17 @@
 package de.benjaminborbe.monitoring.check;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 
 public class HasCheckNodeImpl implements HasCheckNode {
 
-	private final Check check;
+	private final MonitoringCheck check;
 
-	public HasCheckNodeImpl(final Check check) {
+	public HasCheckNodeImpl(final MonitoringCheck check) {
 		this.check = check;
 	}
 
 	@Override
-	public Check getCheck() {
+	public MonitoringCheck getCheck() {
 		return check;
 	}
 

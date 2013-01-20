@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class NodeCheckerImpl implements NodeChecker {
 
@@ -26,14 +26,14 @@ public class NodeCheckerImpl implements NodeChecker {
 	}
 
 	@Override
-	public Collection<CheckResult> checkNode(final Node node) {
+	public Collection<MonitoringCheckResult> checkNode(final Node node) {
 		logger.trace("checkNode: " + node);
-		final Set<CheckResult> result = new HashSet<CheckResult>();
+		final Set<MonitoringCheckResult> result = new HashSet<MonitoringCheckResult>();
 
 		// return empty result if precontition fails
 		if (node instanceof HasPreconditionCheckNode) {
 			final HasPreconditionCheckNode hasPreconditionCheckNode = (HasPreconditionCheckNode) node;
-			final Check check = hasPreconditionCheckNode.getPreconditionCheck();
+			final MonitoringCheck check = hasPreconditionCheckNode.getPreconditionCheck();
 			if (!check.check().isSuccess()) {
 				return result;
 			}
@@ -42,7 +42,7 @@ public class NodeCheckerImpl implements NodeChecker {
 		// if node is check node add result
 		if (node instanceof HasCheckNode) {
 			final HasCheckNode hasCheck = (HasCheckNode) node;
-			final Check check = hasCheck.getCheck();
+			final MonitoringCheck check = hasCheck.getCheck();
 			// skip if found in silentNodes
 			for (final String nodeName : silentNodeRegistry.getAll()) {
 				logger.trace("compare " + check.getName() + " with " + nodeName);
@@ -51,7 +51,7 @@ public class NodeCheckerImpl implements NodeChecker {
 				}
 			}
 			final RetryCheck retryCheck = new RetryCheck(check, RETRY_LIMIT);
-			final CheckResult checkResult = retryCheck.check();
+			final MonitoringCheckResult checkResult = retryCheck.check();
 			result.add(checkResult);
 		}
 

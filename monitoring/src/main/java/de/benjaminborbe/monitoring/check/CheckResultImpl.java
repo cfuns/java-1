@@ -2,10 +2,10 @@ package de.benjaminborbe.monitoring.check;
 
 import java.net.URL;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
-public class CheckResultImpl implements CheckResult {
+public class CheckResultImpl implements MonitoringCheckResult {
 
 	private static final long serialVersionUID = 6741576691093237313L;
 
@@ -13,11 +13,11 @@ public class CheckResultImpl implements CheckResult {
 
 	private final String message;
 
-	private final Check check;
+	private final MonitoringCheck check;
 
 	private final URL url;
 
-	public CheckResultImpl(final Check check, final boolean success, final String message, final URL url) {
+	public CheckResultImpl(final MonitoringCheck check, final boolean success, final String message, final URL url) {
 		this.check = check;
 		this.success = success;
 		this.message = message;
@@ -40,7 +40,7 @@ public class CheckResultImpl implements CheckResult {
 	}
 
 	@Override
-	public Check getCheck() {
+	public MonitoringCheck getCheck() {
 		return check;
 	}
 

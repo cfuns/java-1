@@ -9,10 +9,10 @@ import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
-public class TcpCheck implements Check {
+public class TcpCheck implements MonitoringCheck {
 
 	private static final int TIMEOUT = 5 * 1000;
 
@@ -32,7 +32,7 @@ public class TcpCheck implements Check {
 	}
 
 	@Override
-	public CheckResult check() {
+	public MonitoringCheckResult check() {
 		Socket socket = null;
 		try {
 			socket = new Socket();

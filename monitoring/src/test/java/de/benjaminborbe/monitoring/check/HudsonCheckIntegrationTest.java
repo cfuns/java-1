@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.guice.MonitoringModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -23,8 +23,8 @@ public class HudsonCheckIntegrationTest {
 		final String url = "https://hudson.rp.seibert-media.net/";
 		final String job = "20ft UnitTests";
 		final HudsonCheckBuilder hudsonCheckBuilder = injector.getInstance(HudsonCheckBuilder.class);
-		final Check check = hudsonCheckBuilder.buildCheck(name, url, job);
-		final CheckResult checkResult = check.check();
+		final MonitoringCheck check = hudsonCheckBuilder.buildCheck(name, url, job);
+		final MonitoringCheckResult checkResult = check.check();
 		assertNotNull(checkResult);
 		assertTrue(checkResult.isSuccess());
 	}
@@ -37,8 +37,8 @@ public class HudsonCheckIntegrationTest {
 		final String url = "https://hudson.rp.seibert-media.net/";
 		final String job = "20ft IntegrationTest";
 		final HudsonCheckBuilder hudsonCheckBuilder = injector.getInstance(HudsonCheckBuilder.class);
-		final Check check = hudsonCheckBuilder.buildCheck(name, url, job);
-		final CheckResult checkResult = check.check();
+		final MonitoringCheck check = hudsonCheckBuilder.buildCheck(name, url, job);
+		final MonitoringCheckResult checkResult = check.check();
 		assertNotNull(checkResult);
 		assertTrue(checkResult.isSuccess());
 	}

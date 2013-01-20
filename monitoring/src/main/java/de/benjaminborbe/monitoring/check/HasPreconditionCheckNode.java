@@ -1,8 +1,8 @@
 package de.benjaminborbe.monitoring.check;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 
 public interface HasPreconditionCheckNode {
 
-	Check getPreconditionCheck();
+	MonitoringCheck getPreconditionCheck();
 }

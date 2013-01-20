@@ -15,15 +15,15 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
-import de.benjaminborbe.monitoring.api.MonitoringSummaryWidget;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.tools.io.FlushPrintWriter;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -34,10 +34,10 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 @Singleton
 public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, RequireCssResource {
 
-	private final class CheckResultComparator extends ComparatorBase<CheckResult, String> {
+	private final class CheckResultComparator extends ComparatorBase<MonitoringCheckResult, String> {
 
 		@Override
-		public String getValue(final CheckResult o) {
+		public String getValue(final MonitoringCheckResult o) {
 			return o.toString();
 		}
 	}
@@ -64,10 +64,10 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 			logger.trace("render");
 			final FlushPrintWriter out = new FlushPrintWriter(response.getWriter());
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<CheckResult> checkResults = new ArrayList<CheckResult>(monitoringService.checkRootNodeWithCache(sessionIdentifier));
+			final List<MonitoringCheckResult> checkResults = new ArrayList<MonitoringCheckResult>(monitoringService.checkRootNodeWithCache(sessionIdentifier));
 			Collections.sort(checkResults, new CheckResultComparator());
-			final List<CheckResult> failCheckResults = new ArrayList<CheckResult>();
-			for (final CheckResult checkResult : checkResults) {
+			final List<MonitoringCheckResult> failCheckResults = new ArrayList<MonitoringCheckResult>();
+			for (final MonitoringCheckResult checkResult : checkResults) {
 				if (!checkResult.isSuccess()) {
 					failCheckResults.add(checkResult);
 				}
@@ -75,7 +75,7 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 			out.println(failCheckResults.size() + " checks failed! ");
 			out.println("<a href=\"" + request.getContextPath() + "/monitoring\">Details</a>");
 			out.println("<ul>");
-			for (final CheckResult checkResult : failCheckResults) {
+			for (final MonitoringCheckResult checkResult : failCheckResults) {
 				logger.trace(checkResult.toString());
 				out.println("<li>");
 				final MonitoringGuiCheckResultRenderer renderer = new MonitoringGuiCheckResultRenderer(checkResult, urlUtil);
@@ -95,6 +95,11 @@ public class MonitoringGuiSummaryWidgetImpl implements MonitoringSummaryWidget, 
 			exceptionWidget.render(request, response, context);
 		}
 		catch (final PermissionDeniedException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
+		catch (final LoginRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);

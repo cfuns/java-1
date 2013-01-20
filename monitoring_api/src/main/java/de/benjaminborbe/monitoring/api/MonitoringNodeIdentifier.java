@@ -1,4 +1,4 @@
-package de.benjaminborbe.monitoring.dao;
+package de.benjaminborbe.monitoring.api;
 
 import de.benjaminborbe.api.IdentifierBase;
 

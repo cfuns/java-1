@@ -3,9 +3,9 @@ package de.benjaminborbe.monitoring.api;
 import java.io.Serializable;
 import java.net.URL;
 
-public interface CheckResult extends Serializable {
+public interface MonitoringCheckResult extends Serializable {
 
-	Check getCheck();
+	MonitoringCheck getCheck();
 
 	boolean isSuccess();
 

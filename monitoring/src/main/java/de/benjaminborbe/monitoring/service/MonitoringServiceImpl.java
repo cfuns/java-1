@@ -8,12 +8,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.check.NodeCheckerCache;
@@ -53,7 +55,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public Collection<CheckResult> checkRootNode(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
+	public Collection<MonitoringCheckResult> checkRootNode(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.checkRootNode"));
 			logger.trace("checkRootNode");
@@ -65,7 +67,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public Collection<CheckResult> checkRootNodeWithCache(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
+	public Collection<MonitoringCheckResult> checkRootNodeWithCache(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("MonitoringService.checkRootNodeWithCache"));
 			logger.trace("checkRootNodeWithCache");
@@ -97,6 +99,16 @@ public class MonitoringServiceImpl implements MonitoringService {
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException("AuthorizationServiceException", e);
 		}
+	}
+
+	@Override
+	public MonitoringNodeIdentifier createNodeIdentifier(final String id) throws MonitoringServiceException {
+		return null;
+	}
+
+	@Override
+	public void deleteNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 }

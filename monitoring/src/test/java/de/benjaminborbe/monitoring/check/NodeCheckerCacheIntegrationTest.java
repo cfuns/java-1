@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.guice.MonitoringModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -23,20 +23,20 @@ public class NodeCheckerCacheIntegrationTest {
 		final RootNode rootNodeA = injector.getInstance(RootNode.class);
 		final RootNode rootNodeB = injector.getInstance(RootNode.class);
 		final NodeCheckerImpl nodeChecker = EasyMock.createMock(NodeCheckerImpl.class);
-		final Collection<CheckResult> checkResults = new HashSet<CheckResult>();
+		final Collection<MonitoringCheckResult> checkResults = new HashSet<MonitoringCheckResult>();
 		EasyMock.expect(nodeChecker.checkNode(rootNodeA)).andReturn(checkResults);
 		EasyMock.replay(nodeChecker);
 		final NodeCheckerCache nodeCheckerCache = new NodeCheckerCache(nodeChecker);
 
 		// 1. call => nothing in cache
 		{
-			final Collection<CheckResult> result = nodeCheckerCache.checkNodeWithCache(rootNodeA);
+			final Collection<MonitoringCheckResult> result = nodeCheckerCache.checkNodeWithCache(rootNodeA);
 			assertNotNull(result);
 			assertEquals(checkResults, result);
 		}
 		// 2. call => use cache
 		{
-			final Collection<CheckResult> result = nodeCheckerCache.checkNodeWithCache(rootNodeB);
+			final Collection<MonitoringCheckResult> result = nodeCheckerCache.checkNodeWithCache(rootNodeB);
 			assertNotNull(result);
 			assertEquals(checkResults, result);
 		}

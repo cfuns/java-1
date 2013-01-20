@@ -2,6 +2,8 @@ package de.benjaminborbe.monitoring.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
+import de.benjaminborbe.monitoring.util.MonitoringCheck;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -17,6 +19,8 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 	private Calendar created;
 
 	private Calendar modified;
+
+	private MonitoringCheck check;
 
 	public String getName() {
 		return name;
@@ -54,6 +58,14 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 	@Override
 	public void setId(final MonitoringNodeIdentifier id) {
 		this.id = id;
+	}
+
+	public MonitoringCheck getCheck() {
+		return check;
+	}
+
+	public void setCheck(final MonitoringCheck check) {
+		this.check = check;
 	}
 
 }

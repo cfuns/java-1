@@ -8,6 +8,8 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
+import de.benjaminborbe.monitoring.util.MonitoringCheck;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
@@ -61,6 +63,21 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
+		// check
+		{
+			final String field = "check";
+			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
+					final MonitoringCheck value = bean.getCheck();
+					final List<ValidationConstraint<MonitoringCheck>> constraints = new ArrayList<ValidationConstraint<MonitoringCheck>>();
+					constraints.add(new ValidationConstraintNotNull<MonitoringCheck>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

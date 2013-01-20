@@ -1,11 +1,11 @@
 package de.benjaminborbe.monitoring.api;
 
-public interface Check {
+public interface MonitoringCheck {
 
 	String getName();
 
 	String getDescription();
 
-	CheckResult check();
+	MonitoringCheckResult check();
 
 }

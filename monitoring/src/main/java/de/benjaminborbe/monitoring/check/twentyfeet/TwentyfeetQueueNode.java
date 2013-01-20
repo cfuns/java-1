@@ -2,7 +2,7 @@ package de.benjaminborbe.monitoring.check.twentyfeet;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.HasCheckNode;
 
 public class TwentyfeetQueueNode implements HasCheckNode {
@@ -15,7 +15,7 @@ public class TwentyfeetQueueNode implements HasCheckNode {
 	}
 
 	@Override
-	public Check getCheck() {
+	public MonitoringCheck getCheck() {
 		return twentyfeetQueueCheck;
 	}
 

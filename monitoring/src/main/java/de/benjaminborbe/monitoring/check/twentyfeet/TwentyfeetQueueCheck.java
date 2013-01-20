@@ -20,8 +20,8 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.check.CheckResultException;
 import de.benjaminborbe.monitoring.check.CheckResultImpl;
 import de.benjaminborbe.monitoring.config.MonitoringConfig;
@@ -32,7 +32,7 @@ import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
-public class TwentyfeetQueueCheck implements Check {
+public class TwentyfeetQueueCheck implements MonitoringCheck {
 
 	private final class TwentyfeetApidataCheckResult {
 
@@ -122,7 +122,7 @@ public class TwentyfeetQueueCheck implements Check {
 	}
 
 	@Override
-	public CheckResult check() {
+	public MonitoringCheckResult check() {
 		logger.trace("check");
 		final URL url = buildURL(CHECK_URL);
 		try {
@@ -138,7 +138,7 @@ public class TwentyfeetQueueCheck implements Check {
 		}
 	}
 
-	protected CheckResult buildResult(final HttpDownloadResult firstResult, final HttpDownloadResult secondResult, final URL url) throws UnsupportedEncodingException, ParseException {
+	protected MonitoringCheckResult buildResult(final HttpDownloadResult firstResult, final HttpDownloadResult secondResult, final URL url) throws UnsupportedEncodingException, ParseException {
 		final String firstContent = httpDownloadUtil.getContent(firstResult);
 		final String secondContent = httpDownloadUtil.getContent(secondResult);
 		if (firstContent == null || secondContent == null) {
@@ -147,7 +147,7 @@ public class TwentyfeetQueueCheck implements Check {
 		return buildResult(firstContent, secondContent, url);
 	}
 
-	protected CheckResult buildResult(final String firstContent, final String secondContent, final URL url) throws ParseException {
+	protected MonitoringCheckResult buildResult(final String firstContent, final String secondContent, final URL url) throws ParseException {
 		final DecimalFormat df = new DecimalFormat("#####0.0");
 		try {
 			final TwentyfeetApidataCheckResult first = new TwentyfeetApidataCheckResult(firstContent);

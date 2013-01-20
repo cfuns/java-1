@@ -12,7 +12,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -49,7 +49,7 @@ public class HudsonCheckUnitTest {
 		EasyMock.replay(httpDownloadUtil);
 
 		final HudsonCheck check = new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, url, job);
-		final CheckResult result = check.check();
+		final MonitoringCheckResult result = check.check();
 		assertNotNull(result);
 		assertNotNull(result.getCheck());
 		assertTrue(result.isSuccess());
@@ -87,7 +87,7 @@ public class HudsonCheckUnitTest {
 		EasyMock.replay(httpDownloadUtil);
 
 		final HudsonCheck check = new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, url, job);
-		final CheckResult result = check.check();
+		final MonitoringCheckResult result = check.check();
 		assertNotNull(result);
 		assertNotNull(result.getCheck());
 		assertFalse(result.isSuccess());

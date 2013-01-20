@@ -6,14 +6,14 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 
-public class UrlCheck implements Check {
+public class UrlCheck implements MonitoringCheck {
 
 	// 5 sec
 	private static final int TIMEOUT = 5 * 1000;
@@ -69,7 +69,7 @@ public class UrlCheck implements Check {
 	}
 
 	@Override
-	public CheckResult check() {
+	public MonitoringCheckResult check() {
 		URL url = null;
 		try {
 			url = new URL(urlString);

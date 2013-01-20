@@ -9,7 +9,7 @@ import java.util.HashSet;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class NodeCheckerCacheUnitTest {
 
@@ -18,20 +18,20 @@ public class NodeCheckerCacheUnitTest {
 		final Node node = EasyMock.createMock(Node.class);
 		EasyMock.replay(node);
 		final NodeCheckerImpl nodeChecker = EasyMock.createMock(NodeCheckerImpl.class);
-		final Collection<CheckResult> checkResults = new HashSet<CheckResult>();
+		final Collection<MonitoringCheckResult> checkResults = new HashSet<MonitoringCheckResult>();
 		EasyMock.expect(nodeChecker.checkNode(node)).andReturn(checkResults);
 		EasyMock.replay(nodeChecker);
 		final NodeCheckerCache nodeCheckerCache = new NodeCheckerCache(nodeChecker);
 
 		// 1. call => nothing in cache
 		{
-			final Collection<CheckResult> result = nodeCheckerCache.checkNodeWithCache(node);
+			final Collection<MonitoringCheckResult> result = nodeCheckerCache.checkNodeWithCache(node);
 			assertNotNull(result);
 			assertEquals(checkResults, result);
 		}
 		// 2. call => use cache
 		{
-			final Collection<CheckResult> result = nodeCheckerCache.checkNodeWithCache(node);
+			final Collection<MonitoringCheckResult> result = nodeCheckerCache.checkNodeWithCache(node);
 			assertNotNull(result);
 			assertEquals(checkResults, result);
 		}

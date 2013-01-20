@@ -1,5 +1,6 @@
-package de.benjaminborbe.monitoring.dao;
+package de.benjaminborbe.monitoring.util;
 
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;
 
 public class MapperMonitoringNodeIdentifier implements Mapper<MonitoringNodeIdentifier> {

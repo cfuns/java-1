@@ -3,18 +3,18 @@ package de.benjaminborbe.monitoring.check;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 @Singleton
-public class SimpleCheck implements Check {
+public class SimpleCheck implements MonitoringCheck {
 
 	@Inject
 	public SimpleCheck() {
 	}
 
 	@Override
-	public CheckResult check() {
+	public MonitoringCheckResult check() {
 		return new CheckResultImpl(this, true, null, null);
 	}
 

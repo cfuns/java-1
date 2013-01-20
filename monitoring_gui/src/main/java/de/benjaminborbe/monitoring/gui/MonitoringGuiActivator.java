@@ -64,10 +64,10 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(monitoringCacheServlet, "/"));
-		result.add(new ServletInfo(monitoringLiveServlet, "/live"));
-		result.add(new ServletInfo(monitoringGuiSilentCheckServlet, "/silent"));
-		result.add(new ServletInfo(monitoringGuiSendmailServlet, "/sendmail"));
+		result.add(new ServletInfo(monitoringCacheServlet, MonitoringGuiConstants.URL_HOME));
+		result.add(new ServletInfo(monitoringLiveServlet, MonitoringGuiConstants.URL_CHECK_LIVE));
+		result.add(new ServletInfo(monitoringGuiSilentCheckServlet, MonitoringGuiConstants.URL_CHECK_SILENT));
+		result.add(new ServletInfo(monitoringGuiSendmailServlet, MonitoringGuiConstants.URL_SENDMAIL));
 		return result;
 	}
 

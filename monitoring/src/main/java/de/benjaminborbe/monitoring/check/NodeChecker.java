@@ -2,10 +2,10 @@ package de.benjaminborbe.monitoring.check;
 
 import java.util.Collection;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public interface NodeChecker {
 
-	Collection<CheckResult> checkNode(final Node node);
+	Collection<MonitoringCheckResult> checkNode(final Node node);
 
 }

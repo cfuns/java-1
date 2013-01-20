@@ -12,7 +12,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.check.NodeChecker;
 import de.benjaminborbe.monitoring.check.RootNode;
 
@@ -37,7 +37,7 @@ public class MonitoringMailer implements Runnable {
 	@Override
 	public void run() {
 		logger.trace("MonitoringMailer.execute()");
-		final Collection<CheckResult> failedChecks = callChecks();
+		final Collection<MonitoringCheckResult> failedChecks = callChecks();
 
 		// send mail
 		if (failedChecks.size() > 0) {
@@ -57,11 +57,11 @@ public class MonitoringMailer implements Runnable {
 		logger.trace("MonitoringMailer.execute() - finished");
 	}
 
-	protected Collection<CheckResult> callChecks() {
-		final Collection<CheckResult> results = nodeChecker.checkNode(rootNodeProvider.get());
+	protected Collection<MonitoringCheckResult> callChecks() {
+		final Collection<MonitoringCheckResult> results = nodeChecker.checkNode(rootNodeProvider.get());
 
-		final Set<CheckResult> failedChecks = new HashSet<CheckResult>();
-		for (final CheckResult checkResult : results) {
+		final Set<MonitoringCheckResult> failedChecks = new HashSet<MonitoringCheckResult>();
+		for (final MonitoringCheckResult checkResult : results) {
 			try {
 				if (checkResult.isSuccess()) {
 					logger.trace(checkResult.toString());
@@ -78,18 +78,18 @@ public class MonitoringMailer implements Runnable {
 		return failedChecks;
 	}
 
-	protected MailDto buildMail(final Collection<CheckResult> failedChecks) {
+	protected MailDto buildMail(final Collection<MonitoringCheckResult> failedChecks) {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "BB - Monitoring";
 		return new MailDto(from, to, subject, buildMailContent(failedChecks), "text/plain");
 	}
 
-	protected String buildMailContent(final Collection<CheckResult> failedChecks) {
+	protected String buildMailContent(final Collection<MonitoringCheckResult> failedChecks) {
 		final StringBuffer content = new StringBuffer();
 		content.append("Checks failed: " + failedChecks.size());
 		content.append("\n");
-		for (final CheckResult checkResult : failedChecks) {
+		for (final MonitoringCheckResult checkResult : failedChecks) {
 			content.append(checkResult.getCheck().getName());
 			content.append(": ");
 			content.append(checkResult.getMessage());

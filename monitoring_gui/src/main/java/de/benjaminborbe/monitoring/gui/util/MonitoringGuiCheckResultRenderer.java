@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.UrlUtil;
 
 public class MonitoringGuiCheckResultRenderer implements Widget {
 
-	private final CheckResult checkResult;
+	private final MonitoringCheckResult checkResult;
 
 	private final UrlUtil urlUtil;
 
-	public MonitoringGuiCheckResultRenderer(final CheckResult checkResult, final UrlUtil urlUtil) {
+	public MonitoringGuiCheckResultRenderer(final MonitoringCheckResult checkResult, final UrlUtil urlUtil) {
 		this.checkResult = checkResult;
 		this.urlUtil = urlUtil;
 	}

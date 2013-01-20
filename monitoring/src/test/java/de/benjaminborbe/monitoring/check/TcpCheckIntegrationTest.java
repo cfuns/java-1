@@ -8,7 +8,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class TcpCheckIntegrationTest {
 
@@ -19,14 +19,14 @@ public class TcpCheckIntegrationTest {
 		// success
 		{
 			final TcpCheck check = new TcpCheck(logger, "Check1", "www.google.de", 80);
-			final CheckResult result = check.check();
+			final MonitoringCheckResult result = check.check();
 			assertTrue(result.isSuccess());
 			assertEquals("Check1", check.getName());
 		}
 		// fail
 		{
 			final TcpCheck check = new TcpCheck(logger, "Check2", "www.google.de", 1337);
-			final CheckResult result = check.check();
+			final MonitoringCheckResult result = check.check();
 			assertFalse(result.isSuccess());
 			assertEquals("Check2", check.getName());
 		}

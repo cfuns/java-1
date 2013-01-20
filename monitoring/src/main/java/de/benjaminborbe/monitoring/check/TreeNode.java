@@ -1,17 +1,17 @@
 package de.benjaminborbe.monitoring.check;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 
 public class TreeNode extends HasChildNodesImpl implements HasChildNodes, HasPreconditionCheckNode {
 
-	private final Check preconditionCheck;
+	private final MonitoringCheck preconditionCheck;
 
-	public TreeNode(final Check preconditionCheck) {
+	public TreeNode(final MonitoringCheck preconditionCheck) {
 		this.preconditionCheck = preconditionCheck;
 	}
 
 	@Override
-	public Check getPreconditionCheck() {
+	public MonitoringCheck getPreconditionCheck() {
 		return preconditionCheck;
 	}
 

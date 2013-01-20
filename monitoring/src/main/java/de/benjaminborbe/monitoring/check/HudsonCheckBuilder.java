@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 
@@ -25,11 +25,11 @@ public class HudsonCheckBuilder {
 		this.httpDownloadUtil = httpDownloadUtil;
 	}
 
-	public Check buildCheck(final String name, final String hostname, final String job) {
+	public MonitoringCheck buildCheck(final String name, final String hostname, final String job) {
 		return new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, hostname, job);
 	}
 
-	public Check buildCheck(final String name, final String hostname, final String job, final String username, final String password) {
+	public MonitoringCheck buildCheck(final String name, final String hostname, final String job, final String username, final String password) {
 		return new HudsonCheck(logger, httpDownloader, httpDownloadUtil, name, hostname, job, username, password);
 	}
 }

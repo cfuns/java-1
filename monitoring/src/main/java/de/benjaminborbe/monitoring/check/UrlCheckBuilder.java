@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 
@@ -24,11 +24,11 @@ public class UrlCheckBuilder {
 
 	}
 
-	public Check buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch) {
+	public MonitoringCheck buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch) {
 		return buildCheck(name, urlString, titleMatch, contentMatch, null, null);
 	}
 
-	public Check buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch, final String username, final String password) {
+	public MonitoringCheck buildCheck(final String name, final String urlString, final String titleMatch, final String contentMatch, final String username, final String password) {
 		return new UrlCheck(logger, httpDownloader, httpDownloadUtil, name, urlString, titleMatch, contentMatch, username, password);
 	}
 }

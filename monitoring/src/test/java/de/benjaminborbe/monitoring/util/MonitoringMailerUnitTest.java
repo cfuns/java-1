@@ -9,28 +9,28 @@ import java.util.Collection;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class MonitoringMailerUnitTest {
 
 	@Test
 	public void testBuildMailContentEmpty() throws Exception {
 		final MonitoringMailer monitoringCronJob = new MonitoringMailer(null, null, null, null);
-		final Collection<CheckResult> failedChecks = new ArrayList<CheckResult>();
+		final Collection<MonitoringCheckResult> failedChecks = new ArrayList<MonitoringCheckResult>();
 		assertEquals("Checks failed: 0\n\nhttp://bb/bb/monitoring\n", monitoringCronJob.buildMailContent(failedChecks));
 	}
 
 	@Test
 	public void testBuildMailContentOneFailedCheck() throws Exception {
 		final MonitoringMailer monitoringCronJob = new MonitoringMailer(null, null, null, null);
-		final Collection<CheckResult> failedChecks = new ArrayList<CheckResult>();
+		final Collection<MonitoringCheckResult> failedChecks = new ArrayList<MonitoringCheckResult>();
 
-		final Check check = EasyMock.createMock(Check.class);
+		final MonitoringCheck check = EasyMock.createMock(MonitoringCheck.class);
 		EasyMock.expect(check.getName()).andReturn("MyCheck");
 		EasyMock.replay(check);
 
-		final CheckResult checkResult = EasyMock.createMock(CheckResult.class);
+		final MonitoringCheckResult checkResult = EasyMock.createMock(MonitoringCheckResult.class);
 		EasyMock.expect(checkResult.getUrl()).andReturn(new URL("http://www.example.com"));
 		EasyMock.expect(checkResult.getMessage()).andReturn("foo");
 		EasyMock.expect(checkResult.getCheck()).andReturn(check);

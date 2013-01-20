@@ -24,5 +24,7 @@ public class MonitoringModule extends AbstractModule {
 		bind(MonitoringService.class).to(MonitoringServiceImpl.class).in(Singleton.class);
 		bind(NodeChecker.class).to(NodeCheckerCache.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(MonitoringValidatorLinker.class);
 	}
 }

@@ -1,23 +1,23 @@
 package de.benjaminborbe.monitoring.check;
 
-import de.benjaminborbe.monitoring.api.Check;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
-public class RetryCheck implements Check {
+public class RetryCheck implements MonitoringCheck {
 
-	private final Check check;
+	private final MonitoringCheck check;
 
 	private final int retryLimit;
 
-	public RetryCheck(final Check check, final int retryLimit) {
+	public RetryCheck(final MonitoringCheck check, final int retryLimit) {
 		this.check = check;
 		this.retryLimit = retryLimit;
 
 	}
 
 	@Override
-	public CheckResult check() {
-		CheckResult result = null;
+	public MonitoringCheckResult check() {
+		MonitoringCheckResult result = null;
 		for (int i = 0; i < retryLimit; ++i) {
 			result = check.check();
 			if (result.isSuccess()) {

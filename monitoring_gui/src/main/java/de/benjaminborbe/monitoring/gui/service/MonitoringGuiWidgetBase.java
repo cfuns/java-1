@@ -16,15 +16,15 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
-import de.benjaminborbe.monitoring.api.MonitoringWidget;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
@@ -37,10 +37,10 @@ import de.benjaminborbe.website.util.UlWidget;
 @Singleton
 public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, RequireCssResource {
 
-	private final class CheckResultComparator extends ComparatorBase<CheckResult, String> {
+	private final class CheckResultComparator extends ComparatorBase<MonitoringCheckResult, String> {
 
 		@Override
-		public String getValue(final CheckResult o) {
+		public String getValue(final MonitoringCheckResult o) {
 			return o.toString();
 		}
 	}
@@ -59,19 +59,20 @@ public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, Requi
 	}
 
 	protected Widget getCheckWithRootNode(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			AuthenticationServiceException, MonitoringServiceException, PermissionDeniedException {
+			AuthenticationServiceException, MonitoringServiceException, PermissionDeniedException, LoginRequiredException {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-		final List<CheckResult> checkResults = new ArrayList<CheckResult>(getResults(sessionIdentifier));
+		final List<MonitoringCheckResult> checkResults = new ArrayList<MonitoringCheckResult>(getResults(sessionIdentifier));
 		Collections.sort(checkResults, new CheckResultComparator());
 		final UlWidget ul = new UlWidget();
-		for (final CheckResult checkResult : checkResults) {
+		for (final MonitoringCheckResult checkResult : checkResults) {
 			logger.trace(checkResult.toString());
 			ul.add(new MonitoringGuiCheckResultRenderer(checkResult, urlUtil));
 		}
 		return ul;
 	}
 
-	protected abstract Collection<CheckResult> getResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException;
+	protected abstract Collection<MonitoringCheckResult> getResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
@@ -96,6 +97,11 @@ public abstract class MonitoringGuiWidgetBase implements MonitoringWidget, Requi
 			exceptionWidget.render(request, response, context);
 		}
 		catch (final PermissionDeniedException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		}
+		catch (final LoginRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);

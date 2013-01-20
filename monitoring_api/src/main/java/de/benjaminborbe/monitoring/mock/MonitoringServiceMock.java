@@ -2,20 +2,23 @@ package de.benjaminborbe.monitoring.mock;
 
 import java.util.Collection;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 
 public class MonitoringServiceMock implements MonitoringService {
 
 	@Override
-	public Collection<CheckResult> checkRootNode(final SessionIdentifier sessionIdentifier) {
+	public Collection<MonitoringCheckResult> checkRootNode(final SessionIdentifier sessionIdentifier) {
 		return null;
 	}
 
 	@Override
-	public Collection<CheckResult> checkRootNodeWithCache(final SessionIdentifier sessionIdentifier) {
+	public Collection<MonitoringCheckResult> checkRootNodeWithCache(final SessionIdentifier sessionIdentifier) {
 		return null;
 	}
 
@@ -25,6 +28,16 @@ public class MonitoringServiceMock implements MonitoringService {
 
 	@Override
 	public void sendmail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException {
+	}
+
+	@Override
+	public MonitoringNodeIdentifier createNodeIdentifier(final String id) throws MonitoringServiceException {
+		return null;
+	}
+
+	@Override
+	public void deleteNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 }

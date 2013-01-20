@@ -8,7 +8,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.monitoring.api.CheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class TwentyfeetQueueCheckUnitTest {
 
@@ -30,7 +30,7 @@ public class TwentyfeetQueueCheckUnitTest {
 		sw.append("</pre>");
 
 		final TwentyfeetQueueCheck check = new TwentyfeetQueueCheck(logger, null, null, null, null);
-		final CheckResult result = check.buildResult(sw.toString(), sw.toString(), null);
+		final MonitoringCheckResult result = check.buildResult(sw.toString(), sw.toString(), null);
 		assertNotNull(result);
 	}
 }

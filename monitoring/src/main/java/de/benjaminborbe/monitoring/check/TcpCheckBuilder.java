@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.monitoring.api.Check;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 
 @Singleton
 public class TcpCheckBuilder {
@@ -17,7 +17,7 @@ public class TcpCheckBuilder {
 		this.logger = logger;
 	}
 
-	public Check buildCheck(final String name, final String hostname, final int port) {
+	public MonitoringCheck buildCheck(final String name, final String hostname, final int port) {
 		return new TcpCheck(logger, name, hostname, port);
 	}
 
