@@ -23,6 +23,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
+import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -48,6 +49,8 @@ public class MonitoringGuiNodeListServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
+
 	@Inject
 	public MonitoringGuiNodeListServlet(
 			final Logger logger,
@@ -59,11 +62,13 @@ public class MonitoringGuiNodeListServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final MonitoringService monitoringService,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final MonitoringGuiLinkFactory monitoringGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
 		this.logger = logger;
+		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 	}
 
 	@Override
@@ -82,9 +87,19 @@ public class MonitoringGuiNodeListServlet extends WebsiteHtmlServlet {
 
 			final UlWidget ul = new UlWidget();
 			for (final MonitoringNode node : nodes) {
-				ul.add(node.getName());
+				final ListWidget row = new ListWidget();
+				row.add(node.getName());
+				row.add(" ");
+				row.add(monitoringGuiLinkFactory.nodeUpdate(request, node.getId()));
+				row.add(" ");
+				row.add(monitoringGuiLinkFactory.nodeDelete(request, node.getId()));
+				ul.add(row);
 			}
 			widgets.add(ul);
+
+			final ListWidget links = new ListWidget();
+			links.add(monitoringGuiLinkFactory.createNode(request));
+			widgets.add(links);
 
 			return widgets;
 		}

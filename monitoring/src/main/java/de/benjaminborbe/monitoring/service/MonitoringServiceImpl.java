@@ -115,8 +115,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public void updateNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeDto node) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+	public void updateNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeDto node) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException, ValidationException {
 	}
 
 	@Override
@@ -127,6 +127,12 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	@Override
 	public Collection<MonitoringNode> listNodes(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public MonitoringNode getNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		return null;
 	}
 

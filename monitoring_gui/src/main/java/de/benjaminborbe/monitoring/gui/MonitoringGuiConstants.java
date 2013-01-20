@@ -24,4 +24,8 @@ public interface MonitoringGuiConstants {
 
 	String URL_HOME = "/";
 
+	String PARAMETER_NODE_NAME = "node_name";
+
+	String PARAMETER_NODE_CHECK_TYPE = "node_check_type";
+
 }
