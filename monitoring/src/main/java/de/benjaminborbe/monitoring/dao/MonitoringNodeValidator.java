@@ -8,8 +8,8 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
-import de.benjaminborbe.monitoring.util.MonitoringCheck;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
@@ -75,9 +75,9 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
-					final MonitoringCheck value = bean.getCheck();
-					final List<ValidationConstraint<MonitoringCheck>> constraints = new ArrayList<ValidationConstraint<MonitoringCheck>>();
-					constraints.add(new ValidationConstraintNotNull<MonitoringCheck>());
+					final MonitoringCheckType value = bean.getCheckType();
+					final List<ValidationConstraint<MonitoringCheckType>> constraints = new ArrayList<ValidationConstraint<MonitoringCheckType>>();
+					constraints.add(new ValidationConstraintNotNull<MonitoringCheckType>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

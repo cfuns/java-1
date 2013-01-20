@@ -2,13 +2,14 @@ package de.benjaminborbe.monitoring.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
-import de.benjaminborbe.monitoring.util.MonitoringCheck;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> implements HasCreated, HasModified {
+public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> implements HasCreated, HasModified, MonitoringNode {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
@@ -20,8 +21,9 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private Calendar modified;
 
-	private MonitoringCheck check;
+	private MonitoringCheckType checkType;
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -60,12 +62,12 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.id = id;
 	}
 
-	public MonitoringCheck getCheck() {
-		return check;
+	public MonitoringCheckType getCheckType() {
+		return checkType;
 	}
 
-	public void setCheck(final MonitoringCheck check) {
-		this.check = check;
+	public void setCheckType(MonitoringCheckType checkType) {
+		this.checkType = checkType;
 	}
 
 }
