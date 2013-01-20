@@ -98,7 +98,7 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 	}
 
 	private void expectAuthToken(final String token) throws PermissionDeniedException {
-		if (!searchGuiConfig.getAuthToken().equals(token)) {
+		if (searchGuiConfig.getAuthToken() == null || token == null || !searchGuiConfig.getAuthToken().equals(token)) {
 			throw new PermissionDeniedException("invalid token");
 		}
 	}
