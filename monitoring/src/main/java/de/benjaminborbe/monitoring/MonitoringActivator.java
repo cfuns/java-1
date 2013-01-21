@@ -13,7 +13,8 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.monitoring.guice.MonitoringModules;
-import de.benjaminborbe.monitoring.service.MonitoringCronJob;
+import de.benjaminborbe.monitoring.service.MonitoringCheckCronJob;
+import de.benjaminborbe.monitoring.service.MonitoringMailCronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -21,7 +22,10 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 public class MonitoringActivator extends BaseBundleActivator {
 
 	@Inject
-	private MonitoringCronJob monitoringCronJob;
+	private MonitoringMailCronJob monitoringMailCronJob;
+
+	@Inject
+	private MonitoringCheckCronJob monitoringCheckCronJob;
 
 	@Inject
 	private MonitoringService monitoringService;
@@ -37,7 +41,8 @@ public class MonitoringActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(CronJob.class, monitoringCronJob, monitoringCronJob.getClass().getName()));
+		result.add(new ServiceInfo(CronJob.class, monitoringMailCronJob, monitoringMailCronJob.getClass().getName()));
+		result.add(new ServiceInfo(CronJob.class, monitoringCheckCronJob, monitoringCheckCronJob.getClass().getName()));
 		result.add(new ServiceInfo(MonitoringService.class, monitoringService));
 		for (final ConfigurationDescription configuration : monitoringConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));

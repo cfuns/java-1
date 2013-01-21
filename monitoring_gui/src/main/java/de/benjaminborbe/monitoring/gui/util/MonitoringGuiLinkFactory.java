@@ -23,12 +23,20 @@ public class MonitoringGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
+	public Widget check(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_TRIGGER_CHECK, new MapParameter(), "trigger check");
+	}
+
+	public Widget mail(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_TRIGGER_MAIL, new MapParameter(), "trigger mail");
+	}
+
 	public Widget view(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_VIEW, new MapParameter(), "view");
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_VIEW, new MapParameter(), "view status");
 	}
 
 	public Widget nodeList(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST, new MapParameter(), "node list");
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST, new MapParameter(), "list nodes");
 	}
 
 	public Widget createNode(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {

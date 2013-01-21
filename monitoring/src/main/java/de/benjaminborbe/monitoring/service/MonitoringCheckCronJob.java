@@ -6,18 +6,22 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.util.MonitoringChecker;
 
 @Singleton
-public class MonitoringCronJob implements CronJob {
+public class MonitoringCheckCronJob implements CronJob {
 
 	/* s m h d m dw y */
 	private static final String SCHEDULE_EXPRESSION = "0 */5 * * * ?";
 
 	private final Logger logger;
 
+	private final MonitoringChecker monitoringChecker;
+
 	@Inject
-	public MonitoringCronJob(final Logger logger) {
+	public MonitoringCheckCronJob(final Logger logger, final MonitoringChecker monitoringChecker) {
 		this.logger = logger;
+		this.monitoringChecker = monitoringChecker;
 	}
 
 	@Override
@@ -27,8 +31,9 @@ public class MonitoringCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.trace("MonitoringCronJob.execute()");
-		logger.trace("MonitoringCronJob.execute() - finished");
+		logger.trace("execute()");
+		monitoringChecker.check();
+		logger.trace("execute() - finished");
 	}
 
 	@Override

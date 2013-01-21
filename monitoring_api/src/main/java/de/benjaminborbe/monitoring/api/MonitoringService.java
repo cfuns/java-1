@@ -9,6 +9,10 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface MonitoringService {
 
+	void mail(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
+
+	void check(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
+
 	Collection<MonitoringNodeResult> getCheckResults(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 
 	MonitoringNodeIdentifier createNodeIdentifier(String id) throws MonitoringServiceException;
@@ -29,4 +33,5 @@ public interface MonitoringService {
 
 	Collection<String> getRequireParameter(SessionIdentifier sessionIdentifier, MonitoringCheckType monitoringCheckType) throws MonitoringServiceException, LoginRequiredException,
 			PermissionDeniedException;
+
 }

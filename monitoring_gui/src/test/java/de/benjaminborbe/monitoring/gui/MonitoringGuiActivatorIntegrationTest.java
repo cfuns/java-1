@@ -52,6 +52,8 @@ public class MonitoringGuiActivatorIntegrationTest {
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_DELETE);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_UPDATE);
+		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_TRIGGER_CHECK);
+		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_TRIGGER_MAIL);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

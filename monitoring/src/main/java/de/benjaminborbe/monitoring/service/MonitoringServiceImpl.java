@@ -29,6 +29,8 @@ import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.check.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
+import de.benjaminborbe.monitoring.util.MonitoringChecker;
+import de.benjaminborbe.monitoring.util.MonitoringMailer;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -98,6 +100,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final MonitoringCheckFactory monitoringCheckFactory;
 
+	private final MonitoringMailer monitoringMailer;
+
+	private final MonitoringChecker monitoringChecker;
+
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
@@ -106,7 +112,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final IdGeneratorUUID idGeneratorUUID,
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
-			final MonitoringNodeDao monitoringNodeDao) {
+			final MonitoringNodeDao monitoringNodeDao,
+			final MonitoringMailer monitoringMailer,
+			final MonitoringChecker monitoringChecker) {
 		this.logger = logger;
 		this.monitoringCheckFactory = monitoringCheckFactory;
 		this.validationExecutor = validationExecutor;
@@ -114,6 +122,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 		this.authorizationService = authorizationService;
 		this.durationUtil = durationUtil;
 		this.monitoringNodeDao = monitoringNodeDao;
+		this.monitoringMailer = monitoringMailer;
+		this.monitoringChecker = monitoringChecker;
 	}
 
 	@Override
@@ -139,6 +149,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("deleteNode");
 			monitoringNodeDao.delete(monitoringNodeIdentifier);
 		}
 		catch (final AuthorizationServiceException e) {
@@ -159,6 +170,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("updateNode");
 
 			final MonitoringNodeBean monitoringNode = monitoringNodeDao.load(node.getId());
 			monitoringNode.setName(node.getName());
@@ -190,6 +202,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("createNode");
 
 			final MonitoringNodeIdentifier id = createNodeIdentifier(idGeneratorUUID.nextId());
 			final MonitoringNodeBean monitoringNode = monitoringNodeDao.create();
@@ -224,6 +237,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("listNodes");
+
 			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
@@ -252,6 +267,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("getNode");
+
 			return monitoringNodeDao.load(monitoringNodeIdentifier);
 		}
 		catch (final AuthorizationServiceException e) {
@@ -272,6 +289,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("getRequireParameter");
+
 			final MonitoringCheck check = monitoringCheckFactory.get(monitoringCheckType);
 			return check.getRequireParameters();
 		}
@@ -290,6 +309,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("getCheckResults");
 
 			final List<MonitoringNodeResult> result = new ArrayList<MonitoringNodeResult>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
@@ -307,6 +327,42 @@ public class MonitoringServiceImpl implements MonitoringService {
 			throw new MonitoringServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void mail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("mail");
+
+			monitoringMailer.mail();
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void check(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("check");
+
+			monitoringChecker.check();
+		}
+		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
 		}
 		finally {

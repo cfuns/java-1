@@ -55,8 +55,16 @@ public class MonitoringServiceMock implements MonitoringService {
 	}
 
 	@Override
-	public Collection<MonitoringNodeResult> getCheckResults(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+	public Collection<MonitoringNodeResult> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
+	}
+
+	@Override
+	public void mail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public void check(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 }
