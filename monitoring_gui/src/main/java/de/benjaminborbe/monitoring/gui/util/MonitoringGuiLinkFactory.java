@@ -23,6 +23,10 @@ public class MonitoringGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
+	public Widget view(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_VIEW, new MapParameter(), "view");
+	}
+
 	public Widget nodeList(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST, new MapParameter(), "node list");
 	}

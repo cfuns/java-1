@@ -1,5 +1,6 @@
 package de.benjaminborbe.monitoring.service;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +17,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.monitoring.api.MonitoringNodeResult;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
@@ -24,6 +26,7 @@ import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.monitoring.check.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -36,6 +39,48 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class MonitoringServiceImpl implements MonitoringService {
+
+	private final class ResultImpl implements MonitoringNodeResult {
+
+		private final MonitoringCheckResult r;
+
+		private final MonitoringNodeBean node;
+
+		private ResultImpl(final MonitoringCheckResult r, final MonitoringNodeBean node) {
+			this.r = r;
+			this.node = node;
+		}
+
+		@Override
+		public boolean isSuccessful() {
+			return r.isSuccessful();
+		}
+
+		@Override
+		public String getMessage() {
+			return r.getMessage();
+		}
+
+		@Override
+		public URL getUrl() {
+			return r.getUrl();
+		}
+
+		@Override
+		public Exception getException() {
+			return r.getException();
+		}
+
+		@Override
+		public String getName() {
+			return node.getName();
+		}
+
+		@Override
+		public MonitoringNodeIdentifier getId() {
+			return node.getId();
+		}
+	}
 
 	private static final long DURATION_WARN = 300;
 
@@ -118,6 +163,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final MonitoringNodeBean monitoringNode = monitoringNodeDao.load(node.getId());
 			monitoringNode.setName(node.getName());
 			monitoringNode.setCheckType(node.getCheckType());
+			monitoringNode.setParameter(node.getParameter());
 
 			final ValidationResult errors = validationExecutor.validate(monitoringNode);
 			if (errors.hasErrors()) {
@@ -150,6 +196,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			monitoringNode.setId(id);
 			monitoringNode.setName(node.getName());
 			monitoringNode.setCheckType(node.getCheckType());
+			monitoringNode.setParameter(node.getParameter());
 
 			final ValidationResult errors = validationExecutor.validate(monitoringNode);
 			if (errors.hasErrors()) {
@@ -229,6 +276,37 @@ public class MonitoringServiceImpl implements MonitoringService {
 			return check.getRequireParameters();
 		}
 		catch (final AuthorizationServiceException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<MonitoringNodeResult> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+
+			final List<MonitoringNodeResult> result = new ArrayList<MonitoringNodeResult>();
+			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
+			while (ni.hasNext()) {
+				final MonitoringNodeBean node = ni.next();
+				final MonitoringCheck check = monitoringCheckFactory.get(node.getCheckType());
+				result.add(new ResultImpl(check.check(node.getParameter()), node));
+			}
+			return result;
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MonitoringServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new MonitoringServiceException(e);
 		}
 		finally {

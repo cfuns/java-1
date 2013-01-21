@@ -13,6 +13,9 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 
 	@Override
 	public Map<String, String> fromString(final String json) throws MapException {
+		if (json == null) {
+			return null;
+		}
 		try {
 			final JSONParser parser = new JSONParser();
 			final Object object = parser.parse(json);
@@ -38,6 +41,9 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String toString(final Map<String, String> object) throws MapException {
+		if (object == null) {
+			return null;
+		}
 		final JSONObject jsonObject = new JSONObject();
 		for (final Entry<String, String> e : object.entrySet()) {
 			jsonObject.put(e.getKey(), e.getValue());

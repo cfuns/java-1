@@ -24,4 +24,24 @@ public class MapperMapStringUnitTest {
 		assertEquals("valueC", d.get("keyC"));
 		assertEquals(data.size(), d.size());
 	}
+
+	@Test
+	public void testMappingNull() throws Exception {
+		final MapperMapString mapper = new MapperMapString();
+		final Map<String, String> data = null;
+		final String json = mapper.toString(data);
+		assertNull(json);
+		final Map<String, String> d = mapper.fromString(json);
+		assertNull(d);
+	}
+
+	@Test
+	public void testMappingEmpty() throws Exception {
+		final MapperMapString mapper = new MapperMapString();
+		final Map<String, String> data = new HashMap<String, String>();
+		final String json = mapper.toString(data);
+		assertNotNull(json);
+		final Map<String, String> d = mapper.fromString(json);
+		assertEquals(data.size(), d.size());
+	}
 }

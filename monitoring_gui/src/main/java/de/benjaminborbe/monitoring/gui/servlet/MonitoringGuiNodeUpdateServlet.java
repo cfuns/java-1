@@ -42,6 +42,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import de.benjaminborbe.website.form.FormInputBaseWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -145,9 +146,13 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 			}
 			checkTypeInput.addDefaultValue(node.getCheckType());
 			formWidget.addFormInputWidget(checkTypeInput);
+			final Map<String, String> nodeParameter = node.getParameter();
 			for (final String requiredParameter : requiredParameters) {
-				formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter).addLabel(requiredParameter).addPlaceholder("...")
-						.addDefaultValue(node.getParameter().get(requiredParameter)));
+				final FormInputBaseWidget input = new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter).addLabel(requiredParameter).addPlaceholder("...");
+				if (nodeParameter != null) {
+					input.addDefaultValue(nodeParameter.get(requiredParameter));
+				}
+				formWidget.addFormInputWidget(input);
 			}
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);

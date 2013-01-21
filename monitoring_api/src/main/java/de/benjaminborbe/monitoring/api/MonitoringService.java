@@ -9,6 +9,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface MonitoringService {
 
+	Collection<MonitoringNodeResult> getCheckResults(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
+
 	MonitoringNodeIdentifier createNodeIdentifier(String id) throws MonitoringServiceException;
 
 	void deleteNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,

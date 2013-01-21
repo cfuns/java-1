@@ -26,6 +26,10 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private Map<String, String> parameter;
 
+	private Boolean active;
+
+	private Boolean silent;
+
 	@Override
 	public String getName() {
 		return name;
@@ -81,6 +85,22 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	public void setParameter(final Map<String, String> parameter) {
 		this.parameter = parameter;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(final Boolean active) {
+		this.active = active;
+	}
+
+	public Boolean getSilent() {
+		return silent;
+	}
+
+	public void setSilent(final Boolean silent) {
+		this.silent = silent;
 	}
 
 }

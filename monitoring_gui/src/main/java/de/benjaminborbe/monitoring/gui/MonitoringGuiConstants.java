@@ -28,4 +28,6 @@ public interface MonitoringGuiConstants {
 
 	String PARAMETER_PREFIX = "parameter_";
 
+	String URL_VIEW = "/view";
+
 }

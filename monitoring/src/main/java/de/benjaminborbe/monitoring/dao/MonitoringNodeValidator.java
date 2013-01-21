@@ -38,7 +38,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 		// id
 		{
-			final String field = "id";
+			final String field = MonitoringNodeBeanMapper.ID;
 			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
 
 				@Override
@@ -53,7 +53,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 		// name
 		{
-			final String field = "name";
+			final String field = MonitoringNodeBeanMapper.NAME;
 			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
 
 				@Override
@@ -68,9 +68,9 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 			});
 		}
 
-		// check
+		// checkType
 		{
-			final String field = "check";
+			final String field = MonitoringNodeBeanMapper.CHECK_TYPE;
 			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
 
 				@Override
@@ -78,6 +78,21 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 					final MonitoringCheckType value = bean.getCheckType();
 					final List<ValidationConstraint<MonitoringCheckType>> constraints = new ArrayList<ValidationConstraint<MonitoringCheckType>>();
 					constraints.add(new ValidationConstraintNotNull<MonitoringCheckType>());
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
+		// parameter
+		{
+			final String field = MonitoringNodeBeanMapper.PARAMETER;
+			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
+					final Map<String, String> value = bean.getParameter();
+					final List<ValidationConstraint<Map<String, String>>> constraints = new ArrayList<ValidationConstraint<Map<String, String>>>();
+					constraints.add(new ValidationConstraintNotNull<Map<String, String>>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
