@@ -30,4 +30,6 @@ public interface MonitoringGuiConstants {
 
 	String URL_VIEW = "/view";
 
+	String URL_CSS_STYLE = "/css/style.css";
+
 }

@@ -2,7 +2,6 @@ package de.benjaminborbe.monitoring.gui.servlet;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,14 +29,13 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class MonitoringGuiShowServlet extends WebsiteHtmlServlet {
+public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -7863752062438502326L;
 

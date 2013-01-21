@@ -49,14 +49,13 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormSelectboxWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
+public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 3764801991353392201L;
 
@@ -150,7 +149,9 @@ public class MonitoringGuiNodeUpdateServlet extends WebsiteHtmlServlet {
 			for (final String requiredParameter : requiredParameters) {
 				final FormInputBaseWidget input = new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter).addLabel(requiredParameter).addPlaceholder("...");
 				if (nodeParameter != null) {
-					input.addDefaultValue(nodeParameter.get(requiredParameter));
+					final String value = nodeParameter.get(requiredParameter);
+					logger.debug(requiredParameter + " = " + (value != null ? value : "NULL"));
+					input.addDefaultValue(value);
 				}
 				formWidget.addFormInputWidget(input);
 			}

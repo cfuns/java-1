@@ -30,14 +30,13 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class MonitoringGuiNodeListServlet extends WebsiteHtmlServlet {
+public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 3764801991353392201L;
 

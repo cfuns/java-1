@@ -27,7 +27,7 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 				final Set<Object> iterator = jsonObject.keySet();
 				for (final Object key : iterator) {
 					final Object value = jsonObject.get(key);
-					result.put(String.valueOf(key), String.valueOf(value));
+					result.put(asString(key), asString(value));
 				}
 				return result;
 			}
@@ -36,6 +36,10 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 			throw new MapException("no valid json", e);
 		}
 		throw new MapException("no valid json");
+	}
+
+	private String asString(final Object key) {
+		return key != null ? String.valueOf(key) : null;
 	}
 
 	@SuppressWarnings("unchecked")

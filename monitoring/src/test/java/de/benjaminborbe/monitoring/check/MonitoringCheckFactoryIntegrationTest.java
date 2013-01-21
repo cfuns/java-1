@@ -18,7 +18,9 @@ public class MonitoringCheckFactoryIntegrationTest {
 		final MonitoringCheckFactory factory = injector.getInstance(MonitoringCheckFactory.class);
 		assertNotNull(factory);
 		for (final MonitoringCheckType type : MonitoringCheckType.values()) {
-			assertNotNull("no check found for type: " + type, factory.get(type));
+			final MonitoringCheck check = factory.get(type);
+			assertNotNull("no check found for type: " + type, check);
+			assertNotNull("requireParameters is null for type: " + type, check.getRequireParameters());
 		}
 	}
 }

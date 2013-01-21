@@ -43,7 +43,7 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 
 	@Override
 	public Collection<String> getRequireParameters() {
-		return Arrays.asList(HOSTNAME, PORT);
+		return Arrays.asList(HOSTNAME, PORT, TIMEOUT);
 	}
 
 	@Override

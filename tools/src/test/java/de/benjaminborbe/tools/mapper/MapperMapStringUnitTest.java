@@ -44,4 +44,20 @@ public class MapperMapStringUnitTest {
 		final Map<String, String> d = mapper.fromString(json);
 		assertEquals(data.size(), d.size());
 	}
+
+	@Test
+	public void testMappingNullValue() throws Exception {
+		final MapperMapString mapper = new MapperMapString();
+		final Map<String, String> data = new HashMap<String, String>();
+		data.put("keyA", null);
+		data.put("keyB", "valueB");
+		data.put("keyC", "valueC");
+		final String json = mapper.toString(data);
+		assertNotNull(json);
+		final Map<String, String> d = mapper.fromString(json);
+		assertEquals(null, d.get("keyA"));
+		assertEquals("valueB", d.get("keyB"));
+		assertEquals("valueC", d.get("keyC"));
+		assertEquals(data.size(), d.size());
+	}
 }

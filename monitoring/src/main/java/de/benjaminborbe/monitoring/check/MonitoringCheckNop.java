@@ -1,5 +1,6 @@
 package de.benjaminborbe.monitoring.check;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class MonitoringCheckNop implements MonitoringCheck {
 
 	@Override
 	public Collection<String> getRequireParameters() {
-		return null;
+		return Arrays.asList();
 	}
 
 	@Override
