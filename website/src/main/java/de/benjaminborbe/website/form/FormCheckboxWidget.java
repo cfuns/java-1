@@ -121,8 +121,8 @@ public class FormCheckboxWidget extends CompositeWidget implements FormElementWi
 		return false;
 	}
 
-	public FormElementWidget setCheckedDefault(final boolean checkedDefault) {
-		this.checkedDefault = checkedDefault;
+	public FormElementWidget setCheckedDefault(final Boolean checkedDefault) {
+		this.checkedDefault = Boolean.TRUE.equals(checkedDefault);
 		return this;
 	}
 }

@@ -33,15 +33,20 @@ public class MonitoringGuiCheckResultRenderer implements Widget {
 			out.print("[<span class=\"checkResultFail\">FAIL</span>] ");
 		}
 
+		out.print(checkResult.getName());
+		out.print(" ");
+		if (!checkResult.isSuccessful()) {
+			out.print("(");
+			out.print(checkResult.getMessage());
+			out.print(")");
+			out.print(" ");
+		}
 		if (checkResult.getUrl() != null) {
 			out.println("<a href=\"" + checkResult.getUrl().toExternalForm() + "\" target=\"" + Target.BLANK + "\">");
-		}
-		out.print(checkResult.getName());
-		out.print(" - ");
-		out.print(checkResult.getMessage());
-		if (checkResult.getUrl() != null) {
+			out.println("goto");
 			out.println("</a>");
+			out.print(" ");
 		}
-		out.println(" <a href=\"" + request.getContextPath() + "/monitoring/silent?check=" + urlUtil.encode(checkResult.getId().getId()) + "\">silent</a>");
+		out.println("<a href=\"" + request.getContextPath() + "/monitoring/silent?check=" + urlUtil.encode(checkResult.getId().getId()) + "\">silent</a>");
 	}
 }

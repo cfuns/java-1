@@ -1,7 +1,9 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
+import de.benjaminborbe.monitoring.gui.util.MonitoringNodeComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -82,8 +85,8 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final Collection<MonitoringNode> nodes = monitoringService.listNodes(sessionIdentifier);
-
+			final List<MonitoringNode> nodes = new ArrayList<MonitoringNode>(monitoringService.listNodes(sessionIdentifier));
+			Collections.sort(nodes, new MonitoringNodeComparator());
 			final UlWidget ul = new UlWidget();
 			for (final MonitoringNode node : nodes) {
 				final ListWidget row = new ListWidget();
@@ -113,5 +116,4 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			return exceptionWidget;
 		}
 	}
-
 }

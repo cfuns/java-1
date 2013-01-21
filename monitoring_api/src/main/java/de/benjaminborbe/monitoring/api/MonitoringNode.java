@@ -11,4 +11,8 @@ public interface MonitoringNode {
 	MonitoringCheckType getCheckType();
 
 	Map<String, String> getParameter();
+
+	Boolean getSilent();
+
+	Boolean getActive();
 }

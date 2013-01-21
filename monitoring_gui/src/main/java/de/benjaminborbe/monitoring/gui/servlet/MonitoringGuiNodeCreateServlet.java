@@ -40,6 +40,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -104,6 +105,10 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final String name = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME);
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
 			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
+
+			final String active = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED);
+			final String silent = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_SILENT);
+
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringCheckType type = parseUtil.parseEnum(MonitoringCheckType.class, checkType, MonitoringGuiConstants.DFEAULT_CHECK);
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
@@ -113,7 +118,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			}
 			if (name != null && checkType != null) {
 				try {
-					createNode(sessionIdentifier, name, checkType, parameter);
+					createNode(sessionIdentifier, name, checkType, parameter, active, silent);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -131,6 +136,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ..."));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED).addLabel("Activated:"));
+			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_SILENT).addLabel("Silent:"));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
 			for (final MonitoringCheckType monitoringCheckType : MonitoringCheckType.values()) {
 				checkTypeInput.addOption(monitoringCheckType.name(), monitoringCheckType.getTitle());
@@ -157,8 +164,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		}
 	}
 
-	private void createNode(final SessionIdentifier sessionIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter)
-			throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+	private void createNode(final SessionIdentifier sessionIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
+			final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		MonitoringCheckType checkType = null;
 		{
@@ -169,6 +176,10 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 				errors.add(new ValidationErrorSimple("illegal expire"));
 			}
 		}
+
+		final boolean active = parseUtil.parseBoolean(activeString, false);
+		final boolean silent = parseUtil.parseBoolean(silentString, false);
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
@@ -177,6 +188,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			nodeDto.setName(name);
 			nodeDto.setCheckType(checkType);
 			nodeDto.setParameter(parameter);
+			nodeDto.setSilent(silent);
+			nodeDto.setActive(active);
 			monitoringService.createNode(sessionIdentifier, nodeDto);
 		}
 	}

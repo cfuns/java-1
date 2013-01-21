@@ -36,4 +36,8 @@ public interface MonitoringGuiConstants {
 
 	String URL_VIEW = "/view";
 
+	String PARAMETER_NODE_ACTIVATED = "node_activated";
+
+	String PARAMETER_NODE_SILENT = "node_silent";
+
 }

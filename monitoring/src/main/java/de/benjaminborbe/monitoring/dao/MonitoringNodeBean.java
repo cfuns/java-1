@@ -87,6 +87,7 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.parameter = parameter;
 	}
 
+	@Override
 	public Boolean getActive() {
 		return active;
 	}
@@ -95,6 +96,7 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.active = active;
 	}
 
+	@Override
 	public Boolean getSilent() {
 		return silent;
 	}

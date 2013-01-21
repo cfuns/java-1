@@ -176,6 +176,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 			monitoringNode.setName(node.getName());
 			monitoringNode.setCheckType(node.getCheckType());
 			monitoringNode.setParameter(node.getParameter());
+			monitoringNode.setActive(node.getActive());
+			monitoringNode.setSilent(node.getSilent());
 
 			final ValidationResult errors = validationExecutor.validate(monitoringNode);
 			if (errors.hasErrors()) {
@@ -210,6 +212,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 			monitoringNode.setName(node.getName());
 			monitoringNode.setCheckType(node.getCheckType());
 			monitoringNode.setParameter(node.getParameter());
+			monitoringNode.setActive(node.getActive());
+			monitoringNode.setSilent(node.getSilent());
 
 			final ValidationResult errors = validationExecutor.validate(monitoringNode);
 			if (errors.hasErrors()) {

@@ -12,6 +12,10 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	private Map<String, String> parameter;
 
+	private Boolean active;
+
+	private Boolean silent;
+
 	@Override
 	public MonitoringNodeIdentifier getId() {
 		return id;
@@ -39,12 +43,31 @@ public class MonitoringNodeDto implements MonitoringNode {
 		this.checkType = checkType;
 	}
 
+	@Override
 	public Map<String, String> getParameter() {
 		return parameter;
 	}
 
-	public void setParameter(Map<String, String> parameter) {
+	public void setParameter(final Map<String, String> parameter) {
 		this.parameter = parameter;
+	}
+
+	@Override
+	public Boolean getSilent() {
+		return silent;
+	}
+
+	@Override
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(final Boolean active) {
+		this.active = active;
+	}
+
+	public void setSilent(final Boolean silent) {
+		this.silent = silent;
 	}
 
 }
