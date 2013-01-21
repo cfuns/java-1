@@ -6,17 +6,28 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerGE;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerLE;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 public class MonitoringCheckTcp implements MonitoringCheck {
 
@@ -30,10 +41,13 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 
 	private final ParseUtil parseUtil;
 
+	private final ValidationConstraintValidator validationConstraintValidator;
+
 	@Inject
-	public MonitoringCheckTcp(final Logger logger, final ParseUtil parseUtil) {
+	public MonitoringCheckTcp(final Logger logger, final ParseUtil parseUtil, final ValidationConstraintValidator validationConstraintValidator) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
+		this.validationConstraintValidator = validationConstraintValidator;
 	}
 
 	@Override
@@ -114,5 +128,52 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 		final String hostname = parameter.get(HOSTNAME);
 		final String port = parameter.get(PORT);
 		return "TCP-Check on " + hostname + ":" + port;
+	}
+
+	@Override
+	public Collection<ValidationError> validate(final Map<String, String> parameter) {
+		final List<ValidationError> result = new ArrayList<ValidationError>();
+
+		// hostname
+		{
+			final String hostname = parameter.get(HOSTNAME);
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			constraints.add(new ValidationConstraintNotNull<String>());
+			constraints.add(new ValidationConstraintStringMinLength(1));
+			constraints.add(new ValidationConstraintStringMaxLength(255));
+			result.addAll(validationConstraintValidator.validate("hostname", hostname, constraints));
+		}
+
+		// port
+		{
+			try {
+				final int port = parseUtil.parseInt(parameter.get(PORT));
+				final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
+				constraints.add(new ValidationConstraintNotNull<Integer>());
+				constraints.add(new ValidationConstraintIntegerGE(0x1));
+				constraints.add(new ValidationConstraintIntegerLE(0xFFFF));
+				result.addAll(validationConstraintValidator.validate("port", port, constraints));
+			}
+			catch (final ParseException e) {
+				result.add(new ValidationErrorSimple("port invalid"));
+			}
+		}
+
+		// timeout
+		{
+			try {
+				final int timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
+				final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
+				constraints.add(new ValidationConstraintNotNull<Integer>());
+				constraints.add(new ValidationConstraintIntegerGE(0));
+				constraints.add(new ValidationConstraintIntegerLE(60000));
+				result.addAll(validationConstraintValidator.validate("timeout", timeout, constraints));
+			}
+			catch (final ParseException e) {
+				result.add(new ValidationErrorSimple("timeout invalid"));
+			}
+		}
+
+		return result;
 	}
 }

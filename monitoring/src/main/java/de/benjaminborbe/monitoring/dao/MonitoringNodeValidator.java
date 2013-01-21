@@ -10,6 +10,8 @@ import com.google.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
+import de.benjaminborbe.monitoring.check.MonitoringCheck;
+import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
@@ -22,9 +24,12 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
+	private final MonitoringCheckFactory monitoringCheckFactory;
+
 	@Inject
-	public MonitoringNodeValidator(final ValidationConstraintValidator validationConstraintValidator) {
+	public MonitoringNodeValidator(final ValidationConstraintValidator validationConstraintValidator, final MonitoringCheckFactory monitoringCheckFactory) {
 		this.validationConstraintValidator = validationConstraintValidator;
+		this.monitoringCheckFactory = monitoringCheckFactory;
 	}
 
 	@Override
@@ -90,10 +95,14 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
+					final List<ValidationError> errors = new ArrayList<ValidationError>();
 					final Map<String, String> value = bean.getParameter();
 					final List<ValidationConstraint<Map<String, String>>> constraints = new ArrayList<ValidationConstraint<Map<String, String>>>();
 					constraints.add(new ValidationConstraintNotNull<Map<String, String>>());
-					return validationConstraintValidator.validate(field, value, constraints);
+					errors.addAll(validationConstraintValidator.validate(field, value, constraints));
+					final MonitoringCheck check = monitoringCheckFactory.get(bean.getCheckType());
+					errors.addAll(check.validate(value));
+					return errors;
 				}
 			});
 		}

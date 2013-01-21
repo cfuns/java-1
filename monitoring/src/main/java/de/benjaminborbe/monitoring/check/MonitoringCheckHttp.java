@@ -1,13 +1,17 @@
 package de.benjaminborbe.monitoring.check;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -20,6 +24,13 @@ import java.net.URL;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerGE;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerLE;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 public class MonitoringCheckHttp implements MonitoringCheck {
 
@@ -43,12 +54,20 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	private final ParseUtil parseUtil;
 
+	private final ValidationConstraintValidator validationConstraintValidator;
+
 	@Inject
-	public MonitoringCheckHttp(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final ParseUtil parseUtil) {
+	public MonitoringCheckHttp(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final ParseUtil parseUtil,
+			final ValidationConstraintValidator validationConstraintValidator) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.parseUtil = parseUtil;
+		this.validationConstraintValidator = validationConstraintValidator;
 	}
 
 	@Override
@@ -146,4 +165,58 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		return "HTTP-Check on " + urlString;
 	}
 
+	@Override
+	public Collection<ValidationError> validate(final Map<String, String> parameter) {
+		final List<ValidationError> result = new ArrayList<ValidationError>();
+
+		// url
+		{
+			try {
+				final URL url = parseUtil.parseURL(parameter.get(URL));
+				final List<ValidationConstraint<URL>> constraints = new ArrayList<ValidationConstraint<URL>>();
+				constraints.add(new ValidationConstraintNotNull<URL>());
+				result.addAll(validationConstraintValidator.validate("url", url, constraints));
+			}
+			catch (final ParseException e) {
+				result.add(new ValidationErrorSimple("url invalid"));
+			}
+		}
+
+		// timeout
+		{
+			try {
+				final int timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
+				final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
+				constraints.add(new ValidationConstraintNotNull<Integer>());
+				constraints.add(new ValidationConstraintIntegerGE(0));
+				constraints.add(new ValidationConstraintIntegerLE(60000));
+				result.addAll(validationConstraintValidator.validate("timeout", timeout, constraints));
+			}
+			catch (final ParseException e) {
+				result.add(new ValidationErrorSimple("timeout invalid"));
+			}
+		}
+
+		// titlematch
+		{
+			final String titlematch = parameter.get(TITLEMATCH);
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			constraints.add(new ValidationConstraintNotNull<String>());
+			constraints.add(new ValidationConstraintStringMinLength(1));
+			constraints.add(new ValidationConstraintStringMaxLength(255));
+			result.addAll(validationConstraintValidator.validate("titlematch", titlematch, constraints));
+		}
+
+		// contentmatch
+		{
+			final String contentmatch = parameter.get(CONTENTMATCH);
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			constraints.add(new ValidationConstraintNotNull<String>());
+			constraints.add(new ValidationConstraintStringMinLength(1));
+			constraints.add(new ValidationConstraintStringMaxLength(255));
+			result.addAll(validationConstraintValidator.validate("contentmatch", contentmatch, constraints));
+		}
+
+		return result;
+	}
 }

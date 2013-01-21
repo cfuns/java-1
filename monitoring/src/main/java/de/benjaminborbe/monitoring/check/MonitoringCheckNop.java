@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 
 public class MonitoringCheckNop implements MonitoringCheck {
@@ -26,5 +27,10 @@ public class MonitoringCheckNop implements MonitoringCheck {
 	@Override
 	public String getDescription(final Map<String, String> parameter) {
 		return "-";
+	}
+
+	@Override
+	public Collection<ValidationError> validate(final Map<String, String> parameter) {
+		return Arrays.asList();
 	}
 }

@@ -48,7 +48,6 @@ public class MonitoringActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(MonitoringService.class.getName());
 		names.add(CronJob.class.getName());
-		names.add(CronJob.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
