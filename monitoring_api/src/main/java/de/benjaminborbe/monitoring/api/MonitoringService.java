@@ -13,7 +13,7 @@ public interface MonitoringService {
 
 	void check(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 
-	Collection<MonitoringNodeResult> getCheckResults(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
+	Collection<MonitoringNode> getCheckResults(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 
 	MonitoringNodeIdentifier createNodeIdentifier(String id) throws MonitoringServiceException;
 

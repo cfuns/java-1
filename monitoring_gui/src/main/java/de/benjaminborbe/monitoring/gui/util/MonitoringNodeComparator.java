@@ -7,7 +7,6 @@ public class MonitoringNodeComparator extends ComparatorBase<MonitoringNode, Str
 
 	@Override
 	public String getValue(final MonitoringNode o) {
-		return o.getName() != null ? o.getName().toLowerCase() : null;
+		return o.getDescription() != null ? o.getDescription().toLowerCase() : null;
 	}
-
 }

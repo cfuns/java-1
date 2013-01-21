@@ -109,4 +109,10 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 		}
 	}
 
+	@Override
+	public String getDescription(final Map<String, String> parameter) {
+		final String hostname = parameter.get(HOSTNAME);
+		final String port = parameter.get(PORT);
+		return "TCP-Check on " + hostname + ":" + port;
+	}
 }

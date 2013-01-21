@@ -6,4 +6,5 @@ public interface StringUtil {
 
 	String shortenDots(String string, int length);
 
+	String trim(String string);
 }

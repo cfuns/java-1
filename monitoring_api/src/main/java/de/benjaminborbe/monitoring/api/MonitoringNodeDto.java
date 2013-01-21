@@ -16,6 +16,12 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	private Boolean silent;
 
+	private Boolean result;
+
+	private String message;
+
+	private String description;
+
 	@Override
 	public MonitoringNodeIdentifier getId() {
 		return id;
@@ -68,6 +74,33 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	public void setSilent(final Boolean silent) {
 		this.silent = silent;
+	}
+
+	@Override
+	public Boolean getResult() {
+		return result;
+	}
+
+	@Override
+	public String getMessage() {
+		return message;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	public void setResult(final Boolean result) {
+		this.result = result;
+	}
+
+	public void setMessage(final String message) {
+		this.message = message;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 }

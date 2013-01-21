@@ -420,6 +420,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		return storageService.getEncoding();
 	}
 
+	@Override
 	public StorageValue buildValue(final String content) {
 		return new StorageValue(content, getEncoding());
 	}

@@ -4,13 +4,12 @@ import java.util.Calendar;
 import java.util.Map;
 
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
-import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> implements HasCreated, HasModified, MonitoringNode {
+public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> implements HasCreated, HasModified {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
@@ -30,7 +29,10 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private Boolean silent;
 
-	@Override
+	private String message;
+
+	private Boolean result;
+
 	public String getName() {
 		return name;
 	}
@@ -69,7 +71,6 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.id = id;
 	}
 
-	@Override
 	public MonitoringCheckType getCheckType() {
 		return checkType;
 	}
@@ -78,7 +79,6 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.checkType = checkType;
 	}
 
-	@Override
 	public Map<String, String> getParameter() {
 		return parameter;
 	}
@@ -87,7 +87,6 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.parameter = parameter;
 	}
 
-	@Override
 	public Boolean getActive() {
 		return active;
 	}
@@ -96,13 +95,28 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.active = active;
 	}
 
-	@Override
 	public Boolean getSilent() {
 		return silent;
 	}
 
 	public void setSilent(final Boolean silent) {
 		this.silent = silent;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public Boolean getResult() {
+		return result;
+	}
+
+	public void setMessage(final String message) {
+		this.message = message;
+	}
+
+	public void setResult(final Boolean result) {
+		this.result = result;
 	}
 
 }

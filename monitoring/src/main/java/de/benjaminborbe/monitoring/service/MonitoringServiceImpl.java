@@ -1,9 +1,9 @@
 package de.benjaminborbe.monitoring.service;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 
@@ -17,7 +17,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.monitoring.api.MonitoringNodeResult;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
@@ -26,7 +25,6 @@ import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
-import de.benjaminborbe.monitoring.check.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.util.MonitoringChecker;
@@ -42,35 +40,22 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 @Singleton
 public class MonitoringServiceImpl implements MonitoringService {
 
-	private final class ResultImpl implements MonitoringNodeResult {
-
-		private final MonitoringCheckResult r;
+	private final class MonitoringNodeDescription implements MonitoringNode {
 
 		private final MonitoringNodeBean node;
 
-		private ResultImpl(final MonitoringCheckResult r, final MonitoringNodeBean node) {
-			this.r = r;
+		private MonitoringNodeDescription(final MonitoringNodeBean node) {
 			this.node = node;
 		}
 
 		@Override
-		public boolean isSuccessful() {
-			return r.isSuccessful();
+		public Boolean getResult() {
+			return node.getResult();
 		}
 
 		@Override
 		public String getMessage() {
-			return r.getMessage();
-		}
-
-		@Override
-		public URL getUrl() {
-			return r.getUrl();
-		}
-
-		@Override
-		public Exception getException() {
-			return r.getException();
+			return node.getMessage();
 		}
 
 		@Override
@@ -81,6 +66,32 @@ public class MonitoringServiceImpl implements MonitoringService {
 		@Override
 		public MonitoringNodeIdentifier getId() {
 			return node.getId();
+		}
+
+		@Override
+		public String getDescription() {
+			final MonitoringCheck check = monitoringCheckFactory.get(node.getCheckType());
+			return check.getDescription(node.getParameter());
+		}
+
+		@Override
+		public MonitoringCheckType getCheckType() {
+			return node.getCheckType();
+		}
+
+		@Override
+		public Map<String, String> getParameter() {
+			return node.getParameter();
+		}
+
+		@Override
+		public Boolean getSilent() {
+			return node.getSilent();
+		}
+
+		@Override
+		public Boolean getActive() {
+			return node.getActive();
 		}
 	}
 
@@ -246,7 +257,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
-				result.add(ni.next());
+				result.add(new MonitoringNodeDescription(ni.next()));
 			}
 			return result;
 		}
@@ -273,7 +284,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getNode");
 
-			return monitoringNodeDao.load(monitoringNodeIdentifier);
+			return new MonitoringNodeDescription(monitoringNodeDao.load(monitoringNodeIdentifier));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -308,19 +319,19 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public Collection<MonitoringNodeResult> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public Collection<MonitoringNode> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getCheckResults");
 
-			final List<MonitoringNodeResult> result = new ArrayList<MonitoringNodeResult>();
+			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
 				final MonitoringNodeBean node = ni.next();
-				final MonitoringCheck check = monitoringCheckFactory.get(node.getCheckType());
-				result.add(new ResultImpl(check.check(node.getParameter()), node));
+				if (Boolean.TRUE.equals(node.getActive())) {
+					result.add(new MonitoringNodeDescription(node));
+				}
 			}
 			return result;
 		}

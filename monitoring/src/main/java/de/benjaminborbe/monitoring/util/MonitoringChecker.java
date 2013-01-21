@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.util;
 
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -9,6 +11,7 @@ import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.check.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
+import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -33,20 +36,30 @@ public class MonitoringChecker {
 				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
 				while (i.hasNext()) {
 					final MonitoringNodeBean bean = i.next();
+					final MonitoringCheckType type = bean.getCheckType();
+					final MonitoringCheck check = monitoringCheckFactory.get(type);
+					final String name = check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
 					if (Boolean.TRUE.equals(bean.getActive())) {
-						logger.debug("node " + bean.getName() + " active => run check");
-						final MonitoringCheckType type = bean.getCheckType();
-						final MonitoringCheck check = monitoringCheckFactory.get(type);
+						logger.debug("node " + name + " active => run check");
 						final MonitoringCheckResult result = check.check(bean.getParameter());
 						if (result.isSuccessful()) {
-							logger.debug("node " + bean.getName() + " success");
+							logger.debug("node " + name + " success");
 						}
 						else {
-							logger.debug("node " + bean.getName() + " fail");
+							if (result.getException() != null) {
+								logger.debug("node " + name + " fail: " + result.getMessage(), result.getException());
+							}
+							else {
+								logger.debug("node " + name + " fail: " + result.getMessage());
+							}
 						}
+						bean.setMessage(result.getMessage());
+						bean.setResult(result.isSuccessful());
+						monitoringNodeDao.save(bean,
+								Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT)));
 					}
 					else {
-						logger.debug("node inactive => skip");
+						logger.debug("node " + name + " inactive => skip");
 					}
 				}
 			}

@@ -23,4 +23,9 @@ public class StringUtilImpl implements StringUtil {
 		}
 		return string;
 	}
+
+	@Override
+	public String trim(final String string) {
+		return string != null ? string.trim() : null;
+	}
 }

@@ -90,8 +90,10 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			for (final MonitoringNode node : nodes) {
 				final ListWidget row = new ListWidget();
+				row.add(node.getDescription());
+				row.add(" (");
 				row.add(node.getName());
-				row.add(" ");
+				row.add(") ");
 				row.add(monitoringGuiLinkFactory.nodeUpdate(request, node.getId()));
 				row.add(" ");
 				row.add(monitoringGuiLinkFactory.nodeDelete(request, node.getId()));

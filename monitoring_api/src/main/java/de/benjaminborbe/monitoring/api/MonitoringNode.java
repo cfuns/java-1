@@ -15,4 +15,10 @@ public interface MonitoringNode {
 	Boolean getSilent();
 
 	Boolean getActive();
+
+	Boolean getResult();
+
+	String getMessage();
+
+	String getDescription();
 }

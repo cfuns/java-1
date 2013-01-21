@@ -12,4 +12,6 @@ public interface MonitoringCheck {
 	Collection<String> getRequireParameters();
 
 	MonitoringCheckResult check(Map<String, String> parameter);
+
+	String getDescription(Map<String, String> parameter);
 }

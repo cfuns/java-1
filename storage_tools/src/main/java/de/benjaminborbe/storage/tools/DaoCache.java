@@ -157,4 +157,10 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 		}
 		return result;
 	}
+
+	@Override
+	public StorageValue buildValue(final String content) {
+		return new StorageValue(content, getEncoding());
+	}
+
 }

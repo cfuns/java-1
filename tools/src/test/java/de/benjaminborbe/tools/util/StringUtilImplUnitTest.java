@@ -1,7 +1,6 @@
 package de.benjaminborbe.tools.util;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class StringUtilImplUnitTest {
@@ -22,5 +21,21 @@ public class StringUtilImplUnitTest {
 		assertEquals("ab", s.shortenDots("ab", 3));
 		assertEquals("ab", s.shortenDots("ab", 2));
 		assertEquals("a...", s.shortenDots("ab", 1));
+	}
+
+	@Test
+	public void testTrim() throws Exception {
+		final StringUtil s = new StringUtilImpl();
+		assertEquals(null, s.trim(null));
+		assertEquals("", s.trim(""));
+		assertEquals("", s.trim(" "));
+		assertEquals("", s.trim("  "));
+		assertEquals("", s.trim("   "));
+
+		assertEquals("a", s.trim("a"));
+		assertEquals("a", s.trim(" a "));
+		assertEquals("a", s.trim("  a  "));
+		assertEquals("a", s.trim("   a   "));
+
 	}
 }

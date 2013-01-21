@@ -22,11 +22,11 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.monitoring.api.MonitoringNodeResult;
+import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
-import de.benjaminborbe.monitoring.gui.util.MonitoringNodeResultCompator;
+import de.benjaminborbe.monitoring.gui.util.MonitoringNodeComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -85,10 +85,10 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<MonitoringNodeResult> results = new ArrayList<MonitoringNodeResult>(monitoringService.getCheckResults(sessionIdentifier));
-			Collections.sort(results, new MonitoringNodeResultCompator());
+			final List<MonitoringNode> results = new ArrayList<MonitoringNode>(monitoringService.getCheckResults(sessionIdentifier));
+			Collections.sort(results, new MonitoringNodeComparator());
 			final UlWidget ul = new UlWidget();
-			for (final MonitoringNodeResult result : results) {
+			for (final MonitoringNode result : results) {
 				ul.add(new MonitoringGuiCheckResultRenderer(result, urlUtil));
 			}
 			widgets.add(ul);

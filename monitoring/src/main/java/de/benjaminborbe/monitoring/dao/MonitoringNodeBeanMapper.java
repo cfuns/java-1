@@ -37,9 +37,13 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 
 	public static final String ID = "id";
 
-	private static final String SILENT = "silent";
+	public static final String SILENT = "silent";
 
-	private static final String ACTIVE = "active";
+	public static final String ACTIVE = "active";
+
+	public static final String RESULT = "result";
+
+	public static final String MESSAGE = "message";
 
 	@Inject
 	public MonitoringNodeBeanMapper(
@@ -65,6 +69,8 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(ACTIVE, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>(CREATED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>(MODIFIED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(MESSAGE, mapperString));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(RESULT, mapperBoolean));
 		return result;
 	}
 }

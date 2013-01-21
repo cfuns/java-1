@@ -83,7 +83,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		try {
 			url = new URL(urlString);
 			final HttpDownloadResult result;
-			if (username != null && password != null) {
+			if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
 				result = httpDownloader.getUrlUnsecure(url, timeout, username, password);
 			}
 			else {
@@ -138,6 +138,12 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 			return false;
 		final String title = content.substring(posStart, posEnd);
 		return title.indexOf(titleMatch) != -1;
+	}
+
+	@Override
+	public String getDescription(final Map<String, String> parameter) {
+		final String urlString = parameter.get(URL);
+		return "HTTP-Check on " + urlString;
 	}
 
 }

@@ -39,6 +39,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormCheckboxWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
@@ -69,6 +70,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 
 	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
 
+	private final StringUtil stringUtil;
+
 	@Inject
 	public MonitoringGuiNodeCreateServlet(
 			final Logger logger,
@@ -81,13 +84,15 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final Provider<HttpContext> httpContextProvider,
 			final MonitoringService monitoringService,
 			final UrlUtil urlUtil,
-			final MonitoringGuiLinkFactory monitoringGuiLinkFactory) {
+			final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
+			final StringUtil stringUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
+		this.stringUtil = stringUtil;
 	}
 
 	@Override
@@ -102,7 +107,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String name = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME);
+			final String name = stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME));
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
 			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
 
@@ -114,7 +119,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
 			final Map<String, String> parameter = new HashMap<String, String>();
 			for (final String requiredParameter : requiredParameters) {
-				parameter.put(requiredParameter, request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter));
+				parameter.put(requiredParameter, stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter)));
 			}
 			if (name != null && checkType != null) {
 				try {

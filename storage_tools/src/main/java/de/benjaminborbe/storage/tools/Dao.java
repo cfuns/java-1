@@ -37,4 +37,6 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	void save(E entity, Collection<StorageValue> fieldNames) throws StorageException;
 
+	StorageValue buildValue(String content);
+
 }

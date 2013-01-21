@@ -22,4 +22,9 @@ public class MonitoringCheckNop implements MonitoringCheck {
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
 		return null;
 	}
+
+	@Override
+	public String getDescription(final Map<String, String> parameter) {
+		return "-";
+	}
 }
