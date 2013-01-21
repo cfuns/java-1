@@ -25,6 +25,8 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private static final int TIMEOUT = 60 * 1000; // 60 sec
 
+	private static final int DELAY = 10 * 1000; // 10 sec
+
 	private static final long DURATION_WARN = 5000;
 
 	private final Logger logger;
@@ -160,7 +162,7 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private String addProduct(final String sessionId, final long ean) throws HttpDownloaderException, MalformedURLException, UnsupportedEncodingException {
 		final String url = "https://kiosk.lf.seibert-media.net/index.cgi/cart";
-		final HttpDownloadResult result = httpDownloader.postUrl(new URL(url), new MapChain<String, String>().add("ean", String.valueOf(ean)).add("form_action", "add"),
+		final HttpDownloadResult result = postUrl(new URL(url), new MapChain<String, String>().add("ean", String.valueOf(ean)).add("form_action", "add"),
 				new MapChain<String, String>().add("sessionID", sessionId), TIMEOUT);
 		final String htmlContent = httpDownloadUtil.getContent(result);
 		return htmlContent;
@@ -168,21 +170,21 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private String getCartContent(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi/cart", new MapParameter());
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
+		final HttpDownloadResult result = getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
 		final String htmlContent = httpDownloadUtil.getContent(result);
 		return htmlContent;
 	}
 
 	private String endShopping(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi/end_shopping", new MapParameter());
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
+		final HttpDownloadResult result = getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
 		final String htmlContent = httpDownloadUtil.getContent(result);
 		return htmlContent;
 	}
 
 	private String getLogin(final long customer) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi", new MapParameter().add("customer_no", String.valueOf(customer)));
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL(url), TIMEOUT);
+		final HttpDownloadResult result = getUrl(new URL(url), TIMEOUT);
 		final Map<String, List<String>> headers = result.getHeaders();
 		final List<String> cookies = headers.get("Set-Cookie");
 		for (final String cookie : cookies) {
@@ -191,6 +193,33 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		}
 		logger.debug("login failed");
 		return null;
+	}
+
+	private HttpDownloadResult postUrl(final URL url, final MapChain<String, String> data, final MapChain<String, String> cookies, final int timeout) throws HttpDownloaderException {
+		try {
+			Thread.sleep(DELAY);
+		}
+		catch (final InterruptedException e) {
+		}
+		return httpDownloader.postUrl(url, data, cookies, timeout);
+	}
+
+	private HttpDownloadResult getUrl(final URL url, final int timeout, final MapChain<String, String> add) throws HttpDownloaderException {
+		try {
+			Thread.sleep(DELAY);
+		}
+		catch (final InterruptedException e) {
+		}
+		return httpDownloader.getUrl(url, timeout, add);
+	}
+
+	private HttpDownloadResult getUrl(final URL url, final int timeout) throws HttpDownloaderException {
+		try {
+			Thread.sleep(DELAY);
+		}
+		catch (final InterruptedException e) {
+		}
+		return httpDownloader.getUrl(url, timeout);
 	}
 
 	protected String parseSessionId(final String cookie) {

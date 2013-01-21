@@ -9,11 +9,14 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModules;
+import de.benjaminborbe.distributed.search.gui.service.DistributedSearchGuiNavigationEntry;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiPageServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiRebuildIndexServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class DistributedSearchGuiActivator extends HttpBundleActivator {
@@ -26,6 +29,9 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private DistributedSearchGuiServlet distributedSearchGuiServlet;
+
+	@Inject
+	private DistributedSearchGuiNavigationEntry distributedSearchGuiNavigationEntry;
 
 	public DistributedSearchGuiActivator() {
 		super(DistributedSearchGuiConstants.NAME);
@@ -45,4 +51,10 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, distributedSearchGuiNavigationEntry));
+		return result;
+	}
 }
