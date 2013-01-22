@@ -36,6 +36,8 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private MonitoringNodeIdentifier parentId;
 
+	private Integer failureCounter;
+
 	public String getName() {
 		return name;
 	}
@@ -129,6 +131,14 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	public void setParentId(final MonitoringNodeIdentifier parentId) {
 		this.parentId = parentId;
+	}
+
+	public Integer getFailureCounter() {
+		return failureCounter;
+	}
+
+	public void setFailureCounter(final Integer failureCounter) {
+		this.failureCounter = failureCounter;
 	}
 
 }

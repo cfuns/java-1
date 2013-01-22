@@ -22,4 +22,6 @@ public interface MonitoringNode extends MonitoringHasParentId {
 
 	String getDescription();
 
+	Integer getFailureCounter();
+
 }

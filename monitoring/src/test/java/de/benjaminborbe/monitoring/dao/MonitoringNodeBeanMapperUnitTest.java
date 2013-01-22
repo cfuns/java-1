@@ -21,6 +21,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperMapString;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -46,7 +47,8 @@ public class MonitoringNodeBeanMapperUnitTest {
 		final MapperMonitoringNodeIdentifier mapperMonitoringNodeIdentifier = new MapperMonitoringNodeIdentifier();
 		final MapperMapString mapperMapString = new MapperMapString();
 		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
-		return new MonitoringNodeBeanMapper(monitoringNodeBeanProvider, mapperMonitoringNodeIdentifier, mapperString, mapperBoolean, mapperCalendar, mapperMapString,
+		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
+		return new MonitoringNodeBeanMapper(monitoringNodeBeanProvider, mapperMonitoringNodeIdentifier, mapperString, mapperBoolean, mapperInteger, mapperCalendar, mapperMapString,
 				mapperMonitoringCheck);
 	}
 

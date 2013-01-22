@@ -38,6 +38,8 @@ public class MonitoringMailer {
 
 	private final MonitoringNodeBuilder monitoringNodeBuilder;
 
+	private static final int FAILURE_COUNTER_LIMIT = 3;
+
 	private final class Action implements Runnable {
 
 		@Override
@@ -82,8 +84,13 @@ public class MonitoringMailer {
 					logger.debug("node is active " + label);
 					if (Boolean.FALSE.equals(node.getResult())) {
 						if (Boolean.FALSE.equals(node.getSilent())) {
-							results.add(node);
-							logger.debug("node " + label + " has failure => add");
+							if (node.getFailureCounter() != null && node.getFailureCounter() >= FAILURE_COUNTER_LIMIT) {
+								results.add(node);
+								logger.debug("node " + label + " has failure => add");
+							}
+							else {
+								logger.debug("failureCounter(" + node.getFailureCounter() + ") < limit(" + FAILURE_COUNTER_LIMIT + ") => skip");
+							}
 						}
 						else {
 							logger.debug("node " + label + " is silent => skip");

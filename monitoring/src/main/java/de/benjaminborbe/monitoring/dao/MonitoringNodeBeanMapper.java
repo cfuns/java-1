@@ -16,6 +16,7 @@ import de.benjaminborbe.monitoring.util.MapperMonitoringCheck;
 import de.benjaminborbe.monitoring.util.MapperMonitoringNodeIdentifier;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperMapString;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
@@ -47,21 +48,24 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 
 	public static final String PARENT_ID = "parentId";
 
+	public static final String FAILURE_COUNTER = "failureCounter";
+
 	@Inject
 	public MonitoringNodeBeanMapper(
 			final Provider<MonitoringNodeBean> provider,
 			final MapperMonitoringNodeIdentifier mapperMonitoringNodeIdentifier,
 			final MapperString mapperString,
 			final MapperBoolean mapperBoolean,
+			final MapperInteger mapperInteger,
 			final MapperCalendar mapperCalendar,
 			final MapperMapString mapperMapString,
 			final MapperMonitoringCheck mapperMonitoringCheck) {
-		super(provider, buildMappings(mapperMonitoringNodeIdentifier, mapperString, mapperCalendar, mapperMonitoringCheck, mapperMapString, mapperBoolean));
+		super(provider, buildMappings(mapperMonitoringNodeIdentifier, mapperString, mapperCalendar, mapperMonitoringCheck, mapperMapString, mapperBoolean, mapperInteger));
 	}
 
 	private static Collection<StringObjectMapper<MonitoringNodeBean>> buildMappings(final MapperMonitoringNodeIdentifier mapperMonitoringNodeIdentifier,
 			final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperMonitoringCheck mapperMonitoringCheck, final MapperMapString mapperMapString,
-			final MapperBoolean mapperBoolean) {
+			final MapperBoolean mapperBoolean, final MapperInteger mapperInteger) {
 		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<StringObjectMapper<MonitoringNodeBean>>();
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(ID, mapperMonitoringNodeIdentifier));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(PARENT_ID, mapperMonitoringNodeIdentifier));
@@ -74,6 +78,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>(MODIFIED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(MESSAGE, mapperString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(RESULT, mapperBoolean));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Integer>(FAILURE_COUNTER, mapperInteger));
 		return result;
 	}
 }

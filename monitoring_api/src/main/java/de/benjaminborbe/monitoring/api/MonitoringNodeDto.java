@@ -24,6 +24,8 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	private MonitoringNodeIdentifier parentId;
 
+	private Integer failureCounter;
+
 	@Override
 	public MonitoringNodeIdentifier getId() {
 		return id;
@@ -109,8 +111,18 @@ public class MonitoringNodeDto implements MonitoringNode {
 		this.parentId = parentId;
 	}
 
+	@Override
 	public MonitoringNodeIdentifier getParentId() {
 		return parentId;
+	}
+
+	@Override
+	public Integer getFailureCounter() {
+		return failureCounter;
+	}
+
+	public void setFailureCounter(final Integer failureCounter) {
+		this.failureCounter = failureCounter;
 	}
 
 }

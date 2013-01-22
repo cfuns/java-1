@@ -73,6 +73,11 @@ public class MonitoringNodeBuilder {
 		public MonitoringNodeIdentifier getParentId() {
 			return node.getParentId();
 		}
+
+		@Override
+		public Integer getFailureCounter() {
+			return node.getFailureCounter();
+		}
 	}
 
 	@Inject
