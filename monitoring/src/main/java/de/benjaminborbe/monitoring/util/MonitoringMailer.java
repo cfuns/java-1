@@ -1,7 +1,6 @@
 package de.benjaminborbe.monitoring.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +11,8 @@ import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringNode;
+import de.benjaminborbe.monitoring.api.MonitoringNodeTree;
 import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
@@ -33,19 +34,24 @@ public class MonitoringMailer {
 
 	private final MailService mailService;
 
+	private final MonitoringNodeBuilder monitoringNodeBuilder;
+
 	private final class Action implements Runnable {
 
 		@Override
 		public void run() {
 			try {
-				final List<MonitoringNodeBean> results = new ArrayList<MonitoringNodeBean>();
+
+				final List<MonitoringNode> nodes = new ArrayList<MonitoringNode>();
+
 				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
 				while (i.hasNext()) {
 					final MonitoringNodeBean bean = i.next();
-					if (Boolean.TRUE.equals(bean.getActive()) && Boolean.FALSE.equals(bean.getSilent()) && Boolean.FALSE.equals(bean.getResult())) {
-						results.add(bean);
-					}
+					nodes.add(monitoringNodeBuilder.build(bean));
 				}
+				final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(nodes);
+				final List<MonitoringNode> results = new ArrayList<MonitoringNode>();
+				handle(results, tree.getRootNodes(), tree);
 				if (results.isEmpty()) {
 					logger.debug("no errors found => skip mail");
 				}
@@ -64,16 +70,29 @@ public class MonitoringMailer {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
+
+		private void handle(final List<MonitoringNode> results, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
+			for (final MonitoringNode node : list) {
+				if (Boolean.TRUE.equals(node.getActive())) {
+					if (Boolean.FALSE.equals(node.getSilent()) && Boolean.FALSE.equals(node.getResult())) {
+						results.add(node);
+					}
+					handle(results, tree.getChildNodes(node.getId()), tree);
+				}
+			}
+		}
 	}
 
 	@Inject
 	public MonitoringMailer(
 			final Logger logger,
+			final MonitoringNodeBuilder monitoringNodeBuilder,
 			final MailService mailService,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final MonitoringNodeDao monitoringNodeDao,
 			final MonitoringCheckFactory monitoringCheckFactory) {
 		this.logger = logger;
+		this.monitoringNodeBuilder = monitoringNodeBuilder;
 		this.mailService = mailService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.monitoringNodeDao = monitoringNodeDao;
@@ -92,18 +111,18 @@ public class MonitoringMailer {
 		}
 	}
 
-	private MailDto buildMail(final Collection<MonitoringNodeBean> failedChecks) {
+	private MailDto buildMail(final List<MonitoringNode> results) {
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
 		final String subject = "BB - Monitoring";
-		return new MailDto(from, to, subject, buildMailContent(failedChecks), "text/plain");
+		return new MailDto(from, to, subject, buildMailContent(results), "text/plain");
 	}
 
-	private String buildMailContent(final Collection<MonitoringNodeBean> failedChecks) {
+	private String buildMailContent(final List<MonitoringNode> results) {
 		final StringBuffer content = new StringBuffer();
-		content.append("Checks failed: " + failedChecks.size());
+		content.append("Checks failed: " + results.size());
 		content.append("\n");
-		for (final MonitoringNodeBean bean : failedChecks) {
+		for (final MonitoringNode bean : results) {
 			final MonitoringCheckType type = bean.getCheckType();
 			final MonitoringCheck check = monitoringCheckFactory.get(type);
 			final String name = check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";

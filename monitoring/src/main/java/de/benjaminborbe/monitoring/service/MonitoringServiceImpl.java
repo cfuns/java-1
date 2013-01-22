@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -32,6 +30,7 @@ import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.util.MonitoringChecker;
 import de.benjaminborbe.monitoring.util.MonitoringMailer;
+import de.benjaminborbe.monitoring.util.MonitoringNodeBuilder;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -42,66 +41,6 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class MonitoringServiceImpl implements MonitoringService {
-
-	private final class MonitoringNodeDescription implements MonitoringNode {
-
-		private final MonitoringNodeBean node;
-
-		private MonitoringNodeDescription(final MonitoringNodeBean node) {
-			this.node = node;
-		}
-
-		@Override
-		public Boolean getResult() {
-			return node.getResult();
-		}
-
-		@Override
-		public String getMessage() {
-			return node.getMessage();
-		}
-
-		@Override
-		public String getName() {
-			return node.getName();
-		}
-
-		@Override
-		public MonitoringNodeIdentifier getId() {
-			return node.getId();
-		}
-
-		@Override
-		public String getDescription() {
-			final MonitoringCheck check = monitoringCheckFactory.get(node.getCheckType());
-			return check.getDescription(node.getParameter());
-		}
-
-		@Override
-		public MonitoringCheckType getCheckType() {
-			return node.getCheckType();
-		}
-
-		@Override
-		public Map<String, String> getParameter() {
-			return node.getParameter();
-		}
-
-		@Override
-		public Boolean getSilent() {
-			return node.getSilent();
-		}
-
-		@Override
-		public Boolean getActive() {
-			return node.getActive();
-		}
-
-		@Override
-		public MonitoringNodeIdentifier getParentId() {
-			return node.getParentId();
-		}
-	}
 
 	private static final long DURATION_WARN = 300;
 
@@ -123,9 +62,12 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final MonitoringChecker monitoringChecker;
 
+	private final MonitoringNodeBuilder monitoringNodeBuilder;
+
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
+			final MonitoringNodeBuilder monitoringNodeBuilder,
 			final MonitoringCheckFactory monitoringCheckFactory,
 			final ValidationExecutor validationExecutor,
 			final IdGeneratorUUID idGeneratorUUID,
@@ -135,6 +77,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final MonitoringMailer monitoringMailer,
 			final MonitoringChecker monitoringChecker) {
 		this.logger = logger;
+		this.monitoringNodeBuilder = monitoringNodeBuilder;
 		this.monitoringCheckFactory = monitoringCheckFactory;
 		this.validationExecutor = validationExecutor;
 		this.idGeneratorUUID = idGeneratorUUID;
@@ -258,7 +201,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
-				result.add(new MonitoringNodeDescription(ni.next()));
+				result.add(monitoringNodeBuilder.build(ni.next()));
 			}
 			return result;
 		}
@@ -282,7 +225,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			expectMonitoringAdminRole(sessionIdentifier);
 			logger.debug("getNode");
 
-			return new MonitoringNodeDescription(monitoringNodeDao.load(monitoringNodeIdentifier));
+			return monitoringNodeBuilder.build(monitoringNodeDao.load(monitoringNodeIdentifier));
 		}
 		catch (final StorageException e) {
 			throw new MonitoringServiceException(e);
@@ -322,7 +265,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			while (ni.hasNext()) {
 				final MonitoringNodeBean node = ni.next();
 				if (Boolean.TRUE.equals(node.getActive())) {
-					result.add(new MonitoringNodeDescription(node));
+					result.add(monitoringNodeBuilder.build(node));
 				}
 			}
 			return result;

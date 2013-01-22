@@ -24,10 +24,10 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
+import de.benjaminborbe.monitoring.api.MonitoringNodeTree;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
-import de.benjaminborbe.monitoring.gui.util.MonitoringGuiNodeTree;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -89,7 +89,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final MonitoringGuiNodeTree tree = new MonitoringGuiNodeTree(monitoringService.getCheckResults(sessionIdentifier));
+			final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(monitoringService.getCheckResults(sessionIdentifier));
 			widgets.add(buildRows(request, sessionIdentifier, tree, tree.getRootNodes()));
 
 			final ListWidget links = new ListWidget();
@@ -112,8 +112,8 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		}
 	}
 
-	private Widget buildRows(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringGuiNodeTree tree, final List<MonitoringNode> nodes)
-			throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
+	private Widget buildRows(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringNodeTree<MonitoringNode> tree,
+			final List<MonitoringNode> nodes) throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
 		if (nodes.isEmpty()) {
 			return new VoidWidget();
 		}
