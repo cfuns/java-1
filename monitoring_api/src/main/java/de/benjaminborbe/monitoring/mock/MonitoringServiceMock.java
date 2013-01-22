@@ -71,4 +71,31 @@ public class MonitoringServiceMock implements MonitoringService {
 			PermissionDeniedException {
 	}
 
+	@Override
+	public void expectMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	}
+
+	@Override
+	public void expectMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	}
+
+	@Override
+	public void expectMonitoringViewRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	}
+
+	@Override
+	public boolean hasMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean hasMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean hasMonitoringViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+		return false;
+	}
+
 }

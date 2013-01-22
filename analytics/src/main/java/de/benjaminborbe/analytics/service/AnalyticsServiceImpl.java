@@ -46,25 +46,25 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private static final int DURATION_WARN = 300;
 
-	private final Logger logger;
-
-	private final AuthorizationService authorizationService;
-
-	private final AnalyticsReportDao analyticsReportDao;
-
-	private final ValidationExecutor validationExecutor;
-
-	private final AnalyticsReportValueDao analyticsReportValueDao;
+	private final AddValueAction addValueAction;
 
 	private final AnalyticsAggregator analyticsAggregator;
 
+	private final AnalyticsIntervalUtil analyticsIntervalUtil;
+
+	private final AnalyticsReportDao analyticsReportDao;
+
 	private final AnalyticsReportLogDao analyticsReportLogDao;
+
+	private final AnalyticsReportValueDao analyticsReportValueDao;
+
+	private final AuthorizationService authorizationService;
 
 	private final DurationUtil durationUtil;
 
-	private final AddValueAction addValueAction;
+	private final Logger logger;
 
-	private final AnalyticsIntervalUtil analyticsIntervalUtil;
+	private final ValidationExecutor validationExecutor;
 
 	@Inject
 	public AnalyticsServiceImpl(
@@ -92,51 +92,24 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueIterator getReportIteratorFillMissing(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
-			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			expectAnalyticsViewRole(sessionIdentifier);
-			logger.debug("getReportIteratorFillMissing");
-
-			final AnalyticsReportBean report = analyticsReportDao.load(analyticsReportIdentifier);
-			return new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval),
-					report.getAggregation(), analyticsReportInterval);
-		}
-		catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
-			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			expectAnalyticsViewRole(sessionIdentifier);
-			logger.debug("getReportIterator");
-
-			return analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval);
-		}
-		catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("addReportValue");
 			addValueAction.addReportValue(analyticsReportIdentifier);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.trace("addReportValue");
+			addValueAction.addReportValue(analyticsReportIdentifier, reportValue);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -171,37 +144,12 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
+	public void aggreate(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.trace("addReportValue");
-			addValueAction.addReportValue(analyticsReportIdentifier, reportValue);
-		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<AnalyticsReport> getReports(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			expectAnalyticsViewRole(sessionIdentifier);
-			logger.debug("getReports");
-
-			final List<AnalyticsReport> result = new ArrayList<AnalyticsReport>();
-			final EntityIterator<AnalyticsReportBean> i = analyticsReportDao.getEntityIterator();
-			while (i.hasNext()) {
-				result.add(i.next());
-			}
-			return result;
-		}
-		catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new AnalyticsServiceException(e);
+			expectAnalyticsAdminRole(sessionIdentifier);
+			logger.debug("aggreate");
+			analyticsAggregator.aggregate();
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -259,23 +207,19 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void aggreate(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
-		final Duration duration = durationUtil.getDuration();
+	public void expectAnalyticsAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 		try {
-			expectAnalyticsAdminRole(sessionIdentifier);
-			logger.debug("aggreate");
-			analyticsAggregator.aggregate();
+			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN));
 		}
-		finally {
-			if (duration.getTime() > DURATION_WARN)
-				logger.debug("duration " + duration.getTime());
+		catch (final AuthorizationServiceException e) {
+			throw new AnalyticsServiceException(e);
 		}
 	}
 
 	@Override
-	public void expectAnalyticsAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
+	public void expectAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN));
+			authorizationService.expectOneOfRoles(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN), new RoleIdentifier(ANALYTICS_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
@@ -293,12 +237,68 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public boolean hasAnalyticsViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
+	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
-			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_VIEW));
+			expectAnalyticsViewRole(sessionIdentifier);
+			logger.debug("getReportIterator");
+
+			return analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval);
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final StorageException e) {
 			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public AnalyticsReportValueIterator getReportIteratorFillMissing(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsViewRole(sessionIdentifier);
+			logger.debug("getReportIteratorFillMissing");
+
+			final AnalyticsReportBean report = analyticsReportDao.load(analyticsReportIdentifier);
+			return new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval),
+					report.getAggregation(), analyticsReportInterval);
+		}
+		catch (final StorageException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<AnalyticsReport> getReports(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsViewRole(sessionIdentifier);
+			logger.debug("getReports");
+
+			final List<AnalyticsReport> result = new ArrayList<AnalyticsReport>();
+			final EntityIterator<AnalyticsReportBean> i = analyticsReportDao.getEntityIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -323,9 +323,9 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void expectAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
+	public boolean hasAnalyticsViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			authorizationService.expectOneOfRoles(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN), new RoleIdentifier(ANALYTICS_ROLE_VIEW));
+			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);

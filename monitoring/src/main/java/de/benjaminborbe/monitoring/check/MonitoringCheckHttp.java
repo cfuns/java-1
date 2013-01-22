@@ -20,7 +20,6 @@ import de.benjaminborbe.tools.http.HttpDownloaderException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -129,15 +128,15 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 			return new MonitoringCheckResultDto(this, true, msg, url);
 		}
 		catch (final MalformedURLException e) {
-			logger.warn("MalformedURLException", e);
+			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}
 		catch (final IOException e) {
-			logger.warn("IOException", e);
+			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}
 		catch (final HttpDownloaderException e) {
-			logger.trace("HttpDownloaderException: " + e.getMessage());
+			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}
 	}

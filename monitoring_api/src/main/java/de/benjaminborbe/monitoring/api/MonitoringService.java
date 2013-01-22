@@ -9,6 +9,10 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface MonitoringService {
 
+	String MONITORING_ROLE_ADMIN = "MonitoringAdmin";
+
+	String MONITORING_ROLE_VIEW = "MonitoringView";
+
 	void mail(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 
 	void check(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
@@ -36,5 +40,17 @@ public interface MonitoringService {
 
 	void silentNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
 			PermissionDeniedException;
+
+	void expectMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
+
+	void expectMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
+
+	void expectMonitoringViewRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
+
+	boolean hasMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
+
+	boolean hasMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
+
+	boolean hasMonitoringViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
 
 }

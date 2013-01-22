@@ -270,7 +270,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			return doDownloadUrl(url, timeout, username, password, cookies);
 		}
 		catch (final IOException e) {
-			throw new HttpDownloaderException("IOException for url " + url, e);
+			throw new HttpDownloaderException(e.getClass().getSimpleName() + " for url " + url, e);
 		}
 	}
 }

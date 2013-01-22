@@ -2,19 +2,20 @@ package de.benjaminborbe.monitoring.gui.service;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.monitoring.api.MonitoringService;
+import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 
 public class MonitoringGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthenticationService authenticationService;
+	private final MonitoringService monitoringService;
 
 	@Inject
-	public MonitoringGuiNavigationEntry(final AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
+	public MonitoringGuiNavigationEntry(final MonitoringService monitoringService) {
+		this.monitoringService = monitoringService;
 	}
 
 	@Override
@@ -30,9 +31,12 @@ public class MonitoringGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isSuperAdmin(sessionIdentifier);
+			return monitoringService.hasMonitoringViewOrAdminRole(sessionIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final LoginRequiredException e) {
+			return false;
+		}
+		catch (final MonitoringServiceException e) {
 			return false;
 		}
 	}

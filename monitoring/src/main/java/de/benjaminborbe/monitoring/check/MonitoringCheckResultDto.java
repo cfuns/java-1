@@ -33,7 +33,8 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 	public MonitoringCheckResultDto(final MonitoringCheckHttp check, final Exception exception, final URL url) {
 		this.check = check;
 		this.successful = false;
-		this.setException(exception);
+		this.message = exception.getMessage();
+		this.exception = exception;
 		this.url = url;
 	}
 
