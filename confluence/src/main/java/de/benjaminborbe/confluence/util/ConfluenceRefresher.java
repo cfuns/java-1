@@ -176,7 +176,7 @@ public class ConfluenceRefresher {
 
 						indexerService.addToIndex(indexName, url, title, filterContent(content));
 
-						logger.info("addToIndex " + url.toExternalForm());
+						logger.debug("addToIndex " + url.toExternalForm());
 
 						// update lastVisit
 						pageBean.setLastVisit(calendarUtil.now());

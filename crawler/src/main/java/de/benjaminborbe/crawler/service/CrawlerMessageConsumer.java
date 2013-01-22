@@ -67,7 +67,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 		}
 		catch (final HttpDownloaderException e) {
 			logger.trace("HttpDownloaderException url: " + url, e);
-			logger.info("HttpDownloaderException url: " + url);
+			logger.debug("HttpDownloaderException url: " + url);
 			crawlerNotifier.notifiy(new CrawlerResultImpl(url, null, null, false));
 		}
 		catch (final UnsupportedEncodingException e) {
