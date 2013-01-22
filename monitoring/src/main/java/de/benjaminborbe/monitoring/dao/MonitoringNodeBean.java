@@ -4,12 +4,13 @@ import java.util.Calendar;
 import java.util.Map;
 
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringHasParentId;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> implements HasCreated, HasModified {
+public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> implements HasCreated, HasModified, MonitoringHasParentId {
 
 	private static final long serialVersionUID = -8803301003126328406L;
 
@@ -121,6 +122,7 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.result = result;
 	}
 
+	@Override
 	public MonitoringNodeIdentifier getParentId() {
 		return parentId;
 	}

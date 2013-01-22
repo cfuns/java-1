@@ -2,13 +2,12 @@ package de.benjaminborbe.monitoring.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-import de.benjaminborbe.monitoring.api.MonitoringNode;
+import de.benjaminborbe.monitoring.api.MonitoringHasParentId;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 
-public class MonitoringNodeTree<N extends MonitoringNode> {
+public class MonitoringNodeTree<N extends MonitoringHasParentId> {
 
 	private final Collection<N> nodes;
 
@@ -23,7 +22,6 @@ public class MonitoringNodeTree<N extends MonitoringNode> {
 				result.add(node);
 			}
 		}
-		Collections.sort(result, new MonitoringNodeComparator<N>());
 		return result;
 	}
 
@@ -34,7 +32,6 @@ public class MonitoringNodeTree<N extends MonitoringNode> {
 				result.add(node);
 			}
 		}
-		Collections.sort(result, new MonitoringNodeComparator<N>());
 		return result;
 	}
 }

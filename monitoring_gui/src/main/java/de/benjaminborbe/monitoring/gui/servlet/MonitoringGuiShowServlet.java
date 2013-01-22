@@ -3,6 +3,7 @@ package de.benjaminborbe.monitoring.gui.servlet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -27,6 +28,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
+import de.benjaminborbe.monitoring.tools.MonitoringNodeComparator;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -118,6 +120,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		if (nodes.isEmpty()) {
 			return new VoidWidget();
 		}
+		Collections.sort(nodes, new MonitoringNodeComparator<MonitoringNode>());
 
 		final UlWidget ul = new UlWidget();
 		for (final MonitoringNode node : nodes) {

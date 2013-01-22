@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
+import de.benjaminborbe.monitoring.tools.MonitoringNodeComparator;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -73,6 +75,7 @@ public class MonitoringMailer {
 		}
 
 		private void handle(final List<MonitoringNode> results, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
+			Collections.sort(list, new MonitoringNodeComparator<MonitoringNode>());
 			for (final MonitoringNode node : list) {
 				final String label = buildLabel(node);
 				if (Boolean.TRUE.equals(node.getActive())) {

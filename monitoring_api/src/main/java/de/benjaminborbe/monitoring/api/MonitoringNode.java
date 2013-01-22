@@ -2,7 +2,7 @@ package de.benjaminborbe.monitoring.api;
 
 import java.util.Map;
 
-public interface MonitoringNode {
+public interface MonitoringNode extends MonitoringHasParentId {
 
 	MonitoringNodeIdentifier getId();
 
@@ -22,5 +22,4 @@ public interface MonitoringNode {
 
 	String getDescription();
 
-	MonitoringNodeIdentifier getParentId();
 }
