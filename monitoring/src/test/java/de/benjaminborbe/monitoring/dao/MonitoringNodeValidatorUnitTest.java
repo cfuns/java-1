@@ -34,7 +34,6 @@ public class MonitoringNodeValidatorUnitTest {
 		EasyMock.replay(logger);
 
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-
 		final StreamUtil streamUtil = new StreamUtil();
 		final DurationUtil durationUtil = new DurationUtil(null);
 		final Base64Util base64Util = new Base64UtilImpl();
@@ -44,8 +43,8 @@ public class MonitoringNodeValidatorUnitTest {
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, a, b, c, validationConstraintValidator);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, c, validationConstraintValidator);
-
 		final MonitoringCheckFactory monitoringCheckFactory = new MonitoringCheckFactory(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
+
 		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringCheckFactory);
 		final MonitoringNodeBean bean = new MonitoringNodeBean();
 		assertThat(va.validate(bean).size(), is(4));
@@ -60,6 +59,40 @@ public class MonitoringNodeValidatorUnitTest {
 		bean.setParentId(new MonitoringNodeIdentifier((String) null));
 		assertThat(va.validate(bean).size(), is(1));
 		bean.setParentId(new MonitoringNodeIdentifier("23"));
+		assertThat(va.validate(bean).size(), is(0));
+	}
+
+	@Test
+	public void testParentIdNotId() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
+		final StreamUtil streamUtil = new StreamUtil();
+		final DurationUtil durationUtil = new DurationUtil(null);
+		final Base64Util base64Util = new Base64UtilImpl();
+		final HttpDownloader a = new HttpDownloaderImpl(logger, streamUtil, durationUtil, base64Util);
+		final HttpDownloadUtil b = new HttpDownloadUtil(logger);
+		final ParseUtil c = new ParseUtilImpl();
+		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, a, b, c, validationConstraintValidator);
+		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
+		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, c, validationConstraintValidator);
+		final MonitoringCheckFactory monitoringCheckFactory = new MonitoringCheckFactory(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
+
+		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringCheckFactory);
+		final MonitoringNodeBean bean = new MonitoringNodeBean();
+		assertThat(va.validate(bean).size(), is(4));
+		bean.setCheckType(MonitoringCheckType.NOP);
+		assertThat(va.validate(bean).size(), is(3));
+		bean.setId(new MonitoringNodeIdentifier("1337"));
+		assertThat(va.validate(bean).size(), is(2));
+		bean.setName("bla");
+		assertThat(va.validate(bean).size(), is(1));
+		bean.setParameter(new HashMap<String, String>());
+		assertThat(va.validate(bean).size(), is(0));
+		bean.setParentId(new MonitoringNodeIdentifier("1337"));
+		assertThat(va.validate(bean).size(), is(1));
+		bean.setParentId(new MonitoringNodeIdentifier("1336"));
 		assertThat(va.validate(bean).size(), is(0));
 	}
 }

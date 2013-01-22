@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintAnd;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifier;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNull;
@@ -24,6 +25,25 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
+
+	private final class ValidationConstraintParentIdNotId implements ValidationConstraint<MonitoringNodeIdentifier> {
+
+		private final MonitoringNodeIdentifier id;
+
+		public ValidationConstraintParentIdNotId(final MonitoringNodeIdentifier id) {
+			this.id = id;
+		}
+
+		@Override
+		public boolean precondition(final MonitoringNodeIdentifier object) {
+			return object != null;
+		}
+
+		@Override
+		public boolean validate(final MonitoringNodeIdentifier object) {
+			return !object.equals(id);
+		}
+	}
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
@@ -122,7 +142,8 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
 					final MonitoringNodeIdentifier value = bean.getParentId();
 					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringNodeIdentifier>>();
-					constraints.add(new ValidationConstraintOr<MonitoringNodeIdentifier>(new ValidationConstraintIdentifier<MonitoringNodeIdentifier>(),
+					constraints.add(new ValidationConstraintOr<MonitoringNodeIdentifier>(new ValidationConstraintAnd<MonitoringNodeIdentifier>(
+							new ValidationConstraintIdentifier<MonitoringNodeIdentifier>(), new ValidationConstraintParentIdNotId(bean.getId())),
 							new ValidationConstraintNull<MonitoringNodeIdentifier>()));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
