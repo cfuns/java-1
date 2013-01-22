@@ -11,20 +11,12 @@ import com.google.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
-import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 public class MonitoringConfigImpl extends ConfigurationBase implements MonitoringConfig {
 
-	private final ConfigurationDescriptionString azUsername = new ConfigurationDescriptionString("username", "MonitoringAzUsername", "Monitoring Username for AZ");
-
-	private final ConfigurationDescriptionString azPassword = new ConfigurationDescriptionString("password", "MonitoringAzPassword", "Monitoring Password for AZ");
-
-	private final ConfigurationDescriptionString twentyfeetUsername = new ConfigurationDescriptionString("username", "MonitoringTwentyfeetUsername",
-			"Monitoring Username for Twentyfeet");
-
-	private final ConfigurationDescriptionString twentyfeetPassword = new ConfigurationDescriptionString("password", "MonitoringTwentyfeetPassword",
-			"Monitoring Password for Twentyfeet");
+	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "MonitoringCronEnabled", "Monitoring Cron Enabled");
 
 	@Inject
 	public MonitoringConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -34,31 +26,13 @@ public class MonitoringConfigImpl extends ConfigurationBase implements Monitorin
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
-		result.add(azUsername);
-		result.add(azPassword);
-		result.add(twentyfeetUsername);
-		result.add(twentyfeetPassword);
+		result.add(cronEnabled);
 		return result;
 	}
 
 	@Override
-	public String getAzUsername() {
-		return getValueString(azUsername);
-	}
-
-	@Override
-	public String getAzPassword() {
-		return getValueString(azPassword);
-	}
-
-	@Override
-	public String getTwentyfeetAdminUsername() {
-		return getValueString(twentyfeetUsername);
-	}
-
-	@Override
-	public String getTwentyfeetAdminPassword() {
-		return getValueString(twentyfeetPassword);
+	public boolean isCronEnabled() {
+		return getValueBoolean(cronEnabled);
 	}
 
 }

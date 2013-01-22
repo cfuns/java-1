@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.monitoring.util.MonitoringChecker;
 import de.benjaminborbe.monitoring.util.MonitoringMailer;
 
@@ -21,11 +22,14 @@ public class MonitoringCronJob implements CronJob {
 
 	private final MonitoringMailer monitoringMailer;
 
+	private final MonitoringConfig monitoringConfig;
+
 	@Inject
-	public MonitoringCronJob(final Logger logger, final MonitoringChecker monitoringChecker, final MonitoringMailer monitoringMailer) {
+	public MonitoringCronJob(final Logger logger, final MonitoringChecker monitoringChecker, final MonitoringMailer monitoringMailer, final MonitoringConfig monitoringConfig) {
 		this.logger = logger;
 		this.monitoringChecker = monitoringChecker;
 		this.monitoringMailer = monitoringMailer;
+		this.monitoringConfig = monitoringConfig;
 	}
 
 	@Override
@@ -35,10 +39,15 @@ public class MonitoringCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.trace("execute() - started");
-		monitoringChecker.check();
-		monitoringMailer.mail();
-		logger.trace("execute() - finished");
+		if (monitoringConfig.isCronEnabled()) {
+			logger.debug("monitoring cron => started");
+			monitoringChecker.check();
+			monitoringMailer.mail();
+			logger.debug("monitoring cron => finished");
+		}
+		else {
+			logger.debug("monitoring cron => skipped");
+		}
 	}
 
 	@Override
