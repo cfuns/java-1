@@ -14,6 +14,8 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 
@@ -21,6 +23,7 @@ public class AnalyticsGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(AnalyticsService.class).to(AnalyticsServiceMock.class).in(Singleton.class);
