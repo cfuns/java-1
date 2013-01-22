@@ -40,4 +40,6 @@ public interface MonitoringGuiConstants {
 
 	String PARAMETER_NODE_SILENT = "node_silent";
 
+	String URL_NODE_SILENT = "/node/silent";
+
 }

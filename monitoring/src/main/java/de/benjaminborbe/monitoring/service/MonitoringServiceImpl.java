@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
+import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.util.MonitoringChecker;
 import de.benjaminborbe.monitoring.util.MonitoringMailer;
@@ -386,4 +388,28 @@ public class MonitoringServiceImpl implements MonitoringService {
 		}
 	}
 
+	@Override
+	public void silentNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("silentNode");
+
+			final MonitoringNodeBean node = monitoringNodeDao.load(monitoringNodeIdentifier);
+			node.setSilent(true);
+
+			monitoringNodeDao.save(node, Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.SILENT)));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MonitoringServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }

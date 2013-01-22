@@ -1,50 +1,52 @@
 package de.benjaminborbe.monitoring.gui.util;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
-import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.website.util.CompositeWidget;
+import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 
-public class MonitoringGuiCheckResultRenderer implements Widget {
+public class MonitoringGuiCheckResultRenderer extends CompositeWidget {
 
 	private final MonitoringNode checkResult;
 
-	private final UrlUtil urlUtil;
+	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
 
-	public MonitoringGuiCheckResultRenderer(final MonitoringNode checkResult, final UrlUtil urlUtil) {
+	public MonitoringGuiCheckResultRenderer(final MonitoringNode checkResult, final MonitoringGuiLinkFactory monitoringGuiLinkFactory) {
 		this.checkResult = checkResult;
-		this.urlUtil = urlUtil;
+		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 	}
 
 	@Override
-	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final PrintWriter out = response.getWriter();
+	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
+		final ListWidget widgets = new ListWidget();
+		widgets.add("[");
 		if (checkResult.getResult() == null) {
-			out.print("[<span class=\"checkResultUnknown\">???</span>] ");
+			widgets.add(new SpanWidget("???").addClass("checkResultUnknown"));
 		}
 		else if (Boolean.TRUE.equals(checkResult.getResult())) {
-			out.print("[<span class=\"checkResultOk\">OK</span>] ");
+			widgets.add(new SpanWidget("OK").addClass("checkResultOk"));
 		}
 		else {
-			out.print("[<span class=\"checkResultFail\">FAIL</span>] ");
+			widgets.add(new SpanWidget("FAIL").addClass("checkResultFail"));
 		}
+		widgets.add("] ");
 
-		out.print(checkResult.getDescription());
-		out.print(" (");
-		out.print(checkResult.getName());
-		out.print(") ");
+		widgets.add(checkResult.getDescription());
+		widgets.add(" (");
+		widgets.add(checkResult.getName());
+		widgets.add(") ");
 		if (Boolean.FALSE.equals(checkResult.getResult())) {
-			out.print("(");
-			out.print(checkResult.getMessage() != null ? checkResult.getMessage() : "-");
-			out.print(")");
-			out.print(" ");
+			widgets.add("(");
+			widgets.add(checkResult.getMessage() != null ? checkResult.getMessage() : "-");
+			widgets.add(")");
+			widgets.add(" ");
 		}
-		out.println("<a href=\"" + request.getContextPath() + "/monitoring/silent?check=" + urlUtil.encode(checkResult.getId().getId()) + "\">silent</a>");
+		widgets.add(monitoringGuiLinkFactory.nodeSilent(request, checkResult.getId()));
+		return widgets;
 	}
 }

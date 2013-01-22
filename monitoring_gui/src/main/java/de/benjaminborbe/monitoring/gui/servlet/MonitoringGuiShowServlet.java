@@ -26,6 +26,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
+import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
 import de.benjaminborbe.monitoring.gui.util.MonitoringNodeComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -51,7 +52,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final UrlUtil urlUtil;
+	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
 
 	@Inject
 	public MonitoringGuiShowServlet(
@@ -64,12 +65,13 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final MonitoringService monitoringService,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final MonitoringGuiLinkFactory monitoringGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.monitoringService = monitoringService;
 		this.authenticationService = authenticationService;
-		this.urlUtil = urlUtil;
+		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			Collections.sort(results, new MonitoringNodeComparator());
 			final UlWidget ul = new UlWidget();
 			for (final MonitoringNode result : results) {
-				ul.add(new MonitoringGuiCheckResultRenderer(result, urlUtil));
+				ul.add(new MonitoringGuiCheckResultRenderer(result, monitoringGuiLinkFactory));
 			}
 			widgets.add(ul);
 			return widgets;
