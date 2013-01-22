@@ -147,16 +147,31 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 	}
 
 	private boolean checkTitle(final String content, final String titleMatch) {
-		if (titleMatch == null)
+		if (titleMatch == null) {
+			logger.debug("titleMatch is null => skip check");
 			return true;
-		if (content == null)
+		}
+		if (content == null) {
+			logger.debug("content is null => check failed");
 			return false;
-		final int posStart = content.indexOf("<title>");
-		final int posEnd = content.indexOf("</title>");
-		if (posStart == -1 || posEnd == -1)
+		}
+		final String start = "<title>";
+		final String end = "</title>";
+		final int posStart = content.indexOf(start);
+		final int posEnd = content.indexOf(end);
+		if (posStart == -1 || posEnd == -1) {
+			logger.debug("can't find title in content => check failed");
 			return false;
-		final String title = content.substring(posStart, posEnd);
-		return title.indexOf(titleMatch) != -1;
+		}
+		final String title = content.substring(posStart + start.length(), posEnd);
+		if (title.indexOf(titleMatch) != -1) {
+			logger.debug("title match => check success");
+			return true;
+		}
+		else {
+			logger.debug("title mismatch " + title + " != " + titleMatch + " => check failed");
+			return false;
+		}
 	}
 
 	@Override
