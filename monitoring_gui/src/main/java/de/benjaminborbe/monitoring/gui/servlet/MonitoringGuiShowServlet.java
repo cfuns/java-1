@@ -39,6 +39,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.VoidWidget;
 
 @Singleton
 public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
@@ -89,7 +90,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringGuiNodeTree tree = new MonitoringGuiNodeTree(monitoringService.getCheckResults(sessionIdentifier));
-			buildRows(request, widgets, sessionIdentifier, tree, tree.getRootNodes());
+			widgets.add(buildRows(request, sessionIdentifier, tree, tree.getRootNodes()));
 
 			final ListWidget links = new ListWidget();
 			if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
@@ -111,21 +112,24 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		}
 	}
 
-	private void buildRows(final HttpServletRequest request, final ListWidget widgets, final SessionIdentifier sessionIdentifier, final MonitoringGuiNodeTree tree,
-			final List<MonitoringNode> nodes) throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
+	private Widget buildRows(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringGuiNodeTree tree, final List<MonitoringNode> nodes)
+			throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
 		if (nodes.isEmpty()) {
-			return;
+			return new VoidWidget();
 		}
+
 		final UlWidget ul = new UlWidget();
 		for (final MonitoringNode node : nodes) {
-			buildRow(request, sessionIdentifier, ul, node);
+			final ListWidget row = new ListWidget();
+			row.add(buildRow(request, sessionIdentifier, node));
 			final List<MonitoringNode> childNodes = tree.getChildNodes(node.getId());
-			buildRows(request, widgets, sessionIdentifier, tree, childNodes);
+			row.add(buildRows(request, sessionIdentifier, tree, childNodes));
+			ul.add(row);
 		}
-		widgets.add(ul);
+		return ul;
 	}
 
-	private void buildRow(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final UlWidget ul, final MonitoringNode result) throws LoginRequiredException,
+	private Widget buildRow(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringNode result) throws LoginRequiredException,
 			MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
 		final ListWidget row = new ListWidget();
 		row.add("[");
@@ -159,7 +163,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
 		}
 
-		ul.add(row);
+		return row;
 	}
 
 	@Override

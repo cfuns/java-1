@@ -149,7 +149,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	public MonitoringNodeIdentifier createNodeIdentifier(final String id) throws MonitoringServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			if (id != null) {
+			if (id != null && !id.isEmpty()) {
 				return new MonitoringNodeIdentifier(id);
 			}
 			else {
