@@ -12,6 +12,7 @@ import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
@@ -25,6 +26,24 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
+
+	private final class ValidationConstraintParentIdExists implements ValidationConstraint<MonitoringNodeIdentifier> {
+
+		@Override
+		public boolean precondition(final MonitoringNodeIdentifier object) {
+			return object != null;
+		}
+
+		@Override
+		public boolean validate(final MonitoringNodeIdentifier object) {
+			try {
+				return monitoringNodeDao.exists(object);
+			}
+			catch (final StorageException e) {
+				return false;
+			}
+		}
+	}
 
 	private final class ValidationConstraintParentIdNotId implements ValidationConstraint<MonitoringNodeIdentifier> {
 
@@ -49,10 +68,16 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 	private final MonitoringCheckFactory monitoringCheckFactory;
 
+	private final MonitoringNodeDao monitoringNodeDao;
+
 	@Inject
-	public MonitoringNodeValidator(final ValidationConstraintValidator validationConstraintValidator, final MonitoringCheckFactory monitoringCheckFactory) {
+	public MonitoringNodeValidator(
+			final ValidationConstraintValidator validationConstraintValidator,
+			final MonitoringCheckFactory monitoringCheckFactory,
+			final MonitoringNodeDao monitoringNodeDao) {
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.monitoringCheckFactory = monitoringCheckFactory;
+		this.monitoringNodeDao = monitoringNodeDao;
 	}
 
 	@Override
@@ -143,7 +168,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 					final MonitoringNodeIdentifier value = bean.getParentId();
 					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringNodeIdentifier>>();
 					constraints.add(new ValidationConstraintOr<MonitoringNodeIdentifier>(new ValidationConstraintAnd<MonitoringNodeIdentifier>(
-							new ValidationConstraintIdentifier<MonitoringNodeIdentifier>(), new ValidationConstraintParentIdNotId(bean.getId())),
+							new ValidationConstraintIdentifier<MonitoringNodeIdentifier>(), new ValidationConstraintParentIdExists(), new ValidationConstraintParentIdNotId(bean.getId())),
 							new ValidationConstraintNull<MonitoringNodeIdentifier>()));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
