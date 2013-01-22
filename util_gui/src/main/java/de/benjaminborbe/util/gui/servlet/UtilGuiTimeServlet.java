@@ -26,6 +26,10 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.util.gui.UtilGuiConstants;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
@@ -45,6 +49,8 @@ public class UtilGuiTimeServlet extends WebsiteHtmlServlet {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public UtilGuiTimeServlet(
 			final Logger logger,
@@ -60,6 +66,7 @@ public class UtilGuiTimeServlet extends WebsiteHtmlServlet {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -73,8 +80,7 @@ public class UtilGuiTimeServlet extends WebsiteHtmlServlet {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-
-		final long time = calendarUtil.getTime();
+		final long time = parseUtil.parseLong(request.getParameter(UtilGuiConstants.PARAMETER_TIME), calendarUtil.getTime());
 		final List<TimeZone> timezones = new ArrayList<TimeZone>();
 		timezones.add(timeZoneUtil.getUTCTimeZone());
 		timezones.add(timeZoneUtil.getEuropeBerlinTimeZone());
@@ -85,6 +91,12 @@ public class UtilGuiTimeServlet extends WebsiteHtmlServlet {
 			ul.add(timeZone.getDisplayName() + ": " + calendarUtil.toDateTimeString(calendar));
 		}
 		widgets.add(ul);
+
+		final FormWidget form = new FormWidget();
+		form.addFormInputWidget(new FormInputTextWidget(UtilGuiConstants.PARAMETER_TIME).addLabel("Time:").addDefaultValue(time));
+		form.addFormInputWidget(new FormInputSubmitWidget("calc"));
+		widgets.add(form);
+
 		return widgets;
 	}
 }

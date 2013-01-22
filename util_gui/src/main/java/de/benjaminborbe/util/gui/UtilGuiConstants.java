@@ -26,4 +26,6 @@ public interface UtilGuiConstants {
 
 	String URL_HTML_ANGULARJS = "/html/angularjs.html";
 
+	String PARAMETER_TIME = "time";
+
 }
