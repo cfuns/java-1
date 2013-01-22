@@ -16,7 +16,10 @@ import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifier;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintOr;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
@@ -101,8 +104,27 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 					constraints.add(new ValidationConstraintNotNull<Map<String, String>>());
 					errors.addAll(validationConstraintValidator.validate(field, value, constraints));
 					final MonitoringCheck check = monitoringCheckFactory.get(bean.getCheckType());
-					errors.addAll(check.validate(value));
+					if (check != null) {
+						errors.addAll(check.validate(value));
+					}
 					return errors;
+				}
+			});
+		}
+
+		// parentId
+		{
+			final String field = MonitoringNodeBeanMapper.PARENT_ID;
+			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
+
+				@SuppressWarnings("unchecked")
+				@Override
+				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
+					final MonitoringNodeIdentifier value = bean.getParentId();
+					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringNodeIdentifier>>();
+					constraints.add(new ValidationConstraintOr<MonitoringNodeIdentifier>(new ValidationConstraintIdentifier<MonitoringNodeIdentifier>(),
+							new ValidationConstraintNull<MonitoringNodeIdentifier>()));
+					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
 		}

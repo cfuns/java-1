@@ -45,7 +45,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 
 	public static final String MESSAGE = "message";
 
-	private static final String PARENT_ID = "parentId";
+	public static final String PARENT_ID = "parentId";
 
 	@Inject
 	public MonitoringNodeBeanMapper(

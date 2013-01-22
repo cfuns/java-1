@@ -1,8 +1,8 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
-import de.benjaminborbe.monitoring.gui.util.MonitoringNodeComparator;
+import de.benjaminborbe.monitoring.gui.util.MonitoringGuiNodeTree;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -88,46 +88,8 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<MonitoringNode> results = new ArrayList<MonitoringNode>(monitoringService.getCheckResults(sessionIdentifier));
-			Collections.sort(results, new MonitoringNodeComparator());
-			final UlWidget ul = new UlWidget();
-			for (final MonitoringNode result : results) {
-
-				final ListWidget row = new ListWidget();
-				row.add("[");
-				if (result.getResult() == null) {
-					row.add(new SpanWidget("???").addClass("checkResultUnknown"));
-				}
-				else if (Boolean.TRUE.equals(result.getResult())) {
-					row.add(new SpanWidget("OK").addClass("checkResultOk"));
-				}
-				else {
-					row.add(new SpanWidget("FAIL").addClass("checkResultFail"));
-				}
-				row.add("] ");
-
-				row.add(result.getDescription());
-				row.add(" (");
-				row.add(result.getName());
-				row.add(") ");
-				if (Boolean.FALSE.equals(result.getResult())) {
-					row.add("(");
-					row.add(result.getMessage() != null ? result.getMessage() : "-");
-					row.add(")");
-					row.add(" ");
-				}
-
-				if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
-					row.add(monitoringGuiLinkFactory.nodeSilent(request, result.getId()));
-					row.add(" ");
-					row.add(monitoringGuiLinkFactory.nodeUpdate(request, result.getId()));
-					row.add(" ");
-					row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
-				}
-
-				ul.add(row);
-			}
-			widgets.add(ul);
+			final MonitoringGuiNodeTree tree = new MonitoringGuiNodeTree(monitoringService.getCheckResults(sessionIdentifier));
+			buildRows(request, widgets, sessionIdentifier, tree, tree.getRootNodes());
 
 			final ListWidget links = new ListWidget();
 			if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
@@ -147,6 +109,57 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}
+	}
+
+	private void buildRows(final HttpServletRequest request, final ListWidget widgets, final SessionIdentifier sessionIdentifier, final MonitoringGuiNodeTree tree,
+			final List<MonitoringNode> nodes) throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
+		if (nodes.isEmpty()) {
+			return;
+		}
+		final UlWidget ul = new UlWidget();
+		for (final MonitoringNode node : nodes) {
+			buildRow(request, sessionIdentifier, ul, node);
+			final List<MonitoringNode> childNodes = tree.getChildNodes(node.getId());
+			buildRows(request, widgets, sessionIdentifier, tree, childNodes);
+		}
+		widgets.add(ul);
+	}
+
+	private void buildRow(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final UlWidget ul, final MonitoringNode result) throws LoginRequiredException,
+			MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
+		final ListWidget row = new ListWidget();
+		row.add("[");
+		if (result.getResult() == null) {
+			row.add(new SpanWidget("???").addClass("checkResultUnknown"));
+		}
+		else if (Boolean.TRUE.equals(result.getResult())) {
+			row.add(new SpanWidget("OK").addClass("checkResultOk"));
+		}
+		else {
+			row.add(new SpanWidget("FAIL").addClass("checkResultFail"));
+		}
+		row.add("] ");
+
+		row.add(result.getDescription());
+		row.add(" (");
+		row.add(result.getName());
+		row.add(") ");
+		if (Boolean.FALSE.equals(result.getResult())) {
+			row.add("(");
+			row.add(result.getMessage() != null ? result.getMessage() : "-");
+			row.add(")");
+			row.add(" ");
+		}
+
+		if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
+			row.add(monitoringGuiLinkFactory.nodeSilent(request, result.getId()));
+			row.add(" ");
+			row.add(monitoringGuiLinkFactory.nodeUpdate(request, result.getId()));
+			row.add(" ");
+			row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
+		}
+
+		ul.add(row);
 	}
 
 	@Override
