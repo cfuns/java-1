@@ -74,4 +74,23 @@ public class MonitoringGuiNodeSilentServlet extends WebsiteServlet {
 		widget.render(request, response, context);
 	}
 
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			monitoringService.expectMonitoringAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final MonitoringServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
 }

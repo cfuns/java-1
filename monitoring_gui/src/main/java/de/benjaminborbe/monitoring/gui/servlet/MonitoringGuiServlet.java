@@ -91,7 +91,6 @@ public class MonitoringGuiServlet extends MonitoringWebsiteHtmlServlet {
 				ul.add(monitoringGuiLinkFactory.view(request));
 			}
 			if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
-				ul.add(monitoringGuiLinkFactory.nodeList(request));
 				ul.add(monitoringGuiLinkFactory.check(request));
 				ul.add(monitoringGuiLinkFactory.mail(request));
 			}

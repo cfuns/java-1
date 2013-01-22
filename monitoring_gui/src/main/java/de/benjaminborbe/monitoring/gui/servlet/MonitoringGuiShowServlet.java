@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +26,6 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
-import de.benjaminborbe.monitoring.gui.util.MonitoringGuiCheckResultRenderer;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
 import de.benjaminborbe.monitoring.gui.util.MonitoringNodeComparator;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -37,6 +37,7 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -91,9 +92,49 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			Collections.sort(results, new MonitoringNodeComparator());
 			final UlWidget ul = new UlWidget();
 			for (final MonitoringNode result : results) {
-				ul.add(new MonitoringGuiCheckResultRenderer(result, monitoringGuiLinkFactory));
+
+				final ListWidget row = new ListWidget();
+				row.add("[");
+				if (result.getResult() == null) {
+					row.add(new SpanWidget("???").addClass("checkResultUnknown"));
+				}
+				else if (Boolean.TRUE.equals(result.getResult())) {
+					row.add(new SpanWidget("OK").addClass("checkResultOk"));
+				}
+				else {
+					row.add(new SpanWidget("FAIL").addClass("checkResultFail"));
+				}
+				row.add("] ");
+
+				row.add(result.getDescription());
+				row.add(" (");
+				row.add(result.getName());
+				row.add(") ");
+				if (Boolean.FALSE.equals(result.getResult())) {
+					row.add("(");
+					row.add(result.getMessage() != null ? result.getMessage() : "-");
+					row.add(")");
+					row.add(" ");
+				}
+
+				if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
+					row.add(monitoringGuiLinkFactory.nodeSilent(request, result.getId()));
+					row.add(" ");
+					row.add(monitoringGuiLinkFactory.nodeUpdate(request, result.getId()));
+					row.add(" ");
+					row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
+				}
+
+				ul.add(row);
 			}
 			widgets.add(ul);
+
+			final ListWidget links = new ListWidget();
+			if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
+				links.add(monitoringGuiLinkFactory.createNode(request));
+			}
+			widgets.add(links);
+
 			return widgets;
 		}
 		catch (final MonitoringServiceException e) {
@@ -105,6 +146,26 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			monitoringService.expectMonitoringViewOrAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final MonitoringServiceException e) {
+			throw new PermissionDeniedException(e);
 		}
 	}
 }

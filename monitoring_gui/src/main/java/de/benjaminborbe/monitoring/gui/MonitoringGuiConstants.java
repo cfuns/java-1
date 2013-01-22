@@ -26,8 +26,6 @@ public interface MonitoringGuiConstants {
 
 	String URL_NODE_DELETE = "/node/delete";
 
-	String URL_NODE_LIST = "/node";
-
 	String URL_NODE_UPDATE = "/node/update";
 
 	String URL_TRIGGER_CHECK = "/trigger/check";

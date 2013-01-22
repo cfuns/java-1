@@ -307,7 +307,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	public Collection<MonitoringNode> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringViewOrAdminRole(sessionIdentifier);
 			logger.debug("getCheckResults");
 
 			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
