@@ -21,7 +21,7 @@ public class MonitoringCheckNop implements MonitoringCheck {
 
 	@Override
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
-		return null;
+		return new MonitoringCheckResultDto(this, true, "nop");
 	}
 
 	@Override
