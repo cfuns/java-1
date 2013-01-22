@@ -30,7 +30,7 @@ public class AnalyticsReportValidator extends ValidatorBase<AnalyticsReportBean>
 		@Override
 		public boolean validate(final String object) {
 			for (final char c : object.toCharArray()) {
-				if (!Character.isLetter(c) && c != AnalyticsReportDao.SEPERATOR) {
+				if (!Character.isLetterOrDigit(c) || c == AnalyticsReportDao.SEPERATOR) {
 					return false;
 				}
 			}
