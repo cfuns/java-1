@@ -30,6 +30,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
@@ -108,6 +109,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
+			final String parentId = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_PARENT_ID);
 			final String name = stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME));
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
 			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
@@ -115,6 +117,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final String active = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED);
 			final String silent = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_SILENT);
 
+			final MonitoringNodeIdentifier monitoringNodeParentIdentifier = monitoringService.createNodeIdentifier(parentId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringCheckType type = parseUtil.parseEnum(MonitoringCheckType.class, checkType, MonitoringGuiConstants.DFEAULT_CHECK);
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
@@ -124,7 +127,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			}
 			if (name != null && checkType != null) {
 				try {
-					createNode(sessionIdentifier, name, checkType, parameter, active, silent);
+					createNode(sessionIdentifier, monitoringNodeParentIdentifier, name, checkType, parameter, active, silent);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -142,6 +145,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ..."));
+			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_PARENT_ID).addLabel("Parent-Node:").addPlaceholder("parentId ..."));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED).addLabel("Activated:"));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_SILENT).addLabel("Silent:"));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
@@ -170,8 +174,9 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		}
 	}
 
-	private void createNode(final SessionIdentifier sessionIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
-			final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+	private void createNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name,
+			final String checkTypeString, final Map<String, String> parameter, final String activeString, final String silentString) throws ValidationException,
+			MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		MonitoringCheckType checkType = null;
 		{
@@ -196,6 +201,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			nodeDto.setParameter(parameter);
 			nodeDto.setSilent(silent);
 			nodeDto.setActive(active);
+			nodeDto.setParentId(monitoringNodeParentIdentifier);
 			monitoringService.createNode(sessionIdentifier, nodeDto);
 		}
 	}

@@ -21,4 +21,6 @@ public interface MonitoringNode {
 	String getMessage();
 
 	String getDescription();
+
+	MonitoringNodeIdentifier getParentId();
 }

@@ -112,6 +112,7 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			widgets.add(new H1Widget(getTitle()));
 
 			final String id = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ID);
+			final String parentId = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_PARENT_ID);
 			final String name = stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_NAME));
 			final String checkType = request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE);
 			final String referer = request.getParameter(MonitoringGuiConstants.PARAMETER_REFERER);
@@ -120,6 +121,7 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringNodeIdentifier monitoringNodeIdentifier = monitoringService.createNodeIdentifier(id);
+			final MonitoringNodeIdentifier monitoringNodeParentIdentifier = monitoringService.createNodeIdentifier(parentId);
 			final MonitoringNode node = monitoringService.getNode(sessionIdentifier, monitoringNodeIdentifier);
 			final MonitoringCheckType type = parseUtil.parseEnum(MonitoringCheckType.class, checkType, node.getCheckType());
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
@@ -129,7 +131,7 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			}
 			if (name != null && checkType != null) {
 				try {
-					updateNode(sessionIdentifier, monitoringNodeIdentifier, name, checkType, parameter, active, silent);
+					updateNode(sessionIdentifier, monitoringNodeIdentifier, monitoringNodeParentIdentifier, name, checkType, parameter, active, silent);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -149,6 +151,8 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_NODE_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ...")
 					.addDefaultValue(node.getName()));
+			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_PARENT_ID).addLabel("Parent-Node:").addPlaceholder("parentId ...")
+					.addDefaultValue(node.getParentId()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED).addLabel("Activated:").setCheckedDefault(node.getActive()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_SILENT).addLabel("Silent:").setCheckedDefault(node.getSilent()));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
@@ -184,9 +188,9 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 		}
 	}
 
-	private void updateNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier, final String name, final String checkTypeString,
-			final Map<String, String> parameter, final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	private void updateNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier,
+			final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
+			final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		MonitoringCheckType checkType = null;
 		{
@@ -211,6 +215,7 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			nodeDto.setParameter(parameter);
 			nodeDto.setSilent(silent);
 			nodeDto.setActive(active);
+			nodeDto.setParentId(monitoringNodeParentIdentifier);
 			monitoringService.updateNode(sessionIdentifier, nodeDto);
 		}
 	}

@@ -96,6 +96,11 @@ public class MonitoringServiceImpl implements MonitoringService {
 		public Boolean getActive() {
 			return node.getActive();
 		}
+
+		@Override
+		public MonitoringNodeIdentifier getParentId() {
+			return node.getParentId();
+		}
 	}
 
 	private static final long DURATION_WARN = 300;
@@ -189,6 +194,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			monitoringNode.setParameter(node.getParameter());
 			monitoringNode.setActive(node.getActive());
 			monitoringNode.setSilent(node.getSilent());
+			monitoringNode.setParentId(node.getParentId());
 
 			final ValidationResult errors = validationExecutor.validate(monitoringNode);
 			if (errors.hasErrors()) {
@@ -222,6 +228,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			monitoringNode.setParameter(node.getParameter());
 			monitoringNode.setActive(node.getActive());
 			monitoringNode.setSilent(node.getSilent());
+			monitoringNode.setParentId(node.getParentId());
 
 			final ValidationResult errors = validationExecutor.validate(monitoringNode);
 			if (errors.hasErrors()) {

@@ -45,6 +45,8 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 
 	public static final String MESSAGE = "message";
 
+	private static final String PARENT_ID = "parentId";
+
 	@Inject
 	public MonitoringNodeBeanMapper(
 			final Provider<MonitoringNodeBean> provider,
@@ -62,6 +64,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 			final MapperBoolean mapperBoolean) {
 		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<StringObjectMapper<MonitoringNodeBean>>();
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(ID, mapperMonitoringNodeIdentifier));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(PARENT_ID, mapperMonitoringNodeIdentifier));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckType>(CHECK_TYPE, mapperMonitoringCheck));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Map<String, String>>(PARAMETER, mapperMapString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(NAME, mapperString));

@@ -22,6 +22,8 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	private String description;
 
+	private MonitoringNodeIdentifier parentId;
+
 	@Override
 	public MonitoringNodeIdentifier getId() {
 		return id;
@@ -101,6 +103,14 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public void setParentId(final MonitoringNodeIdentifier parentId) {
+		this.parentId = parentId;
+	}
+
+	public MonitoringNodeIdentifier getParentId() {
+		return parentId;
 	}
 
 }

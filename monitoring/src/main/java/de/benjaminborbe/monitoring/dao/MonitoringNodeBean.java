@@ -33,6 +33,8 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private Boolean result;
 
+	private MonitoringNodeIdentifier parentId;
+
 	public String getName() {
 		return name;
 	}
@@ -117,6 +119,14 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	public void setResult(final Boolean result) {
 		this.result = result;
+	}
+
+	public MonitoringNodeIdentifier getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(final MonitoringNodeIdentifier parentId) {
+		this.parentId = parentId;
 	}
 
 }
