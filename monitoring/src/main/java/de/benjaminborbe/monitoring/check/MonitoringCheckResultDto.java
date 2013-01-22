@@ -4,7 +4,7 @@ import java.net.URL;
 
 public class MonitoringCheckResultDto implements MonitoringCheckResult {
 
-	private boolean successful;
+	private Boolean successful;
 
 	private String message;
 
@@ -17,13 +17,13 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 	public MonitoringCheckResultDto() {
 	}
 
-	public MonitoringCheckResultDto(final MonitoringCheck check, final boolean successful, final String message) {
+	public MonitoringCheckResultDto(final MonitoringCheck check, final Boolean successful, final String message) {
 		this.check = check;
 		this.successful = successful;
 		this.message = message;
 	}
 
-	public MonitoringCheckResultDto(final MonitoringCheck check, final boolean successful, final String message, final URL url) {
+	public MonitoringCheckResultDto(final MonitoringCheck check, final Boolean successful, final String message, final URL url) {
 		this.check = check;
 		this.successful = successful;
 		this.message = message;
@@ -38,7 +38,7 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 	}
 
 	@Override
-	public boolean isSuccessful() {
+	public Boolean getSuccessful() {
 		return successful;
 	}
 
@@ -47,7 +47,7 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 		return message;
 	}
 
-	public void setSuccessful(final boolean successful) {
+	public void setSuccessful(final Boolean successful) {
 		this.successful = successful;
 	}
 
@@ -55,7 +55,6 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 		this.message = message;
 	}
 
-	@Override
 	public MonitoringCheck getCheck() {
 		return check;
 	}
@@ -64,7 +63,6 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 		this.check = check;
 	}
 
-	@Override
 	public URL getUrl() {
 		return url;
 	}

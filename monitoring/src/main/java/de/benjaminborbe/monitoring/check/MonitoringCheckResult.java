@@ -1,17 +1,11 @@
 package de.benjaminborbe.monitoring.check;
 
-import java.net.URL;
-
 public interface MonitoringCheckResult {
 
-	public boolean isSuccessful();
+	Boolean getSuccessful();
 
-	public String getMessage();
+	String getMessage();
 
-	public MonitoringCheck getCheck();
-
-	public URL getUrl();
-
-	public Exception getException();
+	Exception getException();
 
 }

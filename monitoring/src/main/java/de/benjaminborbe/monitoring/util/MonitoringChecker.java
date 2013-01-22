@@ -42,10 +42,10 @@ public class MonitoringChecker {
 					if (Boolean.TRUE.equals(bean.getActive())) {
 						logger.debug("node " + name + " active => run check");
 						final MonitoringCheckResult result = check.check(bean.getParameter());
-						if (result.isSuccessful()) {
+						if (Boolean.TRUE.equals(result.getSuccessful())) {
 							logger.debug("node " + name + " success");
 						}
-						else {
+						else if (Boolean.FALSE.equals(result.getSuccessful())) {
 							if (result.getException() != null) {
 								logger.debug("node " + name + " fail: " + result.getMessage(), result.getException());
 							}
@@ -53,8 +53,11 @@ public class MonitoringChecker {
 								logger.debug("node " + name + " fail: " + result.getMessage());
 							}
 						}
+						else {
+							logger.debug("node " + name + " unkown");
+						}
 						bean.setMessage(result.getMessage());
-						bean.setResult(result.isSuccessful());
+						bean.setResult(result.getSuccessful());
 						monitoringNodeDao.save(bean,
 								Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT)));
 					}
