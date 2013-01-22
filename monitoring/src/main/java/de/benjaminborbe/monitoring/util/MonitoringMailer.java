@@ -12,11 +12,11 @@ import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
-import de.benjaminborbe.monitoring.api.MonitoringNodeTree;
 import de.benjaminborbe.monitoring.check.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
+import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -49,6 +49,7 @@ public class MonitoringMailer {
 					final MonitoringNodeBean bean = i.next();
 					nodes.add(monitoringNodeBuilder.build(bean));
 				}
+
 				final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(nodes);
 				final List<MonitoringNode> results = new ArrayList<MonitoringNode>();
 				handle(results, tree.getRootNodes(), tree);
@@ -73,11 +74,25 @@ public class MonitoringMailer {
 
 		private void handle(final List<MonitoringNode> results, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
 			for (final MonitoringNode node : list) {
+				final String label = buildLabel(node);
 				if (Boolean.TRUE.equals(node.getActive())) {
-					if (Boolean.FALSE.equals(node.getSilent()) && Boolean.FALSE.equals(node.getResult())) {
-						results.add(node);
+					logger.debug("node is active " + label);
+					if (Boolean.FALSE.equals(node.getResult())) {
+						if (Boolean.FALSE.equals(node.getSilent())) {
+							results.add(node);
+							logger.debug("node " + label + " has failure => add");
+						}
+						else {
+							logger.debug("node " + label + " is silent => skip");
+						}
 					}
-					handle(results, tree.getChildNodes(node.getId()), tree);
+					else {
+						logger.debug("node " + label + " is success => skip");
+						handle(results, tree.getChildNodes(node.getId()), tree);
+					}
+				}
+				else {
+					logger.debug("node is inactive " + label);
 				}
 			}
 		}
@@ -123,10 +138,7 @@ public class MonitoringMailer {
 		content.append("Checks failed: " + results.size());
 		content.append("\n");
 		for (final MonitoringNode bean : results) {
-			final MonitoringCheckType type = bean.getCheckType();
-			final MonitoringCheck check = monitoringCheckFactory.get(type);
-			final String name = check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
-			content.append(name);
+			content.append(buildLabel(bean));
 			content.append(": ");
 			content.append(bean.getMessage());
 			content.append("\n");
@@ -135,5 +147,11 @@ public class MonitoringMailer {
 		content.append("http://bb/bb/monitoring");
 		content.append("\n");
 		return content.toString();
+	}
+
+	private String buildLabel(final MonitoringNode bean) {
+		final MonitoringCheckType type = bean.getCheckType();
+		final MonitoringCheck check = monitoringCheckFactory.get(type);
+		return check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
 	}
 }

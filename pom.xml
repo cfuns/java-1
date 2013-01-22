@@ -222,8 +222,9 @@
 				<module>microblog</module>
 				<module>microblog_api</module>
 				<module>microblog_gui</module>
-				<module>monitoring</module>
 				<module>monitoring_api</module>
+				<module>monitoring_tools</module>
+				<module>monitoring</module>
 				<module>monitoring_gui</module>
 				<module>navigation</module>
 				<module>navigation_api</module>

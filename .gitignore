@@ -44,6 +44,7 @@ microblog_api/target
 microblog_gui/target
 microblog_test/target
 monitoring/target
+monitoring_tools/target
 monitoring_api/target
 monitoring_gui/target
 monitoring_test/target

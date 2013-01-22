@@ -24,10 +24,10 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
-import de.benjaminborbe.monitoring.api.MonitoringNodeTree;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
+import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -88,6 +88,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
+
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(monitoringService.getCheckResults(sessionIdentifier));
 			widgets.add(buildRows(request, sessionIdentifier, tree, tree.getRootNodes()));

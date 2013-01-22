@@ -152,6 +152,7 @@ buildauth:
 	cd authorization_test && make all
 buildmonitoring:
 	cd monitoring_api && make all
+	cd monitoring_tools && make all
 	cd monitoring && make all
 	cd monitoring_gui && make all
 	cd monitoring_test && make all

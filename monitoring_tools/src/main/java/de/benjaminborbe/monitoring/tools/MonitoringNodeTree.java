@@ -1,10 +1,12 @@
-package de.benjaminborbe.monitoring.api;
+package de.benjaminborbe.monitoring.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import de.benjaminborbe.monitoring.api.MonitoringNode;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 
 public class MonitoringNodeTree<N extends MonitoringNode> {
 

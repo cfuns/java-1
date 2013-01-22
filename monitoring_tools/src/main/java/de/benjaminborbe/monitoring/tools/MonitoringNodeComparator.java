@@ -1,5 +1,6 @@
-package de.benjaminborbe.monitoring.api;
+package de.benjaminborbe.monitoring.tools;
 
+import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.tools.util.ComparatorBase;
 
 public class MonitoringNodeComparator<N extends MonitoringNode> extends ComparatorBase<N, String> {
