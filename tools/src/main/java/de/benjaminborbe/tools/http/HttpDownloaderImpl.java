@@ -140,10 +140,12 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			}
 		}
 		{
-			final String s = "charset=";
-			final int charsetPos = contentType.indexOf(s);
-			if (charsetPos != -1) {
-				return new Encoding(contentType.substring(charsetPos + s.length()).trim());
+			if (contentType != null) {
+				final String s = "charset=";
+				final int charsetPos = contentType.indexOf(s);
+				if (charsetPos != -1) {
+					return new Encoding(contentType.substring(charsetPos + s.length()).trim());
+				}
 			}
 		}
 		return null;
