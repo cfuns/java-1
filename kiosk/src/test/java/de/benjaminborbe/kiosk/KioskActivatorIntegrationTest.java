@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.kiosk.KioskActivator;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.guice.KioskModulesMock;
@@ -70,6 +71,7 @@ public class KioskActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(KioskService.class.getName());
 		names.add(MessageConsumer.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

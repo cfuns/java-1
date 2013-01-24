@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
-
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.kiosk.api.KioskService;
+import de.benjaminborbe.kiosk.config.KioskConfig;
 import de.benjaminborbe.kiosk.guice.KioskModules;
 import de.benjaminborbe.kiosk.service.KioskBookingMessageConsumer;
 import de.benjaminborbe.message.api.MessageConsumer;
@@ -25,6 +25,9 @@ public class KioskActivator extends BaseBundleActivator {
 	@Inject
 	private KioskBookingMessageConsumer kioskBookingMessageConsumer;
 
+	@Inject
+	private KioskConfig kioskConfig;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new KioskModules(context);
@@ -35,14 +38,10 @@ public class KioskActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(KioskService.class, kioskService));
 		result.add(new ServiceInfo(MessageConsumer.class, kioskBookingMessageConsumer));
+		for (final ConfigurationDescription configuration : kioskConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new KioskServiceTracker(kioskRegistry, context,
-		// KioskService.class));
-		return serviceTrackers;
-	}
 }

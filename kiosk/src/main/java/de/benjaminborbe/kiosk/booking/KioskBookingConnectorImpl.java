@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.kiosk.KioskConstants;
+import de.benjaminborbe.kiosk.config.KioskConfig;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -39,14 +40,18 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private final DurationUtil durationUtil;
 
+	private final KioskConfig kioskConfig;
+
 	@Inject
 	public KioskBookingConnectorImpl(
 			final Logger logger,
+			final KioskConfig kioskConfig,
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
 			final UrlUtil urlUtil,
 			final DurationUtil durationUtil) {
 		this.logger = logger;
+		this.kioskConfig = kioskConfig;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.urlUtil = urlUtil;
@@ -57,86 +62,93 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 	public boolean book(final long customer, final long ean) {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.info("book - customer: " + customer);
-			// login
-			final String sessionId = getLogin(customer);
+			if (!kioskConfig.isKioskConnectorEnabled()) {
+				logger.info("book - customer: " + customer + " skipped");
+				return true;
+			}
+			else {
+				logger.info("book - customer: " + customer + " started");
 
-			// open cart
-			{
-				final String htmlContent = getCartContent(sessionId);
-				if (htmlContent.indexOf("Hallo ") == -1) {
-					logger.warn("open cart failed");
-					logger.debug("htmlContent: " + htmlContent);
-					return false;
-				}
-				else {
-					logger.debug("open cart success");
-				}
-			}
+				// login
+				final String sessionId = getLogin(customer);
 
-			// delete all
-			{
-				final String htmlContent = addProduct(sessionId, KioskConstants.DELETE_EAN);
-				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/cart\">Redirect-URL</a>") == -1) {
-					logger.warn("clear cart failed");
-					logger.debug("htmlContent: " + htmlContent);
-					return false;
+				// open cart
+				{
+					final String htmlContent = getCartContent(sessionId);
+					if (htmlContent.indexOf("Hallo ") == -1) {
+						logger.warn("open cart failed");
+						logger.debug("htmlContent: " + htmlContent);
+						return false;
+					}
+					else {
+						logger.debug("open cart success");
+					}
 				}
-				else {
-					logger.debug("clear cart success");
-				}
-			}
 
-			// add mittag essen
-			{
-				final String htmlContent = addProduct(sessionId, ean);
-				if (htmlContent.indexOf("Redirect-URL") == -1) {
-					logger.warn("add failed");
-					logger.debug("htmlContent: " + htmlContent);
-					return false;
+				// delete all
+				{
+					final String htmlContent = addProduct(sessionId, KioskConstants.DELETE_EAN);
+					if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/cart\">Redirect-URL</a>") == -1) {
+						logger.warn("clear cart failed");
+						logger.debug("htmlContent: " + htmlContent);
+						return false;
+					}
+					else {
+						logger.debug("clear cart success");
+					}
 				}
-				else {
-					logger.debug("add success");
-				}
-			}
-			// check cart content
-			{
-				final String htmlContent = getCartContent(sessionId);
-				if (count(htmlContent, "list_row_uneven") != 1) {
-					logger.warn("product not in cart");
-					logger.debug("htmlContent: " + htmlContent);
-					return false;
-				}
-				else {
-					logger.debug("product in cart");
-				}
-			}
 
-			// logout
-			{
-				final String htmlContent = logout(sessionId, customer);
-				if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/end_shopping\">Redirect-URL</a>") == -1) {
-					logger.warn("book cart failed");
-					logger.debug("htmlContent: " + htmlContent);
-					return false;
+				// add mittag essen
+				{
+					final String htmlContent = addProduct(sessionId, ean);
+					if (htmlContent.indexOf("Redirect-URL") == -1) {
+						logger.warn("add failed");
+						logger.debug("htmlContent: " + htmlContent);
+						return false;
+					}
+					else {
+						logger.debug("add success");
+					}
 				}
-				else {
-					logger.debug("book cart success");
+				// check cart content
+				{
+					final String htmlContent = getCartContent(sessionId);
+					if (count(htmlContent, "list_row_uneven") != 1) {
+						logger.warn("product not in cart");
+						logger.debug("htmlContent: " + htmlContent);
+						return false;
+					}
+					else {
+						logger.debug("product in cart");
+					}
 				}
+
+				// logout
+				{
+					final String htmlContent = logout(sessionId, customer);
+					if (htmlContent.indexOf("<a href=\"http://kiosk/index.cgi/end_shopping\">Redirect-URL</a>") == -1) {
+						logger.warn("book cart failed");
+						logger.debug("htmlContent: " + htmlContent);
+						return false;
+					}
+					else {
+						logger.debug("book cart success");
+					}
+				}
+				// end shopping
+				{
+					final String htmlContent = endShopping(sessionId);
+					if (htmlContent.indexOf("Der Einkauf wurde gespeichert.") == -1) {
+						logger.warn("end shopping failed");
+						logger.debug("htmlContent: " + htmlContent);
+						return false;
+					}
+					else {
+						logger.debug("end shopping success");
+					}
+				}
+				return true;
 			}
-			// end shopping
-			{
-				final String htmlContent = endShopping(sessionId);
-				if (htmlContent.indexOf("Der Einkauf wurde gespeichert.") == -1) {
-					logger.warn("end shopping failed");
-					logger.debug("htmlContent: " + htmlContent);
-					return false;
-				}
-				else {
-					logger.debug("end shopping success");
-				}
-			}
-			return true;
 		}
 		catch (final MalformedURLException e) {
 			logger.info(e.getClass().getName(), e);
