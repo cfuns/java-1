@@ -1,11 +1,18 @@
 package de.benjaminborbe.tools.validation.constraint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ValidationConstraintAnd<T> implements ValidationConstraint<T> {
 
-	private final ValidationConstraint<T>[] validationConstraints;
+	private final List<ValidationConstraint<T>> validationConstraints = new ArrayList<ValidationConstraint<T>>();
 
-	public ValidationConstraintAnd(final ValidationConstraint<T>... validationConstraints) {
-		this.validationConstraints = validationConstraints;
+	public ValidationConstraintAnd() {
+	}
+
+	public ValidationConstraintAnd<T> add(final ValidationConstraint<T> validationConstraint) {
+		validationConstraints.add(validationConstraint);
+		return this;
 	}
 
 	@Override

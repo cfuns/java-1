@@ -162,14 +162,20 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 			final String field = MonitoringNodeBeanMapper.PARENT_ID;
 			result.put(field, new ValidatorRule<MonitoringNodeBean>() {
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
 					final MonitoringNodeIdentifier value = bean.getParentId();
 					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringNodeIdentifier>>();
-					constraints.add(new ValidationConstraintOr<MonitoringNodeIdentifier>(new ValidationConstraintAnd<MonitoringNodeIdentifier>(
-							new ValidationConstraintIdentifier<MonitoringNodeIdentifier>(), new ValidationConstraintParentIdExists(), new ValidationConstraintParentIdNotId(bean.getId())),
-							new ValidationConstraintNull<MonitoringNodeIdentifier>()));
+
+					// null
+					final ValidationConstraint<MonitoringNodeIdentifier> v1 = new ValidationConstraintNull<MonitoringNodeIdentifier>();
+
+					// not null
+					final ValidationConstraint<MonitoringNodeIdentifier> v2 = new ValidationConstraintAnd<MonitoringNodeIdentifier>()
+							.add(new ValidationConstraintIdentifier<MonitoringNodeIdentifier>()).add(new ValidationConstraintParentIdExists())
+							.add(new ValidationConstraintParentIdNotId(bean.getId()));
+
+					constraints.add(new ValidationConstraintOr<MonitoringNodeIdentifier>().add(v1).add(v2));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

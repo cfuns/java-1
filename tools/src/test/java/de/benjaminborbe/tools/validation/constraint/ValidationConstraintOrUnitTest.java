@@ -7,7 +7,6 @@ import org.junit.Test;
 
 public class ValidationConstraintOrUnitTest {
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testValidate() throws Exception {
 		{
@@ -15,19 +14,20 @@ public class ValidationConstraintOrUnitTest {
 			assertThat(v.validate("bla"), is(false));
 		}
 		{
-			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>(new ValidationConstraintStringOnlyDigest());
+			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>().add(new ValidationConstraintStringOnlyDigest());
 			assertThat(v.validate("bla"), is(false));
 		}
 		{
-			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>(new ValidationConstraintStringOnlyLetters());
+			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>().add(new ValidationConstraintStringOnlyLetters());
 			assertThat(v.validate("bla"), is(true));
 		}
 		{
-			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>(new ValidationConstraintStringOnlyLetters(), new ValidationConstraintStringOnlyDigest());
+			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>().add(new ValidationConstraintStringOnlyLetters())
+					.add(new ValidationConstraintStringOnlyDigest());
 			assertThat(v.validate("bla"), is(true));
 		}
 		{
-			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>(new ValidationConstraintStringOnlyLetters(), new ValidationConstraintStringChar('-'));
+			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>().add(new ValidationConstraintStringOnlyLetters()).add(new ValidationConstraintStringChar('-'));
 			assertThat(v.validate("-"), is(true));
 		}
 	}

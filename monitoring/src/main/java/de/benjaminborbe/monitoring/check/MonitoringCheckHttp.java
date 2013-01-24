@@ -25,9 +25,12 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintAnd;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerGE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerLE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintOr;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
@@ -215,9 +218,15 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		{
 			final String titlematch = parameter.get(TITLEMATCH);
 			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
-			constraints.add(new ValidationConstraintNotNull<String>());
-			constraints.add(new ValidationConstraintStringMinLength(1));
-			constraints.add(new ValidationConstraintStringMaxLength(255));
+
+			// null
+			final ValidationConstraint<String> v1 = new ValidationConstraintNull<String>();
+
+			// not null
+			final ValidationConstraint<String> v2 = new ValidationConstraintAnd<String>().add(new ValidationConstraintNotNull<String>()).add(new ValidationConstraintStringMinLength(1))
+					.add(new ValidationConstraintStringMaxLength(255));
+
+			constraints.add(new ValidationConstraintOr<String>().add(v1).add(v2));
 			result.addAll(validationConstraintValidator.validate("titlematch", titlematch, constraints));
 		}
 

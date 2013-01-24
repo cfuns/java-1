@@ -123,7 +123,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
 			final Map<String, String> parameter = new HashMap<String, String>();
 			for (final String requiredParameter : requiredParameters) {
-				parameter.put(requiredParameter, stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter)));
+				final String value = stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter));
+				parameter.put(requiredParameter, (value == null || value.isEmpty()) ? null : value);
 			}
 			if (name != null && checkType != null) {
 				try {
