@@ -8,7 +8,6 @@ import de.benjaminborbe.dashboard.api.DashboardIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardService;
 import de.benjaminborbe.dashboard.api.DashboardServiceException;
 
-
 public class DashboardServiceMock implements DashboardService {
 
 	@Override

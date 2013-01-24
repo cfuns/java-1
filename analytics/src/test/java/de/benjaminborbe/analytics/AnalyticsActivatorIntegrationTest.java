@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.analytics.AnalyticsActivator;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.guice.AnalyticsModulesMock;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;

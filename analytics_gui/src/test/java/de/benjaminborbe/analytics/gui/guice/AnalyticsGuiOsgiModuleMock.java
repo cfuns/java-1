@@ -6,16 +6,16 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
-import de.benjaminborbe.analytics.api.AnalyticsService;
-import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 

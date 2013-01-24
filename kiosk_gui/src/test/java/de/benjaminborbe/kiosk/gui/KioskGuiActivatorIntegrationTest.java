@@ -15,8 +15,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.kiosk.gui.KioskGuiActivator;
-import de.benjaminborbe.kiosk.gui.KioskGuiConstants;
 import de.benjaminborbe.kiosk.gui.guice.KioskGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;

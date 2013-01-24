@@ -10,11 +10,11 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModules;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportFetchMailServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportImportServlet;
+import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportJsonServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportTeamAllServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportTeamCurrentServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportUserAllServlet;
-import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportImportServlet;
-import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportJsonServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportUserCurrentServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamCreateServlet;

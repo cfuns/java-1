@@ -7,11 +7,11 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class AnalyticsGuiOsgiModule extends AbstractModule {
 

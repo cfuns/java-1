@@ -67,8 +67,8 @@ public class MonitoringServiceMock implements MonitoringService {
 	}
 
 	@Override
-	public void silentNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public void silentNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException {
 	}
 
 	@Override

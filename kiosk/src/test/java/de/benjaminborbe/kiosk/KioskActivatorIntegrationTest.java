@@ -14,7 +14,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.kiosk.KioskActivator;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.guice.KioskModulesMock;
 import de.benjaminborbe.message.api.MessageConsumer;

@@ -45,5 +45,4 @@ public class FilestorageGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-
 }

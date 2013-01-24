@@ -9,9 +9,6 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
-import de.benjaminborbe.kiosk.util.KioskBookingMessage;
-import de.benjaminborbe.kiosk.util.KioskBookingMessageMapper;
-import de.benjaminborbe.kiosk.util.KioskBookingMessageMapperImpl;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTimeImpl;

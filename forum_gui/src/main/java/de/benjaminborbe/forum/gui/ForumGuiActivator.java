@@ -35,5 +35,4 @@ public class ForumGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-
 }

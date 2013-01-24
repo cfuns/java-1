@@ -9,8 +9,8 @@ import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.kiosk.api.KioskService;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 public class KioskGuiOsgiModule extends AbstractModule {
 

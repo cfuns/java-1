@@ -14,10 +14,10 @@ import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionDeni
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleAddPermissionServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleCreateServlet;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleDeleteServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleInfoServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleRemovePermissionServlet;
-import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleDeleteServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserAddRoleServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiUserInfoServlet;

@@ -2,6 +2,7 @@ package de.benjaminborbe.gallery.validation;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import de.benjaminborbe.gallery.dao.GalleryEntryBean;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;

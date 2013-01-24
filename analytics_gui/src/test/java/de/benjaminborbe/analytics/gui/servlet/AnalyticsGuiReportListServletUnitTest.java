@@ -23,7 +23,6 @@ import com.google.inject.Provider;
 
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsService;
-import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;

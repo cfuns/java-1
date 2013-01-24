@@ -78,7 +78,6 @@ public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBea
 
 	@Override
 	public IdentifierIterator<UserIdentifier> getActivUserIdentifierIterator() throws StorageException {
-		return new UserIterator(getIdentifierIterator(new MapChain<StorageValue, StorageValue>().add(buildValue("notificationActivated"),
-				buildValue("true"))));
+		return new UserIterator(getIdentifierIterator(new MapChain<StorageValue, StorageValue>().add(buildValue("notificationActivated"), buildValue("true"))));
 	}
 }

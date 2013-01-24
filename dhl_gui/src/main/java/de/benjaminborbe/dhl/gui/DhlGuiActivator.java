@@ -55,5 +55,4 @@ public class DhlGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
-
 }

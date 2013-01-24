@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.queue;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.easymock.EasyMock;
 import org.junit.Test;

@@ -2,6 +2,7 @@ package de.benjaminborbe.projectile.gui.widget;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

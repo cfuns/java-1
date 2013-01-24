@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 
@@ -25,7 +26,8 @@ public class DashboardGuiWidgetUnitTest {
 		result.add(buildDashboardWidgetWithPrio(23, "a"));
 		result.add(buildDashboardWidgetWithPrio(1337, "a"));
 
-		final DashboardGuiContentWidgetComparator c = new DashboardGuiContentWidgetComparator(new DashboardGuiContentWidgetComparatorPrio(), new DashboardGuiContentWidgetComparatorTitle());
+		final DashboardGuiContentWidgetComparator c = new DashboardGuiContentWidgetComparator(new DashboardGuiContentWidgetComparatorPrio(),
+				new DashboardGuiContentWidgetComparatorTitle());
 		Collections.sort(result, c);
 		assertEquals(1337, result.get(0).getPriority());
 		assertEquals("a", result.get(0).getTitle());

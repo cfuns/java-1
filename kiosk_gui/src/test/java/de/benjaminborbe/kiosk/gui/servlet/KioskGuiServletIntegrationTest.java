@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.kiosk.gui.guice.KioskGuiModulesMock;
-import de.benjaminborbe.kiosk.gui.servlet.KioskGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class KioskGuiServletIntegrationTest {

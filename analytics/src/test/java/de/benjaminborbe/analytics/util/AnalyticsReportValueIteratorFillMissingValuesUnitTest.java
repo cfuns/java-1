@@ -1,6 +1,8 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 
@@ -41,8 +43,8 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 		final AnalyticsIntervalUtil analyticsIntervalUtil = new AnalyticsIntervalUtil();
 		final AnalyticsReportValueIterator analyticsReportValueIterator = buildIterator(buildAnalyticsReportValue(2012, v), buildAnalyticsReportValue(2009, v));
 		final AnalyticsReportAggregation analyticsReportAggregation = AnalyticsReportAggregation.SUM;
-		final AnalyticsReportValueIteratorFillMissingValues i = new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueIterator, analyticsReportAggregation,
-				analyticsReportInterval);
+		final AnalyticsReportValueIteratorFillMissingValues i = new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueIterator,
+				analyticsReportAggregation, analyticsReportInterval);
 
 		{
 			assertTrue(i.hasNext());

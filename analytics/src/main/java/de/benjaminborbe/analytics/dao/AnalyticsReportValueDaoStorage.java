@@ -7,10 +7,10 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
-import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.util.AnalyticsIntervalUtil;
 import de.benjaminborbe.analytics.util.MapperCalendarFixLength;
 import de.benjaminborbe.storage.api.StorageColumn;

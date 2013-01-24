@@ -6,5 +6,5 @@ public interface ConfluenceConstants {
 
 	int SEARCH_LIMIT = 10;
 
-	int CONNECTION_TIMEOUT = 10000;
+	int CONNECTION_TIMEOUT = 20000;
 }
