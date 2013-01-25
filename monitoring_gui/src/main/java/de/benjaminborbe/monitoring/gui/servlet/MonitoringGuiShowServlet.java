@@ -41,6 +41,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.TooltipWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 
 @Singleton
@@ -148,10 +149,14 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		}
 		row.add("] ");
 
-		row.add(result.getDescription());
-		row.add(" (");
-		row.add(result.getName());
-		row.add(") ");
+		final ListWidget name = new ListWidget();
+		name.add(result.getDescription());
+		name.add(" (");
+		name.add(result.getName());
+		name.add(") ");
+		final String description = "-";
+		row.add(new TooltipWidget(name).addTooltip(description));
+
 		if (Boolean.FALSE.equals(result.getResult())) {
 			row.add("(");
 			row.add(result.getMessage() != null ? result.getMessage() : "-");
@@ -165,6 +170,8 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 			row.add(monitoringGuiLinkFactory.nodeUpdate(request, result.getId()));
 			row.add(" ");
 			row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
+			row.add(" ");
+			row.add(monitoringGuiLinkFactory.createNode(request, result.getId()));
 		}
 
 		return row;

@@ -40,6 +40,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.TooltipWidget;
 
 public class TaskNextWidget extends CompositeWidget {
 

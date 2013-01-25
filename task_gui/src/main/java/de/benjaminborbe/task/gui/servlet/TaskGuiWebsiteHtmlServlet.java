@@ -95,7 +95,7 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		final List<JavascriptResource> result = super.getJavascriptResources(request, response);
-		result.add(new JavascriptResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_JS_SCRIPT));
+		result.add(new JavascriptResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.URL_JS_SCRIPT));
 		return result;
 	}
 

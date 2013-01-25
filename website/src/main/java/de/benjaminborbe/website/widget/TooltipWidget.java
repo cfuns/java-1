@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.gui.widget;
+package de.benjaminborbe.website.widget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

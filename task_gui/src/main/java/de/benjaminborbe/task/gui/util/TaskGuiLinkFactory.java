@@ -21,13 +21,13 @@ import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
-import de.benjaminborbe.task.gui.widget.TooltipWidget;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import de.benjaminborbe.website.widget.TooltipWidget;
 
 @Singleton
 public class TaskGuiLinkFactory {
