@@ -103,7 +103,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createMonitoringContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();

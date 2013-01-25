@@ -1,5 +1,6 @@
 package de.benjaminborbe.monitoring.api;
 
+import java.util.Calendar;
 import java.util.Map;
 
 public class MonitoringNodeDto implements MonitoringNode {
@@ -25,6 +26,8 @@ public class MonitoringNodeDto implements MonitoringNode {
 	private MonitoringNodeIdentifier parentId;
 
 	private Integer failureCounter;
+
+	private Calendar lastCheck;
 
 	@Override
 	public MonitoringNodeIdentifier getId() {
@@ -123,6 +126,15 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	public void setFailureCounter(final Integer failureCounter) {
 		this.failureCounter = failureCounter;
+	}
+
+	@Override
+	public Calendar getLastCheck() {
+		return lastCheck;
+	}
+
+	public void setLastCheck(final Calendar lastCheck) {
+		this.lastCheck = lastCheck;
 	}
 
 }

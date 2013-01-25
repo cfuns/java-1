@@ -50,6 +50,8 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 
 	public static final String FAILURE_COUNTER = "failureCounter";
 
+	public static final String LAST_CHECK = "lastCheck";
+
 	@Inject
 	public MonitoringNodeBeanMapper(
 			final Provider<MonitoringNodeBean> provider,
@@ -79,6 +81,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(MESSAGE, mapperString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(RESULT, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Integer>(FAILURE_COUNTER, mapperInteger));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>(LAST_CHECK, mapperCalendar));
 		return result;
 	}
 }

@@ -19,6 +19,7 @@ import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
 public class MonitoringChecker {
@@ -30,6 +31,8 @@ public class MonitoringChecker {
 	private final MonitoringNodeDao monitoringNodeDao;
 
 	private final MonitoringCheckFactory monitoringCheckFactory;
+
+	private final CalendarUtil calendarUtil;
 
 	private final class Action implements Runnable {
 
@@ -61,6 +64,7 @@ public class MonitoringChecker {
 				if (Boolean.TRUE.equals(bean.getActive())) {
 					logger.debug("node " + name + " active => run check");
 					final MonitoringCheckResult result = check.check(bean.getParameter());
+					bean.setLastCheck(calendarUtil.now());
 					if (Boolean.TRUE.equals(result.getSuccessful())) {
 						logger.debug("node " + name + " success");
 
@@ -107,7 +111,7 @@ public class MonitoringChecker {
 			monitoringNodeDao.save(
 					bean,
 					Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT),
-							monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.FAILURE_COUNTER)));
+							monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.LAST_CHECK), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.FAILURE_COUNTER)));
 		}
 
 		private void reset(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
@@ -128,10 +132,12 @@ public class MonitoringChecker {
 	@Inject
 	public MonitoringChecker(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final MonitoringNodeDao monitoringNodeDao,
 			final MonitoringCheckFactory monitoringCheckFactory) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.monitoringNodeDao = monitoringNodeDao;
 		this.monitoringCheckFactory = monitoringCheckFactory;

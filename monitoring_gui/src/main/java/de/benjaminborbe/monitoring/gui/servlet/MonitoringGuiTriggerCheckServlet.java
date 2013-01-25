@@ -69,7 +69,7 @@ public class MonitoringGuiTriggerCheckServlet extends MonitoringWebsiteHtmlServl
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createMonitoringContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");

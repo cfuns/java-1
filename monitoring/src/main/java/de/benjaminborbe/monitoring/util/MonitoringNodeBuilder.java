@@ -1,5 +1,6 @@
 package de.benjaminborbe.monitoring.util;
 
+import java.util.Calendar;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -77,6 +78,11 @@ public class MonitoringNodeBuilder {
 		@Override
 		public Integer getFailureCounter() {
 			return node.getFailureCounter();
+		}
+
+		@Override
+		public Calendar getLastCheck() {
+			return node.getLastCheck();
 		}
 	}
 

@@ -59,6 +59,8 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 
 	private final MonitoringGuiLinkFactory monitoringGuiLinkFactory;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public MonitoringGuiShowServlet(
 			final Logger logger,
@@ -77,6 +79,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		this.monitoringService = monitoringService;
 		this.authenticationService = authenticationService;
 		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -85,7 +88,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createMonitoringContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
@@ -154,7 +157,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		name.add(" (");
 		name.add(result.getName());
 		name.add(") ");
-		final String description = "-";
+		final String description = result.getLastCheck() != null ? calendarUtil.toDateString(result.getLastCheck()) : "-";
 		row.add(new TooltipWidget(name).addTooltip(description));
 
 		if (Boolean.FALSE.equals(result.getResult())) {

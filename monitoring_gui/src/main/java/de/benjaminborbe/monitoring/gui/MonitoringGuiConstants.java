@@ -8,11 +8,17 @@ public interface MonitoringGuiConstants {
 
 	String NAME = "monitoring";
 
+	String PARAMETER_NODE_ACTIVATED = "node_activated";
+
 	String PARAMETER_NODE_CHECK_TYPE = "node_check_type";
 
 	String PARAMETER_NODE_ID = "node_id";
 
 	String PARAMETER_NODE_NAME = "node_name";
+
+	String PARAMETER_NODE_PARENT_ID = "node_parent_id";
+
+	String PARAMETER_NODE_SILENT = "node_silent";
 
 	String PARAMETER_PREFIX = "parameter_";
 
@@ -22,9 +28,13 @@ public interface MonitoringGuiConstants {
 
 	String URL_HOME = "/";
 
+	String URL_JS_SCRIPT = "/js/script.js";
+
 	String URL_NODE_CREATE = "/node/create";
 
 	String URL_NODE_DELETE = "/node/delete";
+
+	String URL_NODE_SILENT = "/node/silent";
 
 	String URL_NODE_UPDATE = "/node/update";
 
@@ -33,13 +43,5 @@ public interface MonitoringGuiConstants {
 	String URL_TRIGGER_MAIL = "/trigger/mail";
 
 	String URL_VIEW = "/view";
-
-	String PARAMETER_NODE_ACTIVATED = "node_activated";
-
-	String PARAMETER_NODE_SILENT = "node_silent";
-
-	String URL_NODE_SILENT = "/node/silent";
-
-	String PARAMETER_NODE_PARENT_ID = "node_parent_id";
 
 }

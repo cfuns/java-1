@@ -38,6 +38,8 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private Integer failureCounter;
 
+	private Calendar lastCheck;
+
 	public String getName() {
 		return name;
 	}
@@ -139,6 +141,14 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	public void setFailureCounter(final Integer failureCounter) {
 		this.failureCounter = failureCounter;
+	}
+
+	public Calendar getLastCheck() {
+		return lastCheck;
+	}
+
+	public void setLastCheck(final Calendar lastCheck) {
+		this.lastCheck = lastCheck;
 	}
 
 }

@@ -1,5 +1,6 @@
 package de.benjaminborbe.monitoring.api;
 
+import java.util.Calendar;
 import java.util.Map;
 
 public interface MonitoringNode extends MonitoringHasParentId {
@@ -23,5 +24,7 @@ public interface MonitoringNode extends MonitoringHasParentId {
 	String getDescription();
 
 	Integer getFailureCounter();
+
+	Calendar getLastCheck();
 
 }
