@@ -15,7 +15,7 @@ import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeDeleteServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeSilentServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUpdateServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
-import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiShowServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeListServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiTriggerCheckServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiTriggerMailServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -37,7 +37,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	private MonitoringGuiTriggerMailServlet monitoringGuiTriggerMailServlet;
 
 	@Inject
-	private MonitoringGuiShowServlet monitoringGuiShowServlet;
+	private MonitoringGuiNodeListServlet monitoringGuiShowServlet;
 
 	@Inject
 	private MonitoringGuiServlet monitoringGuiServlet;

@@ -45,7 +45,7 @@ import de.benjaminborbe.website.widget.TooltipWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 
 @Singleton
-public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
+public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = -7863752062438502326L;
 
@@ -62,7 +62,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public MonitoringGuiShowServlet(
+	public MonitoringGuiNodeListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -157,7 +157,7 @@ public class MonitoringGuiShowServlet extends MonitoringWebsiteHtmlServlet {
 		name.add(" (");
 		name.add(result.getName());
 		name.add(") ");
-		final String description = result.getLastCheck() != null ? calendarUtil.toDateString(result.getLastCheck()) : "-";
+		final String description = "LastCheck: " + (result.getLastCheck() != null ? calendarUtil.toDateTimeString(result.getLastCheck()) : "-");
 		row.add(new TooltipWidget(name).addTooltip(description));
 
 		if (Boolean.FALSE.equals(result.getResult())) {
