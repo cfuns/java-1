@@ -2,20 +2,14 @@ package de.benjaminborbe.tools.json;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-public class JSONObjectSimple implements JSONObject {
+public class JSONObjectSimple implements JSONObject, Map<String, Object> {
 
 	private final Map<String, Object> data = new HashMap<String, Object>();
-
-	@Override
-	public JSONObject put(final String key, final Object value) {
-		data.put(key, value);
-		return this;
-	}
 
 	@Override
 	public void writeJSONString(final Writer out) throws IOException {
@@ -46,19 +40,6 @@ public class JSONObjectSimple implements JSONObject {
 	}
 
 	@Override
-	public Object get(final String key) {
-		return data.get(key);
-	}
-
-	@Override
-	public JSONObject putAll(final Map<String, ? extends Object> data) {
-		for (final Entry<String, ? extends Object> e : data.entrySet()) {
-			put(e.getKey(), e.getValue());
-		}
-		return this;
-	}
-
-	@Override
 	public Set<Entry<String, Object>> entrySet() {
 		return data.entrySet();
 	}
@@ -69,8 +50,53 @@ public class JSONObjectSimple implements JSONObject {
 	}
 
 	@Override
-	public boolean containsKey(final String key) {
+	public void clear() {
+		data.clear();
+	}
+
+	@Override
+	public boolean containsKey(final Object key) {
 		return data.containsKey(key);
+	}
+
+	@Override
+	public boolean containsValue(final Object value) {
+		return data.containsValue(value);
+	}
+
+	@Override
+	public Object get(final Object key) {
+		return data.get(key);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return data.isEmpty();
+	}
+
+	@Override
+	public Set<String> keySet() {
+		return data.keySet();
+	}
+
+	@Override
+	public Object remove(final Object key) {
+		return data.remove(key);
+	}
+
+	@Override
+	public Collection<Object> values() {
+		return data.values();
+	}
+
+	@Override
+	public void putAll(final Map<? extends String, ? extends Object> m) {
+		data.putAll(m);
+	}
+
+	@Override
+	public Object put(final String key, final Object value) {
+		return data.put(key, value);
 	}
 
 }
