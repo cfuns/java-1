@@ -1,10 +1,13 @@
 package de.benjaminborbe.systemstatus.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
@@ -28,13 +31,27 @@ public class SystemstatusHeapMemoryFreePercentMonitoringCheck implements Monitor
 
 	private static final String MEMORY_FREE_PERCENT = "memory_free_percent";
 
-	public static final String ID = "01ec7fc6-5d1b-4089-9d58-6e6d03245f46";
+	public static final String ID = "261a1009-f632-4a90-b2c4-a1bab46424c5";
 
 	private final SystemstatusMemoryUtil systemstatusMemoryUtil;
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
 	private final ParseUtil parseUtil;
+
+	private final Logger logger;
+
+	@Inject
+	public SystemstatusHeapMemoryFreePercentMonitoringCheck(
+			final Logger logger,
+			final SystemstatusMemoryUtil systemstatusMemoryUtil,
+			final ValidationConstraintValidator validationConstraintValidator,
+			final ParseUtil parseUtil) {
+		this.logger = logger;
+		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
+		this.validationConstraintValidator = validationConstraintValidator;
+		this.parseUtil = parseUtil;
+	}
 
 	@Override
 	public MonitoringCheckIdentifier getId() {
@@ -55,28 +72,22 @@ public class SystemstatusHeapMemoryFreePercentMonitoringCheck implements Monitor
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
 		try {
 			final SystemstatusMemoryUsage systemstatusMemoryUsage = systemstatusMemoryUtil.getMemoryUsage();
-			final long freePercent = (systemstatusMemoryUsage.getHeapMax() - systemstatusMemoryUsage.getHeapUsed()) / systemstatusMemoryUsage.getHeapMax() * 100;
+			final DecimalFormat df = new DecimalFormat("#####0.0");
+			final double freePercent = (1d * systemstatusMemoryUsage.getHeapMax() - systemstatusMemoryUsage.getHeapUsed()) / systemstatusMemoryUsage.getHeapMax() * 100;
+			logger.debug("(" + systemstatusMemoryUsage.getHeapMax() + " - " + systemstatusMemoryUsage.getHeapUsed() + ") / " + systemstatusMemoryUsage.getHeapMax() + " * 100 = "
+					+ freePercent);
+
 			final long expectedFreePercent = getFreePercent(parameter);
 			if (freePercent >= expectedFreePercent) {
 				return new MonitoringCheckResultDto(this, true);
 			}
 			else {
-				return new MonitoringCheckResultDto(this, false, "free memory (" + freePercent + "%) less expected free memory (" + expectedFreePercent + "%)");
+				return new MonitoringCheckResultDto(this, false, "free memory (" + df.format(freePercent) + "%) less expected free memory (" + expectedFreePercent + "%)");
 			}
 		}
 		catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, e);
 		}
-	}
-
-	@Inject
-	public SystemstatusHeapMemoryFreePercentMonitoringCheck(
-			final SystemstatusMemoryUtil systemstatusMemoryUtil,
-			final ValidationConstraintValidator validationConstraintValidator,
-			final ParseUtil parseUtil) {
-		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
-		this.validationConstraintValidator = validationConstraintValidator;
-		this.parseUtil = parseUtil;
 	}
 
 	@Override

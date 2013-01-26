@@ -35,6 +35,16 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 
 	private final ParseUtil parseUtil;
 
+	@Inject
+	public SystemstatusNonHeapMemoryFreeMbMonitoringCheck(
+			final SystemstatusMemoryUtil systemstatusMemoryUtil,
+			final ValidationConstraintValidator validationConstraintValidator,
+			final ParseUtil parseUtil) {
+		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
+		this.validationConstraintValidator = validationConstraintValidator;
+		this.parseUtil = parseUtil;
+	}
+
 	@Override
 	public MonitoringCheckIdentifier getId() {
 		return new MonitoringCheckIdentifier(ID);
@@ -54,7 +64,7 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
 		try {
 			final SystemstatusMemoryUsage systemstatusMemoryUsage = systemstatusMemoryUtil.getMemoryUsage();
-			final long free = systemstatusMemoryUsage.getNonHeapMax() - systemstatusMemoryUsage.getNonHeapUsed();
+			final long free = (systemstatusMemoryUsage.getNonHeapMax() - systemstatusMemoryUsage.getNonHeapUsed()) / 1024 / 1024;
 			final long expectedFree = getFreeMb(parameter);
 			if (free >= expectedFree) {
 				return new MonitoringCheckResultDto(this, true);
@@ -66,16 +76,6 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 		catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, e);
 		}
-	}
-
-	@Inject
-	public SystemstatusNonHeapMemoryFreeMbMonitoringCheck(
-			final SystemstatusMemoryUtil systemstatusMemoryUtil,
-			final ValidationConstraintValidator validationConstraintValidator,
-			final ParseUtil parseUtil) {
-		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
-		this.validationConstraintValidator = validationConstraintValidator;
-		this.parseUtil = parseUtil;
 	}
 
 	@Override

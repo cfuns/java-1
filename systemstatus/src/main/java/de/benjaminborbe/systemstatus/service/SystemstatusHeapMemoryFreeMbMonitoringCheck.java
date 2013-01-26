@@ -27,13 +27,23 @@ public class SystemstatusHeapMemoryFreeMbMonitoringCheck implements MonitoringCh
 
 	private static final String MEMORY_FREE_MB = "memory_free_mb";
 
-	public static final String ID = "73890240-379c-4e45-8151-8d92e097ea9b";
+	public static final String ID = "0f5c7ca7-9fb9-482d-9711-d11eb9a9a4b8";
 
 	private final SystemstatusMemoryUtil systemstatusMemoryUtil;
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
 	private final ParseUtil parseUtil;
+
+	@Inject
+	public SystemstatusHeapMemoryFreeMbMonitoringCheck(
+			final SystemstatusMemoryUtil systemstatusMemoryUtil,
+			final ValidationConstraintValidator validationConstraintValidator,
+			final ParseUtil parseUtil) {
+		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
+		this.validationConstraintValidator = validationConstraintValidator;
+		this.parseUtil = parseUtil;
+	}
 
 	@Override
 	public MonitoringCheckIdentifier getId() {
@@ -54,7 +64,7 @@ public class SystemstatusHeapMemoryFreeMbMonitoringCheck implements MonitoringCh
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
 		try {
 			final SystemstatusMemoryUsage systemstatusMemoryUsage = systemstatusMemoryUtil.getMemoryUsage();
-			final long free = systemstatusMemoryUsage.getHeapMax() - systemstatusMemoryUsage.getHeapUsed();
+			final long free = (systemstatusMemoryUsage.getHeapMax() - systemstatusMemoryUsage.getHeapUsed()) / 1024 / 1024;
 			final long expectedFree = getFreeMb(parameter);
 			if (free >= expectedFree) {
 				return new MonitoringCheckResultDto(this, true);
@@ -66,16 +76,6 @@ public class SystemstatusHeapMemoryFreeMbMonitoringCheck implements MonitoringCh
 		catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, e);
 		}
-	}
-
-	@Inject
-	public SystemstatusHeapMemoryFreeMbMonitoringCheck(
-			final SystemstatusMemoryUtil systemstatusMemoryUtil,
-			final ValidationConstraintValidator validationConstraintValidator,
-			final ParseUtil parseUtil) {
-		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
-		this.validationConstraintValidator = validationConstraintValidator;
-		this.parseUtil = parseUtil;
 	}
 
 	@Override

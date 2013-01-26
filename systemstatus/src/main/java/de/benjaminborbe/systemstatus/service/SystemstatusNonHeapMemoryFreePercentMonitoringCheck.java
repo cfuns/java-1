@@ -1,10 +1,13 @@
 package de.benjaminborbe.systemstatus.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
@@ -36,6 +39,20 @@ public class SystemstatusNonHeapMemoryFreePercentMonitoringCheck implements Moni
 
 	private final ParseUtil parseUtil;
 
+	private final Logger logger;
+
+	@Inject
+	public SystemstatusNonHeapMemoryFreePercentMonitoringCheck(
+			final Logger logger,
+			final SystemstatusMemoryUtil systemstatusMemoryUtil,
+			final ValidationConstraintValidator validationConstraintValidator,
+			final ParseUtil parseUtil) {
+		this.logger = logger;
+		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
+		this.validationConstraintValidator = validationConstraintValidator;
+		this.parseUtil = parseUtil;
+	}
+
 	@Override
 	public MonitoringCheckIdentifier getId() {
 		return new MonitoringCheckIdentifier(ID);
@@ -55,28 +72,21 @@ public class SystemstatusNonHeapMemoryFreePercentMonitoringCheck implements Moni
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
 		try {
 			final SystemstatusMemoryUsage systemstatusMemoryUsage = systemstatusMemoryUtil.getMemoryUsage();
-			final long freePercent = (systemstatusMemoryUsage.getNonHeapMax() - systemstatusMemoryUsage.getNonHeapUsed()) / systemstatusMemoryUsage.getNonHeapMax() * 100;
+			final DecimalFormat df = new DecimalFormat("#####0.0");
+			final double freePercent = (1d * systemstatusMemoryUsage.getNonHeapMax() - systemstatusMemoryUsage.getNonHeapUsed()) / systemstatusMemoryUsage.getNonHeapMax() * 100;
+			logger.debug("(" + systemstatusMemoryUsage.getNonHeapMax() + " - " + systemstatusMemoryUsage.getNonHeapUsed() + ") / " + systemstatusMemoryUsage.getNonHeapMax()
+					+ " * 100 = " + freePercent);
 			final long expectedFreePercent = getFreePercent(parameter);
 			if (freePercent >= expectedFreePercent) {
 				return new MonitoringCheckResultDto(this, true);
 			}
 			else {
-				return new MonitoringCheckResultDto(this, false, "free memory (" + freePercent + "%) less expected free memory (" + expectedFreePercent + "%)");
+				return new MonitoringCheckResultDto(this, false, "free memory (" + df.format(freePercent) + "%) less expected free memory (" + expectedFreePercent + "%)");
 			}
 		}
 		catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, e);
 		}
-	}
-
-	@Inject
-	public SystemstatusNonHeapMemoryFreePercentMonitoringCheck(
-			final SystemstatusMemoryUtil systemstatusMemoryUtil,
-			final ValidationConstraintValidator validationConstraintValidator,
-			final ParseUtil parseUtil) {
-		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
-		this.validationConstraintValidator = validationConstraintValidator;
-		this.parseUtil = parseUtil;
 	}
 
 	@Override

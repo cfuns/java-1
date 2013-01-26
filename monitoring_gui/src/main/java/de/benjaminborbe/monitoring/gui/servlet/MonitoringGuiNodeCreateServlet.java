@@ -34,11 +34,13 @@ import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
+import de.benjaminborbe.monitoring.gui.util.MonitoringCheckComparator;
 import de.benjaminborbe.monitoring.gui.util.MonitoringGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
@@ -73,6 +75,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 
 	private final StringUtil stringUtil;
 
+	private final ComparatorUtil comparatorUtil;
+
 	@Inject
 	public MonitoringGuiNodeCreateServlet(
 			final Logger logger,
@@ -86,7 +90,8 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final MonitoringService monitoringService,
 			final UrlUtil urlUtil,
 			final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
-			final StringUtil stringUtil) {
+			final StringUtil stringUtil,
+			final ComparatorUtil comparatorUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
@@ -94,6 +99,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		this.parseUtil = parseUtil;
 		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 		this.stringUtil = stringUtil;
+		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
@@ -149,7 +155,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED).addLabel("Activated:"));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_SILENT).addLabel("Silent:"));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
-			for (final MonitoringCheck monitoringCheckType : monitoringService.getMonitoringCheckTypes()) {
+			for (final MonitoringCheck monitoringCheckType : comparatorUtil.sort(monitoringService.getMonitoringCheckTypes(), new MonitoringCheckComparator())) {
 				checkTypeInput.addOption(monitoringCheckType.getId().getId(), monitoringCheckType.getTitle());
 			}
 			checkTypeInput.addDefaultValue(monitoringService.getMonitoringCheckTypeDefault().getId());
