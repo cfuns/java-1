@@ -21,7 +21,6 @@ import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParseException;
-import de.benjaminborbe.tools.json.JSONParserSimple;
 
 public class StorageImporter {
 
@@ -29,10 +28,13 @@ public class StorageImporter {
 
 	private final StorageConnectionPool storageConnectionPool;
 
+	private final JSONParser jsonParser;
+
 	@Inject
-	public StorageImporter(final Logger logger, final StorageConnectionPool storageConnectionPool) {
+	public StorageImporter(final Logger logger, final StorageConnectionPool storageConnectionPool, final JSONParser jsonParser) {
 		this.logger = logger;
 		this.storageConnectionPool = storageConnectionPool;
+		this.jsonParser = jsonParser;
 	}
 
 	public void importJson(final String keySpace, final String columnFamily, final String jsonContent) throws StorageConnectionPoolException, InvalidRequestException, TException,
@@ -47,8 +49,7 @@ public class StorageImporter {
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
 			final String encoding = "UTF-8";
 
-			final JSONParser parser = new JSONParserSimple();
-			final Object object = parser.parse(jsonContent);
+			final Object object = jsonParser.parse(jsonContent);
 			if (object instanceof JSONObject) {
 				final JSONObject root = (JSONObject) object;
 				for (final Entry<String, Object> e : root.entrySet()) {

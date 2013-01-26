@@ -22,10 +22,12 @@ public class MonitoringCheckRegistry extends RegistryBase<MonitoringCheck> {
 			final Logger logger,
 			final MonitoringCheckHttp monitoringCheckHttp,
 			final MonitoringCheckNop monitoringCheckNop,
-			final MonitoringCheckTcp monitoringCheckTcp) {
+			final MonitoringCheckTcp monitoringCheckTcp,
+			final MonitoringCheckRemote monitoringCheckRemote) {
 		add(monitoringCheckHttp);
 		add(monitoringCheckNop);
 		add(monitoringCheckTcp);
+		add(monitoringCheckRemote);
 	}
 
 	public MonitoringCheck get(final MonitoringCheckIdentifier type) {

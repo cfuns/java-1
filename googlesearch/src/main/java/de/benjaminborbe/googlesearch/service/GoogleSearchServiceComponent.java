@@ -29,7 +29,6 @@ import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParseException;
-import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.search.SearchUtil;
@@ -83,6 +82,8 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	private final SearchUtil searchUtil;
 
+	private final JSONParser jsonParser;
+
 	@Inject
 	public GoogleSearchServiceComponent(
 			final Logger logger,
@@ -90,13 +91,15 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
 			final HtmlUtil htmlUtil,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final JSONParser jsonParser) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.htmlUtil = htmlUtil;
 		this.urlUtil = urlUtil;
+		this.jsonParser = jsonParser;
 	}
 
 	@Override
@@ -143,8 +146,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	protected List<SearchResult> buildResults(final String content) throws MalformedURLException, JSONParseException {
 		final List<SearchResult> searchResults = new ArrayList<SearchResult>();
-		final JSONParser parser = new JSONParserSimple();
-		final Object object = parser.parse(content);
+		final Object object = jsonParser.parse(content);
 		if (object instanceof JSONObject) {
 			final JSONObject root = (JSONObject) object;
 			final JSONObject responseData = (JSONObject) root.get("responseData");

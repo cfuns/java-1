@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class JSONParserSimpleTest {
+public class JSONParserSimpleUnitTest {
 
 	@Test
 	public void testParse() throws Exception {

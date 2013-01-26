@@ -5,13 +5,22 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.google.inject.Inject;
+
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParseException;
-import de.benjaminborbe.tools.json.JSONParserSimple;
 
 public class MapperMapString implements Mapper<Map<String, String>> {
+
+	private final JSONParser jsonParser;
+
+	@Inject
+	public MapperMapString(final JSONParser jsonParser) {
+		this.jsonParser = jsonParser;
+	}
 
 	@Override
 	public Map<String, String> fromString(final String json) throws MapException {
@@ -19,8 +28,7 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 			return null;
 		}
 		try {
-			final JSONParser parser = new JSONParserSimple();
-			final Object object = parser.parse(json);
+			final Object object = jsonParser.parse(json);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonObject = (JSONObject) object;
 				final Map<String, String> result = new HashMap<String, String>();

@@ -21,7 +21,6 @@ import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParseException;
-import de.benjaminborbe.tools.json.JSONParserSimple;
 
 @Singleton
 public class TimetrackerConnectorImpl implements TimetrackerConnector {
@@ -37,12 +36,20 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 
 	private final DateUtil dateUtil;
 
+	private final JSONParser jsonParser;
+
 	@Inject
-	public TimetrackerConnectorImpl(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil, final DateUtil dateUtil) {
+	public TimetrackerConnectorImpl(
+			final Logger logger,
+			final HttpDownloader httpDownloader,
+			final HttpDownloadUtil httpDownloadUtil,
+			final DateUtil dateUtil,
+			final JSONParser jsonParser) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.dateUtil = dateUtil;
+		this.jsonParser = jsonParser;
 	}
 
 	@Override
@@ -57,8 +64,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			final HttpDownloadResult result = httpDownloader.postUrl(url, parameter, cookies, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 
-			final JSONParser parser = new JSONParserSimple();
-			final Object object = parser.parse(content);
+			final Object object = jsonParser.parse(content);
 			if (object instanceof JSONObject) {
 				final JSONObject root = (JSONObject) object;
 				final Object bookingsObject = root.get("bookings");

@@ -455,4 +455,23 @@ public class MonitoringServiceImpl implements MonitoringService {
 				logger.debug("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public MonitoringNode getNode(final String token, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAuthToken(token);
+			logger.debug("getNode");
+
+			return monitoringNodeBuilder.build(monitoringNodeDao.load(monitoringNodeIdentifier));
+		}
+		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }

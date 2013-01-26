@@ -123,4 +123,10 @@ public class MonitoringServiceMock implements MonitoringService {
 		return null;
 	}
 
+	@Override
+	public MonitoringNode getNode(final String token, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException {
+		return null;
+	}
+
 }

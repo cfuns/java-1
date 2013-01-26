@@ -44,4 +44,6 @@ public interface MonitoringGuiConstants {
 
 	String URL_NODE_LIST_JSON = "/node/list/json";
 
+	String URL_NODE_JSON = "/node/json";
+
 }

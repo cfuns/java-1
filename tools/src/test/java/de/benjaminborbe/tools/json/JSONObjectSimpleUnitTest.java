@@ -7,7 +7,7 @@ import java.io.StringWriter;
 
 import org.junit.Test;
 
-public class JSONObjectSimpleTest {
+public class JSONObjectSimpleUnitTest {
 
 	@Test
 	public void testValue() throws Exception {

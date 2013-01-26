@@ -19,6 +19,8 @@ import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderImpl;
 import de.benjaminborbe.tools.jndi.JndiContext;
 import de.benjaminborbe.tools.jndi.JndiContextImpl;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.tools.password.PasswordGenerator;
 import de.benjaminborbe.tools.password.PasswordGeneratorImpl;
@@ -47,6 +49,7 @@ public class ToolModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(JSONParser.class).to(JSONParserSimple.class).in(Singleton.class);
 		bind(ValidationExecutor.class).to(ValidationExecutorImpl.class).in(Singleton.class);
 		bind(PasswordGenerator.class).to(PasswordGeneratorImpl.class).in(Singleton.class);
 		bind(PasswordValidator.class).to(PasswordValidatorImpl.class).in(Singleton.class);

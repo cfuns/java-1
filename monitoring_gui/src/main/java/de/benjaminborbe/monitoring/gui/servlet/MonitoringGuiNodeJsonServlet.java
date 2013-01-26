@@ -1,7 +1,6 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +12,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.monitoring.api.MonitoringNode;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
 import de.benjaminborbe.monitoring.tools.MapperJsonObjectMonitoringNode;
-import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -25,16 +24,13 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.json.JSONArray;
-import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.json.JSONObject;
-import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
 @Singleton
-public class MonitoringGuiNodeListJsonServlet extends WebsiteJsonServlet {
+public class MonitoringGuiNodeJsonServlet extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 1844470197045483190L;
 
@@ -45,7 +41,7 @@ public class MonitoringGuiNodeListJsonServlet extends WebsiteJsonServlet {
 	private final MapperJsonObjectMonitoringNode mapperJsonObjectMonitoringNode;
 
 	@Inject
-	public MonitoringGuiNodeListJsonServlet(
+	public MonitoringGuiNodeJsonServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -68,28 +64,13 @@ public class MonitoringGuiNodeListJsonServlet extends WebsiteJsonServlet {
 		try {
 			logger.debug("doService");
 			final String token = request.getParameter(MonitoringGuiConstants.PARAMETER_AUTH_TOKEN);
-			final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(monitoringService.getCheckResults(token));
-			final JSONObject object = new JSONObjectSimple();
-			final JSONArray nodeResults = new JSONArraySimple();
-			object.put("results", nodeResults);
-			final List<MonitoringNode> list = tree.getRootNodes();
-			handle(nodeResults, list, tree);
-
+			final MonitoringNodeIdentifier monitoringNodeIdentifier = monitoringService.createNodeIdentifier(request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ID));
+			final MonitoringNode node = monitoringService.getNode(token, monitoringNodeIdentifier);
+			final JSONObject object = mapperJsonObjectMonitoringNode.map(node);
 			printJson(response, object);
 		}
 		catch (final MonitoringServiceException e) {
 			printException(response, e);
-		}
-	}
-
-	public void handle(final JSONArray nodeResults, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
-		for (final MonitoringNode node : list) {
-			if (Boolean.TRUE.equals(node.getActive())) {
-				nodeResults.add(mapperJsonObjectMonitoringNode.map(node));
-				if (Boolean.TRUE.equals(node.getResult())) {
-					handle(nodeResults, tree.getChildNodes(node.getId()), tree);
-				}
-			}
 		}
 	}
 

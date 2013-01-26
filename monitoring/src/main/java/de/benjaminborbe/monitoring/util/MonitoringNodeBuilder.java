@@ -47,7 +47,12 @@ public class MonitoringNodeBuilder {
 		@Override
 		public String getDescription() {
 			final MonitoringCheck check = monitoringCheckRegistry.get(node.getCheckType());
-			return check.getDescription(node.getParameter());
+			if (check != null) {
+				return check.getDescription(node.getParameter());
+			}
+			else {
+				return null;
+			}
 		}
 
 		@Override

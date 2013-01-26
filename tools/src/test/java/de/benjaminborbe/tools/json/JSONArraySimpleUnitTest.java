@@ -6,7 +6,7 @@ import java.io.StringWriter;
 
 import org.junit.Test;
 
-public class JSONArraySimpleTest {
+public class JSONArraySimpleUnitTest {
 
 	@Test
 	public void testValue() throws Exception {

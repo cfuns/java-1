@@ -1,6 +1,12 @@
 package de.benjaminborbe.tools.json;
 
+import com.google.inject.Inject;
+
 public class JSONParserSimple implements JSONParser {
+
+	@Inject
+	public JSONParserSimple() {
+	}
 
 	@Override
 	public Object parse(final String jsonString) throws JSONParseException {
