@@ -169,7 +169,7 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	@Override
 	public String getTitle() {
-		return "Tcp";
+		return "Remote";
 	}
 
 	@Override
