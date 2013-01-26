@@ -1,6 +1,8 @@
 package de.benjaminborbe.util.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,26 +24,28 @@ import de.benjaminborbe.tools.password.PasswordCharacter;
 import de.benjaminborbe.tools.password.PasswordGenerator;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.util.gui.UtilGuiConstants;
+import de.benjaminborbe.website.form.FormCheckboxWidget;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 
-	private static final int PASSWORD_AMOUNT = 10;
+	private static final int DEFAULT_PASSWORD_AMOUNT = 10;
 
 	private static final long serialVersionUID = 2429004714466731564L;
-
-	private static final PasswordCharacter[] DEFAULT_CHARACTERS = { PasswordCharacter.LOWER, PasswordCharacter.UPPER, PasswordCharacter.NUMBER, PasswordCharacter.SPECIAL };
 
 	private static final int DEFAULT_LENGHT = 8;
 
 	private static final String TITLE = "PasswordGenerator";
-
-	private static final String PARAMETER_LENGTH = "length";
 
 	private final PasswordGenerator utilPasswordGenerator;
 
@@ -75,11 +79,44 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
-		for (int i = 0; i < PASSWORD_AMOUNT; ++i) {
-			final int length = parseUtil.parseInt(request.getParameter(PARAMETER_LENGTH), DEFAULT_LENGHT);
-			ul.add(utilPasswordGenerator.generatePassword(length, DEFAULT_CHARACTERS));
+
+		final List<PasswordCharacter> passwordCharacters = new ArrayList<PasswordCharacter>();
+		if ("true".equals(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_UPPER))) {
+			passwordCharacters.add(PasswordCharacter.UPPER);
 		}
-		widgets.add(ul);
+		if ("true".equals(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_LOWER))) {
+			passwordCharacters.add(PasswordCharacter.LOWER);
+		}
+		if ("true".equals(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_NUMBER))) {
+			passwordCharacters.add(PasswordCharacter.NUMBER);
+		}
+		if ("true".equals(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_SPECIAL))) {
+			passwordCharacters.add(PasswordCharacter.SPECIAL);
+		}
+
+		if (!passwordCharacters.isEmpty()) {
+			final int amount = parseUtil.parseInt(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_AMOUNT), DEFAULT_PASSWORD_AMOUNT);
+			for (int i = 0; i < amount; ++i) {
+				final int length = parseUtil.parseInt(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_LENGTH), DEFAULT_LENGHT);
+				ul.add(utilPasswordGenerator.generatePassword(length, passwordCharacters));
+			}
+			widgets.add(ul);
+		}
+
+		widgets.add(new H2Widget("Generator"));
+
+		final FormWidget form = new FormWidget();
+		form.addFormInputWidget(new FormInputTextWidget(UtilGuiConstants.PARAMETER_PASSWORD_LENGTH).addLabel("Length:").addDefaultValue(DEFAULT_LENGHT));
+		form.addFormInputWidget(new FormInputTextWidget(UtilGuiConstants.PARAMETER_PASSWORD_AMOUNT).addLabel("Amount:").addDefaultValue(DEFAULT_PASSWORD_AMOUNT));
+
+		form.addFormInputWidget(new FormCheckboxWidget(UtilGuiConstants.PARAMETER_PASSWORD_UPPER).addLabel("Upper").setCheckedDefault(false));
+		form.addFormInputWidget(new FormCheckboxWidget(UtilGuiConstants.PARAMETER_PASSWORD_LOWER).addLabel("Lower").setCheckedDefault(false));
+		form.addFormInputWidget(new FormCheckboxWidget(UtilGuiConstants.PARAMETER_PASSWORD_NUMBER).addLabel("Number").setCheckedDefault(false));
+		form.addFormInputWidget(new FormCheckboxWidget(UtilGuiConstants.PARAMETER_PASSWORD_SPECIAL).addLabel("Special").setCheckedDefault(false));
+
+		form.addFormInputWidget(new FormInputSubmitWidget("generate"));
+		widgets.add(form);
+
 		return widgets;
 	}
 

@@ -8,11 +8,14 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.util.gui.guice.UtilGuiModules;
+import de.benjaminborbe.util.gui.service.UtilGuiNavigationEntry;
 import de.benjaminborbe.util.gui.servlet.UtilGuiCalcServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiDayDiffServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiLogServlet;
@@ -60,6 +63,9 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Inject
 	private UtilGuiLogServlet utilGuiLogServlet;
 
+	@Inject
+	private UtilGuiNavigationEntry utilGuiNavigationEntry;
+
 	public UtilGuiActivator() {
 		super(UtilGuiConstants.NAME);
 	}
@@ -92,6 +98,13 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));
 		result.add(new ResourceInfo("/html", "html"));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, utilGuiNavigationEntry));
 		return result;
 	}
 }
