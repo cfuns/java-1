@@ -9,11 +9,15 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParserSimple;
+
 public class MapperMapStringUnitTest {
 
 	@Test
 	public void testMapping() throws Exception {
-		final MapperMapString mapper = new MapperMapString();
+		final JSONParser jsonParser = new JSONParserSimple();
+		final MapperMapString mapper = new MapperMapString(jsonParser);
 		final Map<String, String> data = new HashMap<String, String>();
 		data.put("keyA", "valueA");
 		data.put("keyB", "valueB");
@@ -29,7 +33,8 @@ public class MapperMapStringUnitTest {
 
 	@Test
 	public void testMappingNull() throws Exception {
-		final MapperMapString mapper = new MapperMapString();
+		final JSONParser jsonParser = new JSONParserSimple();
+		final MapperMapString mapper = new MapperMapString(jsonParser);
 		final Map<String, String> data = null;
 		final String json = mapper.toString(data);
 		assertNull(json);
@@ -39,7 +44,8 @@ public class MapperMapStringUnitTest {
 
 	@Test
 	public void testMappingEmpty() throws Exception {
-		final MapperMapString mapper = new MapperMapString();
+		final JSONParser jsonParser = new JSONParserSimple();
+		final MapperMapString mapper = new MapperMapString(jsonParser);
 		final Map<String, String> data = new HashMap<String, String>();
 		final String json = mapper.toString(data);
 		assertNotNull(json);
@@ -49,7 +55,8 @@ public class MapperMapStringUnitTest {
 
 	@Test
 	public void testMappingNullValue() throws Exception {
-		final MapperMapString mapper = new MapperMapString();
+		final JSONParser jsonParser = new JSONParserSimple();
+		final MapperMapString mapper = new MapperMapString(jsonParser);
 		final Map<String, String> data = new HashMap<String, String>();
 		data.put("keyA", null);
 		data.put("keyB", "valueB");
