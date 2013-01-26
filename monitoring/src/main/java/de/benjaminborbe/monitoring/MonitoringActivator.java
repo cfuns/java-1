@@ -5,15 +5,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringService;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.monitoring.guice.MonitoringModules;
 import de.benjaminborbe.monitoring.service.MonitoringCheckCronJob;
+import de.benjaminborbe.monitoring.service.MonitoringCheckServiceTracker;
 import de.benjaminborbe.monitoring.service.MonitoringMailCronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -33,6 +37,9 @@ public class MonitoringActivator extends BaseBundleActivator {
 	@Inject
 	private MonitoringConfig monitoringConfig;
 
+	@Inject
+	private MonitoringCheckRegistry monitoringCheckRegistry;
+
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new MonitoringModules(context);
@@ -50,4 +57,10 @@ public class MonitoringActivator extends BaseBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		serviceTrackers.add(new MonitoringCheckServiceTracker(logger, monitoringCheckRegistry, context, MonitoringCheck.class));
+		return serviceTrackers;
+	}
 }

@@ -6,7 +6,8 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
@@ -48,12 +49,6 @@ public class MonitoringServiceMock implements MonitoringService {
 	}
 
 	@Override
-	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckType monitoringCheckType) throws MonitoringServiceException,
-			LoginRequiredException, PermissionDeniedException {
-		return null;
-	}
-
-	@Override
 	public Collection<MonitoringNode> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
@@ -72,30 +67,51 @@ public class MonitoringServiceMock implements MonitoringService {
 	}
 
 	@Override
-	public void expectMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 	}
 
 	@Override
-	public void expectMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 	}
 
 	@Override
-	public void expectMonitoringViewRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 	}
 
 	@Override
-	public boolean hasMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasMonitoringViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		return false;
+	}
+
+	@Override
+	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckIdentifier monitoringCheckIdentifier)
+			throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public Collection<MonitoringCheck> getMonitoringCheckTypes() throws MonitoringServiceException {
+		return null;
+	}
+
+	@Override
+	public MonitoringCheck getMonitoringCheckTypeById(final MonitoringCheckIdentifier monitoringCheckIdentifier) throws MonitoringServiceException {
+		return null;
+	}
+
+	@Override
+	public MonitoringCheckIdentifier getMonitoringCheckTypeDefault() throws MonitoringServiceException {
+		return null;
 	}
 
 }

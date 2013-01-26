@@ -43,7 +43,7 @@ public class MonitoringNodeBeanMapperUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
 		final MapperString mapperString = new MapperString();
-		final MapperMonitoringCheck mapperMonitoringCheck = new MapperMonitoringCheck(parseUtil);
+		final MapperMonitoringCheck mapperMonitoringCheck = new MapperMonitoringCheck();
 		final MapperMonitoringNodeIdentifier mapperMonitoringNodeIdentifier = new MapperMonitoringNodeIdentifier();
 		final MapperMapString mapperMapString = new MapperMapString();
 		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);

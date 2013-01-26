@@ -18,7 +18,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -28,7 +27,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
@@ -39,7 +39,6 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
@@ -119,7 +118,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 
 			final MonitoringNodeIdentifier monitoringNodeParentIdentifier = monitoringService.createNodeIdentifier(parentId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final MonitoringCheckType type = parseUtil.parseEnum(MonitoringCheckType.class, checkType, MonitoringGuiConstants.DFEAULT_CHECK);
+			final MonitoringCheckIdentifier type = getType(checkType);
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
 			final Map<String, String> parameter = new HashMap<String, String>();
 			for (final String requiredParameter : requiredParameters) {
@@ -150,10 +149,10 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED).addLabel("Activated:"));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_SILENT).addLabel("Silent:"));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
-			for (final MonitoringCheckType monitoringCheckType : MonitoringCheckType.values()) {
-				checkTypeInput.addOption(monitoringCheckType.name(), monitoringCheckType.getTitle());
+			for (final MonitoringCheck monitoringCheckType : monitoringService.getMonitoringCheckTypes()) {
+				checkTypeInput.addOption(monitoringCheckType.getId().getId(), monitoringCheckType.getTitle());
 			}
-			checkTypeInput.addDefaultValue(MonitoringGuiConstants.DFEAULT_CHECK);
+			checkTypeInput.addDefaultValue(monitoringService.getMonitoringCheckTypeDefault().getId());
 			formWidget.addFormInputWidget(checkTypeInput);
 			for (final String requiredParameter : requiredParameters) {
 				formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter).addLabel(requiredParameter).addPlaceholder("..."));
@@ -175,20 +174,21 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		}
 	}
 
+	private MonitoringCheckIdentifier getType(final String checkType) throws MonitoringServiceException {
+		final MonitoringCheck result = monitoringService.getMonitoringCheckTypeById(new MonitoringCheckIdentifier(checkType));
+		if (result != null) {
+			return result.getId();
+		}
+		else {
+			return monitoringService.getMonitoringCheckTypeDefault();
+		}
+	}
+
 	private void createNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name,
 			final String checkTypeString, final Map<String, String> parameter, final String activeString, final String silentString) throws ValidationException,
 			MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
-		MonitoringCheckType checkType = null;
-		{
-			try {
-				checkType = parseUtil.parseEnum(MonitoringCheckType.class, checkTypeString);
-			}
-			catch (final ParseException e) {
-				errors.add(new ValidationErrorSimple("illegal expire"));
-			}
-		}
-
+		final MonitoringCheckIdentifier checkType = new MonitoringCheckIdentifier(checkTypeString);
 		final boolean active = parseUtil.parseBoolean(activeString, false);
 		final boolean silent = parseUtil.parseBoolean(silentString, false);
 

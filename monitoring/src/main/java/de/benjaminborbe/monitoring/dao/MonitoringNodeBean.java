@@ -3,7 +3,7 @@ package de.benjaminborbe.monitoring.dao;
 import java.util.Calendar;
 import java.util.Map;
 
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringHasParentId;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
@@ -22,7 +22,7 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private Calendar modified;
 
-	private MonitoringCheckType checkType;
+	private MonitoringCheckIdentifier checkType;
 
 	private Map<String, String> parameter;
 
@@ -78,11 +78,11 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.id = id;
 	}
 
-	public MonitoringCheckType getCheckType() {
+	public MonitoringCheckIdentifier getCheckType() {
 		return checkType;
 	}
 
-	public void setCheckType(final MonitoringCheckType checkType) {
+	public void setCheckType(final MonitoringCheckIdentifier checkType) {
 		this.checkType = checkType;
 	}
 

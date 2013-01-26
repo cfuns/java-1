@@ -2,6 +2,9 @@ package de.benjaminborbe.monitoring.check;
 
 import java.net.URL;
 
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+
 public class MonitoringCheckResultDto implements MonitoringCheckResult {
 
 	private Boolean successful;

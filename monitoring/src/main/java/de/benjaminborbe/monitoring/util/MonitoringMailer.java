@@ -11,10 +11,10 @@ import com.google.inject.Inject;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
-import de.benjaminborbe.monitoring.check.MonitoringCheck;
-import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeComparator;
@@ -32,7 +32,7 @@ public class MonitoringMailer {
 
 	private final MonitoringNodeDao monitoringNodeDao;
 
-	private final MonitoringCheckFactory monitoringCheckFactory;
+	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
 	private final MailService mailService;
 
@@ -115,13 +115,13 @@ public class MonitoringMailer {
 			final MailService mailService,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final MonitoringNodeDao monitoringNodeDao,
-			final MonitoringCheckFactory monitoringCheckFactory) {
+			final MonitoringCheckRegistry monitoringCheckRegistry) {
 		this.logger = logger;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;
 		this.mailService = mailService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.monitoringNodeDao = monitoringNodeDao;
-		this.monitoringCheckFactory = monitoringCheckFactory;
+		this.monitoringCheckRegistry = monitoringCheckRegistry;
 	}
 
 	public boolean mail() {
@@ -160,8 +160,8 @@ public class MonitoringMailer {
 	}
 
 	private String buildLabel(final MonitoringNode bean) {
-		final MonitoringCheckType type = bean.getCheckType();
-		final MonitoringCheck check = monitoringCheckFactory.get(type);
+		final MonitoringCheckIdentifier type = bean.getCheckType();
+		final MonitoringCheck check = monitoringCheckRegistry.get(type);
 		return check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
 	}
 }

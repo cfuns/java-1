@@ -5,16 +5,16 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
-import de.benjaminborbe.monitoring.check.MonitoringCheck;
-import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 
 public class MonitoringNodeBuilder {
 
-	private final MonitoringCheckFactory monitoringCheckFactory;
+	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
 	private final class MonitoringNodeDescription implements MonitoringNode {
 
@@ -46,12 +46,12 @@ public class MonitoringNodeBuilder {
 
 		@Override
 		public String getDescription() {
-			final MonitoringCheck check = monitoringCheckFactory.get(node.getCheckType());
+			final MonitoringCheck check = monitoringCheckRegistry.get(node.getCheckType());
 			return check.getDescription(node.getParameter());
 		}
 
 		@Override
-		public MonitoringCheckType getCheckType() {
+		public MonitoringCheckIdentifier getCheckType() {
 			return node.getCheckType();
 		}
 
@@ -87,8 +87,8 @@ public class MonitoringNodeBuilder {
 	}
 
 	@Inject
-	public MonitoringNodeBuilder(final MonitoringCheckFactory monitoringCheckFactory) {
-		this.monitoringCheckFactory = monitoringCheckFactory;
+	public MonitoringNodeBuilder(final MonitoringCheckRegistry monitoringCheckRegistry) {
+		this.monitoringCheckRegistry = monitoringCheckRegistry;
 	}
 
 	public MonitoringNode build(final MonitoringNodeBean bean) {

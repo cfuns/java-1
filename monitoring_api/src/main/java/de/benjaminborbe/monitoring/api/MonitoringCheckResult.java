@@ -1,4 +1,4 @@
-package de.benjaminborbe.monitoring.check;
+package de.benjaminborbe.monitoring.api;
 
 public interface MonitoringCheckResult {
 

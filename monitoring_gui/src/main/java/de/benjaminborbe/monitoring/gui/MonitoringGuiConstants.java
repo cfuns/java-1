@@ -1,10 +1,6 @@
 package de.benjaminborbe.monitoring.gui;
 
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
-
 public interface MonitoringGuiConstants {
-
-	MonitoringCheckType DFEAULT_CHECK = MonitoringCheckType.NOP;
 
 	String NAME = "monitoring";
 

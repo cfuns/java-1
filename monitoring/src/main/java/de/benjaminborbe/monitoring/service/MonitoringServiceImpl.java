@@ -18,14 +18,14 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
-import de.benjaminborbe.monitoring.check.MonitoringCheck;
-import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
@@ -57,7 +57,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final ValidationExecutor validationExecutor;
 
-	private final MonitoringCheckFactory monitoringCheckFactory;
+	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
 	private final MonitoringMailer monitoringMailer;
 
@@ -68,8 +68,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
+			final MonitoringCheckRegistry monitoringCheckRegistry,
 			final MonitoringNodeBuilder monitoringNodeBuilder,
-			final MonitoringCheckFactory monitoringCheckFactory,
 			final ValidationExecutor validationExecutor,
 			final IdGeneratorUUID idGeneratorUUID,
 			final AuthorizationService authorizationService,
@@ -78,8 +78,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final MonitoringMailer monitoringMailer,
 			final MonitoringChecker monitoringChecker) {
 		this.logger = logger;
+		this.monitoringCheckRegistry = monitoringCheckRegistry;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;
-		this.monitoringCheckFactory = monitoringCheckFactory;
 		this.validationExecutor = validationExecutor;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.authorizationService = authorizationService;
@@ -238,14 +238,14 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckType monitoringCheckType) throws MonitoringServiceException,
+	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckIdentifier monitoringCheckType) throws MonitoringServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectMonitoringAdminRole(sessionIdentifier);
 			logger.debug("getRequireParameter");
 
-			final MonitoringCheck check = monitoringCheckFactory.get(monitoringCheckType);
+			final MonitoringCheck check = monitoringCheckRegistry.get(monitoringCheckType);
 			return check.getRequireParameters();
 		}
 		finally {
@@ -393,6 +393,25 @@ public class MonitoringServiceImpl implements MonitoringService {
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
 		}
+	}
+
+	@Override
+	public Collection<MonitoringCheck> getMonitoringCheckTypes() throws MonitoringServiceException {
+		final List<MonitoringCheck> result = new ArrayList<MonitoringCheck>();
+		for (final MonitoringCheck type : monitoringCheckRegistry.getAll()) {
+			result.add(type);
+		}
+		return result;
+	}
+
+	@Override
+	public MonitoringCheck getMonitoringCheckTypeById(final MonitoringCheckIdentifier monitoringNodeIdentifier) throws MonitoringServiceException {
+		return monitoringCheckRegistry.get(monitoringNodeIdentifier);
+	}
+
+	@Override
+	public MonitoringCheckIdentifier getMonitoringCheckTypeDefault() throws MonitoringServiceException {
+		return new MonitoringCheckIdentifier("nop");
 	}
 
 }

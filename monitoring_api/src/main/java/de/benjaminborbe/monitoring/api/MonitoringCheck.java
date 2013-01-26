@@ -1,14 +1,15 @@
-package de.benjaminborbe.monitoring.check;
+package de.benjaminborbe.monitoring.api;
 
 import java.util.Collection;
 import java.util.Map;
 
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
 
 public interface MonitoringCheck {
 
-	MonitoringCheckType getType();
+	MonitoringCheckIdentifier getId();
+
+	String getTitle();
 
 	Collection<String> getRequireParameters();
 

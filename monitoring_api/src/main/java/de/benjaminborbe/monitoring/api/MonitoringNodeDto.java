@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class MonitoringNodeDto implements MonitoringNode {
 
-	private MonitoringCheckType checkType;
+	private MonitoringCheckIdentifier checkType;
 
 	private String name;
 
@@ -48,11 +48,11 @@ public class MonitoringNodeDto implements MonitoringNode {
 	}
 
 	@Override
-	public MonitoringCheckType getCheckType() {
+	public MonitoringCheckIdentifier getCheckType() {
 		return checkType;
 	}
 
-	public void setCheckType(final MonitoringCheckType checkType) {
+	public void setCheckType(final MonitoringCheckIdentifier checkType) {
 		this.checkType = checkType;
 	}
 

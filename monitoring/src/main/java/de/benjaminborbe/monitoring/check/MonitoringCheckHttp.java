@@ -15,7 +15,9 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
@@ -69,11 +71,6 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.parseUtil = parseUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
-	}
-
-	@Override
-	public MonitoringCheckType getType() {
-		return MonitoringCheckType.HTTP;
 	}
 
 	@Override
@@ -240,5 +237,15 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		}
 
 		return result;
+	}
+
+	@Override
+	public String getTitle() {
+		return "Http";
+	}
+
+	@Override
+	public MonitoringCheckIdentifier getId() {
+		return new MonitoringCheckIdentifier("HTTP");
 	}
 }

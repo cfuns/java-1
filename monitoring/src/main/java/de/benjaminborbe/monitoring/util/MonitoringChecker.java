@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
-import de.benjaminborbe.monitoring.check.MonitoringCheck;
-import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
-import de.benjaminborbe.monitoring.check.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
@@ -30,7 +30,7 @@ public class MonitoringChecker {
 
 	private final MonitoringNodeDao monitoringNodeDao;
 
-	private final MonitoringCheckFactory monitoringCheckFactory;
+	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
 	private final CalendarUtil calendarUtil;
 
@@ -58,8 +58,8 @@ public class MonitoringChecker {
 
 		private void check(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
 			for (final MonitoringNodeBean bean : nodes) {
-				final MonitoringCheckType type = bean.getCheckType();
-				final MonitoringCheck check = monitoringCheckFactory.get(type);
+				final MonitoringCheckIdentifier type = bean.getCheckType();
+				final MonitoringCheck check = monitoringCheckRegistry.get(type);
 				final String name = check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
 				if (Boolean.TRUE.equals(bean.getActive())) {
 					logger.debug("node " + name + " active => run check");
@@ -135,12 +135,12 @@ public class MonitoringChecker {
 			final CalendarUtil calendarUtil,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final MonitoringNodeDao monitoringNodeDao,
-			final MonitoringCheckFactory monitoringCheckFactory) {
+			final MonitoringCheckRegistry monitoringCheckRegistry) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.monitoringNodeDao = monitoringNodeDao;
-		this.monitoringCheckFactory = monitoringCheckFactory;
+		this.monitoringCheckRegistry = monitoringCheckRegistry;
 	}
 
 	public boolean check() {

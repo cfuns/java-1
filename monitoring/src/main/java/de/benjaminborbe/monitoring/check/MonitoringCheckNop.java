@@ -5,14 +5,11 @@ import java.util.Collection;
 import java.util.Map;
 
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class MonitoringCheckNop implements MonitoringCheck {
-
-	@Override
-	public MonitoringCheckType getType() {
-		return MonitoringCheckType.NOP;
-	}
 
 	@Override
 	public Collection<String> getRequireParameters() {
@@ -32,5 +29,15 @@ public class MonitoringCheckNop implements MonitoringCheck {
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
 		return Arrays.asList();
+	}
+
+	@Override
+	public String getTitle() {
+		return "Nop";
+	}
+
+	@Override
+	public MonitoringCheckIdentifier getId() {
+		return new MonitoringCheckIdentifier("NOP");
 	}
 }

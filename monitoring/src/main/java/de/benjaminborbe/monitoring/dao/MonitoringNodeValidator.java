@@ -9,10 +9,10 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
-import de.benjaminborbe.monitoring.check.MonitoringCheck;
-import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
@@ -67,18 +67,18 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
-	private final MonitoringCheckFactory monitoringCheckFactory;
-
 	private final MonitoringNodeDao monitoringNodeDao;
+
+	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
 	@Inject
 	public MonitoringNodeValidator(
 			final ValidationConstraintValidator validationConstraintValidator,
-			final MonitoringCheckFactory monitoringCheckFactory,
-			final MonitoringNodeDao monitoringNodeDao) {
+			final MonitoringNodeDao monitoringNodeDao,
+			final MonitoringCheckRegistry monitoringCheckRegistry) {
 		this.validationConstraintValidator = validationConstraintValidator;
-		this.monitoringCheckFactory = monitoringCheckFactory;
 		this.monitoringNodeDao = monitoringNodeDao;
+		this.monitoringCheckRegistry = monitoringCheckRegistry;
 	}
 
 	@Override
@@ -129,9 +129,9 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
-					final MonitoringCheckType value = bean.getCheckType();
-					final List<ValidationConstraint<MonitoringCheckType>> constraints = new ArrayList<ValidationConstraint<MonitoringCheckType>>();
-					constraints.add(new ValidationConstraintNotNull<MonitoringCheckType>());
+					final MonitoringCheckIdentifier value = bean.getCheckType();
+					final List<ValidationConstraint<MonitoringCheckIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringCheckIdentifier>>();
+					constraints.add(new ValidationConstraintNotNull<MonitoringCheckIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
@@ -149,7 +149,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 					final List<ValidationConstraint<Map<String, String>>> constraints = new ArrayList<ValidationConstraint<Map<String, String>>>();
 					constraints.add(new ValidationConstraintNotNull<Map<String, String>>());
 					errors.addAll(validationConstraintValidator.validate(field, value, constraints));
-					final MonitoringCheck check = monitoringCheckFactory.get(bean.getCheckType());
+					final MonitoringCheck check = monitoringCheckRegistry.get(bean.getCheckType());
 					if (check != null) {
 						errors.addAll(check.validate(value));
 					}

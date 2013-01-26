@@ -18,7 +18,9 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
+import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -48,11 +50,6 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
-	}
-
-	@Override
-	public MonitoringCheckType getType() {
-		return MonitoringCheckType.TCP;
 	}
 
 	@Override
@@ -175,5 +172,15 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 		}
 
 		return result;
+	}
+
+	@Override
+	public String getTitle() {
+		return "Tcp";
+	}
+
+	@Override
+	public MonitoringCheckIdentifier getId() {
+		return new MonitoringCheckIdentifier("TCP");
 	}
 }

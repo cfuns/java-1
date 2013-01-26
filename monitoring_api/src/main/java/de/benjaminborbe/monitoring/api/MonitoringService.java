@@ -35,8 +35,8 @@ public interface MonitoringService {
 	MonitoringNode getNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
 			PermissionDeniedException;
 
-	Collection<String> getRequireParameter(SessionIdentifier sessionIdentifier, MonitoringCheckType monitoringCheckType) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException;
+	Collection<String> getRequireParameter(SessionIdentifier sessionIdentifier, MonitoringCheckIdentifier monitoringCheckIdentifier) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException;
 
 	void silentNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
 			PermissionDeniedException;
@@ -52,5 +52,11 @@ public interface MonitoringService {
 	boolean hasMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
 
 	boolean hasMonitoringViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
+
+	Collection<MonitoringCheck> getMonitoringCheckTypes() throws MonitoringServiceException;
+
+	MonitoringCheckIdentifier getMonitoringCheckTypeDefault() throws MonitoringServiceException;
+
+	MonitoringCheck getMonitoringCheckTypeById(MonitoringCheckIdentifier monitoringCheckIdentifier) throws MonitoringServiceException;
 
 }

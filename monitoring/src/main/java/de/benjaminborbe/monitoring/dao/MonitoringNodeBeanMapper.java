@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.util.MapperMonitoringCheck;
 import de.benjaminborbe.monitoring.util.MapperMonitoringNodeIdentifier;
@@ -71,7 +71,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<StringObjectMapper<MonitoringNodeBean>>();
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(ID, mapperMonitoringNodeIdentifier));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(PARENT_ID, mapperMonitoringNodeIdentifier));
-		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckType>(CHECK_TYPE, mapperMonitoringCheck));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckIdentifier>(CHECK_TYPE, mapperMonitoringCheck));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Map<String, String>>(PARAMETER, mapperMapString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(SILENT, mapperBoolean));

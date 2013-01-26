@@ -9,9 +9,9 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.monitoring.api.MonitoringCheckType;
+import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
-import de.benjaminborbe.monitoring.check.MonitoringCheckFactory;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.check.MonitoringCheckHttp;
 import de.benjaminborbe.monitoring.check.MonitoringCheckNop;
 import de.benjaminborbe.monitoring.check.MonitoringCheckTcp;
@@ -42,16 +42,19 @@ public class MonitoringNodeValidatorUnitTest {
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, httpDownloader, httpDownloadUtil, parseUtil, validationConstraintValidator);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, parseUtil, validationConstraintValidator);
-		final MonitoringCheckFactory monitoringCheckFactory = new MonitoringCheckFactory(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
+		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(logger, monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("23"))).andReturn(true);
 		EasyMock.replay(monitoringNodeDao);
 
-		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringCheckFactory, monitoringNodeDao);
+		final MonitoringCheckIdentifier type = EasyMock.createMock(MonitoringCheckIdentifier.class);
+		EasyMock.replay(type);
+
+		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringNodeDao, monitoringCheckFactory);
 		final MonitoringNodeBean bean = new MonitoringNodeBean();
 		assertThat(va.validate(bean).size(), is(4));
-		bean.setCheckType(MonitoringCheckType.NOP);
+		bean.setCheckType(type);
 		assertThat(va.validate(bean).size(), is(3));
 		bean.setId(new MonitoringNodeIdentifier("1337"));
 		assertThat(va.validate(bean).size(), is(2));
@@ -79,17 +82,20 @@ public class MonitoringNodeValidatorUnitTest {
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, httpDownloader, httpDownloadUtil, parseUtil, validationConstraintValidator);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, parseUtil, validationConstraintValidator);
-		final MonitoringCheckFactory monitoringCheckFactory = new MonitoringCheckFactory(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
+		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(logger, monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("1336"))).andReturn(true);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("1337"))).andReturn(true);
 		EasyMock.replay(monitoringNodeDao);
 
-		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringCheckFactory, monitoringNodeDao);
+		final MonitoringCheckIdentifier type = EasyMock.createMock(MonitoringCheckIdentifier.class);
+		EasyMock.replay(type);
+
+		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringNodeDao, monitoringCheckFactory);
 		final MonitoringNodeBean bean = new MonitoringNodeBean();
 		assertThat(va.validate(bean).size(), is(4));
-		bean.setCheckType(MonitoringCheckType.NOP);
+		bean.setCheckType(type);
 		assertThat(va.validate(bean).size(), is(3));
 		bean.setId(new MonitoringNodeIdentifier("1337"));
 		assertThat(va.validate(bean).size(), is(2));
@@ -117,17 +123,20 @@ public class MonitoringNodeValidatorUnitTest {
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, httpDownloader, httpDownloadUtil, parseUtil, validationConstraintValidator);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, parseUtil, validationConstraintValidator);
-		final MonitoringCheckFactory monitoringCheckFactory = new MonitoringCheckFactory(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
+		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(logger, monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("23"))).andReturn(false);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("42"))).andReturn(true);
 		EasyMock.replay(monitoringNodeDao);
 
-		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringCheckFactory, monitoringNodeDao);
+		final MonitoringCheckIdentifier type = EasyMock.createMock(MonitoringCheckIdentifier.class);
+		EasyMock.replay(type);
+
+		final MonitoringNodeValidator va = new MonitoringNodeValidator(validationConstraintValidator, monitoringNodeDao, monitoringCheckFactory);
 		final MonitoringNodeBean bean = new MonitoringNodeBean();
 		assertThat(va.validate(bean).size(), is(4));
-		bean.setCheckType(MonitoringCheckType.NOP);
+		bean.setCheckType(type);
 		assertThat(va.validate(bean).size(), is(3));
 		bean.setId(new MonitoringNodeIdentifier("1337"));
 		assertThat(va.validate(bean).size(), is(2));

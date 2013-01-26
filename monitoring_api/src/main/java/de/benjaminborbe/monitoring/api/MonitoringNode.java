@@ -9,7 +9,7 @@ public interface MonitoringNode extends MonitoringHasParentId {
 
 	String getName();
 
-	MonitoringCheckType getCheckType();
+	MonitoringCheckIdentifier getCheckType();
 
 	Map<String, String> getParameter();
 
