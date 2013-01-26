@@ -7,7 +7,6 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Provider;
@@ -17,6 +16,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 
 public abstract class WebsiteJsonServlet extends WebsiteServlet {
@@ -44,9 +45,8 @@ public abstract class WebsiteJsonServlet extends WebsiteServlet {
 		printError(response, "loginRequired");
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void printException(final HttpServletResponse response, final Exception exception) throws IOException {
-		final JSONObject object = new JSONObject();
+		final JSONObject object = new JSONObjectSimple();
 		object.put("error", "exception");
 		object.put("type", exception.getClass().getName());
 		final StringWriter sw = new StringWriter();
@@ -60,16 +60,15 @@ public abstract class WebsiteJsonServlet extends WebsiteServlet {
 		printError(response, "permissionDenied");
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void printError(final HttpServletResponse response, final String msg) throws IOException {
-		final JSONObject object = new JSONObject();
+		final JSONObject object = new JSONObjectSimple();
 		object.put("error", msg);
 		printJson(response, object);
 	}
 
 	protected void printJson(final HttpServletResponse response, final JSONObject object) throws IOException {
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		object.writeJSONString(response.getWriter());
 	}
-
 }

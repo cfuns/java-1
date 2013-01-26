@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,6 +23,9 @@ import com.google.inject.Injector;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 public class StorageExporterIntegrationTest {
@@ -108,7 +109,7 @@ public class StorageExporterIntegrationTest {
 
 		final String jsonString = sw.toString();
 		assertNotNull(jsonString);
-		final JSONParser parser = new JSONParser();
+		final JSONParser parser = new JSONParserSimple();
 		final Object object = parser.parse(jsonString);
 		assertTrue(object instanceof JSONObject);
 		final JSONObject json = (JSONObject) object;

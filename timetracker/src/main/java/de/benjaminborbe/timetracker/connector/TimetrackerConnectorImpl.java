@@ -7,10 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -21,6 +17,11 @@ import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParserSimple;
 
 @Singleton
 public class TimetrackerConnectorImpl implements TimetrackerConnector {
@@ -56,7 +57,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			final HttpDownloadResult result = httpDownloader.postUrl(url, parameter, cookies, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
 
-			final JSONParser parser = new JSONParser();
+			final JSONParser parser = new JSONParserSimple();
 			final Object object = parser.parse(content);
 			if (object instanceof JSONObject) {
 				final JSONObject root = (JSONObject) object;
@@ -81,20 +82,16 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			return false;
 		}
 		catch (final HttpDownloaderException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
+			throw new TimetrackerConnectorException(e);
 		}
 		catch (final MalformedURLException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
+			throw new TimetrackerConnectorException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
+			throw new TimetrackerConnectorException(e);
 		}
-		catch (final ParseException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
+		catch (final JSONParseException e) {
+			throw new TimetrackerConnectorException(e);
 		}
 	}
 

@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -26,6 +25,8 @@ import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -64,9 +65,8 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 		this.authenticationService = authenticationService;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected JSONArray buildJson(final List<SearchResult> searchResults) {
-		final JSONArray result = new JSONArray();
+		final JSONArray result = new JSONArraySimple();
 		for (final SearchResult searchResult : searchResults) {
 			// final JSONObject bookmarkJson = new JSONObject();
 			// bookmarkJson.put("id", new Long(bookmark.getId()));

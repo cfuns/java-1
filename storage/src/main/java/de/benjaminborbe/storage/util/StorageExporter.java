@@ -23,7 +23,7 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.cassandra.utils.Hex;
 import org.apache.thrift.TException;
-import org.json.simple.JSONArray;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -31,6 +31,8 @@ import com.google.inject.Inject;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 
@@ -94,7 +96,6 @@ public class StorageExporter {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void export(final Writer sw, final String keyspace, final String columnFamily) throws StorageConnectionPoolException, StorageException, InvalidRequestException,
 			UnavailableException, TimedOutException, TException, NotFoundException, IOException {
 
@@ -127,7 +128,7 @@ public class StorageExporter {
 				boolean first = true;
 				for (final ColumnOrSuperColumn result : results) {
 					final Column column = result.getColumn();
-					final JSONArray field = new JSONArray();
+					final JSONArray field = new JSONArraySimple();
 					field.add(new String(column.getName(), "UTF-8"));
 					field.add(new String(column.getValue(), "UTF-8"));
 					field.add(column.getTimestamp());

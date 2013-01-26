@@ -24,13 +24,14 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.loggly.config.LogglyConfig;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 
 @Singleton
 public class LogglyConnectorImpl implements LogglyConnector {
@@ -82,10 +83,9 @@ public class LogglyConnectorImpl implements LogglyConnector {
 			this.data = data;
 		}
 
-		@SuppressWarnings("unchecked")
 		private String buildJsonString() throws IOException {
 			final StringWriter sw = new StringWriter();
-			final JSONObject object = new JSONObject();
+			final JSONObject object = new JSONObjectSimple();
 			object.putAll(data);
 			object.writeJSONString(sw);
 			return sw.toString();

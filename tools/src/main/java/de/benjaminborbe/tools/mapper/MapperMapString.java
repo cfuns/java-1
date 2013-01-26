@@ -1,13 +1,15 @@
 package de.benjaminborbe.tools.mapper;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParserSimple;
 
 public class MapperMapString implements Mapper<Map<String, String>> {
 
@@ -17,22 +19,19 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 			return null;
 		}
 		try {
-			final JSONParser parser = new JSONParser();
+			final JSONParser parser = new JSONParserSimple();
 			final Object object = parser.parse(json);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonObject = (JSONObject) object;
 				final Map<String, String> result = new HashMap<String, String>();
 
-				@SuppressWarnings("unchecked")
-				final Set<Object> iterator = jsonObject.keySet();
-				for (final Object key : iterator) {
-					final Object value = jsonObject.get(key);
-					result.put(asString(key), asString(value));
+				for (final Entry<String, Object> e : jsonObject.entrySet()) {
+					result.put(asString(e.getKey()), asString(e.getValue()));
 				}
 				return result;
 			}
 		}
-		catch (final ParseException e) {
+		catch (final JSONParseException e) {
 			throw new MapException("no valid json", e);
 		}
 		throw new MapException("no valid json");
@@ -42,17 +41,22 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 		return key != null ? String.valueOf(key) : null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public String toString(final Map<String, String> object) throws MapException {
 		if (object == null) {
 			return null;
 		}
-		final JSONObject jsonObject = new JSONObject();
+		final JSONObject jsonObject = new JSONObjectSimple();
 		for (final Entry<String, String> e : object.entrySet()) {
 			jsonObject.put(e.getKey(), e.getValue());
 		}
-		return jsonObject.toJSONString();
+		try {
+			final StringWriter sw = new StringWriter();
+			jsonObject.writeJSONString(sw);
+			return sw.toString();
+		}
+		catch (final IOException e) {
+			throw new MapException(e);
+		}
 	}
-
 }

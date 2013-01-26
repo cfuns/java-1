@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.easymock.EasyMock;
-import org.json.simple.JSONObject;
+
 import org.junit.Test;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
+import de.benjaminborbe.tools.json.JSONObject;
 
 public class ProjectileReportToJsonConverterUnitTest {
 

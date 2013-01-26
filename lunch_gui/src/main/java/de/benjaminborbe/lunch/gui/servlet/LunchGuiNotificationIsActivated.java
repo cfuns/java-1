@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -24,6 +23,8 @@ import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.lunch.gui.config.LunchGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
@@ -54,7 +55,6 @@ public class LunchGuiNotificationIsActivated extends WebsiteJsonServlet {
 		this.lunchService = lunchService;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
@@ -72,7 +72,7 @@ public class LunchGuiNotificationIsActivated extends WebsiteJsonServlet {
 			}
 
 			logger.debug("check notification-setting for user: " + login);
-			final JSONObject jsonObject = new JSONObject();
+			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("result", "success");
 			jsonObject.put("active", String.valueOf(lunchService.isNotificationActivated(new UserIdentifier(login))));
 			printJson(response, jsonObject);

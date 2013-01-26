@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -27,6 +26,7 @@ import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
 import de.benjaminborbe.projectile.gui.util.ProjectileReportToJsonConverter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 

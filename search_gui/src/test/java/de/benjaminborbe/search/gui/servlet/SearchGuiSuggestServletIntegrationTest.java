@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.EasyMock;
-import org.json.simple.JSONArray;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -16,6 +16,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.gui.guice.SearchGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.json.JSONArray;
 
 public class SearchGuiSuggestServletIntegrationTest {
 

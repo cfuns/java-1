@@ -9,8 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -32,6 +30,10 @@ import de.benjaminborbe.search.gui.config.SearchGuiConfig;
 import de.benjaminborbe.search.gui.util.SearchGuiShortener;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -103,7 +105,6 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
@@ -115,10 +116,10 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAXRESULTS);
 				final List<String> words = searchUtil.buildSearchParts(searchQuery);
-				final JSONObject object = new JSONObject();
-				final JSONArray array = new JSONArray();
+				final JSONObject object = new JSONObjectSimple();
+				final JSONArray array = new JSONArraySimple();
 				for (final SearchResult result : results) {
-					final JSONObject resultObject = new JSONObject();
+					final JSONObject resultObject = new JSONObjectSimple();
 					resultObject.put("description", searchGuiShortener.shortenDescription(result.getDescription(), words));
 					resultObject.put("matchcounter", result.getMatchCounter());
 					resultObject.put("title", searchGuiShortener.shortenTitle(result.getTitle()));

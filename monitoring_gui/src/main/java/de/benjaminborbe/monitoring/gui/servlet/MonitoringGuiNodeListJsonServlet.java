@@ -6,8 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -26,6 +24,10 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
@@ -65,9 +67,9 @@ public class MonitoringGuiNodeListJsonServlet extends WebsiteJsonServlet {
 			logger.debug("doService");
 			final String token = request.getParameter(MonitoringGuiConstants.PARAMETER_AUTH_TOKEN);
 			final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(monitoringService.getCheckResults(token));
-			final JSONObject object = new JSONObject();
-
-			final JSONArray nodeResults = new JSONArray();
+			final JSONObject object = new JSONObjectSimple();
+			final JSONArray nodeResults = new JSONArraySimple();
+			object.put("results", nodeResults);
 			final List<MonitoringNode> list = tree.getRootNodes();
 			handle(nodeResults, list, tree);
 
@@ -78,12 +80,10 @@ public class MonitoringGuiNodeListJsonServlet extends WebsiteJsonServlet {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void handle(final JSONArray nodeResults, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
 		for (final MonitoringNode node : list) {
 			if (Boolean.TRUE.equals(node.getActive())) {
-				final JSONObject nodeResult = new JSONObject();
-
+				final JSONObject nodeResult = new JSONObjectSimple();
 				nodeResult.put("id", node.getId());
 				nodeResult.put("message", node.getMessage());
 				nodeResult.put("name", node.getName());

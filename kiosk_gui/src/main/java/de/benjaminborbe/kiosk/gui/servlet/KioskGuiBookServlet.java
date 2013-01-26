@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -23,6 +22,8 @@ import de.benjaminborbe.kiosk.api.KioskServiceException;
 import de.benjaminborbe.kiosk.gui.KioskGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -56,7 +57,6 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 		this.logger = logger;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
@@ -80,7 +80,7 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 
 			logger.debug("book - customer: " + customer + " ean: " + ean);
 			kioskService.book(customer, ean);
-			final JSONObject jsonObject = new JSONObject();
+			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("result", "success");
 			printJson(response, jsonObject);
 		}

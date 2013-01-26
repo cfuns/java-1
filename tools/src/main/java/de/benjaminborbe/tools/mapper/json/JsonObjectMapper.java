@@ -1,16 +1,19 @@
 package de.benjaminborbe.tools.mapper.json;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import com.google.inject.Provider;
 
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
+import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 
@@ -29,19 +32,26 @@ public class JsonObjectMapper<T> {
 		this.mappings = new ArrayList<StringObjectMapper<T>>(mapSingles);
 	}
 
-	@SuppressWarnings("unchecked")
 	public String toJson(final T bean) throws MapException {
-		final JSONObject jsonObject = new JSONObject();
+		final JSONObject jsonObject = new JSONObjectSimple();
 		for (final StringObjectMapper<T> mapping : mappings) {
 			final String value = mapping.map(bean);
 			jsonObject.put(mapping.getName(), value);
 		}
-		return jsonObject.toJSONString();
+
+		try {
+			final StringWriter sw = new StringWriter();
+			jsonObject.writeJSONString(sw);
+			return sw.toString();
+		}
+		catch (final IOException e) {
+			throw new MapException(e);
+		}
 	}
 
 	public T fromJson(final String json) throws MapException {
 		try {
-			final JSONParser parser = new JSONParser();
+			final JSONParser parser = new JSONParserSimple();
 			final Object object = parser.parse(json);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonobject = (JSONObject) object;
@@ -56,7 +66,7 @@ public class JsonObjectMapper<T> {
 			}
 			throw new MapException("not a json object");
 		}
-		catch (final ParseException e) {
+		catch (final JSONParseException e) {
 			throw new MapException(e);
 		}
 	}

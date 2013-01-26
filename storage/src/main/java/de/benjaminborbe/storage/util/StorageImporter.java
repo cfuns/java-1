@@ -3,8 +3,6 @@ package de.benjaminborbe.storage.util;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnParent;
@@ -14,13 +12,16 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.cassandra.utils.Hex;
 import org.apache.thrift.TException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParserSimple;
 
 public class StorageImporter {
 
@@ -34,9 +35,8 @@ public class StorageImporter {
 		this.storageConnectionPool = storageConnectionPool;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void importJson(final String keySpace, final String columnFamily, final String jsonContent) throws StorageConnectionPoolException, InvalidRequestException, TException,
-			UnsupportedEncodingException, UnavailableException, TimedOutException, ParseException {
+			UnsupportedEncodingException, UnavailableException, TimedOutException, JSONParseException {
 		StorageConnection connection = null;
 		try {
 			connection = storageConnectionPool.getConnection();
@@ -47,12 +47,11 @@ public class StorageImporter {
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
 			final String encoding = "UTF-8";
 
-			final JSONParser parser = new JSONParser();
+			final JSONParser parser = new JSONParserSimple();
 			final Object object = parser.parse(jsonContent);
 			if (object instanceof JSONObject) {
 				final JSONObject root = (JSONObject) object;
-				final Set<Entry> entries = root.entrySet();
-				for (final Entry e : entries) {
+				for (final Entry<String, Object> e : root.entrySet()) {
 					final Object keyObject = e.getKey();
 					final Object fieldsObject = e.getValue();
 					if (keyObject instanceof String && fieldsObject instanceof JSONArray) {
