@@ -1,6 +1,7 @@
 package de.benjaminborbe.util.gui.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -19,42 +21,39 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.util.gui.util.UtilLinkFactory;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class UtilGuiServlet extends WebsiteHtmlServlet {
+public class UtilGuiUUIDGeneratorServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 3897185107545429460L;
+	private static final long serialVersionUID = 6210254616531116633L;
 
-	private static final String TITLE = "Util - Index";
+	private static final String TITLE = "Util - UUID";
 
 	private final Logger logger;
 
-	private final UtilLinkFactory utilLinkFactory;
+	private final IdGeneratorUUID idGeneratorUUID;
 
 	@Inject
-	public UtilGuiServlet(
+	public UtilGuiUUIDGeneratorServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
-			final UtilLinkFactory utilLinkFactory) {
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil,
+			final IdGeneratorUUID IdGeneratorUUID) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
-		this.utilLinkFactory = utilLinkFactory;
+		this.idGeneratorUUID = IdGeneratorUUID;
 	}
 
 	@Override
@@ -64,23 +63,13 @@ public class UtilGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
-		final UlWidget ul = new UlWidget();
-		ul.add(utilLinkFactory.calc(request));
-		ul.add(utilLinkFactory.dayDiff(request));
-		ul.add(utilLinkFactory.log(request));
-		ul.add(utilLinkFactory.passwordGenerator(request));
-		ul.add(utilLinkFactory.penMe(request));
-		ul.add(utilLinkFactory.penTest(request));
-		ul.add(utilLinkFactory.qunitSample(request));
-		ul.add(utilLinkFactory.angularJsSample(request));
-		ul.add(utilLinkFactory.time(request));
-		ul.add(utilLinkFactory.timeConvert(request));
-		ul.add(utilLinkFactory.uuidGenerator(request));
-		widgets.add(ul);
+
+		widgets.add(idGeneratorUUID.nextId());
+
 		return widgets;
 	}
 

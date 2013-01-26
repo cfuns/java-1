@@ -69,6 +69,8 @@ public class SystemstatusActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(SystemstatusService.class.getName());
 		names.add(MonitoringCheck.class.getName());
+		names.add(MonitoringCheck.class.getName());
+		names.add(MonitoringCheck.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

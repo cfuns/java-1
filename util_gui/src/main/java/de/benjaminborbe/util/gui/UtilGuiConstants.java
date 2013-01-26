@@ -28,4 +28,6 @@ public interface UtilGuiConstants {
 
 	String PARAMETER_TIME = "time";
 
+	String URL_UUID_GENERATOR = "/uuid";
+
 }

@@ -9,16 +9,18 @@ import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
-public class SystemStatusMonitoringCheck implements MonitoringCheck {
+public class SystemstatusNonHeapMemoryMonitoringCheck implements MonitoringCheck {
+
+	public static final String ID = "c50f8ab4-47e8-4929-897e-e6edc897ff4a";
 
 	@Override
 	public MonitoringCheckIdentifier getId() {
-		return new MonitoringCheckIdentifier(getClass().getName());
+		return new MonitoringCheckIdentifier(ID);
 	}
 
 	@Override
 	public String getTitle() {
-		return "DiskSpace";
+		return "NonHeapMemory";
 	}
 
 	@Override

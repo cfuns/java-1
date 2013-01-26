@@ -55,6 +55,7 @@ public class UtilGuiActivatorIntegrationTest {
 		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_TIME);
 		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_PASSWORD_GENERATOR);
 		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_LOG);
+		paths.add("/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_UUID_GENERATOR);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

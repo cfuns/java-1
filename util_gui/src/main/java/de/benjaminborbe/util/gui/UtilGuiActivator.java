@@ -23,8 +23,12 @@ import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiUUIDGeneratorServlet;
 
 public class UtilGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private UtilGuiUUIDGeneratorServlet utilGuiUUIDGeneratorServlet;
 
 	@Inject
 	private UtilGuiCalcServlet utilGuiCalcServlet;
@@ -78,6 +82,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilGuiPenMeServlet, UtilGuiConstants.URL_PENME));
 		result.add(new ServletInfo(utilGuiTimeServlet, UtilGuiConstants.URL_TIME));
 		result.add(new ServletInfo(utilGuiLogServlet, UtilGuiConstants.URL_LOG));
+		result.add(new ServletInfo(utilGuiUUIDGeneratorServlet, UtilGuiConstants.URL_UUID_GENERATOR));
 		return result;
 	}
 
