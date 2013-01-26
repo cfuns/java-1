@@ -8,6 +8,7 @@ import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
 
 public class MonitoringCheckNop implements MonitoringCheck {
 

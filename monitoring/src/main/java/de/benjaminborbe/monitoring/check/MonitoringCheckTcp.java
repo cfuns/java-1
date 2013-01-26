@@ -21,6 +21,7 @@ import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;

@@ -1,4 +1,4 @@
-package de.benjaminborbe.monitoring.check;
+package de.benjaminborbe.monitoring.tools;
 
 import java.net.URL;
 
@@ -17,7 +17,9 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 
 	private Exception exception;
 
-	public MonitoringCheckResultDto() {
+	public MonitoringCheckResultDto(final MonitoringCheck check, final Boolean successful) {
+		this.check = check;
+		this.successful = successful;
 	}
 
 	public MonitoringCheckResultDto(final MonitoringCheck check, final Boolean successful, final String message) {
@@ -33,12 +35,19 @@ public class MonitoringCheckResultDto implements MonitoringCheckResult {
 		this.url = url;
 	}
 
-	public MonitoringCheckResultDto(final MonitoringCheckHttp check, final Exception exception, final URL url) {
+	public MonitoringCheckResultDto(final MonitoringCheck check, final Exception exception, final URL url) {
 		this.check = check;
 		this.successful = false;
 		this.message = exception.getMessage();
 		this.exception = exception;
 		this.url = url;
+	}
+
+	public MonitoringCheckResultDto(final MonitoringCheck check, final Exception exception) {
+		this.check = check;
+		this.successful = false;
+		this.message = exception.getMessage();
+		this.exception = exception;
 	}
 
 	@Override

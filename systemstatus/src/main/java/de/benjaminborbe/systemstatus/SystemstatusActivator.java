@@ -11,8 +11,10 @@ import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.guice.SystemstatusModules;
 import de.benjaminborbe.systemstatus.service.SystemstatusDiskspaceMonitoringCheck;
-import de.benjaminborbe.systemstatus.service.SystemstatusHeapMemoryMonitoringCheck;
-import de.benjaminborbe.systemstatus.service.SystemstatusNonHeapMemoryMonitoringCheck;
+import de.benjaminborbe.systemstatus.service.SystemstatusHeapMemoryFreeMbMonitoringCheck;
+import de.benjaminborbe.systemstatus.service.SystemstatusHeapMemoryFreePercentMonitoringCheck;
+import de.benjaminborbe.systemstatus.service.SystemstatusNonHeapMemoryFreeMbMonitoringCheck;
+import de.benjaminborbe.systemstatus.service.SystemstatusNonHeapMemoryFreePercentMonitoringCheck;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -23,10 +25,16 @@ public class SystemstatusActivator extends BaseBundleActivator {
 	private SystemstatusDiskspaceMonitoringCheck systemstatusDiskspaceMonitoringCheck;
 
 	@Inject
-	private SystemstatusHeapMemoryMonitoringCheck systemstatusHeapMemoryMonitoringCheck;
+	private SystemstatusHeapMemoryFreeMbMonitoringCheck systemstatusHeapMemoryFreeMbMonitoringCheck;
 
 	@Inject
-	private SystemstatusNonHeapMemoryMonitoringCheck systemstatusNonHeapMemoryMonitoringCheck;
+	private SystemstatusHeapMemoryFreePercentMonitoringCheck systemstatusHeapMemoryFreePercentMonitoringCheck;
+
+	@Inject
+	private SystemstatusNonHeapMemoryFreeMbMonitoringCheck systemstatusNonHeapMemoryFreeMbMonitoringCheck;
+
+	@Inject
+	private SystemstatusNonHeapMemoryFreePercentMonitoringCheck systemstatusNonHeapMemoryFreePercentMonitoringCheck;
 
 	@Inject
 	private SystemstatusService systemstatusService;
@@ -41,8 +49,11 @@ public class SystemstatusActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SystemstatusService.class, systemstatusService));
 		result.add(new ServiceInfo(MonitoringCheck.class, systemstatusDiskspaceMonitoringCheck, systemstatusDiskspaceMonitoringCheck.getClass().getName()));
-		result.add(new ServiceInfo(MonitoringCheck.class, systemstatusHeapMemoryMonitoringCheck, systemstatusHeapMemoryMonitoringCheck.getClass().getName()));
-		result.add(new ServiceInfo(MonitoringCheck.class, systemstatusNonHeapMemoryMonitoringCheck, systemstatusNonHeapMemoryMonitoringCheck.getClass().getName()));
+		result.add(new ServiceInfo(MonitoringCheck.class, systemstatusHeapMemoryFreeMbMonitoringCheck, systemstatusHeapMemoryFreeMbMonitoringCheck.getClass().getName()));
+		result.add(new ServiceInfo(MonitoringCheck.class, systemstatusHeapMemoryFreePercentMonitoringCheck, systemstatusHeapMemoryFreePercentMonitoringCheck.getClass().getName()));
+		result.add(new ServiceInfo(MonitoringCheck.class, systemstatusNonHeapMemoryFreeMbMonitoringCheck, systemstatusNonHeapMemoryFreeMbMonitoringCheck.getClass().getName()));
+		result
+				.add(new ServiceInfo(MonitoringCheck.class, systemstatusNonHeapMemoryFreePercentMonitoringCheck, systemstatusNonHeapMemoryFreePercentMonitoringCheck.getClass().getName()));
 		return result;
 	}
 

@@ -18,6 +18,7 @@ import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
