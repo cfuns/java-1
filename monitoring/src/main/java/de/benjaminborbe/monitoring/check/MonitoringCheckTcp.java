@@ -33,6 +33,8 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMi
 
 public class MonitoringCheckTcp implements MonitoringCheck {
 
+	public static final String ID = "TCP";
+
 	private static final String PORT = "port";
 
 	private static final String HOSTNAME = "hostname";
@@ -181,6 +183,6 @@ public class MonitoringCheckTcp implements MonitoringCheck {
 
 	@Override
 	public MonitoringCheckIdentifier getId() {
-		return new MonitoringCheckIdentifier("TCP");
+		return new MonitoringCheckIdentifier(ID);
 	}
 }

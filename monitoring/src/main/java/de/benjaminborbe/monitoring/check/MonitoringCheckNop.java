@@ -11,6 +11,8 @@ import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 
 public class MonitoringCheckNop implements MonitoringCheck {
 
+	public static final String ID = "NOP";
+
 	@Override
 	public Collection<String> getRequireParameters() {
 		return Arrays.asList();
@@ -38,6 +40,6 @@ public class MonitoringCheckNop implements MonitoringCheck {
 
 	@Override
 	public MonitoringCheckIdentifier getId() {
-		return new MonitoringCheckIdentifier("NOP");
+		return new MonitoringCheckIdentifier(ID);
 	}
 }

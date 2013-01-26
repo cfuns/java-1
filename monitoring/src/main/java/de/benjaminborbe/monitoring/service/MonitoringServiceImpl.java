@@ -25,6 +25,7 @@ import de.benjaminborbe.monitoring.api.MonitoringNodeDto;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
+import de.benjaminborbe.monitoring.check.MonitoringCheckNop;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
@@ -411,7 +412,6 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	@Override
 	public MonitoringCheckIdentifier getMonitoringCheckTypeDefault() throws MonitoringServiceException {
-		return new MonitoringCheckIdentifier("nop");
+		return new MonitoringCheckIdentifier(MonitoringCheckNop.ID);
 	}
-
 }

@@ -37,6 +37,8 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMi
 
 public class MonitoringCheckHttp implements MonitoringCheck {
 
+	public static final String ID = "HTTP";
+
 	private static final String URL = "url";
 
 	private static final String TIMEOUT = "timeout";
@@ -246,6 +248,6 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	@Override
 	public MonitoringCheckIdentifier getId() {
-		return new MonitoringCheckIdentifier("HTTP");
+		return new MonitoringCheckIdentifier(ID);
 	}
 }
