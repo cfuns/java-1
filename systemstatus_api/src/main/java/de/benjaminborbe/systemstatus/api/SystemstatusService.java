@@ -1,6 +1,10 @@
 package de.benjaminborbe.systemstatus.api;
 
+import java.util.Collection;
+
 public interface SystemstatusService {
 
-	void execute();
+	Collection<SystemstatusPartition> getPartitions() throws SystemstatusServiceException;
+
+	SystemstatusMemoryUsage getMemoryUsage() throws SystemstatusServiceException;
 }

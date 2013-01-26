@@ -1,8 +1,12 @@
 package de.benjaminborbe.systemstatus.mock;
 
+import java.util.Collection;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
+import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 
 @Singleton
@@ -13,6 +17,12 @@ public class SystemstatusServiceMock implements SystemstatusService {
 	}
 
 	@Override
-	public void execute() {
+	public Collection<SystemstatusPartition> getPartitions() {
+		return null;
+	}
+
+	@Override
+	public SystemstatusMemoryUsage getMemoryUsage() {
+		return null;
 	}
 }

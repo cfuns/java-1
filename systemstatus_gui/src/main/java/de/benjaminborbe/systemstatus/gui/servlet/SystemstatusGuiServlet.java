@@ -1,11 +1,7 @@
 package de.benjaminborbe.systemstatus.gui.servlet;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Enumeration;
@@ -27,12 +23,17 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
+import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
+import de.benjaminborbe.systemstatus.api.SystemstatusService;
+import de.benjaminborbe.systemstatus.api.SystemstatusServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -50,6 +51,8 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 
 	private final StorageService storageService;
 
+	private final SystemstatusService systemstatusService;
+
 	@Inject
 	public SystemstatusGuiServlet(
 			final Logger logger,
@@ -62,10 +65,12 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final StorageService storageService) {
+			final StorageService storageService,
+			final SystemstatusService systemstatusService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
 		this.storageService = storageService;
+		this.systemstatusService = systemstatusService;
 	}
 
 	@Override
@@ -76,16 +81,23 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
 
-		sessionData(request, widgets);
-		memoryState(widgets);
-		diskUsage(widgets);
-		storageState(widgets);
+			sessionData(request, widgets);
+			memoryState(widgets);
+			diskUsage(widgets);
+			storageState(widgets);
 
-		return widgets;
+			return widgets;
+		}
+		catch (final SystemstatusServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
 
 	private void storageState(final ListWidget widgets) {
@@ -100,34 +112,34 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(ul);
 	}
 
-	private void diskUsage(final ListWidget widgets) {
+	private void diskUsage(final ListWidget widgets) throws SystemstatusServiceException {
 		final NumberFormat nf = NumberFormat.getNumberInstance();
 		final DecimalFormat dfPercent = new DecimalFormat("#####0.0%");
 		widgets.add(new H2Widget("Disk-Space"));
 		final UlWidget ul = new UlWidget();
-		for (final File file : File.listRoots()) {
+
+		for (final SystemstatusPartition file : systemstatusService.getPartitions()) {
 			final long totalSpace = file.getTotalSpace();
 			final long usableSpace = file.getUsableSpace();
 			final long freeSpace = file.getFreeSpace();
-			final long usedSpace = totalSpace - freeSpace;
-
+			final long usedSpace = file.getUsedSpace();
 			ul.add(file.getAbsolutePath() + " used: " + dfPercent.format(1d * usedSpace / totalSpace) + " " + nf.format(usedSpace / 1024 / 1024) + " MB total: "
 					+ nf.format(totalSpace / 1024 / 1024) + " MB usable: " + nf.format(usableSpace / 1024 / 1024) + " MB free: " + nf.format(freeSpace / 1024 / 1024) + " MB");
 		}
 		widgets.add(ul);
 	}
 
-	private void memoryState(final ListWidget widgets) {
+	private void memoryState(final ListWidget widgets) throws SystemstatusServiceException {
 		{
 			widgets.add(new H2Widget("Memory"));
 			widgets.add("Memory state before cleanup: ");
 			widgets.add(new BrWidget());
-			widgets.add(getMemoryStateMX());
+			widgets.add(getMemoryState());
 			widgets.add(new BrWidget());
 			Runtime.getRuntime().gc();
 			widgets.add("Memory state after cleanup: ");
 			widgets.add(new BrWidget());
-			widgets.add(getMemoryStateMX());
+			widgets.add(getMemoryState());
 			widgets.add(new BrWidget());
 		}
 	}
@@ -154,62 +166,46 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	protected String getMemoryStateMX() {
+	private String getMemoryState() throws SystemstatusServiceException {
+
+		final SystemstatusMemoryUsage memoryUsage = systemstatusService.getMemoryUsage();
+
 		final StringWriter msg = new StringWriter();
 		msg.append("");
-		final MemoryMXBean mem = ManagementFactory.getMemoryMXBean();
 		{
-			final MemoryUsage m = mem.getHeapMemoryUsage();
 			msg.append("free=");
-			msg.append(String.valueOf((m.getMax() - m.getUsed()) / (1024 * 1024)));
+			msg.append(String.valueOf((memoryUsage.getHeapMax() - memoryUsage.getHeapUsed()) / (1024 * 1024)));
 			msg.append(", ");
 			msg.append("used=");
-			msg.append(String.valueOf(m.getUsed() / (1024 * 1024)));
-			msg.append(", ");
-			msg.append("commited=");
-			msg.append(String.valueOf(m.getCommitted() / (1024 * 1024)));
+			msg.append(String.valueOf(memoryUsage.getHeapUsed() / (1024 * 1024)));
+			// msg.append(", ");
+			// msg.append("commited=");
+			// msg.append(String.valueOf(m.getCommitted() / (1024 * 1024)));
 			msg.append(", ");
 			msg.append("max=");
-			msg.append(String.valueOf(m.getMax() / (1024 * 1024)));
-			msg.append(", ");
-			msg.append("init=");
-			msg.append(String.valueOf(m.getInit() / (1024 * 1024)));
+			msg.append(String.valueOf(memoryUsage.getHeapMax() / (1024 * 1024)));
+			// msg.append(", ");
+			// msg.append("init=");
+			// msg.append(String.valueOf(m.getInit() / (1024 * 1024)));
 			msg.append(" ");
 		}
 		{
-			final MemoryUsage m = mem.getNonHeapMemoryUsage();
 			msg.append("PermGen-free=");
-			msg.append(String.valueOf((m.getMax() - m.getUsed()) / (1024 * 1024)));
+			msg.append(String.valueOf((memoryUsage.getNonHeapMax() - memoryUsage.getNonHeapUsed()) / (1024 * 1024)));
 			msg.append(", ");
 			msg.append("PermGen-used=");
-			msg.append(String.valueOf(m.getUsed() / (1024 * 1024)));
-			msg.append(", ");
-			msg.append("PermGen-commited=");
-			msg.append(String.valueOf(m.getCommitted() / (1024 * 1024)));
+			msg.append(String.valueOf(memoryUsage.getNonHeapUsed() / (1024 * 1024)));
+			// msg.append(", ");
+			// msg.append("PermGen-commited=");
+			// msg.append(String.valueOf(m.getCommitted() / (1024 * 1024)));
 			msg.append(", ");
 			msg.append("PermGen-max=");
-			msg.append(String.valueOf(m.getMax() / (1024 * 1024)));
-			msg.append(", ");
-			msg.append("PermGen-init=");
-			msg.append(String.valueOf(m.getInit() / (1024 * 1024)));
+			msg.append(String.valueOf(memoryUsage.getNonHeapMax() / (1024 * 1024)));
+			// msg.append(", ");
+			// msg.append("PermGen-init=");
+			// msg.append(String.valueOf(m.getInit() / (1024 * 1024)));
+			msg.append(" ");
 		}
-		return msg.toString();
-	}
-
-	protected String getMemoryState() {
-		final StringWriter msg = new StringWriter();
-		msg.append("used=");
-		msg.append(String.valueOf((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)));
-		msg.append(", ");
-		msg.append("free=");
-		msg.append(String.valueOf(Runtime.getRuntime().freeMemory() / (1024 * 1024)));
-		msg.append(", ");
-		msg.append("total=");
-		msg.append(String.valueOf(Runtime.getRuntime().totalMemory() / (1024 * 1024)));
-		msg.append(", ");
-		msg.append("max=");
-		msg.append(String.valueOf(Runtime.getRuntime().maxMemory() / (1024 * 1024)));
-
 		return msg.toString();
 	}
 }
