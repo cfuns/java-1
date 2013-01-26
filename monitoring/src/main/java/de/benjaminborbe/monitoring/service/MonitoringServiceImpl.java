@@ -27,6 +27,7 @@ import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.check.MonitoringCheckNop;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
+import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
@@ -66,6 +67,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final MonitoringNodeBuilder monitoringNodeBuilder;
 
+	private final MonitoringConfig monitoringConfig;
+
 	@Inject
 	public MonitoringServiceImpl(
 			final Logger logger,
@@ -77,7 +80,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final DurationUtil durationUtil,
 			final MonitoringNodeDao monitoringNodeDao,
 			final MonitoringMailer monitoringMailer,
-			final MonitoringChecker monitoringChecker) {
+			final MonitoringChecker monitoringChecker,
+			final MonitoringConfig monitoringConfig) {
 		this.logger = logger;
 		this.monitoringCheckRegistry = monitoringCheckRegistry;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;
@@ -88,6 +92,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		this.monitoringNodeDao = monitoringNodeDao;
 		this.monitoringMailer = monitoringMailer;
 		this.monitoringChecker = monitoringChecker;
+		this.monitoringConfig = monitoringConfig;
 	}
 
 	@Override
@@ -413,5 +418,41 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public MonitoringCheckIdentifier getMonitoringCheckTypeDefault() throws MonitoringServiceException {
 		return new MonitoringCheckIdentifier(MonitoringCheckNop.ID);
+	}
+
+	@Override
+	public void expectAuthToken(final String token) throws MonitoringServiceException, PermissionDeniedException {
+		if (monitoringConfig.getAuthToken() == null || token == null || !monitoringConfig.getAuthToken().equals(token)) {
+			throw new PermissionDeniedException("invalid token");
+		}
+	}
+
+	@Override
+	public Collection<MonitoringNode> getCheckResults(final String token) throws MonitoringServiceException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAuthToken(token);
+			logger.debug("getCheckResults");
+
+			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
+			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
+			while (ni.hasNext()) {
+				final MonitoringNodeBean node = ni.next();
+				if (Boolean.TRUE.equals(node.getActive())) {
+					result.add(monitoringNodeBuilder.build(node));
+				}
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 }

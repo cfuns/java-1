@@ -59,4 +59,8 @@ public interface MonitoringService {
 
 	MonitoringCheck getMonitoringCheckTypeById(MonitoringCheckIdentifier monitoringCheckIdentifier) throws MonitoringServiceException;
 
+	void expectAuthToken(String token) throws MonitoringServiceException, PermissionDeniedException;
+
+	Collection<MonitoringNode> getCheckResults(String token) throws MonitoringServiceException, PermissionDeniedException;
+
 }

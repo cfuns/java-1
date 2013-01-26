@@ -12,6 +12,7 @@ import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiNavigationEntry;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeCreateServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeDeleteServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeListJsonServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeSilentServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUpdateServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
@@ -37,7 +38,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	private MonitoringGuiTriggerMailServlet monitoringGuiTriggerMailServlet;
 
 	@Inject
-	private MonitoringGuiNodeListServlet monitoringGuiShowServlet;
+	private MonitoringGuiNodeListServlet monitoringGuiNodeListServlet;
 
 	@Inject
 	private MonitoringGuiServlet monitoringGuiServlet;
@@ -53,6 +54,9 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private MonitoringGuiNavigationEntry monitoringGuiNavigationEntry;
+
+	@Inject
+	private MonitoringGuiNodeListJsonServlet monitoringGuiNodeListJsonServlet;
 
 	public MonitoringGuiActivator() {
 		super(MonitoringGuiConstants.NAME);
@@ -75,7 +79,8 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(monitoringGuiServlet, MonitoringGuiConstants.URL_HOME));
-		result.add(new ServletInfo(monitoringGuiShowServlet, MonitoringGuiConstants.URL_VIEW));
+		result.add(new ServletInfo(monitoringGuiNodeListServlet, MonitoringGuiConstants.URL_NODE_LIST));
+		result.add(new ServletInfo(monitoringGuiNodeListJsonServlet, MonitoringGuiConstants.URL_NODE_LIST_JSON));
 		result.add(new ServletInfo(monitoringGuiNodeCreateServlet, MonitoringGuiConstants.URL_NODE_CREATE));
 		result.add(new ServletInfo(monitoringGuiNodeDeleteServlet, MonitoringGuiConstants.URL_NODE_DELETE));
 		result.add(new ServletInfo(monitoringGuiNodeUpdateServlet, MonitoringGuiConstants.URL_NODE_UPDATE));

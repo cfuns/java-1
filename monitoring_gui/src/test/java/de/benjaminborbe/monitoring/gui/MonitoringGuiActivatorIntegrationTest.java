@@ -47,7 +47,8 @@ public class MonitoringGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_HOME);
-		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_VIEW);
+		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST);
+		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST_JSON);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_SILENT);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_CREATE);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_DELETE);

@@ -114,4 +114,13 @@ public class MonitoringServiceMock implements MonitoringService {
 		return null;
 	}
 
+	@Override
+	public void expectAuthToken(final String token) throws MonitoringServiceException, PermissionDeniedException {
+	}
+
+	@Override
+	public Collection<MonitoringNode> getCheckResults(final String token) throws MonitoringServiceException, PermissionDeniedException {
+		return null;
+	}
+
 }

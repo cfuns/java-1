@@ -10,4 +10,6 @@ public interface MonitoringConfig {
 
 	boolean isCronEnabled();
 
+	String getAuthToken();
+
 }

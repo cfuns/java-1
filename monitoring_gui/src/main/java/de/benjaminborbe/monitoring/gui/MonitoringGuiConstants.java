@@ -38,6 +38,10 @@ public interface MonitoringGuiConstants {
 
 	String URL_TRIGGER_MAIL = "/trigger/mail";
 
-	String URL_VIEW = "/view";
+	String URL_NODE_LIST = "/node/list";
+
+	String PARAMETER_AUTH_TOKEN = "token";
+
+	String URL_NODE_LIST_JSON = "/node/list/json";
 
 }
