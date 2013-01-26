@@ -1,30 +1,30 @@
-package de.benjaminborbe.confluence.gui.util;
+package de.benjaminborbe.systemstatus.gui.service;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
-import de.benjaminborbe.confluence.gui.ConfluenceGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.systemstatus.gui.SystemstatusGuiConstants;
 
-public class ConfluenceGuiNavigationEntry implements NavigationEntry {
+public class SystemstatusGuiNavigationEntry implements NavigationEntry {
 
 	private final AuthorizationService authorizationService;
 
 	@Inject
-	public ConfluenceGuiNavigationEntry(final AuthorizationService authorizationService) {
+	public SystemstatusGuiNavigationEntry(final AuthorizationService authorizationService) {
 		this.authorizationService = authorizationService;
 	}
 
 	@Override
 	public String getTitle() {
-		return "Confluence";
+		return "Systemstatus";
 	}
 
 	@Override
 	public String getURL() {
-		return "/" + ConfluenceGuiConstants.NAME;
+		return "/" + SystemstatusGuiConstants.NAME;
 	}
 
 	@Override
@@ -36,4 +36,5 @@ public class ConfluenceGuiNavigationEntry implements NavigationEntry {
 			return false;
 		}
 	}
+
 }

@@ -8,16 +8,22 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.systemstatus.gui.guice.SystemstatusGuiModules;
+import de.benjaminborbe.systemstatus.gui.service.SystemstatusGuiNavigationEntry;
 import de.benjaminborbe.systemstatus.gui.servlet.SystemstatusGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class SystemstatusGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private SystemstatusGuiServlet systemstatusGuiServlet;
+
+	@Inject
+	private SystemstatusGuiNavigationEntry systemstatusGuiNavigationEntry;
 
 	public SystemstatusGuiActivator() {
 		super(SystemstatusGuiConstants.NAME);
@@ -35,4 +41,10 @@ public class SystemstatusGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, systemstatusGuiNavigationEntry));
+		return result;
+	}
 }

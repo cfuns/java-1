@@ -2,19 +2,19 @@ package de.benjaminborbe.blog.gui.util;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 
 public class BlogGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthenticationService authenticationService;
+	private final AuthorizationService authorizationService;
 
 	@Inject
-	public BlogGuiNavigationEntry(final AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
+	public BlogGuiNavigationEntry(final AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -30,9 +30,9 @@ public class BlogGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isSuperAdmin(sessionIdentifier);
+			return authorizationService.hasAdminRole(sessionIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}

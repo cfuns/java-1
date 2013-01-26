@@ -2,19 +2,19 @@ package de.benjaminborbe.websearch.gui.service;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 
 public class WebsearchGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthenticationService authenticationService;
+	private final AuthorizationService authorizationService;
 
 	@Inject
-	public WebsearchGuiNavigationEntry(final AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
+	public WebsearchGuiNavigationEntry(final AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -30,9 +30,9 @@ public class WebsearchGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isSuperAdmin(sessionIdentifier);
+			return authorizationService.hasAdminRole(sessionIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}
