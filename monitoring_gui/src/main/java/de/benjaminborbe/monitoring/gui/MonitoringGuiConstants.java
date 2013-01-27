@@ -4,6 +4,8 @@ public interface MonitoringGuiConstants {
 
 	String NAME = "monitoring";
 
+	String PARAMETER_AUTH_TOKEN = "token";
+
 	String PARAMETER_NODE_ACTIVATED = "node_activated";
 
 	String PARAMETER_NODE_CHECK_TYPE = "node_check_type";
@@ -26,9 +28,17 @@ public interface MonitoringGuiConstants {
 
 	String URL_JS_SCRIPT = "/js/script.js";
 
+	String URL_NODE_CHECK = "/node/check";
+
 	String URL_NODE_CREATE = "/node/create";
 
 	String URL_NODE_DELETE = "/node/delete";
+
+	String URL_NODE_JSON = "/node/json";
+
+	String URL_NODE_LIST = "/node/list";
+
+	String URL_NODE_LIST_JSON = "/node/list/json";
 
 	String URL_NODE_SILENT = "/node/silent";
 
@@ -37,13 +47,5 @@ public interface MonitoringGuiConstants {
 	String URL_TRIGGER_CHECK = "/trigger/check";
 
 	String URL_TRIGGER_MAIL = "/trigger/mail";
-
-	String URL_NODE_LIST = "/node/list";
-
-	String PARAMETER_AUTH_TOKEN = "token";
-
-	String URL_NODE_LIST_JSON = "/node/list/json";
-
-	String URL_NODE_JSON = "/node/json";
 
 }

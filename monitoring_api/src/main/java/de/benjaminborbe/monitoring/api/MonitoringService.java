@@ -65,4 +65,7 @@ public interface MonitoringService {
 
 	Collection<MonitoringNode> getCheckResults(String token) throws MonitoringServiceException, PermissionDeniedException;
 
+	void checkNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+			PermissionDeniedException;
+
 }

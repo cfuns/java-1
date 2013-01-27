@@ -311,7 +311,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			expectMonitoringAdminRole(sessionIdentifier);
 			logger.debug("check");
 
-			monitoringChecker.check();
+			monitoringChecker.checkAll();
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -465,6 +465,26 @@ public class MonitoringServiceImpl implements MonitoringService {
 			logger.debug("getNode");
 
 			return monitoringNodeBuilder.build(monitoringNodeDao.load(monitoringNodeIdentifier));
+		}
+		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void checkNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectMonitoringAdminRole(sessionIdentifier);
+			logger.debug("checkNode");
+
+			final MonitoringNodeBean node = monitoringNodeDao.load(monitoringNodeIdentifier);
+			monitoringChecker.check(node);
 		}
 		catch (final StorageException e) {
 			throw new MonitoringServiceException(e);

@@ -175,6 +175,8 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
 			row.add(" ");
 			row.add(monitoringGuiLinkFactory.createNode(request, result.getId()));
+			row.add(" ");
+			row.add(monitoringGuiLinkFactory.checkNode(request, result.getId()));
 		}
 
 		return row;

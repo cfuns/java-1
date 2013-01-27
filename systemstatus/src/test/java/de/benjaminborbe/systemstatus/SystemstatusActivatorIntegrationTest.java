@@ -73,6 +73,7 @@ public class SystemstatusActivatorIntegrationTest {
 		names.add(MonitoringCheck.class.getName());
 		names.add(MonitoringCheck.class.getName());
 		names.add(MonitoringCheck.class.getName());
+		names.add(MonitoringCheck.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

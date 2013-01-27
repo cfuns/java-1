@@ -2,6 +2,7 @@ package de.benjaminborbe.monitoring.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -55,78 +56,6 @@ public class MonitoringChecker {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
-
-		private void check(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
-			for (final MonitoringNodeBean bean : nodes) {
-				final MonitoringCheckIdentifier type = bean.getCheckType();
-				final MonitoringCheck check = monitoringCheckRegistry.get(type);
-				final String name = check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
-				if (Boolean.TRUE.equals(bean.getActive())) {
-					logger.debug("node " + name + " active => run check");
-					final MonitoringCheckResult result = check.check(bean.getParameter());
-					bean.setLastCheck(calendarUtil.now());
-					if (Boolean.TRUE.equals(result.getSuccessful())) {
-						logger.debug("node " + name + " success");
-
-						bean.setMessage(result.getMessage());
-						bean.setResult(result.getSuccessful());
-						bean.setFailureCounter(0);
-						save(bean);
-
-						check(tree.getChildNodes(bean.getId()), tree);
-					}
-					else if (Boolean.FALSE.equals(result.getSuccessful())) {
-						if (result.getException() != null) {
-							logger.debug("node " + name + " fail: " + result.getMessage(), result.getException());
-						}
-						else {
-							logger.debug("node " + name + " fail: " + result.getMessage());
-						}
-
-						bean.setMessage(result.getMessage());
-						bean.setResult(result.getSuccessful());
-						bean.setFailureCounter(bean.getFailureCounter() != null ? bean.getFailureCounter() + 1 : 1);
-						save(bean);
-
-						reset(tree.getChildNodes(bean.getId()), tree);
-					}
-					else {
-						logger.debug("node " + name + " unkown");
-
-						bean.setMessage(result.getMessage());
-						bean.setResult(result.getSuccessful());
-						save(bean);
-
-						reset(tree.getChildNodes(bean.getId()), tree);
-					}
-				}
-				else {
-					logger.debug("node " + name + " inactive => skip");
-					reset(bean);
-				}
-			}
-		}
-
-		private void save(final MonitoringNodeBean bean) throws StorageException {
-			monitoringNodeDao.save(
-					bean,
-					Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT),
-							monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.LAST_CHECK), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.FAILURE_COUNTER)));
-		}
-
-		private void reset(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
-			for (final MonitoringNodeBean bean : nodes) {
-				reset(bean);
-				reset(tree.getChildNodes(bean.getId()), tree);
-			}
-		}
-
-		private void reset(final MonitoringNodeBean bean) throws StorageException {
-			bean.setMessage(null);
-			bean.setResult(null);
-			bean.setFailureCounter(null);
-			save(bean);
-		}
 	}
 
 	@Inject
@@ -143,7 +72,7 @@ public class MonitoringChecker {
 		this.monitoringCheckRegistry = monitoringCheckRegistry;
 	}
 
-	public boolean check() {
+	public boolean checkAll() {
 		logger.debug("monitoring checker - started");
 		if (runOnlyOnceATime.run(new Action())) {
 			logger.debug("monitoring checker - finished");
@@ -153,5 +82,86 @@ public class MonitoringChecker {
 			logger.debug("monitoring checker - skipped");
 			return false;
 		}
+	}
+
+	public void check(final MonitoringNodeBean node) throws StorageException {
+		final Collection<MonitoringNodeBean> a = Arrays.asList();
+		check(node, new MonitoringNodeTree<MonitoringNodeBean>(a));
+	}
+
+	private void check(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
+		for (final MonitoringNodeBean bean : nodes) {
+			check(bean, tree);
+		}
+	}
+
+	private void check(final MonitoringNodeBean node, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
+		final MonitoringCheckIdentifier type = node.getCheckType();
+		final MonitoringCheck check = monitoringCheckRegistry.get(type);
+		final String name = check.getDescription(node.getParameter()) + " (" + node.getName() + ")";
+		if (Boolean.TRUE.equals(node.getActive())) {
+			logger.debug("node " + name + " active => run check");
+			final MonitoringCheckResult result = check.check(node.getParameter());
+			node.setLastCheck(calendarUtil.now());
+			if (Boolean.TRUE.equals(result.getSuccessful())) {
+				logger.debug("node " + name + " success");
+
+				node.setMessage(result.getMessage());
+				node.setResult(result.getSuccessful());
+				node.setFailureCounter(0);
+				save(node);
+
+				check(tree.getChildNodes(node.getId()), tree);
+			}
+			else if (Boolean.FALSE.equals(result.getSuccessful())) {
+				if (result.getException() != null) {
+					logger.debug("node " + name + " fail: " + result.getMessage(), result.getException());
+				}
+				else {
+					logger.debug("node " + name + " fail: " + result.getMessage());
+				}
+
+				node.setMessage(result.getMessage());
+				node.setResult(result.getSuccessful());
+				node.setFailureCounter(node.getFailureCounter() != null ? node.getFailureCounter() + 1 : 1);
+				save(node);
+
+				reset(tree.getChildNodes(node.getId()), tree);
+			}
+			else {
+				logger.debug("node " + name + " unkown");
+
+				node.setMessage(result.getMessage());
+				node.setResult(result.getSuccessful());
+				save(node);
+
+				reset(tree.getChildNodes(node.getId()), tree);
+			}
+		}
+		else {
+			logger.debug("node " + name + " inactive => skip");
+			reset(node);
+		}
+	}
+
+	private void save(final MonitoringNodeBean bean) throws StorageException {
+		monitoringNodeDao.save(
+				bean,
+				Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT),
+						monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.LAST_CHECK), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.FAILURE_COUNTER)));
+	}
+
+	private void reset(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
+		for (final MonitoringNodeBean bean : nodes) {
+			reset(bean);
+			reset(tree.getChildNodes(bean.getId()), tree);
+		}
+	}
+
+	private void reset(final MonitoringNodeBean bean) throws StorageException {
+		bean.setMessage(null);
+		bean.setResult(null);
+		bean.setFailureCounter(null);
+		save(bean);
 	}
 }

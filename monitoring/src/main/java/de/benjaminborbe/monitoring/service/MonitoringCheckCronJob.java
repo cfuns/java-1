@@ -37,7 +37,7 @@ public class MonitoringCheckCronJob implements CronJob {
 	public void execute() {
 		if (monitoringConfig.isCronEnabled()) {
 			logger.debug("monitoring cron => started");
-			monitoringChecker.check();
+			monitoringChecker.checkAll();
 			logger.debug("monitoring cron => finished");
 		}
 		else {
