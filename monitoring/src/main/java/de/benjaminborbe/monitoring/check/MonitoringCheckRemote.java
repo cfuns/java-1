@@ -82,11 +82,12 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	@Override
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
+		logger.debug("check");
 		java.net.URL url;
 		try {
 			url = parseUtil.parseURL(parameter.get(URL));
 		}
-		catch (final ParseException e1) {
+		catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, false, "illegal paremter " + URL);
 		}
 		final int timeout;
@@ -101,16 +102,26 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	private MonitoringCheckResult check(final java.net.URL url, final int timeout) {
 		try {
+			logger.debug("check - url: " + url);
 			final HttpDownloadResult httpResult = httpDownloader.getUrl(url, timeout);
 			final String httpContent = httpDownloadUtil.getContent(httpResult);
 			final Object object = jsonParser.parse(httpContent);
 			if (object instanceof JSONObject) {
+				logger.debug("json-data found");
 				final JSONObject jsonObject = (JSONObject) object;
 				final String message = asString(jsonObject.get(MapperJsonObjectMonitoringNode.MESSAGE));
 				final boolean result = parseUtil.parseBoolean(asString(jsonObject.get(MapperJsonObjectMonitoringNode.RESULT)), false);
-				return new MonitoringCheckResultDto(this, result, message, url);
+				if (result) {
+					return new MonitoringCheckResultDto(this, result, message, url);
+				}
+				else {
+					return new MonitoringCheckResultDto(this, result, message != null ? message : httpContent, url);
+				}
 			}
-			return new MonitoringCheckResultDto(this, false, "invalid json response", url);
+			else {
+				logger.debug("no json-data found");
+				return new MonitoringCheckResultDto(this, false, "invalid json response", url);
+			}
 		}
 		catch (final HttpDownloaderException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -161,6 +172,24 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 			}
 			catch (final ParseException e) {
 				result.add(new ValidationErrorSimple("timeout invalid"));
+			}
+		}
+
+		// valid on create
+		{
+			final MonitoringCheckResult checkResult = check(parameter);
+			if (!Boolean.TRUE.equals(checkResult.getSuccessful())) {
+				final StringBuilder sb = new StringBuilder();
+				sb.append("check failed:");
+				if (checkResult.getMessage() != null) {
+					sb.append(" ");
+					sb.append(checkResult.getMessage());
+				}
+				if (checkResult.getException() != null) {
+					sb.append(" ");
+					sb.append(checkResult.getException());
+				}
+				result.add(new ValidationErrorSimple(sb.toString()));
 			}
 		}
 
