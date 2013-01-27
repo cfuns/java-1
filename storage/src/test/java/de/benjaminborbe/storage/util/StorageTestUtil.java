@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cassandra.locator.NetworkTopologyStrategy;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.ColumnDef;
 import org.apache.cassandra.thrift.IndexType;
@@ -64,7 +63,8 @@ public class StorageTestUtil {
 			// Erstellt einen neuen KeySpace
 			final List<CfDef> cfDefList = new ArrayList<CfDef>();
 			cfDefList.add(input);
-			final KsDef ksdef = new KsDef(config.getKeySpace(), NetworkTopologyStrategy.class.getName(), cfDefList);
+			// NetworkTopologyStrategy.class.getName()
+			final KsDef ksdef = new KsDef(config.getKeySpace(), "org.apache.cassandra.locator.NetworkTopologyStrategy", cfDefList);
 			final Map<String, String> strategy_options = new HashMap<String, String>();
 			// strategy_options.put("replication_factor", REPLICATION_FACTOR);
 			strategy_options.put("datacenter1", "1");
