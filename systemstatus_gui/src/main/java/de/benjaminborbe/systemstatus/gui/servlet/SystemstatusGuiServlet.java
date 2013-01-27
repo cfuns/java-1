@@ -2,9 +2,13 @@ package de.benjaminborbe.systemstatus.gui.servlet;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +34,7 @@ import de.benjaminborbe.systemstatus.api.SystemstatusServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -53,9 +58,12 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 
 	private final SystemstatusService systemstatusService;
 
+	private final NetUtil netUtil;
+
 	@Inject
 	public SystemstatusGuiServlet(
 			final Logger logger,
+			final NetUtil netUtil,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
@@ -69,6 +77,7 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			final SystemstatusService systemstatusService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
 		this.logger = logger;
+		this.netUtil = netUtil;
 		this.storageService = storageService;
 		this.systemstatusService = systemstatusService;
 	}
@@ -87,6 +96,7 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			sessionData(request, widgets);
+			hostnames(widgets);
 			memoryState(widgets);
 			diskUsage(widgets);
 			storageState(widgets);
@@ -97,6 +107,23 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	private void hostnames(final ListWidget widgets) {
+		widgets.add(new H2Widget("Hostnames"));
+		try {
+			final UlWidget ul = new UlWidget();
+			final List<String> hostnames = new ArrayList<String>(netUtil.getHostnames());
+			Collections.sort(hostnames);
+			for (final String hostname : hostnames) {
+				ul.add(hostname);
+			}
+			widgets.add(ul);
+		}
+		catch (final SocketException e) {
+			widgets.add("getHostnames failed!");
+			widgets.add(new ExceptionWidget(e));
 		}
 	}
 

@@ -16,6 +16,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 public class RequestDurationWidget implements Widget {
@@ -28,12 +29,15 @@ public class RequestDurationWidget implements Widget {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final NetUtil netUtil;
+
 	@Inject
-	public RequestDurationWidget(final Logger logger, final ParseUtil parseUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
+	public RequestDurationWidget(final Logger logger, final ParseUtil parseUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final NetUtil netUtil) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
+		this.netUtil = netUtil;
 	}
 
 	@Override
@@ -45,7 +49,7 @@ public class RequestDurationWidget implements Widget {
 		final long startTime = parseUtil.parseLong(context.getData().get(WebsiteConstants.START_TIME), now);
 		final long duration = (now - startTime);
 		logger.trace("duration = " + duration);
-		final String msg = "request takes " + duration + " ms";
+		final String msg = "request takes " + duration + " ms @ " + netUtil.getHostname();
 		logger.trace(msg);
 		out.print(msg);
 	}

@@ -33,6 +33,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.util.CssResourceImpl;
@@ -187,7 +188,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	private Widget createFooterWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new RequestDurationWidget(logger, parseUtil, calendarUtil, timeZoneUtil));
+		widgets.add(new RequestDurationWidget(logger, parseUtil, calendarUtil, timeZoneUtil, new NetUtil()));
 		return widgets;
 	}
 

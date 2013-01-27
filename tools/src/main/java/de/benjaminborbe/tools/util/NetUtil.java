@@ -16,6 +16,17 @@ public class NetUtil {
 	public NetUtil() {
 	}
 
+	public String getHostname() throws SocketException {
+		String lastHostname = null;
+		for (final String hostname : getHostnames()) {
+			if (hostname.indexOf('.') != -1) {
+				return hostname;
+			}
+			lastHostname = hostname;
+		}
+		return lastHostname;
+	}
+
 	public Collection<String> getHostnames() throws SocketException {
 		final Set<String> result = new HashSet<String>();
 		final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
