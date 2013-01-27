@@ -47,6 +47,8 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.password.PasswordValidator;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
@@ -77,6 +79,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final ParseUtil parseUtil;
 
+	private final DurationUtil durationUtil;
+
+	private static final int DURATION_WARN = 300;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
@@ -89,7 +95,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final AuthenticationPasswordEncryptionService passwordEncryptionService,
 			final TimeZoneUtil timeZoneUtil,
 			final ValidationExecutor validationExecutor,
-			final ShortenerService shortenerService) {
+			final ShortenerService shortenerService,
+			final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.mailService = mailService;
@@ -101,13 +108,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.timeZoneUtil = timeZoneUtil;
 		this.validationExecutor = validationExecutor;
 		this.shortenerService = shortenerService;
+		this.durationUtil = durationUtil;
 	}
 
 	@Override
 	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
-			// delay login
-			Thread.sleep(AuthenticationConstants.LOGIN_DELAY);
+			try {
+				// delay login
+				Thread.sleep(AuthenticationConstants.LOGIN_DELAY);
+			}
+			catch (final InterruptedException e) {
+			}
 
 			logger.debug("try verifyCredential for user: " + userIdentifier);
 
@@ -121,19 +134,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					logger.warn(e.getClass().getName(), e);
 				}
 			}
+			return false;
 		}
-		catch (final InterruptedException e) {
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
-		return false;
 	}
 
 	@Override
 	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException,
 			ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
-
 			logger.debug("try login user: " + userIdentifier);
-
 			if (verifyCredential(sessionIdentifier, userIdentifier, password)) {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
@@ -155,10 +169,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean isLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final SessionBean session = sessionDao.load(sessionIdentifier);
 			return session != null && session.getCurrentUser() != null;
@@ -166,10 +185,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean logout(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final SessionBean session = sessionDao.load(sessionIdentifier);
 			if (session != null && session.getCurrentUser() != null) {
@@ -182,10 +206,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public UserIdentifier getCurrentUser(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final SessionBean session = sessionDao.load(sessionIdentifier);
 			if (session != null) {
@@ -196,11 +225,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String username, final String email,
 			final String password, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			if (isLoggedIn(sessionIdentifier)) {
 				final String msg = "can't register while logged in";
@@ -245,6 +279,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	private void setNewEmail(final UserBean user, final String email) {
@@ -281,6 +319,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public boolean unregister(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
 			if (userIdentifier == null) {
@@ -297,11 +336,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword, final String newPasswordRepeat)
 			throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
 			if (!newPassword.equals(newPasswordRepeat)) {
@@ -332,6 +376,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		catch (final InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -366,7 +414,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public UserIdentifier createUserIdentifier(final String username) throws AuthenticationServiceException {
-		return new UserIdentifier(username);
+		if (username != null) {
+			return new UserIdentifier(username);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -376,6 +429,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public Collection<UserIdentifier> userList(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
 			final Set<UserIdentifier> result = new HashSet<UserIdentifier>();
@@ -391,12 +445,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final IdentifierIteratorException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
-		logger.debug("existsUser - user: " + userIdentifier);
+		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.debug("existsUser - user: " + userIdentifier);
 			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
 				logger.debug("existsUser - user: " + userIdentifier + " in " + a.getClass().getSimpleName());
 				try {
@@ -412,39 +471,61 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 		}
 		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean existsSession(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return sessionDao.exists(sessionIdentifier);
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void expectLoggedIn(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException {
-		if (!isLoggedIn(sessionIdentifier)) {
-			throw new LoginRequiredException("user not logged in");
+		final Duration duration = durationUtil.getDuration();
+		try {
+			if (!isLoggedIn(sessionIdentifier)) {
+				throw new LoginRequiredException("user not logged in");
+			}
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
-		for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
-			final String username = a.getFullname(userIdentifier);
-			if (username != null && username.length() > 0) {
-				return username;
+		final Duration duration = durationUtil.getDuration();
+		try {
+			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
+				final String username = a.getFullname(userIdentifier);
+				if (username != null && username.length() > 0) {
+					return username;
+				}
 			}
+			return null;
 		}
-		return null;
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
 			return userDao.load(userIdentifier);
@@ -452,11 +533,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void switchUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
 			SuperAdminRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectSuperAdmin(sessionIdentifier);
 			final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
@@ -466,27 +552,47 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void expectSuperAdmin(final SessionIdentifier sessionIdentifier) throws SuperAdminRequiredException, AuthenticationServiceException, LoginRequiredException {
-		expectLoggedIn(sessionIdentifier);
-		if (!isSuperAdmin(sessionIdentifier)) {
-			throw new SuperAdminRequiredException("no superadmin!");
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectLoggedIn(sessionIdentifier);
+			if (!isSuperAdmin(sessionIdentifier)) {
+				throw new SuperAdminRequiredException("no superadmin!");
+			}
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean isSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
-		final UserIdentifier currentUser = getCurrentUser(sessionIdentifier);
-		if (currentUser == null) {
-			return false;
+		final Duration duration = durationUtil.getDuration();
+		try {
+			final UserIdentifier currentUser = getCurrentUser(sessionIdentifier);
+
+			if (currentUser == null) {
+				return false;
+			}
+			return isSuperAdmin(currentUser);
 		}
-		return isSuperAdmin(currentUser);
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
@@ -497,10 +603,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public TimeZone getTimeZone(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			if (isLoggedIn(sessionIdentifier)) {
 				final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
@@ -517,11 +628,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String email, final String fullname,
 			final String timeZoneString) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
 
@@ -559,15 +675,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		catch (final ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) throws AuthenticationServiceException, ValidationException {
-		return login(sessionIdentifier, createUserIdentifier(username), password);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return login(sessionIdentifier, createUserIdentifier(username), password);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public boolean verifyEmail(final UserIdentifier userIdentifier, final String token) throws AuthenticationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserBean user = userDao.load(userIdentifier);
 			if (user != null && token != null && token.equals(user.getEmailVerifyToken())) {
@@ -581,6 +709,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 }

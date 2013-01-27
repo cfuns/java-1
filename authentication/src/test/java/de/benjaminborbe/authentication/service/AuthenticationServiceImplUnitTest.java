@@ -25,6 +25,8 @@ import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionServ
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialStorage;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 
 public class AuthenticationServiceImplUnitTest {
 
@@ -60,10 +62,19 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.expect(verifyCredentialRegistry.getAll()).andReturn(Arrays.asList(v)).anyTimes();
 		EasyMock.replay(verifyCredentialRegistry);
 
+		final Duration duration = EasyMock.createMock(Duration.class);
+		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();
+		EasyMock.replay(duration);
+
+		final DurationUtil durationUtil = EasyMock.createMock(DurationUtil.class);
+		EasyMock.expect(durationUtil.getDuration()).andReturn(duration).anyTimes();
+		EasyMock.replay(durationUtil);
+
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, p, null, null, null);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, p, null, null, null,
+				durationUtil);
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userWrong, "test123"));
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userRight, "wrongPw"));
 		assertTrue(authenticationService.verifyCredential(sessionIdentifier, userRight, "test123"));
@@ -97,6 +108,14 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.expect(sessionDao.load(sessionIdentifier)).andReturn(sessionBean);
 		EasyMock.replay(sessionDao);
 
+		final Duration duration = EasyMock.createMock(Duration.class);
+		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();
+		EasyMock.replay(duration);
+
+		final DurationUtil durationUtil = EasyMock.createMock(DurationUtil.class);
+		EasyMock.expect(durationUtil.getDuration()).andReturn(duration).anyTimes();
+		EasyMock.replay(durationUtil);
+
 		final UserDao userDao = EasyMock.createMock(UserDao.class);
 		EasyMock.replay(userDao);
 
@@ -104,7 +123,7 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.replay(verifyCredentialRegistry);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, null, null, null,
-				null);
+				null, durationUtil);
 		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier).getId());
 	}
 
@@ -125,6 +144,14 @@ public class AuthenticationServiceImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
+		final Duration duration = EasyMock.createMock(Duration.class);
+		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();
+		EasyMock.replay(duration);
+
+		final DurationUtil durationUtil = EasyMock.createMock(DurationUtil.class);
+		EasyMock.expect(durationUtil.getDuration()).andReturn(duration).anyTimes();
+		EasyMock.replay(durationUtil);
+
 		final SessionDao sessionDao = EasyMock.createMock(SessionDao.class);
 		EasyMock.expect(sessionDao.load(sessionIdentifier)).andReturn(null);
 		EasyMock.replay(sessionDao);
@@ -136,7 +163,7 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.replay(verifyCredentialRegistry);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, null, null, null,
-				null);
+				null, durationUtil);
 		assertNull(authenticationService.getCurrentUser(sessionIdentifier));
 	}
 }
