@@ -46,7 +46,7 @@ public class MonitoringGuiLinkFactory {
 
 	public Widget nodeDelete(final HttpServletRequest request, final MonitoringNodeIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_DELETE, new MapParameter().add(
-				MonitoringGuiConstants.PARAMETER_NODE_ID, id), "delete");
+				MonitoringGuiConstants.PARAMETER_NODE_ID, id), "delete").addConfirm("delete node?");
 	}
 
 	public String nodeListUrl(final HttpServletRequest request) {
