@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
@@ -13,6 +15,9 @@ import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
+import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
+import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
+import de.benjaminborbe.systemstatus.util.SystemstatusPartitionUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -30,10 +35,20 @@ public class SystemstatusDiskspaceFreeMbMonitoringCheck implements MonitoringChe
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
+	private final SystemstatusPartitionUtil systemstatusPartitionUtil;
+
+	private final Logger logger;
+
 	@Inject
-	public SystemstatusDiskspaceFreeMbMonitoringCheck(final ParseUtil parseUtil, final ValidationConstraintValidator validationConstraintValidator) {
+	public SystemstatusDiskspaceFreeMbMonitoringCheck(
+			final Logger logger,
+			final ParseUtil parseUtil,
+			final ValidationConstraintValidator validationConstraintValidator,
+			final SystemstatusPartitionUtil systemstatusPartitionUtil) {
+		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
+		this.systemstatusPartitionUtil = systemstatusPartitionUtil;
 	}
 
 	@Override
@@ -53,23 +68,25 @@ public class SystemstatusDiskspaceFreeMbMonitoringCheck implements MonitoringChe
 
 	@Override
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
-		return new MonitoringCheckResult() {
+		try {
+			for (final SystemstatusPartition partition : systemstatusPartitionUtil.getPartitions()) {
+				logger.debug(partition.getAbsolutePath());
 
-			@Override
-			public Boolean getSuccessful() {
-				return true;
-			}
+				final long expectedFreeSpace = getFreeMb(parameter);
+				final long freeSpace = partition.getFreeSpace() / 1024 / 1024;
 
-			@Override
-			public String getMessage() {
-				return null;
+				if (freeSpace >= expectedFreeSpace) {
+					return new MonitoringCheckResultDto(this, true);
+				}
+				else {
+					return new MonitoringCheckResultDto(this, false, "free diskspacek (" + freeSpace + "mb) less expected free diskspace (" + expectedFreeSpace + "mb)");
+				}
 			}
-
-			@Override
-			public Exception getException() {
-				return null;
-			}
-		};
+			return new MonitoringCheckResultDto(this, false, "no filesystem found");
+		}
+		catch (final ParseException e) {
+			return new MonitoringCheckResultDto(this, e);
+		}
 	}
 
 	@Override
