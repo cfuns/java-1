@@ -178,5 +178,11 @@
 			<artifactId>de.benjaminborbe.configuration.tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${easymock.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
