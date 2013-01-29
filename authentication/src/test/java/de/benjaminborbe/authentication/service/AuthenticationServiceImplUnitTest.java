@@ -73,8 +73,7 @@ public class AuthenticationServiceImplUnitTest {
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, p, null, null, null,
-				durationUtil);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, null, null, null, null, durationUtil, v);
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userWrong, "test123"));
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userRight, "wrongPw"));
 		assertTrue(authenticationService.verifyCredential(sessionIdentifier, userRight, "test123"));
@@ -122,8 +121,7 @@ public class AuthenticationServiceImplUnitTest {
 		final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(AuthenticationVerifyCredentialRegistry.class);
 		EasyMock.replay(verifyCredentialRegistry);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, null, null, null,
-				null, durationUtil);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, null, null, null, null, durationUtil, null);
 		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier).getId());
 	}
 
@@ -162,8 +160,7 @@ public class AuthenticationServiceImplUnitTest {
 		final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry = EasyMock.createMock(AuthenticationVerifyCredentialRegistry.class);
 		EasyMock.replay(verifyCredentialRegistry);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, verifyCredentialRegistry, null, null, null,
-				null, durationUtil);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, null, null, null, null, durationUtil, null);
 		assertNull(authenticationService.getCurrentUser(sessionIdentifier));
 	}
 }

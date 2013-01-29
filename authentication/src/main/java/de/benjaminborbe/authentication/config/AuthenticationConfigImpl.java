@@ -32,6 +32,8 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 
 	private final ConfigurationDescriptionBoolean ssl = new ConfigurationDescriptionBoolean(true, "AuthenticationLdapSSL", "Authentication Ldap SSL");
 
+	private final ConfigurationDescriptionBoolean ldapEnabled = new ConfigurationDescriptionBoolean(false, "AuthenticationLdapEnabled", "Authentication Ldap Enabled");
+
 	@Inject
 	public AuthenticationConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
 		super(logger, configurationService, parseUtil);
@@ -44,6 +46,7 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 		result.add(domain);
 		result.add(credentials);
 		result.add(ssl);
+		result.add(ldapEnabled);
 		return result;
 	}
 
@@ -67,4 +70,8 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 		return getValueBoolean(ssl);
 	}
 
+	@Override
+	public boolean isLdapEnabled() {
+		return getValueBoolean(ldapEnabled);
+	}
 }

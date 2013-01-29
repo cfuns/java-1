@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.ldap.LdapConnector;
 import de.benjaminborbe.authentication.ldap.LdapException;
 
@@ -17,10 +18,13 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 
 	private final Logger logger;
 
+	private final AuthenticationConfig authenticationConfig;
+
 	@Inject
-	public AuthenticationVerifyCredentialLdap(final Logger logger, final LdapConnector ldapConnector) {
+	public AuthenticationVerifyCredentialLdap(final Logger logger, final LdapConnector ldapConnector, final AuthenticationConfig authenticationConfig) {
 		this.logger = logger;
 		this.ldapConnector = ldapConnector;
+		this.authenticationConfig = authenticationConfig;
 	}
 
 	@Override
@@ -55,6 +59,11 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 		catch (final LdapException e) {
 			throw new AuthenticationServiceException(e.getClass().getName(), e);
 		}
+	}
+
+	@Override
+	public boolean isActive() {
+		return authenticationConfig.isLdapEnabled();
 	}
 
 }

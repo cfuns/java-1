@@ -11,4 +11,6 @@ public interface AuthenticationVerifyCredential {
 
 	boolean existsUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
+	boolean isActive();
+
 }

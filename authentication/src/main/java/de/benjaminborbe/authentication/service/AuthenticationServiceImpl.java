@@ -35,7 +35,6 @@ import de.benjaminborbe.authentication.dao.UserBean;
 import de.benjaminborbe.authentication.dao.UserDao;
 import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
-import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialRegistry;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
@@ -63,8 +62,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final UserDao userDao;
 
-	private final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry;
-
 	private final AuthenticationPasswordEncryptionService passwordEncryptionService;
 
 	private final TimeZoneUtil timeZoneUtil;
@@ -83,6 +80,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private static final int DURATION_WARN = 300;
 
+	private final AuthenticationVerifyCredential authenticationVerifyCredential;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
@@ -91,24 +90,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final PasswordValidator passwordValidator,
 			final SessionDao sessionDao,
 			final UserDao userDao,
-			final AuthenticationVerifyCredentialRegistry verifyCredentialRegistry,
 			final AuthenticationPasswordEncryptionService passwordEncryptionService,
 			final TimeZoneUtil timeZoneUtil,
 			final ValidationExecutor validationExecutor,
 			final ShortenerService shortenerService,
-			final DurationUtil durationUtil) {
+			final DurationUtil durationUtil,
+			final AuthenticationVerifyCredential authenticationVerifyCredential) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.mailService = mailService;
 		this.passwordValidator = passwordValidator;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
-		this.verifyCredentialRegistry = verifyCredentialRegistry;
 		this.passwordEncryptionService = passwordEncryptionService;
 		this.timeZoneUtil = timeZoneUtil;
 		this.validationExecutor = validationExecutor;
 		this.shortenerService = shortenerService;
 		this.durationUtil = durationUtil;
+		this.authenticationVerifyCredential = authenticationVerifyCredential;
 	}
 
 	@Override
@@ -122,19 +121,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			catch (final InterruptedException e) {
 			}
 
-			logger.debug("try verifyCredential for user: " + userIdentifier);
-
-			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
-				try {
-					if (a.verifyCredential(userIdentifier, password)) {
-						return true;
-					}
-				}
-				catch (final AuthenticationServiceException e) {
-					logger.warn(e.getClass().getName(), e);
-				}
-			}
-			return false;
+			return authenticationVerifyCredential.verifyCredential(userIdentifier, password);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -455,20 +442,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("existsUser - user: " + userIdentifier);
-			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
-				logger.debug("existsUser - user: " + userIdentifier + " in " + a.getClass().getSimpleName());
-				try {
-					if (a.existsUser(userIdentifier)) {
-						return true;
-					}
-				}
-				catch (final AuthenticationServiceException e) {
-					logger.warn(e.getClass().getName(), e);
-				}
-			}
-			logger.debug("existsUser - user not found: " + userIdentifier);
-			return false;
+			return authenticationVerifyCredential.existsUser(userIdentifier);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -509,13 +483,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			for (final AuthenticationVerifyCredential a : verifyCredentialRegistry.getAll()) {
-				final String username = a.getFullname(userIdentifier);
-				if (username != null && username.length() > 0) {
-					return username;
-				}
-			}
-			return null;
+			return authenticationVerifyCredential.getFullname(userIdentifier);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)

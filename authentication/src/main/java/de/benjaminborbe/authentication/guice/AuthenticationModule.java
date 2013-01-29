@@ -13,12 +13,15 @@ import de.benjaminborbe.authentication.dao.SessionDaoStorage;
 import de.benjaminborbe.authentication.dao.UserDao;
 import de.benjaminborbe.authentication.dao.UserDaoStorage;
 import de.benjaminborbe.authentication.service.AuthenticationServiceImpl;
+import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
+import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 
 public class AuthenticationModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthenticationVerifyCredential.class).to(AuthenticationVerifyCredentialImpl.class).in(Singleton.class);
 		bind(AuthenticationConfig.class).to(AuthenticationConfigImpl.class).in(Singleton.class);
 		bind(UserDao.class).to(UserDaoStorage.class).in(Singleton.class);
 		bind(SessionDao.class).to(SessionDaoStorage.class).in(Singleton.class);

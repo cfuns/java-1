@@ -100,4 +100,9 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 		}
 	}
 
+	@Override
+	public boolean isActive() {
+		return true;
+	}
+
 }

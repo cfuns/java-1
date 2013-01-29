@@ -1,8 +1,11 @@
 package de.benjaminborbe.meta.util;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.easymock.EasyMock;
@@ -20,6 +23,13 @@ public class BundleResolverImplUnitTest {
 		final List<String> list = b.getBundleSymbolicNames();
 		assertNotNull(list);
 		assertEquals(3, list.size());
+
+		Collections.sort(list);
+
+		assertThat(list.get(0), is("de.benjaminborbe.authentication.gui"));
+		assertThat(list.get(1), is("de.benjaminborbe.authorization.gui"));
+		assertThat(list.get(2), is("de.benjaminborbe.portfolio.gui"));
+
 	}
 
 	@Test

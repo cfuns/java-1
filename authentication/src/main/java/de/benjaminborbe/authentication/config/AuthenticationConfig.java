@@ -16,4 +16,6 @@ public interface AuthenticationConfig {
 
 	Collection<ConfigurationDescription> getConfigurations();
 
+	boolean isLdapEnabled();
+
 }
