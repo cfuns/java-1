@@ -1,6 +1,7 @@
 package de.benjaminborbe.confluence.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import de.benjaminborbe.confluence.api.ConfluenceServiceException;
 import de.benjaminborbe.confluence.gui.util.ConfluenceGuiLinkFactory;
 import de.benjaminborbe.confluence.gui.util.ConfluenceInstanceComparator;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -36,11 +38,13 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.table.TableHeadWidget;
+import de.benjaminborbe.website.table.TableRowWidget;
+import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.SpanWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
 public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
@@ -95,21 +99,24 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
-			final UlWidget ul = new UlWidget();
 			final List<ConfluenceInstance> confluenceInstances = Lists.newArrayList(confluenceService.getConfluenceInstances(sessionIdentifier));
 			Collections.sort(confluenceInstances, confluenceInstanceComparator);
+
+			final TableWidget table = new TableWidget();
+			table.addClass("sortable");
+			final TableHeadWidget head = new TableHeadWidget();
+			head.addCell("Url").addCell("User").addCell("Active").addCell("");
+			table.setHead(head);
 			for (final ConfluenceInstance confluenceInstance : confluenceInstances) {
-				final ListWidget list = new ListWidget();
-				list.add(confluenceInstance.getUsername());
-				list.add(" @ ");
-				list.add(confluenceInstance.getUrl());
-				list.add(" ");
-				list.add(linkFactory.updateInstance(request, confluenceInstance.getId()));
-				list.add(" ");
-				list.add(linkFactory.deleteInstance(request, confluenceInstance.getId()));
-				ul.add(new SpanWidget(list).addClass(Boolean.TRUE.equals(confluenceInstance.getActivated()) ? "confluenceInstanceActive" : "confluenceInstanceInactive"));
+				final TableRowWidget row = new TableRowWidget();
+				row.addCell(confluenceInstance.getUrl());
+				row.addCell(confluenceInstance.getUsername());
+				row.addCell(String.valueOf(confluenceInstance.getActivated()));
+				row.addCell(linkFactory.deleteInstance(request, confluenceInstance.getId()));
+				row.addClass(Boolean.TRUE.equals(confluenceInstance.getActivated()) ? "confluenceInstanceActive" : "confluenceInstanceInactive");
+				table.addRow(row);
 			}
-			widgets.add(ul);
+			widgets.add(table);
 
 			final ListWidget links = new ListWidget();
 			links.add(linkFactory.createInstance(request));
@@ -128,5 +135,13 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
+	}
+
+	@Override
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final String contextPath = request.getContextPath();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
+		return result;
 	}
 }

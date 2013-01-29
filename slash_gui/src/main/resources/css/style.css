@@ -91,8 +91,9 @@ ul#navi li {
 /**
  * Table
  */
-table th {
+table th,table thead td {
 	background-color: #DDDDDD;
+	font-weight: bold;
 }
 
 table td {
