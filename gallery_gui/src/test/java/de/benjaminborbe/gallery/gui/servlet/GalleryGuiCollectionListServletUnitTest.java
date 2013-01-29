@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
@@ -146,8 +147,12 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final GalleryGuiCollectionListServlet galleryServlet = new GalleryGuiCollectionListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService, null, null);
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, linkFactory, galleryService, authorizationService, null, cacheService);
 
 		galleryServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
