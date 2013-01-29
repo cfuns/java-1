@@ -11,7 +11,7 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
-import de.benjaminborbe.website.guice.WebsiteModule;
+import de.benjaminborbe.website.guice.WebsiteOsgiModule;
 
 public class MessageGuiModules implements Modules {
 
@@ -23,6 +23,6 @@ public class MessageGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MessageGuiOsgiModule(), new MessageGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new MessageGuiOsgiModule(), new MessageGuiModule(), new ToolModule(), new WebsiteOsgiModule());
 	}
 }

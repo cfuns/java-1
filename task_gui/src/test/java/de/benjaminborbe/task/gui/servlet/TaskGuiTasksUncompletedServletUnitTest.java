@@ -26,6 +26,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
@@ -176,9 +177,14 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		final TaskNameComparator taskNameComparator = new TaskNameComparator();
 		final TaskPrioComparator taskPrioComparator = new TaskPrioComparator();
 		final TaskComparator taskComparator = new TaskComparator(taskNameComparator, taskPrioComparator);
+
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
 				httpContextProvider, redirectUtil, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget, comparatorUtil,
-				taskComparator, new ProviderAdapter<TaskCache>(taskCache));
+				taskComparator, new ProviderAdapter<TaskCache>(taskCache), cacheService);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -29,6 +29,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
@@ -84,8 +85,9 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AnalyticsService analyticsService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AnalyticsService analyticsService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.analyticsService = analyticsService;

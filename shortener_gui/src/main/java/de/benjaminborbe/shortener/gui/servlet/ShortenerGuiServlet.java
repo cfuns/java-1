@@ -17,6 +17,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -69,8 +70,9 @@ public class ShortenerGuiServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final ShortenerService shortenerService,
-			final ShortenerGuiLinkFactory shortenerGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final ShortenerGuiLinkFactory shortenerGuiLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.parseUtil = parseUtil;
 		this.shortenerService = shortenerService;
 		this.logger = logger;

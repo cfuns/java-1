@@ -20,6 +20,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -60,8 +61,9 @@ public class BookmarkGuiDeleteServlet extends BookmarkGuiBaseServlet {
 			final BookmarkService bookmarkService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.bookmarkService = bookmarkService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;

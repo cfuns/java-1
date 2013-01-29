@@ -23,6 +23,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -105,8 +106,9 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			final TaskGuiLinkFactory taskGuiLinkFactory,
 			final ComparatorUtil comparatorUtil,
 			final TaskComparator taskComparator,
-			final Provider<TaskCache> taskCacheProvider) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil);
+			final Provider<TaskCache> taskCacheProvider,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
 		this.htmlUtil = htmlUtil;

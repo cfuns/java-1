@@ -24,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
@@ -126,8 +127,12 @@ public class StorageGuiServletUnitTest {
 		final StorageService storageService = EasyMock.createNiceMock(StorageService.class);
 		EasyMock.replay(storageService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final StorageGuiServlet storageServlet = new StorageGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, storageService);
+				redirectUtil, urlUtil, authorizationService, storageService, cacheService);
 
 		storageServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

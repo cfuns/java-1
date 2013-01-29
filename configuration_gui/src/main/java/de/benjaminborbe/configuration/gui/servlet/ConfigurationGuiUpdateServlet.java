@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
@@ -64,8 +65,9 @@ public class ConfigurationGuiUpdateServlet extends WebsiteHtmlServlet {
 			final ConfigurationService configurationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.configurationService = configurationService;
 		this.logger = logger;
 	}

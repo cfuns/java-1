@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -93,8 +94,9 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			final UrlUtil urlUtil,
 			final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
 			final StringUtil stringUtil,
-			final ComparatorUtil comparatorUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final ComparatorUtil comparatorUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
 		this.logger = logger;

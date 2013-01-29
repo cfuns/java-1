@@ -21,6 +21,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -63,8 +64,9 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 			final AuthenticationService authenticationService,
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;

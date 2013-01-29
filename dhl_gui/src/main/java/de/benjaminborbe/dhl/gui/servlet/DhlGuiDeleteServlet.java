@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
@@ -63,8 +64,9 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 			final DhlService dhlService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.dhlService = dhlService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;

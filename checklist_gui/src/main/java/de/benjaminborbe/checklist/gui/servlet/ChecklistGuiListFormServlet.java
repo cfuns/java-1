@@ -21,6 +21,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.checklist.api.ChecklistList;
 import de.benjaminborbe.checklist.api.ChecklistListDto;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
@@ -71,8 +72,9 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
 			final ChecklistService checklistService,
-			final ChecklistGuiLinkFactory checklistGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final ChecklistGuiLinkFactory checklistGuiLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.checklistGuiLinkFactory = checklistGuiLinkFactory;

@@ -24,6 +24,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.kiosk.api.KioskUser;
@@ -78,8 +79,9 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
 			final LunchService lunchService,
-			final LunchGuiLinkFactory lunchGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final LunchGuiLinkFactory lunchGuiLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.lunchService = lunchService;
 		this.calendarUtil = calendarUtil;

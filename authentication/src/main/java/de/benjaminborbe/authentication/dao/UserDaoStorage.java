@@ -52,13 +52,11 @@ public class UserDaoStorage extends DaoStorage<UserBean, UserIdentifier> impleme
 	@Override
 	public void delete(final UserIdentifier id) throws StorageException {
 		super.delete(id);
-		// TODO trigger delete user_role
 	}
 
 	@Override
 	public void delete(final UserBean entity) throws StorageException {
 		super.delete(entity);
-		// TODO trigger delete user_role
 	}
 
 }

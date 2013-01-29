@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.performance.api.PerformanceEntry;
@@ -126,8 +127,12 @@ public class PerformanceGuiServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final PerformanceGuiServlet performanceServlet = new PerformanceGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, performanceTracker, redirectUtil, urlUtil, authorizationService);
+				httpContextProvider, performanceTracker, redirectUtil, urlUtil, authorizationService, cacheService);
 
 		performanceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

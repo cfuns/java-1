@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;
 import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiConstants;
@@ -58,8 +59,9 @@ public class DistributedSearchGuiRebuildIndexServlet extends WebsiteHtmlServlet 
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final DistributedSearchService distributedSearchService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final DistributedSearchService distributedSearchService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.distributedSearchService = distributedSearchService;
 		this.logger = logger;
 	}

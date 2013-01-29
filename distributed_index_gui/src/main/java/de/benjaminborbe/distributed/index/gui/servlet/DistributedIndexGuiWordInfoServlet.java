@@ -19,6 +19,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
 import de.benjaminborbe.distributed.index.gui.DistributedIndexGuiConstants;
@@ -73,8 +74,9 @@ public class DistributedIndexGuiWordInfoServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final DistributedIndexService distributedIndexService,
-			final DistributedIndexGuiLinkFactory distributedIndexGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final DistributedIndexGuiLinkFactory distributedIndexGuiLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.distributedIndexService = distributedIndexService;
 		this.logger = logger;
 		this.distributedIndexGuiLinkFactory = distributedIndexGuiLinkFactory;

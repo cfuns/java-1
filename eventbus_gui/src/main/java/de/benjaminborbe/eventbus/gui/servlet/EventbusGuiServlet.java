@@ -16,6 +16,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
@@ -56,8 +57,9 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.eventbusService = eventbusService;
 	}

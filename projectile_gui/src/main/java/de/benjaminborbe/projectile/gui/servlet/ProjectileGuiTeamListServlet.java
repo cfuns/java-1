@@ -23,6 +23,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -71,8 +72,9 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
 			final ProjectileService projectileService,
-			final ProjectileLinkFactory projectileLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final ProjectileLinkFactory projectileLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
 		this.projectileService = projectileService;

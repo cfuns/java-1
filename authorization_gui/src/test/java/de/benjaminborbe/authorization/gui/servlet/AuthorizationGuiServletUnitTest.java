@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -126,8 +127,12 @@ public class AuthorizationGuiServletUnitTest {
 
 		final AuthorizationGuiLinkFactory authorizationGuiLinkFactory = new AuthorizationGuiLinkFactory(urlUtil);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final AuthorizationGuiServlet authorizationServlet = new AuthorizationGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, authorizationGuiLinkFactory);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, authorizationGuiLinkFactory, cacheService);
 
 		authorizationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

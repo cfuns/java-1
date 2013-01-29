@@ -14,6 +14,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.checklist.gui.ChecklistGuiConstants;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
@@ -41,8 +42,9 @@ public abstract class ChecklistHtmlServlet extends WebsiteHtmlServlet {
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 	}
 
 	@Override

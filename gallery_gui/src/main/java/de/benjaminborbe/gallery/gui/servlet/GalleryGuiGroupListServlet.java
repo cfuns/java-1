@@ -20,6 +20,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.gallery.api.GalleryGroup;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -70,8 +71,9 @@ public class GalleryGuiGroupListServlet extends GalleryGuiHtmlServlet {
 			final GalleryGuiLinkFactory linkFactory,
 			final GalleryService galleryService,
 			final AuthorizationService authorizationService,
-			final GalleryGroupComparator galleryGroupComparator) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final GalleryGroupComparator galleryGroupComparator,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.linkFactory = linkFactory;
 		this.galleryService = galleryService;
 		this.logger = logger;

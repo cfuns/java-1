@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.projectile.api.ProjectileService;
@@ -137,8 +138,12 @@ public class ProjectileGuiReportUserCurrentServletUnitTest {
 		EasyMock.expect(projectileService.getUsersForTeam(sessionIdentifier, team)).andReturn(new ArrayList<UserIdentifier>());
 		EasyMock.replay(projectileService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final ProjectileGuiReportUserCurrentServlet projectileServlet = new ProjectileGuiReportUserCurrentServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				authenticationService, authorizationService, httpContextProvider, urlUtil, projectileService);
+				authenticationService, authorizationService, httpContextProvider, urlUtil, projectileService, cacheService);
 
 		projectileServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

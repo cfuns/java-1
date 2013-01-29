@@ -18,6 +18,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.monitoring.api.MonitoringService;
@@ -56,8 +57,9 @@ public class MonitoringGuiTriggerMailServlet extends MonitoringWebsiteHtmlServle
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final MonitoringService monitoringService,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.monitoringService = monitoringService;
 		this.authenticationService = authenticationService;

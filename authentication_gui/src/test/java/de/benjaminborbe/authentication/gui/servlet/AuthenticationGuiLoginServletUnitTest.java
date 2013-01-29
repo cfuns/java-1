@@ -26,6 +26,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -130,8 +131,12 @@ public class AuthenticationGuiLoginServletUnitTest {
 		EasyMock.expect(authenticationGuiConfig.registerEnabled()).andReturn(true).anyTimes();
 		EasyMock.replay(authenticationGuiConfig);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final AuthenticationGuiLoginServlet authenticationServlet = new AuthenticationGuiLoginServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService, authenticationGuiConfig);
+				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService, authenticationGuiConfig, cacheService);
 
 		authenticationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

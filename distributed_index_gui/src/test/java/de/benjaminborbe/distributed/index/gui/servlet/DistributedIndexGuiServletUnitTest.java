@@ -24,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.distributed.index.gui.util.DistributedIndexGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -125,8 +126,12 @@ public class DistributedIndexGuiServletUnitTest {
 
 		final DistributedIndexGuiLinkFactory distributedIndexGuiLinkFactory = new DistributedIndexGuiLinkFactory(urlUtil);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final DistributedIndexGuiServlet distributed_indexServlet = new DistributedIndexGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, distributedIndexGuiLinkFactory);
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, distributedIndexGuiLinkFactory, cacheService);
 
 		distributed_indexServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

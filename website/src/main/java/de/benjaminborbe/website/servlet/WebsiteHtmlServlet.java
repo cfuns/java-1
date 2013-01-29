@@ -23,6 +23,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -65,6 +66,8 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final CacheService cacheService;
+
 	@Inject
 	public WebsiteHtmlServlet(
 			final Logger logger,
@@ -75,7 +78,8 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil) {
+			final UrlUtil urlUtil,
+			final CacheService cacheService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -83,6 +87,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		this.navigationWidget = navigationWidget;
 		this.authenticationService = authenticationService;
 		this.parseUtil = parseUtil;
+		this.cacheService = cacheService;
 	}
 
 	protected abstract String getTitle();
@@ -188,7 +193,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	private Widget createFooterWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new RequestDurationWidget(logger, parseUtil, calendarUtil, timeZoneUtil, new NetUtil()));
+		widgets.add(new RequestDurationWidget(logger, parseUtil, calendarUtil, timeZoneUtil, new NetUtil(), cacheService));
 		return widgets;
 	}
 

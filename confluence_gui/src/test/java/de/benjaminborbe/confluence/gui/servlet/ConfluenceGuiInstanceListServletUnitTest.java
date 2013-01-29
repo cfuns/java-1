@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.gui.util.ConfluenceGuiLinkFactory;
@@ -136,8 +137,12 @@ public class ConfluenceGuiInstanceListServletUnitTest {
 
 		final ConfluenceInstanceComparator confluenceInstanceComparator = new ConfluenceInstanceComparator();
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final ConfluenceGuiInstanceListServlet confluenceServlet = new ConfluenceGuiInstanceListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider, redirectUtil, urlUtil, confluenceGuiLinkFactory, confluenceService, authorizationService, confluenceInstanceComparator);
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, confluenceGuiLinkFactory, confluenceService, authorizationService, confluenceInstanceComparator, cacheService);
 
 		confluenceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

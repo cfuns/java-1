@@ -28,6 +28,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -137,8 +138,12 @@ public class AnalyticsGuiReportListServletUnitTest {
 		EasyMock.expect(analyticsService.hasAnalyticsAdminRole(sessionIdentifier)).andReturn(false).anyTimes();
 		EasyMock.replay(analyticsService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final AnalyticsGuiReportListServlet analyticsServlet = new AnalyticsGuiReportListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService,
-				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsService, analyticsGuiLinkFactory);
+				navigationWidget, httpContextProvider, redirectUtil, urlUtil, authorizationService, analyticsService, analyticsGuiLinkFactory, cacheService);
 
 		analyticsServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

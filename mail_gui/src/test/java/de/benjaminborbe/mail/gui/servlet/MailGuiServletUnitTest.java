@@ -24,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.gui.MailGuiConstants;
@@ -136,8 +137,12 @@ public class MailGuiServletUnitTest {
 		final NetUtil netUtil = EasyMock.createNiceMock(NetUtil.class);
 		EasyMock.replay(netUtil);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final MailGuiServlet mailServlet = new MailGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, mailService, authorizationService, mailLinkFactory, netUtil);
+				redirectUtil, urlUtil, mailService, authorizationService, mailLinkFactory, netUtil, cacheService);
 
 		mailServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

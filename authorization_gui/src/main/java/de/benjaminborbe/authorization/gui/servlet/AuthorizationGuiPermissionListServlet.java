@@ -16,6 +16,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -52,8 +53,9 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authorizationService = authorizationService;
 		this.logger = logger;
 	}

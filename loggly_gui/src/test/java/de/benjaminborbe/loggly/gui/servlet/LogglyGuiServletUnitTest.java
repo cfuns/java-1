@@ -24,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.loggly.api.LogglyService;
 import de.benjaminborbe.loggly.gui.LogglyGuiConstants;
@@ -128,8 +129,12 @@ public class LogglyGuiServletUnitTest {
 		final LogglyService logglyService = EasyMock.createMock(LogglyService.class);
 		EasyMock.replay(logglyService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final LogglyGuiServlet logglyServlet = new LogglyGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, logglyService);
+				redirectUtil, urlUtil, authorizationService, logglyService, cacheService);
 
 		logglyServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

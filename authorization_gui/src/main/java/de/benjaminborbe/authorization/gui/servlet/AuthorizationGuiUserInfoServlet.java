@@ -20,6 +20,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -63,8 +64,9 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authorizationSerivce = authorizationSerivce;
 		this.authenticationService = authenticationService;

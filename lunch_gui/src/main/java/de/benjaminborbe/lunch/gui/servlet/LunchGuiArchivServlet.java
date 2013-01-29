@@ -14,6 +14,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
@@ -46,8 +47,10 @@ public class LunchGuiArchivServlet extends LunchGuiBaseServlet {
 			final UrlUtil urlUtil,
 			final LunchService lunchService,
 			final DateUtil dateUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider, redirectUtil, urlUtil, dateUtil, authorizationService);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider, redirectUtil, urlUtil, dateUtil, authorizationService,
+				cacheService);
 		this.lunchService = lunchService;
 	}
 

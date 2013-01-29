@@ -17,6 +17,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -52,8 +53,9 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
-			final TaskGuiUtil taskGuiUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final TaskGuiUtil taskGuiUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.taskGuiUtil = taskGuiUtil;
 	}
 

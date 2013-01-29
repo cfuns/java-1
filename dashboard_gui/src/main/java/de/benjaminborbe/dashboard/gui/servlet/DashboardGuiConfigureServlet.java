@@ -22,6 +22,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardService;
@@ -72,8 +73,9 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
-			final DashboardGuiWidgetRegistry dashboardGuiWidgetRegistry) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final DashboardGuiWidgetRegistry dashboardGuiWidgetRegistry,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.dashboardService = dashboardService;
 		this.dashboardGuiWidgetRegistry = dashboardGuiWidgetRegistry;
 		this.authenticationService = authenticationService;

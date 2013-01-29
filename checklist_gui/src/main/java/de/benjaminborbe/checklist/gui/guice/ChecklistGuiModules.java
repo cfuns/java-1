@@ -11,7 +11,7 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
-import de.benjaminborbe.website.guice.WebsiteModule;
+import de.benjaminborbe.website.guice.WebsiteOsgiModule;
 
 public class ChecklistGuiModules implements Modules {
 
@@ -23,6 +23,6 @@ public class ChecklistGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new ChecklistGuiOsgiModule(), new ChecklistGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new ChecklistGuiOsgiModule(), new ChecklistGuiModule(), new ToolModule(), new WebsiteOsgiModule());
 	}
 }

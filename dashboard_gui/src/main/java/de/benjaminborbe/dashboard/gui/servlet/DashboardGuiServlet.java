@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.gui.util.DashboardGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
@@ -57,8 +58,9 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final DashboardGuiLinkFactory dashboardGuiLinkFactory) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final DashboardGuiLinkFactory dashboardGuiLinkFactory,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.dashboardWidget = dashboardWidget;
 		this.dashboardGuiLinkFactory = dashboardGuiLinkFactory;
 		this.logger = logger;

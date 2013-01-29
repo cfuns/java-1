@@ -24,6 +24,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.gui.util.MicroblogGuiLinkFactory;
@@ -131,8 +132,12 @@ public class MicroblogGuiServletUnitTest {
 		final MicroblogGuiLinkFactory microblogGuiLinkFactory = EasyMock.createNiceMock(MicroblogGuiLinkFactory.class);
 		EasyMock.replay(microblogGuiLinkFactory);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final MicroblogGuiServlet microblogServlet = new MicroblogGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, microblogRevisionStorage, redirectUtil, urlUtil, authorizationService, microblogGuiLinkFactory);
+				httpContextProvider, microblogRevisionStorage, redirectUtil, urlUtil, authorizationService, microblogGuiLinkFactory, cacheService);
 
 		microblogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

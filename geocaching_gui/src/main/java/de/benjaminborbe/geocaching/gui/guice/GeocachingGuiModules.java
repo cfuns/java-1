@@ -11,7 +11,7 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
-import de.benjaminborbe.website.guice.WebsiteModule;
+import de.benjaminborbe.website.guice.WebsiteOsgiModule;
 
 public class GeocachingGuiModules implements Modules {
 
@@ -23,6 +23,6 @@ public class GeocachingGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new GeocachingGuiOsgiModule(), new GeocachingGuiModule(), new ToolModule(), new WebsiteModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new GeocachingGuiOsgiModule(), new GeocachingGuiModule(), new ToolModule(), new WebsiteOsgiModule());
 	}
 }

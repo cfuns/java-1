@@ -19,6 +19,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -65,8 +66,9 @@ public class MonitoringGuiServlet extends MonitoringWebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
 			final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
-			final MonitoringService monitoringService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final MonitoringService monitoringService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.monitoringGuiLinkFactory = monitoringGuiLinkFactory;
 		this.monitoringService = monitoringService;

@@ -23,6 +23,7 @@ import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.blog.gui.widget.BlogGuiPostWidget;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -70,8 +71,9 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final BlogService blogService,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.blogService = blogService;
 		this.urlUtil = urlUtil;

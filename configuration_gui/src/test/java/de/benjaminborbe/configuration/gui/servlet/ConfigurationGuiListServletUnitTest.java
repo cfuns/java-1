@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -125,8 +126,12 @@ public class ConfigurationGuiListServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final ConfigurationGuiListServlet configurationServlet = new ConfigurationGuiListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				authenticationService, httpContextProvider, configurationService, redirectUtil, urlUtil, authorizationService);
+				authenticationService, httpContextProvider, configurationService, redirectUtil, urlUtil, authorizationService, cacheService);
 
 		configurationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

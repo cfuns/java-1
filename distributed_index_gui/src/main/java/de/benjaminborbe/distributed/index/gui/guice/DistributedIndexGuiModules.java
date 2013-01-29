@@ -11,7 +11,7 @@ import com.google.inject.servlet.ServletModule;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
-import de.benjaminborbe.website.guice.WebsiteModule;
+import de.benjaminborbe.website.guice.WebsiteOsgiModule;
 
 public class DistributedIndexGuiModules implements Modules {
 
@@ -24,6 +24,6 @@ public class DistributedIndexGuiModules implements Modules {
 	@Override
 	public Collection<Module> getModules() {
 		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedIndexGuiOsgiModule(), new DistributedIndexGuiModule(), new ToolModule(),
-				new WebsiteModule());
+				new WebsiteOsgiModule());
 	}
 }

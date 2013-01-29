@@ -232,3 +232,7 @@ kiosk/target
 kiosk_api/target
 kiosk_gui/target
 kiosk_test/target
+cache/target
+cache_api/target
+cache_gui/target
+cache_test/target

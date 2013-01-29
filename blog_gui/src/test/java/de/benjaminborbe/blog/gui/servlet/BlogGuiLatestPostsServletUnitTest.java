@@ -27,6 +27,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -129,8 +130,12 @@ public class BlogGuiLatestPostsServletUnitTest {
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final BlogGuiLatestPostsServlet blogServlet = new BlogGuiLatestPostsServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, blogService, authorizationService);
+				httpContextProvider, redirectUtil, urlUtil, blogService, authorizationService, cacheService);
 
 		blogServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

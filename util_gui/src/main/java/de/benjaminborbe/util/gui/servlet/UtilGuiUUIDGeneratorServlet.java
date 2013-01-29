@@ -15,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -50,8 +51,9 @@ public class UtilGuiUUIDGeneratorServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
-			final IdGeneratorUUID IdGeneratorUUID) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final IdGeneratorUUID IdGeneratorUUID,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.idGeneratorUUID = IdGeneratorUUID;
 	}

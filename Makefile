@@ -305,3 +305,8 @@ buildsystemstatus:
 	cd systemstatus && make all
 	cd systemstatus_gui && make all
 	cd systemstatus_test && make all
+buildcache:
+	cd cache_api && make all
+	cd cache && make all
+	cd cache_gui && make all
+	cd cache_test && make all

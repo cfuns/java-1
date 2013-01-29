@@ -25,6 +25,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
@@ -130,8 +131,12 @@ public class EventbusGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
+		final CacheService cacheService = EasyMock.createMock(CacheService.class);
+		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
+		EasyMock.replay(cacheService);
+
 		final EventbusGuiServlet EventbusServlet = new EventbusGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, EventbusService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, cacheService);
 
 		EventbusServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

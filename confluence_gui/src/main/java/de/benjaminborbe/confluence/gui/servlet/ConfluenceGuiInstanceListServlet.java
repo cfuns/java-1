@@ -20,6 +20,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
@@ -72,8 +73,9 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 			final ConfluenceGuiLinkFactory linkFactory,
 			final ConfluenceService confluenceService,
 			final AuthorizationService authorizationService,
-			final ConfluenceInstanceComparator confluenceInstanceComparator) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final ConfluenceInstanceComparator confluenceInstanceComparator,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.linkFactory = linkFactory;
 		this.confluenceService = confluenceService;
 		this.logger = logger;

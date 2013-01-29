@@ -24,6 +24,7 @@ import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.util.BookmarkGuiKeywordUtil;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -80,8 +81,9 @@ public class BookmarkGuiUpdateServlet extends BookmarkGuiBaseServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
-			final AuthorizationService authorizationService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final AuthorizationService authorizationService,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.bookmarkService = bookmarkService;
 		this.logger = logger;

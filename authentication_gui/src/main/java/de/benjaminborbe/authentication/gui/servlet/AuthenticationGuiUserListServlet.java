@@ -21,6 +21,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -59,8 +60,9 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
 			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil);
+			final UrlUtil urlUtil,
+			final CacheService cacheService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.authenticationGuiLinkFactory = authenticationGuiLinkFactory;
