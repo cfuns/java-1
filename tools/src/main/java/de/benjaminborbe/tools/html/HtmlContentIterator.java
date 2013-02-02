@@ -37,7 +37,7 @@ public class HtmlContentIterator implements IteratorBase<String, ParseException>
 
 		// until next found or pos == htmlContent.length()
 		while (nextContent == null && content.hasCurrentCharacter()) {
-			if (isContentCharacter(content.getCurrentCharacter())) {
+			if (isContentCharacter()) {
 				if (contentStart == -1) {
 					contentStart = content.getCurrentPosition();
 				}
@@ -61,15 +61,15 @@ public class HtmlContentIterator implements IteratorBase<String, ParseException>
 		return nextContent != null;
 	}
 
-	private boolean isContentCharacter(final char c) {
-		if (isLastScriptTag()) {
-
+	private boolean isContentCharacter() {
+		if (isLastScriptTag() || isLastStyleTag()) {
+			return false;
 		}
-		return c != TAG_OPEN && !isEmptyCharacter(c);
+		return content.getCurrentCharacter() != TAG_OPEN && !isEmptyCharacter();
 	}
 
-	private boolean isEmptyCharacter(final char c) {
-		switch (c) {
+	private boolean isEmptyCharacter() {
+		switch (content.getCurrentCharacter()) {
 		case ' ':
 			return true;
 		case '\n':
@@ -100,8 +100,9 @@ public class HtmlContentIterator implements IteratorBase<String, ParseException>
 		}
 
 		while (content.hasCurrentCharacter()) {
-			if (lastTag == null && !isTagCharacter(content.getCurrentCharacter())) {
-				lastTag = new HtmlTag(content.substring(openingTag ? tagStartPos + 1 : tagStartPos + 2, content.getCurrentPosition()));
+			if (lastTag == null && !isTagCharacter()) {
+				lastTag = new HtmlTag(content.substring(openingTag ? tagStartPos + 1 : tagStartPos + 2, content.getCurrentPosition()), openingTag);
+				// consumeTagAttributes();
 			}
 			if (content.getCurrentCharacter() == TAG_CLOSE) {
 				return;
@@ -110,12 +111,46 @@ public class HtmlContentIterator implements IteratorBase<String, ParseException>
 		}
 	}
 
+	// private void consumeTagAttributes() {
+	// int attributeStartPos = -1;
+	// int attributeEndPos = -1;
+	//
+	// boolean equalFound = false;
+	//
+	// while (content.hasCurrentCharacter()) {
+	//
+	// // find attr-startpos
+	// if (attributeStartPos == -1 && isTagCharacter()) {
+	// attributeStartPos = content.getCurrentPosition();
+	// }
+	//
+	// // find attr-endpos
+	// if (attributeEndPos == -1 && attributeStartPos != -1 && !isTagCharacter()) {
+	// attributeEndPos = content.getCurrentPosition();
+	// }
+	//
+	// if (content.getCurrentCharacter() == '=') {
+	// equalFound = true;
+	// }
+	// if (content.getCurrentCharacter() == '\'') {
+	// }
+	// if (content.getCurrentCharacter() == '"') {
+	// }
+	//
+	// content.next();
+	// }
+	// }
+
 	private boolean isLastScriptTag() {
-		return lastTag != null && "script".equals(lastTag.getName().toLowerCase());
+		return lastTag != null && "script".equals(lastTag.getName().toLowerCase()) && lastTag.isOpening();
 	}
 
-	private boolean isTagCharacter(final char c) {
-		return Character.isLetterOrDigit(c);
+	private boolean isLastStyleTag() {
+		return lastTag != null && "style".equals(lastTag.getName().toLowerCase()) && lastTag.isOpening();
+	}
+
+	private boolean isTagCharacter() {
+		return Character.isLetterOrDigit(content.getCurrentCharacter());
 	}
 
 	@Override

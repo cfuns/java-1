@@ -9,8 +9,11 @@ public class HtmlTag {
 
 	private final Map<String, String> attributes = new HashMap<String, String>();
 
-	public HtmlTag(final String name) {
+	private final boolean opening;
+
+	public HtmlTag(final String name, final boolean opening) {
 		this.name = name;
+		this.opening = opening;
 	}
 
 	public String getName() {
@@ -20,6 +23,10 @@ public class HtmlTag {
 	public HtmlTag addAttribute(final String key, final String value) {
 		attributes.put(key, value);
 		return this;
+	}
+
+	public boolean isOpening() {
+		return opening;
 	}
 
 }

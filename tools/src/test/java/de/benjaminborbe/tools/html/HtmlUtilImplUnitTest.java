@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.easymock.EasyMock;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -69,6 +70,15 @@ public class HtmlUtilImplUnitTest {
 		assertEquals("", htmlUtil.filterHtmlTages("<script>bla</script>"));
 		assertEquals("", htmlUtil.filterHtmlTages("<script type=\"text/javascript\">bla</script>"));
 		assertEquals("hello", htmlUtil.filterHtmlTages("<script foo>bla</script><a>\nhello\n</a>"));
+	}
+
+	@Ignore
+	@Test
+	public void testScript() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
 		assertEquals(
 				"bin/nodetool -host 192.168.0.103 drain",
 				htmlUtil
