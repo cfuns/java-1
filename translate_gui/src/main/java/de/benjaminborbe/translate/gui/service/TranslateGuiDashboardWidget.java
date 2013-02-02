@@ -12,12 +12,12 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.translate.gui.TranslateGuiConstants;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.util.Target;
 
 @Singleton
 public class TranslateGuiDashboardWidget implements DashboardContentWidget {

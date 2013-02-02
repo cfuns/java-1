@@ -32,13 +32,13 @@ import de.benjaminborbe.task.gui.util.TaskGuiUtil;
 import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.task.gui.util.TaskStartReadyPredicate;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.TooltipWidget;
 

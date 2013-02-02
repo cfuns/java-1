@@ -13,8 +13,8 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.util.StringWidget;
+import de.benjaminborbe.website.util.Target;
 
 public class LinkWidgetUnitTest {
 

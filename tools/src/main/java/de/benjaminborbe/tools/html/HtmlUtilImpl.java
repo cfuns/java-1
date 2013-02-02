@@ -1,5 +1,6 @@
 package de.benjaminborbe.tools.html;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.util.LineIterator;
+import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class HtmlUtilImpl implements HtmlUtil {
@@ -39,12 +42,21 @@ public class HtmlUtilImpl implements HtmlUtil {
 	}
 
 	@Override
-	public String filterHtmlTages(final String content) {
+	public String filterHtmlTages(final String content) throws ParseException {
 		if (content == null) {
 			return null;
 		}
-		return unescapeHtml(content.replaceAll("[\n\r]+", " ").replaceAll("<style[^>]*/>", " ").replaceAll("<style.*?</style>", " ").replaceAll("<script[^>]*/>", " ")
-				.replaceAll("<script.*?</script>", " ").replaceAll("<!--.*?-->", " ").replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
+
+		// return unescapeHtml(content.replaceAll("[\n\r]+", " ").replaceAll("<style[^>]*/>",
+		// " ").replaceAll("<style.*?</style>", " ").replaceAll("<script[^>]*/>", " ")
+		// .replaceAll("<script.*?</script>", " ").replaceAll("<!--.*?-->",
+		// " ").replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
+		final HtmlContentIterator i = new HtmlContentIterator(content);
+		final List<String> parts = new ArrayList<String>();
+		while (i.hasNext()) {
+			parts.add(i.next());
+		}
+		return StringUtils.join(parts, ' ');
 	}
 
 	@Override

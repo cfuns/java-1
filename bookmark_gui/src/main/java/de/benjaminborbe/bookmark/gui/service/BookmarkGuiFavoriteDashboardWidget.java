@@ -20,12 +20,12 @@ import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.gui.BookmarkGuiConstants;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton

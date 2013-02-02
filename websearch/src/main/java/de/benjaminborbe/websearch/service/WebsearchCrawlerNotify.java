@@ -25,6 +25,7 @@ import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.WebsearchConstants;
 import de.benjaminborbe.websearch.dao.WebsearchPageBean;
@@ -79,6 +80,9 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			logger.debug("StorageException", e);
 		}
 		catch (final IndexerServiceException e) {
+			logger.debug("StorageException", e);
+		}
+		catch (final ParseException e) {
 			logger.debug("StorageException", e);
 		}
 	}
@@ -219,7 +223,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		return StringUtils.join(p, "/");
 	}
 
-	protected void addToIndex(final CrawlerResult result) throws IndexerServiceException {
+	protected void addToIndex(final CrawlerResult result) throws IndexerServiceException, ParseException {
 		final Document document = Jsoup.parse(result.getContent());
 		for (final Element head : document.getElementsByTag("head")) {
 			for (final Element meta : head.getElementsByTag("meta")) {
@@ -245,7 +249,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		pageDao.save(page);
 	}
 
-	protected String extractTitle(final String content) {
+	protected String extractTitle(final String content) throws ParseException {
 		final Document document = Jsoup.parse(content);
 		final Elements titleElements = document.getElementsByTag("title");
 		for (final Element titleElement : titleElements) {

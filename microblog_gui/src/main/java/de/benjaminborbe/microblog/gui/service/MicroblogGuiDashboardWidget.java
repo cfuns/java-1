@@ -20,7 +20,7 @@ import de.benjaminborbe.html.api.RequireCssResource;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
 import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
-import de.benjaminborbe.tools.html.Target;
+import de.benjaminborbe.website.util.Target;
 
 @Singleton
 public class MicroblogGuiDashboardWidget implements DashboardContentWidget, RequireCssResource {

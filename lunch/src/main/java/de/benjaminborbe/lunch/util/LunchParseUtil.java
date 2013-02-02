@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 
 public class LunchParseUtil {
 
@@ -80,7 +81,7 @@ public class LunchParseUtil {
 		// return false;
 	}
 
-	public String extractLunchName(final String htmlContent) {
+	public String extractLunchName(final String htmlContent) throws ParseException {
 		// final String content = htmlContent.replaceAll("ac:", "ac");
 		final Document document = Jsoup.parse(htmlContent);
 		// System.err.println(document.toString());

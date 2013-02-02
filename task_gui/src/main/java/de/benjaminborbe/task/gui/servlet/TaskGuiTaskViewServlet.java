@@ -43,7 +43,6 @@ import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -58,6 +57,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.PreWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import de.benjaminborbe.website.util.Target;
 
 @Singleton
 public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {

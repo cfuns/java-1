@@ -20,7 +20,7 @@ import de.benjaminborbe.websearch.dao.WebsearchPageDao;
 public class WebsearchCrawlerNotifyUnitTest {
 
 	@Test
-	public void testExtractTitle() {
+	public void testExtractTitle() throws Exception {
 		final String title = "Foo Bar Title";
 		final String content = "<html><title>" + title + "</title><body></body></html>";
 

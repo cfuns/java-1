@@ -31,6 +31,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import de.benjaminborbe.tools.util.ParseException;
 
 public class ConfluenceRefresher {
 
@@ -197,6 +198,9 @@ public class ConfluenceRefresher {
 				catch (final StorageException e) {
 					logger.warn(e.getClass().getName(), e);
 				}
+				catch (final ParseException e) {
+					logger.warn(e.getClass().getName(), e);
+				}
 			}
 		}
 	}
@@ -223,7 +227,7 @@ public class ConfluenceRefresher {
 		return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), date, null);
 	}
 
-	private String filterContent(final String orgContent) {
+	private String filterContent(final String orgContent) throws ParseException {
 		final String filteredContent = htmlUtil.filterHtmlTages(orgContent);
 		logger.trace("filterContent - orgContent: " + orgContent + " filteredContent: " + filteredContent);
 		return filteredContent;

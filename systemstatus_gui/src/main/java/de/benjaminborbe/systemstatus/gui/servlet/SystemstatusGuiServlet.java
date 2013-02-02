@@ -32,6 +32,7 @@ import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.api.SystemstatusServiceException;
+import de.benjaminborbe.systemstatus.gui.SystemstatusGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -61,6 +62,8 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 
 	private final NetUtil netUtil;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public SystemstatusGuiServlet(
 			final Logger logger,
@@ -82,6 +85,7 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		this.netUtil = netUtil;
 		this.storageService = storageService;
 		this.systemstatusService = systemstatusService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -97,9 +101,10 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
+			final boolean withGc = parseUtil.parseBoolean(request.getParameter(SystemstatusGuiConstants.PARAMETER_WITH_GC), false);
 			sessionData(request, widgets);
 			hostnames(widgets);
-			memoryState(widgets);
+			memoryState(widgets, withGc);
 			diskUsage(widgets);
 			storageState(widgets);
 
@@ -158,9 +163,9 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(ul);
 	}
 
-	private void memoryState(final ListWidget widgets) throws SystemstatusServiceException {
-		{
-			widgets.add(new H2Widget("Memory"));
+	private void memoryState(final ListWidget widgets, final boolean withGc) throws SystemstatusServiceException {
+		widgets.add(new H2Widget("Memory"));
+		if (withGc) {
 			widgets.add("Memory state before cleanup: ");
 			widgets.add(new BrWidget());
 			widgets.add(getMemoryState());
@@ -168,6 +173,10 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 			Runtime.getRuntime().gc();
 			widgets.add("Memory state after cleanup: ");
 			widgets.add(new BrWidget());
+			widgets.add(getMemoryState());
+			widgets.add(new BrWidget());
+		}
+		else {
 			widgets.add(getMemoryState());
 			widgets.add(new BrWidget());
 		}

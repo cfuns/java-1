@@ -118,6 +118,9 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		catch (final HttpDownloaderException e) {
 			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
 		}
+		catch (final ParseException e) {
+			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+		}
 	}
 
 	protected String extractConversationUrl(final String pageContent) {
@@ -151,7 +154,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		return extract(content, "<a href=\"https://micro.rp.seibert-media.net/", "\"");
 	}
 
-	protected String extractContent(final String pageContent) {
+	protected String extractContent(final String pageContent) throws ParseException {
 		{
 			final String content = extractContentMessage(pageContent);
 			if (content != null && content.length() > 0) {
@@ -168,7 +171,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		return null;
 	}
 
-	protected String extractContentJoinGroup(final String pageContent) {
+	protected String extractContentJoinGroup(final String pageContent) throws ParseException {
 		final String startPattern = "<div class=\"join-activity\">";
 		final String endPattern = "</div>";
 		final String content = extract(pageContent, startPattern, endPattern);
@@ -180,7 +183,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		}
 	}
 
-	protected String extractContentMessage(final String pageContent) {
+	protected String extractContentMessage(final String pageContent) throws ParseException {
 		final String startPattern = "<p class=\"entry-content\">";
 		final String endPattern = "</p>";
 		final String content = extract(pageContent, startPattern, endPattern);
@@ -192,7 +195,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		}
 	}
 
-	protected String filterContent(final String content) {
+	protected String filterContent(final String content) throws ParseException {
 		return htmlUtil.unescapeHtml(htmlUtil.filterHtmlTages(content));
 	}
 

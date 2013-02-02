@@ -6,4 +6,6 @@ public interface SystemstatusGuiConstants {
 
 	String URL_HOME = "/";
 
+	String PARAMETER_WITH_GC = "gc";
+
 }

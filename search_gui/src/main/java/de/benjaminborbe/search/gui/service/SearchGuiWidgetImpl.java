@@ -33,12 +33,12 @@ import de.benjaminborbe.search.gui.util.SearchGuiShortener;
 import de.benjaminborbe.search.gui.util.SearchGuiTermHighlighter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteConstants;
 import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.Target;
 
 @Singleton
 public class SearchGuiWidgetImpl implements SearchWidget {

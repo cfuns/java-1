@@ -3,9 +3,9 @@ package de.benjaminborbe.website.link;
 import java.net.URL;
 
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.util.Target;
 
 public class LinkWidget extends TagWidget {
 

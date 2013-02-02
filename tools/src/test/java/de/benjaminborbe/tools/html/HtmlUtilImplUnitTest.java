@@ -50,23 +50,29 @@ public class HtmlUtilImplUnitTest {
 	}
 
 	@Test
-	public void testFilterHtmlTages() {
+	public void testFilterHtmlTages() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
 		assertNull(htmlUtil.filterHtmlTages(null));
 		assertEquals("", htmlUtil.filterHtmlTages(""));
+		assertEquals("ü", htmlUtil.filterHtmlTages("&uuml;"));
 		assertEquals("", htmlUtil.filterHtmlTages(" "));
 		assertEquals("", htmlUtil.filterHtmlTages("<br/>"));
 		assertEquals("", htmlUtil.filterHtmlTages(" <br/> "));
 		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World</h1></body></html>"));
-		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<script>// comment</script></h1></body></html>"));
 		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<!-- comment --></h1></body></html>"));
+		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><h1>Hello World<script>// comment</script></h1></body></html>"));
 		assertEquals("Bla Hello World", htmlUtil.filterHtmlTages("<html><head><title>Bla</title></head><body><style/><h1>Hello World<style>// comment</style></h1></body></html>"));
 		assertEquals("", htmlUtil.filterHtmlTages("<script bla />"));
+		assertEquals("", htmlUtil.filterHtmlTages("<script>bla</script>"));
+		assertEquals("", htmlUtil.filterHtmlTages("<script type=\"text/javascript\">bla</script>"));
 		assertEquals("hello", htmlUtil.filterHtmlTages("<script foo>bla</script><a>\nhello\n</a>"));
-
+		assertEquals(
+				"bin/nodetool -host 192.168.0.103 drain",
+				htmlUtil
+						.filterHtmlTages("<script type=\"syntaxhighlighter\" class=\"theme: Confluence; brush: java; gutter: false\"><![CDATA[bin/nodetool -host 192.168.0.103 drain]]></script>"));
 	}
 
 	@Test

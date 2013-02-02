@@ -13,8 +13,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.weather.gui.WeatherGuiConstants;
+import de.benjaminborbe.website.util.Target;
 
 @Singleton
 public class WeatherGuiDashboardWidget implements DashboardContentWidget {

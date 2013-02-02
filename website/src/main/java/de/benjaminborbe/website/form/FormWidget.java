@@ -11,10 +11,10 @@ import org.apache.commons.lang.StringUtils;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
+import de.benjaminborbe.website.util.Target;
 
 public class FormWidget extends CompositeWidget implements Widget, HasClass<FormWidget>, HasId<FormWidget> {
 

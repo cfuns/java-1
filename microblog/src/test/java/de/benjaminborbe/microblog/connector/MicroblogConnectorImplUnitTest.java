@@ -56,7 +56,7 @@ public class MicroblogConnectorImplUnitTest {
 	}
 
 	@Test
-	public void testExtractContentJoinGroup() {
+	public void testExtractContentJoinGroup() throws Exception {
 		final StringBuffer pageContent = new StringBuffer();
 
 		pageContent.append("<div class=\"entry-title\">");
@@ -109,7 +109,7 @@ public class MicroblogConnectorImplUnitTest {
 	}
 
 	@Test
-	public void testExtractContent() {
+	public void testExtractContent() throws Exception {
 		final StringBuffer pageContent = new StringBuffer();
 		pageContent.append("<h1>Bill Gates (bgates)'s status on Thursday, 19-Jan-12 12:39:37 CET</h1>");
 		pageContent.append("<div id=\"content_inner\">");

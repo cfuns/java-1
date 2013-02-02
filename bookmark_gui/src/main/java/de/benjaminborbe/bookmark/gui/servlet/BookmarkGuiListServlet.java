@@ -35,7 +35,6 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.html.Target;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -46,6 +45,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton

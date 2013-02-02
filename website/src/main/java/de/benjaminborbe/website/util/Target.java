@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.html;
+package de.benjaminborbe.website.util;
 
 public enum Target {
 

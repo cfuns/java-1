@@ -58,7 +58,6 @@ public class CronJobOsgi implements Job {
 		final String name = (String) context.getJobDetail().getJobDataMap().get(CronConstants.JOB_NAME);
 		try {
 			logger.trace("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
-
 			final CronJob cronJob = cronJobRegistry.getByName(name);
 			if (cronJob.disallowConcurrentExecution()) {
 				final CronMessage cronMessage = new CronMessage(name);

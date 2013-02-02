@@ -33,6 +33,7 @@ import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 
 @Singleton
 public class GoogleSearchServiceComponent implements SearchServiceComponent {
@@ -130,6 +131,9 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		catch (final JSONParseException e) {
 			logger.error(e.getClass().getName(), e);
 		}
+		catch (final ParseException e) {
+			logger.error(e.getClass().getName(), e);
+		}
 
 		return result;
 	}
@@ -144,7 +148,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		return httpDownloadUtil.getContent(httpDownloadResult);
 	}
 
-	protected List<SearchResult> buildResults(final String content) throws MalformedURLException, JSONParseException {
+	protected List<SearchResult> buildResults(final String content) throws MalformedURLException, JSONParseException, ParseException {
 		final List<SearchResult> searchResults = new ArrayList<SearchResult>();
 		final Object object = jsonParser.parse(content);
 		if (object instanceof JSONObject) {
