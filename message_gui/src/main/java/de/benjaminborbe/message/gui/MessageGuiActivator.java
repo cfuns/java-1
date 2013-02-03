@@ -9,15 +9,21 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.message.gui.guice.MessageGuiModules;
+import de.benjaminborbe.message.gui.service.MessageGuiNavigationEntry;
 import de.benjaminborbe.message.gui.servlet.MessageGuiDeleteByTypeServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiMessageListServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiUnlockExpiredMessagesServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class MessageGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MessageGuiNavigationEntry messageGuiNavigationEntry;
 
 	@Inject
 	private MessageGuiMessageListServlet messageGuiMessageListServlet;
@@ -38,6 +44,13 @@ public class MessageGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Modules getModules(final BundleContext context) {
 		return new MessageGuiModules(context);
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, messageGuiNavigationEntry));
+		return result;
 	}
 
 	@Override

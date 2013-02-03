@@ -202,30 +202,37 @@ public class MessageConsumerExchanger {
 	private boolean lock(final MessageBean message) throws StorageException {
 		if (message.getLockTime() == null) {
 			final Calendar now = calendarUtil.now();
-			logger.debug("lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
+			logger.debug("try lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockName(lockName);
 			message.setLockTime(now);
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName"));
 
 			try {
-				Thread.sleep(randomUtil.getRandomized(1000, 100));
+				Thread.sleep(randomUtil.getRandomized(10000, 50));
 			}
 			catch (final InterruptedException e) {
 			}
 
 			messageDao.load(message, new StorageValueList(getEncoding()).add("lockName"));
 
-			return lockName.equals(message.getLockName());
+			if (lockName.equals(message.getLockName())) {
+				logger.debug("lock message success - id: " + message.getId());
+				return true;
+			}
+			else {
+				logger.debug("lock message failed - id: " + message.getId());
+				return false;
+			}
 		}
 		else if (lockName.equals(message.getLockName())) {
 			final Calendar now = calendarUtil.now();
-			logger.debug("update message lock - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
+			logger.debug("update message lock - id: " + message.getId() + " lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockTime(now);
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime"));
 			return true;
 		}
 		else {
-			logger.debug("lock message failed");
+			logger.debug("lock message failed - id: " + message.getId());
 			return false;
 		}
 	}
