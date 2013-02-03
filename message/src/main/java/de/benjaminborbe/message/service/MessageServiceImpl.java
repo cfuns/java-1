@@ -1,5 +1,9 @@
 package de.benjaminborbe.message.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -13,6 +17,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.message.MessageConstants;
+import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
@@ -20,6 +25,8 @@ import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.message.util.MessageUnlock;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -123,6 +130,30 @@ public class MessageServiceImpl implements MessageService {
 			throw new MessageServiceException(e);
 		}
 		catch (final IdentifierIteratorException e) {
+			throw new MessageServiceException(e);
+		}
+	}
+
+	@Override
+	public Collection<Message> getMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+
+			final List<Message> result = new ArrayList<Message>();
+			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+
+			return result;
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new MessageServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new MessageServiceException(e);
 		}
 	}

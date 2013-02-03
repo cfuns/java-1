@@ -30,4 +30,7 @@ public class MessageGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_UNLOCK, new MapParameter(), "unlock expired messages");
 	}
 
+	public Widget listMessages(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_LIST, new MapParameter(), "list messages");
+	}
 }

@@ -8,7 +8,7 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 
 public interface MessageDao extends Dao<MessageBean, MessageIdentifier> {
 
-	EntityIterator<MessageBean> getEntityIteratorForUser(String type) throws StorageException;
+	EntityIterator<MessageBean> getEntityIteratorForType(String type) throws StorageException;
 
 	IdentifierIterator<MessageIdentifier> getIdentifierIteratorForUser(String type) throws StorageException;
 

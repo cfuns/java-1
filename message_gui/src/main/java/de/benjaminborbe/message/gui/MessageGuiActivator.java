@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.message.gui.guice.MessageGuiModules;
 import de.benjaminborbe.message.gui.servlet.MessageGuiDeleteByTypeServlet;
+import de.benjaminborbe.message.gui.servlet.MessageGuiMessageListServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiUnlockExpiredMessagesServlet;
 import de.benjaminborbe.tools.guice.Modules;
@@ -17,6 +18,9 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class MessageGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MessageGuiMessageListServlet messageGuiMessageListServlet;
 
 	@Inject
 	private MessageGuiDeleteByTypeServlet messageGuiDeleteByTypeServlet;
@@ -42,6 +46,7 @@ public class MessageGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(messageserviceGuiServlet, MessageGuiConstants.URL_HOME));
 		result.add(new ServletInfo(messageserviceGuiUnlockExpiredMessagesServlet, MessageGuiConstants.URL_UNLOCK));
 		result.add(new ServletInfo(messageGuiDeleteByTypeServlet, MessageGuiConstants.URL_DELETE));
+		result.add(new ServletInfo(messageGuiMessageListServlet, MessageGuiConstants.URL_MESSAGE_LIST));
 		return result;
 	}
 }

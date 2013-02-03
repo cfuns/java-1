@@ -52,7 +52,7 @@ public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier
 	}
 
 	@Override
-	public EntityIterator<MessageBean> getEntityIteratorForUser(final String type) throws StorageException {
+	public EntityIterator<MessageBean> getEntityIteratorForType(final String type) throws StorageException {
 		return getEntityIterator(new StorageValueMap(getEncoding()).add(MessageBeanMapper.TYPE, type));
 	}
 

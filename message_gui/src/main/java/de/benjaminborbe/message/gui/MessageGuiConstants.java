@@ -11,4 +11,6 @@ public interface MessageGuiConstants {
 	String PARAMETER_MESSAGE_TYPE = "message_type";
 
 	String URL_DELETE = "/delete";
+
+	String URL_MESSAGE_LIST = "/message/list";
 }

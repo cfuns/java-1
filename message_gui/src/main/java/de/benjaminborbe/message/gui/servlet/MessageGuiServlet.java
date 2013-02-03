@@ -72,6 +72,7 @@ public class MessageGuiServlet extends WebsiteHtmlServlet {
 		final UlWidget ul = new UlWidget();
 		ul.add(messageGuiLinkFactory.deleteByType(request));
 		ul.add(messageGuiLinkFactory.unlockExpiredMessage(request));
+		ul.add(messageGuiLinkFactory.listMessages(request));
 		widgets.add(ul);
 
 		return widgets;

@@ -70,6 +70,7 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 		this.type = type;
 	}
 
+	@Override
 	public Long getRetryCounter() {
 		return retryCounter;
 	}
@@ -78,6 +79,7 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 		this.retryCounter = retryCounter;
 	}
 
+	@Override
 	public String getLockName() {
 		return lockName;
 	}
@@ -86,6 +88,7 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 		this.lockName = lockName;
 	}
 
+	@Override
 	public Calendar getLockTime() {
 		return lockTime;
 	}
@@ -104,6 +107,7 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 		this.id = id;
 	}
 
+	@Override
 	public Long getMaxRetryCounter() {
 		return maxRetryCounter;
 	}
@@ -112,6 +116,7 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 		this.maxRetryCounter = maxRetryCounter;
 	}
 
+	@Override
 	public Calendar getStartTime() {
 		return startTime;
 	}

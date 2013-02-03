@@ -125,7 +125,7 @@ public class MessageConsumerExchanger {
 	}
 
 	private void exchange(final MessageConsumer messageConsumer) throws StorageException, EntityIteratorException {
-		final EntityIterator<MessageBean> i = messageDao.getEntityIteratorForUser(messageConsumer.getType());
+		final EntityIterator<MessageBean> i = messageDao.getEntityIteratorForType(messageConsumer.getType());
 		while (i.hasNext()) {
 			final MessageBean message = i.next();
 			exchange(messageConsumer, message);
