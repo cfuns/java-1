@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
-import org.quartz.SchedulerException;
 
 import com.google.inject.Inject;
 
@@ -16,6 +15,7 @@ import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.guice.CronModules;
 import de.benjaminborbe.cron.service.CronJobServiceTracker;
 import de.benjaminborbe.cron.service.CronMessageConsumer;
+import de.benjaminborbe.cron.util.CronManager;
 import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.message.api.MessageConsumer;
@@ -40,27 +40,19 @@ public class CronActivator extends BaseBundleActivator {
 	@Inject
 	private CronMessageConsumer cronMessageConsumer;
 
+	@Inject
+	private CronManager cronManager;
+
 	@Override
 	protected void onStarted() {
-		// cron stoppen
-		try {
-			quartz.start();
-		}
-		catch (final SchedulerException e) {
-			logger.error("SchedulerException", e);
-		}
+		super.onStarted();
+		cronManager.start();
 	}
 
 	@Override
 	protected void onStopped() {
+		cronManager.stop();
 		super.onStopped();
-		// cron stoppen
-		try {
-			quartz.stop();
-		}
-		catch (final SchedulerException e) {
-			logger.trace("SchedulerException", e);
-		}
 	}
 
 	@Override
