@@ -104,10 +104,10 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 				table.setHead(head);
 				for (final Message message : messages) {
 					final TableRowWidget row = new TableRowWidget();
-					row.addCell(message.getType());
+					row.addCell(asString(message.getType()));
 					row.addCell(asString(message.getId()));
-					row.addCell(message.getLockName());
-					row.addCell(calendarUtil.toDateTimeString(message.getLockTime()));
+					row.addCell(asString(message.getLockName()));
+					row.addCell(asString(calendarUtil.toDateTimeString(message.getLockTime())));
 					row.addCell(asString(message.getRetryCounter()));
 					row.addCell(asString(message.getMaxRetryCounter()));
 					table.addRow(row);

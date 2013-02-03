@@ -40,12 +40,12 @@ public class MessageConsumerExchanger {
 		@Override
 		public void run() {
 			try {
-				logger.debug("exchange - started");
+				logger.debug("exchange message started for " + messageConsumer.getType());
 				exchange(messageConsumer);
-				logger.debug("exchange - finished");
+				logger.debug("exchange message finshed for " + messageConsumer.getType());
 			}
 			catch (final Exception e) {
-				logger.debug("exchange - failed", e);
+				logger.debug("exchange message failed for " + messageConsumer.getType(), e);
 			}
 		}
 	}
@@ -201,8 +201,10 @@ public class MessageConsumerExchanger {
 
 	private boolean lock(final MessageBean message) throws StorageException {
 		if (message.getLockTime() == null) {
+			final Calendar now = calendarUtil.now();
+			logger.debug("lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockName(lockName);
-			message.setLockTime(calendarUtil.now());
+			message.setLockTime(now);
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName"));
 
 			try {
@@ -216,11 +218,14 @@ public class MessageConsumerExchanger {
 			return lockName.equals(message.getLockName());
 		}
 		else if (lockName.equals(message.getLockName())) {
-			message.setLockTime(calendarUtil.now());
+			final Calendar now = calendarUtil.now();
+			logger.debug("update message lock - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
+			message.setLockTime(now);
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime"));
 			return true;
 		}
 		else {
+			logger.debug("lock message failed");
 			return false;
 		}
 	}
