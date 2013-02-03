@@ -138,19 +138,20 @@ public class MessageConsumerExchanger {
 			logger.warn("process message failed", e);
 			result = false;
 		}
-		long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
+		final long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
+		final long maxRetry = message.getMaxRetryCounter() != null ? message.getMaxRetryCounter() : MessageConstants.MAX_RETRY;
 		if (result) {
 			messageDao.delete(message);
 			track(analyticsReportIdentifierSuccess);
 		}
-		else if (counter >= MessageConstants.MAX_RETRY) {
+		else if (counter >= maxRetry) {
 			messageDao.delete(message);
 			track(analyticsReportIdentifierMaxRetry);
 		}
 		else {
-			counter++;
-			logger.debug("process message failed, increase retrycounter to " + counter);
-			message.setRetryCounter(counter);
+			final long increasedCounter = counter + 1;
+			logger.debug("process message failed, increase retrycounter to " + increasedCounter);
+			message.setRetryCounter(increasedCounter);
 			messageDao.save(message);
 			track(analyticsReportIdentifierRetry);
 		}
