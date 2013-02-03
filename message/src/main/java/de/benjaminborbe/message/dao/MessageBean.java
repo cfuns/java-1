@@ -30,6 +30,8 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 
 	private Long maxRetryCounter;
 
+	private Calendar startTime;
+
 	@Override
 	public Calendar getCreated() {
 		return created;
@@ -108,6 +110,14 @@ public class MessageBean extends EntityBase<MessageIdentifier> implements Messag
 
 	public void setMaxRetryCounter(final Long maxRetryCounter) {
 		this.maxRetryCounter = maxRetryCounter;
+	}
+
+	public Calendar getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(final Calendar startTime) {
+		this.startTime = startTime;
 	}
 
 }

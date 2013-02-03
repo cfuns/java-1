@@ -12,6 +12,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
@@ -21,6 +22,7 @@ import de.benjaminborbe.message.util.MessageUnlock;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 
 @Singleton
@@ -40,6 +42,8 @@ public class MessageServiceImpl implements MessageService {
 
 	private final AnalyticsReportIdentifier analyticsReportIdentifierMessageInsert = new AnalyticsReportIdentifier("MessageInsert");
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public MessageServiceImpl(
 			final Logger logger,
@@ -47,13 +51,15 @@ public class MessageServiceImpl implements MessageService {
 			final MessageDao messageDao,
 			final IdGeneratorUUID idGeneratorUUID,
 			final MessageUnlock messageUnlock,
-			final AuthorizationService authorizationService) {
+			final AuthorizationService authorizationService,
+			final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.analyticsService = analyticsService;
 		this.messageDao = messageDao;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.messageUnlock = messageUnlock;
 		this.authorizationService = authorizationService;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -65,6 +71,8 @@ public class MessageServiceImpl implements MessageService {
 			bean.setType(type);
 			bean.setContent(content);
 			bean.setRetryCounter(0l);
+			bean.setMaxRetryCounter(MessageConstants.MAX_RETRY);
+			bean.setStartTime(calendarUtil.now());
 			messageDao.save(bean);
 			track(analyticsReportIdentifierMessageInsert);
 		}

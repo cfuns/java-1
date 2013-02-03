@@ -54,6 +54,7 @@ public class MessageBeanMapperUnitTest {
 		result.add(new Object[] { "lockName", "lock" });
 		result.add(new Object[] { "lockTime", "123456" });
 		result.add(new Object[] { "maxRetryCounter", "1337" });
+		result.add(new Object[] { "startTime", "1333333" });
 		return result;
 	}
 
