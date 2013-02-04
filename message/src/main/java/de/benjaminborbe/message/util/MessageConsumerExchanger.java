@@ -1,8 +1,6 @@
 package de.benjaminborbe.message.util;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -22,9 +20,8 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.RandomUtil;
-import de.benjaminborbe.tools.util.ThreadRunner;
 
 @Singleton
 public class MessageConsumerExchanger {
@@ -50,17 +47,6 @@ public class MessageConsumerExchanger {
 		}
 	}
 
-	private final class MessageConsumerExchangerRunnable implements Runnable {
-
-		@Override
-		public void run() {
-			final List<Thread> threads = new ArrayList<Thread>();
-			for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
-				threads.add(threadRunner.run("messageConsumerExchange", new HandleConsumer(messageConsumer)));
-			}
-		}
-	}
-
 	private static final long DELAY_PER_RETRY = 1 * 60 * 1000;
 
 	private final MessageConsumerRegistry messageConsumerRegistry;
@@ -69,15 +55,11 @@ public class MessageConsumerExchanger {
 
 	private final Logger logger;
 
-	private final RunOnlyOnceATime runOnlyOnceATime;
-
 	private final String lockName;
 
 	private final CalendarUtil calendarUtil;
 
 	private final RandomUtil randomUtil;
-
-	private final ThreadRunner threadRunner;
 
 	private final AnalyticsService analyticsService;
 
@@ -89,39 +71,36 @@ public class MessageConsumerExchanger {
 
 	private final TimeZoneUtil timeZoneUtil;
 
+	private final RunOnlyOnceATimeByType runOnlyOnceATimeByType;
+
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
+			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
 			final AnalyticsService analyticsService,
 			final RandomUtil randomUtil,
 			final CalendarUtil calendarUtil,
 			final MessageConsumerRegistry messageConsumerRegistry,
 			final MessageDao messageDao,
-			final RunOnlyOnceATime runOnlyOnceATime,
-			final ThreadRunner threadRunner,
 			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
+		this.runOnlyOnceATimeByType = runOnlyOnceATimeByType;
 		this.analyticsService = analyticsService;
 		this.randomUtil = randomUtil;
 		this.calendarUtil = calendarUtil;
 		this.messageConsumerRegistry = messageConsumerRegistry;
 		this.messageDao = messageDao;
-		this.runOnlyOnceATime = runOnlyOnceATime;
-		this.threadRunner = threadRunner;
 		this.timeZoneUtil = timeZoneUtil;
 		this.lockName = String.valueOf(UUID.randomUUID());
 	}
 
 	public boolean exchange() {
 		logger.debug("message consume - started");
-		if (runOnlyOnceATime.run(new MessageConsumerExchangerRunnable())) {
-			logger.debug("message consume - finished");
-			return true;
+		for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
+			runOnlyOnceATimeByType.run(messageConsumer.getType(), new HandleConsumer(messageConsumer));
 		}
-		else {
-			logger.debug("message consume - skipped");
-			return false;
-		}
+		logger.debug("message consume - finished");
+		return true;
 	}
 
 	private void exchange(final MessageConsumer messageConsumer) throws StorageException, EntityIteratorException {

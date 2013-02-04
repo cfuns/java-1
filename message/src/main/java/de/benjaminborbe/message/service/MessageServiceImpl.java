@@ -72,16 +72,23 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void sendMessage(final String type, final String id, final String content) throws MessageServiceException {
 		try {
-			logger.trace("sendMessage");
-			final MessageBean bean = messageDao.create();
-			bean.setId(new MessageIdentifier(type + "_" + id));
-			bean.setType(type);
-			bean.setContent(content);
-			bean.setRetryCounter(0l);
-			bean.setMaxRetryCounter(MessageConstants.MAX_RETRY);
-			bean.setStartTime(calendarUtil.now());
-			messageDao.save(bean);
-			track(analyticsReportIdentifierMessageInsert);
+			final MessageIdentifier messageIdentifier = new MessageIdentifier(type + "_" + id);
+			if (messageDao.exists(messageIdentifier)) {
+				logger.debug("message already exists => skip");
+				return;
+			}
+			else {
+				logger.debug("message not exists => sendMessage");
+				final MessageBean bean = messageDao.create();
+				bean.setId(messageIdentifier);
+				bean.setType(type);
+				bean.setContent(content);
+				bean.setRetryCounter(0l);
+				bean.setMaxRetryCounter(MessageConstants.MAX_RETRY);
+				bean.setStartTime(calendarUtil.now());
+				messageDao.save(bean);
+				track(analyticsReportIdentifierMessageInsert);
+			}
 		}
 		catch (final StorageException e) {
 			throw new MessageServiceException(e);
