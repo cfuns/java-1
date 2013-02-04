@@ -16,5 +16,9 @@ public interface MessageService {
 
 	void deleteByType(SessionIdentifier sessionIdentifier, String type) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
 
+	void deleteById(SessionIdentifier sessionIdentifier, MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
+
 	Collection<Message> getMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
+
+	MessageIdentifier createMessageIdentifier(String id) throws MessageServiceException;
 }

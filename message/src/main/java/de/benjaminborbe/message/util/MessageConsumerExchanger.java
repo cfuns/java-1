@@ -27,43 +27,36 @@ import de.benjaminborbe.tools.util.ThreadRunner;
 @Singleton
 public class MessageConsumerExchanger {
 
-	private final class ConsumeMessages implements Runnable {
+	private final class AsyncRunnable implements Runnable {
 
-		private final MessageConsumer messageConsumer;
+		private final MessageBean message;
 
-		private ConsumeMessages(MessageConsumer messageConsumer) {
-			this.messageConsumer = messageConsumer;
+		private AsyncRunnable(final MessageBean message) {
+			this.message = message;
 		}
 
 		@Override
 		public void run() {
-			logger.debug("message consume type: " + messageConsumer.getType() + " => started");
-			if (runOnlyOnceATimeByType.run(messageConsumer.getType(), new HandleConsumer(messageConsumer))) {
-				logger.debug("message consume type: " + messageConsumer.getType() + " => finished");
-			}
-			else {
-				logger.debug("message consume type: " + messageConsumer.getType() + " => skiped");
-			}
+			runOnlyOnceATimeByType.run(String.valueOf(message.getId()), new ExchangeMessage(message));
 		}
 	}
 
-	private final class HandleConsumer implements Runnable {
+	private final class ExchangeMessage implements Runnable {
 
-		private final MessageConsumer messageConsumer;
+		private final MessageBean message;
 
-		private HandleConsumer(final MessageConsumer messageConsumer) {
-			this.messageConsumer = messageConsumer;
+		private ExchangeMessage(final MessageBean message) {
+			this.message = message;
 		}
 
 		@Override
 		public void run() {
 			try {
-				logger.debug("exchange message started for " + messageConsumer.getType());
-				exchange(messageConsumer);
-				logger.debug("exchange message finshed for " + messageConsumer.getType());
+				final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
+				exchange(messageConsumer, message);
 			}
-			catch (final Exception e) {
-				logger.debug("exchange message failed for " + messageConsumer.getType(), e);
+			catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
 			}
 		}
 	}
@@ -120,20 +113,23 @@ public class MessageConsumerExchanger {
 	}
 
 	public boolean exchange() {
-		logger.debug("exchange message - started");
-		for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
-			threadRunner.run("messageConsumer: " + messageConsumer.getType(), new ConsumeMessages(messageConsumer));
+		try {
+			logger.debug("exchange message - started");
+			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
+			while (i.hasNext()) {
+				final MessageBean message = i.next();
+				threadRunner.run("exchange message " + message.getId(), new AsyncRunnable(message));
+			}
+			logger.debug("exchange message - finished");
+			return true;
 		}
-		logger.debug("exchange message - finished");
-		return true;
-	}
-
-	private void exchange(final MessageConsumer messageConsumer) throws StorageException, EntityIteratorException {
-		final EntityIterator<MessageBean> i = messageDao.getEntityIteratorForType(messageConsumer.getType());
-		while (i.hasNext()) {
-			final MessageBean message = i.next();
-			exchange(messageConsumer, message);
+		catch (final StorageException e) {
+			logger.warn(e.getClass().getName(), e);
 		}
+		catch (final EntityIteratorException e) {
+			logger.warn(e.getClass().getName(), e);
+		}
+		return false;
 	}
 
 	private void exchange(final MessageConsumer messageConsumer, final MessageBean message) throws StorageException {
@@ -152,7 +148,6 @@ public class MessageConsumerExchanger {
 			else {
 				logger.debug("startTime not defined");
 			}
-
 		}
 
 		boolean result = false;

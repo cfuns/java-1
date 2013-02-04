@@ -26,6 +26,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
+import de.benjaminborbe.message.gui.util.MessageGuiLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -57,6 +58,8 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 
 	private final CalendarUtil calendarUtil;
 
+	private final MessageGuiLinkFactory messageGuiLinkFactory;
+
 	@Inject
 	public MessageGuiMessageListServlet(
 			final Logger logger,
@@ -70,12 +73,14 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
-			final MessageService messageService) {
+			final MessageService messageService,
+			final MessageGuiLinkFactory messageGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.messageService = messageService;
 		this.authenticationService = authenticationService;
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
+		this.messageGuiLinkFactory = messageGuiLinkFactory;
 	}
 
 	@Override
@@ -100,7 +105,7 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
-				head.addCell("Type").addCell("Id").addCell("LockName").addCell("LockTime").addCell("RetryCounter").addCell("MaxRetryCounter");
+				head.addCell("Type").addCell("Id").addCell("LockName").addCell("LockTime").addCell("RetryCounter").addCell("MaxRetryCounter").addCell("");
 				table.setHead(head);
 				for (final Message message : messages) {
 					final TableRowWidget row = new TableRowWidget();
@@ -110,6 +115,7 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 					row.addCell(asString(calendarUtil.toDateTimeString(message.getLockTime())));
 					row.addCell(asString(message.getRetryCounter()));
 					row.addCell(asString(message.getMaxRetryCounter()));
+					row.addCell(messageGuiLinkFactory.deleteMessage(request, message.getId()));
 					table.addRow(row);
 				}
 				widgets.add(table);

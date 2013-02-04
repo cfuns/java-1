@@ -1,38 +1,54 @@
 package de.benjaminborbe.tools.synchronize;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.slf4j.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class RunOnlyOnceATimeByType {
 
-	private final Map<String, RunOnlyOnceATime> data = new HashMap<String, RunOnlyOnceATime>();
+	private final Set<String> running = new HashSet<String>();
 
-	private final Provider<RunOnlyOnceATime> runOnlyOnceATimeProvider;
+	private final Logger logger;
 
 	@Inject
-	public RunOnlyOnceATimeByType(final Provider<RunOnlyOnceATime> runOnlyOnceATimeProvider) {
-		this.runOnlyOnceATimeProvider = runOnlyOnceATimeProvider;
+	public RunOnlyOnceATimeByType(final Logger logger) {
+		this.logger = logger;
 	}
 
 	public boolean run(final String type, final Runnable runnable) {
-		final RunOnlyOnceATime runOnlyOnceATime = get(type);
-		return runOnlyOnceATime.run(runnable);
+		logger.trace("started");
+		if (isNotRunning(type)) {
+			try {
+				runnable.run();
+			}
+			finally {
+				finished(type);
+			}
+			logger.trace("finished");
+			return true;
+		}
+		else {
+			logger.trace("skipped");
+			return false;
+		}
 	}
 
-	private synchronized RunOnlyOnceATime get(final String type) {
-		{
-			final RunOnlyOnceATime result = data.get(type);
-			if (result != null) {
-				return result;
+	private void finished(final String type) {
+		synchronized (running) {
+			running.remove(type);
+		}
+	}
+
+	private boolean isNotRunning(final String type) {
+		synchronized (running) {
+			if (running.contains(type)) {
+				return false;
 			}
+			running.add(type);
 		}
-		{
-			final RunOnlyOnceATime result = runOnlyOnceATimeProvider.get();
-			data.put(type, result);
-			return result;
-		}
+		return true;
 	}
 }

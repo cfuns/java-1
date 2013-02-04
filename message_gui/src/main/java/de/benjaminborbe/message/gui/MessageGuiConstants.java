@@ -13,4 +13,8 @@ public interface MessageGuiConstants {
 	String URL_DELETE = "/delete";
 
 	String URL_MESSAGE_LIST = "/message/list";
+
+	String URL_MESSAGE_DELETE = "/message/delete";
+
+	String PARAMETER_MESSAGE_ID = "message_id";
 }

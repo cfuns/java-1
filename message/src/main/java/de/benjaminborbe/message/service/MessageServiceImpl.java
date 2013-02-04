@@ -164,4 +164,25 @@ public class MessageServiceImpl implements MessageService {
 			throw new MessageServiceException(e);
 		}
 	}
+
+	@Override
+	public void deleteById(final SessionIdentifier sessionIdentifier, final MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException,
+			LoginRequiredException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+
+			messageDao.delete(messageIdentifier);
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new MessageServiceException(e);
+		}
+	}
+
+	@Override
+	public MessageIdentifier createMessageIdentifier(final String id) throws MessageServiceException {
+		return id != null ? new MessageIdentifier(id) : null;
+	}
 }

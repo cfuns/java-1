@@ -9,6 +9,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.message.api.Message;
+import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 
@@ -39,6 +40,16 @@ public class MessageServiceMock implements MessageService {
 	@Override
 	public Collection<Message> getMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
 		return null;
+	}
+
+	@Override
+	public void deleteById(final SessionIdentifier sessionIdentifier, final MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException,
+			LoginRequiredException {
+	}
+
+	@Override
+	public MessageIdentifier createMessageIdentifier(final String id) throws MessageServiceException {
+		return new MessageIdentifier(id);
 	}
 
 }
