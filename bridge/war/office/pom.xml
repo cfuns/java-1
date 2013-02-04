@@ -25,7 +25,8 @@
 			de.benjaminborbe.microblog.api, de.benjaminborbe.microblog, de.benjaminborbe.microblog.gui, de.benjaminborbe.xmpp.api, de.benjaminborbe.xmpp, de.benjaminborbe.xmpp.gui,
 			de.benjaminborbe.crawler.api, de.benjaminborbe.crawler, de.benjaminborbe.crawler.gui, de.benjaminborbe.shortener.api, de.benjaminborbe.shortener, de.benjaminborbe.shortener.gui,
 			de.benjaminborbe.lucene.index.api, de.benjaminborbe.lucene.index, de.benjaminborbe.lucene.index.gui, de.benjaminborbe.analytics.api, de.benjaminborbe.analytics, de.benjaminborbe.analytics.gui,
-			de.benjaminborbe.performance.api, de.benjaminborbe.performance, de.benjaminborbe.performance.gui, de.benjaminborbe.kiosk.api, de.benjaminborbe.kiosk, de.benjaminborbe.kiosk.gui 
+			de.benjaminborbe.performance.api, de.benjaminborbe.performance, de.benjaminborbe.performance.gui, de.benjaminborbe.kiosk.api, de.benjaminborbe.kiosk, de.benjaminborbe.kiosk.gui,
+			de.benjaminborbe.cache.api, de.benjaminborbe.cache, de.benjaminborbe.cache.gui 
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -539,6 +540,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.kiosk.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
