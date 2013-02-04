@@ -47,7 +47,6 @@ public class AuthorizationIntegrationTest extends OSGiTestCase {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
-
 	}
 
 }

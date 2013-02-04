@@ -18,99 +18,80 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.tools.util.ThreadRunner;
-
 public abstract class HttpBundleActivator extends BaseBundleActivator {
-
-	private final class AddHttpServicesRunnable implements Runnable {
-
-		private final ExtHttpService service;
-
-		private AddHttpServicesRunnable(ExtHttpService service) {
-			this.service = service;
-		}
-
-		@Override
-		public void run() {
-			for (final FilterInfo filterInfo : getFilterInfos()) {
-				final HttpContext context = filterInfo.getContext();
-				final Filter filter = filterInfo.getFilter();
-				final String pattern;
-				if (filterInfo.isSlashFilter()) {
-					pattern = cleanupPattern(filterInfo.getPattern());
-				}
-				else {
-					pattern = cleanupPattern(prefix + filterInfo.getPattern());
-				}
-				@SuppressWarnings("rawtypes")
-				final Dictionary initParams = filterInfo.getInitParams();
-				final int ranking = filterInfo.getRanking();
-				try {
-					logger.info("registerFilter for pattern: \"" + pattern + "\"");
-					service.registerFilter(filter, pattern, initParams, ranking, context);
-				}
-				catch (final ServletException e) {
-					logger.error("ServletException", e);
-				}
-			}
-			for (final ServletInfo servletInfo : getServletInfos()) {
-				final String alias;
-				if (servletInfo.isSlashServlet()) {
-					alias = cleanupAlias(servletInfo.getAlias());
-				}
-				else {
-					alias = cleanupAlias(prefix + "/" + servletInfo.getAlias());
-				}
-				final Servlet servlet = servletInfo.getServlet();
-				@SuppressWarnings("rawtypes")
-				final Dictionary initparams = servletInfo.getInitParams();
-				final HttpContext context = servletInfo.getContext();
-				try {
-					logger.info("registerServlet for alias: \"" + alias + "\"");
-					service.registerServlet(alias, servlet, initparams, context);
-				}
-				catch (final ServletException e) {
-					logger.error("ServletException", e);
-				}
-				catch (final NamespaceException e) {
-					logger.error("NamespaceException", e);
-				}
-			}
-			for (final ResourceInfo resourceInfo : getResouceInfos()) {
-				final String alias;
-				if (resourceInfo.isSlashResoure()) {
-					alias = cleanupAlias(resourceInfo.getAlias());
-				}
-				else {
-					alias = cleanupAlias(prefix + "/" + resourceInfo.getAlias());
-				}
-				final String name = resourceInfo.getName();
-				final HttpContext context = resourceInfo.getContext();
-				try {
-					logger.info("registerResource for alias: \"" + alias + "\"");
-					service.registerResources(alias, name, context);
-				}
-				catch (final NamespaceException e) {
-					logger.error("NamespaceException", e);
-				}
-			}
-		}
-	}
 
 	private final String prefix;
 
 	@Inject
 	private BaseGuiceFilter guiceFilter;
 
-	@Inject
-	private ThreadRunner threadRunner;
-
 	public HttpBundleActivator(final String name) {
 		this.prefix = "/" + name.toLowerCase();
 	}
 
 	protected void serviceAdded(final ExtHttpService service) {
-		threadRunner.run("add http services", new AddHttpServicesRunnable(service));
+		for (final FilterInfo filterInfo : getFilterInfos()) {
+			final HttpContext context = filterInfo.getContext();
+			final Filter filter = filterInfo.getFilter();
+			final String pattern;
+			if (filterInfo.isSlashFilter()) {
+				pattern = cleanupPattern(filterInfo.getPattern());
+			}
+			else {
+				pattern = cleanupPattern(prefix + filterInfo.getPattern());
+			}
+			@SuppressWarnings("rawtypes")
+			final Dictionary initParams = filterInfo.getInitParams();
+			final int ranking = filterInfo.getRanking();
+			try {
+				logger.info("registerFilter for pattern: \"" + pattern + "\"");
+				service.registerFilter(filter, pattern, initParams, ranking, context);
+			}
+			catch (final ServletException e) {
+				logger.error("ServletException", e);
+			}
+		}
+		for (final ServletInfo servletInfo : getServletInfos()) {
+			final String alias;
+			if (servletInfo.isSlashServlet()) {
+				alias = cleanupAlias(servletInfo.getAlias());
+			}
+			else {
+				alias = cleanupAlias(prefix + "/" + servletInfo.getAlias());
+			}
+			final Servlet servlet = servletInfo.getServlet();
+			@SuppressWarnings("rawtypes")
+			final Dictionary initparams = servletInfo.getInitParams();
+			final HttpContext context = servletInfo.getContext();
+			try {
+				logger.info("registerServlet for alias: \"" + alias + "\"");
+				service.registerServlet(alias, servlet, initparams, context);
+			}
+			catch (final ServletException e) {
+				logger.error("ServletException", e);
+			}
+			catch (final NamespaceException e) {
+				logger.error("NamespaceException", e);
+			}
+		}
+		for (final ResourceInfo resourceInfo : getResouceInfos()) {
+			final String alias;
+			if (resourceInfo.isSlashResoure()) {
+				alias = cleanupAlias(resourceInfo.getAlias());
+			}
+			else {
+				alias = cleanupAlias(prefix + "/" + resourceInfo.getAlias());
+			}
+			final String name = resourceInfo.getName();
+			final HttpContext context = resourceInfo.getContext();
+			try {
+				logger.info("registerResource for alias: \"" + alias + "\"");
+				service.registerResources(alias, name, context);
+			}
+			catch (final NamespaceException e) {
+				logger.error("NamespaceException", e);
+			}
+		}
 	}
 
 	protected void serviceRemoved(final ExtHttpService service) {
