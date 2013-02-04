@@ -23,6 +23,16 @@ public class CronGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
+	public Widget cronStart(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + CronGuiConstants.NAME + CronGuiConstants.URL_MANAGE, new MapParameter().add(CronGuiConstants.PARAMETER_ACTION,
+				CronGuiConstants.ACTION_START), "start");
+	}
+
+	public Widget cronStop(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + CronGuiConstants.NAME + CronGuiConstants.URL_MANAGE, new MapParameter().add(CronGuiConstants.PARAMETER_ACTION,
+				CronGuiConstants.ACTION_STOP), "stop");
+	}
+
 	public Widget history(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + CronGuiConstants.NAME + CronGuiConstants.URL_LATEST, new MapParameter(), "history");
 	}

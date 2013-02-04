@@ -1,12 +1,15 @@
 package de.benjaminborbe.cron.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -22,6 +25,7 @@ import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronIdentifier;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.api.CronServiceException;
+import de.benjaminborbe.cron.gui.util.CronComparator;
 import de.benjaminborbe.cron.gui.util.CronGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -81,7 +85,10 @@ public class CronGuiListServlet extends WebsiteHtmlServlet {
 
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			for (final CronIdentifier cron : cronService.getCronIdentifiers(sessionIdentifier)) {
+
+			final List<CronIdentifier> crons = Lists.newArrayList(cronService.getCronIdentifiers(sessionIdentifier));
+			Collections.sort(crons, new CronComparator());
+			for (final CronIdentifier cron : crons) {
 				final ListWidget row = new ListWidget();
 				row.add(cron.getId());
 				row.add(" ");

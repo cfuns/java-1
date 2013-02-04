@@ -18,4 +18,8 @@ public interface CronGuiConstants {
 
 	String URL_CRON_TRIGGER = "/trigger";
 
+	String ACTION_START = "start";
+
+	String ACTION_STOP = "stop";
+
 }

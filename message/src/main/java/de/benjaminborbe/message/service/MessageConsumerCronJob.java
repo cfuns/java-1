@@ -1,5 +1,7 @@
 package de.benjaminborbe.message.service;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -13,8 +15,11 @@ public class MessageConsumerCronJob implements CronJob {
 
 	private final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider;
 
+	private final Logger logger;
+
 	@Inject
-	public MessageConsumerCronJob(final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider) {
+	public MessageConsumerCronJob(final Logger logger, final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider) {
+		this.logger = logger;
 		this.messageConsumerExchangerProvider = messageConsumerExchangerProvider;
 	}
 
@@ -25,7 +30,9 @@ public class MessageConsumerCronJob implements CronJob {
 
 	@Override
 	public void execute() {
+		logger.debug("message consumer - started");
 		messageConsumerExchangerProvider.get().exchange();
+		logger.debug("message consumer - finished");
 	}
 
 	@Override
