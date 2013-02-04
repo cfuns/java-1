@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.cron.gui.guice.CronGuiModulesMock;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -46,7 +47,10 @@ public class CronGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_HOME);
+		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_LIST);
+		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_CRON_TRIGGER);
 		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_LATEST);
+		paths.add("/" + CronGuiConstants.NAME + CronGuiConstants.URL_MANAGE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -116,6 +120,7 @@ public class CronGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

@@ -12,7 +12,7 @@ import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 
 public class StorageConfigImpl implements StorageConfig {
 
-	private final ConfigurationDescriptionString hostname = new ConfigurationDescriptionString("localhost", "CassandraHost", "Hostname of CassandraServer");
+	private final ConfigurationDescriptionString hostname = new ConfigurationDescriptionString("127.0.0.1", "CassandraHost", "Hostname of CassandraServer");
 
 	private final ConfigurationDescriptionInteger port = new ConfigurationDescriptionInteger(9160, "CassandraPort", "Port of CassandraServer");
 

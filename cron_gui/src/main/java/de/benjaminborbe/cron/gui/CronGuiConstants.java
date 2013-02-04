@@ -8,4 +8,14 @@ public interface CronGuiConstants {
 
 	String URL_LATEST = "/latest";
 
+	String URL_MANAGE = "/manage";
+
+	String PARAMETER_ACTION = "action";
+
+	String URL_LIST = "/list";
+
+	String PARAMETER_CRON_ID = "cron_id";
+
+	String URL_CRON_TRIGGER = "/trigger";
+
 }

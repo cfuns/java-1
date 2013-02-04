@@ -54,8 +54,19 @@ public class MessageConsumerExchanger {
 		@Override
 		public void run() {
 			try {
+				if (message.getType() == null) {
+					messageDao.delete(message);
+					logger.info("delete message without type");
+					return;
+				}
+
 				final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
-				exchange(messageConsumer, message);
+				if (messageConsumer != null) {
+					exchange(messageConsumer, message);
+				}
+				else {
+					logger.warn("no messageConsumer found for type: " + message.getType());
+				}
 			}
 			catch (final StorageException e) {
 				logger.warn(e.getClass().getName(), e);
