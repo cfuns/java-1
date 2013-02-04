@@ -22,9 +22,30 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.RandomUtil;
+import de.benjaminborbe.tools.util.ThreadRunner;
 
 @Singleton
 public class MessageConsumerExchanger {
+
+	private final class ConsumeMessages implements Runnable {
+
+		private final MessageConsumer messageConsumer;
+
+		private ConsumeMessages(MessageConsumer messageConsumer) {
+			this.messageConsumer = messageConsumer;
+		}
+
+		@Override
+		public void run() {
+			logger.debug("message consume type: " + messageConsumer.getType() + " => started");
+			if (runOnlyOnceATimeByType.run(messageConsumer.getType(), new HandleConsumer(messageConsumer))) {
+				logger.debug("message consume type: " + messageConsumer.getType() + " => finished");
+			}
+			else {
+				logger.debug("message consume type: " + messageConsumer.getType() + " => skiped");
+			}
+		}
+	}
 
 	private final class HandleConsumer implements Runnable {
 
@@ -73,9 +94,12 @@ public class MessageConsumerExchanger {
 
 	private final RunOnlyOnceATimeByType runOnlyOnceATimeByType;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
+			final ThreadRunner threadRunner,
 			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
 			final AnalyticsService analyticsService,
 			final RandomUtil randomUtil,
@@ -84,6 +108,7 @@ public class MessageConsumerExchanger {
 			final MessageDao messageDao,
 			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
+		this.threadRunner = threadRunner;
 		this.runOnlyOnceATimeByType = runOnlyOnceATimeByType;
 		this.analyticsService = analyticsService;
 		this.randomUtil = randomUtil;
@@ -95,11 +120,11 @@ public class MessageConsumerExchanger {
 	}
 
 	public boolean exchange() {
-		logger.debug("message consume - started");
+		logger.debug("exchange message - started");
 		for (final MessageConsumer messageConsumer : messageConsumerRegistry.getAll()) {
-			runOnlyOnceATimeByType.run(messageConsumer.getType(), new HandleConsumer(messageConsumer));
+			threadRunner.run("messageConsumer: " + messageConsumer.getType(), new ConsumeMessages(messageConsumer));
 		}
-		logger.debug("message consume - finished");
+		logger.debug("exchange message - finished");
 		return true;
 	}
 
