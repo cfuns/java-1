@@ -51,6 +51,7 @@ public class MessageGuiActivatorIntegrationTest {
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_LIST);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_DELETE);
+		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_EXCHANGE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

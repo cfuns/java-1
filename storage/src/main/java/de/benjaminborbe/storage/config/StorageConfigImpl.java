@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.util;
+package de.benjaminborbe.storage.config;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ public class StorageConfigImpl implements StorageConfig {
 
 	private final ConfigurationDescriptionInteger maxConnections = new ConfigurationDescriptionInteger(50, "CassandraMaxConnections", "MaxConnections to CassandraServer");
 
-	private final ConfigurationDescriptionInteger socketTimeout = new ConfigurationDescriptionInteger(7000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
+	private final ConfigurationDescriptionInteger socketTimeout = new ConfigurationDescriptionInteger(10000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
 
 	private final ConfigurationDescriptionString backupDirectory = new ConfigurationDescriptionString("/tmp", "CassandraBackupDirectory", "BackupDirectory of CassandraServer");
 

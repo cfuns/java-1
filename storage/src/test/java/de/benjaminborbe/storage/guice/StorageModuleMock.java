@@ -4,9 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.config.StorageConfigImpl;
 import de.benjaminborbe.storage.service.StorageServiceImpl;
-import de.benjaminborbe.storage.util.StorageConfig;
-import de.benjaminborbe.storage.util.StorageConfigImpl;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageDaoUtilImpl;
 

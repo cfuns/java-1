@@ -64,7 +64,7 @@ public class CronJobOsgi implements Job {
 				final String id = name; // + "_" + dateUtil.dateTimeString(fireTime);
 				final String content = cronMessageMapper.map(cronMessage);
 				logger.trace("send cron to queue");
-				messageService.sendMessage(CronConstants.MESSSAGE_TYPE, id, content);
+				messageService.sendMessage(CronConstants.MESSAGE_TYPE, id, content);
 			}
 			else {
 				logger.trace("execute cron directly");

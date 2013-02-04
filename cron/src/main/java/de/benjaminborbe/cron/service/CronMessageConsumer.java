@@ -31,7 +31,7 @@ public class CronMessageConsumer implements MessageConsumer {
 
 	@Override
 	public String getType() {
-		return CronConstants.MESSSAGE_TYPE;
+		return CronConstants.MESSAGE_TYPE;
 	}
 
 	@Override

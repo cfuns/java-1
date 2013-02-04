@@ -15,8 +15,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.storage.util.StorageConfig;
 import de.benjaminborbe.storage.util.StorageTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

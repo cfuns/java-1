@@ -28,6 +28,7 @@ import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.map.MapChain;

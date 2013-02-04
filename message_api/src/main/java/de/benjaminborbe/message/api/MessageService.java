@@ -21,4 +21,7 @@ public interface MessageService {
 	Collection<Message> getMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
 
 	MessageIdentifier createMessageIdentifier(String id) throws MessageServiceException;
+
+	boolean exchangeMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException;
+
 }

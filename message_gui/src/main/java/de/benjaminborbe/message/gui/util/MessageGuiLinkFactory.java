@@ -39,4 +39,8 @@ public class MessageGuiLinkFactory {
 	public Widget listMessages(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_LIST, new MapParameter(), "list messages");
 	}
+
+	public Widget exchangeMessages(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_EXCHANGE, new MapParameter(), "exchange messages");
+	}
 }

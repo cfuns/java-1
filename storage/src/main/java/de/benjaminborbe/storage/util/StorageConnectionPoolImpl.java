@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.config.StorageConfig;
+
 @Singleton
 public class StorageConnectionPoolImpl implements StorageConnectionPool {
 

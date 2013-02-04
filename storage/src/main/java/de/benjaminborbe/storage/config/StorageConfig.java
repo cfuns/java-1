@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.util;
+package de.benjaminborbe.storage.config;
 
 import java.util.Collection;
 

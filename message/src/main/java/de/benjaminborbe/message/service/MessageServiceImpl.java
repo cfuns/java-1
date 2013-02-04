@@ -7,10 +7,13 @@ import java.util.List;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -23,6 +26,7 @@ import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageDao;
+import de.benjaminborbe.message.util.MessageConsumerExchanger;
 import de.benjaminborbe.message.util.MessageUnlock;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -31,6 +35,7 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class MessageServiceImpl implements MessageService {
@@ -51,9 +56,15 @@ public class MessageServiceImpl implements MessageService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final ValidationExecutor validationExecutor;
+
+	private final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider;
+
 	@Inject
 	public MessageServiceImpl(
 			final Logger logger,
+			final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider,
+			final ValidationExecutor validationExecutor,
 			final AnalyticsService analyticsService,
 			final MessageDao messageDao,
 			final IdGeneratorUUID idGeneratorUUID,
@@ -61,6 +72,8 @@ public class MessageServiceImpl implements MessageService {
 			final AuthorizationService authorizationService,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
+		this.messageConsumerExchangerProvider = messageConsumerExchangerProvider;
+		this.validationExecutor = validationExecutor;
 		this.analyticsService = analyticsService;
 		this.messageDao = messageDao;
 		this.idGeneratorUUID = idGeneratorUUID;
@@ -86,11 +99,22 @@ public class MessageServiceImpl implements MessageService {
 				bean.setRetryCounter(0l);
 				bean.setMaxRetryCounter(MessageConstants.MAX_RETRY);
 				bean.setStartTime(calendarUtil.now());
+
+				final ValidationResult errors = validationExecutor.validate(bean);
+				if (errors.hasErrors()) {
+					logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
+					throw new ValidationException(errors);
+				}
+				validationExecutor.validate(bean);
+
 				messageDao.save(bean);
 				track(analyticsReportIdentifierMessageInsert);
 			}
 		}
 		catch (final StorageException e) {
+			throw new MessageServiceException(e);
+		}
+		catch (final ValidationException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -184,5 +208,18 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public MessageIdentifier createMessageIdentifier(final String id) throws MessageServiceException {
 		return id != null ? new MessageIdentifier(id) : null;
+	}
+
+	@Override
+	public boolean exchangeMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+
+			messageConsumerExchangerProvider.get().exchange();
+			return true;
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		}
 	}
 }

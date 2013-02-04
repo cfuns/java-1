@@ -12,6 +12,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.api.MessageConsumer;
+import de.benjaminborbe.message.config.MessageConfig;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -22,7 +23,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.RandomUtil;
-import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadPoolExecuter;
+import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
 
 @Singleton
 public class MessageConsumerExchanger {
@@ -87,12 +89,13 @@ public class MessageConsumerExchanger {
 
 	private final RunOnlyOnceATimeByType runOnlyOnceATimeByType;
 
-	private final ThreadRunner threadRunner;
+	private final ThreadPoolExecuter threadPoolExecuter;
 
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
-			final ThreadRunner threadRunner,
+			final MessageConfig messageConfig,
+			final ThreadPoolExecuterBuilder threadPoolExecuterBuilder,
 			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
 			final AnalyticsService analyticsService,
 			final RandomUtil randomUtil,
@@ -101,7 +104,6 @@ public class MessageConsumerExchanger {
 			final MessageDao messageDao,
 			final TimeZoneUtil timeZoneUtil) {
 		this.logger = logger;
-		this.threadRunner = threadRunner;
 		this.runOnlyOnceATimeByType = runOnlyOnceATimeByType;
 		this.analyticsService = analyticsService;
 		this.randomUtil = randomUtil;
@@ -110,6 +112,7 @@ public class MessageConsumerExchanger {
 		this.messageDao = messageDao;
 		this.timeZoneUtil = timeZoneUtil;
 		this.lockName = String.valueOf(UUID.randomUUID());
+		this.threadPoolExecuter = threadPoolExecuterBuilder.build("message exchange", messageConfig.getConsumerAmount());
 	}
 
 	public boolean exchange() {
@@ -118,7 +121,7 @@ public class MessageConsumerExchanger {
 			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
 			while (i.hasNext()) {
 				final MessageBean message = i.next();
-				threadRunner.run("exchange message " + message.getId(), new AsyncRunnable(message));
+				threadPoolExecuter.execute(new AsyncRunnable(message));
 			}
 			logger.debug("exchange message - finished");
 			return true;

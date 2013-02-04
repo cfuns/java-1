@@ -19,7 +19,7 @@ import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.storage.util.StorageConfig;
+import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageExporter;

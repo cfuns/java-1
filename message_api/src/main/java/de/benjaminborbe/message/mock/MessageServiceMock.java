@@ -52,4 +52,9 @@ public class MessageServiceMock implements MessageService {
 		return new MessageIdentifier(id);
 	}
 
+	@Override
+	public boolean exchangeMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
+		return false;
+	}
+
 }

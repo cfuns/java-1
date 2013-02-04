@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 

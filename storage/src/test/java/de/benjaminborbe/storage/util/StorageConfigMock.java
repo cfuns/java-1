@@ -3,6 +3,9 @@ package de.benjaminborbe.storage.util;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.config.StorageConfigImpl;
+
 @Singleton
 public class StorageConfigMock extends StorageConfigImpl implements StorageConfig {
 

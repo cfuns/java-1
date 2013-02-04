@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.guice.MessageModulesMock;
@@ -70,6 +71,7 @@ public class MessageActivatorIntegrationTest {
 		names.add(MessageService.class.getName());
 		names.add(CronJob.class.getName());
 		names.add(CronJob.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

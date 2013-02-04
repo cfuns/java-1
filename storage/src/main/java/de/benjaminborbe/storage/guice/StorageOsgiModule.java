@@ -8,8 +8,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.storage.util.StorageConfig;
-import de.benjaminborbe.storage.util.StorageConfigImpl;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.config.StorageConfigImpl;
 
 public class StorageOsgiModule extends AbstractModule {
 

@@ -22,6 +22,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
