@@ -21,6 +21,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadRunnerMock;
 
 public class HttpBundleActivatorIntegrationTest {
 
@@ -32,6 +34,7 @@ public class HttpBundleActivatorIntegrationTest {
 		@Override
 		protected void configure() {
 			bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+			bind(ThreadRunner.class).to(ThreadRunnerMock.class).in(Singleton.class);
 		}
 	}
 

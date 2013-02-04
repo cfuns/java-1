@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.tools.thread.ThreadUtil;
+import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class CronManager {
 
@@ -25,22 +25,22 @@ public class CronManager {
 
 	private static final long DELAY = 5 * 60 * 1000;
 
-	private final ThreadUtil threadUtil;
-
 	private final Quartz quartz;
 
 	private final Logger logger;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
-	public CronManager(final Logger logger, final ThreadUtil threadUtil, final Quartz quartz) {
+	public CronManager(final Logger logger, final ThreadRunner threadRunner, final Quartz quartz) {
 		this.logger = logger;
-		this.threadUtil = threadUtil;
+		this.threadRunner = threadRunner;
 		this.quartz = quartz;
 	}
 
 	public void start() {
 		logger.debug("start cron in " + DELAY + " ms");
-		threadUtil.runIn(DELAY, new QuartzStartRunnable());
+		threadRunner.runIn(DELAY, new QuartzStartRunnable());
 	}
 
 	public void stop() {

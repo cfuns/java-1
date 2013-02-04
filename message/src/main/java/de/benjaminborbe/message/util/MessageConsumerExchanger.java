@@ -23,25 +23,10 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.RandomUtil;
-import de.benjaminborbe.tools.util.ThreadPoolExecuter;
 import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
 
 @Singleton
 public class MessageConsumerExchanger {
-
-	private final class AsyncRunnable implements Runnable {
-
-		private final MessageBean message;
-
-		private AsyncRunnable(final MessageBean message) {
-			this.message = message;
-		}
-
-		@Override
-		public void run() {
-			runOnlyOnceATimeByType.run(String.valueOf(message.getId()), new ExchangeMessage(message));
-		}
-	}
 
 	private final class ExchangeMessage implements Runnable {
 
@@ -100,8 +85,6 @@ public class MessageConsumerExchanger {
 
 	private final RunOnlyOnceATimeByType runOnlyOnceATimeByType;
 
-	private final ThreadPoolExecuter threadPoolExecuter;
-
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
@@ -123,7 +106,6 @@ public class MessageConsumerExchanger {
 		this.messageDao = messageDao;
 		this.timeZoneUtil = timeZoneUtil;
 		this.lockName = String.valueOf(UUID.randomUUID());
-		this.threadPoolExecuter = threadPoolExecuterBuilder.build("message exchange", messageConfig.getConsumerAmount());
 	}
 
 	public boolean exchange() {
@@ -132,7 +114,7 @@ public class MessageConsumerExchanger {
 			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
 			while (i.hasNext()) {
 				final MessageBean message = i.next();
-				threadPoolExecuter.execute(new AsyncRunnable(message));
+				runOnlyOnceATimeByType.run(String.valueOf(message.getId()), new ExchangeMessage(message));
 			}
 			logger.debug("exchange message - finished");
 			return true;

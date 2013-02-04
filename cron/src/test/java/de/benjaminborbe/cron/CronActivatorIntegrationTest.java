@@ -34,6 +34,7 @@ public class CronActivatorIntegrationTest {
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new CronModulesMock());
+
 		final CronActivator activator = new CronActivator() {
 
 			@Override

@@ -13,10 +13,10 @@ public class ThreadUtilUnitTest {
 	@Test
 	public void testRunIn() throws Exception {
 		final ThreadRunner t = new ThreadRunnerImpl();
-		final ThreadUtil threadUtil = new ThreadUtil(t);
+		final ThreadUtil threadUtil = new ThreadUtil();
 		final Counter counter = new Counter();
 		assertEquals(0l, counter.get());
-		threadUtil.runIn(500, new Runnable() {
+		t.runIn(500, new Runnable() {
 
 			@Override
 			public void run() {

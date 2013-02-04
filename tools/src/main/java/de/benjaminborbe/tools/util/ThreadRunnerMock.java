@@ -18,4 +18,9 @@ public class ThreadRunnerMock implements ThreadRunner {
 		}
 	}
 
+	@Override
+	public void runIn(final long time, final Runnable runnable) {
+		run("runIn", runnable);
+	}
+
 }

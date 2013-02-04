@@ -7,7 +7,7 @@ import com.google.inject.Module;
 
 import de.benjaminborbe.cache.guice.CacheModule;
 import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.guice.ToolModule;
+import de.benjaminborbe.tools.guice.ToolModuleMock;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;
 import de.benjaminborbe.tools.osgi.mock.ServletModuleMock;
 
@@ -15,6 +15,6 @@ public class CacheModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new CacheOsgiModuleMock(), new CacheModule(), new ToolModule());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new CacheOsgiModuleMock(), new CacheModule(), new ToolModuleMock());
 	}
 }
