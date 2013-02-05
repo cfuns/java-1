@@ -16,31 +16,17 @@ import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class CronMessageSender {
 
-	private final class Exec implements Runnable {
+	private final class ParallelCronRunnable implements Runnable {
 
 		private final String name;
 
-		public Exec(final String name) {
+		private ParallelCronRunnable(final String name) {
 			this.name = name;
 		}
 
 		@Override
 		public void run() {
 			cronExecutor.execute(name);
-		}
-	}
-
-	private final class OnlyOnce implements Runnable {
-
-		private final String name;
-
-		private OnlyOnce(final String name) {
-			this.name = name;
-		}
-
-		@Override
-		public void run() {
-			runOnlyOnceATimeByType.run(name, new Exec(name));
 		}
 	}
 
@@ -56,8 +42,6 @@ public class CronMessageSender {
 
 	private final ThreadRunner threadRunner;
 
-	private final RunOnlyOnceATimeByType runOnlyOnceATimeByType;
-
 	@Inject
 	public CronMessageSender(
 			final Logger logger,
@@ -68,7 +52,6 @@ public class CronMessageSender {
 			final MessageService messageService,
 			final CronMessageMapper cronMessageMapper) {
 		this.logger = logger;
-		this.runOnlyOnceATimeByType = runOnlyOnceATimeByType;
 		this.threadRunner = threadRunner;
 		this.cronExecutor = cronExecutor;
 		this.cronJobRegistry = cronJobRegistry;
@@ -87,7 +70,7 @@ public class CronMessageSender {
 		}
 		else {
 			logger.debug("exec cron direct - name: " + name);
-			threadRunner.run("exec direct", new OnlyOnce(name));
+			threadRunner.run("exec direct", new ParallelCronRunnable(name));
 		}
 	}
 
