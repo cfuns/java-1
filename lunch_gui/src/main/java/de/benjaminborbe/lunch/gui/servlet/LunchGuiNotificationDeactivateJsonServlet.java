@@ -32,7 +32,7 @@ import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
-public class LunchGuiNotificationDeactivate extends WebsiteJsonServlet {
+public class LunchGuiNotificationDeactivateJsonServlet extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 1885838810460233686L;
 
@@ -43,7 +43,7 @@ public class LunchGuiNotificationDeactivate extends WebsiteJsonServlet {
 	private final LunchService lunchService;
 
 	@Inject
-	public LunchGuiNotificationDeactivate(
+	public LunchGuiNotificationDeactivateJsonServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,

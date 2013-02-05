@@ -14,13 +14,15 @@ import de.benjaminborbe.lunch.gui.guice.LunchGuiModules;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiArchivServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookedServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiKioskBookingServlet;
-import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationActivate;
-import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationDeactivate;
-import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationIsActivated;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationActivateJsonServlet;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationDeactivateJsonServlet;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationIsActivatedJsonServlet;
+import de.benjaminborbe.lunch.gui.servlet.LunchGuiNotificationServlet;
 import de.benjaminborbe.lunch.gui.servlet.LunchGuiServlet;
 import de.benjaminborbe.lunch.gui.util.LunchGuiArchivNavigationEntry;
 import de.benjaminborbe.lunch.gui.util.LunchGuiBookingNavigationEntry;
 import de.benjaminborbe.lunch.gui.util.LunchGuiNavigationEntry;
+import de.benjaminborbe.lunch.gui.util.LunchGuiNotificationNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -31,16 +33,19 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private LunchGuiNotificationServlet lunchGuiNotificationServlet;
+
+	@Inject
 	private LunchGuiConfig lunchGuiConfig;
 
 	@Inject
-	private LunchGuiNotificationActivate lunchGuiNotificationActivate;
+	private LunchGuiNotificationActivateJsonServlet lunchGuiNotificationActivate;
 
 	@Inject
-	private LunchGuiNotificationDeactivate lunchGuiNotificationDeactivate;
+	private LunchGuiNotificationDeactivateJsonServlet lunchGuiNotificationDeactivate;
 
 	@Inject
-	private LunchGuiNotificationIsActivated lunchGuiNotificationIsActivated;
+	private LunchGuiNotificationIsActivatedJsonServlet lunchGuiNotificationIsActivated;
 
 	@Inject
 	private LunchGuiKioskBookedServlet lunchGuiKioskBookedServlet;
@@ -63,6 +68,9 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Inject
 	private LunchGuiBookingNavigationEntry lunchGuiBookingNavigationEntry;
 
+	@Inject
+	private LunchGuiNotificationNavigationEntry lunchGuiNotificationNavigationEntry;
+
 	public LunchGuiActivator() {
 		super(LunchGuiConstants.NAME);
 	}
@@ -79,7 +87,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(lunchGuiKioskBooking, LunchGuiConstants.URL_BOOKING));
 		result.add(new ServletInfo(lunchGuiServlet, LunchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(lunchGuiArchivServlet, LunchGuiConstants.URL_ARCHIV));
-
+		result.add(new ServletInfo(lunchGuiNotificationServlet, LunchGuiConstants.URL_NOTIFICATION));
 		result.add(new ServletInfo(lunchGuiNotificationActivate, LunchGuiConstants.URL_NOTIFICATION_ACTIVATE));
 		result.add(new ServletInfo(lunchGuiNotificationDeactivate, LunchGuiConstants.URL_NOTIFICATION_DEACTIVATE));
 		result.add(new ServletInfo(lunchGuiNotificationIsActivated, LunchGuiConstants.URL_NOTIFICATION_ISACTIVATED));
@@ -98,6 +106,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNotificationNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiArchivNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiBookingNavigationEntry));

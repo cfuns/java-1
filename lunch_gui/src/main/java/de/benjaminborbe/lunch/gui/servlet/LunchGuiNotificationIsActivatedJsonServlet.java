@@ -1,8 +1,6 @@
 package de.benjaminborbe.lunch.gui.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +11,6 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -32,7 +28,7 @@ import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
-public class LunchGuiNotificationActivate extends WebsiteJsonServlet {
+public class LunchGuiNotificationIsActivatedJsonServlet extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 1885838810460233686L;
 
@@ -43,7 +39,7 @@ public class LunchGuiNotificationActivate extends WebsiteJsonServlet {
 	private final LunchService lunchService;
 
 	@Inject
-	public LunchGuiNotificationActivate(
+	public LunchGuiNotificationIsActivatedJsonServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -68,31 +64,18 @@ public class LunchGuiNotificationActivate extends WebsiteJsonServlet {
 				printError(response, "parameter " + LunchGuiConstants.PARAEMTER_NOTIFICATION_TOKEN + " missing or invalid");
 				return;
 			}
+
 			final String login = request.getParameter(LunchGuiConstants.PARAEMTER_NOTIFICATION_LOGIN);
 			if (login == null || login.isEmpty()) {
 				printError(response, "parameter " + LunchGuiConstants.PARAEMTER_NOTIFICATION_LOGIN + " missing");
 				return;
 			}
 
+			logger.debug("check notification-setting for user: " + login);
 			final JSONObject jsonObject = new JSONObjectSimple();
-			boolean result;
-			try {
-				logger.debug("activate notification for user: " + login);
-				lunchService.activateNotification(new UserIdentifier(login));
-				result = true;
-			}
-			catch (final ValidationException e) {
-				final List<String> messages = new ArrayList<String>();
-				for (final ValidationError error : e.getErrors()) {
-					messages.add(error.getMessage());
-				}
-				jsonObject.put("messages", messages);
-				result = false;
-			}
-
-			jsonObject.put("result", result ? "success" : "failure");
+			jsonObject.put("result", "success");
+			jsonObject.put("active", String.valueOf(lunchService.isNotificationActivated(new UserIdentifier(login))));
 			printJson(response, jsonObject);
-
 		}
 		catch (final LunchServiceException e) {
 			logger.warn(e.getClass().getName(), e);

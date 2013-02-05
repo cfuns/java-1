@@ -38,4 +38,12 @@ public interface LunchGuiConstants {
 
 	String CONFIG_AUTH_TOKEN = "LunchAuthToken";
 
+	String PARAMETER_ACTION = "action";
+
+	String ACTION_ACTIVATE = "activate";
+
+	String ACTION_DEACTIVATE = "deactivate";
+
+	String URL_NOTIFICATION = "/notification";
+
 }

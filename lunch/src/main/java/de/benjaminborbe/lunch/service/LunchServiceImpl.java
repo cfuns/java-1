@@ -340,7 +340,7 @@ public class LunchServiceImpl implements LunchService {
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
-				logger.warn("TaskContext " + errors.toString());
+				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
 				throw new ValidationException(errors);
 			}
 

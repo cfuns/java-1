@@ -64,4 +64,14 @@ public class LunchGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED, new MapParameter().add(LunchGuiConstants.PARAMETER_BOOKED_DATE,
 				dateString), "next day");
 	}
+
+	public Widget deactivateNotification(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_NOTIFICATION, new MapParameter().add(LunchGuiConstants.PARAMETER_ACTION,
+				LunchGuiConstants.ACTION_DEACTIVATE), "deactivate notification");
+	}
+
+	public Widget activateNotification(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_NOTIFICATION, new MapParameter().add(LunchGuiConstants.PARAMETER_ACTION,
+				LunchGuiConstants.ACTION_ACTIVATE), "activate notification");
+	}
 }
