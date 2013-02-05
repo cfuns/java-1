@@ -82,10 +82,11 @@ public class CronMessageSender {
 			final CronMessage cronMessage = new CronMessage(name);
 			final String id = name; // + "_" + dateUtil.dateTimeString(fireTime);
 			final String content = cronMessageMapper.map(cronMessage);
-			logger.trace("send cron to queue");
+			logger.debug("send cron to queue - name: " + name);
 			messageService.sendMessage(CronConstants.MESSAGE_TYPE, id, content);
 		}
 		else {
+			logger.debug("exec cron direct - name: " + name);
 			threadRunner.run("exec direct", new OnlyOnce(name));
 		}
 	}
