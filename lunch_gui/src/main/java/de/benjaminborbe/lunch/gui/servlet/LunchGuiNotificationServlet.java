@@ -41,7 +41,7 @@ public class LunchGuiNotificationServlet extends LunchGuiHtmlServlet {
 
 	private static final long serialVersionUID = -7698261881382004351L;
 
-	private static final String TITLE = "Lunch - Kiosk - Booked";
+	private static final String TITLE = "Lunch - Notification";
 
 	private final Logger logger;
 
