@@ -36,6 +36,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
@@ -94,13 +95,15 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 					widgets.add("page not found");
 				}
 				else {
-					widgets.add("Index: " + page.getIndex());
+					widgets.add(new H2Widget("Index"));
+					widgets.add(page.getIndex());
+					widgets.add(new H2Widget("Url"));
+					widgets.add(page.getURL());
+					widgets.add(new H2Widget("Title"));
+					widgets.add(page.getTitle());
+					widgets.add(new H2Widget("Content"));
+					widgets.add(page.getContent());
 					widgets.add(new BrWidget());
-					widgets.add("Url: " + page.getURL());
-					widgets.add(new BrWidget());
-					widgets.add("Title: " + page.getTitle());
-					widgets.add(new BrWidget());
-					widgets.add("Content: " + page.getContent());
 					widgets.add(new BrWidget());
 
 					final ListWidget options = new ListWidget();

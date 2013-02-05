@@ -132,6 +132,8 @@ public class DistributedIndexGuiEntryInfoServlet extends WebsiteHtmlServlet {
 				}
 				widgets.add(table);
 
+				widgets.add(distributedIndexGuiLinkFactory.showPage(request, index, url));
+
 			}
 
 			final FormWidget formWidget = new FormWidget();

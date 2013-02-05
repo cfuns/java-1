@@ -39,4 +39,8 @@ public class DistributedIndexGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_WORD_INFO, new MapParameter().add(
 				DistributedIndexGuiConstants.PARAMETER_INDEX, index).add(DistributedIndexGuiConstants.PARAMETER_WORD, word), name);
 	}
+
+	public Widget showPage(final HttpServletRequest request, final String index, final String url) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/distributed_search/page", new MapParameter().add("index", index).add("url", url), "show search page");
+	}
 }
