@@ -11,8 +11,38 @@ import de.benjaminborbe.cron.message.CronMessageMapper;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
+import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class CronMessageSender {
+
+	private final class Exec implements Runnable {
+
+		private final String name;
+
+		public Exec(final String name) {
+			this.name = name;
+		}
+
+		@Override
+		public void run() {
+			cronExecutor.execute(name);
+		}
+	}
+
+	private final class OnlyOnce implements Runnable {
+
+		private final String name;
+
+		private OnlyOnce(final String name) {
+			this.name = name;
+		}
+
+		@Override
+		public void run() {
+			runOnlyOnceATimeByType.run(name, new Exec(name));
+		}
+	}
 
 	private final CronMessageMapper cronMessageMapper;
 
@@ -24,14 +54,22 @@ public class CronMessageSender {
 
 	private final Logger logger;
 
+	private final ThreadRunner threadRunner;
+
+	private final RunOnlyOnceATimeByType runOnlyOnceATimeByType;
+
 	@Inject
 	public CronMessageSender(
 			final Logger logger,
+			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
+			final ThreadRunner threadRunner,
 			final CronExecutor cronExecutor,
 			final CronJobRegistry cronJobRegistry,
 			final MessageService messageService,
 			final CronMessageMapper cronMessageMapper) {
 		this.logger = logger;
+		this.runOnlyOnceATimeByType = runOnlyOnceATimeByType;
+		this.threadRunner = threadRunner;
 		this.cronExecutor = cronExecutor;
 		this.cronJobRegistry = cronJobRegistry;
 		this.messageService = messageService;
@@ -48,8 +86,7 @@ public class CronMessageSender {
 			messageService.sendMessage(CronConstants.MESSAGE_TYPE, id, content);
 		}
 		else {
-			logger.trace("execute cron directly");
-			cronExecutor.execute(name);
+			threadRunner.run("exec direct", new OnlyOnce(name));
 		}
 	}
 
