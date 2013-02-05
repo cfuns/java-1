@@ -39,6 +39,10 @@ public class LinkRelativWidget extends LinkWidget {
 		url.append(request.getScheme());
 		url.append("://");
 		url.append(request.getServerName());
+		if (!("http".equalsIgnoreCase(request.getScheme()) && request.getServerPort() == 80 || "https".equalsIgnoreCase(request.getScheme()) && request.getServerPort() == 443)) {
+			url.append(":");
+			url.append(String.valueOf(request.getServerPort()));
+		}
 		url.append(request.getContextPath());
 		url.append(path.replaceAll("//", "/"));
 		return new URL(url.toString());
