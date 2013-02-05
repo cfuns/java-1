@@ -56,7 +56,8 @@ public class KioskServiceImpl implements KioskService {
 		try {
 			logger.debug("book - customer: " + customer + " ean: " + ean);
 			final KioskBookingMessage bookingMessage = new KioskBookingMessage(customer, ean);
-			messageService.sendMessage(KioskConstants.BOOKING_MESSAGE_TYPE, kioskBookingMessageMapper.map(bookingMessage));
+			final String id = customer + "_" + ean;
+			messageService.sendMessage(KioskConstants.BOOKING_MESSAGE_TYPE, id, kioskBookingMessageMapper.map(bookingMessage));
 		}
 		catch (final MessageServiceException e) {
 			throw new KioskServiceException(e);

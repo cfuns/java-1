@@ -43,6 +43,7 @@ import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -50,6 +51,34 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
 public class LunchServiceImpl implements LunchService {
+
+	private final class SendBookings implements Runnable {
+
+		private final Collection<Long> users;
+
+		private final Calendar day;
+
+		private SendBookings(final Collection<Long> users, final Calendar day) {
+			this.users = users;
+			this.day = day;
+		}
+
+		@Override
+		public void run() {
+			try {
+				logger.info("book  - day: " + calendarUtil.toDateString(day) + " users: " + StringUtils.join(users, ','));
+
+				for (final Long customer : users) {
+					kioskService.book(customer, LunchConstants.MITTAG_EAN);
+				}
+
+				sendBookMail(day, users);
+			}
+			catch (final KioskServiceException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+		}
+	}
 
 	private static final long DURATION_WARN = 300;
 
@@ -75,9 +104,12 @@ public class LunchServiceImpl implements LunchService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final RunOnlyOnceATime runOnlyOnceATime;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
+			final RunOnlyOnceATime runOnlyOnceATime,
 			final KioskService kioskService,
 			final LunchWikiConnector wikiConnector,
 			final LunchConfig lunchConfig,
@@ -89,6 +121,7 @@ public class LunchServiceImpl implements LunchService {
 			final LunchUserSettingsDao lunchUserSettingsDao,
 			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
+		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.kioskService = kioskService;
 		this.wikiConnector = wikiConnector;
 		this.lunchConfig = lunchConfig;
@@ -259,18 +292,9 @@ public class LunchServiceImpl implements LunchService {
 		try {
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LUNCH_ADMIN_ROLENAME);
 			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
-			logger.info("book  - day: " + calendarUtil.toDateString(day) + " users: " + StringUtils.join(users, ','));
-
-			for (final Long customer : users) {
-				kioskService.book(customer, LunchConstants.MITTAG_EAN);
-			}
-
-			sendBookMail(day, users);
+			runOnlyOnceATime.run(new SendBookings(users, day));
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final KioskServiceException e) {
 			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {
