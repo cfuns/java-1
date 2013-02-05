@@ -4,13 +4,18 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
+import de.benjaminborbe.tools.util.ParseUtil;
 
-public class StorageConfigImpl implements StorageConfig {
+public class StorageConfigImpl extends ConfigurationBase implements StorageConfig {
 
 	private final ConfigurationDescriptionString hostname = new ConfigurationDescriptionString("127.0.0.1", "CassandraHost", "Hostname of CassandraServer");
 
@@ -29,40 +34,33 @@ public class StorageConfigImpl implements StorageConfig {
 	private final ConfigurationDescriptionString backupDirectory = new ConfigurationDescriptionString("/tmp", "CassandraBackupDirectory", "BackupDirectory of CassandraServer");
 
 	@Inject
-	public StorageConfigImpl() {
+	public StorageConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
+		super(logger, configurationService, parseUtil);
 	}
 
 	@Override
 	public String getHost() {
-		return getValue(hostname);
+		return getValueString(hostname);
 	}
 
 	@Override
 	public int getPort() {
-		return getValue(port);
+		return getValueInteger(port);
 	}
 
 	@Override
 	public String getKeySpace() {
-		return getValue(keyspace);
+		return getValueString(keyspace);
 	}
 
 	@Override
 	public String getEncoding() {
-		return getValue(encoding);
+		return getValueString(encoding);
 	}
 
 	@Override
 	public int getReadLimit() {
-		return getValue(readLimit);
-	}
-
-	private int getValue(final ConfigurationDescriptionInteger configuration) {
-		return configuration.getDefaultValue();
-	}
-
-	private String getValue(final ConfigurationDescriptionString configuration) {
-		return configuration.getDefaultValue();
+		return getValueInteger(readLimit);
 	}
 
 	@Override
@@ -77,12 +75,12 @@ public class StorageConfigImpl implements StorageConfig {
 
 	@Override
 	public int getMaxConnections() {
-		return getValue(maxConnections);
+		return getValueInteger(maxConnections);
 	}
 
 	@Override
 	public int getSocketTimeout() {
-		return getValue(socketTimeout);
+		return getValueInteger(socketTimeout);
 	}
 
 	@Override
@@ -92,7 +90,7 @@ public class StorageConfigImpl implements StorageConfig {
 
 	@Override
 	public String getBackpuDirectory() {
-		return getValue(backupDirectory);
+		return getValueString(backupDirectory);
 	}
 
 }

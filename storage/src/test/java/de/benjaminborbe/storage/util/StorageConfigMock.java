@@ -1,10 +1,14 @@
 package de.benjaminborbe.storage.util;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.config.StorageConfigImpl;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
 public class StorageConfigMock extends StorageConfigImpl implements StorageConfig {
@@ -18,8 +22,8 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 	private static final String CASSANDRA_KEYSPACE = "test";
 
 	@Inject
-	public StorageConfigMock() {
-		super();
+	public StorageConfigMock(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
+		super(logger, configurationService, parseUtil);
 	}
 
 	@Override
