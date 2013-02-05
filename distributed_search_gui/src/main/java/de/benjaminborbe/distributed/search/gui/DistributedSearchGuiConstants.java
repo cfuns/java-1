@@ -14,4 +14,6 @@ public interface DistributedSearchGuiConstants {
 
 	String PARAMETER_URL = "url";
 
+	String URL_REBUILD_PAGE = "/page/rebuild";
+
 }

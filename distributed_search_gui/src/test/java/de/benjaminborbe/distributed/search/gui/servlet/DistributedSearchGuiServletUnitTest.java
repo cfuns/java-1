@@ -32,6 +32,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
+import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -122,9 +123,11 @@ public class DistributedSearchGuiServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
+		EasyMock.expect(urlUtil.buildUrl("/distributed_search/page", new MapParameter())).andReturn("");
+		EasyMock.expect(urlUtil.buildUrl("/distributed_search/rebuildindex", new MapParameter())).andReturn("");
 		EasyMock.replay(urlUtil);
 
-		final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory = new DistributedSearchGuiLinkFactory();
+		final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory = new DistributedSearchGuiLinkFactory(urlUtil);
 
 		final CacheService cacheService = EasyMock.createMock(CacheService.class);
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();

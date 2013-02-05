@@ -15,6 +15,8 @@ public interface DistributedSearchService {
 
 	void rebuildIndex(String index) throws DistributedSearchServiceException;
 
+	void rebuildPage(String index, String url) throws DistributedSearchServiceException;
+
 	DistributedSearchResult getPage(String index, String url) throws DistributedSearchServiceException;
 
 }

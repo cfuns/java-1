@@ -21,6 +21,7 @@ import de.benjaminborbe.kiosk.util.KioskBookingMessage;
 import de.benjaminborbe.kiosk.util.KioskBookingMessageMapper;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.MapException;
 
 @Singleton
@@ -34,13 +35,17 @@ public class KioskServiceImpl implements KioskService {
 
 	private final MessageService messageService;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public KioskServiceImpl(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
 			final MessageService messageService,
 			final KioskDatabaseConnector kioskDatabaseConnector,
 			final KioskBookingMessageMapper kioskBookingMessageMapper) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 		this.messageService = messageService;
 		this.kioskDatabaseConnector = kioskDatabaseConnector;
 		this.kioskBookingMessageMapper = kioskBookingMessageMapper;
@@ -75,7 +80,7 @@ public class KioskServiceImpl implements KioskService {
 	@Override
 	public Collection<KioskUser> getBookingsForDay(final Calendar calendar, final long ean) throws KioskServiceException {
 		try {
-			logger.debug("getBookingsForDay - calendar: " + calendar + " ean: " + ean);
+			logger.debug("getBookingsForDay - calendar: " + calendarUtil.toDateString(calendar) + " ean: " + ean);
 			final List<KioskUser> result = new ArrayList<KioskUser>();
 			for (final KioskUserBean user : kioskDatabaseConnector.getBookingsForDay(calendar, ean)) {
 				result.add(user);

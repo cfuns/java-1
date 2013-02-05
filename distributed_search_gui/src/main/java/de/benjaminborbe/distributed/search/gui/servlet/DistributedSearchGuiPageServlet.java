@@ -20,6 +20,7 @@ import de.benjaminborbe.distributed.search.api.DistributedSearchResult;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;
 import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiConstants;
+import de.benjaminborbe.distributed.search.gui.util.DistributedSearchGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -49,6 +50,8 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory;
+
 	@Inject
 	public DistributedSearchGuiPageServlet(
 			final Logger logger,
@@ -62,10 +65,12 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final DistributedSearchService distributedSearchService,
-			final CacheService cacheService) {
+			final CacheService cacheService,
+			final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.distributedSearchService = distributedSearchService;
 		this.logger = logger;
+		this.distributedSearchGuiLinkFactory = distributedSearchGuiLinkFactory;
 	}
 
 	@Override
@@ -97,6 +102,14 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 					widgets.add(new BrWidget());
 					widgets.add("Content: " + page.getContent());
 					widgets.add(new BrWidget());
+
+					final ListWidget options = new ListWidget();
+
+					options.add(distributedSearchGuiLinkFactory.showIndex(request, page.getIndex(), page.getURL()));
+					options.add(" ");
+					options.add(distributedSearchGuiLinkFactory.rebuildPage(request, page.getIndex(), page.getURL()));
+
+					widgets.add(options);
 				}
 			}
 
@@ -114,5 +127,4 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }

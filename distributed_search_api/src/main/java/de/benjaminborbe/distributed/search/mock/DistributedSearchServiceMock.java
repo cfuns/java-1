@@ -43,4 +43,8 @@ public class DistributedSearchServiceMock implements DistributedSearchService {
 		return null;
 	}
 
+	@Override
+	public void rebuildPage(final String index, final String url) throws DistributedSearchServiceException {
+	}
+
 }

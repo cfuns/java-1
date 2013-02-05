@@ -180,11 +180,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			final EntityIterator<DistributedSearchPageBean> distributedSearchPageIterator = distributedSearchPageDao.getEntityIteratorByIndex(index);
 			while (distributedSearchPageIterator.hasNext()) {
 				final DistributedSearchPageBean distributedSearchPage = distributedSearchPageIterator.next();
-				logger.debug("rebuildIndex - remove url from index: " + distributedSearchPage.getId());
-				distributedIndexService.remove(index, distributedSearchPage.getId().getPageId());
-
-				logger.debug("rebuildIndex - add url from index: " + distributedSearchPage.getId());
-				distributedIndexService.add(index, distributedSearchPage.getId().getPageId(), buildData(distributedSearchPage));
+				rebuildPage(distributedSearchPage);
 			}
 
 			logger.debug("rebuildIndex - finished");
@@ -198,6 +194,14 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		catch (final EntityIteratorException e) {
 			throw new DistributedSearchServiceException(e);
 		}
+	}
+
+	public void rebuildPage(final DistributedSearchPageBean distributedSearchPage) throws DistributedIndexServiceException {
+		logger.debug("rebuildIndex - remove url from index: " + distributedSearchPage.getId());
+		distributedIndexService.remove(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId());
+
+		logger.debug("rebuildIndex - add url from index: " + distributedSearchPage.getId());
+		distributedIndexService.add(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), buildData(distributedSearchPage));
 	}
 
 	@Override
@@ -219,5 +223,21 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		distributedSearchAnalyser.parseWordRating(bean.getTitle(), 3, data);
 		distributedSearchAnalyser.parseWordRating(bean.getContent(), 1, data);
 		return data;
+	}
+
+	@Override
+	public void rebuildPage(final String index, final String url) throws DistributedSearchServiceException {
+		try {
+			logger.debug("rebuildPage - index: " + index + " url: " + url);
+			final DistributedSearchPageIdentifier distributedSearchPageIdentifier = new DistributedSearchPageIdentifier(index, url);
+			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.load(distributedSearchPageIdentifier);
+			rebuildPage(distributedSearchPage);
+		}
+		catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		}
 	}
 }
