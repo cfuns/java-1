@@ -197,10 +197,10 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	}
 
 	public void rebuildPage(final DistributedSearchPageBean distributedSearchPage) throws DistributedIndexServiceException {
-		logger.debug("rebuildIndex - remove url from index: " + distributedSearchPage.getId());
+		logger.debug("rebuildPage - remove url from index: " + distributedSearchPage.getId());
 		distributedIndexService.remove(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId());
 
-		logger.debug("rebuildIndex - add url from index: " + distributedSearchPage.getId());
+		logger.debug("rebuildPage - add url from index: " + distributedSearchPage.getId());
 		distributedIndexService.add(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), buildData(distributedSearchPage));
 	}
 

@@ -6,5 +6,5 @@ public interface DistributedSearchConstants {
 
 	int MIN_WORD_LENGTH = 3;
 
-	int MAX_WORD_LENGTH = 12;
+	int MAX_WORD_LENGTH = 20;
 }

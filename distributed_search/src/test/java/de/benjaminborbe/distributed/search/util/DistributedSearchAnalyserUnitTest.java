@@ -18,6 +18,8 @@ public class DistributedSearchAnalyserUnitTest {
 		assertThat(analyser.parseSearchTerm("foo"), is(hasItem("foo")));
 		assertThat(analyser.parseSearchTerm("").size(), is(0));
 		assertThat(analyser.parseSearchTerm(null).size(), is(0));
+		assertThat(analyser.parseSearchTerm("StundenZettel").size(), is(1));
+		assertThat(analyser.parseSearchTerm("StundenZettel"), is(hasItem("stundenzettel")));
 	}
 
 	@Test

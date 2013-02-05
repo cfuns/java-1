@@ -88,7 +88,7 @@ public class DistributedSearchGuiRebuildIndexServlet extends WebsiteHtmlServlet 
 
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputTextWidget(DistributedSearchGuiConstants.PARAMETER_INDEX).addLabel("Index"));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("show"));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("rebuild"));
 			widgets.add(formWidget);
 
 			return widgets;

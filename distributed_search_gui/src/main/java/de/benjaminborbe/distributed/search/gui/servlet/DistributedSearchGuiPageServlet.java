@@ -44,7 +44,7 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "DistributedSearch - Rebild Index";
+	private static final String TITLE = "DistributedSearch - Page";
 
 	private final DistributedSearchService distributedSearchService;
 
