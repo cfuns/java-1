@@ -58,11 +58,13 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 
 	protected void crawleDomain(final URL url, final int timeout) throws CrawlerException {
 		try {
-			logger.debug("crawle domain: " + url);
+			logger.debug("crawle domain: " + url + " started");
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, timeout);
 			final String content = httpDownloadUtil.getContent(result);
 			final String contentType = result.getContentType();
+			logger.debug("url: " + url + " contentType: " + contentType);
 			crawlerNotifier.notifiy(new CrawlerResultImpl(url, content, contentType, true));
+			logger.debug("crawle domain: " + url + " finished");
 			track();
 		}
 		catch (final HttpDownloaderException e) {
