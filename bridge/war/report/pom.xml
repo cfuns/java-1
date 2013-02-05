@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.bridge.war.report</artifactId>
-	<name>Benjamin Borbe - Bridge - War - Office</name>
-	<description>Benjamin Borbe - Bridge - War - Office</description>
+	<name>Benjamin Borbe - Bridge - War - Report</name>
+	<description>Benjamin Borbe - Bridge - War - Report</description>
 	<packaging>war</packaging>
 	<properties>
 		<includeArtifactIds>org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr, org.apache.felix.configadmin,
@@ -17,7 +17,8 @@
 			de.benjaminborbe.authorization, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization.gui, de.benjaminborbe.configuration, de.benjaminborbe.configuration.api,
 			de.benjaminborbe.configuration.gui, de.benjaminborbe.cron.api, de.benjaminborbe.cron, de.benjaminborbe.cron.gui, de.benjaminborbe.shortener.api, de.benjaminborbe.shortener,
 			de.benjaminborbe.shortener.gui, de.benjaminborbe.mail.api, de.benjaminborbe.mail, de.benjaminborbe.mail.gui, de.benjaminborbe.dashboard.api, de.benjaminborbe.message.api, de.benjaminborbe.message,
-			de.benjaminborbe.message.gui, de.benjaminborbe.slash, de.benjaminborbe.slash.api, de.benjaminborbe.slash.gui 
+			de.benjaminborbe.message.gui, de.benjaminborbe.slash, de.benjaminborbe.slash.api, de.benjaminborbe.slash.gui, de.benjaminborbe.cache, de.benjaminborbe.cache.api, de.benjaminborbe.cache.gui,
+			de.benjaminborbe.analytics.api, de.benjaminborbe.analytics, de.benjaminborbe.analytics.gui 
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -237,6 +238,42 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.slash.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.analytics.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.analytics</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.analytics.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

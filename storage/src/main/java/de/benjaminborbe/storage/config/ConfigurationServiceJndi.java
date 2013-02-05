@@ -2,6 +2,7 @@ package de.benjaminborbe.storage.config;
 
 import java.util.Collection;
 
+import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.naming.NoInitialContextException;
 
@@ -43,6 +44,8 @@ public class ConfigurationServiceJndi implements ConfigurationService {
 				logger.trace("getConfigurationValue - name: " + name + " value: " + value);
 				return String.valueOf(value);
 			}
+		}
+		catch (final NameNotFoundException e) {
 		}
 		catch (final NoInitialContextException e) {
 		}
