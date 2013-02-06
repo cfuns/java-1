@@ -76,7 +76,7 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 	private boolean isLunch(final String content) {
 		logger.debug("isLunch - content: " + content);
 		final List<String> keywords = lunchConfig.getMittagNotifyKeywords();
-		if (content != null && keywords != null) {
+		if (content != null && keywords != null && !keywords.isEmpty()) {
 			final String lowerContent = content.toLowerCase();
 			for (final String word : keywords) {
 				logger.debug("search word: " + word);

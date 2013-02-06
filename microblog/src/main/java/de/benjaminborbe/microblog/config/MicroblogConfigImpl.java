@@ -13,6 +13,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.microblog.MicroblogConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
 
@@ -22,6 +23,11 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 	private final ConfigurationDescriptionBoolean mailEnabled = new ConfigurationDescriptionBoolean(false, MicroblogConstants.CONFIG_MAIL_ENABLED, "Microblog Mail Enabled");
 
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "MicroblogCronEnabled", "Microblog Cron Enabled");
+
+	private final ConfigurationDescriptionString microblogRssFeed = new ConfigurationDescriptionString("https://micro.rp.seibert-media.net/api/statuses/public_timeline.rss",
+			"MicroblogRssFeed", "Microblog Rss Feed");
+
+	private final ConfigurationDescriptionString microblogUrl = new ConfigurationDescriptionString("https://micro.rp.seibert-media.net", "MicroblogUrl", "Microblog Url");
 
 	@Inject
 	public MicroblogConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -33,6 +39,8 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronEnabled);
 		result.add(mailEnabled);
+		result.add(microblogRssFeed);
+		result.add(microblogUrl);
 		return result;
 	}
 
@@ -44,5 +52,15 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 	@Override
 	public boolean isCronEnabled() {
 		return getValueBoolean(cronEnabled);
+	}
+
+	@Override
+	public String getMicroblogRssFeed() {
+		return getValueString(microblogRssFeed);
+	}
+
+	@Override
+	public String getMicroblogUrl() {
+		return getValueString(microblogUrl);
 	}
 }

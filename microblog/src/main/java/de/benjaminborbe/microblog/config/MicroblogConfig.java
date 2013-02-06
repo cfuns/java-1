@@ -11,4 +11,8 @@ public interface MicroblogConfig {
 	boolean isMailEnabled();
 
 	Collection<ConfigurationDescription> getConfigurations();
+
+	String getMicroblogRssFeed();
+
+	String getMicroblogUrl();
 }

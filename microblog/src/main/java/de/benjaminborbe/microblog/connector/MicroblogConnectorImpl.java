@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationResult;
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.tools.html.HtmlUtil;
@@ -30,8 +31,6 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
 public class MicroblogConnectorImpl implements MicroblogConnector {
-
-	private final static String MICROBLOG_URL = "https://micro.rp.seibert-media.net/api/statuses/friends_timeline/bborbe.rss";
 
 	// 5 sec
 	private static final int TIMEOUT = 5 * 1000;
@@ -46,14 +45,18 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	private final HtmlUtil htmlUtil;
 
+	private final MicroblogConfig microblogConfig;
+
 	@Inject
 	public MicroblogConnectorImpl(
 			final Logger logger,
+			final MicroblogConfig microblogConfig,
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
 			final ParseUtil parseUtil,
 			final HtmlUtil htmlUtil) {
 		this.logger = logger;
+		this.microblogConfig = microblogConfig;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.parseUtil = parseUtil;
@@ -64,9 +67,9 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogPostIdentifier getLatestRevision() throws MicroblogConnectorException {
 		logger.trace("getLatestRevision");
 		try {
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(MICROBLOG_URL), TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(microblogConfig.getMicroblogRssFeed()), TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
-			final Pattern pattern = Pattern.compile("<guid>https://micro.rp.seibert-media.net/notice/(\\d+)</guid>");
+			final Pattern pattern = Pattern.compile("<guid>" + microblogConfig.getMicroblogUrl() + "/notice/(\\d+)</guid>");
 			final Matcher matcher = pattern.matcher(content);
 			if (matcher.find()) {
 				final MatchResult matchResult = matcher.toMatchResult();
@@ -95,7 +98,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogPostResult getPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogConnectorException {
 		logger.trace("getPost");
 		try {
-			final String postUrl = "https://micro.rp.seibert-media.net/notice/" + microblogPostIdentifier;
+			final String postUrl = microblogConfig.getMicroblogUrl() + "/notice/" + microblogPostIdentifier;
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(postUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
 			final String content = extractContent(pageContent);
@@ -146,12 +149,12 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	protected String extractAuhorJoinGroup(final String pageContent) {
 		final String content = extract(pageContent, "<div class=\"join-activity\">", "</div>");
-		return extract(content, "<a href=\"https://micro.rp.seibert-media.net/", "\"");
+		return extract(content, "<a href=\"" + microblogConfig.getMicroblogUrl() + "/", "\"");
 	}
 
 	protected String extractAuhorMessage(final String pageContent) {
 		final String content = extract(pageContent, "<span class=\"vcard author\">", "</span>");
-		return extract(content, "<a href=\"https://micro.rp.seibert-media.net/", "\"");
+		return extract(content, "<a href=\"" + microblogConfig.getMicroblogUrl() + "/", "\"");
 	}
 
 	protected String extractContent(final String pageContent) throws ParseException {
@@ -215,7 +218,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogConversationResult getConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException {
 		logger.trace("getConversation");
 
-		final String conversationRssUrl = "https://micro.rp.seibert-media.net/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
+		final String conversationRssUrl = microblogConfig.getMicroblogUrl() + "/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
 		try {
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(conversationRssUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
