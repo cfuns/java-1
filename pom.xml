@@ -110,6 +110,7 @@
 				<module>streamcache_test</module>
 				<module>systemstatus_test</module>
 				<module>task_test</module>
+				<module>poker_test</module>
 				<module>cache_test</module>
 				<module>analytics_test</module>
 				<module>timetracker_test</module>
@@ -270,6 +271,9 @@
 				<module>cache</module>
 				<module>cache_api</module>
 				<module>cache_gui</module>
+				<module>poker</module>
+				<module>poker_api</module>
+				<module>poker_gui</module>
 				<module>task</module>
 				<module>task_api</module>
 				<module>task_gui</module>

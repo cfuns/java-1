@@ -310,3 +310,8 @@ buildcache:
 	cd cache && make all
 	cd cache_gui && make all
 	cd cache_test && make all
+buildpoker:
+	cd poker_api && make all
+	cd poker && make all
+	cd poker_gui && make all
+	cd poker_test && make all
