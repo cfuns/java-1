@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.poker.gui.guice.PokerGuiModules;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
@@ -17,7 +17,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class PokerGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private PokerGuiServlet pokerGuiServlet;
+	private PokerGuiGameListServlet pokerGuiServlet;
 
 	public PokerGuiActivator() {
 		super(PokerGuiConstants.NAME);

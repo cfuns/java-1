@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,10 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
+import de.benjaminborbe.poker.api.GameIdentifier;
+import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
+import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
@@ -36,7 +40,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class PokerGuiServletUnitTest {
+public class PokerGuiGameListServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -129,12 +133,19 @@ public class PokerGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
-		final PokerGuiServlet pokerServlet = new PokerGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, cacheService);
+		final PokerService pokerService = EasyMock.createMock(PokerService.class);
+		EasyMock.expect(pokerService.getGames()).andReturn(new ArrayList<GameIdentifier>());
+		EasyMock.replay(pokerService);
+
+		final PokerGuiLinkFactory pokerGuiLinkFactory = EasyMock.createMock(PokerGuiLinkFactory.class);
+		EasyMock.replay(pokerGuiLinkFactory);
+
+		final PokerGuiGameListServlet pokerServlet = new PokerGuiGameListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, cacheService, pokerService, pokerGuiLinkFactory);
 
 		pokerServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Poker</h1>") != -1);
+		assertTrue(content.indexOf("<h1>Poker - Games</h1>") != -1);
 	}
 }

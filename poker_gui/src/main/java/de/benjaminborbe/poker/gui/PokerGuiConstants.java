@@ -6,4 +6,6 @@ public interface PokerGuiConstants {
 
 	String NAME = "poker";
 
+	String URL_GAME_CREATE = "/game/create";
+
 }
