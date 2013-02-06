@@ -4,4 +4,5 @@ public interface Player {
 
 	PlayerIdentifier getId();
 
+	boolean getAmount();
 }

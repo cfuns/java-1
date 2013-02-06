@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.poker.api.CardIdentifier;
 import de.benjaminborbe.poker.api.Game;
 import de.benjaminborbe.poker.api.GameIdentifier;
 import de.benjaminborbe.poker.api.Player;
@@ -55,7 +56,17 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public GameIdentifier createGameIdentifier(String gameId) throws PokerServiceException {
+	public GameIdentifier createGameIdentifier(final String gameId) throws PokerServiceException {
+		return gameId != null ? new GameIdentifier(gameId) : null;
+	}
+
+	@Override
+	public Collection<CardIdentifier> getCards(final PlayerIdentifier playerIdentifier) throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<CardIdentifier> getCards(final GameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
 

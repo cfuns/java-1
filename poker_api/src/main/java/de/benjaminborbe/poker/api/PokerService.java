@@ -17,4 +17,9 @@ public interface PokerService {
 	void startGame(GameIdentifier gameIdentifier) throws PokerServiceException;
 
 	GameIdentifier createGameIdentifier(String gameId) throws PokerServiceException;
+
+	Collection<CardIdentifier> getCards(PlayerIdentifier playerIdentifier) throws PokerServiceException;
+
+	Collection<CardIdentifier> getCards(GameIdentifier gameIdentifier) throws PokerServiceException;
+
 }

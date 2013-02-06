@@ -11,4 +11,8 @@ public interface Game {
 	Collection<PlayerIdentifier> getPlayers();
 
 	PlayerIdentifier getActivePlayer();
+
+	long getBigBlind();
+
+	long getSmallBlind();
 }
