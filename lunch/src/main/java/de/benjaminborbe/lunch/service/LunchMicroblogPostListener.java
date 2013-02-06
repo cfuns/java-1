@@ -79,9 +79,13 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 		if (content != null && keywords != null && !keywords.isEmpty()) {
 			final String lowerContent = content.toLowerCase();
 			for (final String word : keywords) {
-				logger.debug("search word: " + word);
-				if (lowerContent.contains(word.trim().toLowerCase())) {
-					return true;
+				final String wordTrim = word.trim().toLowerCase();
+				if (!wordTrim.isEmpty()) {
+					logger.debug("search word: '" + word + "'");
+					if (lowerContent.contains(wordTrim)) {
+						logger.debug("content match word: '" + word + "'");
+						return true;
+					}
 				}
 			}
 		}

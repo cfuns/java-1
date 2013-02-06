@@ -224,7 +224,7 @@ public class MessageConsumerExchanger {
 			logger.debug("update message lock - id: " + message.getId() + " lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockTime(now);
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime"));
-			return true;
+			return false;
 		}
 		else {
 			logger.debug("lock message failed - id: " + message.getId());
