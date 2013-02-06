@@ -57,6 +57,7 @@ public class NavigationGuiServletUnitTest {
 		EasyMock.replay(session);
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getServerPort()).andReturn(80).anyTimes();
 		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
