@@ -8,4 +8,8 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_CREATE = "/game/create";
 
+	String PARAMETER_GAME_ID = "game_id";
+
+	String PARAMETER_PLAYER_ID = "player_id";
+
 }

@@ -10,6 +10,7 @@ import de.benjaminborbe.poker.api.GameIdentifier;
 import de.benjaminborbe.poker.api.Player;
 import de.benjaminborbe.poker.api.PlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.api.PokerServiceException;
 
 @Singleton
 public class PokerServiceMock implements PokerService {
@@ -45,6 +46,11 @@ public class PokerServiceMock implements PokerService {
 
 	@Override
 	public void startGame(final GameIdentifier gameIdentifier) {
+	}
+
+	@Override
+	public GameIdentifier createGameIdentifier(String gameId) throws PokerServiceException {
+		return null;
 	}
 
 }

@@ -9,4 +9,6 @@ public interface Game {
 	boolean isRunning();
 
 	Collection<PlayerIdentifier> getPlayers();
+
+	PlayerIdentifier getActivePlayer();
 }
