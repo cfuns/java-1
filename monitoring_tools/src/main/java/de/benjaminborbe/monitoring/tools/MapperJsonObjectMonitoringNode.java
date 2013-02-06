@@ -10,7 +10,9 @@ import de.benjaminborbe.tools.json.JSONObjectSimple;
 public class MapperJsonObjectMonitoringNode {
 
 	public static final String MESSAGE = "message";
+
 	public static final String RESULT = "result";
+
 	private final CalendarUtil calendarUtil;
 
 	@Inject

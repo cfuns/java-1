@@ -10,8 +10,8 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
-import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParser;
 
 public class MapperMapString implements Mapper<Map<String, String>> {
 

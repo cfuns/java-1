@@ -1,7 +1,8 @@
 package de.benjaminborbe.tools.html;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 
 public class HtmlContentIteratorUnitTest {

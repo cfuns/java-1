@@ -25,7 +25,8 @@ public class CronServiceMock implements CronService {
 	}
 
 	@Override
-	public void triggerCron(final SessionIdentifier sessionIdentifier, final CronIdentifier cronIdentifier) throws CronServiceException, LoginRequiredException, PermissionDeniedException {
+	public void triggerCron(final SessionIdentifier sessionIdentifier, final CronIdentifier cronIdentifier) throws CronServiceException, LoginRequiredException,
+			PermissionDeniedException {
 	}
 
 	@Override

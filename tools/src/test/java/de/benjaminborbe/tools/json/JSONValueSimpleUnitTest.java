@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.json;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.StringWriter;
 

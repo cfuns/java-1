@@ -23,6 +23,7 @@ public class GooglesearchGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new GooglesearchGuiOsgiModule(), new GooglesearchGuiModule(), new ToolModule(), new WebsiteOsgiModule());
+		return Arrays
+				.asList(Peaberry.osgiModule(context), new ServletModule(), new GooglesearchGuiOsgiModule(), new GooglesearchGuiModule(), new ToolModule(), new WebsiteOsgiModule());
 	}
 }

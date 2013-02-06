@@ -15,6 +15,7 @@ public class BookmarkGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new BookmarkGuiOsgiModuleMock(), new BookmarkGuiModule(), new ToolModuleMock(), new WebsiteOsgiModuleMock());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new BookmarkGuiOsgiModuleMock(), new BookmarkGuiModule(), new ToolModuleMock(),
+				new WebsiteOsgiModuleMock());
 	}
 }

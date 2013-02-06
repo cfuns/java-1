@@ -22,7 +22,6 @@ import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;

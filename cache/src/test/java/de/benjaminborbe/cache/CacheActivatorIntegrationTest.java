@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.cache.CacheActivator;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.guice.CacheModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;

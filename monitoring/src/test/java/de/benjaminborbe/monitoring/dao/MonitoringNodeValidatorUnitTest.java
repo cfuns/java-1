@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
-import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.check.MonitoringCheckHttp;
 import de.benjaminborbe.monitoring.check.MonitoringCheckNop;
+import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRemote;
 import de.benjaminborbe.monitoring.check.MonitoringCheckTcp;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;

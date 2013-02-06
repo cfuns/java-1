@@ -19,8 +19,8 @@ import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
-import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParser;
 
 @Singleton
 public class TimetrackerConnectorImpl implements TimetrackerConnector {

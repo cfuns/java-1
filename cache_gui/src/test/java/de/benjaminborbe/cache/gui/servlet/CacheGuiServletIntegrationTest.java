@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.cache.gui.guice.CacheGuiModulesMock;
-import de.benjaminborbe.cache.gui.servlet.CacheGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class CacheGuiServletIntegrationTest {

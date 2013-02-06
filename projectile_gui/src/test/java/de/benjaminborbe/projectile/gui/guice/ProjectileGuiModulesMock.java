@@ -15,6 +15,7 @@ public class ProjectileGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new ProjectileGuiOsgiModuleMock(), new ProjectileGuiModule(), new ToolModuleMock(), new WebsiteOsgiModuleMock());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new ProjectileGuiOsgiModuleMock(), new ProjectileGuiModule(), new ToolModuleMock(),
+				new WebsiteOsgiModuleMock());
 	}
 }

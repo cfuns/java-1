@@ -15,6 +15,7 @@ public class WeatherGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new WeatherGuiOsgiModuleMock(), new WeatherGuiModule(), new ToolModuleMock(), new WebsiteOsgiModuleMock());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new WeatherGuiOsgiModuleMock(), new WeatherGuiModule(), new ToolModuleMock(),
+				new WebsiteOsgiModuleMock());
 	}
 }

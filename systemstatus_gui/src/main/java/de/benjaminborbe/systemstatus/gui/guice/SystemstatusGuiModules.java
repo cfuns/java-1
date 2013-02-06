@@ -23,6 +23,7 @@ public class SystemstatusGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new SystemstatusGuiOsgiModule(), new SystemstatusGuiModule(), new ToolModule(), new WebsiteOsgiModule());
+		return Arrays
+				.asList(Peaberry.osgiModule(context), new ServletModule(), new SystemstatusGuiOsgiModule(), new SystemstatusGuiModule(), new ToolModule(), new WebsiteOsgiModule());
 	}
 }

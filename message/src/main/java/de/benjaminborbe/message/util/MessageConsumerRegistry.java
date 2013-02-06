@@ -2,6 +2,7 @@ package de.benjaminborbe.message.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.message.api.MessageConsumer;

@@ -15,6 +15,7 @@ public class LogglyGuiModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new LogglyGuiOsgiModuleMock(), new LogglyGuiModule(), new ToolModuleMock(), new WebsiteOsgiModuleMock());
+		return Arrays
+				.asList(new PeaberryModuleMock(), new ServletModuleMock(), new LogglyGuiOsgiModuleMock(), new LogglyGuiModule(), new ToolModuleMock(), new WebsiteOsgiModuleMock());
 	}
 }

@@ -36,7 +36,8 @@ public class WowGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService, CacheService cacheService) {
+			final AuthorizationService authorizationService,
+			CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 	}
 

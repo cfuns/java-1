@@ -23,7 +23,8 @@ public class ConfigurationGuiModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new ConfigurationGuiOsgiModule(), new ConfigurationGuiModule(), new ToolModule(), new WebsiteOsgiModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new ConfigurationGuiOsgiModule(), new ConfigurationGuiModule(), new ToolModule(),
+				new WebsiteOsgiModule());
 	}
 
 }

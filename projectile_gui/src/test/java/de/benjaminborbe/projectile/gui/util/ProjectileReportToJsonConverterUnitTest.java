@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.easymock.EasyMock;
-
 import org.junit.Test;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
