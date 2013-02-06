@@ -137,7 +137,7 @@ public class PokerGuiGameListServletUnitTest {
 		EasyMock.expect(pokerService.getGames()).andReturn(new ArrayList<GameIdentifier>());
 		EasyMock.replay(pokerService);
 
-		final PokerGuiLinkFactory pokerGuiLinkFactory = EasyMock.createMock(PokerGuiLinkFactory.class);
+		final PokerGuiLinkFactory pokerGuiLinkFactory = EasyMock.createNiceMock(PokerGuiLinkFactory.class);
 		EasyMock.replay(pokerGuiLinkFactory);
 
 		final PokerGuiGameListServlet pokerServlet = new PokerGuiGameListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
