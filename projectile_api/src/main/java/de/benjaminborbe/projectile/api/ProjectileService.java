@@ -60,4 +60,8 @@ public interface ProjectileService {
 	Collection<UserIdentifier> getUsersForTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
 			PermissionDeniedException, LoginRequiredException;
 
+	void expectProjectileAdminRole(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
+
+	boolean hasProjectileAdminRole(SessionIdentifier sessionIdentifier) throws ProjectileServiceException;
+
 }

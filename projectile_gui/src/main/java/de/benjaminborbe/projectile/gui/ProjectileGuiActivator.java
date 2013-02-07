@@ -8,7 +8,9 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModules;
+import de.benjaminborbe.projectile.gui.service.ProjectileGuiNavigationEntry;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportFetchMailServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportImportServlet;
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiReportJsonServlet;
@@ -25,9 +27,13 @@ import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamUserRemoveServle
 import de.benjaminborbe.projectile.gui.servlet.ProjectileGuiTeamViewServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class ProjectileGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ProjectileGuiNavigationEntry projectileGuiNavigationEntry;
 
 	@Inject
 	private ProjectileGuiTeamUserRemoveServlet projectileGuiTeamUserRemoveServlet;
@@ -100,4 +106,10 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, projectileGuiNavigationEntry));
+		return result;
+	}
 }
