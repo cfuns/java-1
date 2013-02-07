@@ -33,6 +33,7 @@ public class MessageUnlock {
 						if (messageUtil.isMessageLockExpired(bean)) {
 							bean.setLockName(null);
 							bean.setLockTime(null);
+							logger.info("unlock message - type: " + bean.getType() + " id: " + bean.getId());
 							messageDao.save(bean, new StorageValueList(getEncoding()).add("lockName").add("lockTime"));
 							logger.debug("expired => unlock");
 						}

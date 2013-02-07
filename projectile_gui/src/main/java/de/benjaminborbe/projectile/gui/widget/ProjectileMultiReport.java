@@ -71,7 +71,7 @@ public class ProjectileMultiReport extends CompositeWidget {
 
 			{
 				final TableCellWidget cell = new TableCellWidget(dfPercent.format(procent));
-				cell.addAttribute("sorttable_customkey", df.format(procent));
+				cell.addAttribute("sorttable_customkey", df.format(procent * 100));
 				row.addCell(cell);
 			}
 			{

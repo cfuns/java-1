@@ -101,6 +101,8 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 				final ListWidget list = new ListWidget();
 				list.add(projectileLinkFactory.viewTeam(request, team.getId(), team.getName()));
 				list.add(" ");
+				list.add(projectileLinkFactory.viewTeam(request, team.getId(), "add/remove user"));
+				list.add(" ");
 				list.add(projectileLinkFactory.updateTeam(request, team.getId()));
 				list.add(" ");
 				list.add(projectileLinkFactory.deleteTeam(request, team.getId()));

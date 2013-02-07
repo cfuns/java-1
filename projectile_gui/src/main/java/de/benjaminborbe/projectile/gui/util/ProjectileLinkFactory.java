@@ -26,7 +26,7 @@ public class ProjectileLinkFactory {
 
 	public Widget updateTeam(final HttpServletRequest request, final ProjectileTeamIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_UPDATE, new MapParameter().add(
-				ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), "update");
+				ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), "rename");
 	}
 
 	public Widget deleteTeam(final HttpServletRequest request, final ProjectileTeamIdentifier id) throws MalformedURLException, UnsupportedEncodingException {

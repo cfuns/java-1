@@ -40,8 +40,8 @@ public class MessageConsumerExchanger {
 		public void run() {
 			try {
 				if (message.getType() == null) {
+					logger.info("delete message without type - type: " + message.getType() + " id: " + message.getId());
 					messageDao.delete(message);
-					logger.info("delete message without type");
 					return;
 				}
 
@@ -162,11 +162,15 @@ public class MessageConsumerExchanger {
 		final long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
 		final long maxRetry = message.getMaxRetryCounter() != null ? message.getMaxRetryCounter() : MessageConstants.MAX_RETRY;
 		if (result) {
+			logger.info("delete success processed message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.delete(message);
+			logger.debug("result success => delete message");
 			track(analyticsReportIdentifierSuccess);
 		}
 		else if (counter >= maxRetry) {
+			logger.info("delete message reached maxRetryCounter - type: " + message.getType() + " id: " + message.getId());
 			messageDao.delete(message);
+			logger.debug("message reached maxRetryCounter => delete message");
 			track(analyticsReportIdentifierMaxRetry);
 		}
 		else {
@@ -174,7 +178,10 @@ public class MessageConsumerExchanger {
 			logger.debug("process message failed, increase retrycounter to " + increasedCounter);
 			message.setRetryCounter(increasedCounter);
 			message.setStartTime(calcStartTime(increasedCounter));
-			messageDao.save(message);
+			message.setLockName(null);
+			message.setLockTime(null);
+			logger.info("unlock and increaseRetry for failed message - type: " + message.getType() + " id: " + message.getId());
+			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName").add("retryCounter").add("startTime"));
 			track(analyticsReportIdentifierRetry);
 		}
 		logger.debug("process message done");
@@ -200,6 +207,7 @@ public class MessageConsumerExchanger {
 			logger.debug("try lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockName(lockName);
 			message.setLockTime(now);
+			logger.info("lock message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName"));
 
 			try {
@@ -223,6 +231,7 @@ public class MessageConsumerExchanger {
 			final Calendar now = calendarUtil.now();
 			logger.debug("update message lock - id: " + message.getId() + " lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockTime(now);
+			logger.info("extend message lockTime - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime"));
 			return false;
 		}
