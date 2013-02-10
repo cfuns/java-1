@@ -61,7 +61,7 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public PokerGameIdentifier createGame(final String name) throws PokerServiceException {
+	public PokerGameIdentifier createGame(final String name, final long blind) throws PokerServiceException {
 		return null;
 	}
 

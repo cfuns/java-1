@@ -110,6 +110,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.smallBlind = smallBlind;
 	}
 
+	@Override
 	public List<PokerPlayerIdentifier> getPlayers() {
 		return players;
 	}
@@ -118,6 +119,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.players = players;
 	}
 
+	@Override
 	public List<PokerCardIdentifier> getCards() {
 		return cards;
 	}

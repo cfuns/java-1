@@ -116,7 +116,7 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public PokerGameIdentifier createGame(final String name) throws PokerServiceException, ValidationException {
+	public PokerGameIdentifier createGame(final String name, final long blind) throws PokerServiceException, ValidationException {
 		try {
 			logger.debug("createGame - name: " + name);
 
@@ -125,6 +125,9 @@ public class PokerServiceImpl implements PokerService {
 			final PokerGameBean bean = pokerGameDao.create();
 			bean.setId(id);
 			bean.setName(name);
+			bean.setBigBlind(blind);
+			bean.setSmallBlind(blind / 2);
+			bean.setRunning(false);
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -183,15 +186,8 @@ public class PokerServiceImpl implements PokerService {
 	@Override
 	public Collection<PokerPlayerIdentifier> getPlayers(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		try {
-			final List<PokerPlayerIdentifier> result = new ArrayList<PokerPlayerIdentifier>();
-			final IdentifierIterator<PokerPlayerIdentifier> i = pokerPlayerDao.getIdentifierIterator(gameIdentifier);
-			while (i.hasNext()) {
-				result.add(i.next());
-			}
-			return result;
-		}
-		catch (final IdentifierIteratorException e) {
-			throw new PokerServiceException(e);
+			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			return game.getPlayers();
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);
@@ -212,8 +208,8 @@ public class PokerServiceImpl implements PokerService {
 	@Override
 	public void startGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
 		try {
-			final Collection<PokerPlayerIdentifier> player = getPlayers(gameIdentifier);
-			if (player.size() < 2) {
+			final Collection<PokerPlayerIdentifier> players = getPlayers(gameIdentifier);
+			if (players.size() < 2) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("need at least 2 player to start game")));
 			}
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
@@ -222,8 +218,8 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			game.setRunning(true);
-			game.setCards(listUtil.randomize(pokerCardFactory.getCards()));
 			game.setPlayers(listUtil.randomize(game.getPlayers()));
+			game.setCards(listUtil.randomize(pokerCardFactory.getCards()));
 
 			final ValidationResult errors = validationExecutor.validate(game);
 			if (errors.hasErrors()) {

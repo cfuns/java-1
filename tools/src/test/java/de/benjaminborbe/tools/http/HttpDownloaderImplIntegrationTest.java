@@ -5,9 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 
 import org.easymock.EasyMock;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -25,8 +30,27 @@ public class HttpDownloaderImplIntegrationTest {
 
 	private static final int TIMEOUT = 3000;
 
+	private static boolean notFound = true;
+
+	@BeforeClass
+	public static void setUp() {
+		final Socket socket = new Socket();
+		final SocketAddress endpoint = new InetSocketAddress("www.google.de", 80);
+		try {
+			socket.connect(endpoint, 500);
+			notFound = !socket.isConnected();
+			notFound = false;
+		}
+		catch (final IOException e) {
+			notFound = true;
+		}
+	}
+
 	@Test
 	public void testdownloadUrl() throws Exception {
+		if (notFound)
+			return;
+
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -58,6 +82,9 @@ public class HttpDownloaderImplIntegrationTest {
 
 	@Test
 	public void testdownloadUrlAuth() throws Exception {
+		if (notFound)
+			return;
+
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -110,6 +137,9 @@ public class HttpDownloaderImplIntegrationTest {
 
 	@Test
 	public void testdownloadUrlAuthUrl() throws Exception {
+		if (notFound)
+			return;
+
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -150,6 +180,9 @@ public class HttpDownloaderImplIntegrationTest {
 
 	@Test
 	public void testEncodingContentType() throws Exception {
+		if (notFound)
+			return;
+
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
 		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
@@ -162,6 +195,9 @@ public class HttpDownloaderImplIntegrationTest {
 
 	@Test
 	public void testEncodingMeta() throws Exception {
+		if (notFound)
+			return;
+
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
 		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);

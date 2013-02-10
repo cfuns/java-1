@@ -6,7 +6,7 @@ import de.benjaminborbe.api.ValidationException;
 
 public interface PokerService {
 
-	PokerGameIdentifier createGame(String name) throws PokerServiceException, ValidationException;
+	PokerGameIdentifier createGame(String name, long blind) throws PokerServiceException, ValidationException;
 
 	Collection<PokerGameIdentifier> getGames() throws PokerServiceException;
 

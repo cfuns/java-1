@@ -28,7 +28,7 @@ public class MapperListStringUnitTest {
 	}
 
 	@Test
-	public void testMap() {
+	public void testMap() throws Exception {
 		{
 			final List<String> values = Arrays.asList("a", "b");
 			final MapperListString map = new MapperListString();
@@ -50,7 +50,7 @@ public class MapperListStringUnitTest {
 	}
 
 	@Test
-	public void testToString() {
+	public void testToString() throws Exception {
 		final MapperListString mapper = new MapperListString();
 		assertThat(mapper.toString(null), is(nullValue()));
 		assertThat(mapper.toString(new ArrayList<String>()), is(nullValue()));
@@ -62,7 +62,7 @@ public class MapperListStringUnitTest {
 	}
 
 	@Test
-	public void testfromString() {
+	public void testfromString() throws Exception {
 		final MapperListString mapper = new MapperListString();
 		assertThat(mapper.fromString(null), is(asList()));
 		assertThat(mapper.fromString(""), is(asList("")));
