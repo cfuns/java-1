@@ -14,7 +14,6 @@ import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerCardIdentifierList;
 import de.benjaminborbe.poker.util.MapperPokerGameIdentifier;
-import de.benjaminborbe.poker.util.MapperPokerPlayerIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerPlayerIdentifierList;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
@@ -28,6 +27,12 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
+	public static final String ROUND = "round";
+
+	public static final String BUTTON_POSITION = "buttonPosition";
+
+	public static final String ACTIVE_POSITION = "activePosition";
+
 	public static final String POT = "pot";
 
 	public static final String PLAYERS = "players";
@@ -39,8 +44,6 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 	public static final String CREATED = "created";
 
 	public static final String NAME = "name";
-
-	public static final String ACTIVE_PLAYER = "activePlayer";
 
 	public static final String ID = "id";
 
@@ -56,7 +59,6 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 	public PokerGameBeanMapper(
 			final Provider<PokerGameBean> provider,
 			final MapperPokerGameIdentifier mapperPokerGameIdentifier,
-			final MapperPokerPlayerIdentifier mapperPokerPlayerIdentifier,
 			final MapperCalendar mapperCalendar,
 			final MapperString mapperString,
 			final MapperBoolean mapperBoolean,
@@ -64,17 +66,15 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 			final MapperInteger mapperInteger,
 			final MapperPokerCardIdentifierList mapperPokerCardIdentifierList,
 			final MapperPokerPlayerIdentifierList mapperPokerPlayerIdentifierList) {
-		super(provider, buildMappings(mapperPokerGameIdentifier, mapperPokerPlayerIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperPokerCardIdentifierList,
+		super(provider, buildMappings(mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperPokerCardIdentifierList,
 				mapperPokerPlayerIdentifierList, mapperInteger));
 	}
 
-	private static Collection<StringObjectMapper<PokerGameBean>> buildMappings(final MapperPokerGameIdentifier mapperPokerGameIdentifier,
-			final MapperPokerPlayerIdentifier mapperPokerPlayerIdentifier, final MapperCalendar mapperCalendar, final MapperString mapperString, final MapperBoolean mapperBoolean,
-			final MapperLong mapperLong, final MapperPokerCardIdentifierList mapperCardIdentifierList, final MapperPokerPlayerIdentifierList mapperPlayerIdentifierList,
-			final MapperInteger mapperInteger) {
+	private static Collection<StringObjectMapper<PokerGameBean>> buildMappings(final MapperPokerGameIdentifier mapperPokerGameIdentifier, final MapperCalendar mapperCalendar,
+			final MapperString mapperString, final MapperBoolean mapperBoolean, final MapperLong mapperLong, final MapperPokerCardIdentifierList mapperCardIdentifierList,
+			final MapperPokerPlayerIdentifierList mapperPlayerIdentifierList, final MapperInteger mapperInteger) {
 		final List<StringObjectMapper<PokerGameBean>> result = new ArrayList<StringObjectMapper<PokerGameBean>>();
 		result.add(new StringObjectMapperAdapter<PokerGameBean, PokerGameIdentifier>(ID, mapperPokerGameIdentifier));
-		result.add(new StringObjectMapperAdapter<PokerGameBean, PokerPlayerIdentifier>(ACTIVE_PLAYER, mapperPokerPlayerIdentifier));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Calendar>(CREATED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Calendar>(MODIFIED, mapperCalendar));
@@ -82,7 +82,10 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(POT, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SMALL_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BIG_BLIND, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(ROUND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(CARD_POSITION, mapperInteger));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(ACTIVE_POSITION, mapperInteger));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(BUTTON_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, List<PokerCardIdentifier>>(CARDS, mapperCardIdentifierList));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, List<PokerPlayerIdentifier>>(PLAYERS, mapperPlayerIdentifierList));
 		return result;

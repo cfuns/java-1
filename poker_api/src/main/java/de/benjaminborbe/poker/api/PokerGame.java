@@ -8,8 +8,6 @@ public interface PokerGame {
 
 	Boolean getRunning();
 
-	PokerPlayerIdentifier getActivePlayer();
-
 	Long getBigBlind();
 
 	Long getSmallBlind();

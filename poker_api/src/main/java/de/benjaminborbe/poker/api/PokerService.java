@@ -32,4 +32,14 @@ public interface PokerService {
 
 	void leaveGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
 
+	void fold(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
+
+	void call(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
+
+	void raise(PokerPlayerIdentifier playerIdentifier, long amount) throws PokerServiceException;
+
+	void startRound(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
+	PokerPlayerIdentifier getActivePlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
 }

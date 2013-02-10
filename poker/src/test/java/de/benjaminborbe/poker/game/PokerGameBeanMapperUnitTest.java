@@ -60,7 +60,9 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[] { "running", "true" });
 		result.add(new Object[] { "smallBlind", "500" });
 		result.add(new Object[] { "bigBlind", "1000" });
-		result.add(new Object[] { "activePlayer", "asdf" });
+		result.add(new Object[] { "activePosition", "1" });
+		result.add(new Object[] { "buttonPosition", "2" });
+		result.add(new Object[] { "round", "42" });
 		return result;
 	}
 
@@ -87,8 +89,8 @@ public class PokerGameBeanMapperUnitTest {
 		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList = new MapperPokerCardIdentifierList(mapperPokerCardIdentifier);
 		final MapperPokerPlayerIdentifierList mapperPokerPlayerIdentifierList = new MapperPokerPlayerIdentifierList(mapperPokerPlayerIdentifier);
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
-		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperPokerPlayerIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperInteger,
-				mapperPokerCardIdentifierList, mapperPokerPlayerIdentifierList);
+		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperInteger, mapperPokerCardIdentifierList,
+				mapperPokerPlayerIdentifierList);
 	}
 
 	@Test

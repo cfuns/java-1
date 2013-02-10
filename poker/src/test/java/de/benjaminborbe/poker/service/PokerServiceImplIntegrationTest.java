@@ -77,10 +77,11 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(game);
 			assertEquals(gameIdentifier, game.getId());
 			assertEquals(Boolean.FALSE, game.getRunning());
-			assertNull(game.getActivePlayer());
 			assertEquals(new Long(0), game.getPot());
 			assertEquals(new Long(50), game.getSmallBlind());
 			assertEquals(new Long(100), game.getBigBlind());
+
+			assertNull(service.getActivePlayer(gameIdentifier));
 		}
 
 		assertNotNull(service.getPlayers(gameIdentifier));
@@ -123,10 +124,11 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(game);
 			assertEquals(gameIdentifier, game.getId());
 			assertEquals(Boolean.TRUE, game.getRunning());
-			assertNotNull(game.getActivePlayer());
-			assertEquals(new Long(0), game.getPot());
 			assertEquals(new Long(50), game.getSmallBlind());
 			assertEquals(new Long(100), game.getBigBlind());
+			assertEquals(new Long(150), game.getPot());
+
+			assertNotNull(service.getActivePlayer(gameIdentifier));
 
 			final List<PokerPlayerIdentifier> players = game.getPlayers();
 			assertNotNull(players);

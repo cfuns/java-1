@@ -18,19 +18,23 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private PokerGameIdentifier id;
 
-	private Long bigBlind;
+	private String name;
 
 	private Calendar created;
 
 	private Calendar modified;
 
-	private String name;
-
 	private Boolean running;
+
+	private Long bigBlind;
 
 	private Long smallBlind;
 
-	private PokerPlayerIdentifier activePlayer;
+	private Long round;
+
+	private Integer activePosition;
+
+	private Integer buttonPosition;
 
 	private List<PokerPlayerIdentifier> players = new ArrayList<PokerPlayerIdentifier>();
 
@@ -39,11 +43,6 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	private Integer cardPosition;
 
 	private Long pot;
-
-	@Override
-	public PokerPlayerIdentifier getActivePlayer() {
-		return activePlayer;
-	}
 
 	@Override
 	public Long getBigBlind() {
@@ -77,10 +76,6 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	@Override
 	public Long getSmallBlind() {
 		return smallBlind;
-	}
-
-	public void setActivePlayer(final PokerPlayerIdentifier activePlayer) {
-		this.activePlayer = activePlayer;
 	}
 
 	public void setBigBlind(final Long bigBlind) {
@@ -147,6 +142,30 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	public void setCardPosition(final Integer cardPosition) {
 		this.cardPosition = cardPosition;
+	}
+
+	public Integer getButtonPosition() {
+		return buttonPosition;
+	}
+
+	public void setButtonPosition(final Integer buttonPosition) {
+		this.buttonPosition = buttonPosition;
+	}
+
+	public Integer getActivePosition() {
+		return activePosition;
+	}
+
+	public void setActivePosition(final Integer activePosition) {
+		this.activePosition = activePosition;
+	}
+
+	public Long getRound() {
+		return round;
+	}
+
+	public void setRound(final Long round) {
+		this.round = round;
 	}
 
 }

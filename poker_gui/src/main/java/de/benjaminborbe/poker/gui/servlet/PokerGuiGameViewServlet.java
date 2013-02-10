@@ -83,7 +83,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			widgets.add(new H2Widget("Status"));
 			widgets.add("running = " + game.getRunning());
 			widgets.add(new BrWidget());
-			widgets.add("active player: " + game.getActivePlayer());
+			widgets.add("active player: " + pokerService.getActivePlayer(gameIdentifier));
 			widgets.add(new BrWidget());
 
 			widgets.add(new H2Widget("Players"));
