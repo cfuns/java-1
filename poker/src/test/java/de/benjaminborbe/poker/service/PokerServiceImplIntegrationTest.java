@@ -227,4 +227,69 @@ public class PokerServiceImplIntegrationTest {
 			assertEquals(new Long(400), game.getPot());
 		}
 	}
+
+	@Test
+	public void testRaise() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA");
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB");
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer("playerC");
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer("playerD");
+		service.joinGame(gameIdentifier, playerIdentifierA);
+		service.joinGame(gameIdentifier, playerIdentifierB);
+		service.joinGame(gameIdentifier, playerIdentifierC);
+		service.joinGame(gameIdentifier, playerIdentifierD);
+		service.startGame(gameIdentifier);
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(150), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, 200);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(350), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.call(gameIdentifier, activePlayer);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(550), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.call(gameIdentifier, activePlayer);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(700), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.call(gameIdentifier, activePlayer);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(800), game.getPot());
+		}
+	}
 }

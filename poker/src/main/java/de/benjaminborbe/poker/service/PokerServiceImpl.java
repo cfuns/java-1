@@ -419,20 +419,13 @@ public class PokerServiceImpl implements PokerService {
 		return result;
 	}
 
-	@Override
-	public void fold(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
-		try {
-			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not active player")));
-			}
+	private void nextPlayer(final PokerGameIdentifier gameIdentifier) throws StorageException {
+		final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+		nextPlayer(game);
+	}
 
-			nextPlayer(gameIdentifier);
-		}
-		catch (final StorageException e) {
-			throw new PokerServiceException(e);
-		}
-		finally {
-		}
+	private void nextPlayer(final PokerGameBean game) throws StorageException {
+		game.setActivePosition(game.getActivePosition() + 1 % (game.getPlayers().size() - 1));
 	}
 
 	@Override
@@ -463,7 +456,15 @@ public class PokerServiceImpl implements PokerService {
 			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not active player")));
 			}
-			nextPlayer(gameIdentifier);
+
+			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
+			bid(game, player, amount - player.getBet());
+			game.setBet(amount);
+			nextPlayer(game);
+
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("pot").add("activePosition").add("bet"));
+			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount"));
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);
@@ -472,12 +473,19 @@ public class PokerServiceImpl implements PokerService {
 		}
 	}
 
-	private void nextPlayer(final PokerGameIdentifier gameIdentifier) throws StorageException {
-		final PokerGameBean game = pokerGameDao.load(gameIdentifier);
-		nextPlayer(game);
-	}
+	@Override
+	public void fold(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+		try {
+			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not active player")));
+			}
 
-	private void nextPlayer(final PokerGameBean game) throws StorageException {
-		game.setActivePosition(game.getActivePosition() + 1 % (game.getPlayers().size() - 1));
+			nextPlayer(gameIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
 	}
 }
