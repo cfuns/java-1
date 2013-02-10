@@ -36,6 +36,10 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 
+	private Integer cardPosition;
+
+	private Long pot;
+
 	@Override
 	public PokerPlayerIdentifier getActivePlayer() {
 		return activePlayer;
@@ -126,6 +130,23 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	public void setCards(final List<PokerCardIdentifier> cards) {
 		this.cards = cards;
+	}
+
+	@Override
+	public Long getPot() {
+		return pot;
+	}
+
+	public void setPot(final Long pot) {
+		this.pot = pot;
+	}
+
+	public Integer getCardPosition() {
+		return cardPosition;
+	}
+
+	public void setCardPosition(final Integer cardPosition) {
+		this.cardPosition = cardPosition;
 	}
 
 }

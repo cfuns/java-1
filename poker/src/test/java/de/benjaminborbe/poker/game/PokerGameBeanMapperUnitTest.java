@@ -32,6 +32,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -85,7 +86,8 @@ public class PokerGameBeanMapperUnitTest {
 		final MapperPokerCardIdentifier mapperPokerCardIdentifier = new MapperPokerCardIdentifier(pokerCardIdentifierBuilder);
 		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList = new MapperPokerCardIdentifierList(mapperPokerCardIdentifier);
 		final MapperPokerPlayerIdentifierList mapperPokerPlayerIdentifierList = new MapperPokerPlayerIdentifierList(mapperPokerPlayerIdentifier);
-		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperPokerPlayerIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong,
+		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
+		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperPokerPlayerIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperInteger,
 				mapperPokerCardIdentifierList, mapperPokerPlayerIdentifierList);
 	}
 

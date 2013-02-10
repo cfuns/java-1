@@ -18,6 +18,9 @@ import org.slf4j.Logger;
 
 import com.google.inject.Provider;
 
+import de.benjaminborbe.poker.card.PokerCardIdentifierBuilder;
+import de.benjaminborbe.poker.util.MapperPokerCardIdentifier;
+import de.benjaminborbe.poker.util.MapperPokerCardIdentifierList;
 import de.benjaminborbe.poker.util.MapperPokerGameIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerPlayerIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -73,7 +76,10 @@ public class PokerPlayerBeanMapperUnitTest {
 		final MapperPokerPlayerIdentifier mapperPokerPlayerIdentifier = new MapperPokerPlayerIdentifier();
 		final MapperLong mapperLong = new MapperLong(parseUtil);
 		final MapperPokerGameIdentifier mapperPokerGameIdentifier = new MapperPokerGameIdentifier();
-		return new PokerPlayerBeanMapper(beanProvider, mapperPokerPlayerIdentifier, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperLong);
+		final PokerCardIdentifierBuilder pokerCardIdentifierBuilder = new PokerCardIdentifierBuilder(logger, parseUtil);
+		final MapperPokerCardIdentifier mapperPokerCardIdentifier = new MapperPokerCardIdentifier(pokerCardIdentifierBuilder);
+		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList = new MapperPokerCardIdentifierList(mapperPokerCardIdentifier);
+		return new PokerPlayerBeanMapper(beanProvider, mapperPokerPlayerIdentifier, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperLong, mapperPokerCardIdentifierList);
 	}
 
 	@Test

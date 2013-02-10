@@ -36,6 +36,10 @@ import de.benjaminborbe.tools.validation.ValidationResultImpl;
 @Singleton
 public class PokerServiceImpl implements PokerService {
 
+	private static final int START_CARDS = 2;
+
+	private static final long START_CREDITS = 1000l;
+
 	private final Logger logger;
 
 	private final PokerGameDao pokerGameDao;
@@ -128,6 +132,8 @@ public class PokerServiceImpl implements PokerService {
 			bean.setBigBlind(blind);
 			bean.setSmallBlind(blind / 2);
 			bean.setRunning(false);
+			bean.setPot(0l);
+			bean.setCardPosition(0);
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -156,6 +162,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean bean = pokerPlayerDao.create();
 			bean.setId(id);
 			bean.setName(name);
+			bean.setAmount(START_CREDITS);
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -208,8 +215,8 @@ public class PokerServiceImpl implements PokerService {
 	@Override
 	public void startGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
 		try {
-			final Collection<PokerPlayerIdentifier> players = getPlayers(gameIdentifier);
-			if (players.size() < 2) {
+			final Collection<PokerPlayerIdentifier> playerIdentifiers = getPlayers(gameIdentifier);
+			if (playerIdentifiers.size() < 2) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("need at least 2 player to start game")));
 			}
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
@@ -220,6 +227,14 @@ public class PokerServiceImpl implements PokerService {
 			game.setRunning(true);
 			game.setPlayers(listUtil.randomize(game.getPlayers()));
 			game.setCards(listUtil.randomize(pokerCardFactory.getCards()));
+			game.setActivePlayer(game.getPlayers().get(0));
+
+			final Collection<PokerPlayerBean> players = pokerPlayerDao.load(game.getPlayers());
+			for (final PokerPlayerBean player : players) {
+				for (int i = 0; i < START_CARDS; ++i) {
+					player.getCards().add(getCard(game));
+				}
+			}
 
 			final ValidationResult errors = validationExecutor.validate(game);
 			if (errors.hasErrors()) {
@@ -227,7 +242,10 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(errors);
 			}
 
-			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("running").add("cards").add("players"));
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("running").add("cards").add("cardPosition").add("players").add("activePlayer"));
+			for (final PokerPlayerBean player : players) {
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("cards"));
+			}
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);
@@ -275,6 +293,10 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("already joined a game")));
 			}
 
+			if (player.getAmount() <= 0) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("can't join game with credits")));
+			}
+
 			player.setGame(gameIdentifier);
 			game.getPlayers().add(playerIdentifier);
 
@@ -312,5 +334,20 @@ public class PokerServiceImpl implements PokerService {
 		}
 		finally {
 		}
+	}
+
+	private PokerCardIdentifier getCard(final PokerGameIdentifier pokerGameIdentifier) throws StorageException {
+		final PokerGameBean game = pokerGameDao.load(pokerGameIdentifier);
+		final PokerCardIdentifier result = getCard(game);
+		pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("cardPosition"));
+		return result;
+	}
+
+	private PokerCardIdentifier getCard(final PokerGameBean game) throws StorageException {
+		final List<PokerCardIdentifier> cards = game.getCards();
+		final int pos = game.getCardPosition();
+		final PokerCardIdentifier result = cards.get(pos);
+		game.setCardPosition(pos + 1);
+		return result;
 	}
 }
