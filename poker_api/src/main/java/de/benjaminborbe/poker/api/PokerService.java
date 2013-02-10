@@ -2,24 +2,30 @@ package de.benjaminborbe.poker.api;
 
 import java.util.Collection;
 
+import de.benjaminborbe.api.ValidationException;
+
 public interface PokerService {
 
-	Collection<GameIdentifier> getGames() throws PokerServiceException;
+	PokerGameIdentifier createGame(String name) throws PokerServiceException, ValidationException;
 
-	Game getGame(GameIdentifier gameIdentifier) throws PokerServiceException;
+	Collection<PokerGameIdentifier> getGames() throws PokerServiceException;
 
-	Collection<PlayerIdentifier> getPlayers(GameIdentifier gameIdentifier) throws PokerServiceException;
+	PokerGame getGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	Player getPlayer(PlayerIdentifier playerIdentifier) throws PokerServiceException;
+	void startGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	GameIdentifier createGame() throws PokerServiceException;
+	PokerGameIdentifier createGameIdentifier(String id) throws PokerServiceException;
 
-	void startGame(GameIdentifier gameIdentifier) throws PokerServiceException;
+	Collection<PokerPlayerIdentifier> getPlayers(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	GameIdentifier createGameIdentifier(String gameId) throws PokerServiceException;
+	PokerPlayer getPlayer(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
 
-	Collection<CardIdentifier> getCards(PlayerIdentifier playerIdentifier) throws PokerServiceException;
+	Collection<PokerCardIdentifier> getCards(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
 
-	Collection<CardIdentifier> getCards(GameIdentifier gameIdentifier) throws PokerServiceException;
+	Collection<PokerCardIdentifier> getCards(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
+	PokerPlayerIdentifier createPlayer(String name) throws PokerServiceException, ValidationException;
+
+	PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException;
 
 }

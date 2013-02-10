@@ -18,9 +18,9 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.poker.api.Game;
-import de.benjaminborbe.poker.api.GameIdentifier;
-import de.benjaminborbe.poker.api.PlayerIdentifier;
+import de.benjaminborbe.poker.api.PokerGame;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
@@ -77,18 +77,18 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final GameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
-			final Game game = pokerService.getGame(gameIdentifier);
+			final PokerGameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
+			final PokerGame game = pokerService.getGame(gameIdentifier);
 
 			widgets.add(new H2Widget("Status"));
-			widgets.add("running = " + game.isRunning());
+			widgets.add("running = " + game.getRunning());
 			widgets.add(new BrWidget());
 			widgets.add("active player: " + game.getActivePlayer());
 			widgets.add(new BrWidget());
 
 			widgets.add(new H2Widget("Players"));
 			final UlWidget ul = new UlWidget();
-			for (final PlayerIdentifier playerIdentifier : game.getPlayers()) {
+			for (final PokerPlayerIdentifier playerIdentifier : pokerService.getPlayers(gameIdentifier)) {
 				ul.add(playerIdentifier.getId());
 			}
 			widgets.add(ul);

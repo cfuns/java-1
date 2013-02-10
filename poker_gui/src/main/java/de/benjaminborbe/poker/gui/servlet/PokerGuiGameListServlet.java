@@ -23,7 +23,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.poker.api.GameIdentifier;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
@@ -85,7 +85,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Collection<GameIdentifier> games = pokerService.getGames();
+			final Collection<PokerGameIdentifier> games = pokerService.getGames();
 			if (games.isEmpty()) {
 				widgets.add("no game found");
 			}
@@ -95,7 +95,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 				final TableHeadWidget head = new TableHeadWidget();
 				head.addCell("Id").addCell("");
 				table.setHead(head);
-				for (final GameIdentifier gameIdentifier : games) {
+				for (final PokerGameIdentifier gameIdentifier : games) {
 					final TableRowWidget row = new TableRowWidget();
 					row.addCell(asString(gameIdentifier));
 					row.addCell("");

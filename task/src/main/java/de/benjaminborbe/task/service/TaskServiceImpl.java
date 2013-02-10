@@ -323,7 +323,7 @@ public class TaskServiceImpl implements TaskService {
 
 			final ValidationResult errors = validationExecutor.validate(task);
 			if (errors.hasErrors()) {
-				logger.warn("TaskContext " + errors.toString());
+				logger.warn(task.getClass().getSimpleName() + " " + errors.toString());
 				throw new ValidationException(errors);
 			}
 

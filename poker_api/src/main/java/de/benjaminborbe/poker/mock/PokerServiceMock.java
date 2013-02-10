@@ -5,11 +5,11 @@ import java.util.Collection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.poker.api.CardIdentifier;
-import de.benjaminborbe.poker.api.Game;
-import de.benjaminborbe.poker.api.GameIdentifier;
-import de.benjaminborbe.poker.api.Player;
-import de.benjaminborbe.poker.api.PlayerIdentifier;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerGame;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayer;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 
@@ -21,46 +21,56 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public Collection<GameIdentifier> getGames() {
+	public Collection<PokerGameIdentifier> getGames() {
 		return null;
 	}
 
 	@Override
-	public Game getGame(final GameIdentifier gameIdentifier) {
+	public PokerGame getGame(final PokerGameIdentifier gameIdentifier) {
 		return null;
 	}
 
 	@Override
-	public Collection<PlayerIdentifier> getPlayers(final GameIdentifier gameIdentifier) {
+	public Collection<PokerPlayerIdentifier> getPlayers(final PokerGameIdentifier gameIdentifier) {
 		return null;
 	}
 
 	@Override
-	public Player getPlayer(final PlayerIdentifier playerIdentifier) {
+	public PokerPlayer getPlayer(final PokerPlayerIdentifier playerIdentifier) {
 		return null;
 	}
 
 	@Override
-	public GameIdentifier createGame() {
+	public void startGame(final PokerGameIdentifier gameIdentifier) {
+	}
+
+	@Override
+	public PokerGameIdentifier createGameIdentifier(final String gameId) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public void startGame(final GameIdentifier gameIdentifier) {
-	}
-
-	@Override
-	public GameIdentifier createGameIdentifier(final String gameId) throws PokerServiceException {
+	public Collection<PokerCardIdentifier> getCards(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<CardIdentifier> getCards(final PlayerIdentifier playerIdentifier) throws PokerServiceException {
+	public Collection<PokerCardIdentifier> getCards(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<CardIdentifier> getCards(final GameIdentifier gameIdentifier) throws PokerServiceException {
+	public PokerGameIdentifier createGame(final String name) throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PokerPlayerIdentifier createPlayer(final String name) throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException {
 		return null;
 	}
 

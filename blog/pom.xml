@@ -134,11 +134,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -149,6 +144,10 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.storage.tools</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

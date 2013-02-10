@@ -28,7 +28,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.poker.api.GameIdentifier;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
@@ -134,7 +134,7 @@ public class PokerGuiGameListServletUnitTest {
 		EasyMock.replay(cacheService);
 
 		final PokerService pokerService = EasyMock.createMock(PokerService.class);
-		EasyMock.expect(pokerService.getGames()).andReturn(new ArrayList<GameIdentifier>());
+		EasyMock.expect(pokerService.getGames()).andReturn(new ArrayList<PokerGameIdentifier>());
 		EasyMock.replay(pokerService);
 
 		final PokerGuiLinkFactory pokerGuiLinkFactory = EasyMock.createNiceMock(PokerGuiLinkFactory.class);
