@@ -30,6 +30,8 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 
 	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 
+	private Long bet;
+
 	@Override
 	public Calendar getCreated() {
 		return created;
@@ -93,6 +95,14 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 
 	public void setCards(final List<PokerCardIdentifier> cards) {
 		this.cards = cards;
+	}
+
+	public Long getBet() {
+		return bet;
+	}
+
+	public void setBet(final Long bet) {
+		this.bet = bet;
 	}
 
 }

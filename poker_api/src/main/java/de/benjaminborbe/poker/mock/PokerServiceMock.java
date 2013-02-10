@@ -84,24 +84,24 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public void fold(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
-	}
-
-	@Override
-	public void call(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
-	}
-
-	@Override
-	public void raise(final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException {
-	}
-
-	@Override
 	public void startRound(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 	}
 
 	@Override
 	public PokerPlayerIdentifier getActivePlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
+	}
+
+	@Override
+	public void fold(final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+	}
+
+	@Override
+	public void call(final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+	}
+
+	@Override
+	public void raise(final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException {
 	}
 
 }

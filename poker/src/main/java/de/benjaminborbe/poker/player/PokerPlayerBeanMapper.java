@@ -25,6 +25,8 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBean> {
 
+	public static final String BET = "bet";
+
 	public static final String ID = "id";
 
 	public static final String NAME = "name";
@@ -59,6 +61,7 @@ public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBea
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, PokerGameIdentifier>(GAME_ID, mapperPokerGameIdentifier));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, Long>(AMOUNT, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerPlayerBean, Long>(BET, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, List<PokerCardIdentifier>>(CARDS, mapperPokerCardIdentifierList));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, Calendar>(CREATED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, Calendar>(MODIFIED, mapperCalendar));

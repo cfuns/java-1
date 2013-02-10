@@ -44,6 +44,8 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long pot;
 
+	private Long bet;
+
 	@Override
 	public Long getBigBlind() {
 		return bigBlind;
@@ -166,6 +168,14 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	public void setRound(final Long round) {
 		this.round = round;
+	}
+
+	public Long getBet() {
+		return bet;
+	}
+
+	public void setBet(Long bet) {
+		this.bet = bet;
 	}
 
 }

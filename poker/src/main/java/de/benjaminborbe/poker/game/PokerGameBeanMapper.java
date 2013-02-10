@@ -27,6 +27,8 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
+	public static final String BET = "bet";
+
 	public static final String ROUND = "round";
 
 	public static final String BUTTON_POSITION = "buttonPosition";
@@ -83,6 +85,7 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SMALL_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BIG_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(ROUND, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BET, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(CARD_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(ACTIVE_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(BUTTON_POSITION, mapperInteger));

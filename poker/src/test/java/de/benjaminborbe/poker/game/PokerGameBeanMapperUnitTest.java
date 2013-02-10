@@ -63,6 +63,7 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[] { "activePosition", "1" });
 		result.add(new Object[] { "buttonPosition", "2" });
 		result.add(new Object[] { "round", "42" });
+		result.add(new Object[] { "bet", "23" });
 		return result;
 	}
 

@@ -263,6 +263,12 @@ public class PokerServiceImpl implements PokerService {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			final int playerAmount = game.getPlayers().size();
 
+			// set player bet
+			for (final PokerPlayerBean player : pokerPlayerDao.load(game.getPlayers())) {
+				player.setBet(0l);
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("bet"));
+			}
+
 			// increase button position
 			final int position = game.getButtonPosition();
 			game.setButtonPosition(position + 1 % playerAmount);
@@ -275,7 +281,7 @@ public class PokerServiceImpl implements PokerService {
 				final PokerPlayerIdentifier playerIdentifier = game.getPlayers().get(game.getButtonPosition() + 1 % (playerAmount - 1));
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 				bid(game, player, game.getSmallBlind());
-				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount"));
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
 			}
 
 			// big blind
@@ -283,13 +289,16 @@ public class PokerServiceImpl implements PokerService {
 				final PokerPlayerIdentifier playerIdentifier = game.getPlayers().get(game.getButtonPosition() + 2 % (playerAmount - 1));
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 				bid(game, player, game.getBigBlind());
-				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount"));
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
 			}
 
 			// active player
 			game.setActivePosition(position + 3 % (playerAmount - 1));
 
-			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("buttonPosition").add("round").add("activePosition").add("pot"));
+			// set game bet
+			game.setBet(game.getBigBlind());
+
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("buttonPosition").add("round").add("activePosition").add("pot").add("bet"));
 		}
 		catch (final StorageException e) {
 		}
@@ -297,6 +306,7 @@ public class PokerServiceImpl implements PokerService {
 
 	private void bid(final PokerGameBean game, final PokerPlayerBean player, final long value) {
 		player.setAmount(player.getAmount() - value);
+		player.setBet(value);
 		game.setPot(game.getPot() + value);
 	}
 
@@ -410,16 +420,64 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void fold(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+	public void fold(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+		try {
+			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not active player")));
+			}
 
+			nextPlayer(gameIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
 	}
 
 	@Override
-	public void call(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+	public void call(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+		try {
+			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not active player")));
+			}
+
+			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
+			bid(game, player, game.getBet() - player.getBet());
+			nextPlayer(game);
+
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("pot").add("activePosition"));
+			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount"));
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
 	}
 
 	@Override
-	public void raise(final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException {
+	public void raise(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException, ValidationException {
+		try {
+			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("not active player")));
+			}
+			nextPlayer(gameIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
 	}
 
+	private void nextPlayer(final PokerGameIdentifier gameIdentifier) throws StorageException {
+		final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+		nextPlayer(game);
+	}
+
+	private void nextPlayer(final PokerGameBean game) throws StorageException {
+		game.setActivePosition(game.getActivePosition() + 1 % (game.getPlayers().size() - 1));
+	}
 }
