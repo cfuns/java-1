@@ -40,4 +40,22 @@ public class PokerServiceImplIntegrationTest {
 		assertNotNull(service.getGames());
 		assertEquals(2, service.getGames().size());
 	}
+
+	@Test
+	public void testCreatePlayerIdentifier() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		assertNotNull(service.createPlayerIdentifier("1337"));
+		assertEquals("1337", service.createPlayerIdentifier("1337").getId());
+		assertNull(service.createPlayerIdentifier(null));
+	}
+
+	@Test
+	public void testCreateGameIdentifier() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		assertNotNull(service.createGameIdentifier("1337"));
+		assertEquals("1337", service.createGameIdentifier("1337").getId());
+		assertNull(service.createGameIdentifier(null));
+	}
 }

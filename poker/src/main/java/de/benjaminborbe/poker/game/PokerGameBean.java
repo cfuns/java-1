@@ -1,6 +1,10 @@
 package de.benjaminborbe.poker.game;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
@@ -14,62 +18,23 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private PokerGameIdentifier id;
 
-	private String name;
+	private Long bigBlind;
 
 	private Calendar created;
 
 	private Calendar modified;
 
+	private String name;
+
 	private Boolean running;
 
 	private Long smallBlind;
 
-	private Long bigBlind;
-
 	private PokerPlayerIdentifier activePlayer;
 
-	@Override
-	public Calendar getCreated() {
-		return created;
-	}
+	private List<PokerPlayerIdentifier> players = new ArrayList<PokerPlayerIdentifier>();
 
-	@Override
-	public Calendar getModified() {
-		return modified;
-	}
-
-	@Override
-	public void setCreated(final Calendar created) {
-		this.created = created;
-	}
-
-	@Override
-	public void setModified(final Calendar modified) {
-		this.modified = modified;
-	}
-
-	@Override
-	public PokerGameIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final PokerGameIdentifier id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	@Override
-	public Boolean getRunning() {
-		return running;
-	}
+	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 
 	@Override
 	public PokerPlayerIdentifier getActivePlayer() {
@@ -82,8 +47,59 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	}
 
 	@Override
+	public Calendar getCreated() {
+		return created;
+	}
+
+	@Override
+	public PokerGameIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public Calendar getModified() {
+		return modified;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public Boolean getRunning() {
+		return running;
+	}
+
+	@Override
 	public Long getSmallBlind() {
 		return smallBlind;
+	}
+
+	public void setActivePlayer(final PokerPlayerIdentifier activePlayer) {
+		this.activePlayer = activePlayer;
+	}
+
+	public void setBigBlind(final Long bigBlind) {
+		this.bigBlind = bigBlind;
+	}
+
+	@Override
+	public void setCreated(final Calendar created) {
+		this.created = created;
+	}
+
+	@Override
+	public void setId(final PokerGameIdentifier id) {
+		this.id = id;
+	}
+
+	@Override
+	public void setModified(final Calendar modified) {
+		this.modified = modified;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 	public void setRunning(final Boolean running) {
@@ -94,12 +110,20 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.smallBlind = smallBlind;
 	}
 
-	public void setBigBlind(final Long bigBlind) {
-		this.bigBlind = bigBlind;
+	public List<PokerPlayerIdentifier> getPlayers() {
+		return players;
 	}
 
-	public void setActivePlayer(final PokerPlayerIdentifier activePlayer) {
-		this.activePlayer = activePlayer;
+	public void setPlayers(final List<PokerPlayerIdentifier> players) {
+		this.players = players;
+	}
+
+	public List<PokerCardIdentifier> getCards() {
+		return cards;
+	}
+
+	public void setCards(final List<PokerCardIdentifier> cards) {
+		this.cards = cards;
 	}
 
 }

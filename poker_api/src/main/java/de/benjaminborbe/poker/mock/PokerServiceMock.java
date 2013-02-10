@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
@@ -70,8 +71,16 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException {
+	public PokerPlayerIdentifier createPlayerIdentifier(final String id) throws PokerServiceException {
 		return null;
+	}
+
+	@Override
+	public void joinGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+	}
+
+	@Override
+	public void leaveGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
 	}
 
 }

@@ -6,9 +6,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -30,6 +34,11 @@ public class PokerPlayerDaoStorage extends DaoStorage<PokerPlayerBean, PokerPlay
 	@Override
 	protected String getColumnFamily() {
 		return COLUMN_FAMILY;
+	}
+
+	@Override
+	public IdentifierIterator<PokerPlayerIdentifier> getIdentifierIterator(final PokerGameIdentifier gameIdentifier) throws StorageException {
+		return getIdentifierIterator(new StorageValueMap(getEncoding()).add(PokerPlayerBeanMapper.GAME_ID, String.valueOf(gameIdentifier)));
 	}
 
 }

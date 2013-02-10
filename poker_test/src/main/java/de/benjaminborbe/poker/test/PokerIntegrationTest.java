@@ -5,7 +5,6 @@ import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
@@ -55,28 +54,4 @@ public class PokerIntegrationTest extends OSGiTestCase {
 		assertEquals("de.benjaminborbe.poker.service.PokerServiceImpl", service.getClass().getName());
 	}
 
-	private PokerService getPokerService() {
-		final Object serviceObject = getServiceObject(PokerService.class.getName(), null);
-		return (PokerService) serviceObject;
-	}
-
-	public void testCreateGame() throws Exception {
-		final PokerService service = getPokerService();
-		assertNotNull(service.getGames());
-		assertEquals(0, service.getGames().size());
-		{
-			final PokerGameIdentifier gi = service.createGame("gameA");
-			assertNotNull(gi);
-			assertNotNull(gi.getId());
-		}
-		assertNotNull(service.getGames());
-		assertEquals(1, service.getGames().size());
-		{
-			final PokerGameIdentifier gi = service.createGame("gameB");
-			assertNotNull(gi);
-			assertNotNull(gi.getId());
-		}
-		assertNotNull(service.getGames());
-		assertEquals(2, service.getGames().size());
-	}
 }

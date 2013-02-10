@@ -22,12 +22,9 @@ public class PokerPlayerValidator extends ValidatorBase<PokerPlayerBean> {
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
-	private final PokerPlayerDao pokerPlayerDao;
-
 	@Inject
-	public PokerPlayerValidator(final ValidationConstraintValidator validationConstraintValidator, final PokerPlayerDao pokerPlayerDao) {
+	public PokerPlayerValidator(final ValidationConstraintValidator validationConstraintValidator) {
 		this.validationConstraintValidator = validationConstraintValidator;
-		this.pokerPlayerDao = pokerPlayerDao;
 	}
 
 	@Override

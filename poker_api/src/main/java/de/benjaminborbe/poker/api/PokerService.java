@@ -12,7 +12,7 @@ public interface PokerService {
 
 	PokerGame getGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	void startGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+	void startGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 
 	PokerGameIdentifier createGameIdentifier(String id) throws PokerServiceException;
 
@@ -27,5 +27,9 @@ public interface PokerService {
 	PokerPlayerIdentifier createPlayer(String name) throws PokerServiceException, ValidationException;
 
 	PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException;
+
+	void joinGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
+
+	void leaveGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
 
 }

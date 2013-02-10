@@ -1,6 +1,11 @@
 package de.benjaminborbe.poker.player;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
@@ -20,6 +25,10 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 	private Calendar modified;
 
 	private Long amount;
+
+	private PokerGameIdentifier game;
+
+	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 
 	@Override
 	public Calendar getCreated() {
@@ -51,6 +60,7 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 		this.id = id;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -62,6 +72,27 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 	@Override
 	public Long getAmount() {
 		return amount;
+	}
+
+	@Override
+	public PokerGameIdentifier getGame() {
+		return game;
+	}
+
+	public void setGame(final PokerGameIdentifier game) {
+		this.game = game;
+	}
+
+	public void setAmount(final Long amount) {
+		this.amount = amount;
+	}
+
+	public List<PokerCardIdentifier> getCards() {
+		return cards;
+	}
+
+	public void setCards(final List<PokerCardIdentifier> cards) {
+		this.cards = cards;
 	}
 
 }

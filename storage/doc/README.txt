@@ -339,4 +339,7 @@ drop column family poker_player;
 create column family poker_player with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: game, validation_class: UTF8Type, index_type: KEYS}
+  ];
