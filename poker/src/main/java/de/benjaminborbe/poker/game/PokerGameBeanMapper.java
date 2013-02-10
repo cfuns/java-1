@@ -27,6 +27,8 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
+	public static final String BOARD_CARDS = "boardCards";
+
 	public static final String BET = "bet";
 
 	public static final String ROUND = "round";
@@ -56,6 +58,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 	public static final String SMALL_BLIND = "smallBlind";
 
 	public static final String CARD_POSITION = "cardPosition";
+
+	private static final String ACTIVE_PLAYERS = "activePlayers";
 
 	@Inject
 	public PokerGameBeanMapper(
@@ -90,7 +94,9 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(ACTIVE_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(BUTTON_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, List<PokerCardIdentifier>>(CARDS, mapperCardIdentifierList));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, List<PokerCardIdentifier>>(BOARD_CARDS, mapperCardIdentifierList));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, List<PokerPlayerIdentifier>>(PLAYERS, mapperPlayerIdentifierList));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, List<PokerPlayerIdentifier>>(ACTIVE_PLAYERS, mapperPlayerIdentifierList));
 		return result;
 	}
 }

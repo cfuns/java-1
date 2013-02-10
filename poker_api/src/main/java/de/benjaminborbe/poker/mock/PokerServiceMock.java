@@ -51,12 +51,12 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerCardIdentifier> getCards(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+	public Collection<PokerCardIdentifier> getHandCards(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<PokerCardIdentifier> getCards(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	public Collection<PokerCardIdentifier> getBoardCards(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
 
@@ -84,7 +84,7 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public void startRound(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	public void nextRound(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 	}
 
 	@Override

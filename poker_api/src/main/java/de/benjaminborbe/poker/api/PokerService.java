@@ -20,9 +20,9 @@ public interface PokerService {
 
 	PokerPlayer getPlayer(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
 
-	Collection<PokerCardIdentifier> getCards(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
+	Collection<PokerCardIdentifier> getHandCards(PokerPlayerIdentifier playerIdentifier) throws PokerServiceException;
 
-	Collection<PokerCardIdentifier> getCards(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+	Collection<PokerCardIdentifier> getBoardCards(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
 	PokerPlayerIdentifier createPlayer(String name) throws PokerServiceException, ValidationException;
 
@@ -32,7 +32,7 @@ public interface PokerService {
 
 	void leaveGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
 
-	void startRound(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+	void nextRound(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
 	PokerPlayerIdentifier getActivePlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 

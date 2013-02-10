@@ -64,6 +64,10 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[] { "buttonPosition", "2" });
 		result.add(new Object[] { "round", "42" });
 		result.add(new Object[] { "bet", "23" });
+		result.add(new Object[] { "activePlayers", "1337" });
+		result.add(new Object[] { "players", "1337" });
+		result.add(new Object[] { "cards", "A_V10" });
+		result.add(new Object[] { "boardCards", "A_V10" });
 		return result;
 	}
 
