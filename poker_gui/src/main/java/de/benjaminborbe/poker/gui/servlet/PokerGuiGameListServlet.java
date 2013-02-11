@@ -41,6 +41,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
@@ -88,6 +89,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 			final Collection<PokerGame> games = pokerService.getGames();
 			if (games.isEmpty()) {
 				widgets.add("no game found");
+				widgets.add(new BrWidget());
 			}
 			else {
 				final TableWidget table = new TableWidget();

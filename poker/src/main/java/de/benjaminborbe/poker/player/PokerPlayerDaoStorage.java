@@ -14,7 +14,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 @Singleton
 public class PokerPlayerDaoStorage extends DaoStorage<PokerPlayerBean, PokerPlayerIdentifier> implements PokerPlayerDao {
 
-	private static final String COLUMN_FAMILY = "poker_game";
+	private static final String COLUMN_FAMILY = "poker_player";
 
 	@Inject
 	public PokerPlayerDaoStorage(
