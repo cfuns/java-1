@@ -135,6 +135,33 @@ public class ParseUtilImplUnitTest {
 		assertEquals(defaultUrl.toExternalForm(), parseUtil.parseURL("", defaultUrl).toExternalForm());
 		assertEquals(defaultUrl.toExternalForm(), parseUtil.parseURL("www.google.de", defaultUrl).toExternalForm());
 	}
+
+	@Test
+	public void testIndexOf() throws Exception {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final String content = "abcdef";
+		assertEquals(0, parseUtil.indexOf(content, "abc"));
+		assertEquals(0, parseUtil.indexOf(content, "abc", 0));
+		assertEquals(3, parseUtil.indexOf(content, "def"));
+		assertEquals(3, parseUtil.indexOf(content, "def", 0));
+		assertEquals(3, parseUtil.indexOf(content, "def", 0));
+		assertEquals(3, parseUtil.indexOf(content, "def", 3));
+		assertEquals(0, parseUtil.indexOf(content, "abcdef"));
+		try {
+			parseUtil.indexOf(content, "foo");
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
+		try {
+			parseUtil.indexOf(content, "abc", 1);
+			fail("ParseException expected");
+		}
+		catch (final ParseException e) {
+			assertNotNull(e);
+		}
+	}
 }
 
 enum TestEnum {

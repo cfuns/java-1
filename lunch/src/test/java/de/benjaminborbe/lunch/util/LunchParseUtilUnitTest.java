@@ -14,11 +14,13 @@ import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ParseUtilImpl;
 
 public class LunchParseUtilUnitTest {
 
 	@Test
-	public void testname() throws Exception {
+	public void testExtractLunchName() throws Exception {
 		final LunchParseUtil lunchParseUtil = getLunchParseUtil();
 		final String title = "FooBar";
 		{
@@ -38,7 +40,8 @@ public class LunchParseUtilUnitTest {
 		EasyMock.replay(logger);
 
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
-		final LunchParseUtil lunchParseUtil = new LunchParseUtil(logger, htmlUtil);
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final LunchParseUtil lunchParseUtil = new LunchParseUtil(logger, htmlUtil, parseUtil);
 		return lunchParseUtil;
 	}
 

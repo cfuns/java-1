@@ -175,4 +175,27 @@ public class ParseUtilImpl implements ParseUtil {
 		}
 	}
 
+	@Override
+	public int indexOf(final String content, final String search) throws ParseException {
+		return indexOf(content, search, 0);
+	}
+
+	@Override
+	public int indexOf(final String content, final String search, final int startPos) throws ParseException {
+		if (startPos < 0) {
+			throw new ParseException("can't search with negativ startPos");
+		}
+		if (content == null) {
+			throw new ParseException("can't search without content");
+		}
+		if (search == null) {
+			throw new ParseException("can't search after null");
+		}
+		final int result = content.indexOf(search, startPos);
+		if (result == -1) {
+			throw new ParseException("can't find '" + search + "' in '" + content + "'");
+		}
+		return result;
+	}
+
 }

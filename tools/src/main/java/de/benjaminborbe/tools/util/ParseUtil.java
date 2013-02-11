@@ -32,4 +32,7 @@ public interface ParseUtil {
 
 	URL parseURL(String value, URL defaultValue);
 
+	int indexOf(String content, String search) throws ParseException;
+
+	int indexOf(String content, String search, int startPos) throws ParseException;
 }

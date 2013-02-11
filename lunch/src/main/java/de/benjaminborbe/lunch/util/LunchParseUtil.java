@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 public class LunchParseUtil {
 
@@ -21,10 +22,13 @@ public class LunchParseUtil {
 
 	private final Logger logger;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public LunchParseUtil(final Logger logger, final HtmlUtil htmlUtil) {
+	public LunchParseUtil(final Logger logger, final HtmlUtil htmlUtil, final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.htmlUtil = htmlUtil;
+		this.parseUtil = parseUtil;
 	}
 
 	public Collection<String> extractSubscribedUser(final String htmlContent) {
@@ -68,23 +72,10 @@ public class LunchParseUtil {
 
 	public boolean extractLunchSubscribed(final String content, final String fullname) {
 		return content.indexOf(fullname) != -1;
-		// final Document document = Jsoup.parse(htmlContent);
-		// final Elements tables = document.getElementsByClass("confluenceTable");
-		// for (final Element table : tables) {
-		// final Elements tds = table.getElementsByTag("td");
-		// for (final Element td : tds) {
-		// if (td.html().indexOf(fullname) != -1) {
-		// return true;
-		// }
-		// }
-		// }
-		// return false;
 	}
 
 	public String extractLunchName(final String htmlContent) throws ParseException {
-		// final String content = htmlContent.replaceAll("ac:", "ac");
 		final Document document = Jsoup.parse(htmlContent);
-		// System.err.println(document.toString());
 		{
 			final Elements elements = document.getElementsByClass("tipMacro");
 			for (final Element element : elements) {
@@ -92,18 +83,20 @@ public class LunchParseUtil {
 					final String innerHtml = td.html();
 					final String result = htmlUtil.filterHtmlTages(innerHtml);
 					if (result != null && result.length() > 0) {
+						logger.debug("found lunch lame " + result);
 						return result;
 					}
 				}
 			}
 		}
 		{
-			final int pos = htmlContent.indexOf("ac:name=\"tip\"");
-			final int pos2 = htmlContent.indexOf("INLINE", pos);
-			final int pstart = htmlContent.indexOf("<p>", pos2);
-			final int pend = htmlContent.indexOf("</p>", pos2);
+			final int pos = parseUtil.indexOf(htmlContent, "ac:name=\"tip\"");
+			final int pos2 = parseUtil.indexOf(htmlContent, "INLINE", pos);
+			final int pstart = parseUtil.indexOf(htmlContent, "<ac:rich-text-body>", pos2);
+			final int pend = parseUtil.indexOf(htmlContent, "</ac:rich-text-body>", pstart);
 			final String result = htmlUtil.filterHtmlTages(htmlContent.substring(pstart, pend));
 			if (result != null && result.length() > 0) {
+				logger.debug("found lunch lame " + result);
 				return result;
 			}
 		}
