@@ -17,4 +17,6 @@ public interface PokerGame {
 	List<PokerCardIdentifier> getCards();
 
 	Long getPot();
+
+	String getName();
 }

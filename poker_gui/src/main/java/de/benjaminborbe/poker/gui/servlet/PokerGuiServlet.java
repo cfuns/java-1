@@ -1,6 +1,7 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,44 +19,44 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.poker.api.PokerService;
-import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
-import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
+public class PokerGuiServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
+	private static final long serialVersionUID = 6022990232153082338L;
 
-	private static final String TITLE = "Poker - Game - Create";
+	private static final String TITLE = "Poker";
 
-	private final PokerService pokerService;
+	private final Logger logger;
+
+	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
 	@Inject
-	public PokerGuiGameCreateServlet(
+	public PokerGuiServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil,
 			final CacheService cacheService,
-			final PokerService pokerService) {
+			final PokerGuiLinkFactory pokerGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
-		this.pokerService = pokerService;
+		this.logger = logger;
+		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 	}
 
 	@Override
@@ -66,18 +67,16 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		try {
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
+		logger.trace("printContent");
+		final ListWidget widgets = new ListWidget();
+		widgets.add(new H1Widget(getTitle()));
 
-			pokerService.getGameIdentifiers();
+		final UlWidget ul = new UlWidget();
+		ul.add(pokerGuiLinkFactory.gameList(request));
+		ul.add(pokerGuiLinkFactory.playerList(request));
+		widgets.add(ul);
 
-			return widgets;
-		}
-		catch (final PokerServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		}
+		return widgets;
 	}
 
 }

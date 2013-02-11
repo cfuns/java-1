@@ -70,6 +70,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		return modified;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}

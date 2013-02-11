@@ -25,6 +25,8 @@ import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.player.PokerPlayerBean;
 import de.benjaminborbe.poker.player.PokerPlayerDao;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
@@ -73,9 +75,9 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerGameIdentifier> getGames() throws PokerServiceException {
+	public Collection<PokerGameIdentifier> getGameIdentifiers() throws PokerServiceException {
 		try {
-			logger.debug("getGames");
+			logger.debug("getGameIdentifiers");
 			final IdentifierIterator<PokerGameIdentifier> i = pokerGameDao.getIdentifierIterator();
 			final List<PokerGameIdentifier> result = new ArrayList<PokerGameIdentifier>();
 			while (i.hasNext()) {
@@ -527,6 +529,48 @@ public class PokerServiceImpl implements PokerService {
 			completeTurn(game);
 		}
 		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
+
+	@Override
+	public Collection<PokerGame> getGames() throws PokerServiceException {
+		try {
+			logger.debug("getGames");
+			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
+			final List<PokerGame> result = new ArrayList<PokerGame>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
+
+	@Override
+	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
+		try {
+			logger.debug("getPlayers");
+			final EntityIterator<PokerPlayerBean> i = pokerPlayerDao.getEntityIterator();
+			final List<PokerPlayer> result = new ArrayList<PokerPlayer>();
+			while (i.hasNext()) {
+				result.add(i.next());
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		}
 		finally {

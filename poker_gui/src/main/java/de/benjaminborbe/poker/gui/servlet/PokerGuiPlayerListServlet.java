@@ -1,6 +1,10 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,10 +20,13 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -27,21 +34,27 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.table.TableHeadWidget;
+import de.benjaminborbe.website.table.TableRowWidget;
+import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
+public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Poker - Game - Create";
+	private static final String TITLE = "Poker - Players";
 
 	private final PokerService pokerService;
 
+	private final PokerGuiLinkFactory pokerGuiLinkFactory;
+
 	@Inject
-	public PokerGuiGameCreateServlet(
+	public PokerGuiPlayerListServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -53,9 +66,11 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
-			final PokerService pokerService) {
+			final PokerService pokerService,
+			final PokerGuiLinkFactory pokerGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
+		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 	}
 
 	@Override
@@ -70,7 +85,28 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			pokerService.getGameIdentifiers();
+			final Collection<PokerPlayer> players = pokerService.getPlayers();
+			if (players.isEmpty()) {
+				widgets.add("no player found");
+			}
+			else {
+				final TableWidget table = new TableWidget();
+				table.addClass("sortable");
+				final TableHeadWidget head = new TableHeadWidget();
+				head.addCell("Id").addCell("");
+				table.setHead(head);
+				for (final PokerPlayer player : players) {
+					final TableRowWidget row = new TableRowWidget();
+					row.addCell(asString(player.getName()));
+					row.addCell(pokerGuiLinkFactory.playerView(request, player.getId()));
+					table.addRow(row);
+				}
+				widgets.add(table);
+			}
+
+			widgets.add(pokerGuiLinkFactory.playerCreate(request));
+			widgets.add(" ");
+			widgets.add(pokerGuiLinkFactory.gameList(request));
 
 			return widgets;
 		}
@@ -80,4 +116,15 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
+	private String asString(final Object object) {
+		return object != null ? String.valueOf(object) : "";
+	}
+
+	@Override
+	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final String contextPath = request.getContextPath();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
+		return result;
+	}
 }

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.gui.PokerGuiActivator;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.poker.gui.guice.PokerGuiModulesMock;
@@ -47,8 +48,12 @@ public class PokerGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_HOME);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_CREATE);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_LIST);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_VIEW);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_LIST);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_VIEW);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -113,6 +118,7 @@ public class PokerGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

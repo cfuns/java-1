@@ -8,7 +8,7 @@ public interface PokerService {
 
 	PokerGameIdentifier createGame(String name, long blind) throws PokerServiceException, ValidationException;
 
-	Collection<PokerGameIdentifier> getGames() throws PokerServiceException;
+	Collection<PokerGameIdentifier> getGameIdentifiers() throws PokerServiceException;
 
 	PokerGame getGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
@@ -41,5 +41,9 @@ public interface PokerService {
 	void call(PokerGameIdentifier pokerGameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
 
 	void raise(PokerGameIdentifier pokerGameIdentifier, PokerPlayerIdentifier playerIdentifier, long amount) throws PokerServiceException, ValidationException;
+
+	Collection<PokerGame> getGames() throws PokerServiceException;
+
+	Collection<PokerPlayer> getPlayers() throws PokerServiceException;
 
 }

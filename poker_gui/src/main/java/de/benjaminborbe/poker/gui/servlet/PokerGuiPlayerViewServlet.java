@@ -18,8 +18,12 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.poker.api.PokerGame;
+import de.benjaminborbe.poker.api.PokerPlayer;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -30,18 +34,19 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
-public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
+public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Poker - Game - Create";
+	private static final String TITLE = "Poker - Player - View";
 
 	private final PokerService pokerService;
 
 	@Inject
-	public PokerGuiGameCreateServlet(
+	public PokerGuiPlayerViewServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -70,7 +75,20 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			pokerService.getGameIdentifiers();
+			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+			widgets.add("Name: " + player.getName());
+			widgets.add(new BrWidget());
+			widgets.add("Credits: " + player.getAmount());
+			widgets.add(new BrWidget());
+			if (player.getGame() == null) {
+				widgets.add("Game: ");
+			}
+			else {
+				final PokerGame game = pokerService.getGame(player.getGame());
+				widgets.add("Game: " + game.getName());
+			}
+			widgets.add(new BrWidget());
 
 			return widgets;
 		}
@@ -79,5 +97,4 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
 }

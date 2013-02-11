@@ -23,7 +23,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
@@ -85,7 +85,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Collection<PokerGameIdentifier> games = pokerService.getGames();
+			final Collection<PokerGame> games = pokerService.getGames();
 			if (games.isEmpty()) {
 				widgets.add("no game found");
 			}
@@ -95,16 +95,18 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 				final TableHeadWidget head = new TableHeadWidget();
 				head.addCell("Id").addCell("");
 				table.setHead(head);
-				for (final PokerGameIdentifier gameIdentifier : games) {
+				for (final PokerGame game : games) {
 					final TableRowWidget row = new TableRowWidget();
-					row.addCell(asString(gameIdentifier));
-					row.addCell("");
+					row.addCell(asString(game.getName()));
+					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId()));
 					table.addRow(row);
 				}
 				widgets.add(table);
 			}
 
-			widgets.add(pokerGuiLinkFactory.createGame(request));
+			widgets.add(pokerGuiLinkFactory.gameCreate(request));
+			widgets.add(" ");
+			widgets.add(pokerGuiLinkFactory.playerList(request));
 
 			return widgets;
 		}

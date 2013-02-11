@@ -22,7 +22,7 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerGameIdentifier> getGames() {
+	public Collection<PokerGameIdentifier> getGameIdentifiers() {
 		return null;
 	}
 
@@ -102,6 +102,16 @@ public class PokerServiceMock implements PokerService {
 
 	@Override
 	public void raise(final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException {
+	}
+
+	@Override
+	public Collection<PokerGame> getGames() throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
+		return null;
 	}
 
 }
