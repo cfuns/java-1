@@ -54,6 +54,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_ADD_DATA);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_ADD_VALUE);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_AGGREGATE);
+		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_LOG_WITHOUT_REPORT);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

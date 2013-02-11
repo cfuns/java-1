@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.analytics.gui.config.AnalyticsGuiConfig;
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
 import de.benjaminborbe.analytics.gui.service.AnalyticsGuiNavigationEntry;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiLogWithoutReportServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAddDataJsonServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAddDataServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAggregateServlet;
@@ -27,6 +28,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AnalyticsGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AnalyticsGuiLogWithoutReportServlet analyticsGuiLogWithoutReportServlet;
 
 	@Inject
 	private AnalyticsGuiReportAddDataJsonServlet analyticsGuiReportAddDataJsonServlet;
@@ -74,6 +78,7 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(analyticsGuiReportCreateServlet, AnalyticsGuiConstants.URL_REPORT_CREATE));
 		result.add(new ServletInfo(analyticsGuiReportDeleteServlet, AnalyticsGuiConstants.URL_REPORT_DELETE));
 		result.add(new ServletInfo(analyticsGuiReportAggregateServlet, AnalyticsGuiConstants.URL_REPORT_AGGREGATE));
+		result.add(new ServletInfo(analyticsGuiLogWithoutReportServlet, AnalyticsGuiConstants.URL_LOG_WITHOUT_REPORT));
 		return result;
 	}
 

@@ -29,7 +29,7 @@ public interface StorageDaoUtil {
 	long count(String keySpace, String columnFamily, StorageValue columnName, StorageValue columnValue) throws UnsupportedEncodingException, InvalidRequestException,
 			UnavailableException, TimedOutException, TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException;
 
-	void delete(String keySpace, String columnFamily, final StorageValue key, final List<StorageValue> columnNames) throws InvalidRequestException, NotFoundException,
+	void delete(String keySpace, String columnFamily, final StorageValue key, final Collection<StorageValue> columnNames) throws InvalidRequestException, NotFoundException,
 			UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
 	void delete(String keySpace, String columnFamily, StorageValue key, StorageValue columnName) throws InvalidRequestException, NotFoundException, UnavailableException,

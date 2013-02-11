@@ -1,26 +1,22 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
-import de.benjaminborbe.analytics.gui.util.AnalyticsReportComparator;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -36,49 +32,48 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.table.TableHeadWidget;
+import de.benjaminborbe.website.table.TableRowWidget;
+import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.SpanWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
+public class AnalyticsGuiLogWithoutReportServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 1328676176772634649L;
-
-	private static final String TITLE = "Analytics - Reports";
-
-	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
-
-	private final AnalyticsService analyticsService;
+	private static final long serialVersionUID = -2124329148879227334L;
 
 	private final AuthenticationService authenticationService;
 
 	private final Logger logger;
 
+	private final AnalyticsService analyticsService;
+
+	private static final String TITLE = "Analytics - Log Without Report";
+
+	private final AnalyticsGuiLinkFactory analyticsGuiLinkFactory;
+
 	@Inject
-	public AnalyticsGuiReportListServlet(
+	public AnalyticsGuiLogWithoutReportServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
 			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
+			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
+			final Provider<HttpContext> httpContextProvider,
+			final UrlUtil urlUtil,
+			final CacheService cacheService,
 			final AnalyticsService analyticsService,
-			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory,
-			final CacheService cacheService) {
+			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.analyticsService = analyticsService;
 		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
-		this.authenticationService = authenticationService;
-		this.logger = logger;
 	}
 
 	@Override
@@ -92,34 +87,28 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<AnalyticsReport> reports = new ArrayList<AnalyticsReport>(analyticsService.getReports(sessionIdentifier));
-			Collections.sort(reports, new AnalyticsReportComparator());
-			final UlWidget ul = new UlWidget();
-			for (final AnalyticsReport report : reports) {
-				final ListWidget row = new ListWidget();
-				row.add(analyticsGuiLinkFactory.reportView(request, report.getId(), AnalyticsGuiConstants.DEFAULT_INTERVAL, AnalyticsGuiConstants.DEFAULT_VIEW,
-						new SpanWidget(report.getName())));
-				row.add(" ");
-				row.add("(" + report.getAggregation().name().toLowerCase() + ")");
-				if (analyticsService.hasAnalyticsAdminRole(sessionIdentifier)) {
-					row.add(" ");
-					row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
-					row.add(" ");
-					row.add(analyticsGuiLinkFactory.reportDelete(request, report.getId()));
-				}
-				ul.add(row);
-			}
-			widgets.add(ul);
 
-			if (analyticsService.hasAnalyticsAdminRole(sessionIdentifier)) {
-				final ListWidget links = new ListWidget();
-				links.add(analyticsGuiLinkFactory.addReport(request));
-				links.add(" ");
-				links.add(analyticsGuiLinkFactory.logWithoutReport(request));
-				links.add(" ");
-				links.add(analyticsGuiLinkFactory.aggregateReport(request));
-				widgets.add(links);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
+			final List<String> list = Lists.newArrayList(analyticsService.getLogWithoutReport(sessionIdentifier));
+			Collections.sort(list);
+
+			if (list.isEmpty()) {
+				widgets.add("nothing found");
+			}
+			else {
+				final TableWidget table = new TableWidget();
+				table.addClass("sortable");
+				final TableHeadWidget head = new TableHeadWidget();
+				head.addCell("Name").addCell("");
+				table.setHead(head);
+				for (final String name : list) {
+					final TableRowWidget row = new TableRowWidget();
+					row.addCell(name);
+					row.addCell(analyticsGuiLinkFactory.addReport(request, name));
+					table.addRow(row);
+				}
+				widgets.add(table);
 			}
 
 			return widgets;
@@ -135,25 +124,4 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			return widget;
 		}
 	}
-
-	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
-		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		}
-		catch (final AnalyticsServiceException e) {
-			throw new PermissionDeniedException(e);
-		}
-	}
-
-	@Override
-	public boolean isAdminRequired() {
-		return false;
-	}
-
 }

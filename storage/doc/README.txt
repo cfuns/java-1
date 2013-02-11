@@ -300,8 +300,11 @@ drop column family analytics_report;
 create column family analytics_report with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
-  
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: name, validation_class: UTF8Type, index_type: KEYS}
+  ];
+
 drop column family analytics_report_value;
 create column family analytics_report_value with
   comparator = UTF8Type and

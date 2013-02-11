@@ -27,36 +27,25 @@ public class AnalyticsGuiLinkFactory {
 
 	public Widget reportView(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
 			final AnalyticsReportChartType type, final Widget widget) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW,
-
-		new MapParameter()
-
-		.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier))
-
-		.add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval))
-
-		.add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type))
-
-		, widget);
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW, new MapParameter()
+				.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier))
+				.add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval)).add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type)),
+				widget);
 	}
 
 	public Widget reportAddData(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,
 			UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_ADD_DATA,
-
-		new MapParameter()
-
-		.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier))
-
-		, "insert");
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_ADD_DATA, new MapParameter().add(
+				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "insert");
 	}
 
 	public Widget addReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE,
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE, new MapParameter(), "add report");
+	}
 
-		new MapParameter()
-
-		, "add report");
+	public Widget addReport(final HttpServletRequest request, final String name) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE, new MapParameter().add(
+				AnalyticsGuiConstants.PARAMETER_REPORT_NAME, name), "add report");
 	}
 
 	public Widget reportList(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -69,17 +58,17 @@ public class AnalyticsGuiLinkFactory {
 
 	public Widget reportDelete(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,
 			UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_DELETE,
-
-		new MapParameter()
-
-		.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "delete")
-
-		.addConfirm("delete report?");
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_DELETE, new MapParameter().add(
+				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "delete").addConfirm("delete report?");
 	}
 
 	public Widget aggregateReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_AGGREGATE, new MapParameter(), "aggregate")
 				.addConfirm("aggregate?");
 	}
+
+	public Widget logWithoutReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_LOG_WITHOUT_REPORT, new MapParameter(), "log without report");
+	}
+
 }

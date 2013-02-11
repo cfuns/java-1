@@ -1,5 +1,6 @@
 package de.benjaminborbe.analytics.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,8 +35,10 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
@@ -332,4 +335,35 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		}
 	}
 
+	@Override
+	public Collection<String> getLogWithoutReport(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsAdminRole(sessionIdentifier);
+			logger.debug("getLogWithoutReport");
+
+			final List<String> result = new ArrayList<String>();
+			final StorageIterator i = analyticsReportLogDao.reportNameIterator();
+			while (i.hasNext()) {
+				final String name = i.next().getString();
+				if (!analyticsReportDao.existsReportWithName(name)) {
+					result.add(name);
+				}
+			}
+			return result;
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final StorageException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final IdentifierIteratorException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }

@@ -98,4 +98,9 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	public void expectAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 	}
 
+	@Override
+	public Collection<String> getLogWithoutReport(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
 }

@@ -49,4 +49,6 @@ public interface AnalyticsService {
 
 	boolean hasAnalyticsViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
 
+	Collection<String> getLogWithoutReport(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+
 }

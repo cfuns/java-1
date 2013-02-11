@@ -99,7 +99,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public void delete(final String keySpace, final String columnFamily, final StorageValue id, final List<StorageValue> columnNames) throws InvalidRequestException,
+	public void delete(final String keySpace, final String columnFamily, final StorageValue id, final Collection<StorageValue> columnNames) throws InvalidRequestException,
 			NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 		StorageConnection connection = null;
 		try {

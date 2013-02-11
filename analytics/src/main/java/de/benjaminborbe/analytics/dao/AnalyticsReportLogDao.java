@@ -5,6 +5,7 @@ import java.util.Collection;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 
 public interface AnalyticsReportLogDao {
 
@@ -15,5 +16,7 @@ public interface AnalyticsReportLogDao {
 	void delete(AnalyticsReportIdentifier analyticsReportIdentifier, Collection<String> columnNames) throws StorageException;
 
 	AnalyticsReportLogIterator valueIterator(AnalyticsReportIdentifier analyticsReportIdentifier) throws StorageException;
+
+	StorageIterator reportNameIterator() throws StorageException;
 
 }

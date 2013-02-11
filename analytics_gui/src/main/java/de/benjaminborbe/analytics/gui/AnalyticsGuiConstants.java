@@ -45,4 +45,6 @@ public interface AnalyticsGuiConstants {
 
 	String CONFIG_AUTH_TOKEN = "AnalyticsAuthToken";
 
+	String URL_LOG_WITHOUT_REPORT = "/missing";
+
 }

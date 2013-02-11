@@ -178,14 +178,7 @@ public class StorageServiceImpl implements StorageService {
 	public void delete(final String columnFamily, final StorageValue id, final Collection<StorageValue> keys) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			for (final StorageValue key : keys) {
-				try {
-					storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, key);
-				}
-				catch (final NotFoundException e) {
-					// nop, already deleted
-				}
-			}
+			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, keys);
 		}
 		catch (final Exception e) {
 			throw new StorageException(e);

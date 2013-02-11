@@ -14,6 +14,7 @@ import de.benjaminborbe.analytics.util.MapperCalendarFixLength;
 import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.util.Counter;
@@ -116,5 +117,10 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		final String id = analyticsReportIdentifier.getId();
 		final String[] parts = id.split(String.valueOf(AnalyticsReportDao.SEPERATOR));
 		return parts[0];
+	}
+
+	@Override
+	public StorageIterator reportNameIterator() throws StorageException {
+		return storageService.keyIterator(COLUMN_FAMILY);
 	}
 }

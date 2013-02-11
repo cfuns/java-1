@@ -7,8 +7,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -30,6 +34,12 @@ public class AnalyticsReportDaoStorage extends DaoStorage<AnalyticsReportBean, A
 	@Override
 	protected String getColumnFamily() {
 		return COLUMN_FAMILY;
+	}
+
+	@Override
+	public boolean existsReportWithName(final String name) throws StorageException, IdentifierIteratorException {
+		final IdentifierIterator<AnalyticsReportIdentifier> i = getIdentifierIterator(new StorageValueMap(getEncoding()).add(AnalyticsReportBeanMapper.NAME, name));
+		return i.hasNext();
 	}
 
 }
