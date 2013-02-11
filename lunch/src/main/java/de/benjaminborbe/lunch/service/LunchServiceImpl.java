@@ -144,7 +144,7 @@ public class LunchServiceImpl implements LunchService {
 			return getLunchs(sessionIdentifier, username);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -164,22 +164,22 @@ public class LunchServiceImpl implements LunchService {
 			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, date);
 		}
 		catch (final AuthenticationFailedException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final RemoteException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final java.rmi.RemoteException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final ServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final ParseException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -198,7 +198,7 @@ public class LunchServiceImpl implements LunchService {
 			return getLunchs(sessionIdentifier, fullname, calendarUtil.today());
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -207,14 +207,11 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException {
+	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getLunchsArchiv - fullname: " + fullname);
 			return getLunchs(sessionIdentifier, fullname, null);
-		}
-		catch (final LoginRequiredException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -239,22 +236,22 @@ public class LunchServiceImpl implements LunchService {
 			return result;
 		}
 		catch (final AuthenticationFailedException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final RemoteException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final ServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final ParseException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final java.rmi.RemoteException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		catch (final KioskServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -295,7 +292,7 @@ public class LunchServiceImpl implements LunchService {
 			runOnlyOnceATime.run(new SendBookings(users, day));
 		}
 		catch (final AuthorizationServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -339,7 +336,7 @@ public class LunchServiceImpl implements LunchService {
 			return result;
 		}
 		catch (final KioskServiceException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 	}
 
@@ -352,7 +349,7 @@ public class LunchServiceImpl implements LunchService {
 			return Boolean.TRUE.equals(value);
 		}
 		catch (final StorageException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 	}
 
@@ -371,7 +368,7 @@ public class LunchServiceImpl implements LunchService {
 			lunchUserSettingsDao.save(bean);
 		}
 		catch (final StorageException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 	}
 
@@ -389,7 +386,7 @@ public class LunchServiceImpl implements LunchService {
 			lunchUserSettingsDao.save(bean);
 		}
 		catch (final StorageException e) {
-			throw new LunchServiceException(e.getClass().getSimpleName(), e);
+			throw new LunchServiceException(e);
 		}
 	}
 }

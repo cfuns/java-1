@@ -90,9 +90,15 @@ public class LunchParseUtil {
 			}
 		}
 		{
-			final int pos = parseUtil.indexOf(htmlContent, "ac:name=\"tip\"");
-			final int pos2 = parseUtil.indexOf(htmlContent, "INLINE", pos);
-			final int pstart = parseUtil.indexOf(htmlContent, "<ac:rich-text-body>", pos2);
+			int pos = 0;
+			pos = parseUtil.indexOf(htmlContent, "ac:name=\"tip\"", pos);
+			try {
+				pos = parseUtil.indexOf(htmlContent, "INLINE", pos);
+			}
+			catch (final ParseException e) {
+				// nop
+			}
+			final int pstart = parseUtil.indexOf(htmlContent, "<ac:rich-text-body>", pos);
 			final int pend = parseUtil.indexOf(htmlContent, "</ac:rich-text-body>", pstart);
 			final String result = htmlUtil.filterHtmlTages(htmlContent.substring(pstart, pend));
 			if (result != null && result.length() > 0) {
