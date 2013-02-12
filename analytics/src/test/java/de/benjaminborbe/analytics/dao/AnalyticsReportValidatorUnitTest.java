@@ -39,5 +39,9 @@ public class AnalyticsReportValidatorUnitTest {
 
 		bean.setName("testReport" + AnalyticsReportDao.SEPERATOR);
 		assertThat(va.validate(bean).size(), is(1));
+
+		bean.setName("test-test-test");
+		assertThat(va.validate(bean).size(), is(0));
+
 	}
 }
