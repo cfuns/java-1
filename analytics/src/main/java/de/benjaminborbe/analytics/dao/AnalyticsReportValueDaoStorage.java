@@ -91,7 +91,11 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 
 	@Override
 	public AnalyticsReportValueIterator valueIterator(final AnalyticsReportValueIdentifier analyticsReportValueIdentifier) throws StorageException {
-		return new ReportValueIteratorImpl(storageService.columnIteratorReversed(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), storageService.getEncoding())));
+		return new ReportValueIteratorImpl(
+
+		storageService.columnIteratorReversed(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), storageService.getEncoding()))
+
+		);
 	}
 
 	@Override

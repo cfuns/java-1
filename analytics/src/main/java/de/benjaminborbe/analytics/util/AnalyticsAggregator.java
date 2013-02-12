@@ -17,7 +17,6 @@ import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.config.AnalyticsConfig;
 import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
@@ -77,9 +76,12 @@ public class AnalyticsAggregator {
 
 	private final AnalyticsReportValueDao analyticsReportValueDao;
 
+	private final AnalyticsAggregatorCalculatorFactory analyticsAggregatorCalculatorFactory;
+
 	@Inject
 	public AnalyticsAggregator(
 			final Logger logger,
+			final AnalyticsAggregatorCalculatorFactory analyticsAggregatorCalculatorFactory,
 			final AnalyticsIntervalUtil analyticsIntervalUtil,
 			final AnalyticsConfig analyticsConfig,
 			final RunOnlyOnceATime runOnlyOnceATime,
@@ -87,6 +89,7 @@ public class AnalyticsAggregator {
 			final AnalyticsReportValueDao analyticsReportValueDao,
 			final AnalyticsReportLogDao analyticsReportLogDao) {
 		this.logger = logger;
+		this.analyticsAggregatorCalculatorFactory = analyticsAggregatorCalculatorFactory;
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
 		this.analyticsConfig = analyticsConfig;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -145,78 +148,14 @@ public class AnalyticsAggregator {
 
 	private AnalyticsReportValue buildAggregatedValue(final AnalyticsReportAggregation aggregation, final AnalyticsReportValue oldValue, final Calendar calendar,
 			final List<AnalyticsReportValue> list) {
-		if (AnalyticsReportAggregation.SUM.equals(aggregation)) {
-			double value = 0d;
-			long counter = 0;
-			if (oldValue != null) {
-				counter += oldValue.getCounter();
-				value += oldValue.getValue();
-			}
-			for (final AnalyticsReportValue e : list) {
-				value += e.getValue();
-				counter += e.getCounter();
-			}
-			return new AnalyticsReportValueDto(calendar, value, counter);
+
+		final List<AnalyticsReportValue> values = Lists.newArrayList(list);
+		if (oldValue != null) {
+			values.add(oldValue);
 		}
-		if (AnalyticsReportAggregation.LATEST.equals(aggregation)) {
-			AnalyticsReportValue value = oldValue;
-			for (final AnalyticsReportValue e : list) {
-				if (value == null || e.getDate().after(value.getDate())) {
-					value = e;
-				}
-			}
-			return value;
-		}
-		if (AnalyticsReportAggregation.OLDEST.equals(aggregation)) {
-			if (oldValue != null) {
-				return oldValue;
-			}
-			AnalyticsReportValue value = null;
-			for (final AnalyticsReportValue e : list) {
-				if (value == null || e.getDate().before(value.getDate())) {
-					value = e;
-				}
-			}
-			return value;
-		}
-		if (AnalyticsReportAggregation.AVG.equals(aggregation)) {
-			double value = 0d;
-			long counter = 0;
-			if (oldValue != null) {
-				counter += oldValue.getCounter();
-				value += oldValue.getValue() * counter;
-			}
-			for (final AnalyticsReportValue e : list) {
-				value += e.getValue();
-				counter += e.getCounter();
-			}
-			return new AnalyticsReportValueDto(calendar, value / counter, counter);
-		}
-		if (AnalyticsReportAggregation.MIN.equals(aggregation)) {
-			Double value = null;
-			if (oldValue != null) {
-				value = oldValue.getValue();
-			}
-			for (final AnalyticsReportValue e : list) {
-				if (value == null || value > e.getValue()) {
-					value = e.getValue();
-				}
-			}
-			return new AnalyticsReportValueDto(calendar, value, 1l);
-		}
-		if (AnalyticsReportAggregation.MAX.equals(aggregation)) {
-			Double value = null;
-			if (oldValue != null) {
-				value = oldValue.getValue();
-			}
-			for (final AnalyticsReportValue e : list) {
-				if (value == null || value < e.getValue()) {
-					value = e.getValue();
-				}
-			}
-			return new AnalyticsReportValueDto(calendar, value, 1l);
-		}
-		return null;
+
+		final AnalyticsAggregatorCalculator analyticsAggregatorCalculator = analyticsAggregatorCalculatorFactory.get(aggregation);
+		return analyticsAggregatorCalculator.aggregate(calendar, values);
 	}
 
 	private Map<String, List<AnalyticsReportValue>> groupByInterval(final List<AnalyticsReportValue> values, final AnalyticsReportInterval analyticsReportInterval) {
