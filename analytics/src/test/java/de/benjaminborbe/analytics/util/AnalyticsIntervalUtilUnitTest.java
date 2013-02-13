@@ -295,55 +295,222 @@ public class AnalyticsIntervalUtilUnitTest {
 	public void testWeek() throws Exception {
 		final AnalyticsIntervalUtil c = new AnalyticsIntervalUtil();
 
-		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		calendar.set(2012, 11, 24, 20, 15, 45);
-		calendar.set(Calendar.MILLISECOND, 59);
-
-		assertEquals(2012, calendar.get(Calendar.YEAR));
-		assertEquals(11, calendar.get(Calendar.MONTH));
-		assertEquals(24, calendar.get(Calendar.DAY_OF_MONTH));
-		assertEquals(20, calendar.get(Calendar.HOUR_OF_DAY));
-		assertEquals(15, calendar.get(Calendar.MINUTE));
-		assertEquals(45, calendar.get(Calendar.SECOND));
-		assertEquals(59, calendar.get(Calendar.MILLISECOND));
-
-		final int week = calendar.get(Calendar.WEEK_OF_YEAR);
-
-		final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
-		assertEquals(2012, result.get(Calendar.YEAR));
-		assertEquals(week, result.get(Calendar.WEEK_OF_YEAR));
-		assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, result.get(Calendar.MINUTE));
-		assertEquals(0, result.get(Calendar.SECOND));
-		assertEquals(0, result.get(Calendar.MILLISECOND));
-	}
-
-	@Test
-	public void testWeekNext() throws Exception {
-		final AnalyticsIntervalUtil c = new AnalyticsIntervalUtil();
 		{
 			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			calendar.set(2012, 11, 24, 20, 15, 45);
+			calendar.set(2012, 11, 22, 20, 15, 45);
 			calendar.set(Calendar.MILLISECOND, 59);
 
-			assertEquals(2012, calendar.get(Calendar.YEAR));
-			assertEquals(11, calendar.get(Calendar.MONTH));
-			assertEquals(24, calendar.get(Calendar.DAY_OF_MONTH));
-			assertEquals(20, calendar.get(Calendar.HOUR_OF_DAY));
-			assertEquals(15, calendar.get(Calendar.MINUTE));
-			assertEquals(45, calendar.get(Calendar.SECOND));
-			assertEquals(59, calendar.get(Calendar.MILLISECOND));
-
-			final int week = calendar.get(Calendar.WEEK_OF_YEAR);
-
-			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
 			assertEquals(2012, result.get(Calendar.YEAR));
-			assertEquals(week - 1, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
 			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
 			assertEquals(0, result.get(Calendar.MINUTE));
 			assertEquals(0, result.get(Calendar.SECOND));
 			assertEquals(0, result.get(Calendar.MILLISECOND));
 		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 23, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 24, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 25, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 26, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 27, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 28, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 29, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendar(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(52, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+	}
+
+	@Test
+	public void testWeekNext() throws Exception {
+		final AnalyticsIntervalUtil c = new AnalyticsIntervalUtil();
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 23, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 24, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 25, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 26, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 27, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 28, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
+		{
+			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			calendar.set(2012, 11, 29, 20, 15, 45);
+			calendar.set(Calendar.MILLISECOND, 59);
+
+			final Calendar result = c.buildIntervalCalendarNext(calendar, AnalyticsReportInterval.WEEK);
+			assertEquals(2012, result.get(Calendar.YEAR));
+			assertEquals(51, result.get(Calendar.WEEK_OF_YEAR));
+			assertEquals(0, result.get(Calendar.HOUR_OF_DAY));
+			assertEquals(0, result.get(Calendar.MINUTE));
+			assertEquals(0, result.get(Calendar.SECOND));
+			assertEquals(0, result.get(Calendar.MILLISECOND));
+		}
+
 		{
 			final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			calendar.set(2012, 0, 4, 20, 15, 45);

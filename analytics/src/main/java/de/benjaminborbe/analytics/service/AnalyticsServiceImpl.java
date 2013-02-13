@@ -266,7 +266,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAnalyticsViewRole(sessionIdentifier);
-			logger.debug("getReportIteratorFillMissing");
+			logger.debug("getReportIteratorFillMissing - report: " + analyticsReportIdentifier + " interval: " + analyticsReportInterval);
 
 			final AnalyticsReportBean report = analyticsReportDao.load(analyticsReportIdentifier);
 			return new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueDao.valueIterator(analyticsReportIdentifier, analyticsReportInterval),
@@ -372,21 +372,41 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public AnalyticsReportValueListIterator getReportListIterator(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
 			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
-		final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
-		for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
-			analyticsReportValueIterators.add(getReportIterator(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsViewRole(sessionIdentifier);
+			logger.debug("getReportListIterator - interval: " + analyticsReportInterval);
+
+			final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
+			for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
+				analyticsReportValueIterators.add(getReportIterator(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
+			}
+			return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
 		}
-		return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(final SessionIdentifier sessionIdentifier,
 			final List<AnalyticsReportIdentifier> analyticsReportIdentifiers, final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException,
 			PermissionDeniedException, LoginRequiredException {
-		final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
-		for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
-			analyticsReportValueIterators.add(getReportIteratorFillMissing(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsViewRole(sessionIdentifier);
+			logger.debug("getReportListIteratorFillMissing - interval: " + analyticsReportInterval);
+
+			final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
+			for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
+				analyticsReportValueIterators.add(getReportIteratorFillMissing(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
+			}
+			return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
 		}
-		return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 }

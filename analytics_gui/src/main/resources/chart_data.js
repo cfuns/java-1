@@ -16,13 +16,10 @@ $(function() {
     highlight: {
       scale: 2
     },
-    tooltip : { 
-      width : 'auto', 
-      height: 'auto',
-    },
-    legend: { 
-      width : 'auto', 
-      height: 'auto',
+    tooltip: {
+      active: true,
+      width: 250,
+      height: 70,
     },
     startAnimation: {
       active: true,
