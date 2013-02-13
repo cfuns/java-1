@@ -7,11 +7,22 @@ $(function() {
   values: {
 {values}
   },
+  legend : {
+{legend}
+  },
   defaultSeries: {
     fill: true,
     stacked: false,
     highlight: {
       scale: 2
+    },
+    tooltip : { 
+      width : 'auto', 
+      height: 'auto',
+    },
+    legend: { 
+      width : 'auto', 
+      height: 'auto',
     },
     startAnimation: {
       active: true,

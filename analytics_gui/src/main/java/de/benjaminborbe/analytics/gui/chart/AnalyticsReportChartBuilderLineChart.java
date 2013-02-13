@@ -103,7 +103,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		for (int i = 0; i < Math.min(reportIdentifiers.size(), c.size()); ++i) {
 			colors.append("serie" + (i + 1) + ": {");
 			colors.append("color: \"" + c.get(i) + "\"");
-			colors.append("},");
+			colors.append("},\n");
 		}
 		return content.replace("{colors}", colors);
 	}
@@ -113,7 +113,18 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		final String content = resourceUtil.getResourceContentAsString("chart_data.js");
 		final String tooltipString = buildTooltips(tooltips, values, reportIdentifiers);
 		final String valuesString = buildValues(values);
-		return content.replace("{values}", valuesString).replace("{tooltips}", tooltipString);
+		final String legendString = buildLegend(reportIdentifiers);
+		return content.replace("{values}", valuesString).replace("{tooltips}", tooltipString).replace("{legend}", legendString);
+	}
+
+	private String buildLegend(final List<AnalyticsReportIdentifier> reportIdentifiers) {
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < reportIdentifiers.size(); ++i) {
+			final AnalyticsReportIdentifier reportIdentifier = reportIdentifiers.get(i);
+			sb.append("serie" + (i + 1) + ": \"" + reportIdentifier.getId() + "\"");
+			sb.append(",\n");
+		}
+		return sb.toString();
 	}
 
 	private String buildValues(final List<List<String>> values) {
@@ -171,15 +182,12 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 				sb.append(", ");
 			}
 
-			final String[] parts = tooltip.split(" ");
 			sb.append('"');
 			sb.append(analyticsReportIdentifier.getId());
 			sb.append("<br>");
 			sb.append(value);
 			sb.append("<br>");
-			sb.append(parts[0]);
-			sb.append("<br>");
-			sb.append(parts[1]);
+			sb.append(tooltip);
 			sb.append('"');
 		}
 		return sb.toString();

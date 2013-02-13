@@ -24,9 +24,13 @@ $.elycharts.templates['line_basic_2'] = {
         "stroke-dasharray": "-"
       }
     },
+    tooltips: {
+      width: 200,
+      height: 50,
+    },
     legend: {
       horizontal: false,
-      width: 80,
+      width: 200,
       height: 50,
       x: 220,
       y: 250,

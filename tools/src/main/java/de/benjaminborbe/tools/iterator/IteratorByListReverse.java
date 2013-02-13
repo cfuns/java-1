@@ -13,11 +13,11 @@ public class IteratorByListReverse<T, E extends Exception> implements IteratorBa
 
 	public IteratorByListReverse(final T... values) {
 		this(Arrays.asList(values));
-		pos = values.length - 1;
 	}
 
 	public IteratorByListReverse(final List<T> values) {
 		this.values = values;
+		pos = values.size() - 1;
 	}
 
 	@Override
