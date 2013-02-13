@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueListIterator;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
@@ -53,21 +53,29 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	@Override
 	public Widget buildChart(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
 			final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
-		final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIteratorFillMissing(sessionIdentifier, reportIdentifiers.get(0),
+		final AnalyticsReportValueListIterator reportValueIterator = analyticsService.getReportListIteratorFillMissing(sessionIdentifier, reportIdentifiers,
 				selectedAnalyticsReportInterval);
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new DivWidget().addId("chart"));
 
-		final List<String> tooltips = new ArrayList<String>();
-		final List<String> values = new ArrayList<String>();
+		final List<List<String>> tooltips = new ArrayList<List<String>>();
+		final List<List<String>> values = new ArrayList<List<String>>();
 		final DecimalFormat df = new DecimalFormat("#####0.0");
+
+		for (int i = 0; i < reportIdentifiers.size(); ++i) {
+			tooltips.add(new ArrayList<String>());
+			values.add(new ArrayList<String>());
+		}
 
 		int counter = 0;
 		while (reportValueIterator.hasNext() && counter < LIMIT) {
 			counter++;
-			final AnalyticsReportValue reportValue = reportValueIterator.next();
-			tooltips.add(calendarUtil.toDateTimeString(reportValue.getDate()));
-			values.add(reportValue.getValue() != null ? df.format(reportValue.getValue()) : null);
+			final List<AnalyticsReportValue> reportValues = reportValueIterator.next();
+			for (int i = 0; i < reportValues.size(); ++i) {
+				final AnalyticsReportValue reportValue = reportValues.get(i);
+				tooltips.get(i).add(calendarUtil.toDateTimeString(reportValue.getDate()));
+				values.get(i).add(reportValue.getValue() != null ? df.format(reportValue.getValue()) : null);
+			}
 		}
 		Collections.reverse(tooltips);
 		Collections.reverse(values);
@@ -77,14 +85,38 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		return widgets;
 	}
 
-	private String buildContent(final List<String> tooltips, final List<String> values) throws IOException {
+	private String buildContent(final List<List<String>> tooltips, final List<List<String>> values) throws IOException {
 		final String content = resourceUtil.getResourceContentAsString("chart_data.js");
 		final String tooltipString = buildTooltips(tooltips, values);
-		final String valuesString = StringUtils.join(values, ", ");
+		final String valuesString = buildValues(values);
 		return content.replace("{values}", valuesString).replace("{tooltips}", tooltipString);
 	}
 
-	private String buildTooltips(final List<String> tooltips, final List<String> values) {
+	private String buildValues(final List<List<String>> values) {
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 1; i <= values.size(); ++i) {
+			sb.append("serie" + i + ": [");
+			sb.append(buildValue(values.get(i - 1)));
+			sb.append("],\n");
+		}
+		return sb.toString();
+	}
+
+	private String buildValue(final List<String> values) {
+		return StringUtils.join(values, ", ");
+	}
+
+	private String buildTooltips(final List<List<String>> tooltips, final List<List<String>> values) {
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 1; i <= values.size(); ++i) {
+			sb.append("serie" + i + ": [");
+			sb.append(buildTooltip(tooltips.get(i - 1), values.get(i - 1)));
+			sb.append("],\n");
+		}
+		return sb.toString();
+	}
+
+	private String buildTooltip(final List<String> tooltips, final List<String> values) {
 		if (tooltips.isEmpty()) {
 			return "";
 		}

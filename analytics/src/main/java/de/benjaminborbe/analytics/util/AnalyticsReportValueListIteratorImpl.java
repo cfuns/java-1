@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,37 +24,38 @@ public class AnalyticsReportValueListIteratorImpl implements AnalyticsReportValu
 
 	@Override
 	public boolean hasNext() throws AnalyticsServiceException {
-		if (next != null) {
-			return true;
-		}
-
-		final List<AnalyticsReportValue> result = new ArrayList<AnalyticsReportValue>();
-		boolean hasNext = false;
-		for (final AnalyticsReportValueIteratorCurrent analyticsReportValueIterator : analyticsReportValueIterators) {
-
-			if (analyticsReportValueIterator.getCurrent() == null && analyticsReportValueIterator.hasNext()) {
-				analyticsReportValueIterator.next();
-			}
-
-			final AnalyticsReportValue value;
-			if (analyticsReportValueIterator.getCurrent() != null) {
-				value = analyticsReportValueIterator.getCurrent();
-				hasNext = true;
-			}
-			else {
-				value = null;
-			}
-			result.add(value);
-		}
-
-		if (hasNext) {
-			next = result;
+		if (next == null) {
+			Calendar nextDate = null;
 			for (final AnalyticsReportValueIteratorCurrent analyticsReportValueIterator : analyticsReportValueIterators) {
-				analyticsReportValueIterator.setCurrent(null);
+
+				if (analyticsReportValueIterator.getCurrent() == null && analyticsReportValueIterator.hasNext()) {
+					analyticsReportValueIterator.next();
+				}
+
+				if (analyticsReportValueIterator.getCurrent() != null) {
+					final Calendar date = analyticsReportValueIterator.getCurrent().getDate();
+					if (nextDate == null || date.before(nextDate)) {
+						nextDate = date;
+					}
+				}
+			}
+
+			if (nextDate != null) {
+				final List<AnalyticsReportValue> result = new ArrayList<AnalyticsReportValue>();
+				for (final AnalyticsReportValueIteratorCurrent analyticsReportValueIterator : analyticsReportValueIterators) {
+					final AnalyticsReportValue current = analyticsReportValueIterator.getCurrent();
+					if (current != null && current.getDate().equals(nextDate)) {
+						result.add(current);
+						analyticsReportValueIterator.setCurrent(null);
+					}
+					else {
+						result.add(null);
+					}
+				}
+				next = result;
 			}
 		}
-
-		return hasNext;
+		return next != null;
 	}
 
 	@Override

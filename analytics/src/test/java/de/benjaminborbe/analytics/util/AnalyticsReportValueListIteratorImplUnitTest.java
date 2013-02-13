@@ -183,4 +183,53 @@ public class AnalyticsReportValueListIteratorImplUnitTest {
 			assertFalse(iterator.hasNext());
 		}
 	}
+
+	@Test
+	public void testManyIteratorsManyValuesHoles() throws Exception {
+		final AnalyticsReportValueIterator i1 = buildIterator(buildAnalyticsReportValue(1, 1d), buildAnalyticsReportValue(2, 4d));
+		final AnalyticsReportValueIterator i2 = buildIterator(buildAnalyticsReportValue(1, 2d), buildAnalyticsReportValue(3, 8d));
+		final AnalyticsReportValueIterator i3 = buildIterator(buildAnalyticsReportValue(2, 6d), buildAnalyticsReportValue(3, 9d));
+		final List<AnalyticsReportValueIterator> is = Arrays.asList(i1, i2, i3);
+		final AnalyticsReportValueListIteratorImpl iterator = new AnalyticsReportValueListIteratorImpl(is);
+		{
+			assertTrue(iterator.hasNext());
+			assertTrue(iterator.hasNext());
+			final List<AnalyticsReportValue> values = iterator.next();
+			assertNotNull(values);
+			assertEquals(is.size(), values.size());
+			assertEquals(1, values.get(0).getDate().get(Calendar.YEAR));
+			assertEquals(new Double(1d), values.get(0).getValue());
+			assertEquals(1, values.get(1).getDate().get(Calendar.YEAR));
+			assertEquals(new Double(2d), values.get(1).getValue());
+			assertNull(values.get(2));
+		}
+		{
+			assertTrue(iterator.hasNext());
+			assertTrue(iterator.hasNext());
+			final List<AnalyticsReportValue> values = iterator.next();
+			assertNotNull(values);
+			assertEquals(is.size(), values.size());
+			assertEquals(2, values.get(0).getDate().get(Calendar.YEAR));
+			assertEquals(new Double(4d), values.get(0).getValue());
+			assertNull(values.get(1));
+			assertEquals(2, values.get(2).getDate().get(Calendar.YEAR));
+			assertEquals(new Double(6d), values.get(2).getValue());
+		}
+		{
+			assertTrue(iterator.hasNext());
+			assertTrue(iterator.hasNext());
+			final List<AnalyticsReportValue> values = iterator.next();
+			assertNotNull(values);
+			assertEquals(is.size(), values.size());
+			assertNull(values.get(0));
+			assertEquals(3, values.get(1).getDate().get(Calendar.YEAR));
+			assertEquals(new Double(8d), values.get(1).getValue());
+			assertEquals(3, values.get(2).getDate().get(Calendar.YEAR));
+			assertEquals(new Double(9d), values.get(2).getValue());
+		}
+		{
+			assertFalse(iterator.hasNext());
+			assertFalse(iterator.hasNext());
+		}
+	}
 }

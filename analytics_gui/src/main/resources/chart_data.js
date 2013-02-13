@@ -2,10 +2,10 @@ $(function() {
   $("#chart").chart({
   template: "line_basic_2",
   tooltips: {
-    serie1: [{tooltips}]
+{tooltips}
   },
   values: {
-    serie1: [{values}],
+{values}
   },
   defaultSeries: {
     fill: true,
