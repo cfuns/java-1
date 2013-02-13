@@ -1,5 +1,6 @@
 package de.benjaminborbe.message.mock;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import com.google.inject.Inject;
@@ -55,6 +56,10 @@ public class MessageServiceMock implements MessageService {
 	@Override
 	public boolean exchangeMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
 		return false;
+	}
+
+	@Override
+	public void sendMessage(final String type, final String id, final String content, final Calendar startTime) throws MessageServiceException {
 	}
 
 }

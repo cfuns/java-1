@@ -1,6 +1,7 @@
 package de.benjaminborbe.message.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -84,6 +85,11 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public void sendMessage(final String type, final String id, final String content) throws MessageServiceException {
+		sendMessage(type, id, content, calendarUtil.now());
+	}
+
+	@Override
+	public void sendMessage(final String type, final String id, final String content, final Calendar startTime) throws MessageServiceException {
 		try {
 			final MessageIdentifier messageIdentifier = new MessageIdentifier(type + "_" + id);
 			if (messageDao.exists(messageIdentifier)) {
@@ -98,7 +104,7 @@ public class MessageServiceImpl implements MessageService {
 				bean.setContent(content);
 				bean.setRetryCounter(0l);
 				bean.setMaxRetryCounter(MessageConstants.MAX_RETRY);
-				bean.setStartTime(calendarUtil.now());
+				bean.setStartTime(startTime);
 
 				final ValidationResult errors = validationExecutor.validate(bean);
 				if (errors.hasErrors()) {

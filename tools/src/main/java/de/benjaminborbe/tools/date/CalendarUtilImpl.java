@@ -219,6 +219,11 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
+	public Calendar getCalendar(final long timeInMillis) {
+		return getCalendar(timeZoneUtil.getUTCTimeZone(), timeInMillis);
+	}
+
+	@Override
 	public Calendar getCalendar(final TimeZone timeZone, final long timeInMillis) {
 		final Calendar result = getCalendar(timeZone);
 		result.setTimeInMillis(timeInMillis);
