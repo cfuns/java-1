@@ -70,6 +70,7 @@ public class AnalyticsActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(AnalyticsService.class.getName());
 		names.add(ConfigurationDescription.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		names.add(CronJob.class.getName());
 
 		assertEquals(names.size(), serviceInfos.size());

@@ -6,4 +6,6 @@ public interface AnalyticsConstants {
 
 	String CONFIG_DELETE_LOG = "AnalyticsDeleteLog";
 
+	String CONFIG_AGGREGATION_CHUNK_SIZE = "AnalyticsAggregationChunkSize";
+
 }

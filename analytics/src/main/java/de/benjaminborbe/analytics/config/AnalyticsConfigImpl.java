@@ -14,12 +14,16 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
 public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsConfig {
 
 	private final ConfigurationDescriptionBoolean cronActive = new ConfigurationDescriptionBoolean(false, AnalyticsConstants.CONFIG_CRON_ACTIVE, "Analytics Cron Active");
+
+	private final ConfigurationDescriptionLong aggregationChunkSize = new ConfigurationDescriptionLong(100l, AnalyticsConstants.CONFIG_AGGREGATION_CHUNK_SIZE,
+			"Analytics Aggregation Chunk Size");
 
 	@Inject
 	public AnalyticsConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -30,6 +34,7 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronActive);
+		result.add(aggregationChunkSize);
 		return result;
 	}
 
@@ -40,7 +45,7 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 
 	@Override
 	public long getAggregationChunkSize() {
-		return 100l;
+		return getValueLong(aggregationChunkSize);
 	}
 
 }

@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.util;
 
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
@@ -11,53 +12,68 @@ import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 
 public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsReportValueIterator {
 
-	private final AnalyticsReportValueIterator iterator;
+	private final AnalyticsReportValueIteratorCurrent analyticsReportValueIterator;
 
-	private final AnalyticsReportInterval interval;
+	private final AnalyticsReportInterval analyticsReportInterval;
 
 	private final AnalyticsIntervalUtil analyticsIntervalUtil;
 
+	private final AnalyticsReportAggregation analyticsReportAggregation;
+
 	private Calendar nextDate = null;
 
-	private AnalyticsReportValue current;
-
-	private final AnalyticsReportAggregation analyticsReportAggregation;
+	private AnalyticsReportValue next;
 
 	public AnalyticsReportValueIteratorFillMissingValues(
 			final AnalyticsIntervalUtil analyticsIntervalUtil,
-			final AnalyticsReportValueIterator iterator,
+			final AnalyticsReportValueIterator analyticsReportValueIterator,
 			final AnalyticsReportAggregation analyticsReportAggregation,
-			final AnalyticsReportInterval interval) {
+			final AnalyticsReportInterval analyticsReportInterval) {
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
-		this.iterator = iterator;
+		this.analyticsReportValueIterator = new AnalyticsReportValueIteratorCurrent(analyticsReportValueIterator);
 		this.analyticsReportAggregation = analyticsReportAggregation;
-		this.interval = interval;
+		this.analyticsReportInterval = analyticsReportInterval;
 	}
 
 	@Override
 	public boolean hasNext() throws AnalyticsServiceException {
-		return current != null || iterator.hasNext();
+		while (next == null) {
+			if (analyticsReportValueIterator.getCurrent() == null) {
+				if (analyticsReportValueIterator.hasNext()) {
+					analyticsReportValueIterator.next();
+				}
+				else {
+					return false;
+				}
+			}
+			if (nextDate == null) {
+				nextDate = analyticsIntervalUtil.buildIntervalCalendar(analyticsReportValueIterator.getCurrent().getDate(), analyticsReportInterval);
+			}
+			if (analyticsReportValueIterator.getCurrent().getDate().before(nextDate)) {
+				next = buildDefaultValue();
+			}
+			else if (analyticsReportValueIterator.getCurrent().getDate().equals(nextDate)) {
+				next = analyticsReportValueIterator.getCurrent();
+				analyticsReportValueIterator.setCurrent(null);
+			}
+			else {
+				analyticsReportValueIterator.setCurrent(null);
+			}
+		}
+		return next != null;
 	}
 
 	@Override
 	public AnalyticsReportValue next() throws AnalyticsServiceException {
-		if (current == null) {
-			current = iterator.next();
-		}
-		if (nextDate == null) {
-			nextDate = current.getDate();
-		}
-
-		final AnalyticsReportValue result;
-		if (compareDates()) {
-			result = current;
-			current = null;
+		if (hasNext()) {
+			final AnalyticsReportValue result = next;
+			next = null;
+			nextDate = analyticsIntervalUtil.buildIntervalCalendarNext(nextDate, analyticsReportInterval);
+			return result;
 		}
 		else {
-			result = buildDefaultValue();
+			throw new NoSuchElementException();
 		}
-		nextDate = analyticsIntervalUtil.buildIntervalCalendarNext(nextDate, interval);
-		return result;
 	}
 
 	private AnalyticsReportValue buildDefaultValue() {
@@ -69,10 +85,4 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 		}
 	}
 
-	private boolean compareDates() {
-		final Calendar d1 = nextDate;
-		final Calendar d2 = analyticsIntervalUtil.buildIntervalCalendar(current.getDate(), interval);
-		final boolean result = d1.equals(d2);
-		return result;
-	}
 }
