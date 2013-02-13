@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.gui.chart;
 
 import java.io.IOException;
+import java.util.List;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
@@ -15,6 +16,6 @@ public interface AnalyticsReportChartBuilder extends RequireJavascriptResource {
 
 	AnalyticsReportChartType getType();
 
-	Widget buildChart(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier reportIdentifier, AnalyticsReportInterval selectedAnalyticsReportInterval)
+	Widget buildChart(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> reportIdentifiers, AnalyticsReportInterval selectedAnalyticsReportInterval)
 			throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException;
 }

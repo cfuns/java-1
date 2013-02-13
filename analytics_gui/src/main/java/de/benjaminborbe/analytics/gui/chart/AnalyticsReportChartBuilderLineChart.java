@@ -51,9 +51,10 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	}
 
 	@Override
-	public Widget buildChart(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier reportIdentifier,
+	public Widget buildChart(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
 			final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
-		final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIteratorFillMissing(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval);
+		final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIteratorFillMissing(sessionIdentifier, reportIdentifiers.get(0),
+				selectedAnalyticsReportInterval);
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new DivWidget().addId("chart"));
 

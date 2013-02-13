@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.mock;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -11,6 +12,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueListIterator;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -100,6 +102,18 @@ public class AnalyticsServiceMock implements AnalyticsService {
 
 	@Override
 	public Collection<String> getLogWithoutReport(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public AnalyticsReportValueListIterator getReportListIterator(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
+			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
+	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
+			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		return null;
 	}
 

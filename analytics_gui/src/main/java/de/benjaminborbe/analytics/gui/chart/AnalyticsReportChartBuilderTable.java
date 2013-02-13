@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueListIterator;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -42,9 +42,9 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 	}
 
 	@Override
-	public Widget buildChart(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier reportIdentifier,
+	public Widget buildChart(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
 			final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
-		final AnalyticsReportValueIterator reportValueIterator = analyticsService.getReportIterator(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval);
+		final AnalyticsReportValueListIterator reportValueIterator = analyticsService.getReportListIterator(sessionIdentifier, reportIdentifiers, selectedAnalyticsReportInterval);
 		final DecimalFormat df = new DecimalFormat("#####0.0");
 
 		final TableWidget table = new TableWidget();
@@ -52,19 +52,21 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 		{
 			final TableRowWidget row = new TableRowWidget();
 			row.addCell(new TableCellHeadWidget("Name"));
-			row.addCell(new TableCellHeadWidget("Value"));
+			for (final AnalyticsReportIdentifier reportIdentifier : reportIdentifiers) {
+				row.addCell(new TableCellHeadWidget(reportIdentifier.getId()));
+			}
 			table.addRow(row);
 		}
 
 		int counter = 0;
 		while (reportValueIterator.hasNext() && counter < LIMIT) {
 			counter++;
-			final AnalyticsReportValue reportValue = reportValueIterator.next();
+			final List<AnalyticsReportValue> reportValues = reportValueIterator.next();
 			final TableRowWidget row = new TableRowWidget();
 			{
-				row.addCell(calendarUtil.toDateTimeString(reportValue.getDate()));
+				row.addCell(calendarUtil.toDateTimeString(reportValues.get(0).getDate()));
 			}
-			{
+			for (final AnalyticsReportValue reportValue : reportValues) {
 				final TableCellWidget cell = new TableCellWidget(df.format(reportValue.getValue()));
 				cell.addAttribute("sorttable_customkey", df.format(reportValue.getValue()));
 				row.addCell(cell);

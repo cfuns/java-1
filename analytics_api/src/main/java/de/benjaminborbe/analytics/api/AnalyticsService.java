@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.api;
 
 import java.util.Collection;
+import java.util.List;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -39,6 +40,12 @@ public interface AnalyticsService {
 			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
 	AnalyticsReportValueIterator getReportIteratorFillMissing(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier,
+			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+
+	AnalyticsReportValueListIterator getReportListIterator(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
+			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+
+	AnalyticsReportValueListIterator getReportListIteratorFillMissing(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
 			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
 	Collection<AnalyticsReport> getReports(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;

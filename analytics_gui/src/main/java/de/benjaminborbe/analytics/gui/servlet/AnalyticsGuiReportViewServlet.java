@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -106,13 +107,15 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final AnalyticsReportIdentifier reportIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
+
+			final List<AnalyticsReportIdentifier> reportIdentifiers = buildReportIdentifiers(request.getParameterValues(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
+
 			final AnalyticsReportInterval selectedAnalyticsReportInterval = parseUtil.parseEnum(AnalyticsReportInterval.class,
 					request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL), AnalyticsGuiConstants.DEFAULT_INTERVAL);
 			final AnalyticsReportChartType selectedChartType = parseUtil.parseEnum(AnalyticsReportChartType.class, request.getParameter(AnalyticsGuiConstants.PARAMETER_CHART_TYPE),
 					AnalyticsGuiConstants.DEFAULT_VIEW);
 
-			widgets.add(new H1Widget(getTitle() + " - " + reportIdentifier));
+			widgets.add(new H1Widget(buildTitle(reportIdentifiers)));
 
 			// interval
 			{
@@ -123,7 +126,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 					if (analyticsReportInterval.equals(selectedAnalyticsReportInterval)) {
 						name.addClass("selected");
 					}
-					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, analyticsReportInterval, selectedChartType, name));
+					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifiers, analyticsReportInterval, selectedChartType, name));
 					list.add(" ");
 					widgets.add(list);
 				}
@@ -138,7 +141,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 					if (selectedChartType.equals(chartType)) {
 						name.addClass("selected");
 					}
-					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifier, selectedAnalyticsReportInterval, chartType, name));
+					list.add(analyticsGuiLinkFactory.reportView(request, reportIdentifiers, selectedAnalyticsReportInterval, chartType, name));
 					list.add(" ");
 					widgets.add(list);
 				}
@@ -151,7 +154,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 					widgets.add("no chart found for type: " + selectedChartType);
 				}
 				else {
-					widgets.add(builder.buildChart(sessionIdentifier, reportIdentifier, selectedAnalyticsReportInterval));
+					widgets.add(builder.buildChart(sessionIdentifier, reportIdentifiers, selectedAnalyticsReportInterval));
 				}
 			}
 
@@ -167,6 +170,33 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private Widget buildTitle(final List<AnalyticsReportIdentifier> reportIdentifiers) {
+		final ListWidget widgets = new ListWidget();
+		widgets.add(getTitle());
+		widgets.add(" - ");
+		boolean first = true;
+		for (final AnalyticsReportIdentifier reportIdentifier : reportIdentifiers) {
+			if (first) {
+				first = false;
+			}
+			else {
+				widgets.add(", ");
+			}
+			widgets.add(reportIdentifier.getId());
+		}
+		return widgets;
+	}
+
+	private List<AnalyticsReportIdentifier> buildReportIdentifiers(final String[] reportIds) {
+		final List<AnalyticsReportIdentifier> result = new ArrayList<AnalyticsReportIdentifier>();
+		if (reportIds != null) {
+			for (final String reportId : reportIds) {
+				result.add(new AnalyticsReportIdentifier(reportId));
+			}
+		}
+		return result;
 	}
 
 	@Override

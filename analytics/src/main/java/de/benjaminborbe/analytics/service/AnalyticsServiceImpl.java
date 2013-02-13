@@ -16,6 +16,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueListIterator;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.dao.AnalyticsReportBean;
@@ -26,6 +27,7 @@ import de.benjaminborbe.analytics.util.AddValueAction;
 import de.benjaminborbe.analytics.util.AnalyticsAggregator;
 import de.benjaminborbe.analytics.util.AnalyticsIntervalUtil;
 import de.benjaminborbe.analytics.util.AnalyticsReportValueIteratorFillMissingValues;
+import de.benjaminborbe.analytics.util.AnalyticsReportValueListIteratorImpl;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -365,5 +367,26 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
+	}
+
+	@Override
+	public AnalyticsReportValueListIterator getReportListIterator(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
+		for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
+			analyticsReportValueIterators.add(getReportIterator(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
+		}
+		return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
+	}
+
+	@Override
+	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(final SessionIdentifier sessionIdentifier,
+			final List<AnalyticsReportIdentifier> analyticsReportIdentifiers, final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
+		for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
+			analyticsReportValueIterators.add(getReportIteratorFillMissing(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
+		}
+		return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
 	}
 }

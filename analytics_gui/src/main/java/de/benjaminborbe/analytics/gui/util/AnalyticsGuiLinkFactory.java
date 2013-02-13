@@ -2,6 +2,8 @@ package de.benjaminborbe.analytics.gui.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,12 +27,19 @@ public class AnalyticsGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget reportView(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
+	public Widget reportView(final HttpServletRequest request, final List<AnalyticsReportIdentifier> reportIdentifiers, final AnalyticsReportInterval analyticsReportInterval,
 			final AnalyticsReportChartType type, final Widget widget) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW, new MapParameter()
-				.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier))
-				.add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval)).add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type)),
-				widget);
+				.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, toArray(reportIdentifiers)).add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval))
+				.add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type)), widget);
+	}
+
+	private List<String> toArray(final List<AnalyticsReportIdentifier> reportIdentifiers) {
+		final List<String> result = new ArrayList<String>();
+		for (final AnalyticsReportIdentifier reportIdentifier : reportIdentifiers) {
+			result.add(reportIdentifier.getId());
+		}
+		return result;
 	}
 
 	public Widget reportAddData(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,

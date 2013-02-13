@@ -2,6 +2,7 @@ package de.benjaminborbe.analytics.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -98,7 +99,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			for (final AnalyticsReport report : reports) {
 				final ListWidget row = new ListWidget();
-				row.add(analyticsGuiLinkFactory.reportView(request, report.getId(), AnalyticsGuiConstants.DEFAULT_INTERVAL, AnalyticsGuiConstants.DEFAULT_VIEW,
+				row.add(analyticsGuiLinkFactory.reportView(request, Arrays.asList(report.getId()), AnalyticsGuiConstants.DEFAULT_INTERVAL, AnalyticsGuiConstants.DEFAULT_VIEW,
 						new SpanWidget(report.getName())));
 				row.add(" ");
 				row.add("(" + report.getAggregation().name().toLowerCase() + ")");
