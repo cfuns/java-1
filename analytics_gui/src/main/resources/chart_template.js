@@ -12,18 +12,7 @@ $.elycharts.templates['line_basic_2'] = {
     }
   },
   series: {
-    serie1: {
-      color: "red"
-    },
-    serie2: {
-      color: "blue"
-    },
-    serie3: {
-      color: "green"
-    },
-    serie4: {
-      color: "yellow"
-    },
+{colors}
   },
   defaultAxis: {
     labels: true

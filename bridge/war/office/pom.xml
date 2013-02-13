@@ -26,7 +26,7 @@
 			de.benjaminborbe.crawler.api, de.benjaminborbe.crawler, de.benjaminborbe.crawler.gui, de.benjaminborbe.shortener.api, de.benjaminborbe.shortener, de.benjaminborbe.shortener.gui,
 			de.benjaminborbe.lucene.index.api, de.benjaminborbe.lucene.index, de.benjaminborbe.lucene.index.gui, de.benjaminborbe.analytics.api, de.benjaminborbe.analytics, de.benjaminborbe.analytics.gui,
 			de.benjaminborbe.performance.api, de.benjaminborbe.performance, de.benjaminborbe.performance.gui, de.benjaminborbe.kiosk.api, de.benjaminborbe.kiosk, de.benjaminborbe.kiosk.gui,
-			de.benjaminborbe.cache.api, de.benjaminborbe.cache, de.benjaminborbe.cache.gui 
+			de.benjaminborbe.cache.api, de.benjaminborbe.cache, de.benjaminborbe.cache.gui, de.benjaminborbe.monitoring.api, de.benjaminborbe.monitoring, de.benjaminborbe.monitoring.gui 
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -558,6 +558,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.cache.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.monitoring.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.monitoring</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.monitoring.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
