@@ -18,6 +18,8 @@ import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportAggregateServlet
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportCreateServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportDeleteServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportListServlet;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportRebuildServlet;
+import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportsRebuildServlet;
 import de.benjaminborbe.analytics.gui.servlet.AnalyticsGuiReportViewServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -28,6 +30,12 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AnalyticsGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AnalyticsGuiReportsRebuildServlet analyticsGuiReportsRebuildServlet;
+
+	@Inject
+	private AnalyticsGuiReportRebuildServlet analyticsGuiReportRebuildServlet;
 
 	@Inject
 	private AnalyticsGuiLogWithoutReportServlet analyticsGuiLogWithoutReportServlet;
@@ -79,6 +87,8 @@ public class AnalyticsGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(analyticsGuiReportDeleteServlet, AnalyticsGuiConstants.URL_REPORT_DELETE));
 		result.add(new ServletInfo(analyticsGuiReportAggregateServlet, AnalyticsGuiConstants.URL_REPORT_AGGREGATE));
 		result.add(new ServletInfo(analyticsGuiLogWithoutReportServlet, AnalyticsGuiConstants.URL_LOG_WITHOUT_REPORT));
+		result.add(new ServletInfo(analyticsGuiReportRebuildServlet, AnalyticsGuiConstants.URL_REPORT_REBUILD));
+		result.add(new ServletInfo(analyticsGuiReportsRebuildServlet, AnalyticsGuiConstants.URL_REPORT_REBUILD_ALL));
 		return result;
 	}
 

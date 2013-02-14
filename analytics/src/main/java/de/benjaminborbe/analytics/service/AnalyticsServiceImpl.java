@@ -40,10 +40,12 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
@@ -403,6 +405,69 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 				analyticsReportValueIterators.add(getReportIteratorFillMissing(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
 			}
 			return new AnalyticsReportValueListIteratorImpl(analyticsReportValueIterators);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public AnalyticsReportIdentifier createAnalyticsReportIdentifier(final String id) throws AnalyticsServiceException {
+		return id != null ? new AnalyticsReportIdentifier(id) : null;
+	}
+
+	@Override
+	public void rebuildReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsAdminRole(sessionIdentifier);
+			logger.debug("rebuildReport - id: " + analyticsReportIdentifier);
+
+			final AnalyticsReportValueIterator i = getReportIterator(sessionIdentifier, analyticsReportIdentifier, AnalyticsReportInterval.MINUTE);
+			final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
+			while (i.hasNext()) {
+				final AnalyticsReportValue value = i.next();
+				values.add(value);
+			}
+			logger.debug("found " + values.size() + " values");
+
+			final AnalyticsReport analyticsReport = analyticsReportDao.load(analyticsReportIdentifier);
+			analyticsAggregator.rebuildReport(analyticsReport, values);
+		}
+		catch (final StorageException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final UnsupportedEncodingException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final ParseException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void rebuildReports(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAnalyticsAdminRole(sessionIdentifier);
+			logger.debug("rebuildRepors");
+
+			final IdentifierIterator<AnalyticsReportIdentifier> i = analyticsReportDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				rebuildReport(sessionIdentifier, i.next());
+			}
+		}
+		catch (final StorageException e) {
+			throw new AnalyticsServiceException(e);
+		}
+		catch (final IdentifierIteratorException e) {
+			throw new AnalyticsServiceException(e);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)

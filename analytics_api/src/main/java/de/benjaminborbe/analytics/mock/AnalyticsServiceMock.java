@@ -106,15 +106,30 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueListIterator getReportListIterator(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
-			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public AnalyticsReportValueListIterator getReportListIterator(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
+			final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(SessionIdentifier sessionIdentifier, List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
-			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(final SessionIdentifier sessionIdentifier,
+			final List<AnalyticsReportIdentifier> analyticsReportIdentifiers, final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException,
+			PermissionDeniedException, LoginRequiredException {
 		return null;
+	}
+
+	@Override
+	public AnalyticsReportIdentifier createAnalyticsReportIdentifier(final String id) throws AnalyticsServiceException {
+		return null;
+	}
+
+	@Override
+	public void rebuildReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException,
+			PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public void rebuildReports(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 }

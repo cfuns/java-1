@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
@@ -176,5 +177,24 @@ public class AnalyticsAggregator {
 	private String buildKey(final AnalyticsReportInterval analyticsReportInterval, final Calendar date) {
 		final Calendar calendar = analyticsIntervalUtil.buildIntervalCalendar(date, analyticsReportInterval);
 		return String.valueOf(calendar.getTimeInMillis());
+	}
+
+	public void rebuildReport(final AnalyticsReport analyticsReport, final List<AnalyticsReportValue> values) throws StorageException, UnsupportedEncodingException, ParseException {
+		logger.debug("rebuildReport - id: " + analyticsReport.getId() + " values: " + values.size());
+		for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
+			logger.debug("rebuild interval " + analyticsReportInterval);
+			analyticsReportValueDao.delete(analyticsReport.getId(), analyticsReportInterval);
+			logger.debug("delete old report " + analyticsReport.getId() + "-" + analyticsReportInterval);
+			final Map<String, List<AnalyticsReportValue>> data = groupByInterval(values, analyticsReportInterval);
+			for (final List<AnalyticsReportValue> list : data.values()) {
+				final Calendar calendar = analyticsIntervalUtil.buildIntervalCalendar(list.get(0).getDate(), analyticsReportInterval);
+				final AnalyticsReportValue oldValue = analyticsReportValueDao.getReportValue(analyticsReport.getId(), analyticsReportInterval, calendar);
+				final AnalyticsReportValue reportValue = buildAggregatedValue(analyticsReport.getAggregation(), oldValue, calendar, list);
+				if (reportValue != null) {
+					logger.debug("write new data - value: " + reportValue);
+					analyticsReportValueDao.setReportValue(analyticsReport.getId(), analyticsReportInterval, reportValue);
+				}
+			}
+		}
 	}
 }

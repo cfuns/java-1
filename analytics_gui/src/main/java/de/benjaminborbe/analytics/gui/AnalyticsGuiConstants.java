@@ -47,4 +47,8 @@ public interface AnalyticsGuiConstants {
 
 	String URL_LOG_WITHOUT_REPORT = "/missing";
 
+	String URL_REPORT_REBUILD = "/report/rebuild";
+
+	String URL_REPORT_REBUILD_ALL = "/report/rebuild/all";
+
 }

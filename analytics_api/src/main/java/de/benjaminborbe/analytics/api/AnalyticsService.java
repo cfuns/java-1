@@ -24,6 +24,8 @@ public interface AnalyticsService {
 
 	void aggreate(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
+	AnalyticsReportIdentifier createAnalyticsReportIdentifier(String id) throws AnalyticsServiceException;
+
 	void createReport(SessionIdentifier sessionIdentifier, AnalyticsReportDto report) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException,
 			ValidationException;
 
@@ -35,6 +37,8 @@ public interface AnalyticsService {
 	void expectAnalyticsViewOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
 
 	void expectAnalyticsViewRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
+
+	Collection<String> getLogWithoutReport(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
 	AnalyticsReportValueIterator getReportIterator(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier,
 			AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
@@ -56,6 +60,8 @@ public interface AnalyticsService {
 
 	boolean hasAnalyticsViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
 
-	Collection<String> getLogWithoutReport(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+	void rebuildReport(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
+	void rebuildReports(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 }
