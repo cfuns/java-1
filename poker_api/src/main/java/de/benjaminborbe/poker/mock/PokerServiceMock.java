@@ -114,4 +114,12 @@ public class PokerServiceMock implements PokerService {
 		return null;
 	}
 
+	@Override
+	public void deleteGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	}
+
+	@Override
+	public void deletePlayer(final PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException {
+	}
+
 }

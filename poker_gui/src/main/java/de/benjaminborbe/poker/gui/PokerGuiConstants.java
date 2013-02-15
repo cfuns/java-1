@@ -22,4 +22,14 @@ public interface PokerGuiConstants {
 
 	String URL_PLAYER_CREATE = "/player/create";
 
+	String URL_GAME_DELETE = "/game/player";
+
+	String URL_PLAYER_DELETE = "/player/delete";
+
+	String PARAMETER_GAME_NAME = "game_name";
+
+	long DEFAULT_BLIND = 1000l;
+
+	String URL_GAME_START = "/game/start";
+
 }

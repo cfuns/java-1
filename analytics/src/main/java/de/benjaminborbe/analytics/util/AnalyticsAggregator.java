@@ -191,7 +191,7 @@ public class AnalyticsAggregator {
 				final AnalyticsReportValue oldValue = analyticsReportValueDao.getReportValue(analyticsReport.getId(), analyticsReportInterval, calendar);
 				final AnalyticsReportValue reportValue = buildAggregatedValue(analyticsReport.getAggregation(), oldValue, calendar, list);
 				if (reportValue != null) {
-					logger.debug("write new data - value: " + reportValue);
+					logger.trace("write new data - value: " + reportValue);
 					analyticsReportValueDao.setReportValue(analyticsReport.getId(), analyticsReportInterval, reportValue);
 				}
 			}

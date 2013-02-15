@@ -51,9 +51,12 @@ public class PokerGuiActivatorIntegrationTest {
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_HOME);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_CREATE);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_LIST);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_DELETE);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_VIEW);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_START);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_LIST);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_VIEW);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_DELETE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

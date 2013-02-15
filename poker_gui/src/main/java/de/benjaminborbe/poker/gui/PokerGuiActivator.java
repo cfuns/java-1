@@ -12,8 +12,11 @@ import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.gui.guice.PokerGuiModules;
 import de.benjaminborbe.poker.gui.service.PokerGuiNavigationEntry;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameCreateServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameDeleteServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStartServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameViewServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerDeleteServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerListServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
@@ -23,6 +26,15 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PokerGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private PokerGuiGameStartServlet pokerGuiGameStartServlet;
+
+	@Inject
+	private PokerGuiPlayerDeleteServlet pokerGuiPlayerDeleteServlet;
+
+	@Inject
+	private PokerGuiGameDeleteServlet pokerGuiGameDeleteServlet;
 
 	@Inject
 	private PokerGuiPlayerListServlet pokerGuiPlayerListServlet;
@@ -57,12 +69,15 @@ public class PokerGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		result.add(new ServletInfo(pokerGuiServlet, PokerGuiConstants.URL_HOME));
+		result.add(new ServletInfo(pokerGuiGameStartServlet, PokerGuiConstants.URL_GAME_START));
 		result.add(new ServletInfo(pokerGuiGameCreateServlet, PokerGuiConstants.URL_GAME_CREATE));
+		result.add(new ServletInfo(pokerGuiGameDeleteServlet, PokerGuiConstants.URL_GAME_DELETE));
 		result.add(new ServletInfo(pokerGuiGameListServlet, PokerGuiConstants.URL_GAME_LIST));
 		result.add(new ServletInfo(pokerGuiGameViewServlet, PokerGuiConstants.URL_GAME_VIEW));
-		result.add(new ServletInfo(pokerGuiServlet, PokerGuiConstants.URL_HOME));
 		result.add(new ServletInfo(pokerGuiPlayerListServlet, PokerGuiConstants.URL_PLAYER_LIST));
 		result.add(new ServletInfo(pokerGuiPlayerViewServlet, PokerGuiConstants.URL_PLAYER_VIEW));
+		result.add(new ServletInfo(pokerGuiPlayerDeleteServlet, PokerGuiConstants.URL_PLAYER_DELETE));
 		return result;
 	}
 

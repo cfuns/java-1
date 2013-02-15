@@ -1,6 +1,9 @@
 package de.benjaminborbe.poker.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
@@ -46,6 +50,39 @@ public class PokerServiceImplIntegrationTest {
 		}
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(2, service.getGameIdentifiers().size());
+	}
+
+	@Test
+	public void testDelete() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		assertNotNull(service.getGameIdentifiers());
+		assertEquals(0, service.getGameIdentifiers().size());
+		final PokerGameIdentifier gameIdentifier = service.createGame("game", 100);
+		assertNotNull(gameIdentifier);
+		assertNotNull(gameIdentifier.getId());
+		assertNotNull(service.getGameIdentifiers());
+		assertEquals(1, service.getGameIdentifiers().size());
+
+		final PokerPlayerIdentifier playerIdentifier = service.createPlayer("player");
+		service.joinGame(gameIdentifier, playerIdentifier);
+
+		{
+			final PokerPlayer player = service.getPlayer(playerIdentifier);
+			assertNotNull(player);
+			assertNotNull(player.getGame());
+			assertEquals(gameIdentifier, player.getGame());
+		}
+
+		service.deleteGame(gameIdentifier);
+		assertEquals(0, service.getGameIdentifiers().size());
+
+		{
+			final PokerPlayer player = service.getPlayer(playerIdentifier);
+			assertNotNull(player);
+			assertNull(player.getGame());
+		}
+
 	}
 
 	@Test

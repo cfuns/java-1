@@ -576,4 +576,46 @@ public class PokerServiceImpl implements PokerService {
 		finally {
 		}
 	}
+
+	@Override
+	public void deleteGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		try {
+			logger.debug("deleteGame - id: " + gameIdentifier);
+			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			for (final PokerPlayerIdentifier playerIdentifier : game.getPlayers()) {
+				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
+				player.setGame(null);
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
+			}
+			pokerGameDao.delete(gameIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
+
+	@Override
+	public void deletePlayer(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+		try {
+			logger.debug("deletePlayer - id: " + playerIdentifier);
+			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
+			if (player.getGame() != null) {
+				final PokerGameBean game = pokerGameDao.load(player.getGame());
+				if (Boolean.TRUE.equals(game.getRunning())) {
+					throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("can't delete player with running game")));
+				}
+				else {
+					leaveGame(player.getGame(), playerIdentifier);
+				}
+			}
+			pokerPlayerDao.delete(playerIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
 }

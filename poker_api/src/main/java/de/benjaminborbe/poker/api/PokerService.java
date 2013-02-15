@@ -6,6 +6,8 @@ import de.benjaminborbe.api.ValidationException;
 
 public interface PokerService {
 
+	void deleteGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
 	PokerGameIdentifier createGame(String name, long blind) throws PokerServiceException, ValidationException;
 
 	Collection<PokerGameIdentifier> getGameIdentifiers() throws PokerServiceException;
@@ -45,5 +47,7 @@ public interface PokerService {
 	Collection<PokerGame> getGames() throws PokerServiceException;
 
 	Collection<PokerPlayer> getPlayers() throws PokerServiceException;
+
+	void deletePlayer(PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException, ValidationException;
 
 }

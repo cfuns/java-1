@@ -24,6 +24,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -47,6 +48,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 
 	private final PokerService pokerService;
 
+	private final PokerGuiLinkFactory pokerGuiLinkFactory;
+
 	@Inject
 	public PokerGuiGameViewServlet(
 			final Logger logger,
@@ -60,9 +63,11 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
-			final PokerService pokerService) {
+			final PokerService pokerService,
+			final PokerGuiLinkFactory pokerGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
+		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 	}
 
 	@Override
@@ -81,9 +86,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final PokerGame game = pokerService.getGame(gameIdentifier);
 
 			widgets.add(new H2Widget("Status"));
-			widgets.add("running = " + game.getRunning());
+			widgets.add("running = " + Boolean.TRUE.equals(game.getRunning()));
 			widgets.add(new BrWidget());
-			widgets.add("active player: " + pokerService.getActivePlayer(gameIdentifier));
+			final PokerPlayerIdentifier player = pokerService.getActivePlayer(gameIdentifier);
+			widgets.add("active player = " + (player != null ? player.getId() : "none"));
 			widgets.add(new BrWidget());
 
 			widgets.add(new H2Widget("Players"));
@@ -92,6 +98,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				ul.add(playerIdentifier.getId());
 			}
 			widgets.add(ul);
+
+			widgets.add(pokerGuiLinkFactory.startGame(request, gameIdentifier));
 
 			return widgets;
 		}
