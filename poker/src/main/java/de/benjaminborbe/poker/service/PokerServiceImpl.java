@@ -163,6 +163,8 @@ public class PokerServiceImpl implements PokerService {
 			bean.setId(id);
 			bean.setName(name);
 			bean.setAmount(credit);
+			bean.setBet(0l);
+			bean.setCards(new ArrayList<PokerCardIdentifier>());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -274,7 +276,7 @@ public class PokerServiceImpl implements PokerService {
 	private void bid(final PokerGameBean game, final PokerPlayerBean player, final long value) throws ValidationException {
 		logger.debug("bid - amount: " + value);
 		if (value < Math.min(player.getAmount(), game.getBet())) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid lower than " + game.getBet() + " not allowed")));
+			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid lower than " + Math.min(player.getAmount(), game.getBet()) + " not allowed")));
 		}
 
 		final long diff = Math.min(player.getAmount(), (value - player.getBet()));
@@ -476,12 +478,12 @@ public class PokerServiceImpl implements PokerService {
 		}
 	}
 
-	private void completeTurn(final PokerGameBean game) throws StorageException, ValidationException {
+	private void completeTurn(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {
 		logger.debug("completeTurn - game: " + game.getId());
 		if (game.getActivePosition() == (game.getButtonPosition() + 1) % game.getActivePlayers().size()) {
 			for (final PokerPlayerIdentifier playerIdentifier : game.getActivePlayers()) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
-				if (!player.getBet().equals(game.getBet())) {
+				if (player.getAmount() != 0 && !player.getBet().equals(game.getBet())) {
 					logger.debug("completeTurn => false");
 					return;
 				}
@@ -494,7 +496,7 @@ public class PokerServiceImpl implements PokerService {
 		}
 	}
 
-	private void nextTurn(final PokerGameBean game) throws StorageException, ValidationException {
+	private void nextTurn(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {
 		logger.debug("nextTurn - cards = " + game.getBoardCards().size());
 		// flop
 		if (game.getActivePlayers().size() > 1 && game.getBoardCards().size() == 0) {
@@ -527,8 +529,23 @@ public class PokerServiceImpl implements PokerService {
 		return pokerPlayerDao.load(id);
 	}
 
-	private void nextRound(final PokerGameBean game) throws StorageException, ValidationException {
+	private void nextRound(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {
+
+		for (final PokerPlayerBean player : pokerPlayerDao.load(game.getPlayers())) {
+			if (player.getAmount() == 0) {
+				player.setGame(null);
+				game.getPlayers().remove(player.getId());
+
+				pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("players"));
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
+			}
+		}
+
 		final int playerAmount = game.getPlayers().size();
+		if (playerAmount < 2) {
+			stopGame(game.getId());
+			return;
+		}
 
 		game.setActivePlayers(game.getPlayers());
 		game.setCards(listUtil.randomize(pokerCardFactory.getCards()));

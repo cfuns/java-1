@@ -23,6 +23,8 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.poker.api.PokerGame;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -95,11 +97,20 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
-				head.addCell("Id").addCell("");
+				head.addCell("Id").addCell("Game").addCell("Credits").addCell("");
 				table.setHead(head);
 				for (final PokerPlayer player : players) {
 					final TableRowWidget row = new TableRowWidget();
 					row.addCell(pokerGuiLinkFactory.playerView(request, player.getId(), asString(player.getName())));
+					final PokerGameIdentifier gameId = player.getGame();
+					if (gameId != null) {
+						final PokerGame game = pokerService.getGame(player.getGame());
+						row.addCell(pokerGuiLinkFactory.gameView(request, player.getGame(), game.getName()));
+					}
+					else {
+						row.addCell("-");
+					}
+					row.addCell(asString(player.getAmount()));
 					row.addCell(pokerGuiLinkFactory.playerDelete(request, player.getId()));
 					table.addRow(row);
 				}
