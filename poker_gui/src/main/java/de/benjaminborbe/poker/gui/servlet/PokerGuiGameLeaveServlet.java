@@ -21,6 +21,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
@@ -38,11 +39,11 @@ import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
+public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
-	private static final String TITLE = "Poker - Delete Game";
+	private static final String TITLE = "Poker - Leave Game";
 
 	private final PokerService pokerService;
 
@@ -51,7 +52,7 @@ public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
 	@Inject
-	public PokerGuiGameDeleteServlet(
+	public PokerGuiGameLeaveServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -80,7 +81,8 @@ public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
-			pokerService.deleteGame(pokerGameIdentifier);
+			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			pokerService.leaveGame(pokerGameIdentifier, pokerPlayerIdentifier);
 		}
 		catch (final PokerServiceException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -89,7 +91,7 @@ public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			widgets.add("delete player failed!");
+			widgets.add("leave game failed!");
 			widgets.add(new ValidationExceptionWidget(e));
 
 			widgets.add(new BrWidget());

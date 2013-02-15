@@ -64,4 +64,30 @@ public class PokerGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_START,
 				new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID, id), "start game");
 	}
+
+	public Widget back(final HttpServletRequest request) throws MalformedURLException {
+		final String referer = request.getHeader("referer");
+		return new LinkRelativWidget(request, referer, "back");
+	}
+
+	public String gameListUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_LIST;
+	}
+
+	public String playerListUrl(final HttpServletRequest request) {
+		return request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_LIST;
+	}
+
+	public Widget gameLeave(final HttpServletRequest request, final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier pokerPlayerIdentifier)
+			throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_LEAVE, new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID,
+				pokerGameIdentifier).add(PokerGuiConstants.PARAMETER_PLAYER_ID, pokerPlayerIdentifier), "leave game");
+	}
+
+	public Widget gameJoint(final HttpServletRequest request, final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier pokerPlayerIdentifier)
+			throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_JOIN, new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID,
+				pokerGameIdentifier).add(PokerGuiConstants.PARAMETER_PLAYER_ID, pokerPlayerIdentifier), "join");
+	}
+
 }

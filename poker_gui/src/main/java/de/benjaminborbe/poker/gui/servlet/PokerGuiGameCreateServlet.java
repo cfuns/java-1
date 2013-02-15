@@ -22,10 +22,12 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
@@ -46,6 +48,8 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 
 	private final PokerService pokerService;
 
+	private final PokerGuiLinkFactory pokerGuiLinkFactory;
+
 	@Inject
 	public PokerGuiGameCreateServlet(
 			final Logger logger,
@@ -59,9 +63,11 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
-			final PokerService pokerService) {
+			final PokerService pokerService,
+			final PokerGuiLinkFactory pokerGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
+		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 	}
 
 	@Override
@@ -77,10 +83,17 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final String name = request.getParameter(PokerGuiConstants.PARAMETER_GAME_NAME);
+			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
 			if (name != null) {
 				try {
 					pokerService.createGame(name, PokerGuiConstants.DEFAULT_BLIND);
-					widgets.add("game created");
+
+					if (referer != null) {
+						throw new RedirectException(referer);
+					}
+					else {
+						throw new RedirectException(pokerGuiLinkFactory.gameListUrl(request));
+					}
 				}
 				catch (final ValidationException e) {
 					widgets.add("create game failed!");
@@ -89,6 +102,7 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			}
 
 			final FormWidget form = new FormWidget();
+			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_NAME).addLabel("Name:"));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(form);

@@ -578,10 +578,15 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void deleteGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	public void deleteGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
 		try {
 			logger.debug("deleteGame - id: " + gameIdentifier);
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+
+			if (Boolean.TRUE.equals(game.getRunning())) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("can't delete running game")));
+			}
+
 			for (final PokerPlayerIdentifier playerIdentifier : game.getPlayers()) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 				player.setGame(null);
@@ -613,6 +618,30 @@ public class PokerServiceImpl implements PokerService {
 			pokerPlayerDao.delete(playerIdentifier);
 		}
 		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
+
+	@Override
+	public Collection<PokerGame> getGames(final boolean running) throws PokerServiceException {
+		try {
+			logger.debug("getGames - running: " + running);
+			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
+			final List<PokerGame> result = new ArrayList<PokerGame>();
+			while (i.hasNext()) {
+				final PokerGameBean game = i.next();
+				if (Boolean.TRUE.equals(game.getRunning()) == running) {
+					result.add(game);
+				}
+			}
+			return result;
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		}
 		finally {

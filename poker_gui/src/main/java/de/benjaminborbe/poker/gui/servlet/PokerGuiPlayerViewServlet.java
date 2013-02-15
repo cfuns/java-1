@@ -1,6 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +26,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -34,6 +37,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
@@ -44,6 +48,8 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 	private static final String TITLE = "Poker - Player - View";
 
 	private final PokerService pokerService;
+
+	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
 	@Inject
 	public PokerGuiPlayerViewServlet(
@@ -58,9 +64,11 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
-			final PokerService pokerService) {
+			final PokerService pokerService,
+			final PokerGuiLinkFactory pokerGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
+		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 	}
 
 	@Override
@@ -82,11 +90,34 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			widgets.add("Credits: " + player.getAmount());
 			widgets.add(new BrWidget());
 			if (player.getGame() == null) {
-				widgets.add("Game: ");
+				widgets.add("Game: none");
+				widgets.add(new BrWidget());
+
+				final boolean running = false;
+				final Collection<PokerGame> games = pokerService.getGames(running);
+				if (games.isEmpty()) {
+					widgets.add("no join able game found");
+				}
+				else {
+					final UlWidget ul = new UlWidget();
+					for (final PokerGame game : games) {
+						final ListWidget list = new ListWidget();
+						list.add(game.getName());
+						list.add(" ");
+						list.add(pokerGuiLinkFactory.gameJoint(request, game.getId(), playerIdentifier));
+						ul.add(list);
+					}
+					widgets.add(ul);
+				}
+
 			}
 			else {
 				final PokerGame game = pokerService.getGame(player.getGame());
 				widgets.add("Game: " + game.getName());
+				widgets.add(new BrWidget());
+				if (!Boolean.TRUE.equals(game.getRunning())) {
+					widgets.add(pokerGuiLinkFactory.gameLeave(request, player.getGame(), playerIdentifier));
+				}
 			}
 			widgets.add(new BrWidget());
 

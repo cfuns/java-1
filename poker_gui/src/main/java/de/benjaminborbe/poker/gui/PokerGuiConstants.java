@@ -32,4 +32,12 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_START = "/game/start";
 
+	String PARAMETER_REFERER = "referer";
+
+	String PARAMETER_PLAYER_NAME = "player_name";
+
+	String URL_GAME_LEAVE = "/game/leave";
+
+	String URL_GAME_JOIN = "/game/join";
+
 }
