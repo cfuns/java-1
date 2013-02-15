@@ -11,11 +11,14 @@ import com.google.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.gui.guice.PokerGuiModules;
 import de.benjaminborbe.poker.gui.service.PokerGuiNavigationEntry;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiActionCallServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameCreateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameDeleteServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiActionFoldServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameJoinServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameLeaveServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiActionRaiseServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStartServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStopServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameViewServlet;
@@ -30,6 +33,15 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PokerGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private PokerGuiActionCallServlet pokerGuiActionCallServlet;
+
+	@Inject
+	private PokerGuiActionFoldServlet pokerGuiActionFoldServlet;
+
+	@Inject
+	private PokerGuiActionRaiseServlet pokerGuiGameRaiseServlet;
 
 	@Inject
 	private PokerGuiGameJoinServlet pokerGuiGameJoinServlet;
@@ -86,6 +98,9 @@ public class PokerGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(pokerGuiServlet, PokerGuiConstants.URL_HOME));
+		result.add(new ServletInfo(pokerGuiActionCallServlet, PokerGuiConstants.URL_ACTION_CALL));
+		result.add(new ServletInfo(pokerGuiActionFoldServlet, PokerGuiConstants.URL_ACTION_FOLD));
+		result.add(new ServletInfo(pokerGuiGameRaiseServlet, PokerGuiConstants.URL_ACTION_RAISE));
 		result.add(new ServletInfo(pokerGuiGameStopServlet, PokerGuiConstants.URL_GAME_STOP));
 		result.add(new ServletInfo(pokerGuiGameJoinServlet, PokerGuiConstants.URL_GAME_JOIN));
 		result.add(new ServletInfo(pokerGuiGameLeaveServlet, PokerGuiConstants.URL_GAME_LEAVE));

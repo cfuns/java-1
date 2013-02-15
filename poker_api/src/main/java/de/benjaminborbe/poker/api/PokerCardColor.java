@@ -2,9 +2,16 @@ package de.benjaminborbe.poker.api;
 
 public enum PokerCardColor {
 
-	A,
-	B,
-	C,
-	D;
+	// Karo
+	DIAMONDS,
+
+	// Herz
+	HEARTS,
+
+	// Pik
+	SPADES,
+
+	// Kreuz
+	CLUBS;
 
 }

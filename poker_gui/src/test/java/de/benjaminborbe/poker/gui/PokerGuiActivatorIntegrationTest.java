@@ -49,6 +49,9 @@ public class PokerGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_HOME);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_CALL);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_FOLD);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_STOP);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_JOIN);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_LEAVE);

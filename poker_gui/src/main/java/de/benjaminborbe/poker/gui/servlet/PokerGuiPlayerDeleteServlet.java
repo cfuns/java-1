@@ -31,6 +31,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
@@ -81,9 +82,13 @@ public class PokerGuiPlayerDeleteServlet extends WebsiteHtmlServlet {
 		try {
 			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			pokerService.deletePlayer(pokerPlayerIdentifier);
+
+			final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
+			return widget;
 		}
 		catch (final PokerServiceException e) {
-			logger.warn(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
 		catch (final ValidationException e) {
 			logger.trace("printContent");
@@ -97,8 +102,6 @@ public class PokerGuiPlayerDeleteServlet extends WebsiteHtmlServlet {
 
 			return widgets;
 		}
-		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
-		return widget;
 	}
 
 }

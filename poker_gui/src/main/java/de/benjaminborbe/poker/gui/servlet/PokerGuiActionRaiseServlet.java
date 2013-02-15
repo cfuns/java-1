@@ -29,6 +29,7 @@ import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -40,11 +41,11 @@ import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
+public class PokerGuiActionRaiseServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
-	private static final String TITLE = "Poker - Leave Game";
+	private static final String TITLE = "Poker - Raise";
 
 	private final PokerService pokerService;
 
@@ -52,8 +53,10 @@ public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
-	public PokerGuiGameLeaveServlet(
+	public PokerGuiActionRaiseServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -70,6 +73,7 @@ public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 		this.pokerService = pokerService;
 		this.logger = logger;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -83,25 +87,31 @@ public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 		try {
 			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
 			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
-			pokerService.leaveGame(pokerGameIdentifier, pokerPlayerIdentifier);
+			final long amount = parseUtil.parseLong(request.getParameter(PokerGuiConstants.PARAMETER_AMOUNT));
+			pokerService.raise(pokerGameIdentifier, pokerPlayerIdentifier, amount);
+
 			final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
-			return widget;
-		}
-		catch (final PokerServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 		catch (final ValidationException e) {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			widgets.add("leave game failed!");
+			widgets.add("raise failed!");
 			widgets.add(new ValidationExceptionWidget(e));
 
 			widgets.add(new BrWidget());
 			widgets.add(pokerGuiLinkFactory.back(request));
 
 			return widgets;
+		}
+		catch (final PokerServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final ParseException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
 	}
 

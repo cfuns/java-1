@@ -86,7 +86,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
 			if (name != null) {
 				try {
-					pokerService.createPlayer(name);
+					pokerService.createPlayer(name, PokerGuiConstants.DEFAULT_CREDITS);
 
 					if (referer != null) {
 						throw new RedirectException(referer);

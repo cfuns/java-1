@@ -26,15 +26,13 @@ public interface PokerService {
 
 	Collection<PokerCardIdentifier> getBoardCards(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	PokerPlayerIdentifier createPlayer(String name) throws PokerServiceException, ValidationException;
+	PokerPlayerIdentifier createPlayer(String name, long credits) throws PokerServiceException, ValidationException;
 
 	PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException;
 
 	void joinGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
 
 	void leaveGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;
-
-	void nextRound(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
 	PokerPlayerIdentifier getActivePlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
@@ -53,5 +51,13 @@ public interface PokerService {
 	Collection<PokerGame> getGames(boolean running) throws PokerServiceException;
 
 	void stopGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
+
+	Collection<PokerPlayerIdentifier> getActivePlayers(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
+	PokerPlayerIdentifier getBigBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
+	PokerPlayerIdentifier getSmallBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
+	PokerPlayerIdentifier getButtonPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
 }

@@ -29,9 +29,9 @@ public class MapperPokerCardIdentifierListUnitTest {
 		final MapperPokerCardIdentifier mapperPokerCardIdentifier = new MapperPokerCardIdentifier(pokerCardIdentifierBuilder);
 		final MapperPokerCardIdentifierList mapper = new MapperPokerCardIdentifierList(mapperPokerCardIdentifier);
 		assertEquals(null, mapper.toString(new ArrayList<PokerCardIdentifier>()));
-		assertEquals("A_V10", mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.A, PokerCardValue.V10))));
-		assertEquals("A_V10,B_VA",
-				mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.A, PokerCardValue.V10), new PokerCardIdentifier(PokerCardColor.B, PokerCardValue.VA))));
+		assertEquals("SPADES_TEN", mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.SPADES, PokerCardValue.TEN))));
+		assertEquals("SPADES_TEN,HEARTS_ACE",
+				mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.SPADES, PokerCardValue.TEN), new PokerCardIdentifier(PokerCardColor.HEARTS, PokerCardValue.ACE))));
 	}
 
 	@Test
@@ -48,20 +48,20 @@ public class MapperPokerCardIdentifierListUnitTest {
 			assertEquals(0, list.size());
 		}
 		{
-			final List<PokerCardIdentifier> list = mapper.fromString("A_V10");
+			final List<PokerCardIdentifier> list = mapper.fromString("SPADES_TEN");
 			assertNotNull(list);
 			assertEquals(1, list.size());
 			assertNotNull(list.get(0));
-			assertEquals("A_V10", list.get(0).getId());
+			assertEquals("SPADES_TEN", list.get(0).getId());
 		}
 		{
-			final List<PokerCardIdentifier> list = mapper.fromString("A_V10,B_VA");
+			final List<PokerCardIdentifier> list = mapper.fromString("SPADES_TEN,CLUBS_ACE");
 			assertNotNull(list);
 			assertEquals(2, list.size());
 			assertNotNull(list.get(0));
-			assertEquals("A_V10", list.get(0).getId());
+			assertEquals("SPADES_TEN", list.get(0).getId());
 			assertNotNull(list.get(1));
-			assertEquals("B_VA", list.get(1).getId());
+			assertEquals("CLUBS_ACE", list.get(1).getId());
 		}
 	}
 }

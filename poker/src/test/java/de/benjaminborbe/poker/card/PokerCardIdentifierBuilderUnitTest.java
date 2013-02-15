@@ -21,7 +21,7 @@ public class PokerCardIdentifierBuilderUnitTest {
 
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final PokerCardIdentifierBuilder builder = new PokerCardIdentifierBuilder(logger, parseUtil);
-		final PokerCardIdentifier id = new PokerCardIdentifier(PokerCardColor.A, PokerCardValue.VA);
+		final PokerCardIdentifier id = new PokerCardIdentifier(PokerCardColor.SPADES, PokerCardValue.ACE);
 		final PokerCardIdentifier newId = builder.buildIdentifier(id.getId());
 		assertEquals(id, newId);
 	}

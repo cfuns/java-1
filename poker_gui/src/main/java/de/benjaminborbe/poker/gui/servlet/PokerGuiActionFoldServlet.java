@@ -40,11 +40,11 @@ import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
+public class PokerGuiActionFoldServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
-	private static final String TITLE = "Poker - Leave Game";
+	private static final String TITLE = "Poker - Fold";
 
 	private final PokerService pokerService;
 
@@ -53,7 +53,7 @@ public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
 	@Inject
-	public PokerGuiGameLeaveServlet(
+	public PokerGuiActionFoldServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -83,7 +83,7 @@ public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 		try {
 			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
 			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
-			pokerService.leaveGame(pokerGameIdentifier, pokerPlayerIdentifier);
+			pokerService.fold(pokerGameIdentifier, pokerPlayerIdentifier);
 			final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
 			return widget;
 		}
@@ -95,7 +95,7 @@ public class PokerGuiGameLeaveServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			widgets.add("leave game failed!");
+			widgets.add("fold failed!");
 			widgets.add(new ValidationExceptionWidget(e));
 
 			widgets.add(new BrWidget());

@@ -151,14 +151,14 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public StorageValue get(final String columnFamily, final StorageValue id, final StorageValue key) {
-		logger.info("get " + columnFamily + " " + id + " " + key);
+		logger.trace("get " + columnFamily + " " + id + " " + key);
 		final HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
 		if (cfData == null)
 			return null;
 		final HashMap<StorageValue, StorageValue> idData = cfData.get(id);
 		if (idData == null)
 			return null;
-		logger.info("get[" + id + "][" + key + "] = " + idData.get(key));
+		logger.trace("get[" + id + "][" + key + "] = " + idData.get(key));
 		return idData.get(key);
 	}
 

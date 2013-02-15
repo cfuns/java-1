@@ -28,7 +28,9 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_GAME_NAME = "game_name";
 
-	long DEFAULT_BLIND = 1000l;
+	long DEFAULT_BLIND = 100l;
+
+	long DEFAULT_CREDITS = 10000l;
 
 	String URL_GAME_START = "/game/start";
 
@@ -41,5 +43,13 @@ public interface PokerGuiConstants {
 	String URL_GAME_JOIN = "/game/join";
 
 	String URL_GAME_STOP = "/game/stop";
+
+	String URL_ACTION_CALL = "/call";
+
+	String URL_ACTION_FOLD = "/fold";
+
+	String URL_ACTION_RAISE = "/raise";
+
+	String PARAMETER_AMOUNT = "amount";
 
 }

@@ -66,11 +66,6 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier createPlayer(final String name) throws PokerServiceException {
-		return null;
-	}
-
-	@Override
 	public PokerPlayerIdentifier createPlayerIdentifier(final String id) throws PokerServiceException {
 		return null;
 	}
@@ -81,10 +76,6 @@ public class PokerServiceMock implements PokerService {
 
 	@Override
 	public void leaveGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
-	}
-
-	@Override
-	public void nextRound(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 	}
 
 	@Override
@@ -123,12 +114,37 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerGame> getGames(boolean running) throws PokerServiceException {
+	public Collection<PokerGame> getGames(final boolean running) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public void stopGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+	public void stopGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+	}
+
+	@Override
+	public PokerPlayerIdentifier createPlayer(final String name, final long credits) throws PokerServiceException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public Collection<PokerPlayerIdentifier> getActivePlayers(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PokerPlayerIdentifier getBigBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PokerPlayerIdentifier getSmallBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PokerPlayerIdentifier getButtonPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		return null;
 	}
 
 }

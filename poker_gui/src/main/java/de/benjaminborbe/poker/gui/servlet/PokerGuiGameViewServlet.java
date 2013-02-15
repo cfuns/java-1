@@ -1,6 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +30,16 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.util.PokerCardTranslater;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -40,6 +47,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
@@ -53,6 +61,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 	private final PokerService pokerService;
 
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
+
+	private final PokerCardTranslater pokerCardTranslater;
 
 	@Inject
 	public PokerGuiGameViewServlet(
@@ -68,10 +78,12 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
 			final PokerService pokerService,
-			final PokerGuiLinkFactory pokerGuiLinkFactory) {
+			final PokerGuiLinkFactory pokerGuiLinkFactory,
+			final PokerCardTranslater pokerCardTranslater) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
+		this.pokerCardTranslater = pokerCardTranslater;
 	}
 
 	@Override
@@ -95,12 +107,47 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				widgets.add(new BrWidget());
 				widgets.add(pokerGuiLinkFactory.gameStop(request, gameIdentifier));
 				widgets.add(new BrWidget());
+				widgets.add("Round: " + game.getRound());
+				widgets.add(new BrWidget());
 				widgets.add("SmallBlind: " + game.getSmallBlind());
 				widgets.add(new BrWidget());
 				widgets.add("BigBlind: " + game.getBigBlind());
 				widgets.add(new BrWidget());
 				widgets.add("Pot: " + game.getPot());
 				widgets.add(new BrWidget());
+				widgets.add("Bid: " + game.getBet());
+				widgets.add(new BrWidget());
+				widgets.add("ButtonPlayer: ");
+				widgets.add(toWidget(request, pokerService.getButtonPlayer(gameIdentifier)));
+				widgets.add(new BrWidget());
+				widgets.add("SmallBlindPlayer: ");
+				widgets.add(toWidget(request, pokerService.getSmallBlindPlayer(gameIdentifier)));
+				widgets.add(new BrWidget());
+				widgets.add("BigBlindPlayer: ");
+				widgets.add(toWidget(request, pokerService.getBigBlindPlayer(gameIdentifier)));
+				widgets.add(new BrWidget());
+				final PokerPlayerIdentifier playerIdentifier = pokerService.getActivePlayer(gameIdentifier);
+				if (playerIdentifier != null) {
+					widgets.add("ActivePlayer: ");
+					widgets.add(toWidget(request, playerIdentifier));
+					widgets.add(new BrWidget());
+					widgets.add(new H2Widget("Actions"));
+					widgets.add(pokerGuiLinkFactory.call(request, gameIdentifier, playerIdentifier));
+					widgets.add(new BrWidget());
+					widgets.add(pokerGuiLinkFactory.fold(request, gameIdentifier, playerIdentifier));
+					widgets.add(new BrWidget());
+					final FormWidget form = new FormWidget(request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE);
+					form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_GAME_ID).addValue(gameIdentifier));
+					form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_PLAYER_ID).addValue(playerIdentifier));
+					form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_AMOUNT).addLabel("Amount:").addDefaultValue(game.getBet()));
+					form.addFormInputWidget(new FormInputSubmitWidget("raise"));
+					widgets.add(form);
+					widgets.add(new BrWidget());
+				}
+				else {
+					widgets.add("active player = none");
+					widgets.add(new BrWidget());
+				}
 			}
 			else {
 				widgets.add("running = false");
@@ -109,19 +156,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				widgets.add(new BrWidget());
 			}
 			{
-				final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.getActivePlayer(gameIdentifier);
-				if (pokerPlayerIdentifier != null) {
-					final PokerPlayer pokerPlayer = pokerService.getPlayer(pokerPlayerIdentifier);
-					widgets.add("active player = ");
-					widgets.add(pokerGuiLinkFactory.playerView(request, pokerPlayerIdentifier, pokerPlayer.getName()));
-				}
-				else {
-					widgets.add("active player = none");
-				}
-				widgets.add(new BrWidget());
-			}
-			{
-				widgets.add(new H2Widget("Board-Cards"));
+				widgets.add(new H2Widget("Board / Flop+Turn+River"));
 				final Collection<PokerCardIdentifier> cards = pokerService.getBoardCards(gameIdentifier);
 				if (cards.isEmpty()) {
 					widgets.add("no cards");
@@ -137,24 +172,38 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			{
 				widgets.add(new H2Widget("Players"));
 				final UlWidget ul = new UlWidget();
-				for (final PokerPlayerIdentifier pokerPlayerIdentifier : pokerService.getPlayers(gameIdentifier)) {
-					final ListWidget list = new ListWidget();
-					final PokerPlayer pokerPlayer = pokerService.getPlayer(pokerPlayerIdentifier);
-					list.add(pokerGuiLinkFactory.playerView(request, pokerPlayerIdentifier, pokerPlayer.getName()));
-					final Collection<PokerCardIdentifier> cards = pokerService.getHandCards(pokerPlayerIdentifier);
-					if (cards.isEmpty()) {
-						widgets.add("no cards");
-					}
-					else {
-						final UlWidget cardUl = new UlWidget();
-						for (final PokerCardIdentifier card : cards) {
-							cardUl.add(card.getId());
+				final Collection<PokerPlayerIdentifier> activePlayers = pokerService.getActivePlayers(gameIdentifier);
+				final Collection<PokerPlayerIdentifier> players = pokerService.getPlayers(gameIdentifier);
+				if (players.isEmpty()) {
+					widgets.add("no players");
+					widgets.add(new BrWidget());
+				}
+				else {
+					for (final PokerPlayerIdentifier playerIdentifier : players) {
+						final ListWidget list = new ListWidget();
+						final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+						list.add(pokerGuiLinkFactory.playerView(request, playerIdentifier, player.getName()));
+						list.add(" ");
+						list.add(activePlayers.contains(playerIdentifier) ? "active" : "inactive");
+						list.add(" ");
+						list.add("Credit: " + player.getAmount());
+						list.add(new BrWidget());
+						final Collection<PokerCardIdentifier> cards = pokerService.getHandCards(playerIdentifier);
+						if (cards.isEmpty()) {
+							list.add("no cards");
+							list.add(new BrWidget());
 						}
-						list.add(cardUl);
+						else {
+							final UlWidget cardUl = new UlWidget();
+							for (final PokerCardIdentifier card : cards) {
+								cardUl.add(pokerCardTranslater.translate(card));
+							}
+							list.add(cardUl);
+						}
 						ul.add(list);
 					}
+					widgets.add(ul);
 				}
-				widgets.add(ul);
 			}
 
 			return widgets;
@@ -162,6 +211,17 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 		catch (final PokerServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	public Widget toWidget(final HttpServletRequest request, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, MalformedURLException,
+			UnsupportedEncodingException {
+		final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+		if (player != null) {
+			return pokerGuiLinkFactory.playerView(request, playerIdentifier, player.getName());
+		}
+		else {
+			return new StringWidget("-");
 		}
 	}
 }

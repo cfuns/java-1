@@ -167,6 +167,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.activePosition = activePosition;
 	}
 
+	@Override
 	public Long getRound() {
 		return round;
 	}
@@ -175,6 +176,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.round = round;
 	}
 
+	@Override
 	public Long getBet() {
 		return bet;
 	}

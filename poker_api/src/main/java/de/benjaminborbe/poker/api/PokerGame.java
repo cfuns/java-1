@@ -19,4 +19,8 @@ public interface PokerGame {
 	Long getPot();
 
 	String getName();
+
+	Long getRound();
+
+	Long getBet();
 }
