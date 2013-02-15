@@ -19,6 +19,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -43,6 +44,7 @@ import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
@@ -164,7 +166,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				else {
 					final UlWidget ul = new UlWidget();
 					for (final PokerCardIdentifier card : cards) {
-						ul.add(card.getId());
+						ul.add(pokerCardTranslater.translate(card));
 					}
 					widgets.add(ul);
 				}
@@ -187,6 +189,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 						list.add(activePlayers.contains(playerIdentifier) ? "active" : "inactive");
 						list.add(" ");
 						list.add("Credit: " + player.getAmount());
+						list.add(" ");
+						list.add("InPot: " + player.getBet());
 						list.add(new BrWidget());
 						final Collection<PokerCardIdentifier> cards = pokerService.getHandCards(playerIdentifier);
 						if (cards.isEmpty()) {
@@ -223,5 +227,12 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 		else {
 			return new StringWidget("-");
 		}
+	}
+
+	@Override
+	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final Collection<CssResource> result = super.getCssResources(request, response);
+		result.add(new CssResourceImpl(request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_CSS_STYLE));
+		return result;
 	}
 }

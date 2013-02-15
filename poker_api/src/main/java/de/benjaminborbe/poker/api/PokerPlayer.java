@@ -10,4 +10,6 @@ public interface PokerPlayer {
 
 	PokerGameIdentifier getGame();
 
+	Long getBet();
+
 }

@@ -52,4 +52,8 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_AMOUNT = "amount";
 
+	String URL_CSS_STYLE = "/css/style.css";
+
+	String URL_CSS = "/css";
+
 }

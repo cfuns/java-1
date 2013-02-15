@@ -212,7 +212,7 @@ public class StorageServiceMock implements StorageService {
 		}
 
 		for (final Entry<StorageValue, StorageValue> e : data.entrySet()) {
-			logger.info("write " + e.getKey() + " " + e.getValue());
+			logger.trace("write " + e.getKey() + " " + e.getValue());
 			idData.put(e.getKey(), e.getValue());
 		}
 	}

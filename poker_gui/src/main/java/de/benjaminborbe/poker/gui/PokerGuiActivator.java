@@ -29,6 +29,7 @@ import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
@@ -120,6 +121,13 @@ public class PokerGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, pokerGuiNavigationEntry));
+		return result;
+	}
+
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo(PokerGuiConstants.URL_CSS, "css"));
 		return result;
 	}
 
