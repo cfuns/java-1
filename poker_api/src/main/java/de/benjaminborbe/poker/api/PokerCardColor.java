@@ -3,15 +3,25 @@ package de.benjaminborbe.poker.api;
 public enum PokerCardColor {
 
 	// Karo
-	DIAMONDS,
+	DIAMONDS(1),
 
 	// Herz
-	HEARTS,
+	HEARTS(2),
 
 	// Pik
-	SPADES,
+	SPADES(3),
 
 	// Kreuz
-	CLUBS;
+	CLUBS(4);
+
+	private final int value;
+
+	private PokerCardColor(final int value) {
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
 
 }
