@@ -647,4 +647,42 @@ public class PokerServiceImpl implements PokerService {
 		finally {
 		}
 	}
+
+	@Override
+	public void stopGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+		try {
+			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			if (!Boolean.TRUE.equals(game.getRunning())) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("game not running")));
+			}
+
+			game.setRunning(false);
+			game.setCards(new ArrayList<PokerCardIdentifier>());
+			game.setButtonPosition(0);
+			game.setRound(0l);
+
+			final Collection<PokerPlayerBean> players = pokerPlayerDao.load(game.getPlayers());
+			for (final PokerPlayerBean player : players) {
+				for (int i = 0; i < START_CARDS; ++i) {
+					player.setCards(new ArrayList<PokerCardIdentifier>());
+				}
+			}
+
+			final ValidationResult errors = validationExecutor.validate(game);
+			if (errors.hasErrors()) {
+				logger.warn(game.getClass().getSimpleName() + " " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("running").add("cards").add("cardPosition").add("buttonPosition").add("round"));
+			for (final PokerPlayerBean player : players) {
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("cards"));
+			}
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
 }

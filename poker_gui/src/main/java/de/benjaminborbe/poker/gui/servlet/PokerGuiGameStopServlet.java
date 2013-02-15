@@ -38,7 +38,7 @@ import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class PokerGuiGameStartServlet extends WebsiteHtmlServlet {
+public class PokerGuiGameStopServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
@@ -51,7 +51,7 @@ public class PokerGuiGameStartServlet extends WebsiteHtmlServlet {
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
 	@Inject
-	public PokerGuiGameStartServlet(
+	public PokerGuiGameStopServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -80,7 +80,7 @@ public class PokerGuiGameStartServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
-			pokerService.startGame(pokerGameIdentifier);
+			pokerService.stopGame(pokerGameIdentifier);
 		}
 		catch (final PokerServiceException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -89,7 +89,7 @@ public class PokerGuiGameStartServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			widgets.add("start game failed!");
+			widgets.add("stop game failed!");
 			widgets.add(new ValidationExceptionWidget(e));
 
 			widgets.add(new BrWidget());

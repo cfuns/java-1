@@ -17,6 +17,7 @@ import de.benjaminborbe.poker.gui.servlet.PokerGuiGameJoinServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameLeaveServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStartServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStopServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerCreateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerDeleteServlet;
@@ -32,6 +33,9 @@ public class PokerGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private PokerGuiGameJoinServlet pokerGuiGameJoinServlet;
+
+	@Inject
+	private PokerGuiGameStopServlet pokerGuiGameStopServlet;
 
 	@Inject
 	private PokerGuiGameLeaveServlet pokerGuiGameLeaveServlet;
@@ -82,6 +86,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(pokerGuiServlet, PokerGuiConstants.URL_HOME));
+		result.add(new ServletInfo(pokerGuiGameStopServlet, PokerGuiConstants.URL_GAME_STOP));
 		result.add(new ServletInfo(pokerGuiGameJoinServlet, PokerGuiConstants.URL_GAME_JOIN));
 		result.add(new ServletInfo(pokerGuiGameLeaveServlet, PokerGuiConstants.URL_GAME_LEAVE));
 		result.add(new ServletInfo(pokerGuiGameStartServlet, PokerGuiConstants.URL_GAME_START));

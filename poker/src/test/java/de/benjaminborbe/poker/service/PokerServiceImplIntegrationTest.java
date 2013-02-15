@@ -104,78 +104,78 @@ public class PokerServiceImplIntegrationTest {
 	}
 
 	@Test
-	public void testStartGame() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
-		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		assertNotNull(gameIdentifier);
-
-		{
-			final PokerGame game = service.getGame(gameIdentifier);
-			assertNotNull(game);
-			assertEquals(gameIdentifier, game.getId());
-			assertEquals(Boolean.FALSE, game.getRunning());
-			assertEquals(new Long(0), game.getPot());
-			assertEquals(new Long(50), game.getSmallBlind());
-			assertEquals(new Long(100), game.getBigBlind());
-
-			assertNull(service.getActivePlayer(gameIdentifier));
-		}
-
-		assertNotNull(service.getPlayers(gameIdentifier));
-		assertEquals(0, service.getPlayers(gameIdentifier).size());
-
-		try {
-			service.startGame(gameIdentifier);
-			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
-			assertNotNull(e);
-		}
-
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA");
-		assertNotNull(playerIdentifierA);
-		service.joinGame(gameIdentifier, playerIdentifierA);
-
-		assertNotNull(service.getPlayers(gameIdentifier));
-		assertEquals(1, service.getPlayers(gameIdentifier).size());
-
-		try {
-			service.startGame(gameIdentifier);
-			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
-			assertNotNull(e);
-		}
-
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB");
-		assertNotNull(playerIdentifierB);
-		service.joinGame(gameIdentifier, playerIdentifierB);
-
-		assertNotNull(service.getPlayers(gameIdentifier));
-		assertEquals(2, service.getPlayers(gameIdentifier).size());
-
-		service.startGame(gameIdentifier);
-
-		{
-			final PokerGame game = service.getGame(gameIdentifier);
-			assertNotNull(game);
-			assertEquals(gameIdentifier, game.getId());
-			assertEquals(Boolean.TRUE, game.getRunning());
-			assertEquals(new Long(50), game.getSmallBlind());
-			assertEquals(new Long(100), game.getBigBlind());
-			assertEquals(new Long(150), game.getPot());
-
-			assertNotNull(service.getActivePlayer(gameIdentifier));
-
-			final List<PokerPlayerIdentifier> players = game.getPlayers();
-			assertNotNull(players);
-			assertEquals(2, players.size());
-			final List<PokerCardIdentifier> cards = game.getCards();
-			assertNotNull(cards);
-			assertEquals(52, cards.size());
-		}
-	}
+			public void testStartGame() throws Exception {
+				final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+				final PokerService service = injector.getInstance(PokerService.class);
+				final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
+				assertNotNull(gameIdentifier);
+		
+				{
+					final PokerGame game = service.getGame(gameIdentifier);
+					assertNotNull(game);
+					assertEquals(gameIdentifier, game.getId());
+					assertEquals(Boolean.FALSE, game.getRunning());
+					assertEquals(new Long(0), game.getPot());
+					assertEquals(new Long(50), game.getSmallBlind());
+					assertEquals(new Long(100), game.getBigBlind());
+		
+					assertNull(service.getActivePlayer(gameIdentifier));
+				}
+		
+				assertNotNull(service.getPlayers(gameIdentifier));
+				assertEquals(0, service.getPlayers(gameIdentifier).size());
+		
+				try {
+					service.startGame(gameIdentifier);
+					fail("ValidationException expected");
+				}
+				catch (final ValidationException e) {
+					assertNotNull(e);
+				}
+		
+				final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA");
+				assertNotNull(playerIdentifierA);
+				service.joinGame(gameIdentifier, playerIdentifierA);
+		
+				assertNotNull(service.getPlayers(gameIdentifier));
+				assertEquals(1, service.getPlayers(gameIdentifier).size());
+		
+				try {
+					service.startGame(gameIdentifier);
+					fail("ValidationException expected");
+				}
+				catch (final ValidationException e) {
+					assertNotNull(e);
+				}
+		
+				final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB");
+				assertNotNull(playerIdentifierB);
+				service.joinGame(gameIdentifier, playerIdentifierB);
+		
+				assertNotNull(service.getPlayers(gameIdentifier));
+				assertEquals(2, service.getPlayers(gameIdentifier).size());
+		
+				service.startGame(gameIdentifier);
+		
+				{
+					final PokerGame game = service.getGame(gameIdentifier);
+					assertNotNull(game);
+					assertEquals(gameIdentifier, game.getId());
+					assertEquals(Boolean.TRUE, game.getRunning());
+					assertEquals(new Long(50), game.getSmallBlind());
+					assertEquals(new Long(100), game.getBigBlind());
+					assertEquals(new Long(150), game.getPot());
+		
+					assertNotNull(service.getActivePlayer(gameIdentifier));
+		
+					final List<PokerPlayerIdentifier> players = game.getPlayers();
+					assertNotNull(players);
+					assertEquals(2, players.size());
+					final List<PokerCardIdentifier> cards = game.getCards();
+					assertNotNull(cards);
+					assertEquals(52, cards.size());
+				}
+			}
 
 	@Test
 	public void testHandCards() throws Exception {

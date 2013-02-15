@@ -95,12 +95,11 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
-				head.addCell("Id").addCell("").addCell("");
+				head.addCell("Id").addCell("");
 				table.setHead(head);
 				for (final PokerGame game : games) {
 					final TableRowWidget row = new TableRowWidget();
-					row.addCell(asString(game.getName()));
-					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId()));
+					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 					row.addCell(pokerGuiLinkFactory.gameDelete(request, game.getId()));
 					table.addRow(row);
 				}
@@ -117,10 +116,6 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
-	}
-
-	private String asString(final Object object) {
-		return object != null ? String.valueOf(object) : "";
 	}
 
 	@Override

@@ -40,4 +40,6 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_JOIN = "/game/join";
 
+	String URL_GAME_STOP = "/game/stop";
+
 }

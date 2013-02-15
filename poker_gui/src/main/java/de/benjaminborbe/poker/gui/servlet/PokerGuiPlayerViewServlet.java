@@ -102,9 +102,9 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 					final UlWidget ul = new UlWidget();
 					for (final PokerGame game : games) {
 						final ListWidget list = new ListWidget();
-						list.add(game.getName());
+						list.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 						list.add(" ");
-						list.add(pokerGuiLinkFactory.gameJoint(request, game.getId(), playerIdentifier));
+						list.add(pokerGuiLinkFactory.gameJoin(request, game.getId(), playerIdentifier));
 						ul.add(list);
 					}
 					widgets.add(ul);
@@ -113,7 +113,8 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			}
 			else {
 				final PokerGame game = pokerService.getGame(player.getGame());
-				widgets.add("Game: " + game.getName());
+				widgets.add("Game: ");
+				widgets.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 				widgets.add(new BrWidget());
 				if (!Boolean.TRUE.equals(game.getRunning())) {
 					widgets.add(pokerGuiLinkFactory.gameLeave(request, player.getGame(), playerIdentifier));

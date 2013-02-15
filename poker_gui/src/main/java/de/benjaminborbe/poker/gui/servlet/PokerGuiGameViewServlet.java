@@ -1,6 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,8 +20,10 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -86,20 +90,72 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final PokerGame game = pokerService.getGame(gameIdentifier);
 
 			widgets.add(new H2Widget("Status"));
-			widgets.add("running = " + Boolean.TRUE.equals(game.getRunning()));
-			widgets.add(new BrWidget());
-			final PokerPlayerIdentifier player = pokerService.getActivePlayer(gameIdentifier);
-			widgets.add("active player = " + (player != null ? player.getId() : "none"));
-			widgets.add(new BrWidget());
-
-			widgets.add(new H2Widget("Players"));
-			final UlWidget ul = new UlWidget();
-			for (final PokerPlayerIdentifier playerIdentifier : pokerService.getPlayers(gameIdentifier)) {
-				ul.add(playerIdentifier.getId());
+			if (Boolean.TRUE.equals(game.getRunning())) {
+				widgets.add("running = true");
+				widgets.add(new BrWidget());
+				widgets.add(pokerGuiLinkFactory.gameStop(request, gameIdentifier));
+				widgets.add(new BrWidget());
+				widgets.add("SmallBlind: " + game.getSmallBlind());
+				widgets.add(new BrWidget());
+				widgets.add("BigBlind: " + game.getBigBlind());
+				widgets.add(new BrWidget());
+				widgets.add("Pot: " + game.getPot());
+				widgets.add(new BrWidget());
 			}
-			widgets.add(ul);
-
-			widgets.add(pokerGuiLinkFactory.startGame(request, gameIdentifier));
+			else {
+				widgets.add("running = false");
+				widgets.add(new BrWidget());
+				widgets.add(pokerGuiLinkFactory.gameStart(request, gameIdentifier));
+				widgets.add(new BrWidget());
+			}
+			{
+				final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.getActivePlayer(gameIdentifier);
+				if (pokerPlayerIdentifier != null) {
+					final PokerPlayer pokerPlayer = pokerService.getPlayer(pokerPlayerIdentifier);
+					widgets.add("active player = ");
+					widgets.add(pokerGuiLinkFactory.playerView(request, pokerPlayerIdentifier, pokerPlayer.getName()));
+				}
+				else {
+					widgets.add("active player = none");
+				}
+				widgets.add(new BrWidget());
+			}
+			{
+				widgets.add(new H2Widget("Board-Cards"));
+				final Collection<PokerCardIdentifier> cards = pokerService.getBoardCards(gameIdentifier);
+				if (cards.isEmpty()) {
+					widgets.add("no cards");
+				}
+				else {
+					final UlWidget ul = new UlWidget();
+					for (final PokerCardIdentifier card : cards) {
+						ul.add(card.getId());
+					}
+					widgets.add(ul);
+				}
+			}
+			{
+				widgets.add(new H2Widget("Players"));
+				final UlWidget ul = new UlWidget();
+				for (final PokerPlayerIdentifier pokerPlayerIdentifier : pokerService.getPlayers(gameIdentifier)) {
+					final ListWidget list = new ListWidget();
+					final PokerPlayer pokerPlayer = pokerService.getPlayer(pokerPlayerIdentifier);
+					list.add(pokerGuiLinkFactory.playerView(request, pokerPlayerIdentifier, pokerPlayer.getName()));
+					final Collection<PokerCardIdentifier> cards = pokerService.getHandCards(pokerPlayerIdentifier);
+					if (cards.isEmpty()) {
+						widgets.add("no cards");
+					}
+					else {
+						final UlWidget cardUl = new UlWidget();
+						for (final PokerCardIdentifier card : cards) {
+							cardUl.add(card.getId());
+						}
+						list.add(cardUl);
+						ul.add(list);
+					}
+				}
+				widgets.add(ul);
+			}
 
 			return widgets;
 		}

@@ -52,4 +52,6 @@ public interface PokerService {
 
 	Collection<PokerGame> getGames(boolean running) throws PokerServiceException;
 
+	void stopGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
+
 }

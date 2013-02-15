@@ -95,12 +95,11 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
-				head.addCell("Id").addCell("").addCell("");
+				head.addCell("Id").addCell("");
 				table.setHead(head);
 				for (final PokerPlayer player : players) {
 					final TableRowWidget row = new TableRowWidget();
-					row.addCell(asString(player.getName()));
-					row.addCell(pokerGuiLinkFactory.playerView(request, player.getId()));
+					row.addCell(pokerGuiLinkFactory.playerView(request, player.getId(), asString(player.getName())));
 					row.addCell(pokerGuiLinkFactory.playerDelete(request, player.getId()));
 					table.addRow(row);
 				}

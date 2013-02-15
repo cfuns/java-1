@@ -127,4 +127,8 @@ public class PokerServiceMock implements PokerService {
 		return null;
 	}
 
+	@Override
+	public void stopGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+	}
+
 }
