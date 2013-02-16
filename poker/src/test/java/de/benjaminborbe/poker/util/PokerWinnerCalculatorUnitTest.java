@@ -73,9 +73,9 @@ public class PokerWinnerCalculatorUnitTest {
 		final PokerCardsFlushComparator pokerCardsFlushComparator = new PokerCardsFlushComparator();
 		final PokerCardsStraightComparator pokerCardsStraightComparator = new PokerCardsStraightComparator();
 		final PokerCardsThreeOfAKindComparator pokerCardsThreeOfAKindComparator = new PokerCardsThreeOfAKindComparator();
-		final PokerCardsTwoPairComparator pokerCardsTwoPairComparator = new PokerCardsTwoPairComparator();
-		final PokerCardsPairComparator pokerCardsPairComparator = new PokerCardsPairComparator();
 		final PokerCardsHighcardComparator pokerCardsHighcardComparator = new PokerCardsHighcardComparator(comparatorUtil, pokerCardComparator);
+		final PokerCardsTwoPairComparator pokerCardsTwoPairComparator = new PokerCardsTwoPairComparator(pokerCardsHighcardComparator);
+		final PokerCardsPairComparator pokerCardsPairComparator = new PokerCardsPairComparator(pokerCardsHighcardComparator);
 
 		final PokerCardsComparator comparator = new PokerCardsComparator(pokerCardsRoyalFlushComparator, pokerCardsStraightFlushComparator, pokerCardsFourOfAKindComparator,
 				pokerCardsFullHouseComparator, pokerCardsFlushComparator, pokerCardsStraightComparator, pokerCardsThreeOfAKindComparator, pokerCardsTwoPairComparator,
