@@ -65,14 +65,14 @@ public class PokerWinnerCalculatorUnitTest {
 		final PokerValueComparator pokerValueComparator = new PokerValueComparator();
 		final PokerColorComparator pokerColorComparator = new PokerColorComparator();
 		final PokerCardComparator pokerCardComparator = new PokerCardComparator(pokerValueComparator, pokerColorComparator);
-
+		final PokerCardUtil pokerCardUtil = new PokerCardUtil(comparatorUtil, pokerValueComparator);
 		final PokerCardsHighcardComparator pokerCardsHighcardComparator = new PokerCardsHighcardComparator(comparatorUtil, pokerCardComparator);
-		final PokerCardsRoyalFlushComparator pokerCardsRoyalFlushComparator = new PokerCardsRoyalFlushComparator();
-		final PokerCardsStraightFlushComparator pokerCardsStraightFlushComparator = new PokerCardsStraightFlushComparator();
+		final PokerCardsRoyalFlushComparator pokerCardsRoyalFlushComparator = new PokerCardsRoyalFlushComparator(comparatorUtil, pokerCardUtil, pokerCardComparator);
+		final PokerCardsStraightFlushComparator pokerCardsStraightFlushComparator = new PokerCardsStraightFlushComparator(comparatorUtil, pokerCardUtil, pokerCardComparator);
 		final PokerCardsFourOfAKindComparator pokerCardsFourOfAKindComparator = new PokerCardsFourOfAKindComparator(pokerCardsHighcardComparator);
 		final PokerCardsFullHouseComparator pokerCardsFullHouseComparator = new PokerCardsFullHouseComparator(comparatorUtil, pokerValueComparator);
-		final PokerCardsFlushComparator pokerCardsFlushComparator = new PokerCardsFlushComparator(comparatorUtil, pokerCardComparator);
-		final PokerCardsStraightComparator pokerCardsStraightComparator = new PokerCardsStraightComparator();
+		final PokerCardsFlushComparator pokerCardsFlushComparator = new PokerCardsFlushComparator(pokerCardUtil, comparatorUtil, pokerCardComparator);
+		final PokerCardsStraightComparator pokerCardsStraightComparator = new PokerCardsStraightComparator(pokerCardUtil, pokerValueComparator);
 		final PokerCardsTwoPairComparator pokerCardsTwoPairComparator = new PokerCardsTwoPairComparator(pokerCardsHighcardComparator);
 		final PokerCardsThreeOfAKindComparator pokerCardsThreeOfAKindComparator = new PokerCardsThreeOfAKindComparator(pokerCardsHighcardComparator);
 		final PokerCardsPairComparator pokerCardsPairComparator = new PokerCardsPairComparator(pokerCardsHighcardComparator);

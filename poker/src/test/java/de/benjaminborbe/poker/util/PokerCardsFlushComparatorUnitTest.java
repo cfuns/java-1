@@ -156,7 +156,8 @@ public class PokerCardsFlushComparatorUnitTest {
 		final PokerValueComparator pokerValueComparator = new PokerValueComparator();
 		final PokerColorComparator pokerColorComparator = new PokerColorComparator();
 		final PokerCardComparator pokerCardComparator = new PokerCardComparator(pokerValueComparator, pokerColorComparator);
-		return new PokerCardsFlushComparator(comparatorUtil, pokerCardComparator);
+		final PokerCardUtil pokerCardUtil = new PokerCardUtil(comparatorUtil, pokerValueComparator);
+		return new PokerCardsFlushComparator(pokerCardUtil, comparatorUtil, pokerCardComparator);
 	}
 
 	private PokerCardIdentifier buildCard(final PokerCardColor color, final PokerCardValue value) {

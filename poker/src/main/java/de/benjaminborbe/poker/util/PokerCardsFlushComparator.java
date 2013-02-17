@@ -17,8 +17,11 @@ public class PokerCardsFlushComparator implements Comparator<Collection<PokerCar
 
 	private final ComparatorUtil comparatorUtil;
 
+	private final PokerCardUtil pokerCardUtil;
+
 	@Inject
-	public PokerCardsFlushComparator(final ComparatorUtil comparatorUtil, final PokerCardComparator pokerCardComparator) {
+	public PokerCardsFlushComparator(final PokerCardUtil pokerCardUtil, final ComparatorUtil comparatorUtil, final PokerCardComparator pokerCardComparator) {
+		this.pokerCardUtil = pokerCardUtil;
 		this.comparatorUtil = comparatorUtil;
 		this.pokerCardComparator = pokerCardComparator;
 	}
@@ -46,7 +49,7 @@ public class PokerCardsFlushComparator implements Comparator<Collection<PokerCar
 	}
 
 	private List<PokerCardIdentifier> buildList(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardColor, PokerCardIdentifier> map = buildMap(cards);
+		final MapList<PokerCardColor, PokerCardIdentifier> map = pokerCardUtil.groupByColor(cards);
 		for (final List<PokerCardIdentifier> e : map.values()) {
 			if (e.size() >= 5) {
 				return comparatorUtil.sort(e, pokerCardComparator);
@@ -55,11 +58,4 @@ public class PokerCardsFlushComparator implements Comparator<Collection<PokerCar
 		return null;
 	}
 
-	private MapList<PokerCardColor, PokerCardIdentifier> buildMap(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardColor, PokerCardIdentifier> result = new MapList<PokerCardColor, PokerCardIdentifier>();
-		for (final PokerCardIdentifier card : cards) {
-			result.add(card.getColor(), card);
-		}
-		return result;
-	}
 }
