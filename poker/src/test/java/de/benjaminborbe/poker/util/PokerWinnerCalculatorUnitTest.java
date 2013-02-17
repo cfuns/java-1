@@ -70,8 +70,8 @@ public class PokerWinnerCalculatorUnitTest {
 		final PokerCardsRoyalFlushComparator pokerCardsRoyalFlushComparator = new PokerCardsRoyalFlushComparator();
 		final PokerCardsStraightFlushComparator pokerCardsStraightFlushComparator = new PokerCardsStraightFlushComparator();
 		final PokerCardsFourOfAKindComparator pokerCardsFourOfAKindComparator = new PokerCardsFourOfAKindComparator(pokerCardsHighcardComparator);
-		final PokerCardsFullHouseComparator pokerCardsFullHouseComparator = new PokerCardsFullHouseComparator();
-		final PokerCardsFlushComparator pokerCardsFlushComparator = new PokerCardsFlushComparator();
+		final PokerCardsFullHouseComparator pokerCardsFullHouseComparator = new PokerCardsFullHouseComparator(comparatorUtil, pokerValueComparator);
+		final PokerCardsFlushComparator pokerCardsFlushComparator = new PokerCardsFlushComparator(comparatorUtil, pokerCardComparator);
 		final PokerCardsStraightComparator pokerCardsStraightComparator = new PokerCardsStraightComparator();
 		final PokerCardsTwoPairComparator pokerCardsTwoPairComparator = new PokerCardsTwoPairComparator(pokerCardsHighcardComparator);
 		final PokerCardsThreeOfAKindComparator pokerCardsThreeOfAKindComparator = new PokerCardsThreeOfAKindComparator(pokerCardsHighcardComparator);
