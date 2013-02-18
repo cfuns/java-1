@@ -99,11 +99,6 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerGame> getGames() throws PokerServiceException {
-		return null;
-	}
-
-	@Override
 	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
 		return null;
 	}
@@ -136,45 +131,50 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier getBigBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	public PokerPlayerIdentifier getBigBlindPlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public PokerPlayerIdentifier getSmallBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	public PokerPlayerIdentifier getSmallBlindPlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public PokerPlayerIdentifier getButtonPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+	public PokerPlayerIdentifier getButtonPlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
 
 	@Override
-	public void expectPokerAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 	}
 
 	@Override
-	public void expectPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 	}
 
 	@Override
-	public void expectPokerPlayerRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 	}
 
 	@Override
-	public boolean hasPokerAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasPokerPlayerRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		return false;
+	}
+
+	@Override
+	public Collection<PokerGame> getGames() throws PokerServiceException {
+		return null;
 	}
 
 }

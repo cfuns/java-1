@@ -86,6 +86,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
@@ -110,7 +111,10 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 						final ListWidget list = new ListWidget();
 						list.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 						list.add(" ");
-						list.add(pokerGuiLinkFactory.gameJoin(request, game.getId(), playerIdentifier));
+						if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+							list.add(pokerGuiLinkFactory.gameJoin(request, game.getId(), playerIdentifier));
+							list.add(" ");
+						}
 						ul.add(list);
 					}
 					widgets.add(ul);
@@ -122,15 +126,21 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 				widgets.add("Game: ");
 				widgets.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 				widgets.add(new BrWidget());
-				if (!Boolean.TRUE.equals(game.getRunning())) {
-					widgets.add(pokerGuiLinkFactory.gameLeave(request, player.getGame(), playerIdentifier));
+				if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+					if (!Boolean.TRUE.equals(game.getRunning())) {
+						widgets.add(pokerGuiLinkFactory.gameLeave(request, player.getGame(), playerIdentifier));
+					}
+					widgets.add(new BrWidget());
 				}
 			}
-			widgets.add(new BrWidget());
 
 			return widgets;
 		}
 		catch (final PokerServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
@@ -141,7 +151,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

@@ -89,9 +89,9 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-
 			final Collection<PokerGame> games = pokerService.getGames();
 			if (games.isEmpty()) {
 				widgets.add("no game found");
@@ -106,19 +106,30 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 				for (final PokerGame game : games) {
 					final TableRowWidget row = new TableRowWidget();
 					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
-					row.addCell(pokerGuiLinkFactory.gameDelete(request, game.getId()));
+					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+						row.addCell(pokerGuiLinkFactory.gameDelete(request, game.getId()));
+					}
+					else {
+						row.addCell("");
+					}
 					table.addRow(row);
 				}
 				widgets.add(table);
 			}
-
-			widgets.add(pokerGuiLinkFactory.gameCreate(request));
-			widgets.add(" ");
+			if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+				widgets.add(pokerGuiLinkFactory.gameCreate(request));
+				widgets.add(" ");
+			}
 			widgets.add(pokerGuiLinkFactory.playerList(request));
+			widgets.add(" ");
 
 			return widgets;
 		}
 		catch (final PokerServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
@@ -137,7 +148,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

@@ -91,6 +91,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
@@ -117,19 +118,31 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 						row.addCell("-");
 					}
 					row.addCell(asString(player.getAmount()));
-					row.addCell(pokerGuiLinkFactory.playerDelete(request, player.getId()));
+					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+						row.addCell(pokerGuiLinkFactory.playerDelete(request, player.getId()));
+					}
+					else {
+						row.addCell("");
+					}
 					table.addRow(row);
 				}
 				widgets.add(table);
 			}
 
-			widgets.add(pokerGuiLinkFactory.playerCreate(request));
-			widgets.add(" ");
+			if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+				widgets.add(pokerGuiLinkFactory.playerCreate(request));
+				widgets.add(" ");
+			}
 			widgets.add(pokerGuiLinkFactory.gameList(request));
+			widgets.add(" ");
 
 			return widgets;
 		}
 		catch (final PokerServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
@@ -152,7 +165,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

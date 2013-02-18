@@ -103,6 +103,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
@@ -113,8 +114,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			if (Boolean.TRUE.equals(game.getRunning())) {
 				widgets.add("running = true");
 				widgets.add(new BrWidget());
-				widgets.add(pokerGuiLinkFactory.gameStop(request, gameIdentifier));
-				widgets.add(new BrWidget());
+				if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+					widgets.add(pokerGuiLinkFactory.gameStop(request, gameIdentifier));
+					widgets.add(new BrWidget());
+				}
 				widgets.add("Round: " + game.getRound());
 				widgets.add(new BrWidget());
 				widgets.add("SmallBlind: " + game.getSmallBlind());
@@ -139,18 +142,20 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 					widgets.add("ActivePlayer: ");
 					widgets.add(toWidget(request, playerIdentifier));
 					widgets.add(new BrWidget());
-					widgets.add(new H2Widget("Actions"));
-					widgets.add(pokerGuiLinkFactory.call(request, gameIdentifier, playerIdentifier));
-					widgets.add(new BrWidget());
-					widgets.add(pokerGuiLinkFactory.fold(request, gameIdentifier, playerIdentifier));
-					widgets.add(new BrWidget());
-					final FormWidget form = new FormWidget(request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE);
-					form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_GAME_ID).addValue(gameIdentifier));
-					form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_PLAYER_ID).addValue(playerIdentifier));
-					form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_AMOUNT).addLabel("Amount:").addDefaultValue(game.getBet()));
-					form.addFormInputWidget(new FormInputSubmitWidget("raise"));
-					widgets.add(form);
-					widgets.add(new BrWidget());
+					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+						widgets.add(new H2Widget("Actions"));
+						widgets.add(pokerGuiLinkFactory.call(request, gameIdentifier, playerIdentifier));
+						widgets.add(new BrWidget());
+						widgets.add(pokerGuiLinkFactory.fold(request, gameIdentifier, playerIdentifier));
+						widgets.add(new BrWidget());
+						final FormWidget form = new FormWidget(request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE);
+						form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_GAME_ID).addValue(gameIdentifier));
+						form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_PLAYER_ID).addValue(playerIdentifier));
+						form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_AMOUNT).addLabel("Amount:").addDefaultValue(game.getBet()));
+						form.addFormInputWidget(new FormInputSubmitWidget("raise"));
+						widgets.add(form);
+						widgets.add(new BrWidget());
+					}
 				}
 				else {
 					widgets.add("active player = none");
@@ -160,8 +165,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			else {
 				widgets.add("running = false");
 				widgets.add(new BrWidget());
-				widgets.add(pokerGuiLinkFactory.gameStart(request, gameIdentifier));
-				widgets.add(new BrWidget());
+				if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+					widgets.add(pokerGuiLinkFactory.gameStart(request, gameIdentifier));
+					widgets.add(new BrWidget());
+				}
 			}
 			{
 				widgets.add(new H2Widget("Board / Flop+Turn+River"));
@@ -222,6 +229,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
 
 	public Widget toWidget(final HttpServletRequest request, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, MalformedURLException,
@@ -247,7 +258,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
