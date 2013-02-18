@@ -3,6 +3,9 @@ package de.benjaminborbe.projectile.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
@@ -22,6 +25,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.StreamUtil;
@@ -51,14 +55,21 @@ public class ProjectileMailReportFetcher {
 				final int count = fldr.getMessageCount();
 				logger.debug(count + " total messages");
 
+				final Map<String, Date> subjectSendDate = new HashMap<String, Date>();
+
 				// Message numbers start at 1
 				for (int i = 1; i <= count; i++) {
 					logger.debug("process message " + i + " started");
 					// Get a message by its sequence number
 					final Message m = fldr.getMessage(i);
-
 					final String subject = m.getSubject();
 					logger.debug("subject: " + subject);
+					final Date sendDate = m.getSentDate();
+					logger.debug("sendDate: " + dateUtil.dateTimeString(sendDate));
+					if (!subjectSendDate.containsKey(subject) || subjectSendDate.get(subject).before(sendDate)) {
+						subjectSendDate.put(subject, sendDate);
+					}
+
 					final Object content = m.getContent();
 					if (content instanceof Multipart) {
 						final Multipart mp = (Multipart) content;
@@ -80,16 +91,26 @@ public class ProjectileMailReportFetcher {
 							}
 						}
 					}
-
-					if (projectileConfig.getPop3Delete()) {
-						// mark mail to delete
-						m.setFlag(Flags.Flag.DELETED, true);
-						logger.debug("mark mail to delete");
-					}
-					else {
-						logger.debug("leave mail on server");
-					}
 					logger.debug("process message " + i + " started");
+				}
+
+				if (projectileConfig.getPop3Delete()) {
+					for (int i = 1; i <= count; i++) {
+						// Get a message by its sequence number
+						final Message m = fldr.getMessage(i);
+						final String subject = m.getSubject();
+						if (m.getSentDate().before(subjectSendDate.get(subject))) {
+							// mark mail to delete
+							m.setFlag(Flags.Flag.DELETED, true);
+							logger.debug("mark mail to delete: " + m.getSubject() + " " + dateUtil.dateTimeString(m.getSentDate()));
+						}
+						else {
+							logger.debug("leave mail on server: " + m.getSubject() + " " + dateUtil.dateTimeString(m.getSentDate()));
+						}
+					}
+				}
+				else {
+					logger.debug("leave mails on server");
 				}
 
 				// "true" actually deletes flagged messages from folder
@@ -121,7 +142,6 @@ public class ProjectileMailReportFetcher {
 				}
 			}
 		}
-
 	}
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
@@ -134,14 +154,18 @@ public class ProjectileMailReportFetcher {
 
 	private final ProjectileConfig projectileConfig;
 
+	private final DateUtil dateUtil;
+
 	@Inject
 	public ProjectileMailReportFetcher(
 			final Logger logger,
+			final DateUtil dateUtil,
 			final ProjectileConfig projectileConfig,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final StreamUtil streamUtil,
 			final ProjectileCsvReportImporter projectileCsvReportImporter) {
 		this.logger = logger;
+		this.dateUtil = dateUtil;
 		this.projectileConfig = projectileConfig;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.streamUtil = streamUtil;

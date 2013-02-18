@@ -22,7 +22,7 @@ public class ProjectileNameMapper {
 		else {
 			result = fullname;
 		}
-		logger.debug("fullnameToLogin - fullname: " + fullname + " => " + result);
+		logger.trace("fullnameToLogin - fullname: " + fullname + " => " + result);
 		return result;
 	}
 }
