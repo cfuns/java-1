@@ -42,6 +42,7 @@ public class ProjectileMailReportFetcher {
 				final Session session = Session.getInstance(new Properties());
 				store = session.getStore("pop3s");
 				store.connect(host, user, password);
+				logger.debug("open connection to " + host);
 
 				final Folder fldr = store.getFolder("INBOX");
 
@@ -52,10 +53,12 @@ public class ProjectileMailReportFetcher {
 
 				// Message numbers start at 1
 				for (int i = 1; i <= count; i++) {
+					logger.debug("process message " + i + " started");
 					// Get a message by its sequence number
 					final Message m = fldr.getMessage(i);
 
-					final String subj = m.getSubject();
+					final String subject = m.getSubject();
+					logger.debug("subject: " + subject);
 					final Object content = m.getContent();
 					if (content instanceof Multipart) {
 						final Multipart mp = (Multipart) content;
@@ -72,7 +75,7 @@ public class ProjectileMailReportFetcher {
 								streamUtil.copy(inputStream, outputStream);
 
 								final String csvContent = outputStream.toString("ISO-8859-1");
-								final ProjectileSlacktimeReportInterval interval = buildInterval(subj);
+								final ProjectileSlacktimeReportInterval interval = buildInterval(subject);
 								projectileCsvReportImporter.importCsvReport(csvContent, interval);
 							}
 						}
@@ -86,10 +89,12 @@ public class ProjectileMailReportFetcher {
 					else {
 						logger.debug("leave mail on server");
 					}
+					logger.debug("process message " + i + " started");
 				}
 
 				// "true" actually deletes flagged messages from folder
 				fldr.close(true);
+				logger.debug("close connection to " + host);
 			}
 			catch (final NoSuchProviderException e) {
 				logger.warn(e.getClass().getName(), e);
