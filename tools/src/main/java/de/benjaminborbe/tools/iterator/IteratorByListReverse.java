@@ -3,9 +3,9 @@ package de.benjaminborbe.tools.iterator;
 import java.util.Arrays;
 import java.util.List;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 
-public class IteratorByListReverse<T, E extends Exception> implements IteratorBase<T, E> {
+public class IteratorByListReverse<T, E extends Exception> implements IteratorWithException<T, E> {
 
 	private int pos;
 

@@ -4,17 +4,17 @@ import java.util.NoSuchElementException;
 
 import com.google.common.base.Predicate;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 
-public class IteratorFilter<T, E extends Exception> implements IteratorBase<T, E> {
+public class IteratorFilter<T, E extends Exception> implements IteratorWithException<T, E> {
 
-	private final IteratorBase<T, E> entityIterator;
+	private final IteratorWithException<T, E> entityIterator;
 
 	private final Predicate<T> predicate;
 
 	private T next;
 
-	public IteratorFilter(final IteratorBase<T, E> entityIterator, final Predicate<T> predicate) {
+	public IteratorFilter(final IteratorWithException<T, E> entityIterator, final Predicate<T> predicate) {
 		this.entityIterator = entityIterator;
 		this.predicate = predicate;
 	}

@@ -17,7 +17,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportValueListIterator;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -169,8 +169,8 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		}
 		final StringBuilder sb = new StringBuilder();
 
-		final IteratorBase<String, IteratorException> ti = new IteratorByListReverse<String, IteratorException>(tooltips);
-		final IteratorBase<String, IteratorException> vi = new IteratorByListReverse<String, IteratorException>(values);
+		final IteratorWithException<String, IteratorException> ti = new IteratorByListReverse<String, IteratorException>(tooltips);
+		final IteratorWithException<String, IteratorException> vi = new IteratorByListReverse<String, IteratorException>(values);
 		boolean first = true;
 		while (ti.hasNext() && vi.hasNext()) {
 			final String tooltip = ti.next();

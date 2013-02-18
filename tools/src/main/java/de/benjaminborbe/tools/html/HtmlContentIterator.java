@@ -4,11 +4,11 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.StringIterator;
 
-public class HtmlContentIterator implements IteratorBase<String, ParseException> {
+public class HtmlContentIterator implements IteratorWithException<String, ParseException> {
 
 	private static final char TAG_OPEN = '<';
 

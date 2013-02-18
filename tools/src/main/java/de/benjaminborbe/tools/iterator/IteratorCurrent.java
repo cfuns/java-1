@@ -1,14 +1,14 @@
 package de.benjaminborbe.tools.iterator;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 
-public class IteratorCurrent<T, E extends Exception> implements IteratorBase<T, E> {
+public class IteratorCurrent<T, E extends Exception> implements IteratorWithException<T, E> {
 
-	private final IteratorBase<T, E> iterator;
+	private final IteratorWithException<T, E> iterator;
 
 	private T current;
 
-	public IteratorCurrent(final IteratorBase<T, E> iterator) {
+	public IteratorCurrent(final IteratorWithException<T, E> iterator) {
 		this.iterator = iterator;
 	}
 

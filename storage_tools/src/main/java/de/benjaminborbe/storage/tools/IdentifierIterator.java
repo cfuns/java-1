@@ -1,7 +1,7 @@
 package de.benjaminborbe.storage.tools;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 
-public interface IdentifierIterator<T> extends IteratorBase<T, IdentifierIteratorException> {
+public interface IdentifierIterator<T> extends IteratorWithException<T, IdentifierIteratorException> {
 
 }

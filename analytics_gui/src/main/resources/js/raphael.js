@@ -2187,7 +2187,7 @@
             this._.rt.cy = cy;
             this.setBox(this.attrs, cx, cy);
             this.Group.style.rotation = this._.rt.deg;
-            // gradient fix for rotation. TODO
+            // gradient fix for rotation. 
             // var fill = (this.shape || this.node).getElementsByTagName(fillString);
             // fill = fill[0] || {};
             // var b = ((360 - this._.rt.deg) - 270) % 360;

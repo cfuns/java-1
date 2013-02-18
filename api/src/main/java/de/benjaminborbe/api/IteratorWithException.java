@@ -1,6 +1,6 @@
 package de.benjaminborbe.api;
 
-public interface IteratorBase<I, E extends Exception> {
+public interface IteratorWithException<I, E extends Exception> {
 
 	boolean hasNext() throws E;
 

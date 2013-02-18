@@ -2844,7 +2844,7 @@ function $AnchorScrollProvider() {
     // helper function to get first anchor from a NodeList
     // can't use filter.filter, as it accepts only instances of Array
     // and IE can't convert NodeList to an array using [].slice
-    // TODO(vojta): use filter if we change it to accept lists as well
+    // use filter if we change it to accept lists as well
     function getFirstAnchor(list) {
       var result = null;
       forEach(list, function(element) {
@@ -2917,7 +2917,7 @@ function Browser(window, document, $log, $sniffer) {
   var outstandingRequestCount = 0;
   var outstandingRequestCallbacks = [];
 
-  // TODO(vojta): remove this temporary api
+  // (vojta): remove this temporary api
   self.$$completeOutstandingRequest = completeOutstandingRequest;
   self.$$incOutstandingRequestCount = function() { outstandingRequestCount++; };
 
@@ -2945,7 +2945,7 @@ function Browser(window, document, $log, $sniffer) {
   /**
    * @private
    * Note: this method is used only by scenario runner
-   * TODO(vojta): prefix this method with $$ ?
+   * (vojta): prefix this method with $$ ?
    * @param {function()} callback Function that will be called when no outstanding request
    */
   self.notifyWhenNoOutstandingRequests = function(callback) {
@@ -3066,7 +3066,7 @@ function Browser(window, document, $log, $sniffer) {
   /**
    * @name ng.$browser#onUrlChange
    * @methodOf ng.$browser
-   * @TODO(vojta): refactor to use node's syntax for events
+   * @(vojta): refactor to use node's syntax for events
    *
    * @description
    * Register callback function that will be called, when url changes.
@@ -5346,7 +5346,7 @@ function $LocationProvider(){
     }
 
     $rootElement.bind('click', function(event) {
-      // TODO(vojta): rewrite link when opening in new tab/window (in legacy browser)
+      // (vojta): rewrite link when opening in new tab/window (in legacy browser)
       // currently we open nice url link and redirect then
 
       if (event.ctrlKey || event.metaKey || event.which == 2) return;
@@ -5888,7 +5888,7 @@ function parser(text, json, $filter, csp){
         statements.push(filterChain());
       if (!expect(';')) {
         // optimize for the common case where there is only one statement.
-        // TODO(size): maybe we should not support multiple statements?
+        // (size): maybe we should not support multiple statements?
         return statements.length == 1
           ? statements[0]
           : function(self, locals){
@@ -6199,7 +6199,7 @@ function setter(obj, path, setValue) {
  * @param {boolean=true} bindFnToScope
  * @returns value as accesbile by path
  */
-//TODO(misko): this function needs to be removed
+//(misko): this function needs to be removed
 function getter(obj, path, bindFnToScope) {
   if (!path) return obj;
   var keys = path.split('.');
@@ -7098,7 +7098,7 @@ function $RouteProvider(){
     /////////////////////////////////////////////////////
 
     function switchRouteMatcher(on, when) {
-      // TODO(i): this code is convoluted and inefficient, we should construct the route matching
+      // (i): this code is convoluted and inefficient, we should construct the route matching
       //   regex only once and then reuse it
       var regex = '^' + when.replace(/([\.\\\(\)\^\$])/g, "\\$1") + '$',
           params = [],
@@ -7439,7 +7439,7 @@ function $RootScopeProvider(){
             child;
 
         if (isFunction(isolate)) {
-          // TODO: remove at some point
+          // : remove at some point
           throw Error('API-CHANGE: Use $controller to instantiate controllers.');
         }
         if (isolate) {
@@ -8089,7 +8089,7 @@ function $SnifferProvider() {
 
         return eventSupport[event];
       },
-      // TODO(i): currently there is no way to feature detect CSP without triggering alerts
+      // (i): currently there is no way to feature detect CSP without triggering alerts
       csp: false
     };
   }];
@@ -8918,7 +8918,7 @@ function $HttpBackendProvider() {
 }
 
 function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument, locationProtocol) {
-  // TODO(vojta): fix the signature
+  // (vojta): fix the signature
   return function(method, url, post, callback, headers, timeout, withCredentials) {
     $browser.$$incOutstandingRequestCount();
     url = url || $browser.url();
@@ -12064,7 +12064,7 @@ var ngBindDirective = ngDirective(function(scope, element, attr) {
  */
 var ngBindTemplateDirective = ['$interpolate', function($interpolate) {
   return function(scope, element, attr) {
-    // TODO: move this to scenario runner
+    // : move this to scenario runner
     var interpolateFn = $interpolate(element.attr(attr.$attr.ngBindTemplate));
     element.addClass('ng-binding').data('$binding', interpolateFn);
     attr.$observe('ngBindTemplate', function(value) {
@@ -13282,7 +13282,7 @@ var ngRepeatDirective = ngDirective({
      </doc:scenario>
    </doc:example>
  */
-//TODO(misko): refactor to remove element from the DOM
+//(misko): refactor to remove element from the DOM
 var ngShowDirective = ngDirective(function(scope, element, attr){
   scope.$watch(attr.ngShow, function(value){
     element.css('display', toBoolean(value) ? '' : 'none');
@@ -13322,7 +13322,7 @@ var ngShowDirective = ngDirective(function(scope, element, attr){
      </doc:scenario>
    </doc:example>
  */
-//TODO(misko): refactor to remove element from the DOM
+//(misko): refactor to remove element from the DOM
 var ngHideDirective = ngDirective(function(scope, element, attr){
   scope.$watch(attr.ngHide, function(value){
     element.css('display', toBoolean(value) ? 'none' : '');
@@ -14119,7 +14119,7 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
 
         ctrl.$render = render;
 
-        // TODO(vojta): can't we optimize this ?
+        // (vojta): can't we optimize this ?
         scope.$watch(render);
 
         function render() {

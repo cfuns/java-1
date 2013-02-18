@@ -19,6 +19,17 @@ public class SearchUtilUnitTest {
 		assertThat(searchUtil.buildSearchParts(" für ").size(), is(1));
 		assertThat(searchUtil.buildSearchParts(" FÜR ").size(), is(1));
 
+		assertThat(searchUtil.buildSearchParts(" a ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" A ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" 0 ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" ö ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" ä ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" ü ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" Ö ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" Ä ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" Ü ").size(), is(1));
+		assertThat(searchUtil.buildSearchParts(" ß ").size(), is(1));
+
 		assertThat(searchUtil.buildSearchParts("foo bar"), is(hasItem("foo")));
 		assertThat(searchUtil.buildSearchParts("foo bar"), is(hasItem("bar")));
 

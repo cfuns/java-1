@@ -2,8 +2,8 @@ package de.benjaminborbe.analytics.api;
 
 import java.util.List;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 
-public interface AnalyticsReportValueListIterator extends IteratorBase<List<AnalyticsReportValue>, AnalyticsServiceException> {
+public interface AnalyticsReportValueListIterator extends IteratorWithException<List<AnalyticsReportValue>, AnalyticsServiceException> {
 
 }

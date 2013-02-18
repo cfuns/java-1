@@ -1,7 +1,7 @@
 package de.benjaminborbe.distributed.index.api;
 
-import de.benjaminborbe.api.IteratorBase;
+import de.benjaminborbe.api.IteratorWithException;
 
-public interface DistributedIndexSearchResultIterator extends IteratorBase<DistributedIndexSearchResult, DistributedIndexServiceException> {
+public interface DistributedIndexSearchResultIterator extends IteratorWithException<DistributedIndexSearchResult, DistributedIndexServiceException> {
 
 }
