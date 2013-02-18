@@ -16,11 +16,14 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.mock.PokerServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
+import de.benjaminborbe.wiki.api.WikiService;
+import de.benjaminborbe.wiki.mock.WikiServiceMock;
 
 public class PokerGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(WikiService.class).to(WikiServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(PokerService.class).to(PokerServiceMock.class).in(Singleton.class);

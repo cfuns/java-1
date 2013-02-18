@@ -24,5 +24,7 @@ public class WikiModule extends AbstractModule {
 		bind(WikiPageDao.class).to(WikiPageDaoImpl.class).in(Singleton.class);
 		bind(WikiService.class).to(WikiServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(WikiValidatorLinker.class);
 	}
 }

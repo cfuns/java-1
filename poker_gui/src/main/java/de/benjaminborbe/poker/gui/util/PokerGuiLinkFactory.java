@@ -107,4 +107,8 @@ public class PokerGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_FOLD, new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID,
 				gameIdentifier).add(PokerGuiConstants.PARAMETER_PLAYER_ID, playerIdentifier), "fold");
 	}
+
+	public Widget apiHelp(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_API_HELP, new MapParameter(), "Json-Api Help");
+	}
 }

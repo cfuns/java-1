@@ -11,9 +11,13 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
@@ -42,12 +46,20 @@ public class WikiServiceImpl implements WikiService {
 
 	private final WikiRendererFactory wikiRendererFactory;
 
+	private final ValidationExecutor validationExecutor;
+
 	@Inject
-	public WikiServiceImpl(final Logger logger, final WikiSpaceDao wikiSpaceDao, final WikiPageDao wikiPageDao, final WikiRendererFactory wikiRendererFactory) {
+	public WikiServiceImpl(
+			final Logger logger,
+			final WikiSpaceDao wikiSpaceDao,
+			final WikiPageDao wikiPageDao,
+			final WikiRendererFactory wikiRendererFactory,
+			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.wikiSpaceDao = wikiSpaceDao;
 		this.wikiPageDao = wikiPageDao;
 		this.wikiRendererFactory = wikiRendererFactory;
+		this.validationExecutor = validationExecutor;
 	}
 
 	@Override
@@ -62,10 +74,10 @@ public class WikiServiceImpl implements WikiService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 		catch (final IdentifierIteratorException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -74,17 +86,20 @@ public class WikiServiceImpl implements WikiService {
 		logger.trace("getPageIdentifiers");
 		try {
 			final List<WikiPageIdentifier> result = new ArrayList<WikiPageIdentifier>();
-			final IdentifierIterator<WikiPageIdentifier> i = wikiPageDao.getIdentifierIterator();
+			final EntityIterator<WikiPageBean> i = wikiPageDao.getEntityIterator();
 			while (i.hasNext()) {
-				result.add(i.next());
+				final WikiPageBean bean = i.next();
+				if (bean.getSpace().equals(wikiSpaceIdentifier)) {
+					result.add(bean.getId());
+				}
 			}
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
-		catch (final IdentifierIteratorException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+		catch (final EntityIteratorException e) {
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -99,7 +114,7 @@ public class WikiServiceImpl implements WikiService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -115,7 +130,7 @@ public class WikiServiceImpl implements WikiService {
 			}
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -156,12 +171,19 @@ public class WikiServiceImpl implements WikiService {
 			wikiPage.setContent(pageContent);
 			wikiPage.setContentType(WikiPageContentType.CONFLUENCE);
 			wikiPage.setSpace(wikiSpaceIdentifier);
+
+			final ValidationResult errors = validationExecutor.validate(wikiPage);
+			if (errors.hasErrors()) {
+				logger.warn(wikiPage.getClass().getSimpleName() + " " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			wikiPageDao.save(wikiPage);
 
 			return wikiPageIdentifier;
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -178,10 +200,17 @@ public class WikiServiceImpl implements WikiService {
 			final WikiPageBean wikiPage = wikiPageDao.load(wikiPageIdentifier);
 			wikiPage.setTitle(pageTitle);
 			wikiPage.setContent(pageContent);
+
+			final ValidationResult errors = validationExecutor.validate(wikiPage);
+			if (errors.hasErrors()) {
+				logger.warn(wikiPage.getClass().getSimpleName() + " " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			wikiPageDao.save(wikiPage);
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -204,12 +233,19 @@ public class WikiServiceImpl implements WikiService {
 			final WikiSpaceBean wikiSpace = wikiSpaceDao.create();
 			wikiSpace.setId(id);
 			wikiSpace.setName(spaceTitle);
+
+			final ValidationResult errors = validationExecutor.validate(wikiSpace);
+			if (errors.hasErrors()) {
+				logger.warn(wikiSpace.getClass().getSimpleName() + " " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
 			wikiSpaceDao.save(wikiSpace);
 
 			return id;
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -220,7 +256,7 @@ public class WikiServiceImpl implements WikiService {
 			wikiSpaceDao.delete(wikiSpaceIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 
@@ -234,7 +270,7 @@ public class WikiServiceImpl implements WikiService {
 			return renderer.render(content);
 		}
 		catch (final WikiRendererNotFoundException e) {
-			throw new WikiServiceException(e.getClass().getName(), e);
+			throw new WikiServiceException(e);
 		}
 	}
 

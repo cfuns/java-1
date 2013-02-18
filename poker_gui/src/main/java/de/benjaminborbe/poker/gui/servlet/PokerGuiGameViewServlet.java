@@ -223,6 +223,12 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				}
 			}
 
+			final UlWidget ul = new UlWidget();
+			ul.add(pokerGuiLinkFactory.gameList(request));
+			ul.add(pokerGuiLinkFactory.playerList(request));
+			ul.add(pokerGuiLinkFactory.apiHelp(request));
+			widgets.add(ul);
+
 			return widgets;
 		}
 		catch (final PokerServiceException e) {

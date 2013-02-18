@@ -31,16 +31,22 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.wiki.api.WikiPageIdentifier;
+import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
+import de.benjaminborbe.wiki.api.WikiService;
+import de.benjaminborbe.wiki.api.WikiServiceException;
 
 @Singleton
-public class PokerGuiServlet extends WebsiteHtmlServlet {
+public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 6022990232153082338L;
 
-	private static final String TITLE = "Poker";
+	private static final String TITLE = "Poker - Json-Api Help";
 
 	private final Logger logger;
 
@@ -50,8 +56,10 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 
 	private final PokerService pokerService;
 
+	private final WikiService wikiService;
+
 	@Inject
-	public PokerGuiServlet(
+	public PokerGuiApiHelpServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -63,12 +71,14 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final CacheService cacheService,
 			final PokerGuiLinkFactory pokerGuiLinkFactory,
-			final PokerService pokerService) {
+			final PokerService pokerService,
+			final WikiService wikiService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
 		this.pokerService = pokerService;
+		this.wikiService = wikiService;
 	}
 
 	@Override
@@ -79,17 +89,28 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier("POKER-ApiHelp");
+			widgets.add(new HtmlContentWidget(wikiService.renderPage(wikiPageIdentifier)));
 
-		final UlWidget ul = new UlWidget();
-		ul.add(pokerGuiLinkFactory.gameList(request));
-		ul.add(pokerGuiLinkFactory.playerList(request));
-		ul.add(pokerGuiLinkFactory.apiHelp(request));
-		widgets.add(ul);
+			final UlWidget ul = new UlWidget();
+			ul.add(pokerGuiLinkFactory.gameList(request));
+			ul.add(pokerGuiLinkFactory.playerList(request));
+			widgets.add(ul);
 
-		return widgets;
+			return widgets;
+		}
+		catch (final WikiServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
+		catch (final WikiPageNotFoundException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
 
 	@Override

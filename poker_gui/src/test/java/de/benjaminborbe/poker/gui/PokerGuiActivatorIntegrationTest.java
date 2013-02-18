@@ -49,6 +49,7 @@ public class PokerGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_HOME);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_API_HELP);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_CALL);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_FOLD);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE);
@@ -64,6 +65,10 @@ public class PokerGuiActivatorIntegrationTest {
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_LIST);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_VIEW);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_DELETE);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_CALL_JSON);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_FOLD_JSON);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE_JSON);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_STATUS_JSON);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

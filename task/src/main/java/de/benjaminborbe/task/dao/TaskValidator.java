@@ -13,11 +13,13 @@ import com.google.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.task.api.TaskFocus;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifier;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
@@ -54,6 +56,22 @@ public class TaskValidator extends ValidatorBase<TaskBean> {
 	@Override
 	protected Map<String, ValidatorRule<TaskBean>> buildRules() {
 		final Map<String, ValidatorRule<TaskBean>> result = new HashMap<String, ValidatorRule<TaskBean>>();
+
+		// id
+		{
+			final String field = "id";
+			result.put(field, new ValidatorRule<TaskBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final TaskBean bean) {
+					final TaskIdentifier value = bean.getId();
+					final List<ValidationConstraint<TaskIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskIdentifier>>();
+					constraints.add(new ValidationConstraintNotNull<TaskIdentifier>());
+					constraints.add(new ValidationConstraintIdentifier<TaskIdentifier>());
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
 
 		// name
 		{

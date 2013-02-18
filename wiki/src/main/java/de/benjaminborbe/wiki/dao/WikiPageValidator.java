@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.dao;
+package de.benjaminborbe.wiki.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,6 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
@@ -19,8 +18,9 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
+import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 
-public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
+public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
 
 	private final class ValidationConstrainAllowedCharacters implements ValidationConstraint<String> {
 
@@ -43,30 +43,30 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 	private final ValidationConstraintValidator validationConstraintValidator;
 
 	@Inject
-	public TaskContextValidator(final ValidationConstraintValidator validationConstraintValidator) {
+	public WikiPageValidator(final ValidationConstraintValidator validationConstraintValidator) {
 		this.validationConstraintValidator = validationConstraintValidator;
 	}
 
 	@Override
-	public Class<TaskContextBean> getType() {
-		return TaskContextBean.class;
+	public Class<WikiPageBean> getType() {
+		return WikiPageBean.class;
 	}
 
 	@Override
-	protected Map<String, ValidatorRule<TaskContextBean>> buildRules() {
-		final Map<String, ValidatorRule<TaskContextBean>> result = new HashMap<String, ValidatorRule<TaskContextBean>>();
+	protected Map<String, ValidatorRule<WikiPageBean>> buildRules() {
+		final Map<String, ValidatorRule<WikiPageBean>> result = new HashMap<String, ValidatorRule<WikiPageBean>>();
 
 		// id
 		{
 			final String field = "id";
-			result.put(field, new ValidatorRule<TaskContextBean>() {
+			result.put(field, new ValidatorRule<WikiPageBean>() {
 
 				@Override
-				public Collection<ValidationError> validate(final TaskContextBean bean) {
-					final TaskContextIdentifier value = bean.getId();
-					final List<ValidationConstraint<TaskContextIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskContextIdentifier>>();
-					constraints.add(new ValidationConstraintNotNull<TaskContextIdentifier>());
-					constraints.add(new ValidationConstraintIdentifier<TaskContextIdentifier>());
+				public Collection<ValidationError> validate(final WikiPageBean bean) {
+					final WikiPageIdentifier value = bean.getId();
+					final List<ValidationConstraint<WikiPageIdentifier>> constraints = new ArrayList<ValidationConstraint<WikiPageIdentifier>>();
+					constraints.add(new ValidationConstraintNotNull<WikiPageIdentifier>());
+					constraints.add(new ValidationConstraintIdentifier<WikiPageIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
@@ -75,11 +75,11 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 		// name
 		{
 			final String field = "name";
-			result.put(field, new ValidatorRule<TaskContextBean>() {
+			result.put(field, new ValidatorRule<WikiPageBean>() {
 
 				@Override
-				public Collection<ValidationError> validate(final TaskContextBean bean) {
-					final String value = bean.getName();
+				public Collection<ValidationError> validate(final WikiPageBean bean) {
+					final String value = bean.getTitle();
 					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));

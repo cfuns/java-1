@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.dao;
+package de.benjaminborbe.wiki.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,6 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
@@ -19,8 +18,9 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
+import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
-public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
+public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 
 	private final class ValidationConstrainAllowedCharacters implements ValidationConstraint<String> {
 
@@ -32,7 +32,7 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 		@Override
 		public boolean validate(final String object) {
 			for (final char c : object.toCharArray()) {
-				if (!Character.isLetter(c) && c != '-') {
+				if (!isValidCharacter(c)) {
 					return false;
 				}
 			}
@@ -43,30 +43,39 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 	private final ValidationConstraintValidator validationConstraintValidator;
 
 	@Inject
-	public TaskContextValidator(final ValidationConstraintValidator validationConstraintValidator) {
+	public WikiSpaceValidator(final ValidationConstraintValidator validationConstraintValidator) {
 		this.validationConstraintValidator = validationConstraintValidator;
 	}
 
-	@Override
-	public Class<TaskContextBean> getType() {
-		return TaskContextBean.class;
+	private boolean isValidCharacter(final char c) {
+		if (Character.isLetterOrDigit(c) || c == ' ') {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
-	protected Map<String, ValidatorRule<TaskContextBean>> buildRules() {
-		final Map<String, ValidatorRule<TaskContextBean>> result = new HashMap<String, ValidatorRule<TaskContextBean>>();
+	public Class<WikiSpaceBean> getType() {
+		return WikiSpaceBean.class;
+	}
+
+	@Override
+	protected Map<String, ValidatorRule<WikiSpaceBean>> buildRules() {
+		final Map<String, ValidatorRule<WikiSpaceBean>> result = new HashMap<String, ValidatorRule<WikiSpaceBean>>();
 
 		// id
 		{
 			final String field = "id";
-			result.put(field, new ValidatorRule<TaskContextBean>() {
+			result.put(field, new ValidatorRule<WikiSpaceBean>() {
 
 				@Override
-				public Collection<ValidationError> validate(final TaskContextBean bean) {
-					final TaskContextIdentifier value = bean.getId();
-					final List<ValidationConstraint<TaskContextIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskContextIdentifier>>();
-					constraints.add(new ValidationConstraintNotNull<TaskContextIdentifier>());
-					constraints.add(new ValidationConstraintIdentifier<TaskContextIdentifier>());
+				public Collection<ValidationError> validate(final WikiSpaceBean bean) {
+					final WikiSpaceIdentifier value = bean.getId();
+					final List<ValidationConstraint<WikiSpaceIdentifier>> constraints = new ArrayList<ValidationConstraint<WikiSpaceIdentifier>>();
+					constraints.add(new ValidationConstraintNotNull<WikiSpaceIdentifier>());
+					constraints.add(new ValidationConstraintIdentifier<WikiSpaceIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
@@ -75,10 +84,10 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 		// name
 		{
 			final String field = "name";
-			result.put(field, new ValidatorRule<TaskContextBean>() {
+			result.put(field, new ValidatorRule<WikiSpaceBean>() {
 
 				@Override
-				public Collection<ValidationError> validate(final TaskContextBean bean) {
+				public Collection<ValidationError> validate(final WikiSpaceBean bean) {
 					final String value = bean.getName();
 					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
