@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SearchUtilUnitTest {
@@ -38,12 +37,17 @@ public class SearchUtilUnitTest {
 
 	}
 
-	@Ignore("TODO")
 	@Test
 	public void testParseCamelCase() throws Exception {
 		final SearchUtil searchUtil = new SearchUtil();
 
 		assertThat(searchUtil.buildSearchParts("FooBar"), is(hasItem("foo")));
 		assertThat(searchUtil.buildSearchParts("FooBar"), is(hasItem("bar")));
+
+		assertThat(searchUtil.buildSearchParts(" FooBar "), is(hasItem("foo")));
+		assertThat(searchUtil.buildSearchParts(" FooBar "), is(hasItem("bar")));
+
+		assertThat(searchUtil.buildSearchParts(" foobar "), is(hasItem("foobar")));
+
 	}
 }

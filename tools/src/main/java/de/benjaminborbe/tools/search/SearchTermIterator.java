@@ -25,12 +25,12 @@ public class SearchTermIterator extends IteratorWithoutExceptionBase<String> {
 			else {
 				stringIterator.next();
 				if (startPos != -1) {
-					return stringIterator.substring(startPos, stringIterator.getCurrentPosition() - 1).toLowerCase();
+					return stringIterator.substring(startPos, stringIterator.getCurrentPosition() - 1);
 				}
 			}
 		}
 		if (startPos != -1) {
-			return stringIterator.substring(startPos, stringIterator.getCurrentPosition()).toLowerCase();
+			return stringIterator.substring(startPos, stringIterator.getCurrentPosition());
 		}
 		else {
 			return null;
