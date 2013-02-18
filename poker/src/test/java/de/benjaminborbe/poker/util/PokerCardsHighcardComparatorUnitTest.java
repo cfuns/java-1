@@ -18,14 +18,47 @@ public class PokerCardsHighcardComparatorUnitTest {
 	@Test
 	public void testCompareHighcard() throws Exception {
 		final PokerCardsHighcardComparator comparator = getComparator();
-		assertEquals(0, comparator.compare(buildCards(), buildCards()));
-		assertEquals(0, comparator.compare(buildCards(PokerCardValue.ACE), buildCards(PokerCardValue.ACE)));
+		assertEquals(0, comparator.compare(
 
-		assertEquals(-1, comparator.compare(buildCards(), buildCards(PokerCardValue.ACE)));
+		buildCards(),
+
+		buildCards()
+
+		));
+
+		assertEquals(0, comparator.compare(
+
+		buildCards(PokerCardValue.ACE),
+
+		buildCards(PokerCardValue.ACE)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+		buildCards(),
+
+		buildCards(PokerCardValue.ACE)
+
+		));
+
 		assertEquals(1, comparator.compare(buildCards(PokerCardValue.ACE), buildCards()));
 
-		assertEquals(-1, comparator.compare(buildCards(PokerCardValue.KING), buildCards(PokerCardValue.ACE)));
-		assertEquals(1, comparator.compare(buildCards(PokerCardValue.ACE), buildCards(PokerCardValue.KING)));
+		assertEquals(-1, comparator.compare(
+
+		buildCards(PokerCardValue.KING),
+
+		buildCards(PokerCardValue.ACE)
+
+		));
+
+		assertEquals(1, comparator.compare(
+
+		buildCards(PokerCardValue.ACE),
+
+		buildCards(PokerCardValue.KING)
+
+		));
 
 		assertEquals(0, comparator.compare(buildCards(PokerCardValue.ACE, PokerCardValue.KING), buildCards(PokerCardValue.ACE, PokerCardValue.KING)));
 		assertEquals(-1, comparator.compare(buildCards(PokerCardValue.ACE, PokerCardValue.QUEEN), buildCards(PokerCardValue.ACE, PokerCardValue.KING)));

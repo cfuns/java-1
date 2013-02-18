@@ -2,6 +2,7 @@ package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,13 +13,17 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -41,6 +46,10 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
+	private final AuthenticationService authenticationService;
+
+	private final PokerService pokerService;
+
 	@Inject
 	public PokerGuiServlet(
 			final Logger logger,
@@ -53,10 +62,13 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final UrlUtil urlUtil,
 			final CacheService cacheService,
-			final PokerGuiLinkFactory pokerGuiLinkFactory) {
+			final PokerGuiLinkFactory pokerGuiLinkFactory,
+			final PokerService pokerService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
+		this.authenticationService = authenticationService;
+		this.pokerService = pokerService;
 	}
 
 	@Override
@@ -79,4 +91,23 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 		return widgets;
 	}
 
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			pokerService.expectPokerAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final PokerServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
 }

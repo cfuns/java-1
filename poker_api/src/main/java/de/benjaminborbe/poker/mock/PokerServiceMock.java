@@ -6,6 +6,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
@@ -145,6 +148,33 @@ public class PokerServiceMock implements PokerService {
 	@Override
 	public PokerPlayerIdentifier getButtonPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
+	}
+
+	@Override
+	public void expectPokerAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	}
+
+	@Override
+	public void expectPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	}
+
+	@Override
+	public void expectPokerPlayerRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	}
+
+	@Override
+	public boolean hasPokerAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean hasPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		return false;
+	}
+
+	@Override
+	public boolean hasPokerPlayerRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		return false;
 	}
 
 }

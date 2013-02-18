@@ -2,6 +2,7 @@ package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,7 +14,9 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -51,6 +54,8 @@ public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
 
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public PokerGuiGameDeleteServlet(
 			final Logger logger,
@@ -68,6 +73,7 @@ public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 	}
 
@@ -103,4 +109,23 @@ public class PokerGuiGameDeleteServlet extends WebsiteHtmlServlet {
 		}
 	}
 
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			pokerService.expectPokerAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final PokerServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
 }

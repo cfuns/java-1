@@ -95,6 +95,22 @@ public class PokerCardsThreeOfAKindComparatorUnitTest {
 
 		));
 
+		assertEquals(1, comparator.compare(
+
+		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
+
+		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE),
+
+		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
+
+		));
+
 	}
 
 	private PokerCardsThreeOfAKindComparator getComparator() {

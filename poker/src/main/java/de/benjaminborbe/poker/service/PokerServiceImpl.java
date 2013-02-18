@@ -14,6 +14,12 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
@@ -59,9 +65,12 @@ public class PokerServiceImpl implements PokerService {
 
 	private final PokerWinnerCalculator pokerWinnerCalculator;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public PokerServiceImpl(
 			final Logger logger,
+			final AuthorizationService authorizationService,
 			final PokerWinnerCalculator pokerWinnerCalculator,
 			final ListUtil listUtil,
 			final PokerCardFactory pokerCardFactory,
@@ -70,6 +79,7 @@ public class PokerServiceImpl implements PokerService {
 			final ValidationExecutor validationExecutor,
 			final PokerPlayerDao pokerPlayerDao) {
 		this.logger = logger;
+		this.authorizationService = authorizationService;
 		this.pokerWinnerCalculator = pokerWinnerCalculator;
 		this.pokerCardFactory = pokerCardFactory;
 		this.listUtil = listUtil;
@@ -827,4 +837,65 @@ public class PokerServiceImpl implements PokerService {
 		finally {
 		}
 	}
+
+	@Override
+	public void expectPokerAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+		try {
+			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(POKER_ROLE_ADMIN));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+		try {
+			authorizationService.expectOneOfRoles(sessionIdentifier, new RoleIdentifier(POKER_ROLE_ADMIN), new RoleIdentifier(POKER_ROLE_PLAYER));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+		try {
+			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(POKER_ROLE_PLAYER));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public boolean hasPokerAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		try {
+			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(POKER_ROLE_ADMIN));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public boolean hasPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		try {
+			return authorizationService.hasOneOfRoles(sessionIdentifier, new RoleIdentifier(POKER_ROLE_ADMIN), new RoleIdentifier(POKER_ROLE_PLAYER));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public boolean hasPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		try {
+			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(POKER_ROLE_PLAYER));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
 }

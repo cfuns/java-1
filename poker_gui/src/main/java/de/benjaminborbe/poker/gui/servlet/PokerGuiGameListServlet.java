@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +16,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -54,6 +57,8 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 
 	private final PokerGuiLinkFactory pokerGuiLinkFactory;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public PokerGuiGameListServlet(
 			final Logger logger,
@@ -72,6 +77,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -124,5 +130,25 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			pokerService.expectPokerAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final PokerServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
 	}
 }

@@ -30,10 +30,10 @@ public class PokerCardsStraightComparator implements Comparator<Collection<Poker
 			return 0;
 		}
 		else if (listA != null && listB == null) {
-			return -1;
+			return 1;
 		}
 		else if (listA == null && listB != null) {
-			return 1;
+			return -1;
 		}
 		else {
 			return pokerValueComparator.compare(listA.get(listA.size() - 1), listB.get(listB.size() - 1));

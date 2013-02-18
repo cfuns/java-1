@@ -2,19 +2,20 @@ package de.benjaminborbe.poker.gui.service;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
 
 public class PokerGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthorizationService authorizationService;
+	private final PokerService pokerService;
 
 	@Inject
-	public PokerGuiNavigationEntry(final AuthorizationService authorizationService) {
-		this.authorizationService = authorizationService;
+	public PokerGuiNavigationEntry(final PokerService pokerService) {
+		this.pokerService = pokerService;
 	}
 
 	@Override
@@ -30,9 +31,12 @@ public class PokerGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authorizationService.hasAdminRole(sessionIdentifier);
+			return pokerService.hasPokerPlayerOrAdminRole(sessionIdentifier);
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final LoginRequiredException e) {
+			return false;
+		}
+		catch (final PokerServiceException e) {
 			return false;
 		}
 	}

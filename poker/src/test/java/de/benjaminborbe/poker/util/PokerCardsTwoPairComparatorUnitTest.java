@@ -169,6 +169,21 @@ public class PokerCardsTwoPairComparatorUnitTest {
 
 		));
 
+		assertEquals(1, comparator.compare(
+
+		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO),
+
+		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX),
+
+		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO)
+
+		));
 	}
 
 	private PokerCardsTwoPairComparator getComparator() {

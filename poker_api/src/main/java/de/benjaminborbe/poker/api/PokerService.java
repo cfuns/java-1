@@ -3,8 +3,15 @@ package de.benjaminborbe.poker.api;
 import java.util.Collection;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface PokerService {
+
+	String POKER_ROLE_ADMIN = "PokerAdmin";
+
+	String POKER_ROLE_PLAYER = "PokerPlayer";
 
 	void deleteGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 
@@ -59,5 +66,17 @@ public interface PokerService {
 	PokerPlayerIdentifier getSmallBlindPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
 	PokerPlayerIdentifier getButtonPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
+
+	void expectPokerAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
+
+	void expectPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
+
+	void expectPokerPlayerRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
+
+	boolean hasPokerAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
+
+	boolean hasPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
+
+	boolean hasPokerPlayerRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
 
 }

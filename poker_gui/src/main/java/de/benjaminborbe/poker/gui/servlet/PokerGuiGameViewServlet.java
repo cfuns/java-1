@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.Collection;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +16,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -66,6 +69,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 
 	private final PokerCardTranslater pokerCardTranslater;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
 	public PokerGuiGameViewServlet(
 			final Logger logger,
@@ -86,6 +91,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.pokerCardTranslater = pokerCardTranslater;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -234,5 +240,25 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 		final Collection<CssResource> result = super.getCssResources(request, response);
 		result.add(new CssResourceImpl(request.getContextPath() + "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_CSS_STYLE));
 		return result;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			pokerService.expectPokerAdminRole(sessionIdentifier);
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+		catch (final PokerServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
 	}
 }
