@@ -11,27 +11,33 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
-public class PokerGuiActionRaiseJsonServlet extends WebsiteJsonServlet {
+public class PokerGuiActionRaiseJsonServlet extends PokerGuiJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private final PokerService pokerService;
 
-	private final AuthenticationService authenticationService;
+	private final ParseUtil parseUtil;
 
 	@Inject
 	public PokerGuiActionRaiseJsonServlet(
@@ -42,17 +48,35 @@ public class PokerGuiActionRaiseJsonServlet extends WebsiteJsonServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final PokerService pokerService) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+			final PokerService pokerService,
+			final ParseUtil parseUtil) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService);
 		this.pokerService = pokerService;
-		this.authenticationService = authenticationService;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 
-		final JSONObject jsonObject = new JSONObjectSimple();
-		printJson(response, jsonObject);
+		try {
+			final PokerGameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
+			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			final long amount = parseUtil.parseLong(request.getParameter(PokerGuiConstants.PARAMETER_AMOUNT));
+			pokerService.raise(gameIdentifier, playerIdentifier, amount);
+
+			final JSONObject jsonObject = new JSONObjectSimple();
+			jsonObject.put("success", "true");
+			printJson(response, jsonObject);
+		}
+		catch (final PokerServiceException e) {
+			printException(response, e);
+		}
+		catch (final ValidationException e) {
+			printException(response, e);
+		}
+		catch (final ParseException e) {
+			printException(response, e);
+		}
 	}
 }

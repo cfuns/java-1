@@ -11,27 +11,29 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 
 @Singleton
-public class PokerGuiActionFoldJsonServlet extends WebsiteJsonServlet {
+public class PokerGuiActionFoldJsonServlet extends PokerGuiJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private final PokerService pokerService;
-
-	private final AuthenticationService authenticationService;
 
 	@Inject
 	public PokerGuiActionFoldJsonServlet(
@@ -43,16 +45,28 @@ public class PokerGuiActionFoldJsonServlet extends WebsiteJsonServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final PokerService pokerService) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService);
 		this.pokerService = pokerService;
-		this.authenticationService = authenticationService;
 	}
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 
-		final JSONObject jsonObject = new JSONObjectSimple();
-		printJson(response, jsonObject);
+		try {
+			final PokerGameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
+			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			pokerService.fold(gameIdentifier, playerIdentifier);
+
+			final JSONObject jsonObject = new JSONObjectSimple();
+			jsonObject.put("success", "true");
+			printJson(response, jsonObject);
+		}
+		catch (final PokerServiceException e) {
+			printException(response, e);
+		}
+		catch (final ValidationException e) {
+			printException(response, e);
+		}
 	}
 }

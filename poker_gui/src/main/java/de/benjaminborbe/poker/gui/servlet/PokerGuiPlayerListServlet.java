@@ -2,7 +2,6 @@ package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -32,9 +31,11 @@ import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
+import de.benjaminborbe.poker.gui.util.PokerPlayerComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -61,6 +62,10 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final PokerPlayerComparator pokerPlayerComparator;
+
+	private final ComparatorUtil comparatorUtil;
+
 	@Inject
 	public PokerGuiPlayerListServlet(
 			final Logger logger,
@@ -75,11 +80,15 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
 			final PokerService pokerService,
-			final PokerGuiLinkFactory pokerGuiLinkFactory) {
+			final PokerGuiLinkFactory pokerGuiLinkFactory,
+			final ComparatorUtil comparatorUtil,
+			final PokerPlayerComparator pokerPlayerComparator) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
+		this.comparatorUtil = comparatorUtil;
+		this.pokerPlayerComparator = pokerPlayerComparator;
 	}
 
 	@Override
@@ -95,7 +104,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Collection<PokerPlayer> players = pokerService.getPlayers();
+			final List<PokerPlayer> players = comparatorUtil.sort(pokerService.getPlayers(), pokerPlayerComparator);
 			if (players.isEmpty()) {
 				widgets.add("no player found");
 				widgets.add(new BrWidget());

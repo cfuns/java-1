@@ -14,6 +14,8 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_GAME_NAME = "game_name";
 
+	String PARAMETER_TOKEN = "token";
+
 	String PARAMETER_PLAYER_ID = "player_id";
 
 	String PARAMETER_PLAYER_NAME = "player_name";

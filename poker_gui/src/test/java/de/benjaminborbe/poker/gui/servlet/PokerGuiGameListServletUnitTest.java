@@ -31,12 +31,14 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
+import de.benjaminborbe.poker.gui.util.PokerGameComparator;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
@@ -142,8 +144,10 @@ public class PokerGuiGameListServletUnitTest {
 		final PokerGuiLinkFactory pokerGuiLinkFactory = EasyMock.createNiceMock(PokerGuiLinkFactory.class);
 		EasyMock.replay(pokerGuiLinkFactory);
 
+		final ComparatorUtil comparatorUtil = new ComparatorUtil();
+		final PokerGameComparator pokerGameComparator = new PokerGameComparator();
 		final PokerGuiGameListServlet pokerServlet = new PokerGuiGameListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
-				httpContextProvider, redirectUtil, urlUtil, authorizationService, cacheService, pokerService, pokerGuiLinkFactory);
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, cacheService, pokerService, pokerGuiLinkFactory, comparatorUtil, pokerGameComparator);
 
 		pokerServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
