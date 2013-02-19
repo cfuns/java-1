@@ -39,6 +39,9 @@ public class WikiConfluenceRendererUnitTest {
 		final WikiRenderer converter = new WikiConfluenceRenderer();
 		assertEquals("<h1><a name=\"head1\"></a>head1</h1>", converter.render("h1. head1"));
 		assertEquals("<h1><a name=\"head1\"></a>head1</h1>", converter.render("H1. head1"));
+		assertEquals("<h1><a name=\"head1\"></a>head1</h1>bla", converter.render("h1. head1\nbla"));
+		assertEquals("<h1><a name=\"head1\"></a>head1</h1>bla", converter.render("h1. head1\n\nbla"));
+		assertEquals("<h1><a name=\"head1\"></a>head1</h1>bla", converter.render("h1. head1\n\n\nbla"));
 	}
 
 	@Test
@@ -66,6 +69,8 @@ public class WikiConfluenceRendererUnitTest {
 	@Test
 	public void testNewline() {
 		final WikiRenderer converter = new WikiConfluenceRenderer();
+		assertEquals("foo<br/><br/>bar", converter.render("foo\n\nbar"));
+		assertEquals("foo<br/><br/>bar<br/><br/>bla", converter.render(" foo \n \n bar \n \n bla "));
 		assertEquals("foo<br/><br/>bar", converter.render("foo\n\nbar"));
 		assertEquals("foo<br/><br/>bar<br/><br/>bla", converter.render("foo\n\nbar\n\nbla"));
 		assertEquals("foo bar", converter.render("foo\nbar"));

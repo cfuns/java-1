@@ -47,8 +47,10 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 			}
 			if (!multilineMode) {
 				int pos;
-				if (lineLowerCase.isEmpty()) {
-					emptyLine = true;
+				if (lineLowerCase.trim().isEmpty()) {
+					if (simpleText) {
+						emptyLine = true;
+					}
 					simpleText = false;
 				}
 				else if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
@@ -83,7 +85,7 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 						parts.add(new StringPart(" "));
 					}
 					simpleText = true;
-					parts.add(new StringPart(line));
+					parts.add(new StringPart(line.trim()));
 				}
 			}
 		}
