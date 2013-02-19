@@ -70,6 +70,23 @@ public class PokerPlayerValidator extends ValidatorBase<PokerPlayerBean> {
 			});
 		}
 
+		// token
+		{
+			final String field = "token";
+			result.put(field, new ValidatorRule<PokerPlayerBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final PokerPlayerBean bean) {
+					final String value = bean.getToken();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					constraints.add(new ValidationConstraintNotNull<String>());
+					constraints.add(new ValidationConstraintStringMinLength(1));
+					constraints.add(new ValidationConstraintStringMaxLength(255));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
 		return result;
 	}
 }

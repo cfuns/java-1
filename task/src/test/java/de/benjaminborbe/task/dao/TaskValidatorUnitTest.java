@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.task.api.TaskFocus;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -73,6 +74,7 @@ public class TaskValidatorUnitTest {
 
 	private TaskBean buildTask(final String name, final Integer start, final Integer due, final TaskFocus focus) {
 		final TaskBean task = new TaskBean();
+		task.setId(new TaskIdentifier("13"));
 		task.setName(name);
 		task.setStart(buildCalendar(start));
 		task.setDue(buildCalendar(due));

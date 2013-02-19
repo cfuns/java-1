@@ -57,6 +57,7 @@ public class PokerPlayerBeanMapperUnitTest {
 		result.add(new Object[] { "amount", "1337" });
 		result.add(new Object[] { "game", "1337" });
 		result.add(new Object[] { "bet", "1337" });
+		result.add(new Object[] { "token", "asdfasdf" });
 		return result;
 	}
 

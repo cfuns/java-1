@@ -32,10 +32,9 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
-import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.util.SingleTagWidget;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
 import de.benjaminborbe.wiki.api.WikiService;
@@ -92,14 +91,13 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
 			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier("POKER-ApiHelp");
 			widgets.add(new HtmlContentWidget(wikiService.renderPage(wikiPageIdentifier)));
 
-			final UlWidget ul = new UlWidget();
-			ul.add(pokerGuiLinkFactory.gameList(request));
-			ul.add(pokerGuiLinkFactory.playerList(request));
-			widgets.add(ul);
+			widgets.add(new SingleTagWidget("hr"));
+			widgets.add(pokerGuiLinkFactory.gameList(request));
+			widgets.add(" ");
+			widgets.add(pokerGuiLinkFactory.playerList(request));
 
 			return widgets;
 		}

@@ -63,4 +63,13 @@ public class WikiConfluenceRendererUnitTest {
 				converter.render("H1. head1\nH2. head2\nH3. head3"));
 	}
 
+	@Test
+	public void testNewline() {
+		final WikiRenderer converter = new WikiConfluenceRenderer();
+		assertEquals("foo<br/><br/>bar", converter.render("foo\n\nbar"));
+		assertEquals("foo<br/><br/>bar<br/><br/>bla", converter.render("foo\n\nbar\n\nbla"));
+		assertEquals("foo bar", converter.render("foo\nbar"));
+		assertEquals("foo bar bla", converter.render("foo\nbar\nbla"));
+	}
+
 }

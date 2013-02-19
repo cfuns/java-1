@@ -41,6 +41,8 @@ public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBea
 
 	private static final String CARDS = "cards";
 
+	private static final String TOKEN = "token";
+
 	@Inject
 	public PokerPlayerBeanMapper(
 			final Provider<PokerPlayerBean> provider,
@@ -60,6 +62,7 @@ public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBea
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, PokerPlayerIdentifier>(ID, mapperPokerPlayerIdentifier));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, PokerGameIdentifier>(GAME_ID, mapperPokerGameIdentifier));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, String>(NAME, mapperString));
+		result.add(new StringObjectMapperAdapter<PokerPlayerBean, String>(TOKEN, mapperString));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, Long>(AMOUNT, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, Long>(BET, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, List<PokerCardIdentifier>>(CARDS, mapperPokerCardIdentifierList));

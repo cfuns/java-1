@@ -24,6 +24,8 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 		final String[] lines = markup.split("\n");
 		boolean multilineMode = false;
 		boolean ulOpen = false;
+		boolean emptyLine = false;
+		boolean simpleText = false;
 		for (final String line : lines) {
 			final String lineLowerCase = line.toLowerCase();
 			if (line.indexOf("* ") == 0) {
@@ -45,22 +47,42 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 			}
 			if (!multilineMode) {
 				int pos;
-				if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
+				if (lineLowerCase.isEmpty()) {
+					emptyLine = true;
+					simpleText = false;
+				}
+				else if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
 					final String title = line.substring(pos + 3).trim();
 					parts.add(headlines.createHead1Part(title));
+					emptyLine = false;
+					simpleText = false;
 				}
 				else if ((pos = lineLowerCase.indexOf("h2.")) != -1) {
 					final String title = line.substring(pos + 3).trim();
 					parts.add(headlines.createHead2Part(title));
+					emptyLine = false;
+					simpleText = false;
 				}
 				else if ((pos = lineLowerCase.indexOf("h3.")) != -1) {
 					final String title = line.substring(pos + 3).trim();
 					parts.add(headlines.createHead3Part(title));
+					emptyLine = false;
+					simpleText = false;
 				}
 				else if ((pos = lineLowerCase.indexOf("{toc}")) != -1) {
 					parts.add(headlines.createTocPart());
+					emptyLine = false;
+					simpleText = false;
 				}
 				else {
+					if (emptyLine) {
+						parts.add(new StringPart("<br/><br/>"));
+						emptyLine = false;
+					}
+					if (simpleText) {
+						parts.add(new StringPart(" "));
+					}
+					simpleText = true;
 					parts.add(new StringPart(line));
 				}
 			}

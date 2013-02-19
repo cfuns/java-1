@@ -52,6 +52,7 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.SingleTagWidget;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
@@ -223,11 +224,12 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				}
 			}
 
-			final UlWidget ul = new UlWidget();
-			ul.add(pokerGuiLinkFactory.gameList(request));
-			ul.add(pokerGuiLinkFactory.playerList(request));
-			ul.add(pokerGuiLinkFactory.apiHelp(request));
-			widgets.add(ul);
+			widgets.add(new SingleTagWidget("hr"));
+			widgets.add(pokerGuiLinkFactory.gameList(request));
+			widgets.add(" ");
+			widgets.add(pokerGuiLinkFactory.playerList(request));
+			widgets.add(" ");
+			widgets.add(pokerGuiLinkFactory.apiHelp(request));
 
 			return widgets;
 		}

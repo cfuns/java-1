@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 
 public class TaskContextValidatorUnitTest {
@@ -41,6 +42,7 @@ public class TaskContextValidatorUnitTest {
 
 	private TaskContextBean buildTaskContext(final String string) {
 		final TaskContextBean bean = new TaskContextBean();
+		bean.setId(new TaskContextIdentifier("13"));
 		bean.setName(string);
 		return bean;
 	}

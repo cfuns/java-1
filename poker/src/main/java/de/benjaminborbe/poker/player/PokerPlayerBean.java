@@ -20,6 +20,8 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 
 	private String name;
 
+	private String token;
+
 	private Calendar created;
 
 	private Calendar modified;
@@ -97,12 +99,21 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 		this.cards = cards;
 	}
 
+	@Override
 	public Long getBet() {
 		return bet;
 	}
 
 	public void setBet(final Long bet) {
 		this.bet = bet;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(final String token) {
+		this.token = token;
 	}
 
 }

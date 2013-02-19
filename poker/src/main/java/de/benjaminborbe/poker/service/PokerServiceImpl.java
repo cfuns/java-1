@@ -180,6 +180,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setId(id);
 			bean.setName(name);
 			bean.setAmount(credit);
+			bean.setToken(idGeneratorUUID.nextId());
 			bean.setBet(0l);
 			bean.setCards(new ArrayList<PokerCardIdentifier>());
 

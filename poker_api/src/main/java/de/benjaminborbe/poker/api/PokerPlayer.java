@@ -12,4 +12,6 @@ public interface PokerPlayer {
 
 	Long getBet();
 
+	String getToken();
+
 }
