@@ -1,19 +1,15 @@
 package de.benjaminborbe.distributed.search.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.google.common.base.Predicate;
+import com.google.inject.Inject;
 
 public class NoStopWordPredicate implements Predicate<String> {
 
-	private final Set<String> stopWords = new HashSet<String>();
+	private final StopWords stopWords;
 
-	public NoStopWordPredicate() {
-		stopWords.add("the");
-		stopWords.add("der");
-		stopWords.add("die");
-		stopWords.add("das");
+	@Inject
+	public NoStopWordPredicate(final StopWords stopWords) {
+		this.stopWords = stopWords;
 	}
 
 	@Override

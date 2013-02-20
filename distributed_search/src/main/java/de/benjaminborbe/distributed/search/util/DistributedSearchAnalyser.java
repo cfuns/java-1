@@ -14,9 +14,12 @@ public class DistributedSearchAnalyser {
 
 	private final SearchUtil searchUtil;
 
+	private final StopWords stopWords;
+
 	@Inject
-	public DistributedSearchAnalyser(final SearchUtil searchUtil) {
+	public DistributedSearchAnalyser(final SearchUtil searchUtil, final StopWords stopWords) {
 		this.searchUtil = searchUtil;
+		this.stopWords = stopWords;
 	}
 
 	public Collection<String> parseSearchTerm(final String content) {
@@ -25,7 +28,7 @@ public class DistributedSearchAnalyser {
 
 	@SuppressWarnings("unchecked")
 	private Collection<String> filter(final Collection<String> list) {
-		return Collections2.filter(list, Predicates.and(new MinWordLengthPredicate(), new MaxWordLengthPredicate(), new NoStopWordPredicate()));
+		return Collections2.filter(list, Predicates.and(new MinWordLengthPredicate(), new MaxWordLengthPredicate(), new NoStopWordPredicate(stopWords)));
 	}
 
 	public Map<String, Integer> parseWordRating(final String... contents) {

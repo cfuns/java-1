@@ -4,7 +4,9 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import de.benjaminborbe.tools.search.SearchUtil;
 
@@ -12,8 +14,7 @@ public class DistributedSearchAnalyserUnitTest {
 
 	@Test
 	public void testParse() throws Exception {
-		final SearchUtil searchUtil = new SearchUtil();
-		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser(searchUtil);
+		final DistributedSearchAnalyser analyser = getAnalyser();
 		assertThat(analyser.parseSearchTerm("foo").size(), is(1));
 		assertThat(analyser.parseSearchTerm("foo"), is(hasItem("foo")));
 		assertThat(analyser.parseSearchTerm("").size(), is(0));
@@ -24,8 +25,7 @@ public class DistributedSearchAnalyserUnitTest {
 
 	@Test
 	public void testUmlaut() {
-		final SearchUtil searchUtil = new SearchUtil();
-		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser(searchUtil);
+		final DistributedSearchAnalyser analyser = getAnalyser();
 		assertThat(analyser.parseSearchTerm("aüb"), is(hasItem("aüb")));
 		assertThat(analyser.parseSearchTerm("aäb"), is(hasItem("aäb")));
 		assertThat(analyser.parseSearchTerm("aöb"), is(hasItem("aöb")));
@@ -37,10 +37,19 @@ public class DistributedSearchAnalyserUnitTest {
 		assertThat(analyser.parseSearchTerm("aßb"), is(hasItem("aßb")));
 	}
 
+	private DistributedSearchAnalyser getAnalyser() {
+		final SearchUtil searchUtil = new SearchUtil();
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final StopWords stopWords = new StopWordsImpl(logger);
+		return new DistributedSearchAnalyser(searchUtil, stopWords);
+	}
+
 	@Test
 	public void testparseWordRatingCount() {
-		final SearchUtil searchUtil = new SearchUtil();
-		final DistributedSearchAnalyser analyser = new DistributedSearchAnalyser(searchUtil);
+		final DistributedSearchAnalyser analyser = getAnalyser();
 		assertThat(analyser.parseWordRating("foo").get("foo"), is(1));
 		assertThat(analyser.parseWordRating("foo foo").get("foo"), is(2));
 		assertThat(analyser.parseWordRating("foo foo foo").get("foo"), is(3));
