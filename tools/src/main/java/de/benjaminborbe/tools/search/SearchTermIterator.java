@@ -16,7 +16,7 @@ public class SearchTermIterator extends IteratorWithoutExceptionBase<String> {
 		int startPos = -1;
 		while (stringIterator.hasCurrentCharacter()) {
 			final char c = stringIterator.getCurrentCharacter();
-			if (isValidCharacter(c)) {
+			if (startPos == -1 && isValidBeginnCharacter(c) || startPos != -1 && isValidMiddleCharacter(c)) {
 				if (startPos == -1) {
 					startPos = stringIterator.getCurrentPosition();
 				}
@@ -37,9 +37,20 @@ public class SearchTermIterator extends IteratorWithoutExceptionBase<String> {
 		}
 	}
 
-	private boolean isValidCharacter(final char c) {
+	// a-z0-9öäüß
+	private boolean isValidBeginnCharacter(final char c) {
 		return Character.isLetterOrDigit(c);
-		// [^a-z0-9öäüß]
+	}
+
+	// a-z0-9öäüß'
+	private boolean isValidMiddleCharacter(final char c) {
+		if (Character.isLetterOrDigit(c)) {
+			return true;
+		}
+		if ('\'' == c) {
+			return true;
+		}
+		return false;
 	}
 
 }

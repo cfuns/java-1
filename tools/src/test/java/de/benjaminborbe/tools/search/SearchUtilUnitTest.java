@@ -35,6 +35,11 @@ public class SearchUtilUnitTest {
 		assertThat(searchUtil.buildSearchParts("Foo Bar"), is(hasItem("foo")));
 		assertThat(searchUtil.buildSearchParts("Foo Bar"), is(hasItem("bar")));
 
+		assertThat(searchUtil.buildSearchParts("it'll").size(), is(1));
+		assertThat(searchUtil.buildSearchParts("it'll"), is(hasItem("it'll")));
+
+		assertThat(searchUtil.buildSearchParts("'foo").size(), is(1));
+		assertThat(searchUtil.buildSearchParts("'foo"), is(hasItem("foo")));
 	}
 
 	@Test
@@ -48,6 +53,5 @@ public class SearchUtilUnitTest {
 		assertThat(searchUtil.buildSearchParts(" FooBar "), is(hasItem("bar")));
 
 		assertThat(searchUtil.buildSearchParts(" foobar "), is(hasItem("foobar")));
-
 	}
 }
