@@ -240,7 +240,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			}
 		}
 		logger.trace("add url " + result.getUrl() + " to index");
-		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), htmlUtil.filterHtmlTages(result.getContent()));
+		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), htmlUtil.filterHtmlTages(result.getContent()), null);
 	}
 
 	protected void updateLastVisit(final CrawlerResult result) throws StorageException {

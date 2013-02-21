@@ -1,11 +1,12 @@
 package de.benjaminborbe.distributed.search.api;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 
 public interface DistributedSearchService {
 
-	void addToIndex(String index, URL url, String title, String content) throws DistributedSearchServiceException;
+	void addToIndex(String index, URL url, String title, String content, Calendar date) throws DistributedSearchServiceException;
 
 	void clear(String index) throws DistributedSearchServiceException;
 

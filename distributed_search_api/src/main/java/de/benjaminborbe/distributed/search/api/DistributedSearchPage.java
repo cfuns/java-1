@@ -12,6 +12,8 @@ public interface DistributedSearchPage {
 
 	String getURL();
 
+	Calendar getDate();
+
 	Calendar getUpdated();
 
 	Calendar getAdded();

@@ -110,7 +110,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final String conversationUrl = extractConversationUrl(pageContent);
 			if (logger.isTraceEnabled())
 				logger.trace("conversationUrl=" + conversationUrl);
-			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl);
+			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl, null);
 		}
 		catch (final MalformedURLException e) {
 			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
@@ -275,6 +275,6 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final int slashpos = postUrl.lastIndexOf("/");
 		final String id = postUrl.substring(slashpos + 1);
 		final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(parseUtil.parseLong(id));
-		return new MicroblogPostResult(microblogPostIdentifier, filterContent(content), author, postUrl, conversationUrl);
+		return new MicroblogPostResult(microblogPostIdentifier, filterContent(content), author, postUrl, conversationUrl, null);
 	}
 }

@@ -175,7 +175,7 @@ public class ConfluenceRefresher {
 						final URL url = new URL(page.getUrl());
 						final String title = page.getTitle();
 
-						indexerService.addToIndex(indexName, url, title, filterContent(content));
+						indexerService.addToIndex(indexName, url, title, filterContent(content), calendarUtil.getCalendar(page.getModified()));
 
 						logger.debug("addToIndex " + url.toExternalForm());
 

@@ -20,6 +20,8 @@ public class DistributedSearchPageBean extends EntityBase<DistributedSearchPageI
 
 	private Calendar created;
 
+	private Calendar date;
+
 	private Calendar modified;
 
 	public String getTitle() {
@@ -74,6 +76,14 @@ public class DistributedSearchPageBean extends EntityBase<DistributedSearchPageI
 	@Override
 	public void setId(final DistributedSearchPageIdentifier id) {
 		this.id = id;
+	}
+
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(final Calendar date) {
+		this.date = date;
 	}
 
 }

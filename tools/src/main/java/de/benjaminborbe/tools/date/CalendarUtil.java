@@ -91,4 +91,6 @@ public interface CalendarUtil {
 	String toTimeString(Calendar calendar);
 
 	Calendar toTimeZone(Calendar calendar, TimeZone timeZone);
+
+	Calendar getCalendar(Date date);
 }

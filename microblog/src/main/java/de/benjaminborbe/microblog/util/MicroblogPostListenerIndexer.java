@@ -1,5 +1,7 @@
 package de.benjaminborbe.microblog.util;
 
+import java.util.Calendar;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -33,7 +35,8 @@ public class MicroblogPostListenerIndexer implements MicroblogPostListener {
 			logger.trace("onNewPost");
 			final String content = microblogPost.getContent();
 			final String url = microblogPost.getPostUrl();
-			indexService.addToIndex(MicroblogConstants.INDEX, parseUtil.parseURL(url), content, content);
+			final Calendar date = microblogPost.getDate();
+			indexService.addToIndex(MicroblogConstants.INDEX, parseUtil.parseURL(url), content, content, date);
 		}
 		catch (final IndexerServiceException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -42,5 +45,4 @@ public class MicroblogPostListenerIndexer implements MicroblogPostListener {
 			logger.warn(e.getClass().getName(), e);
 		}
 	}
-
 }

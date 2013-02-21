@@ -20,6 +20,18 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<DistributedSearchPageBean> {
 
+	public static final String DATE = "date";
+
+	public static final String ID = "id";
+
+	public static final String MODIFIED = "modified";
+
+	public static final String CREATED = "created";
+
+	public static final String CONTENT = "content";
+
+	public static final String TITLE = "title";
+
 	public static final String INDEX = "index";
 
 	@Inject
@@ -35,12 +47,13 @@ public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<Dist
 	private static Collection<StringObjectMapper<DistributedSearchPageBean>> buildMappings(final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
 			final MapperString mapperString, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<DistributedSearchPageBean>> result = new ArrayList<StringObjectMapper<DistributedSearchPageBean>>();
-		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, DistributedSearchPageIdentifier>("id", mapperEntryIdentifier));
+		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, DistributedSearchPageIdentifier>(ID, mapperEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(INDEX, mapperString));
-		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>("title", mapperString));
-		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>("content", mapperString));
-		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(TITLE, mapperString));
+		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(CONTENT, mapperString));
+		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, Calendar>(DATE, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, Calendar>(CREATED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, Calendar>(MODIFIED, mapperCalendar));
 		return result;
 	}
 }

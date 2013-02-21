@@ -103,6 +103,8 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 					widgets.add(page.getIndex());
 					widgets.add(new H2Widget("Url"));
 					widgets.add(page.getURL());
+					widgets.add(new H2Widget("Date"));
+					widgets.add(asString(page.getDate()));
 					widgets.add(new H2Widget("Added"));
 					widgets.add(asString(page.getAdded()));
 					widgets.add(new H2Widget("Update"));

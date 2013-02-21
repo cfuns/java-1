@@ -1,6 +1,7 @@
 package de.benjaminborbe.index.mock;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 
 import de.benjaminborbe.index.api.IndexSearchResult;
@@ -10,7 +11,7 @@ import de.benjaminborbe.index.api.IndexerServiceException;
 public class IndexServiceMock implements IndexService {
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content) {
+	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) {
 	}
 
 	@Override

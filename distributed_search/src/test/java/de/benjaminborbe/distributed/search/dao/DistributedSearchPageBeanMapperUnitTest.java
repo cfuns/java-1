@@ -1,12 +1,19 @@
 package de.benjaminborbe.distributed.search.dao;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.slf4j.Logger;
 
 import com.google.inject.Provider;
@@ -24,11 +31,33 @@ import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 
+@RunWith(Parameterized.class)
 public class DistributedSearchPageBeanMapperUnitTest {
+
+	private final String fieldName;
+
+	private final String fieldValue;
+
+	public DistributedSearchPageBeanMapperUnitTest(final String fieldName, final String fieldValue) {
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+	}
+
+	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
+	public static Collection<Object[]> generateData() {
+		final List<Object[]> result = new ArrayList<Object[]>();
+		result.add(new Object[] { "id", "1337" });
+		result.add(new Object[] { "index", "bla" });
+		result.add(new Object[] { "title", "bla" });
+		result.add(new Object[] { "content", "bla" });
+		result.add(new Object[] { "date", "123456" });
+		result.add(new Object[] { "created", "123456" });
+		result.add(new Object[] { "modified", "123456" });
+		return result;
+	}
 
 	private DistributedSearchPageBeanMapper getDistributedSearchPageBeanMapper() {
 		final Provider<DistributedSearchPageBean> beanProvider = new ProviderMock<DistributedSearchPageBean>(DistributedSearchPageBean.class);
-
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -40,29 +69,21 @@ public class DistributedSearchPageBeanMapperUnitTest {
 
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
 		final MapperString mapperString = new MapperString();
-		final MapperDistributedSearchPageIdentifier mapperDistributedSearchPageIdentifier = new MapperDistributedSearchPageIdentifier();
-		return new DistributedSearchPageBeanMapper(beanProvider, mapperDistributedSearchPageIdentifier, mapperString, mapperBoolean, mapperCalendar);
+		final MapperDistributedSearchPageIdentifier shortenerUrlIdentifierMapper = new MapperDistributedSearchPageIdentifier();
+		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
+		return new DistributedSearchPageBeanMapper(beanProvider, shortenerUrlIdentifierMapper, mapperString, mapperBoolean, mapperCalendar);
 	}
 
 	@Test
-	public void testId() throws Exception {
+	public void testMapping() throws Exception {
 		final DistributedSearchPageBeanMapper mapper = getDistributedSearchPageBeanMapper();
-		final DistributedSearchPageIdentifier value = new DistributedSearchPageIdentifier("1337");
-		final String fieldname = "id";
-		{
-			final DistributedSearchPageBean bean = new DistributedSearchPageBean();
-			bean.setId(value);
-			final Map<String, String> data = mapper.map(bean);
-			assertEquals(data.get(fieldname), String.valueOf(value));
-		}
-		{
-			final Map<String, String> data = new HashMap<String, String>();
-			data.put(fieldname, String.valueOf(value));
-			final DistributedSearchPageBean bean = mapper.map(data);
-			assertEquals(value, bean.getId());
-		}
+		final Map<String, String> inputData = new HashMap<String, String>();
+		inputData.put(fieldName, fieldValue);
+		final DistributedSearchPageBean bean = mapper.map(inputData);
+		final Map<String, String> data = mapper.map(bean);
+		assertThat(data.containsKey(fieldName), is(true));
+		assertThat(data.get(fieldName), is(fieldValue));
 	}
 
 }

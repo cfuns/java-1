@@ -1,6 +1,7 @@
 package de.benjaminborbe.index.service;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,10 +28,10 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content) throws IndexerServiceException {
+	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws IndexerServiceException {
 		logger.debug("addToIndex - index: " + index + " url: " + url + " title: " + title + " content: " + content);
 		for (final IndexService indexService : indexServiceFactory.getIndexServices()) {
-			indexService.addToIndex(index, url, title, content);
+			indexService.addToIndex(index, url, title, content, date);
 		}
 	}
 

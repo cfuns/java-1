@@ -533,4 +533,9 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public Calendar toTimeZone(final Calendar calendar, final TimeZone timeZone) {
 		return getCalendar(timeZone, calendar.getTimeInMillis() + (calendar.getTimeZone().getRawOffset() - timeZone.getRawOffset()) / 100);
 	}
+
+	@Override
+	public Calendar getCalendar(final Date date) {
+		return getCalendar(date.getTime());
+	}
 }

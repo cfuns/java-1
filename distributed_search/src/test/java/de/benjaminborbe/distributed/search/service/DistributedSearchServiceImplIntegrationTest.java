@@ -38,7 +38,7 @@ public class DistributedSearchServiceImplIntegrationTest {
 		final String content = "content";
 
 		assertFalse(dao.getIdentifierIteratorByIndex(index).hasNext());
-		distributedIndexService.addToIndex(index, url, title, content);
+		distributedIndexService.addToIndex(index, url, title, content, null);
 		assertTrue(dao.getIdentifierIteratorByIndex(index).hasNext());
 		distributedIndexService.clear(index);
 		assertFalse(dao.getIdentifierIteratorByIndex(index).hasNext());

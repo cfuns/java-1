@@ -1,6 +1,7 @@
 package de.benjaminborbe.distributed.search.mock;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -18,7 +19,7 @@ public class DistributedSearchServiceMock implements DistributedSearchService {
 	}
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content) throws DistributedSearchServiceException {
+	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws DistributedSearchServiceException {
 	}
 
 	@Override

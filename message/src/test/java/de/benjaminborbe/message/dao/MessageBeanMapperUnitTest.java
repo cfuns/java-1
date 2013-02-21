@@ -78,7 +78,7 @@ public class MessageBeanMapperUnitTest {
 	}
 
 	@Test
-	public void testMaxRetryCounter() throws Exception {
+	public void testMapping() throws Exception {
 		final MessageBeanMapper mapper = getMessageBeanMapper();
 		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);

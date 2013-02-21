@@ -1,5 +1,7 @@
 package de.benjaminborbe.microblog.api;
 
+import java.util.Calendar;
+
 public interface MicroblogPost {
 
 	MicroblogPostIdentifier getId();
@@ -11,4 +13,6 @@ public interface MicroblogPost {
 	String getConversationUrl();
 
 	String getAuthor();
+
+	Calendar getDate();
 }

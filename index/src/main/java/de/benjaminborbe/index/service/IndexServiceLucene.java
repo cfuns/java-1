@@ -2,6 +2,7 @@ package de.benjaminborbe.index.service;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -25,7 +26,7 @@ public class IndexServiceLucene implements IndexService {
 	}
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content) throws IndexerServiceException {
+	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws IndexerServiceException {
 		try {
 			luceneIndexService.addToIndex(index, url, title, content);
 		}

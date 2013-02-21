@@ -2,6 +2,7 @@ package de.benjaminborbe.distributed.search.service;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 
 @Singleton
@@ -46,14 +48,18 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public DistributedSearchServiceImpl(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
 			final ValidationExecutor validationExecutor,
 			final DistributedSearchPageDao distributedSearchPageDao,
 			final DistributedIndexService distributedIndexService,
 			final DistributedSearchAnalyser distributedSearchAnalyser) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 		this.validationExecutor = validationExecutor;
 		this.distributedSearchPageDao = distributedSearchPageDao;
 		this.distributedIndexService = distributedIndexService;
@@ -61,7 +67,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	}
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content) throws DistributedSearchServiceException {
+	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws DistributedSearchServiceException {
 		try {
 			logger.debug("addToIndex - index: " + index + " url: " + url.toExternalForm() + " title: " + title + " content: " + content);
 			final DistributedSearchPageIdentifier id = new DistributedSearchPageIdentifier(index, url.toExternalForm());
@@ -70,6 +76,12 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			distributedSearchPage.setTitle(title);
 			distributedSearchPage.setContent(content);
 			distributedSearchPage.setIndex(index);
+			if (date != null) {
+				distributedSearchPage.setCreated(date);
+			}
+			if (distributedSearchPage.getCreated() == null) {
+				distributedSearchPage.setCreated(calendarUtil.now());
+			}
 
 			final ValidationResult errors = validationExecutor.validate(distributedSearchPage);
 			if (errors.hasErrors()) {
@@ -128,7 +140,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	private DistributedSearchResult buildResult(final DistributedSearchPageBean distributedSearchPage) {
 		if (distributedSearchPage != null) {
 			return new DistributedSearchResultImpl(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), distributedSearchPage.getTitle(),
-					distributedSearchPage.getContent(), distributedSearchPage.getCreated(), distributedSearchPage.getModified());
+					distributedSearchPage.getContent(), distributedSearchPage.getDate(), distributedSearchPage.getCreated(), distributedSearchPage.getModified());
 		}
 		else {
 			return null;
