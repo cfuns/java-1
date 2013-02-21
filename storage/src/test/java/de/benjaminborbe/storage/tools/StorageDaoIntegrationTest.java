@@ -40,6 +40,13 @@ public class StorageDaoIntegrationTest {
 		catch (final IOException e) {
 			notFound = true;
 		}
+		finally {
+			try {
+				socket.close();
+			}
+			catch (final IOException e) {
+			}
+		}
 	}
 
 	@Before

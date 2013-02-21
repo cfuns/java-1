@@ -60,7 +60,7 @@ import com.glavsoft.rfb.protocol.ProtocolSettings;
 /**
  * Options dialog
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class OptionsDialog extends JDialog {
 
 	private JSlider jpegQuality;

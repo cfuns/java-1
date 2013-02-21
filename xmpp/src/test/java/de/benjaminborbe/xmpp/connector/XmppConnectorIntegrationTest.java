@@ -42,6 +42,13 @@ public class XmppConnectorIntegrationTest {
 		catch (final IOException e) {
 			xmppNotFound = true;
 		}
+		finally {
+			try {
+				socket.close();
+			}
+			catch (final IOException e) {
+			}
+		}
 	}
 
 	@Test

@@ -35,6 +35,13 @@ public class ConfluenceConnectorImplIntegrationTest {
 		catch (final IOException e) {
 			notFound = true;
 		}
+		finally {
+			try {
+				socket.close();
+			}
+			catch (final IOException e) {
+			}
+		}
 	}
 
 	@Test

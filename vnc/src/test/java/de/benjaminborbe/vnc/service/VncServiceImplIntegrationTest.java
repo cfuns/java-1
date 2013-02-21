@@ -44,6 +44,13 @@ public class VncServiceImplIntegrationTest {
 		catch (final IOException e) {
 			vncNotFound = true;
 		}
+		finally {
+			try {
+				socket.close();
+			}
+			catch (final IOException e) {
+			}
+		}
 	}
 
 	@Test
