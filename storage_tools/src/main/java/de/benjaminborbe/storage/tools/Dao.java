@@ -19,6 +19,8 @@ public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 
 	E create() throws StorageException;
 
+	E findOrCreate(I id) throws StorageException;
+
 	E load(I id) throws StorageException;
 
 	Collection<E> load(Collection<I> ids) throws StorageException;

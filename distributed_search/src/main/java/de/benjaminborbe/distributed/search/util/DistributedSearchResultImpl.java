@@ -1,5 +1,7 @@
 package de.benjaminborbe.distributed.search.util;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.distributed.search.api.DistributedSearchResult;
 
 public class DistributedSearchResultImpl implements DistributedSearchResult {
@@ -12,11 +14,17 @@ public class DistributedSearchResultImpl implements DistributedSearchResult {
 
 	private final String content;
 
-	public DistributedSearchResultImpl(final String index, final String url, final String title, final String content) {
+	private final Calendar added;
+
+	private final Calendar updated;
+
+	public DistributedSearchResultImpl(final String index, final String url, final String title, final String content, final Calendar added, final Calendar updated) {
 		this.index = index;
 		this.url = url;
 		this.title = title;
 		this.content = content;
+		this.added = added;
+		this.updated = updated;
 	}
 
 	@Override
@@ -37,6 +45,16 @@ public class DistributedSearchResultImpl implements DistributedSearchResult {
 	@Override
 	public String getURL() {
 		return url;
+	}
+
+	@Override
+	public Calendar getUpdated() {
+		return updated;
+	}
+
+	@Override
+	public Calendar getAdded() {
+		return added;
 	}
 
 }

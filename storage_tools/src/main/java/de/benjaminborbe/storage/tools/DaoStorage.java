@@ -449,4 +449,20 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		}
 
 	}
+
+	@Override
+	public E findOrCreate(final I id) throws StorageException {
+		{
+			final E entity = load(id);
+			if (entity != null) {
+				return entity;
+			}
+		}
+		{
+			final E entity = create();
+			entity.setId(id);
+			save(entity);
+			return entity;
+		}
+	}
 }

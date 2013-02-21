@@ -21,7 +21,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageValue;
 
 @Singleton
-public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifier<?>> implements Dao<E, I> {
+public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
 
 	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
 
@@ -163,4 +163,19 @@ public abstract class DaoCache<E extends Entity<? extends I>, I extends Identifi
 		return new StorageValue(content, getEncoding());
 	}
 
+	@Override
+	public E findOrCreate(final I id) {
+		{
+			final E session = load(id);
+			if (session != null) {
+				return session;
+			}
+		}
+		{
+			final E session = create();
+			session.setId(id);
+			save(session);
+			return session;
+		}
+	}
 }

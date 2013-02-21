@@ -1,6 +1,7 @@
 package de.benjaminborbe.distributed.search.gui.servlet;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +54,8 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 
 	private final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public DistributedSearchGuiPageServlet(
 			final Logger logger,
@@ -69,9 +72,10 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 			final CacheService cacheService,
 			final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
-		this.distributedSearchService = distributedSearchService;
 		this.logger = logger;
+		this.distributedSearchService = distributedSearchService;
 		this.distributedSearchGuiLinkFactory = distributedSearchGuiLinkFactory;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -99,6 +103,10 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 					widgets.add(page.getIndex());
 					widgets.add(new H2Widget("Url"));
 					widgets.add(page.getURL());
+					widgets.add(new H2Widget("Added"));
+					widgets.add(asString(page.getAdded()));
+					widgets.add(new H2Widget("Update"));
+					widgets.add(asString(page.getUpdated()));
 					widgets.add(new H2Widget("Title"));
 					widgets.add(page.getTitle());
 					widgets.add(new H2Widget("Content"));
@@ -129,5 +137,9 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private String asString(final Calendar calendar) {
+		return calendar != null ? calendarUtil.toDateTimeString(calendar) : "-";
 	}
 }

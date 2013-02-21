@@ -17,19 +17,4 @@ public class SessionDaoCache extends DaoCache<SessionBean, SessionIdentifier> im
 		super(logger, provider);
 	}
 
-	@Override
-	public SessionBean findOrCreate(final SessionIdentifier sessionId) {
-		{
-			final SessionBean session = load(sessionId);
-			if (session != null) {
-				return session;
-			}
-		}
-		{
-			final SessionBean session = create();
-			session.setId(sessionId);
-			save(session);
-			return session;
-		}
-	}
 }

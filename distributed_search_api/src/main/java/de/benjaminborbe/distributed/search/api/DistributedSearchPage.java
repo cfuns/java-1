@@ -1,5 +1,7 @@
 package de.benjaminborbe.distributed.search.api;
 
+import java.util.Calendar;
+
 public interface DistributedSearchPage {
 
 	String getIndex();
@@ -9,4 +11,8 @@ public interface DistributedSearchPage {
 	String getContent();
 
 	String getURL();
+
+	Calendar getUpdated();
+
+	Calendar getAdded();
 }

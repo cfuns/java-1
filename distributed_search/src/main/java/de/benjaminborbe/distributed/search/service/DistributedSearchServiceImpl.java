@@ -64,8 +64,9 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	public void addToIndex(final String index, final URL url, final String title, final String content) throws DistributedSearchServiceException {
 		try {
 			logger.debug("addToIndex - index: " + index + " url: " + url.toExternalForm() + " title: " + title + " content: " + content);
-			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.create();
-			distributedSearchPage.setId(new DistributedSearchPageIdentifier(index, url.toExternalForm()));
+			final DistributedSearchPageIdentifier id = new DistributedSearchPageIdentifier(index, url.toExternalForm());
+			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.findOrCreate(id);
+			distributedSearchPage.setId(id);
 			distributedSearchPage.setTitle(title);
 			distributedSearchPage.setContent(content);
 			distributedSearchPage.setIndex(index);
@@ -127,7 +128,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	private DistributedSearchResult buildResult(final DistributedSearchPageBean distributedSearchPage) {
 		if (distributedSearchPage != null) {
 			return new DistributedSearchResultImpl(distributedSearchPage.getIndex(), distributedSearchPage.getId().getPageId(), distributedSearchPage.getTitle(),
-					distributedSearchPage.getContent());
+					distributedSearchPage.getContent(), distributedSearchPage.getCreated(), distributedSearchPage.getModified());
 		}
 		else {
 			return null;
