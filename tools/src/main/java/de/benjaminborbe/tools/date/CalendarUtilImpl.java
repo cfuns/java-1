@@ -117,10 +117,10 @@ public class CalendarUtilImpl implements CalendarUtil {
 	@Override
 	public Calendar parseDateTime(final TimeZone timeZone, final String dateTime) throws ParseException {
 		try {
-			final String[] parts = dateTime.split(" ");
+			final String[] parts = dateTime.split("[\\stT+]");
 			final String[] dateParts = parts[0].split("-");
 			final String[] hourParts;
-			if (parts.length == 2) {
+			if (parts.length >= 2) {
 				hourParts = parts[1].split(":");
 			}
 			else {

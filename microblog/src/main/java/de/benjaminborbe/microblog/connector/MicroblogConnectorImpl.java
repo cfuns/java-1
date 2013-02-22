@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.MatchResult;
@@ -21,6 +22,8 @@ import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationResult;
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
@@ -47,15 +50,23 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	private final MicroblogConfig microblogConfig;
 
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public MicroblogConnectorImpl(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
 			final MicroblogConfig microblogConfig,
 			final HttpDownloader httpDownloader,
 			final HttpDownloadUtil httpDownloadUtil,
 			final ParseUtil parseUtil,
 			final HtmlUtil htmlUtil) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
 		this.microblogConfig = microblogConfig;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
@@ -81,16 +92,16 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			}
 		}
 		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final IOException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final ParseException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 	}
 
@@ -101,28 +112,31 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final String postUrl = microblogConfig.getMicroblogUrl() + "/notice/" + microblogPostIdentifier;
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(postUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
+			logger.debug(pageContent);
+
 			final String content = extractContent(pageContent);
 			if (logger.isTraceEnabled())
 				logger.trace("content=" + content);
-			final String author = extractAuhor(pageContent);
+			final String author = extractAuthor(pageContent);
 			if (logger.isTraceEnabled())
 				logger.trace("author=" + author);
 			final String conversationUrl = extractConversationUrl(pageContent);
 			if (logger.isTraceEnabled())
 				logger.trace("conversationUrl=" + conversationUrl);
-			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl, null);
+			final Calendar date = extractCalendar(pageContent);
+			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl, date);
 		}
 		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final IOException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final ParseException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 	}
 
@@ -131,15 +145,29 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		return extract(content, " href=\"", "\"");
 	}
 
-	protected String extractAuhor(final String pageContent) {
+	// <abbr class="published" title="2013-02-22T08:22:33+01:00">vor ca. 3 Stunden</abbr>
+	protected Calendar extractCalendar(final String pageContent) throws ParseException {
+		final String startPattern = "<abbr class=\"published\"";
+		final String endPattern = "</abbr>";
+		final String abbrContent = extract(pageContent, startPattern, endPattern);
+		if (abbrContent != null && abbrContent.length() > 0) {
+			final String startPatternTitle = "title=\"";
+			final String endPatternTitle = "\"";
+			final String contentTitle = extract(abbrContent, startPatternTitle, endPatternTitle);
+			return calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), contentTitle);
+		}
+		return null;
+	}
+
+	protected String extractAuthor(final String pageContent) {
 		{
-			final String content = extractAuhorMessage(pageContent);
+			final String content = extractAuthorMessage(pageContent);
 			if (content != null && content.length() > 0) {
 				return content;
 			}
 		}
 		{
-			final String content = extractAuhorJoinGroup(pageContent);
+			final String content = extractAuthorJoinGroup(pageContent);
 			if (content != null && content.length() > 0) {
 				return content;
 			}
@@ -147,12 +175,12 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		return null;
 	}
 
-	protected String extractAuhorJoinGroup(final String pageContent) {
+	protected String extractAuthorJoinGroup(final String pageContent) {
 		final String content = extract(pageContent, "<div class=\"join-activity\">", "</div>");
 		return extract(content, "<a href=\"" + microblogConfig.getMicroblogUrl() + "/", "\"");
 	}
 
-	protected String extractAuhorMessage(final String pageContent) {
+	protected String extractAuthorMessage(final String pageContent) {
 		final String content = extract(pageContent, "<span class=\"vcard author\">", "</span>");
 		return extract(content, "<a href=\"" + microblogConfig.getMicroblogUrl() + "/", "\"");
 	}
@@ -231,16 +259,16 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			return buildMicroblogConversationResult(conversationUrl, pageContent);
 		}
 		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 		catch (final ParseException e) {
-			throw new MicroblogConnectorException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConnectorException(e);
 		}
 	}
 

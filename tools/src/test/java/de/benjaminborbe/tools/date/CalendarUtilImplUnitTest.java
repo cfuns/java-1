@@ -270,6 +270,48 @@ public class CalendarUtilImplUnitTest {
 	}
 
 	@Test
+	public void testParseSmartT() throws Exception {
+		final long time = 1352661011123l;
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(time).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(TimeZone.getTimeZone("UTC")).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final CalendarUtil u = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+
+		assertEquals("2012-11-11 20:59:45", u.toDateTimeString(u.parseSmart("2012-11-11T20:59:45+01:00")));
+	}
+
+	@Test
+	public void testParseSmartTPlus() throws Exception {
+		final long time = 1352661011123l;
+
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
+		EasyMock.expect(currentTime.currentTimeMillis()).andReturn(time).anyTimes();
+		EasyMock.replay(currentTime);
+
+		final TimeZoneUtil timeZoneUtil = EasyMock.createMock(TimeZoneUtil.class);
+		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(TimeZone.getTimeZone("UTC")).anyTimes();
+		EasyMock.replay(timeZoneUtil);
+
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final CalendarUtil u = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+
+		assertEquals("2012-11-11 20:59:45", u.toDateTimeString(u.parseSmart("2012-11-11T20:59:45")));
+	}
+
+	@Test
 	public void testParseSmart() throws Exception {
 		final long time = 1352661011123l;
 
