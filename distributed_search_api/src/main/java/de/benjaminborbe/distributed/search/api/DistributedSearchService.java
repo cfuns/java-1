@@ -10,14 +10,16 @@ public interface DistributedSearchService {
 
 	void clear(String index) throws DistributedSearchServiceException;
 
-	List<DistributedSearchResult> search(String index, String searchQuery, int limit) throws DistributedSearchServiceException;
+	DistributedSearchResult getPage(String index, String url) throws DistributedSearchServiceException;
 
-	void removeFromIndex(String index, URL url) throws DistributedSearchServiceException;
+	void rebuildAll() throws DistributedSearchServiceException;
 
 	void rebuildIndex(String index) throws DistributedSearchServiceException;
 
 	void rebuildPage(String index, String url) throws DistributedSearchServiceException;
 
-	DistributedSearchResult getPage(String index, String url) throws DistributedSearchServiceException;
+	void removeFromIndex(String index, URL url) throws DistributedSearchServiceException;
+
+	List<DistributedSearchResult> search(String index, String searchQuery, int limit) throws DistributedSearchServiceException;
 
 }

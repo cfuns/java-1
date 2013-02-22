@@ -12,6 +12,7 @@ import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModules
 import de.benjaminborbe.distributed.search.gui.service.DistributedSearchGuiNavigationEntry;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiPageRebuildServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiPageServlet;
+import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiRebuildAllServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiRebuildIndexServlet;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -21,6 +22,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class DistributedSearchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private DistributedSearchGuiRebuildAllServlet distributedSearchGuiRebuildAllServlet;
 
 	@Inject
 	private DistributedSearchGuiPageRebuildServlet distributedSearchGuiPageRebuildServlet;
@@ -51,6 +55,7 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(distributedSearchGuiServlet, DistributedSearchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(distributedSearchGuiPageServlet, DistributedSearchGuiConstants.URL_PAGE));
+		result.add(new ServletInfo(distributedSearchGuiRebuildAllServlet, DistributedSearchGuiConstants.URL_REBUILD_ALL));
 		result.add(new ServletInfo(distributedSearchGuiRebuildIndexServlet, DistributedSearchGuiConstants.URL_REBUILD_INDEX));
 		result.add(new ServletInfo(distributedSearchGuiPageRebuildServlet, DistributedSearchGuiConstants.URL_REBUILD_PAGE));
 		return result;

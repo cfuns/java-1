@@ -187,6 +187,30 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	}
 
 	@Override
+	public void rebuildAll() throws DistributedSearchServiceException {
+		try {
+			logger.debug("rebuildAll");
+
+			final EntityIterator<DistributedSearchPageBean> distributedSearchPageIterator = distributedSearchPageDao.getEntityIterator();
+			while (distributedSearchPageIterator.hasNext()) {
+				final DistributedSearchPageBean distributedSearchPage = distributedSearchPageIterator.next();
+				rebuildPage(distributedSearchPage);
+			}
+
+			logger.debug("rebuildIndex - finished");
+		}
+		catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+		catch (final EntityIteratorException e) {
+			throw new DistributedSearchServiceException(e);
+		}
+	}
+
+	@Override
 	public void rebuildIndex(final String index) throws DistributedSearchServiceException {
 		try {
 			logger.debug("rebuildIndex - index: " + index);

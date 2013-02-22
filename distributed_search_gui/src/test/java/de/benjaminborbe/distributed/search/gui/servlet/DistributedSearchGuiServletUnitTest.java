@@ -126,6 +126,7 @@ public class DistributedSearchGuiServletUnitTest {
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.expect(urlUtil.buildUrl("/distributed_search/page", new MapParameter())).andReturn("");
 		EasyMock.expect(urlUtil.buildUrl("/distributed_search/rebuildindex", new MapParameter())).andReturn("");
+		EasyMock.expect(urlUtil.buildUrl("/distributed_search/rebuild/all", new MapParameter())).andReturn("");
 		EasyMock.replay(urlUtil);
 
 		final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory = new DistributedSearchGuiLinkFactory(urlUtil);

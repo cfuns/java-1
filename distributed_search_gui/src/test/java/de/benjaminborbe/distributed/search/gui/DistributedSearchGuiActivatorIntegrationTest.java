@@ -48,6 +48,7 @@ public class DistributedSearchGuiActivatorIntegrationTest {
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_HOME);
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_PAGE);
+		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_ALL);
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_INDEX);
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_PAGE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

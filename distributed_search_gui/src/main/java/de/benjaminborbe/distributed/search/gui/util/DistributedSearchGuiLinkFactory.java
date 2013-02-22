@@ -38,4 +38,10 @@ public class DistributedSearchGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_PAGE, new MapParameter()
 				.add("index", index).add("url", url), "rebuild page");
 	}
+
+	public Widget rebuildAll(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_ALL, new MapParameter(), "rebuild all")
+				.addConfirm("rebuild all?");
+	}
+
 }

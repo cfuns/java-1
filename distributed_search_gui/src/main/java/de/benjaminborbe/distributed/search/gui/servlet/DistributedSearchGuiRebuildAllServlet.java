@@ -16,7 +16,8 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
-import de.benjaminborbe.distributed.search.gui.util.DistributedSearchGuiLinkFactory;
+import de.benjaminborbe.distributed.search.api.DistributedSearchService;
+import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -27,21 +28,23 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
+public class DistributedSearchGuiRebuildAllServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "DistributedSearch";
+	private static final String TITLE = "DistributedSearch - Rebild Index";
 
-	private final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory;
+	private final DistributedSearchService distributedSearchService;
+
+	private final Logger logger;
 
 	@Inject
-	public DistributedSearchGuiServlet(
+	public DistributedSearchGuiRebuildAllServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -52,10 +55,11 @@ public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory,
+			final DistributedSearchService distributedSearchService,
 			final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
-		this.distributedSearchGuiLinkFactory = distributedSearchGuiLinkFactory;
+		this.distributedSearchService = distributedSearchService;
+		this.logger = logger;
 	}
 
 	@Override
@@ -66,15 +70,19 @@ public class DistributedSearchGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException, LoginRequiredException {
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
 
-		final UlWidget ul = new UlWidget();
-		ul.add(distributedSearchGuiLinkFactory.page(request));
-		ul.add(distributedSearchGuiLinkFactory.rebuildIndex(request));
-		ul.add(distributedSearchGuiLinkFactory.rebuildAll(request));
-		widgets.add(ul);
+			distributedSearchService.rebuildAll();
+			widgets.add("rebuild triggered");
 
-		return widgets;
+			return widgets;
+		}
+		catch (final DistributedSearchServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 	}
 }

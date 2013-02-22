@@ -16,4 +16,6 @@ public interface DistributedSearchGuiConstants {
 
 	String URL_REBUILD_PAGE = "/page/rebuild";
 
+	String URL_REBUILD_ALL = "/rebuild/all";
+
 }
