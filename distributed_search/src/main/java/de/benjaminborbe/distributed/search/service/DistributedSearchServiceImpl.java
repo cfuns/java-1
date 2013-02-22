@@ -77,11 +77,16 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			distributedSearchPage.setTitle(title);
 			distributedSearchPage.setContent(content);
 			distributedSearchPage.setIndex(index);
-			distributedSearchPage.setDate(date);
+			if (date != null) {
+				distributedSearchPage.setDate(date);
+			}
+			else {
+				distributedSearchPage.setDate(calendarUtil.now());
+			}
 
 			final ValidationResult errors = validationExecutor.validate(distributedSearchPage);
 			if (errors.hasErrors()) {
-				logger.warn("User " + errors.toString());
+				logger.warn(distributedSearchPage.getClass().getSimpleName() + " " + errors.toString());
 				throw new ValidationException(errors);
 			}
 			distributedSearchPageDao.save(distributedSearchPage);
