@@ -33,14 +33,11 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 
 	private final int maxConnections;
 
-	private final int socketTimeout;
-
 	@Inject
 	public StorageConnectionPoolImpl(final Logger logger, final StorageConfig storageConfig) {
 		this.logger = logger;
 		this.storageConfig = storageConfig;
 		this.maxConnections = storageConfig.getMaxConnections();
-		this.socketTimeout = storageConfig.getSocketTimeout();
 		this.aliveCheck = storageConfig.getAliveCheck();
 		this.freeConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
 		this.allConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
@@ -124,10 +121,6 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	private StorageConnection createNewConnection() throws TTransportException, SocketException {
 		logger.debug("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
 		final TSocket socket = new TSocket(storageConfig.getHost(), storageConfig.getPort());
-		socket.setTimeout(socketTimeout);
-		// socket.getSocket().setReuseAddress(true);
-		socket.getSocket().setSoLinger(true, 0);
-
 		final TFramedTransport tr = new TFramedTransport(socket);
 		tr.open();
 		final TProtocol protocol = new TBinaryProtocol(tr);

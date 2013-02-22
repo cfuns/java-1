@@ -43,7 +43,7 @@ public class MicroblogGuiDashboardWidget implements DashboardContentWidget, Requ
 		final PrintWriter out = response.getWriter();
 		String lastestRevision;
 		try {
-			lastestRevision = String.valueOf(microblogService.getLastRevision());
+			lastestRevision = String.valueOf(microblogService.getLatestPostIdentifier());
 		}
 		catch (final MicroblogServiceException e) {
 			lastestRevision = "-";

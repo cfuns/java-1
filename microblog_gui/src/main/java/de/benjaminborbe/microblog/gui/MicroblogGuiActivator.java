@@ -11,10 +11,13 @@ import com.google.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModules;
 import de.benjaminborbe.microblog.gui.service.MicroblogGuiDashboardWidget;
-import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiRefreshServlet;
-import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendConversationServlet;
-import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiSendPostServlet;
+import de.benjaminborbe.microblog.gui.service.MicroblogGuiNavigationEntry;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostRefreshServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiConversationSendServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostSendServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostUpdateServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -23,19 +26,25 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class MicroblogGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private MicroblogGuiNavigationEntry microblogGuiNavigationEntry;
+
+	@Inject
+	private MicroblogGuiPostUpdateServlet microblogGuiPostUpdateServlet;
+
+	@Inject
 	private MicroblogGuiServlet microblogServlet;
 
 	@Inject
 	private MicroblogGuiDashboardWidget microblogDashboardWidget;
 
 	@Inject
-	private MicroblogGuiSendPostServlet microblogGuiSendPostServlet;
+	private MicroblogGuiPostSendServlet microblogGuiSendPostServlet;
 
 	@Inject
-	private MicroblogGuiSendConversationServlet microblogGuiSendConversationServlet;
+	private MicroblogGuiConversationSendServlet microblogGuiSendConversationServlet;
 
 	@Inject
-	private MicroblogGuiRefreshServlet microblogGuiRefreshServlet;
+	private MicroblogGuiPostRefreshServlet microblogGuiRefreshServlet;
 
 	public MicroblogGuiActivator() {
 		super(MicroblogGuiConstants.NAME);
@@ -49,7 +58,8 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(microblogGuiRefreshServlet, MicroblogGuiConstants.URL_REFRESH));
+		result.add(new ServletInfo(microblogGuiPostUpdateServlet, MicroblogGuiConstants.URL_POST_UPDATE));
+		result.add(new ServletInfo(microblogGuiRefreshServlet, MicroblogGuiConstants.URL_POST_REFRESH));
 		result.add(new ServletInfo(microblogServlet, MicroblogGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(microblogGuiSendPostServlet, MicroblogGuiConstants.URL_POST_SEND));
 		result.add(new ServletInfo(microblogGuiSendConversationServlet, MicroblogGuiConstants.URL_CONVERSATION_SEND));
@@ -60,6 +70,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, microblogDashboardWidget, microblogDashboardWidget.getClass().getName()));
+		result.add(new ServiceInfo(NavigationEntry.class, microblogGuiNavigationEntry));
 		return result;
 	}
 

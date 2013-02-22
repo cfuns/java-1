@@ -6,7 +6,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface MicroblogService {
 
-	MicroblogPostIdentifier getLastRevision() throws MicroblogServiceException;
+	MicroblogPostIdentifier getLatestPostIdentifier() throws MicroblogServiceException;
 
 	void mailPost(MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException;
 
@@ -16,10 +16,10 @@ public interface MicroblogService {
 
 	MicroblogPostIdentifier createMicroblogPostIdentifier(long postNumber);
 
-	/**
-	 * Return null is no conversation exists
-	 */
 	MicroblogConversationIdentifier getMicroblogConversationIdentifierForPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException;
 
-	void refresh(SessionIdentifier sessionIdentifier) throws MicroblogServiceException, PermissionDeniedException, LoginRequiredException;
+	void refreshPost(SessionIdentifier sessionIdentifier) throws MicroblogServiceException, PermissionDeniedException, LoginRequiredException;
+
+	void updatePost(SessionIdentifier sessionIdentifier, MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException, PermissionDeniedException,
+			LoginRequiredException;
 }

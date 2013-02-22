@@ -78,7 +78,8 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 		try {
-			logger.debug("doService");
+			if (logger.isTraceEnabled())
+				logger.trace("doService");
 			final String token = request.getParameter(AnalyticsGuiConstants.PARAMETER_AUTH_TOKEN);
 			final String reportId = request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID);
 			final String value = request.getParameter(AnalyticsGuiConstants.PARAMETER_VALUE);
@@ -111,7 +112,8 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 		final String token = request.getParameter(AnalyticsGuiConstants.PARAMETER_AUTH_TOKEN);
-		logger.debug("doCheckPermission");
+		if (logger.isTraceEnabled())
+			logger.trace("doCheckPermission");
 		expectAuthToken(token);
 	}
 

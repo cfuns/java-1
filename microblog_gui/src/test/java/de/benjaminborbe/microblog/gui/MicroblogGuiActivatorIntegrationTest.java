@@ -17,6 +17,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModulesMock;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -48,7 +49,8 @@ public class MicroblogGuiActivatorIntegrationTest {
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_CONVERSATION_SEND);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_SEND);
-		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_REFRESH);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_REFRESH);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_UPDATE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_SLASH);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
@@ -119,7 +121,9 @@ public class MicroblogGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(DashboardContentWidget.class.getName());
+		final List<String> names = new ArrayList<String>();
+		names.add(DashboardContentWidget.class.getName());
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

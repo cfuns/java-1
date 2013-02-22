@@ -177,7 +177,8 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	protected String buildRefererUrl(final HttpServletRequest request) {
 		final String referer = request.getHeader("referer");
-		logger.debug("referer: " + referer);
+		if (logger.isTraceEnabled())
+			logger.trace("referer: " + referer);
 		return referer;
 	}
 

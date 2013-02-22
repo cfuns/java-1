@@ -69,19 +69,15 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	@Override
 	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws DistributedSearchServiceException {
 		try {
-			logger.debug("addToIndex - index: " + index + " url: " + url.toExternalForm() + " title: " + title + " content: " + content);
+			logger
+					.debug("addToIndex - index: " + index + " url: " + url.toExternalForm() + " date: " + calendarUtil.toDateTimeString(date) + " title: " + title + " content: " + content);
 			final DistributedSearchPageIdentifier id = new DistributedSearchPageIdentifier(index, url.toExternalForm());
 			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.findOrCreate(id);
 			distributedSearchPage.setId(id);
 			distributedSearchPage.setTitle(title);
 			distributedSearchPage.setContent(content);
 			distributedSearchPage.setIndex(index);
-			if (date != null) {
-				distributedSearchPage.setCreated(date);
-			}
-			if (distributedSearchPage.getCreated() == null) {
-				distributedSearchPage.setCreated(calendarUtil.now());
-			}
+			distributedSearchPage.setDate(date);
 
 			final ValidationResult errors = validationExecutor.validate(distributedSearchPage);
 			if (errors.hasErrors()) {

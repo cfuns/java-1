@@ -108,8 +108,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 				final String base64UserIdPassword = base64Util.encode(stringUserIdPassword.getBytes("ASCII"));
 				connection.setRequestProperty("Authorization", "Basic " + base64UserIdPassword);
 			}
-			connection.setConnectTimeout(timeout);
-			connection.setReadTimeout(timeout);
+			// connection.setConnectTimeout(timeout);
+			// connection.setReadTimeout(timeout);
 			connection.setRequestProperty("Cookie", buildCookieString(cookies));
 			connection.setRequestProperty("User-Agent", USERAGENT);
 			connection.connect();

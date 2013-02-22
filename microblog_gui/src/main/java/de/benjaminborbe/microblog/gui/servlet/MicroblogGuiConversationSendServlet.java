@@ -32,11 +32,11 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class MicroblogGuiSendPostServlet extends WebsiteHtmlServlet {
+public class MicroblogGuiConversationSendServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Microblog - Send Post";
+	private static final String TITLE = "Microblog - Send Conversation";
 
 	private final MicroblogService microblogService;
 
@@ -45,7 +45,7 @@ public class MicroblogGuiSendPostServlet extends WebsiteHtmlServlet {
 	private final ParseUtil parseUtil;
 
 	@Inject
-	public MicroblogGuiSendPostServlet(
+	public MicroblogGuiConversationSendServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -76,7 +76,7 @@ public class MicroblogGuiSendPostServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		try {
 			final long rev = parseUtil.parseLong(request.getParameter(MicroblogGuiConstants.PARAMETER_POST_ID));
-			microblogService.mailPost(microblogService.createMicroblogPostIdentifier(rev));
+			microblogService.mailConversation(microblogService.createMicroblogConversationIdentifier(rev));
 			widgets.add("send post with revision " + rev + " done");
 		}
 		catch (final ParseException e) {

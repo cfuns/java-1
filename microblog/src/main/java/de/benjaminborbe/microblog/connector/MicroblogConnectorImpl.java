@@ -112,7 +112,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final String postUrl = microblogConfig.getMicroblogUrl() + "/notice/" + microblogPostIdentifier;
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(postUrl), TIMEOUT);
 			final String pageContent = httpDownloadUtil.getContent(result);
-			logger.debug(pageContent);
+			// logger.debug(pageContent);
 
 			final String content = extractContent(pageContent);
 			if (logger.isTraceEnabled())
@@ -150,13 +150,18 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final String startPattern = "<abbr class=\"published\"";
 		final String endPattern = "</abbr>";
 		final String abbrContent = extract(pageContent, startPattern, endPattern);
+		Calendar result;
 		if (abbrContent != null && abbrContent.length() > 0) {
 			final String startPatternTitle = "title=\"";
 			final String endPatternTitle = "\"";
 			final String contentTitle = extract(abbrContent, startPatternTitle, endPatternTitle);
-			return calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), contentTitle);
+			result = calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), contentTitle);
 		}
-		return null;
+		else {
+			result = null;
+		}
+		logger.debug("extractCalendar => " + calendarUtil.toDateTimeString(result));
+		return result;
 	}
 
 	protected String extractAuthor(final String pageContent) {
@@ -290,6 +295,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	protected MicroblogPostResult buildPost(final String conversationUrl, final String itemContent) throws ParseException {
+		logger.debug("itemContent: " + itemContent);
 		final int titleIndexOpen = itemContent.indexOf("<title>");
 		final int titleIndexClose = itemContent.indexOf("</title>");
 
@@ -303,6 +309,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final int slashpos = postUrl.lastIndexOf("/");
 		final String id = postUrl.substring(slashpos + 1);
 		final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(parseUtil.parseLong(id));
-		return new MicroblogPostResult(microblogPostIdentifier, filterContent(content), author, postUrl, conversationUrl, null);
+		final Calendar date = null;
+		return new MicroblogPostResult(microblogPostIdentifier, filterContent(content), author, postUrl, conversationUrl, date);
 	}
 }

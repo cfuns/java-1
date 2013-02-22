@@ -11,7 +11,7 @@ import de.benjaminborbe.microblog.api.MicroblogServiceException;
 public class MicroblogServiceMock implements MicroblogService {
 
 	@Override
-	public MicroblogPostIdentifier getLastRevision() throws MicroblogServiceException {
+	public MicroblogPostIdentifier getLatestPostIdentifier() throws MicroblogServiceException {
 		return null;
 	}
 
@@ -39,7 +39,12 @@ public class MicroblogServiceMock implements MicroblogService {
 	}
 
 	@Override
-	public void refresh(final SessionIdentifier sessionIdentifier) throws MicroblogServiceException, PermissionDeniedException, LoginRequiredException {
+	public void refreshPost(final SessionIdentifier sessionIdentifier) throws MicroblogServiceException, PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public void updatePost(final SessionIdentifier sessionIdentifier, final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException, PermissionDeniedException,
+			LoginRequiredException {
 	}
 
 }

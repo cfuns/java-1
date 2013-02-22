@@ -42,7 +42,8 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 	@Override
 	public void onNewPost(final MicroblogPost microblogPost) {
 		try {
-			logger.debug("onNewPost");
+			if (logger.isTraceEnabled())
+				logger.trace("onNewPost");
 			final String content = microblogPost.getContent();
 			if (isLunch(content)) {
 				logger.debug("isLunch = true, sending message");
@@ -62,7 +63,8 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 				}
 			}
 			else {
-				logger.debug("isLunch = false, skip");
+				if (logger.isTraceEnabled())
+					logger.trace("isLunch = false, skip");
 			}
 		}
 		catch (final StorageException e) {
@@ -74,7 +76,8 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 	}
 
 	private boolean isLunch(final String content) {
-		logger.debug("isLunch - content: " + content);
+		if (logger.isTraceEnabled())
+			logger.trace("isLunch - content: " + content);
 		final List<String> keywords = lunchConfig.getMittagNotifyKeywords();
 		if (content != null && keywords != null && !keywords.isEmpty()) {
 			final String lowerContent = content.toLowerCase();

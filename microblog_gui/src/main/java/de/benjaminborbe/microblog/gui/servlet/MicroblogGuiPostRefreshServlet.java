@@ -34,11 +34,11 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class MicroblogGuiRefreshServlet extends WebsiteHtmlServlet {
+public class MicroblogGuiPostRefreshServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Microblog - Refresh";
+	private static final String TITLE = "Microblog - Refresh Post";
 
 	private final MicroblogService microblogService;
 
@@ -47,7 +47,7 @@ public class MicroblogGuiRefreshServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public MicroblogGuiRefreshServlet(
+	public MicroblogGuiPostRefreshServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -79,7 +79,7 @@ public class MicroblogGuiRefreshServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			microblogService.refresh(sessionIdentifier);
+			microblogService.refreshPost(sessionIdentifier);
 			widgets.add("refresh triggerd");
 			return widgets;
 		}

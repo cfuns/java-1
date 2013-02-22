@@ -4,16 +4,14 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
-import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
-public class MicroblogRefresher {
+public class MicroblogPostRefresher {
 
 	private final class Action implements Runnable {
 
@@ -29,19 +27,12 @@ public class MicroblogRefresher {
 					microblogRevisionStorage.setLastRevision(latestRevision);
 				}
 				else {
-					logger.trace("latestRevision send: " + latestRevision);
+					logger.debug("latestRevision send: " + latestRevision);
 					for (long rev = lastestRevisionSend.getId() + 1; rev <= latestRevision.getId(); ++rev) {
+						logger.debug("get post with revision: " + rev);
 						final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(rev);
 						microblogRevisionStorage.setLastRevision(microblogPostIdentifier);
-						for (final MicroblogPostListener microblogPostListener : microblogPostListenerRegistry.getAll()) {
-							try {
-								final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
-								microblogPostListener.onNewPost(microblogPost);
-							}
-							catch (final Exception e) {
-								logger.warn(e.getClass().getName(), e);
-							}
-						}
+						microblogPostUpdater.update(microblogPostIdentifier);
 					}
 				}
 				logger.trace("done");
@@ -61,21 +52,22 @@ public class MicroblogRefresher {
 
 	private final MicroblogRevisionStorage microblogRevisionStorage;
 
-	private final MicroblogPostListenerRegistry microblogPostListenerRegistry;
-
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
+	private final MicroblogPostUpdater microblogPostUpdater;
+
 	@Inject
-	public MicroblogRefresher(
+	public MicroblogPostRefresher(
 			final Logger logger,
+			final MicroblogPostUpdater microblogPostUpdater,
 			final MicroblogConnector microblogConnector,
 			final MicroblogRevisionStorage microblogRevisionStorage,
 			final MicroblogPostListenerRegistry microblogPostListenerRegistry,
 			final RunOnlyOnceATime runOnlyOnceATime) {
 		this.logger = logger;
+		this.microblogPostUpdater = microblogPostUpdater;
 		this.microblogConnector = microblogConnector;
 		this.microblogRevisionStorage = microblogRevisionStorage;
-		this.microblogPostListenerRegistry = microblogPostListenerRegistry;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 	}
 

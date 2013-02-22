@@ -103,7 +103,7 @@ public class MicroblogGuiServletUnitTest {
 
 		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
 		final MicroblogService microblogRevisionStorage = EasyMock.createMock(MicroblogService.class);
-		EasyMock.expect(microblogRevisionStorage.getLastRevision()).andReturn(null);
+		EasyMock.expect(microblogRevisionStorage.getLatestPostIdentifier()).andReturn(null);
 		EasyMock.replay(microblogRevisionStorage);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);

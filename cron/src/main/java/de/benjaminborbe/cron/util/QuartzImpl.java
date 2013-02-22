@@ -72,7 +72,7 @@ public class QuartzImpl implements Quartz {
 		logger.trace("QuartzImpl.stop()");
 		final Scheduler scheduler = getScheduler();
 		scheduler.shutdown();
-		scheduler.clear();
+		// scheduler.clear();
 		removeScheduler();
 	}
 
