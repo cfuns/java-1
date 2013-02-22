@@ -2,6 +2,12 @@ package de.benjaminborbe.microblog.connector;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.inject.Injector;
@@ -14,8 +20,34 @@ import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class MicroblogConnectorImplIntegrationTest {
 
+	private static boolean notFound;
+
+	@BeforeClass
+	public static void setUp() {
+		final Socket socket = new Socket();
+		final SocketAddress endpoint = new InetSocketAddress("micro.rp.seibert-media.net", 443);
+		try {
+			socket.connect(endpoint, 500);
+
+			notFound = !socket.isConnected();
+			notFound = false;
+		}
+		catch (final IOException e) {
+			notFound = true;
+		}
+		finally {
+			try {
+				socket.close();
+			}
+			catch (final IOException e) {
+			}
+		}
+	}
+
 	@Test
 	public void testGetPost() throws Exception {
+		if (notFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
 		final MicroblogConnector microblogConnector = injector.getInstance(MicroblogConnector.class);
 		final CalendarUtil calendarUtil = injector.getInstance(CalendarUtil.class);
