@@ -299,8 +299,9 @@ public class PokerServiceImpl implements PokerService {
 	private void bid(final PokerGameBean game, final PokerPlayerBean player, final long value) throws ValidationException {
 		logger.debug("bid - amount: " + value);
 
-		if (value > pokerConfig.getMaxBid()) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid higher than " + pokerConfig.getMaxBid() + " not allowed")));
+		final long maxBid = pokerConfig.getMaxBid();
+		if (maxBid > 0 && value > maxBid) {
+			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid higher than " + maxBid + " not allowed")));
 		}
 
 		if (value < Math.min(player.getAmount(), game.getBet())) {
