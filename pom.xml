@@ -272,6 +272,7 @@
 				<module>cache_api</module>
 				<module>cache_gui</module>
 				<module>poker</module>
+				<module>poker_client</module>
 				<module>poker_api</module>
 				<module>poker_gui</module>
 				<module>task</module>
@@ -346,8 +347,8 @@
 					<version>3.0</version>
 					<!-- best lock down version of the plugin too -->
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>${maven.compiler.source}</source>
+						<target>${maven.compiler.target}</target>
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>

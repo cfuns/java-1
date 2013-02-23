@@ -237,6 +237,7 @@ cache_api/target
 cache_gui/target
 cache_test/target
 poker/target
+poker_client/target
 poker_api/target
 poker_gui/target
 poker_test/target
