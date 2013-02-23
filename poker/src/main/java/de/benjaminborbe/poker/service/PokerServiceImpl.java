@@ -574,13 +574,16 @@ public class PokerServiceImpl implements PokerService {
 
 	private void nextRound(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {
 
-		for (final PokerPlayerBean player : pokerPlayerDao.load(game.getPlayers())) {
-			if (player.getAmount() == 0) {
-				player.setGame(null);
-				game.getPlayers().remove(player.getId());
+		// remove players without credits
+		if (!pokerConfig.isCreditsNegativeAllowed()) {
+			for (final PokerPlayerBean player : pokerPlayerDao.load(game.getPlayers())) {
+				if (player.getAmount() <= 0) {
+					player.setGame(null);
+					game.getPlayers().remove(player.getId());
 
-				pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("players"));
-				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
+					pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("players"));
+					pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
+				}
 			}
 		}
 
