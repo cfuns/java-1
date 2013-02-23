@@ -9,12 +9,15 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
+import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
@@ -411,5 +414,49 @@ public class PokerServiceImplIntegrationTest {
 			assertEquals(new Long(200), game.getBet());
 			assertEquals(new Long(800), game.getPot());
 		}
+	}
+
+	@Test
+	public void testMaxBid() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		service.joinGame(gameIdentifier, playerIdentifierA);
+		service.joinGame(gameIdentifier, playerIdentifierB);
+		service.startGame(gameIdentifier);
+
+		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "1000");
+		final PokerConfig config = injector.getInstance(PokerConfig.class);
+		assertEquals(1000l, config.getMaxBid());
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, 1000l);
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			try {
+				service.raise(gameIdentifier, activePlayer, 1001l);
+				fail("ValidationException expected");
+			}
+			catch (final ValidationException e) {
+				assertNotNull(e);
+			}
+		}
+
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "0");
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, 1001l);
+		}
+
 	}
 }

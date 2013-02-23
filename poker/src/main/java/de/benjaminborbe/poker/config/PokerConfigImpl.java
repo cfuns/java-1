@@ -49,7 +49,7 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 
 	@Override
 	public long getMaxBid() {
-		return getValueLong(autoFoldTimeout);
+		return getValueLong(maxBid);
 	}
 
 }
