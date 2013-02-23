@@ -13,4 +13,6 @@ public interface PokerConfig {
 	long getAutoFoldTimeout();
 
 	long getMaxBid();
+
+	boolean isCreditsNegativeAllowed();
 }

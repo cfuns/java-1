@@ -457,6 +457,49 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(activePlayer);
 			service.raise(gameIdentifier, activePlayer, 1001l);
 		}
+	}
 
+	@Test
+	public void testBidNegativeCredits() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
+		final int startCredits = 10000;
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", startCredits);
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", startCredits);
+		service.joinGame(gameIdentifier, playerIdentifierA);
+		service.joinGame(gameIdentifier, playerIdentifierB);
+		service.startGame(gameIdentifier);
+
+		final PokerConfig config = injector.getInstance(PokerConfig.class);
+		assertFalse(config.isCreditsNegativeAllowed());
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, startCredits * 2);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertNotNull(game);
+			assertEquals(new Long(startCredits), game.getBet());
+		}
+
+		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerCreditsNegativeAllowed"), "true");
+		assertTrue(config.isCreditsNegativeAllowed());
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, startCredits * 2);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertNotNull(game);
+			assertEquals(new Long(startCredits * 2), game.getBet());
+		}
 	}
 }

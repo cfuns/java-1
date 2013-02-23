@@ -19,6 +19,8 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "PokerCronEnabled", "Poker Cron Enabled");
 
+	private final ConfigurationDescriptionBoolean creditsNegativeAllowed = new ConfigurationDescriptionBoolean(false, "PokerCreditsNegativeAllowed", "Poker Credits Negative Allowed");
+
 	private final ConfigurationDescriptionLong autoFoldTimeout = new ConfigurationDescriptionLong(0l, "PokerAutoFoldTimeout", "Poker Auto Fold Timeout");
 
 	private final ConfigurationDescriptionLong maxBid = new ConfigurationDescriptionLong(100000l, "PokerMaxBid", "Poker Max Bid");
@@ -34,6 +36,7 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 		result.add(cronEnabled);
 		result.add(autoFoldTimeout);
 		result.add(maxBid);
+		result.add(creditsNegativeAllowed);
 		return result;
 	}
 
@@ -50,6 +53,11 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	@Override
 	public long getMaxBid() {
 		return getValueLong(maxBid);
+	}
+
+	@Override
+	public boolean isCreditsNegativeAllowed() {
+		return Boolean.TRUE.equals(getValueBoolean(creditsNegativeAllowed));
 	}
 
 }

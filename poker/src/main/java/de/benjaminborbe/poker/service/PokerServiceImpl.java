@@ -304,11 +304,12 @@ public class PokerServiceImpl implements PokerService {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid higher than " + maxBid + " not allowed")));
 		}
 
-		if (value < Math.min(player.getAmount(), game.getBet())) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid lower than " + Math.min(player.getAmount(), game.getBet()) + " not allowed")));
+		final long minBid = pokerConfig.isCreditsNegativeAllowed() ? game.getBet() : Math.min(player.getAmount(), game.getBet());
+		if (value < minBid) {
+			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid lower than " + minBid + " not allowed")));
 		}
 
-		final long diff = Math.min(player.getAmount(), (value - player.getBet()));
+		final long diff = pokerConfig.isCreditsNegativeAllowed() ? (value - player.getBet()) : Math.min(player.getAmount(), (value - player.getBet()));
 		logger.debug("remove " + diff + " from player " + player.getId());
 		player.setAmount(player.getAmount() - diff);
 		logger.debug("add " + diff + " to pot");
