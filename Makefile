@@ -315,3 +315,4 @@ buildpoker:
 	cd poker && make all
 	cd poker_gui && make all
 	cd poker_test && make all
+	cd poker_client && make all
