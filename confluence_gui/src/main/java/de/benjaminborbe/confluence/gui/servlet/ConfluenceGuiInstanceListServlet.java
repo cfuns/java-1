@@ -105,14 +105,19 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 			final TableWidget table = new TableWidget();
 			table.addClass("sortable");
 			final TableHeadWidget head = new TableHeadWidget();
-			head.addCell("Url").addCell("User").addCell("Active").addCell("");
+			head.addCell("Url").addCell("Perm").addCell("User").addCell("Active").addCell("");
 			table.setHead(head);
 			for (final ConfluenceInstance confluenceInstance : confluenceInstances) {
 				final TableRowWidget row = new TableRowWidget();
 				row.addCell(confluenceInstance.getUrl());
+				row.addCell(Boolean.TRUE.equals(confluenceInstance.getShared()) ? "shared" : "private");
 				row.addCell(confluenceInstance.getUsername());
 				row.addCell(String.valueOf(confluenceInstance.getActivated()));
-				row.addCell(linkFactory.deleteInstance(request, confluenceInstance.getId()));
+				final ListWidget options = new ListWidget();
+				options.add(linkFactory.updateInstance(request, confluenceInstance.getId()));
+				options.add(" ");
+				options.add(linkFactory.deleteInstance(request, confluenceInstance.getId()));
+				row.addCell(options);
 				row.addClass(Boolean.TRUE.equals(confluenceInstance.getActivated()) ? "confluenceInstanceActive" : "confluenceInstanceInactive");
 				table.addRow(row);
 			}

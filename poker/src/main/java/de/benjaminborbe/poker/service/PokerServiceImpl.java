@@ -28,6 +28,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.card.PokerCardFactory;
+import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.player.PokerPlayerBean;
@@ -67,9 +68,12 @@ public class PokerServiceImpl implements PokerService {
 
 	private final AuthorizationService authorizationService;
 
+	private final PokerConfig pokerConfig;
+
 	@Inject
 	public PokerServiceImpl(
 			final Logger logger,
+			final PokerConfig pokerConfig,
 			final AuthorizationService authorizationService,
 			final PokerWinnerCalculator pokerWinnerCalculator,
 			final ListUtil listUtil,
@@ -79,6 +83,7 @@ public class PokerServiceImpl implements PokerService {
 			final ValidationExecutor validationExecutor,
 			final PokerPlayerDao pokerPlayerDao) {
 		this.logger = logger;
+		this.pokerConfig = pokerConfig;
 		this.authorizationService = authorizationService;
 		this.pokerWinnerCalculator = pokerWinnerCalculator;
 		this.pokerCardFactory = pokerCardFactory;
@@ -293,6 +298,11 @@ public class PokerServiceImpl implements PokerService {
 
 	private void bid(final PokerGameBean game, final PokerPlayerBean player, final long value) throws ValidationException {
 		logger.debug("bid - amount: " + value);
+
+		if (value > pokerConfig.getMaxBid()) {
+			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid higher than " + pokerConfig.getMaxBid() + " not allowed")));
+		}
+
 		if (value < Math.min(player.getAmount(), game.getBet())) {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid lower than " + Math.min(player.getAmount(), game.getBet()) + " not allowed")));
 		}

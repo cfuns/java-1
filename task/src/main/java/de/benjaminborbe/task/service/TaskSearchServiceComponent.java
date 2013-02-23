@@ -55,7 +55,7 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 					results.add(mapTask(tasks.get(i)));
 				}
 				catch (final MalformedURLException e) {
-					logger.error("MalformedURLException", e);
+					logger.error(e.getClass().getName(), e);
 				}
 			}
 			logger.trace("search found " + results.size() + " tasks");
