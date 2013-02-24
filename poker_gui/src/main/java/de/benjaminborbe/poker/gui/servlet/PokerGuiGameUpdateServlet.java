@@ -119,7 +119,7 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_GAME_ID).addValue(game.getId()));
-			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_NAME).addLabel("Name:").addDefaultValue(game));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_NAME).addLabel("Name:").addDefaultValue(game.getName()));
 			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 

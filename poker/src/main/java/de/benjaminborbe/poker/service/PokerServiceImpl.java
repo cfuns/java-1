@@ -35,8 +35,10 @@ import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.card.PokerCardFactory;
 import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.game.PokerGameBean;
+import de.benjaminborbe.poker.game.PokerGameBeanMapper;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.player.PokerPlayerBean;
+import de.benjaminborbe.poker.player.PokerPlayerBeanMapper;
 import de.benjaminborbe.poker.player.PokerPlayerDao;
 import de.benjaminborbe.poker.util.PokerWinnerCalculator;
 import de.benjaminborbe.storage.api.StorageException;
@@ -962,7 +964,34 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(errors);
 			}
 
-			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add("name"));
+			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.NAME));
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
+		}
+	}
+
+	@Override
+	public void updatePlayer(final PokerPlayerDto pokerPlayerDto) throws PokerServiceException, ValidationException {
+		try {
+			logger.debug("updatePlayer - name: " + pokerPlayerDto.getName());
+
+			final PokerPlayerBean bean = pokerPlayerDao.load(pokerPlayerDto.getId());
+			bean.setName(pokerPlayerDto.getName());
+			bean.setAmount(pokerPlayerDto.getAmount());
+			bean.setOwners(pokerPlayerDto.getOwners());
+
+			final ValidationResult errors = validationExecutor.validate(bean);
+			if (errors.hasErrors()) {
+				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			pokerPlayerDao.save(bean,
+					new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS));
+			trackPlayerAmount(bean.getId(), bean.getAmount());
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);

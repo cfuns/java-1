@@ -183,4 +183,8 @@ public class PokerServiceMock implements PokerService {
 	public void updateGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
 	}
 
+	@Override
+	public void updatePlayer(final PokerPlayerDto playerDto) throws PokerServiceException, ValidationException {
+	}
+
 }

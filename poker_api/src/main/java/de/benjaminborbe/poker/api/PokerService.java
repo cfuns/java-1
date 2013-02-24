@@ -35,6 +35,8 @@ public interface PokerService {
 
 	PokerPlayerIdentifier createPlayer(PokerPlayerDto playerDto) throws PokerServiceException, ValidationException;
 
+	void updatePlayer(PokerPlayerDto playerDto) throws PokerServiceException, ValidationException;
+
 	PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException;
 
 	void joinGame(PokerGameIdentifier gameIdentifier, PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException;

@@ -32,6 +32,7 @@ import de.benjaminborbe.poker.gui.servlet.PokerGuiGameViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerCreateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerDeleteServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerListServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerUpdateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiStatusJsonServlet;
@@ -42,6 +43,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PokerGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private PokerGuiPlayerUpdateServlet pokerGuiPlayerUpdateServlet;
 
 	@Inject
 	private PokerGuiGameUpdateServlet pokerGuiGameUpdateServlet;
@@ -142,6 +146,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(pokerGuiGameListServlet, PokerGuiConstants.URL_GAME_LIST));
 		result.add(new ServletInfo(pokerGuiGameViewServlet, PokerGuiConstants.URL_GAME_VIEW));
 		result.add(new ServletInfo(pokerGuiPlayerCreateServlet, PokerGuiConstants.URL_PLAYER_CREATE));
+		result.add(new ServletInfo(pokerGuiPlayerUpdateServlet, PokerGuiConstants.URL_PLAYER_UPDATE));
 		result.add(new ServletInfo(pokerGuiPlayerListServlet, PokerGuiConstants.URL_PLAYER_LIST));
 		result.add(new ServletInfo(pokerGuiPlayerViewServlet, PokerGuiConstants.URL_PLAYER_VIEW));
 		result.add(new ServletInfo(pokerGuiPlayerDeleteServlet, PokerGuiConstants.URL_PLAYER_DELETE));

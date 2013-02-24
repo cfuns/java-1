@@ -45,7 +45,7 @@ public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBea
 
 	private static final String TOKEN = "token";
 
-	private static final String OWNERS = "owners";
+	public static final String OWNERS = "owners";
 
 	@Inject
 	public PokerPlayerBeanMapper(

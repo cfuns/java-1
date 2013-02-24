@@ -62,6 +62,7 @@ public class PokerGuiActivatorIntegrationTest {
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_VIEW);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_START);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_CREATE);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_UPDATE);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_LIST);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_VIEW);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_DELETE);
