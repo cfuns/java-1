@@ -47,6 +47,7 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
@@ -79,9 +80,12 @@ public class PokerServiceImpl implements PokerService {
 
 	private final AnalyticsService analyticsService;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public PokerServiceImpl(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
 			final AnalyticsService analyticsService,
 			final PokerConfig pokerConfig,
 			final AuthorizationService authorizationService,
@@ -93,6 +97,7 @@ public class PokerServiceImpl implements PokerService {
 			final ValidationExecutor validationExecutor,
 			final PokerPlayerDao pokerPlayerDao) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 		this.analyticsService = analyticsService;
 		this.pokerConfig = pokerConfig;
 		this.authorizationService = authorizationService;
@@ -168,6 +173,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setPot(0l);
 			bean.setCardPosition(0);
 			bean.setMaxBid(pokerConfig.getMaxBid());
+			bean.setAutoFoldTimeout(pokerConfig.getAutoFoldTimeout());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -509,6 +515,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getBet());
 			game.setActivePosition((game.getActivePosition() + 1) % (game.getActivePlayers().size()));
+			game.setActivePositionTime(calendarUtil.now());
 
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("pot").add("activePosition").add("bet"));
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
@@ -667,6 +674,7 @@ public class PokerServiceImpl implements PokerService {
 
 		// active player
 		game.setActivePosition((game.getButtonPosition() + 3) % (playerAmount));
+		game.setActivePositionTime(calendarUtil.now());
 
 		// set game bet
 		game.setBet(game.getBigBlind());
@@ -687,6 +695,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, amount);
 			game.setActivePosition((game.getActivePosition() + 1) % (game.getActivePlayers().size()));
+			game.setActivePositionTime(calendarUtil.now());
 
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("pot").add("activePosition").add("bet"));
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
@@ -713,6 +722,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			game.getActivePlayers().remove(playerIdentifier);
 			game.setActivePosition(game.getActivePosition() % (game.getActivePlayers().size()));
+			game.setActivePositionTime(calendarUtil.now());
 
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("activePosition").add("activePlayers"));
 
@@ -853,6 +863,7 @@ public class PokerServiceImpl implements PokerService {
 			game.setButtonPosition(null);
 			game.setRound(null);
 			game.setActivePosition(null);
+			game.setActivePositionTime(null);
 			game.setBet(null);
 
 			final Collection<PokerPlayerBean> players = pokerPlayerDao.load(game.getPlayers());

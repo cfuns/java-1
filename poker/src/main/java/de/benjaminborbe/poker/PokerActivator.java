@@ -9,14 +9,19 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.guice.PokerModules;
+import de.benjaminborbe.poker.service.PokerCronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 
 public class PokerActivator extends BaseBundleActivator {
+
+	@Inject
+	private PokerCronJob pokerCronJob;
 
 	@Inject
 	private PokerConfig pokerConfig;
@@ -33,6 +38,7 @@ public class PokerActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(PokerService.class, pokerService));
+		result.add(new ServiceInfo(CronJob.class, pokerCronJob, pokerCronJob.getClass().getName()));
 		for (final ConfigurationDescription configuration : pokerConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}

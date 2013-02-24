@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -68,6 +69,7 @@ public class PokerActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
 		names.add(PokerService.class.getName());
+		names.add(CronJob.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());

@@ -13,7 +13,7 @@ import de.benjaminborbe.poker.util.PokerAutoFolder;
 public class PokerCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 * * * * ?";
+	private static final String SCHEDULE_EXPRESSION = "*/15 * * * * ?";
 
 	private final Logger logger;
 

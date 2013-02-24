@@ -53,21 +53,24 @@ public class PokerGameBeanMapperUnitTest {
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
 		final List<Object[]> result = new ArrayList<Object[]>();
-		result.add(new Object[] { "id", "1337" });
-		result.add(new Object[] { "name", "bla" });
-		result.add(new Object[] { "created", "123456" });
-		result.add(new Object[] { "modified", "123456" });
-		result.add(new Object[] { "running", "true" });
-		result.add(new Object[] { "smallBlind", "500" });
-		result.add(new Object[] { "bigBlind", "1000" });
-		result.add(new Object[] { "activePosition", "1" });
-		result.add(new Object[] { "buttonPosition", "2" });
-		result.add(new Object[] { "round", "42" });
-		result.add(new Object[] { "bet", "23" });
-		result.add(new Object[] { "activePlayers", "1337" });
-		result.add(new Object[] { "players", "1337" });
-		result.add(new Object[] { "cards", "HEARTS_TEN" });
-		result.add(new Object[] { "boardCards", "HEARTS_TEN" });
+		result.add(new Object[] { PokerGameBeanMapper.ID, "1337" });
+		result.add(new Object[] { PokerGameBeanMapper.NAME, "bla" });
+		result.add(new Object[] { PokerGameBeanMapper.CREATED, "123456" });
+		result.add(new Object[] { PokerGameBeanMapper.MODIFIED, "123456" });
+		result.add(new Object[] { PokerGameBeanMapper.ACTIVE_POSITION_TIME, "123456" });
+		result.add(new Object[] { PokerGameBeanMapper.RUNNING, "true" });
+		result.add(new Object[] { PokerGameBeanMapper.SMALL_BLIND, "500" });
+		result.add(new Object[] { PokerGameBeanMapper.BIG_BLIND, "1000" });
+		result.add(new Object[] { PokerGameBeanMapper.ACTIVE_POSITION, "1" });
+		result.add(new Object[] { PokerGameBeanMapper.BUTTON_POSITION, "2" });
+		result.add(new Object[] { PokerGameBeanMapper.ROUND, "42" });
+		result.add(new Object[] { PokerGameBeanMapper.BET, "23" });
+		result.add(new Object[] { PokerGameBeanMapper.ACTIVE_PLAYERS, "1337" });
+		result.add(new Object[] { PokerGameBeanMapper.PLAYERS, "1337" });
+		result.add(new Object[] { PokerGameBeanMapper.CARDS, "HEARTS_TEN" });
+		result.add(new Object[] { PokerGameBeanMapper.BOARD_CARDS, "HEARTS_TEN" });
+		result.add(new Object[] { PokerGameBeanMapper.MAX_BID, "1000" });
+		result.add(new Object[] { PokerGameBeanMapper.AUTO_FOLD_TIMEOUT, "1337" });
 		return result;
 	}
 

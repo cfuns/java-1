@@ -34,6 +34,8 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Integer activePosition;
 
+	private Calendar activePositionTime;
+
 	private Integer buttonPosition;
 
 	private List<PokerPlayerIdentifier> players = new ArrayList<PokerPlayerIdentifier>();
@@ -51,6 +53,8 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	private Long bet;
 
 	private Long maxBid;
+
+	private Long autoFoldTimeout;
 
 	@Override
 	public Long getBigBlind() {
@@ -203,12 +207,29 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.boardCards = boardCards;
 	}
 
+	@Override
 	public Long getMaxBid() {
 		return maxBid;
 	}
 
-	public void setMaxBid(Long maxBid) {
+	public void setMaxBid(final Long maxBid) {
 		this.maxBid = maxBid;
+	}
+
+	public Calendar getActivePositionTime() {
+		return activePositionTime;
+	}
+
+	public void setActivePositionTime(final Calendar activePositionTime) {
+		this.activePositionTime = activePositionTime;
+	}
+
+	public Long getAutoFoldTimeout() {
+		return autoFoldTimeout;
+	}
+
+	public void setAutoFoldTimeout(final Long autoFoldTimeout) {
+		this.autoFoldTimeout = autoFoldTimeout;
 	}
 
 }

@@ -37,6 +37,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String ACTIVE_POSITION = "activePosition";
 
+	public static final String ACTIVE_POSITION_TIME = "activePositionTime";
+
 	public static final String POT = "pot";
 
 	public static final String PLAYERS = "players";
@@ -59,9 +61,11 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String CARD_POSITION = "cardPosition";
 
-	private static final String ACTIVE_PLAYERS = "activePlayers";
+	public static final String ACTIVE_PLAYERS = "activePlayers";
 
-	private static final String MAX_BID = "maxBid";
+	public static final String MAX_BID = "maxBid";
+
+	public static final String AUTO_FOLD_TIMEOUT = "autoFoldTimeout";
 
 	@Inject
 	public PokerGameBeanMapper(
@@ -86,7 +90,9 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Calendar>(CREATED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Calendar>(MODIFIED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Calendar>(ACTIVE_POSITION_TIME, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(RUNNING, mapperBoolean));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(AUTO_FOLD_TIMEOUT, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(POT, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SMALL_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BIG_BLIND, mapperLong));
