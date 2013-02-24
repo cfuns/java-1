@@ -2,8 +2,10 @@ package de.benjaminborbe.poker.player;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
@@ -31,6 +33,8 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 	private PokerGameIdentifier game;
 
 	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
+
+	private Collection<UserIdentifier> owners;
 
 	private Long bet;
 
@@ -108,12 +112,21 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 		this.bet = bet;
 	}
 
+	@Override
 	public String getToken() {
 		return token;
 	}
 
 	public void setToken(final String token) {
 		this.token = token;
+	}
+
+	public Collection<UserIdentifier> getOwners() {
+		return owners;
+	}
+
+	public void setOwners(Collection<UserIdentifier> owners) {
+		this.owners = owners;
 	}
 
 }

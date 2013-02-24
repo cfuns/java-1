@@ -17,7 +17,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -60,10 +60,10 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiJsonServlet {
 			PermissionDeniedException, LoginRequiredException {
 
 		try {
-			final PokerGameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
 			final long amount = parseUtil.parseLong(request.getParameter(PokerGuiConstants.PARAMETER_AMOUNT));
-			pokerService.raise(gameIdentifier, playerIdentifier, amount);
+			pokerService.raise(player.getGame(), playerIdentifier, amount);
 
 			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("success", "true");

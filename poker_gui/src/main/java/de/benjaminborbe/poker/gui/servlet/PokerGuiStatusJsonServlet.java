@@ -17,7 +17,6 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.poker.api.PokerGame;
-import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
@@ -57,9 +56,9 @@ public class PokerGuiStatusJsonServlet extends PokerGuiJsonServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final JSONObject jsonObject = new JSONObjectSimple();
-			final PokerGameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
-			final PokerGame game = pokerService.getGame(gameIdentifier);
+			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+			final PokerGame game = pokerService.getGame(player.getGame());
 			jsonObject.put("bid", game.getBet());
 			jsonObject.put("bigBlind", game.getBigBlind());
 			jsonObject.put("id", game.getId());
@@ -68,12 +67,11 @@ public class PokerGuiStatusJsonServlet extends PokerGuiJsonServlet {
 			jsonObject.put("round", game.getRound());
 			jsonObject.put("running", game.getRunning());
 			jsonObject.put("smallBlind", game.getSmallBlind());
-			jsonObject.put("activePlayer", pokerService.getActivePlayer(gameIdentifier));
+			jsonObject.put("activePlayer", pokerService.getActivePlayer(player.getGame()));
 			final JSONArray jsonPlayers = new JSONArraySimple();
 			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
 				jsonPlayers.add(pid);
 			}
-			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
 			jsonObject.put("playerCredits", player.getAmount());
 			jsonObject.put("playerName", player.getName());
 

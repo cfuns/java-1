@@ -23,6 +23,8 @@ import de.benjaminborbe.poker.util.MapperPokerCardIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerCardIdentifierList;
 import de.benjaminborbe.poker.util.MapperPokerGameIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerPlayerIdentifier;
+import de.benjaminborbe.poker.util.MapperUserIdentifier;
+import de.benjaminborbe.poker.util.MapperUserIdentifierCollection;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -58,6 +60,7 @@ public class PokerPlayerBeanMapperUnitTest {
 		result.add(new Object[] { "game", "1337" });
 		result.add(new Object[] { "bet", "1337" });
 		result.add(new Object[] { "token", "asdfasdf" });
+		result.add(new Object[] { "owners", "bgates" });
 		return result;
 	}
 
@@ -81,7 +84,10 @@ public class PokerPlayerBeanMapperUnitTest {
 		final PokerCardIdentifierBuilder pokerCardIdentifierBuilder = new PokerCardIdentifierBuilder(logger, parseUtil);
 		final MapperPokerCardIdentifier mapperPokerCardIdentifier = new MapperPokerCardIdentifier(pokerCardIdentifierBuilder);
 		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList = new MapperPokerCardIdentifierList(mapperPokerCardIdentifier);
-		return new PokerPlayerBeanMapper(beanProvider, mapperPokerPlayerIdentifier, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperLong, mapperPokerCardIdentifierList);
+		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
+		final MapperUserIdentifierCollection mapperUserIdentifierCollection = new MapperUserIdentifierCollection(mapperUserIdentifier);
+		return new PokerPlayerBeanMapper(beanProvider, mapperUserIdentifierCollection, mapperPokerPlayerIdentifier, mapperPokerGameIdentifier, mapperCalendar, mapperString,
+				mapperLong, mapperPokerCardIdentifierList);
 	}
 
 	@Test

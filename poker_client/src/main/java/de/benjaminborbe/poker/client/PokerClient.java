@@ -18,6 +18,7 @@ public class PokerClient {
 	}
 
 	public static void main(final String[] args) {
+
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerClientModules());
 		final PokerClient client = injector.getInstance(PokerClient.class);
 		client.run();

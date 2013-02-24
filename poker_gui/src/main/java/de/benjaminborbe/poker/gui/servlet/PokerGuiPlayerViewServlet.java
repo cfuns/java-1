@@ -2,6 +2,7 @@ package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -30,9 +32,11 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
+import de.benjaminborbe.poker.gui.util.UserIdentifierComparator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -57,6 +61,8 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final ComparatorUtil comparatorUtil;
+
 	@Inject
 	public PokerGuiPlayerViewServlet(
 			final Logger logger,
@@ -71,11 +77,13 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			final AuthorizationService authorizationService,
 			final CacheService cacheService,
 			final PokerService pokerService,
-			final PokerGuiLinkFactory pokerGuiLinkFactory) {
+			final PokerGuiLinkFactory pokerGuiLinkFactory,
+			final ComparatorUtil comparatorUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
+		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
@@ -93,14 +101,22 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+			final List<UserIdentifier> owners = comparatorUtil.sort(player.getOwners(), new UserIdentifierComparator());
 			widgets.add("Name: " + player.getName());
 			widgets.add(new BrWidget());
 			widgets.add("Credits: " + player.getAmount());
 			widgets.add(new BrWidget());
-			if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+			if (pokerService.hasPokerAdminRole(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
 				widgets.add("Token: " + player.getToken());
 				widgets.add(new BrWidget());
 			}
+			widgets.add("Owners: ");
+			for (final UserIdentifier uid : owners) {
+				widgets.add(uid.getId());
+				widgets.add(" ");
+			}
+			widgets.add(new BrWidget());
+
 			if (player.getGame() == null) {
 				widgets.add("Game: none");
 				widgets.add(new BrWidget());

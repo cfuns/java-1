@@ -15,6 +15,7 @@ import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
+import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
@@ -63,7 +64,7 @@ public class PokerServiceImplIntegrationTest {
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(1, service.getGameIdentifiers().size());
 
-		final PokerPlayerIdentifier playerIdentifier = service.createPlayer("player", 10000);
+		final PokerPlayerIdentifier playerIdentifier = service.createPlayer(createPlayerDto("player", 10000));
 		service.joinGame(gameIdentifier, playerIdentifier);
 
 		{
@@ -132,7 +133,7 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(e);
 		}
 
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
 		assertNotNull(playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierA);
 
@@ -147,7 +148,7 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(e);
 		}
 
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
 		assertNotNull(playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 
@@ -182,8 +183,8 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -204,8 +205,8 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -249,8 +250,8 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -271,8 +272,8 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -293,10 +294,10 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
-		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer("playerC", 10000);
-		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer("playerD", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(createPlayerDto("playerC", 10000));
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(createPlayerDto("playerD", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierC);
@@ -351,10 +352,10 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
-		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer("playerC", 10000);
-		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer("playerD", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(createPlayerDto("playerC", 10000));
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(createPlayerDto("playerD", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierC);
@@ -421,8 +422,8 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", 10000);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", 10000);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -465,8 +466,8 @@ public class PokerServiceImplIntegrationTest {
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame("testGame", 100);
 		final int startCredits = 10000;
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer("playerA", startCredits);
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer("playerB", startCredits);
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", startCredits));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", startCredits));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -501,5 +502,12 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(game);
 			assertEquals(new Long(startCredits * 2), game.getBet());
 		}
+	}
+
+	private PokerPlayerDto createPlayerDto(final String name, final long credits) {
+		final PokerPlayerDto dto = new PokerPlayerDto();
+		dto.setName(name);
+		dto.setAmount(credits);
+		return dto;
 	}
 }

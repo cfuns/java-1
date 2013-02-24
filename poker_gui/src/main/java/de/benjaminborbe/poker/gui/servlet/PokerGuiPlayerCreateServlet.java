@@ -1,6 +1,9 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +20,14 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
@@ -90,10 +95,12 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final String name = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_NAME);
+			final String owners = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_OWNERS);
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
-			if (name != null) {
+			if (name != null && owners != null) {
 				try {
-					pokerService.createPlayer(name, PokerGuiConstants.DEFAULT_CREDITS);
+
+					createPlayer(name, PokerGuiConstants.DEFAULT_CREDITS, buildUsers(owners));
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -111,15 +118,40 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_NAME).addLabel("Name:"));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_OWNERS).addLabel("Owners:"));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(form);
 
 			return widgets;
 		}
+		catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		}
 		catch (final PokerServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private void createPlayer(final String name, final long credits, final Collection<UserIdentifier> owners) throws PokerServiceException, ValidationException {
+		final PokerPlayerDto playerDto = new PokerPlayerDto();
+		playerDto.setName(name);
+		playerDto.setAmount(credits);
+		playerDto.setOwners(owners);
+
+		pokerService.createPlayer(playerDto);
+	}
+
+	private Collection<UserIdentifier> buildUsers(final String owners) throws AuthenticationServiceException {
+		final List<UserIdentifier> users = new ArrayList<>();
+		for (final String owner : owners.split("[^a-z]")) {
+			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(owner);
+			if (authenticationService.existsUser(userIdentifier)) {
+				users.add(userIdentifier);
+			}
+		}
+		return users;
 	}
 
 	@Override

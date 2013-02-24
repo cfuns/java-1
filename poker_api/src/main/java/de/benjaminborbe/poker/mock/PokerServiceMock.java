@@ -13,6 +13,7 @@ import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
+import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -121,11 +122,6 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier createPlayer(final String name, final long credits) throws PokerServiceException, ValidationException {
-		return null;
-	}
-
-	@Override
 	public Collection<PokerPlayerIdentifier> getActivePlayers(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		return null;
 	}
@@ -174,6 +170,11 @@ public class PokerServiceMock implements PokerService {
 
 	@Override
 	public Collection<PokerGame> getGames() throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PokerPlayerIdentifier createPlayer(final PokerPlayerDto playerDto) throws PokerServiceException, ValidationException {
 		return null;
 	}
 

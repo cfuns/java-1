@@ -33,7 +33,7 @@ public interface PokerService {
 
 	Collection<PokerCardIdentifier> getBoardCards(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	PokerPlayerIdentifier createPlayer(String name, long credits) throws PokerServiceException, ValidationException;
+	PokerPlayerIdentifier createPlayer(PokerPlayerDto playerDto) throws PokerServiceException, ValidationException;
 
 	PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException;
 

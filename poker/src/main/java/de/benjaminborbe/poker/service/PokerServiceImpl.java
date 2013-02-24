@@ -24,6 +24,7 @@ import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
+import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -175,16 +176,17 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier createPlayer(final String name, final long credit) throws PokerServiceException, ValidationException {
+	public PokerPlayerIdentifier createPlayer(final PokerPlayerDto pokerPlayerDto) throws PokerServiceException, ValidationException {
 		try {
-			logger.debug("createPlayer - name: " + name);
+			logger.debug("createPlayer - name: " + pokerPlayerDto.getName());
 
 			final PokerPlayerIdentifier id = new PokerPlayerIdentifier(idGeneratorUUID.nextId());
 
 			final PokerPlayerBean bean = pokerPlayerDao.create();
 			bean.setId(id);
-			bean.setName(name);
-			bean.setAmount(credit);
+			bean.setName(pokerPlayerDto.getName());
+			bean.setAmount(pokerPlayerDto.getAmount());
+			bean.setOwners(pokerPlayerDto.getOwners());
 			bean.setToken(idGeneratorUUID.nextId());
 			bean.setBet(0l);
 			bean.setCards(new ArrayList<PokerCardIdentifier>());

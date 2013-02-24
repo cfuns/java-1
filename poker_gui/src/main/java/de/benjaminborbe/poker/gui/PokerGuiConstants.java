@@ -68,4 +68,6 @@ public interface PokerGuiConstants {
 
 	String URL_API_HELP = "/api/help";
 
+	String PARAMETER_PLAYER_OWNERS = "player_owners";
+
 }
