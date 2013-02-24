@@ -116,7 +116,11 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 					final TableRowWidget row = new TableRowWidget();
 					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
-						row.addCell(pokerGuiLinkFactory.gameDelete(request, game.getId()));
+						final ListWidget options = new ListWidget();
+						options.add(pokerGuiLinkFactory.gameUpdate(request, game.getId()));
+						options.add(" ");
+						options.add(pokerGuiLinkFactory.gameDelete(request, game.getId()));
+						row.addCell(options);
 					}
 					else {
 						row.addCell("");

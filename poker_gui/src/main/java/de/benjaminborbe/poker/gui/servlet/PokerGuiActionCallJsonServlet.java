@@ -14,6 +14,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -31,6 +32,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class PokerGuiActionCallJsonServlet extends PokerGuiJsonServlet {
@@ -61,6 +63,10 @@ public class PokerGuiActionCallJsonServlet extends PokerGuiJsonServlet {
 		try {
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+			if (player.getGame() == null) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("player has no game")));
+			}
+
 			pokerService.call(player.getGame(), playerIdentifier);
 
 			final JSONObject jsonObject = new JSONObjectSimple();
@@ -82,7 +88,7 @@ public class PokerGuiActionCallJsonServlet extends PokerGuiJsonServlet {
 	}
 
 	@Override
-	protected void doAction(HttpServletRequest request, HttpServletResponse response, HttpContext context) throws PokerServiceException, ValidationException, ServletException,
+	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException, ServletException,
 			IOException, PermissionDeniedException, LoginRequiredException {
 	}
 }

@@ -15,7 +15,7 @@ public interface PokerService {
 
 	void deleteGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 
-	PokerGameIdentifier createGame(String name, long blind) throws PokerServiceException, ValidationException;
+	PokerGameIdentifier createGame(PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException;
 
 	Collection<PokerGameIdentifier> getGameIdentifiers() throws PokerServiceException;
 
@@ -78,5 +78,7 @@ public interface PokerService {
 	boolean hasPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
 
 	boolean hasPokerPlayerRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
+
+	void updateGame(PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException;
 
 }

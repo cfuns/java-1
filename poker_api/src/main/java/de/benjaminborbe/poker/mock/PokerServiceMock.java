@@ -11,6 +11,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
+import de.benjaminborbe.poker.api.PokerGameDto;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerDto;
@@ -61,11 +62,6 @@ public class PokerServiceMock implements PokerService {
 
 	@Override
 	public Collection<PokerCardIdentifier> getBoardCards(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
-		return null;
-	}
-
-	@Override
-	public PokerGameIdentifier createGame(final String name, final long blind) throws PokerServiceException {
 		return null;
 	}
 
@@ -176,6 +172,15 @@ public class PokerServiceMock implements PokerService {
 	@Override
 	public PokerPlayerIdentifier createPlayer(final PokerPlayerDto playerDto) throws PokerServiceException, ValidationException {
 		return null;
+	}
+
+	@Override
+	public PokerGameIdentifier createGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
+		return null;
+	}
+
+	@Override
+	public void updateGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
 	}
 
 }

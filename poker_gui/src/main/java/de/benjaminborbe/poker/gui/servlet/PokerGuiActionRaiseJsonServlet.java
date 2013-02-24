@@ -66,6 +66,10 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiJsonServlet {
 		try {
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+			if (player.getGame() == null) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("player has no game")));
+			}
+
 			final long amount = parseUtil.parseLong(request.getParameter(PokerGuiConstants.PARAMETER_AMOUNT));
 			pokerService.raise(player.getGame(), playerIdentifier, amount);
 

@@ -29,7 +29,7 @@ public class HttpDownloadUtil {
 			return null;
 		}
 		else if (result.getContentEncoding() != null && result.getContentEncoding().getEncoding() != null) {
-			logger.debug("use encoding from result: " + result.getContentEncoding().getEncoding());
+			logger.trace("use encoding from result: " + result.getContentEncoding().getEncoding());
 			return new String(result.getContent(), result.getContentEncoding().getEncoding());
 		}
 		else {

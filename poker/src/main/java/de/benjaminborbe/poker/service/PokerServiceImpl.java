@@ -25,6 +25,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
+import de.benjaminborbe.poker.api.PokerGameDto;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerDto;
@@ -150,17 +151,17 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public PokerGameIdentifier createGame(final String name, final long blind) throws PokerServiceException, ValidationException {
+	public PokerGameIdentifier createGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
 		try {
-			logger.debug("createGame - name: " + name);
+			logger.debug("createGame - name: " + pokerGameDto.getName());
 
 			final PokerGameIdentifier id = new PokerGameIdentifier(idGeneratorUUID.nextId());
 
 			final PokerGameBean bean = pokerGameDao.create();
 			bean.setId(id);
-			bean.setName(name);
-			bean.setBigBlind(blind);
-			bean.setSmallBlind(blind / 2);
+			bean.setName(pokerGameDto.getName());
+			bean.setBigBlind(pokerGameDto.getBigBlind());
+			bean.setSmallBlind(pokerGameDto.getBigBlind() != null ? (pokerGameDto.getBigBlind() / 2) : null);
 			bean.setRunning(false);
 			bean.setPot(0l);
 			bean.setCardPosition(0);
@@ -944,6 +945,29 @@ public class PokerServiceImpl implements PokerService {
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public void updateGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
+		try {
+			logger.debug("updateGame - name: " + pokerGameDto.getName());
+
+			final PokerGameBean bean = pokerGameDao.load(pokerGameDto.getId());
+			bean.setName(pokerGameDto.getName());
+
+			final ValidationResult errors = validationExecutor.validate(bean);
+			if (errors.hasErrors()) {
+				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add("name"));
+		}
+		catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		}
+		finally {
 		}
 	}
 

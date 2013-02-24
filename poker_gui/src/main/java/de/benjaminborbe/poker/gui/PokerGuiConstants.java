@@ -70,4 +70,6 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_PLAYER_OWNERS = "player_owners";
 
+	String URL_GAME_UPDATE = "/game/update";
+
 }

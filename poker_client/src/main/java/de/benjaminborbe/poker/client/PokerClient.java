@@ -25,7 +25,7 @@ import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class PokerClient {
 
-	private static final int DELAY = 0;
+	private static final int DELAY = 200;
 
 	private static final int TIMEOUT = 5000;
 
@@ -121,13 +121,11 @@ public class PokerClient {
 						logger.debug("game not running");
 					}
 				}
-
 				try {
 					Thread.sleep(DELAY);
 				}
 				catch (final InterruptedException e) {
 				}
-
 			}
 			catch (MalformedURLException | UnsupportedEncodingException | HttpDownloaderException | JSONParseException e) {
 				logger.warn(e.getClass().getSimpleName(), e);

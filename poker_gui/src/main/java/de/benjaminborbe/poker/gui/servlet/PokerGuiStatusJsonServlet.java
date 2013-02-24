@@ -61,19 +61,22 @@ public class PokerGuiStatusJsonServlet extends PokerGuiJsonServlet {
 		final JSONObject jsonObject = new JSONObjectSimple();
 		final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 		final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
-		final PokerGame game = pokerService.getGame(player.getGame());
-		jsonObject.put("gameBid", game.getBet());
-		jsonObject.put("gameBigBlind", game.getBigBlind());
-		jsonObject.put("gameName", game.getName());
-		jsonObject.put("gamePot", game.getPot());
-		jsonObject.put("gameMaxBid", game.getMaxBid());
-		jsonObject.put("gameRound", game.getRound());
-		jsonObject.put("gameRunning", game.getRunning());
-		jsonObject.put("gameSmallBlind", game.getSmallBlind());
-		jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(player.getGame()));
-		final JSONArray jsonPlayers = new JSONArraySimple();
-		for (final PokerPlayerIdentifier pid : game.getPlayers()) {
-			jsonPlayers.add(pid);
+		jsonObject.put("gameId", player.getGame());
+		if (player.getGame() != null) {
+			final PokerGame game = pokerService.getGame(player.getGame());
+			jsonObject.put("gameBid", game.getBet());
+			jsonObject.put("gameBigBlind", game.getBigBlind());
+			jsonObject.put("gameName", game.getName());
+			jsonObject.put("gamePot", game.getPot());
+			jsonObject.put("gameMaxBid", game.getMaxBid());
+			jsonObject.put("gameRound", game.getRound());
+			jsonObject.put("gameRunning", game.getRunning());
+			jsonObject.put("gameSmallBlind", game.getSmallBlind());
+			jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(player.getGame()));
+			final JSONArray jsonPlayers = new JSONArraySimple();
+			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
+				jsonPlayers.add(pid);
+			}
 		}
 		jsonObject.put("playerCredits", player.getAmount());
 		jsonObject.put("playerName", player.getName());
