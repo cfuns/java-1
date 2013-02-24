@@ -26,7 +26,7 @@ public class Head2Part implements Part {
 
 	@Override
 	public String asString() {
-		return "<h2><a name=\"" + head1 + "-" + title + "\"></a>" + title + "</h2>";
+		return "<h2 class=\"wikiH2\"><a name=\"" + head1 + "-" + title + "\"></a>" + title + "</h2>";
 	}
 
 	public String getTitle() {

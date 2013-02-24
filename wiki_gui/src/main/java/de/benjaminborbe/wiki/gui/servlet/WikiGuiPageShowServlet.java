@@ -1,6 +1,7 @@
 package de.benjaminborbe.wiki.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -27,11 +29,13 @@ import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
 import de.benjaminborbe.wiki.api.WikiService;
@@ -80,11 +84,11 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, RedirectException {
 		try {
-			logger.debug("render " + getClass().getSimpleName());
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
-
 			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier(request.getParameter(WikiGuiConstants.PARAMETER_PAGE_ID));
+			final WikiPage page = wikiService.getPage(wikiPageIdentifier);
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(page.getTitle()));
+
 			widgets.add(new HtmlContentWidget(wikiService.renderPage(wikiPageIdentifier)));
 			widgets.add(new BrWidget());
 			widgets.add(new LinkRelativWidget(urlUtil, request, "/" + WikiGuiConstants.NAME + "/" + WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL, new MapParameter().add(
@@ -102,5 +106,12 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	@Override
+	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final Collection<CssResource> result = super.getCssResources(request, response);
+		result.add(new CssResourceImpl(request.getContextPath() + "/" + WikiGuiConstants.NAME + WikiGuiConstants.URL_CSS_STYLE));
+		return result;
 	}
 }

@@ -16,7 +16,7 @@ public class Head3Part implements Part {
 
 	@Override
 	public String asString() {
-		return "<h3><a name=\"" + head1 + "-" + head2 + "-" + title + "\"></a>" + title + "</h3>";
+		return "<h3 class=\"wikiH3\"><a name=\"" + head1 + "-" + head2 + "-" + title + "\"></a>" + title + "</h3>";
 	}
 
 	public String getTitle() {

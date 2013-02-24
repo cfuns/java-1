@@ -34,4 +34,6 @@ public interface WikiGuiConstants {
 
 	String WIKI_GUI_SPACE_LIST_SERVLET_URL = "/space/list";
 
+	String URL_CSS_STYLE = "/css/style.css";
+
 }

@@ -1,0 +1,37 @@
+.wikiToc a {
+	color: 326CA6;
+	text-decoration: none;
+}
+
+.wikiMetaData {
+	color: #666666;
+}
+
+.wikiH1 {
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.wikiH2 {
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.wikiH3 {
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.wikiCode {
+	border-width: 1px;
+	border-style: dashed;
+	padding-bottom: 12px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 12px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
+	font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+}

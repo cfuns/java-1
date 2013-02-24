@@ -17,7 +17,6 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifi
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 
 public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
@@ -32,11 +31,24 @@ public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
 		@Override
 		public boolean validate(final String object) {
 			for (final char c : object.toCharArray()) {
-				if (!Character.isLetter(c) && c != '-') {
+				if (!isAllowedCharacter(c)) {
 					return false;
 				}
 			}
 			return true;
+		}
+
+		private boolean isAllowedCharacter(final char c) {
+			if (Character.isLetter(c)) {
+				return true;
+			}
+			if (c == '-') {
+				return true;
+			}
+			if (c == ' ') {
+				return true;
+			}
+			return false;
 		}
 	}
 
@@ -85,7 +97,6 @@ public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
 					constraints.add(new ValidationConstrainAllowedCharacters());
-					constraints.add(new ValidationConstraintStringNot("all", "none"));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
