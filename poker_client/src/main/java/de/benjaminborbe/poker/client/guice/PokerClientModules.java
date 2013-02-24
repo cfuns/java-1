@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.inject.Module;
+
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 

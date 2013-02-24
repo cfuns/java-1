@@ -43,8 +43,8 @@ public class MicroblogServiceMock implements MicroblogService {
 	}
 
 	@Override
-	public void updatePost(final SessionIdentifier sessionIdentifier, final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public void updatePost(final SessionIdentifier sessionIdentifier, final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 }

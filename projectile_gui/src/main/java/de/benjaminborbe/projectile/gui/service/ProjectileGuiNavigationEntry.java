@@ -2,11 +2,11 @@ package de.benjaminborbe.projectile.gui.service;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
 
 public class ProjectileGuiNavigationEntry implements NavigationEntry {
 

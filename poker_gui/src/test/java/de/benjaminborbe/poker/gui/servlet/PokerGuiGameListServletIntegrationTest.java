@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.poker.gui.guice.PokerGuiModulesMock;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class PokerGuiGameListServletIntegrationTest {

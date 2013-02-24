@@ -1,6 +1,7 @@
 package de.benjaminborbe.poker.util;
 
 import java.util.Collection;
+
 import com.google.inject.Inject;
 
 import de.benjaminborbe.poker.api.PokerCardIdentifier;

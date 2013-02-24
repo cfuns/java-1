@@ -1,6 +1,6 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
