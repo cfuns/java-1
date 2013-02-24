@@ -20,7 +20,7 @@ public interface AnalyticsService {
 
 	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, double value) throws AnalyticsServiceException;
 
-	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, long time) throws AnalyticsServiceException;
+	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, long value) throws AnalyticsServiceException;
 
 	void aggreate(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 

@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
@@ -71,9 +74,12 @@ public class PokerServiceImpl implements PokerService {
 
 	private final PokerConfig pokerConfig;
 
+	private final AnalyticsService analyticsService;
+
 	@Inject
 	public PokerServiceImpl(
 			final Logger logger,
+			final AnalyticsService analyticsService,
 			final PokerConfig pokerConfig,
 			final AuthorizationService authorizationService,
 			final PokerWinnerCalculator pokerWinnerCalculator,
@@ -84,6 +90,7 @@ public class PokerServiceImpl implements PokerService {
 			final ValidationExecutor validationExecutor,
 			final PokerPlayerDao pokerPlayerDao) {
 		this.logger = logger;
+		this.analyticsService = analyticsService;
 		this.pokerConfig = pokerConfig;
 		this.authorizationService = authorizationService;
 		this.pokerWinnerCalculator = pokerWinnerCalculator;
@@ -199,6 +206,7 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			pokerPlayerDao.save(bean);
+			trackPlayerAmount(bean.getId(), bean.getAmount());
 
 			return id;
 		}
@@ -503,11 +511,26 @@ public class PokerServiceImpl implements PokerService {
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
 
 			completeTurn(game);
+
+			trackPlayerAmount(player.getId(), player.getAmount());
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		}
 		finally {
+		}
+	}
+
+	private void trackPlayerAmount(final PokerPlayerIdentifier id, final Long amount) {
+		if (amount != null) {
+			try {
+				final String reportName = "PokerPlayerAmount-" + id.getId();
+				final AnalyticsReportIdentifier analyticsReportIdentifier = analyticsService.createAnalyticsReportIdentifier(reportName);
+				analyticsService.addReportValue(analyticsReportIdentifier, amount);
+			}
+			catch (final AnalyticsServiceException e) {
+				logger.trace("trackPlayerAmount failed", e);
+			}
 		}
 	}
 
@@ -570,6 +593,7 @@ public class PokerServiceImpl implements PokerService {
 				player.setAmount(player.getAmount() + amount);
 				logger.debug("add " + amount + " to player " + player.getName());
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount"));
+				trackPlayerAmount(player.getId(), player.getAmount());
 			}
 			nextRound(game);
 		}
@@ -626,6 +650,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getSmallBlind());
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
+			trackPlayerAmount(player.getId(), player.getAmount());
 		}
 
 		// big blind
@@ -634,6 +659,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getBigBlind());
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
+			trackPlayerAmount(player.getId(), player.getAmount());
 		}
 
 		// active player
@@ -663,6 +689,8 @@ public class PokerServiceImpl implements PokerService {
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("amount").add("bet"));
 
 			completeTurn(game);
+
+			trackPlayerAmount(player.getId(), player.getAmount());
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);
@@ -845,6 +873,7 @@ public class PokerServiceImpl implements PokerService {
 
 			for (final PokerPlayerBean player : players) {
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("cards").add("bet").add("amount"));
+				trackPlayerAmount(player.getId(), player.getAmount());
 			}
 			pokerGameDao.save(
 					game,
