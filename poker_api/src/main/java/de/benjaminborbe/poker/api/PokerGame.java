@@ -23,4 +23,6 @@ public interface PokerGame {
 	Long getRound();
 
 	Long getBet();
+
+	Long getMaxBid();
 }

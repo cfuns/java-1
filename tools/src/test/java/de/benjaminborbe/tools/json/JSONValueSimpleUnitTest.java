@@ -35,4 +35,9 @@ public class JSONValueSimpleUnitTest {
 			assertEquals("\"1\"", sw.toString());
 		}
 	}
+
+	public void testToString() {
+		final JSONValue value = new JSONValueSimple("test");
+		assertEquals("test", String.valueOf(value));
+	}
 }

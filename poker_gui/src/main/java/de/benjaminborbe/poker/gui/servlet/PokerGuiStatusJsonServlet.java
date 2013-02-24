@@ -65,6 +65,7 @@ public class PokerGuiStatusJsonServlet extends PokerGuiJsonServlet {
 		jsonObject.put("gameBigBlind", game.getBigBlind());
 		jsonObject.put("gameName", game.getName());
 		jsonObject.put("gamePot", game.getPot());
+		jsonObject.put("gameMaxBid", game.getMaxBid());
 		jsonObject.put("gameRound", game.getRound());
 		jsonObject.put("gameRunning", game.getRunning());
 		jsonObject.put("gameSmallBlind", game.getSmallBlind());

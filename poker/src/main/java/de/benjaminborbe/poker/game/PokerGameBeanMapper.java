@@ -61,6 +61,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	private static final String ACTIVE_PLAYERS = "activePlayers";
 
+	private static final String MAX_BID = "maxBid";
+
 	@Inject
 	public PokerGameBeanMapper(
 			final Provider<PokerGameBean> provider,
@@ -88,6 +90,7 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(POT, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SMALL_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BIG_BLIND, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(MAX_BID, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(ROUND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BET, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(CARD_POSITION, mapperInteger));

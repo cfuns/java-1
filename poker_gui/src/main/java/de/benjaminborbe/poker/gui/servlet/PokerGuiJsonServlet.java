@@ -107,4 +107,9 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 			printException(response, e);
 		}
 	}
+
+	@Override
+	public boolean isLoginRequired() {
+		return false;
+	}
 }

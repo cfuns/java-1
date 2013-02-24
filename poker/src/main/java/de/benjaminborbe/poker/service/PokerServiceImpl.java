@@ -157,6 +157,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setRunning(false);
 			bean.setPot(0l);
 			bean.setCardPosition(0);
+			bean.setMaxBid(pokerConfig.getMaxBid());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {

@@ -50,6 +50,8 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long bet;
 
+	private Long maxBid;
+
 	@Override
 	public Long getBigBlind() {
 		return bigBlind;
@@ -199,6 +201,14 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	public void setBoardCards(final List<PokerCardIdentifier> boardCards) {
 		this.boardCards = boardCards;
+	}
+
+	public Long getMaxBid() {
+		return maxBid;
+	}
+
+	public void setMaxBid(Long maxBid) {
+		this.maxBid = maxBid;
 	}
 
 }
