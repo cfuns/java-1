@@ -817,10 +817,11 @@ public class PokerServiceImpl implements PokerService {
 			game.setRunning(false);
 			game.setCards(new ArrayList<PokerCardIdentifier>());
 			game.setBoardCards(new ArrayList<PokerCardIdentifier>());
-			game.setButtonPosition(0);
-			game.setRound(0l);
 			game.setActivePlayers(new ArrayList<PokerPlayerIdentifier>());
+			game.setButtonPosition(null);
+			game.setRound(null);
 			game.setActivePosition(null);
+			game.setBet(null);
 
 			final Collection<PokerPlayerBean> players = pokerPlayerDao.load(game.getPlayers());
 			for (final PokerPlayerBean player : players) {
@@ -847,7 +848,7 @@ public class PokerServiceImpl implements PokerService {
 			pokerGameDao.save(
 					game,
 					new StorageValueList(pokerGameDao.getEncoding()).add("running").add("cards").add("cardPosition").add("buttonPosition").add("round").add("activePlayers")
-							.add("activePosition").add("boardCards"));
+							.add("activePosition").add("boardCards").add("bet"));
 		}
 		catch (final StorageException e) {
 			throw new PokerServiceException(e);

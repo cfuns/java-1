@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -22,6 +23,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
@@ -29,6 +31,7 @@ import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
 public class PokerGuiActionRaiseJsonServlet extends PokerGuiJsonServlet {
@@ -49,16 +52,16 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiJsonServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final PokerService pokerService,
-			final ParseUtil parseUtil) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService);
+			final ParseUtil parseUtil,
+			final PokerGuiConfig pokerGuiConfig) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
 		this.pokerService = pokerService;
 		this.parseUtil = parseUtil;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
-
+	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException,
+			ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
@@ -69,14 +72,8 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiJsonServlet {
 			jsonObject.put("success", "true");
 			printJson(response, jsonObject);
 		}
-		catch (final PokerServiceException e) {
-			printException(response, e);
-		}
-		catch (final ValidationException e) {
-			printException(response, e);
-		}
 		catch (final ParseException e) {
-			printException(response, e);
+			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("parse amount failed")));
 		}
 	}
 }

@@ -24,6 +24,7 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -50,6 +51,8 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 
 	private final PokerService pokerService;
 
+	private final PokerGuiConfig pokerGuiConfig;
+
 	@Inject
 	public PokerGuiServlet(
 			final Logger logger,
@@ -63,12 +66,14 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final CacheService cacheService,
 			final PokerGuiLinkFactory pokerGuiLinkFactory,
-			final PokerService pokerService) {
+			final PokerService pokerService,
+			final PokerGuiConfig pokerGuiConfig) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
 		this.pokerService = pokerService;
+		this.pokerGuiConfig = pokerGuiConfig;
 	}
 
 	@Override
@@ -86,7 +91,9 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 		final UlWidget ul = new UlWidget();
 		ul.add(pokerGuiLinkFactory.gameList(request));
 		ul.add(pokerGuiLinkFactory.playerList(request));
-		ul.add(pokerGuiLinkFactory.apiHelp(request));
+		if (pokerGuiConfig.isJsonApiEnabled()) {
+			ul.add(pokerGuiLinkFactory.apiHelp(request));
+		}
 		widgets.add(ul);
 
 		return widgets;

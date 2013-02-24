@@ -10,6 +10,8 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.poker.api.PokerService;
@@ -23,6 +25,7 @@ public class PokerGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(WikiService.class).to(WikiServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);

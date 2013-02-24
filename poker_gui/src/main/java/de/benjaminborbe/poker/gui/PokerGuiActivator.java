@@ -8,7 +8,9 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.poker.gui.guice.PokerGuiModules;
 import de.benjaminborbe.poker.gui.service.PokerGuiNavigationEntry;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiActionCallJsonServlet;
@@ -39,6 +41,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PokerGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private PokerGuiConfig pokerGuiConfig;
 
 	@Inject
 	private PokerGuiApiHelpServlet pokerGuiApiHelpServlet;
@@ -146,6 +151,9 @@ public class PokerGuiActivator extends HttpBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, pokerGuiNavigationEntry));
+		for (final ConfigurationDescription configuration : pokerGuiConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 

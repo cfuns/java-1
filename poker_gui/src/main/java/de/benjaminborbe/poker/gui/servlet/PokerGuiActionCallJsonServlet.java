@@ -1,6 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -22,6 +25,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
@@ -44,8 +48,9 @@ public class PokerGuiActionCallJsonServlet extends PokerGuiJsonServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final PokerService pokerService) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService);
+			final PokerService pokerService,
+			final PokerGuiConfig pokerGuiConfig) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
 		this.pokerService = pokerService;
 	}
 
@@ -62,11 +67,22 @@ public class PokerGuiActionCallJsonServlet extends PokerGuiJsonServlet {
 			jsonObject.put("success", "true");
 			printJson(response, jsonObject);
 		}
+		catch (final ValidationException e) {
+			final Collection<ValidationError> errors = e.getErrors();
+			final StringBuffer sb = new StringBuffer();
+			for (final ValidationError error : errors) {
+				sb.append(error.getMessage());
+				sb.append(" ");
+			}
+			printError(response, sb.toString());
+		}
 		catch (final PokerServiceException e) {
 			printException(response, e);
 		}
-		catch (final ValidationException e) {
-			printException(response, e);
-		}
+	}
+
+	@Override
+	protected void doAction(HttpServletRequest request, HttpServletResponse response, HttpContext context) throws PokerServiceException, ValidationException, ServletException,
+			IOException, PermissionDeniedException, LoginRequiredException {
 	}
 }

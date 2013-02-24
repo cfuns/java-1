@@ -107,6 +107,8 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			widgets.add("Credits: " + player.getAmount());
 			widgets.add(new BrWidget());
 			if (pokerService.hasPokerAdminRole(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
+				widgets.add("ID: " + player.getId());
+				widgets.add(new BrWidget());
 				widgets.add("Token: " + player.getToken());
 				widgets.add(new BrWidget());
 			}

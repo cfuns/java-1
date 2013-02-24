@@ -22,6 +22,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
@@ -44,29 +45,21 @@ public class PokerGuiActionFoldJsonServlet extends PokerGuiJsonServlet {
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
-			final PokerService pokerService) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService);
+			final PokerService pokerService,
+			final PokerGuiConfig pokerGuiConfig) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
 		this.pokerService = pokerService;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException,
+			ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+		final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+		final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+		pokerService.fold(player.getGame(), playerIdentifier);
 
-		try {
-			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
-			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
-			pokerService.fold(player.getGame(), playerIdentifier);
-
-			final JSONObject jsonObject = new JSONObjectSimple();
-			jsonObject.put("success", "true");
-			printJson(response, jsonObject);
-		}
-		catch (final PokerServiceException e) {
-			printException(response, e);
-		}
-		catch (final ValidationException e) {
-			printException(response, e);
-		}
+		final JSONObject jsonObject = new JSONObjectSimple();
+		jsonObject.put("success", "true");
+		printJson(response, jsonObject);
 	}
 }
