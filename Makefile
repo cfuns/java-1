@@ -316,3 +316,8 @@ buildpoker:
 	cd poker_gui && make all
 	cd poker_test && make all
 	cd poker_client && make all
+buildcms:
+	cd cms_api && make all
+	cd cms && make all
+	cd cms_gui && make all
+	cd cms_test && make all

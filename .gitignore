@@ -241,3 +241,7 @@ poker_client/target
 poker_api/target
 poker_gui/target
 poker_test/target
+cms/target
+cms_api/target
+cms_gui/target
+cms_test/target
