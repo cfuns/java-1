@@ -163,7 +163,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			playerDto.setName(name);
 			playerDto.setAmount(credits);
 			playerDto.setOwners(owners);
-			pokerService.updatePlayer(playerDto);
+			pokerService.createPlayer(playerDto);
 		}
 
 	}
