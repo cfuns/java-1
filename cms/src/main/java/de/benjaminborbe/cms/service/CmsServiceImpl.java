@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.cms.api.CmsPage;
+import de.benjaminborbe.cms.api.CmsPageDto;
+import de.benjaminborbe.cms.api.CmsPageIdentifier;
 import de.benjaminborbe.cms.api.CmsService;
 
 @Singleton
@@ -18,8 +21,18 @@ public class CmsServiceImpl implements CmsService {
 	}
 
 	@Override
-	public void execute() {
-		logger.trace("execute");
+	public CmsPageIdentifier createPage(final CmsPageDto cmsPageDto) {
+		logger.trace("createPage");
+		return null;
+	}
+
+	@Override
+	public void updatePage(CmsPageDto cmsPageDto) {
+	}
+
+	@Override
+	public CmsPage getPage(CmsPageIdentifier cmsPageIdentifier) {
+		return null;
 	}
 
 }
