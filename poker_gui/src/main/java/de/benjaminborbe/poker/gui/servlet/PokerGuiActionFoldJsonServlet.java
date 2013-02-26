@@ -33,7 +33,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
-public class PokerGuiActionFoldJsonServlet extends PokerGuiJsonServlet {
+public class PokerGuiActionFoldJsonServlet extends PokerGuiPlayerJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 

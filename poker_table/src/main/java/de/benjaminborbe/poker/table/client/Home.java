@@ -15,6 +15,5 @@ public class Home implements EntryPoint {
 	public void onModuleLoad() {
 		final Widget panel = injector.getMainPanel();
 		RootPanel.get().add(panel);
-
 	}
 }

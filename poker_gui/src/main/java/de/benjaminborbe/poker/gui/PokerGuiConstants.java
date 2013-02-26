@@ -54,7 +54,7 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_VIEW = "/game/view";
 
-	String URL_STATUS_JSON = "/status/json";
+	String URL_PLAYER_STATUS_JSON = "/status/json";
 
 	String URL_HOME = "/";
 
@@ -75,5 +75,7 @@ public interface PokerGuiConstants {
 	String URL_PLAYER_UPDATE = "/player/update";
 
 	String PARAMETER_PLAYER_AMOUNT = "player_amount";
+
+	String URL_GAME_STATUS_JSON = "/game/status/json";
 
 }

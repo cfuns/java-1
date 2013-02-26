@@ -12,13 +12,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
@@ -27,24 +27,21 @@ import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.validation.ValidationResultImpl;
 
 @Singleton
-public class PokerGuiActionRaiseJsonServlet extends PokerGuiPlayerJsonServlet {
+public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private final PokerService pokerService;
 
-	private final ParseUtil parseUtil;
-
 	@Inject
-	public PokerGuiActionRaiseJsonServlet(
+	public PokerGuiPlayerStatusJsonServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
@@ -53,32 +50,36 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiPlayerJsonServlet {
 			final TimeZoneUtil timeZoneUtil,
 			final Provider<HttpContext> httpContextProvider,
 			final PokerService pokerService,
-			final ParseUtil parseUtil,
 			final PokerGuiConfig pokerGuiConfig) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
 		this.pokerService = pokerService;
-		this.parseUtil = parseUtil;
 	}
 
 	@Override
 	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException,
 			ServletException, IOException, PermissionDeniedException, LoginRequiredException {
-		try {
-			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
-			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
-			if (player.getGame() == null) {
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("player has no game")));
+		final JSONObject jsonObject = new JSONObjectSimple();
+		final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+		final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+		jsonObject.put("gameId", player.getGame());
+		if (player.getGame() != null) {
+			final PokerGame game = pokerService.getGame(player.getGame());
+			jsonObject.put("gameBid", game.getBet());
+			jsonObject.put("gameBigBlind", game.getBigBlind());
+			jsonObject.put("gameName", game.getName());
+			jsonObject.put("gamePot", game.getPot());
+			jsonObject.put("gameMaxBid", game.getMaxBid());
+			jsonObject.put("gameRound", game.getRound());
+			jsonObject.put("gameRunning", game.getRunning());
+			jsonObject.put("gameSmallBlind", game.getSmallBlind());
+			jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(player.getGame()));
+			final JSONArray jsonPlayers = new JSONArraySimple();
+			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
+				jsonPlayers.add(pid);
 			}
-
-			final long amount = parseUtil.parseLong(request.getParameter(PokerGuiConstants.PARAMETER_AMOUNT));
-			pokerService.raise(player.getGame(), playerIdentifier, amount);
-
-			final JSONObject jsonObject = new JSONObjectSimple();
-			jsonObject.put("success", "true");
-			printJson(response, jsonObject);
 		}
-		catch (final ParseException e) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("parse amount failed")));
-		}
+		jsonObject.put("playerCredits", player.getAmount());
+		jsonObject.put("playerName", player.getName());
+		printJson(response, jsonObject);
 	}
 }

@@ -26,6 +26,7 @@ import de.benjaminborbe.poker.gui.servlet.PokerGuiGameJoinServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameLeaveServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStartServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStatusJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStopServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameUpdateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameViewServlet;
@@ -35,7 +36,7 @@ import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerListServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerUpdateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiStatusJsonServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerStatusJsonServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -43,6 +44,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class PokerGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private PokerGuiGameStatusJsonServlet pokerGuiGameStatusJsonServlet;
 
 	@Inject
 	private PokerGuiPlayerUpdateServlet pokerGuiPlayerUpdateServlet;
@@ -66,7 +70,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 	private PokerGuiActionRaiseJsonServlet pokerGuiActionRaiseJsonServlet;
 
 	@Inject
-	private PokerGuiStatusJsonServlet pokerGuiStatusJsonServlet;
+	private PokerGuiPlayerStatusJsonServlet pokerGuiPlayerStatusJsonServlet;
 
 	@Inject
 	private PokerGuiActionCallServlet pokerGuiActionCallServlet;
@@ -153,7 +157,8 @@ public class PokerGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(pokerGuiActionCallJsonServlet, PokerGuiConstants.URL_ACTION_CALL_JSON));
 		result.add(new ServletInfo(pokerGuiActionFoldJsonServlet, PokerGuiConstants.URL_ACTION_FOLD_JSON));
 		result.add(new ServletInfo(pokerGuiActionRaiseJsonServlet, PokerGuiConstants.URL_ACTION_RAISE_JSON));
-		result.add(new ServletInfo(pokerGuiStatusJsonServlet, PokerGuiConstants.URL_STATUS_JSON));
+		result.add(new ServletInfo(pokerGuiPlayerStatusJsonServlet, PokerGuiConstants.URL_PLAYER_STATUS_JSON));
+		result.add(new ServletInfo(pokerGuiGameStatusJsonServlet, PokerGuiConstants.URL_GAME_STATUS_JSON));
 		return result;
 	}
 
