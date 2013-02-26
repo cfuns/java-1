@@ -277,6 +277,7 @@
 				<module>poker_client</module>
 				<module>poker_api</module>
 				<module>poker_gui</module>
+				<module>poker_table</module>
 				<module>cms</module>
 				<module>cms_api</module>
 				<module>cms_gui</module>

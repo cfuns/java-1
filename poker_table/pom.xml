@@ -5,9 +5,9 @@
 		<artifactId>de.benjaminborbe.parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.gwt</artifactId>
-	<name>Benjamin Borbe - Gwt</name>
-	<description>Benjamin Borbe - Gwt</description>
+	<artifactId>de.benjaminborbe.poker.table</artifactId>
+	<name>Benjamin Borbe - Poker-Table</name>
+	<description>Benjamin Borbe - Poker-Table</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -54,19 +54,19 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.gwt.server.GwtServerActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.gwt.*</Private-Package>
+						<Bundle-Activator>de.benjaminborbe.poker.table.server.PokerTableServerActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.poker.table.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Gwt</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Gwt</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Poker-Table</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Poker-Table</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.gwt.api</Export-Package>
+						<Export-Package>de.benjaminborbe.poker.table.api</Export-Package>
 						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>

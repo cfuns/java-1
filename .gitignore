@@ -241,6 +241,9 @@ poker_client/target
 poker_api/target
 poker_gui/target
 poker_test/target
+poker_table/target
+poker_table/.gwt/
+poker_table/war/
 cms/target
 cms_api/target
 cms_gui/target
