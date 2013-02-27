@@ -8,14 +8,14 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.dhl.gui.util.DhlWebsiteRedirectServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteRedirectServlet;
 
 @Singleton
-public class DhlGuiServlet extends WebsiteRedirectServlet {
+public class DhlGuiServlet extends DhlWebsiteRedirectServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 

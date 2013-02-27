@@ -17,6 +17,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModulesMock;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -126,6 +127,7 @@ public class AuthenticationGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
+		names.add(NavigationEntry.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

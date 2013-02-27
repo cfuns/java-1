@@ -93,7 +93,7 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			final MessageIdentifier messageIdentifier = new MessageIdentifier(type + "_" + id);
 			if (messageDao.exists(messageIdentifier)) {
-				logger.debug("message already exists => skip");
+				logger.trace("message already exists => skip");
 				return;
 			}
 			else {

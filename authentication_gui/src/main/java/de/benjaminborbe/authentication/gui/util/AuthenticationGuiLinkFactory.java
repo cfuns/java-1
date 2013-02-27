@@ -58,4 +58,7 @@ public class AuthenticationGuiLinkFactory {
 		return urlUtil.buildBaseUrl(request) + "/s/%s";
 	}
 
+	public Widget userView(final HttpServletRequest request, final UserIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add("user_id", id), id.getId());
+	}
 }

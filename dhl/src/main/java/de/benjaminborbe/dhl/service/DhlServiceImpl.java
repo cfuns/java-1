@@ -82,7 +82,6 @@ public class DhlServiceImpl implements DhlService {
 			PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
-
 			logger.trace("mailStatus - dhlIdentifier: " + dhlIdentifier);
 			final Dhl dhl = dhlDao.load(dhlIdentifier);
 			final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);

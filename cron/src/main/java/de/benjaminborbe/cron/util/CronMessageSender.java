@@ -65,7 +65,7 @@ public class CronMessageSender {
 			final CronMessage cronMessage = new CronMessage(name);
 			final String id = name; // + "_" + dateUtil.dateTimeString(fireTime);
 			final String content = cronMessageMapper.map(cronMessage);
-			logger.debug("send cron to queue - name: " + name);
+			logger.trace("send cron to queue - name: " + name);
 			messageService.sendMessage(CronConstants.MESSAGE_TYPE, id, content);
 		}
 		else {

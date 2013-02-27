@@ -116,7 +116,7 @@ public class MessageConsumerExchanger {
 				final MessageBean message = i.next();
 				runOnlyOnceATimeByType.run(String.valueOf(message.getId()), new ExchangeMessage(message));
 			}
-			logger.debug("exchange message - finished");
+			logger.trace("exchange message - finished");
 			return true;
 		}
 		catch (final StorageException e) {
@@ -134,11 +134,11 @@ public class MessageConsumerExchanger {
 			if (startTime != null) {
 				final Calendar now = calendarUtil.now();
 				if (startTime.getTimeInMillis() > now.getTimeInMillis()) {
-					logger.debug("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
+					logger.trace("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
 					return;
 				}
 				else {
-					logger.debug("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
+					logger.trace("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
 				}
 			}
 			else {
@@ -149,7 +149,7 @@ public class MessageConsumerExchanger {
 		boolean result = false;
 		try {
 			if (!lock(message)) {
-				logger.debug("lock message failed => skip");
+				logger.trace("lock message failed => skip");
 				return;
 			}
 			logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
@@ -236,7 +236,7 @@ public class MessageConsumerExchanger {
 			return false;
 		}
 		else {
-			logger.debug("lock message failed - id: " + message.getId());
+			logger.trace("lock message failed - id: " + message.getId());
 			return false;
 		}
 	}

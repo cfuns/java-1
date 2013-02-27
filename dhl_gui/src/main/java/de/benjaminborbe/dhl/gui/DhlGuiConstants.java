@@ -4,4 +4,6 @@ public interface DhlGuiConstants {
 
 	String NAME = "dhl";
 
+	String TRACKING_NUMBER = "tracking_number";
+
 }

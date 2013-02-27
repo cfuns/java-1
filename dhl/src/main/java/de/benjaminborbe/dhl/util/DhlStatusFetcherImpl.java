@@ -46,9 +46,8 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 
 	@Override
 	public DhlStatus fetchStatus(final Dhl dhl) throws DhlStatusFetcherException {
-		logger.debug("getStatus for " + dhl.getTrackingNumber());
-
 		try {
+			logger.debug("getStatus for " + dhl.getTrackingNumber());
 			final URL url = dhlUrlBuilder.buildUrl(dhl);
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);

@@ -21,6 +21,8 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
+import de.benjaminborbe.dhl.gui.DhlGuiConstants;
+import de.benjaminborbe.dhl.gui.util.DhlWebsiteHtmlServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -79,7 +81,8 @@ public class DhlGuiSendStatusServlet extends DhlWebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final DhlIdentifier dhlIdentifier = new DhlIdentifier(286476016780l);
+			final String trackingNumber = request.getParameter(DhlGuiConstants.TRACKING_NUMBER);
+			final DhlIdentifier dhlIdentifier = new DhlIdentifier(trackingNumber);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			dhlService.mailStatus(sessionIdentifier, dhlIdentifier);
 			return widgets;

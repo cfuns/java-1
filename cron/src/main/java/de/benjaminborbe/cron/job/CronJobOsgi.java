@@ -37,7 +37,7 @@ public class CronJobOsgi implements Job {
 		final Date fireTime = context.getFireTime();
 		final String name = (String) context.getJobDetail().getJobDataMap().get(CronConstants.JOB_NAME);
 		try {
-			logger.debug("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
+			logger.trace("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
 			cronMessageSender.send(name);
 		}
 		catch (final Exception e) {

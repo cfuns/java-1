@@ -49,7 +49,7 @@ public class AuthorizationGuiActivatorIntegrationTest {
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_LIST);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DENIED);
-		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_ADD_PERMISSION);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_ADD);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_CREATE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_INFO);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_LIST);

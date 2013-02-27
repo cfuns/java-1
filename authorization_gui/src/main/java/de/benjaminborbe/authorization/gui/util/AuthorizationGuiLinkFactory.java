@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.html.api.Widget;
@@ -25,7 +26,7 @@ public class AuthorizationGuiLinkFactory {
 	}
 
 	public Widget roleAddPermission(final HttpServletRequest request, final RoleIdentifier roleIdentifier) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_ADD_PERMISSION, new MapParameter().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_ADD, new MapParameter().add(
 				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()), "add permission");
 	}
 
@@ -74,5 +75,11 @@ public class AuthorizationGuiLinkFactory {
 
 	public Widget roleList(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_LIST, "roles");
+	}
+
+	public Widget roleRemovePermission(final HttpServletRequest request, final RoleIdentifier roleIdentifier, final PermissionIdentifier permissionIdentifier)
+			throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE, new MapParameter().add(
+				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "remove");
 	}
 }

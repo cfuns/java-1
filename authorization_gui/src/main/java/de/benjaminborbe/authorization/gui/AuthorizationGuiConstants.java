@@ -16,7 +16,9 @@ public interface AuthorizationGuiConstants {
 
 	String URL_PERMISSION_DENIED = "/permissionDenied";
 
-	String URL_ROLE_ADD_PERMISSION = "/role/addPermission";
+	String URL_ROLE_PERMISSION_ADD = "/role/addPermission";
+
+	String URL_ROLE_PERMISSION_REMOVE = "/role/removePermission";
 
 	String URL_ROLE_CREATE = "/role/create";
 
@@ -25,8 +27,6 @@ public interface AuthorizationGuiConstants {
 	String URL_ROLE_LIST = "/role";
 
 	String URL_ROLE_DELETE = "/role/remove";
-
-	String URL_ROLE_PERMISSION_REMOVE = "/role/removePermission";
 
 	String URL_SLASH = "/";
 

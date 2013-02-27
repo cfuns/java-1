@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
+import de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiChangePasswordServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
@@ -22,12 +23,16 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServ
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiVerifyEmailServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiNavigationEntry authenticationGuiNavigationEntry;
 
 	@Inject
 	private AuthenticationGuiVerifyEmailServlet authenticationGuiVerifyEmailServlet;
@@ -97,6 +102,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		for (final ConfigurationDescription configuration : authenticationGuiConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}
+		result.add(new ServiceInfo(NavigationEntry.class, authenticationGuiNavigationEntry));
 		return result;
 	}
 

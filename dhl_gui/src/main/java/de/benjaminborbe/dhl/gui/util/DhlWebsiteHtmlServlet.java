@@ -1,4 +1,4 @@
-package de.benjaminborbe.dhl.gui.servlet;
+package de.benjaminborbe.dhl.gui.util;
 
 import java.io.IOException;
 

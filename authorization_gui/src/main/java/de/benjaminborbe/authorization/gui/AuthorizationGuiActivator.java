@@ -91,7 +91,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authorizationGuiRoleRemoveServlet, AuthorizationGuiConstants.URL_ROLE_DELETE));
 		result.add(new ServletInfo(authorizationGuiUserAddRoleServlet, AuthorizationGuiConstants.URL_ADD_ROLE));
 		result.add(new ServletInfo(authorizationGuiUserRemoveRoleServlet, AuthorizationGuiConstants.URL_USER_REMOVE_ROLE));
-		result.add(new ServletInfo(authorizationGuiRoleAddPermissionServlet, AuthorizationGuiConstants.URL_ROLE_ADD_PERMISSION));
+		result.add(new ServletInfo(authorizationGuiRoleAddPermissionServlet, AuthorizationGuiConstants.URL_ROLE_PERMISSION_ADD));
 		result.add(new ServletInfo(authorizationGuiRoleRemovePermissionServlet, AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE));
 		result.add(new ServletInfo(authorizationGuiUserListServlet, AuthorizationGuiConstants.URL_USER_LIST));
 		result.add(new ServletInfo(authorizationGuiUserInfoServlet, AuthorizationGuiConstants.URL_USER_INFO));
