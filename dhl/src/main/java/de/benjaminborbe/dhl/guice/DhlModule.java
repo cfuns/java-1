@@ -27,5 +27,7 @@ public class DhlModule extends AbstractModule {
 		bind(DhlStatusFetcher.class).to(DhlStatusFetcherImpl.class).in(Singleton.class);
 		bind(DhlService.class).to(DhlServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(DhlValidatorLinker.class);
 	}
 }

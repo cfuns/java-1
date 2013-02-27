@@ -17,7 +17,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -57,7 +56,7 @@ public abstract class DhlWebsiteHtmlServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			authorizationService.hasPermission(sessionIdentifier, new PermissionIdentifier(DhlService.PERMISSION));
+			authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(DhlService.PERMISSION));
 		}
 		catch (final AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);

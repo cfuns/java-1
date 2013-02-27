@@ -401,8 +401,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	@Override
 	public void expectProjectileAdminRole(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
-		final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
 		try {
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
 			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthorizationServiceException e) {
@@ -412,8 +412,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	@Override
 	public boolean hasProjectileAdminRole(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException {
-		final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
 		try {
+			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PROJECTILE_ADMIN_ROLENAME);
 			return authorizationService.hasRole(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthorizationServiceException e) {

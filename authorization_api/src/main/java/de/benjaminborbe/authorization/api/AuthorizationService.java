@@ -17,11 +17,11 @@ public interface AuthorizationService {
 	boolean addUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException, LoginRequiredException;
 
-	PermissionIdentifier createPermissionIdentifier(String permissionName);
+	PermissionIdentifier createPermissionIdentifier(String permissionName) throws AuthorizationServiceException;
 
 	boolean createRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException, ValidationException;
 
-	RoleIdentifier createRoleIdentifier(String roleName);
+	RoleIdentifier createRoleIdentifier(String roleName) throws AuthorizationServiceException;
 
 	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
 

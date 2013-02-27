@@ -85,7 +85,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -108,16 +108,28 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
 	@Override
-	public PermissionIdentifier createPermissionIdentifier(final String permissionName) {
-		return new PermissionIdentifier(permissionName);
+	public PermissionIdentifier createPermissionIdentifier(final String permissionName) throws AuthorizationServiceException {
+		try {
+			if (permissionName != null) {
+				final PermissionIdentifier id = new PermissionIdentifier(permissionName);
+				permissionDao.findOrCreate(id);
+				return id;
+			}
+			else {
+				return null;
+			}
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e);
+		}
 	}
 
 	@Override
@@ -134,13 +146,25 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
 	@Override
-	public RoleIdentifier createRoleIdentifier(final String rolename) {
-		return new RoleIdentifier(rolename);
+	public RoleIdentifier createRoleIdentifier(final String rolename) throws AuthorizationServiceException {
+		try {
+			if (rolename != null) {
+				final RoleIdentifier id = new RoleIdentifier(rolename);
+				roleDao.findOrCreate(id);
+				return id;
+			}
+			else {
+				return null;
+			}
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e);
+		}
 	}
 
 	@Override
@@ -149,7 +173,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return permissionDao.exists(permissionIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -159,7 +183,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return roleDao.exists(roleIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -191,7 +215,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			expectUser(currentUser, userIdentifiers);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -237,10 +261,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 		catch (final UnsupportedEncodingException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 		finally {
 		}
@@ -283,7 +307,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException("AuthenticationServiceException", e);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -302,10 +326,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return authenticationService.isSuperAdmin(userIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -321,10 +345,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -343,7 +367,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -359,7 +383,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -375,7 +399,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -391,10 +415,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -410,7 +434,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			roleDao.delete(roleIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 
@@ -451,7 +475,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return hasRole;
 		}
 		catch (final AuthenticationServiceException e) {
-			throw new AuthorizationServiceException(e.getClass().getSimpleName(), e);
+			throw new AuthorizationServiceException(e);
 		}
 	}
 

@@ -1,6 +1,8 @@
 package de.benjaminborbe.dhl.gui.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -28,6 +33,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -37,6 +43,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
 public class DhlGuiCreateServlet extends DhlWebsiteHtmlServlet {
@@ -91,14 +98,18 @@ public class DhlGuiCreateServlet extends DhlWebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			try {
-				final String id = request.getParameter(PARAMETER_ID);
-				final long zip = parseUtil.parseLong(request.getParameter(PARAMETER_ZIP));
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				dhlService.addTracking(sessionIdentifier, id, zip);
-				throw new RedirectException(request.getContextPath() + "/dhl/list");
-			}
-			catch (final ParseException e) {
+			final String id = request.getParameter(PARAMETER_ID);
+			final String zip = request.getParameter(PARAMETER_ZIP);
+			if (id != null && zip != null) {
+				try {
+					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+					addTracking(sessionIdentifier, id, zip);
+					throw new RedirectException(request.getContextPath() + "/dhl/list");
+				}
+				catch (final ValidationException e) {
+					widgets.add("add tracking failed!");
+					widgets.add(new ValidationExceptionWidget(e));
+				}
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
@@ -117,6 +128,26 @@ public class DhlGuiCreateServlet extends DhlWebsiteHtmlServlet {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	private void addTracking(final SessionIdentifier sessionIdentifier, final String trackingNumber, final String zipString) throws ValidationException, DhlServiceException,
+			LoginRequiredException, PermissionDeniedException {
+
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		long zip = 0;
+		try {
+			zip = parseUtil.parseLong(zipString);
+		}
+		catch (final ParseException e) {
+			errors.add(new ValidationErrorSimple("illegal zip"));
+		}
+
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		}
+		else {
+			dhlService.addTracking(sessionIdentifier, trackingNumber, zip);
 		}
 	}
 }

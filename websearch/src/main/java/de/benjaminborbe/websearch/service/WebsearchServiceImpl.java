@@ -19,7 +19,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
@@ -100,7 +99,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Override
 	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier, final int limit) throws WebsearchServiceException, PermissionDeniedException {
 		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.getPages"));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.getPages"));
 
 			logger.debug("getPages");
 			final EntityIterator<WebsearchPageBean> i = pageDao.getEntityIterator();
@@ -126,7 +125,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
 		try {
 			logger.info("refreshPages");
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPages"));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.refreshPages"));
 
 			websearchRefresher.refresh();
 		}
@@ -138,7 +137,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Override
 	public void expirePage(final SessionIdentifier sessionIdentifier, final WebsearchPageIdentifier pageIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.expirePage"));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.expirePage"));
 
 			logger.debug("expirePage");
 
@@ -163,7 +162,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Override
 	public void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.clearIndex"));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.clearIndex"));
 			final String indexName = WebsearchConstants.INDEX;
 			logger.debug("clearIndex - name: " + indexName);
 			indexerService.clear(indexName);
@@ -179,7 +178,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	@Override
 	public void refreshPage(final SessionIdentifier sessionIdentifier, final WebsearchPageIdentifier page) throws WebsearchServiceException, PermissionDeniedException {
 		try {
-			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier("WebsearchService.refreshPage"));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.refreshPage"));
 
 			final String url = page.getId();
 			logger.debug("trigger refresh of url " + url);

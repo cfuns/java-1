@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
-import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.gui.DhlGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -32,7 +31,7 @@ public class DhlGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authorizationService.hasPermission(sessionIdentifier, new PermissionIdentifier(DhlService.PERMISSION));
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(DhlService.PERMISSION));
 		}
 		catch (final AuthorizationServiceException e) {
 			return false;

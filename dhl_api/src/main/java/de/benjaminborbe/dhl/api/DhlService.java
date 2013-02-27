@@ -3,6 +3,7 @@ package de.benjaminborbe.dhl.api;
 import java.net.URL;
 import java.util.Collection;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -21,5 +22,6 @@ public interface DhlService {
 
 	void removeTracking(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
 
-	DhlIdentifier addTracking(SessionIdentifier sessionIdentifier, String trackingNumber, long zip) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
+	DhlIdentifier addTracking(SessionIdentifier sessionIdentifier, String trackingNumber, long zip) throws DhlServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException;
 }
