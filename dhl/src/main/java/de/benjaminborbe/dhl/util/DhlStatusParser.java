@@ -96,7 +96,7 @@ public class DhlStatusParser {
 			final MatchResult matchResult = matcher.toMatchResult();
 			final int date = parseUtil.parseInt(matchResult.group(1));
 			final int month = parseUtil.parseInt(matchResult.group(2));
-			final int year = parseUtil.parseInt("20" + matchResult.group(3));
+			final int year = parseUtil.parseInt(addYear(matchResult.group(3)));
 			final int hour = parseUtil.parseInt(matchResult.group(4));
 			final int minute = parseUtil.parseInt(matchResult.group(5));
 			return calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), year, month - 1, date, hour, minute, 0);
@@ -105,5 +105,12 @@ public class DhlStatusParser {
 			logger.info("parse date failed " + html);
 			return null;
 		}
+	}
+
+	public String addYear(final String year) {
+		if (year.length() <= 2) {
+			return "20" + year;
+		}
+		return year;
 	}
 }

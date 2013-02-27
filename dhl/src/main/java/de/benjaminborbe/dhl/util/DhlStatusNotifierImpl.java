@@ -12,12 +12,9 @@ import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
 public class DhlStatusNotifierImpl implements DhlStatusNotifier {
-
-	private static final int SUBJECT_MAX_LENGTH = 80;
 
 	private final Logger logger;
 
@@ -25,16 +22,13 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 
 	private final CalendarUtil calendarUtil;
 
-	private final StringUtil stringUtil;
-
 	private final DhlUrlBuilder dhlUrlBuilder;
 
 	@Inject
-	public DhlStatusNotifierImpl(final Logger logger, final MailService mailService, final CalendarUtil calendarUtil, final StringUtil stringUtil, final DhlUrlBuilder dhlUrlBuilder) {
+	public DhlStatusNotifierImpl(final Logger logger, final MailService mailService, final CalendarUtil calendarUtil, final DhlUrlBuilder dhlUrlBuilder) {
 		this.logger = logger;
 		this.mailService = mailService;
 		this.calendarUtil = calendarUtil;
-		this.stringUtil = stringUtil;
 		this.dhlUrlBuilder = dhlUrlBuilder;
 	}
 
@@ -79,7 +73,7 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 		}
 		final String from = "bborbe@seibert-media.net";
 		final String to = "bborbe@seibert-media.net";
-		final String subject = "DHL: " + stringUtil.shorten(calendarUtil.toDateTimeString(status.getCalendar()) + " - " + status.getMessage(), SUBJECT_MAX_LENGTH);
+		final String subject = "DHL-Status: " + status.getDhl().getTrackingNumber();
 		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
 	}
 }

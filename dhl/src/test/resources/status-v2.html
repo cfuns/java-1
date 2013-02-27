@@ -1,0 +1,1211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="DHL" />
+<meta name="keywords" content="DHL" />
+<meta name="publisher" content="DHL" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta name="ROBOTS" content="NOINDEX" />
+<meta name="NOLP Frontend Version" content="3.5.1" />
+
+
+<title>DHL Sendungsverfolgung</title>
+
+
+
+
+<link href="/nextt-online-public/styles/all_css_uncommented_above.jsp;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="text/css" rel="stylesheet"/>
+
+<!--[if IE 6]>
+<link href="/nextt-online-public/styles/ie6_optimization.css;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="text/css" rel="stylesheet"/>
+<![endif]-->	
+
+<script type="text/javascript" src="/nextt-online-public/js/lib/jQuery/jquery-1.7.2.js;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></script>
+<script type="text/javascript" src="/nextt-online-public/js/lib/jQuery/jquery.bgiframe.pack.js;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></script>
+<script type="text/javascript">
+    function contactTop() {
+      window.open("","","dependend=yes,resizable=yes,height=580,width=1012,screenX=40,screenY=40,scrollbars=yes");
+    }
+</script>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+<!--
+function countLinkClick(type) {
+  	$.ajax({type: 'POST', url: "/nextt-online-public/count.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data : { 'count': type} });
+}
+//-->
+</script>
+
+<script src="/nextt-online-public/js/swfobject.js;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="text/javascript"></script>
+<script type="text/javascript"><!--
+     
+	function newWindow(url) {
+		myWindow = open(url, "", "dependend=yes,resizable=yes,height=560,width=760,screenX=40,screenY=40,scrollbars=yes");
+		if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
+			myWindow.outerWidth = 760;
+			myWindow.outerHeight = 560;
+		}
+		myWindow.focus();
+	}
+
+  // --></script>
+
+  
+  	<link rel="stylesheet" type="text/css" href="/nextt-online-public/styles/css_progressbar.jsp;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+    <link rel="stylesheet" type="text/css" href="/nextt-online-public/js/lib/jQuery/jquery.tooltip.css;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+    <script src="/nextt-online-public/js/lib/jQuery/jquery.bgiframe.pack.js;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="text/javascript"></script>
+    
+    <script src="/nextt-online-public/js/lib/jQuery/jquery.tooltip.js;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="text/javascript"></script>
+ 
+  <!--[if IE 8]>
+        <style type="text/css">
+                hr {
+                        height:0px;
+                }
+                
+                #layer {
+					filter: alpha(opacity=50);
+				}
+        </style>
+<![endif]-->
+
+
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+<!-- DHLNOLB-487 Interne Nutzung von NOLP -->
+
+<script type="text/javascript">
+	try {
+
+		$(document).ready(function() {
+
+			handleInternalCall();
+		});
+	} catch (e) {}
+
+	function handleInternalCall() {
+		// DHLNOLB-487 Interne Nutzung von NOLP
+
+	changeLayoutByInternalCall();
+	}
+
+	function changeLayoutByInternalCall() {
+
+		/* Im Folgenden sind alle Buttons zu finden, deren Hintergrundfarbe auf gelb gesetzt werden soll, wenn der Aufruf intern ist*/
+		allInternButtons = new Array("#nolp_query_searchQuery_button",
+				"[name=searchLong]", "#nolp_searchResults_newSearch_button",
+				"#nolp_shipment_newSearch_button");
+
+		var internValue = getInternValue();
+
+		/*   Kontakt ausblenden, wenn der Aufruf intern ist  */
+		if (internValue == true) {
+
+			$('[name=nolp_query_contact_link]').hide(); // query.jsp
+
+			$('[name=nolp_searchResult_onPLZ_contact_link]').hide(); // searchResult.jsp
+			$('[name=nolp_searchResult_contact_link]').hide(); // SearchResult.jsp
+			
+
+			$('[name=nolp_pieceDetails_contact_link]').hide(); // piecedetails.jsp
+			$('[name=nolp_shipment_contact_link]').hide(); // shipment.jsp
+			
+			//nolp.detailed_results.selected.contact
+			$('[name=pageActionSelect]').children('option[value="contact"]').remove();
+			
+			
+			
+			$('[name=nolp_contactEmail_contact_link]').hide(); // contactEmai.jsp
+
+			/*   Help ausblenden, wenn der Aufruf intern ist  */
+			$('[name=nolp_query_help_link]').hide(); // query.jsp
+
+			$('[name=nolp_searchResult_onPLZ_help_link]').hide(); // searchResult.jsp
+			$('[name=nolp_searchResult_help_link]').hide(); // searchResult.jsp
+			$('[name=nolp_shipment_help_link]').hide(); // shipment.jsp
+			$('[name=nolp_contactEmail_help_link]').hide(); // contactEmai.jsp
+
+			/*   Erweiterte Suche ausblenden, wenn der Aufruf intern ist  */
+			$('#nolp_query_extendedSearch_div').hide(); // query.jsp
+
+			/* Gelb-Färbung */
+			for ( var i = 0; i < allInternButtons.length; i++) {
+				changeCssOptions(allInternButtons[i]);
+			}
+		} else {
+
+			/*   Kontakt einblenden, wenn der Aufruf nicht intern ist  */
+			$('[name=nolp_query_contact_link]').show(); // query.jsp
+			$('[name=nolp_searchResult_onPLZ_contact_link]').show(); // searchResult.jsp
+			$('[name=nolp_searchResult_contact_link]').show(); // searchResult.jsp
+
+			$('[name=nolp_pieceDetails_contact_link]').show(); // piecdetails.jsp
+			$('[name=nolp_shipment_contact_link]').show(); // shipment.jsp
+
+			$('[name=nolp_contactEmail_contact_link]').show(); // contactEmai.jsp
+
+			/*   Help einblenden, wenn der Aufruf nicht intern ist  */
+			$('[name=nolp_query_help_link]').show(); // query.jsp
+			$('[name=nolp_searchResult_onPLZ_help_link]').show(); //searchResult.jsp
+			$('[name=nolp_searchResult_help_link]').show(); // searchResult.jsp
+			$('[name=nolp_shipment_help_link]').show(); // shipment.jsp
+			$('[name=nolp_contactEmail_help_link]').show(); // contactEmai.jsp
+
+			/*   Erweiterte Suche einblenden, wenn der Aufruf nicht intern ist  */
+			$('#nolp_query_extendedSearch_div').show(); // query.jsp
+		}
+
+	}
+
+	//TODO irabah: addClass(".intern")
+	/* Die folgende Methode übernimmt die Aufgabe, die Css-Eigenschaften des betroffenen Elements zu ändern*/
+	function changeCssOptions(element) {
+		$(element).css({
+			'background-color' : '#FFCC00'
+		});
+		$(element).css({
+			'color' : '#000000'
+		});
+		$(element).css({
+			'border-color' : '#FFCC00'
+		});
+
+	}
+
+	function getInternValue() {
+
+	return false;
+
+	}
+</script>
+
+
+<!--[if IE 6]>
+	<div id="emhelper" style="width:1em;height:1em;"></div>
+<![endif]-->
+
+<!--[if IE 7]>
+	<div id="emhelper" style="width:1em;height:1em;"></div>
+<![endif]-->
+
+
+<div id="action" ></div>
+
+
+
+
+
+
+	
+
+
+
+<div id="main" class="maintwocol"/>
+	
+    <div id="content_main_shadow">&nbsp;</div>
+        
+	
+    <div id="header">
+        <a href="http://dhl.de"><img src="/nextt-online-public/img/meta/dhl_logo.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" border="0" id="logo" alt="www.dhl.de"/></a>
+        <h1>DHL Sendungsverfolgung</h1>
+        
+		<div id="servicelinks">
+		    <script type="text/javascript"><!--
+/* <![CDATA[ */
+  function changeLanguage(langvar){
+	  jQuery.post( '/nextt-online-public/changeLanguage',
+            { lng: langvar },
+            function(data){
+              var baseUrl = window.location.href.split('?')[0];
+            	var query = window.location.search.substring(1);
+            	var newQuery = "";
+            	var params = query.split('&')
+            	var delim = "?";
+              for (var i = 0; i < params.length; i++) {
+            	  var param = params[i];
+            	  var keyvalue = param.split("=");
+            	  if (keyvalue[0] == 'lang') {
+              	  newQuery = newQuery + delim + "lang=" + langvar;
+                } else {
+                	newQuery = newQuery + delim + param;
+                }
+                delim = "&";
+              }
+            	window.location.href=baseUrl + newQuery;
+           }
+      );
+    }
+/* ]]> */
+// --></script>
+  
+<ul>
+
+<li class="firstItem act"><a href="javascript:changeLanguage('de');">Deutsch</a></li>
+
+<li><a href="javascript:changeLanguage('en');">English</a></li>
+
+<li><a href="javascript:changeLanguage('fr');">Francais</a></li>
+
+</ul>
+
+		</div><!-- #servicelinks -->
+
+        <div class="clearAll">&nbsp;</div>
+        
+    </div><!-- #header END -->
+
+    
+    <div id="navigation_main">
+        <ul id="nav">
+			<li>&nbsp;</li>
+		</ul><!-- #nav END -->
+        
+        
+        		
+      	<div class="clearAll">&nbsp;</div>
+	</div><!-- #navigation_main END -->
+		
+    
+    <div id="main_area">
+   
+   	<!-- top teaser Beginn -->
+   	
+			
+	
+	<!--  top teaser Ende -->
+
+        
+        
+        
+        	<div id="content_main_index" class="twocol">
+        	
+				<div class="container_title">
+          			
+
+	            		
+	            		<!-- Werbebanner --> 
+                  
+						
+   			</div><!-- .container_title END -->
+   			
+   			
+   				
+   					
+      
+      
+
+
+
+      
+      
+      
+      
+      
+      <script type="text/javascript"><!--
+
+      function gotoLogin() {
+    	  location.replace('http://nolp.dhl.de/nextt-online-public//set_identcodes.do'); 
+    	}
+      
+      
+      function showEvents(eventId) {
+        //$("#toggle-" + eventId).attr({style: ""});
+        //$("#toggle-link-" + eventId).attr({style: ""});
+        
+        $("#progress-" + eventId).show();
+        $("#toggle-" + eventId).show();
+        $("#toggle-link-" + eventId).show();
+        $("#toggle-int-" + eventId).show();
+        $("#ashow" + eventId).hide();
+        $("#ahide" + eventId).show();
+      }
+
+      function hideEvents(eventId) {
+        //$("#toggle-" + eventId).attr({style: "display: none;"});
+        //$("#toggle-link-" + eventId).attr({style: "display: none;"});
+        
+        $("#progress-" + eventId).hide();
+        $("#toggle-" + eventId).hide();
+        $("#toggle-link-" + eventId).hide();
+        $("#toggle-int-" + eventId).hide();
+        $("#ashow" + eventId).show();
+        $("#ahide" + eventId).hide();
+      }
+
+      function hideRecipientInput(identCode) {
+    	  $('#zip-request-' + identCode).hide();
+    	  $('#ashowZip' + identCode).show();
+    	  $('#ahideZip' + identCode).hide();
+      }
+
+      function showRecipientInput(identCode) {
+    	  $('#zip-request-' + identCode).show();
+        $('#ashowZip' + identCode).hide();
+        $('#ahideZip' + identCode).show();
+      }
+      
+      function getSelectionParams(onlySelected) {
+        var spA = [];
+          spA = document.getElementsByName("selectedPiece");
+          var param = "";
+          var delim = ""
+          for (i = 0; i < spA.length; i++) {
+           if ((onlySelected == false) || (spA[i].checked == true)) {
+              param = param + delim + "submitPieceId=" + spA[i].value;
+              if (i + 1 < spA.length) {
+                delim = "&";
+              }
+           }
+          }
+        return param;
+      }
+
+      function downloadOrPrintAll(selection) {
+        var idc = document.getElementById("actionIdc").value;
+        var rfn = document.getElementById("actionRfn").value;
+        var zip = document.getElementById("actionZip").value;
+        openDialog("/nextt-online-public/piece_renderer.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?" + getSelectionParams(false) + '&infoHeader=true&pageActionSelect=loadDialog&idc=' + idc + '&rfn=' + rfn + '&zip=' + zip, selection);
+      }
+
+      function openLayer(selectBoxId) {
+     	/*
+         if ((selectBoxId == "pageActionSelectFoot") && ($("#pageActionSelectFoot option:selected").val() == "null")){
+           $("#pageActionSelectHead").addClass("error");
+            $("#pageActionSelectFoot").addClass("error");
+            //return;
+            }
+
+          if ((selectBoxId == "pageActionSelectHead") && ($("#pageActionSelectHead option:selected").val() == "null")){
+          	$("#pageActionSelectHead").addClass("error");
+          	$("#pageActionSelectFoot").addClass("error");
+			//return;
+          }
+		*/
+ 		
+        var selection = document.getElementById(selectBoxId).value;
+        var spA = [];
+        spA = document.getElementsByName("selectedPiece");
+        var param = "";
+        var delim = ""
+        for (i = 0; i < spA.length; i++) {
+         if (spA[i].checked == true) {
+            param = param + delim + "submitPieceId=" + spA[i].value;
+            delim = "&";
+         }
+        }
+        if (param == "") {
+          param = "nothing=true"
+        }
+      var idc = document.getElementById("actionIdc").value;
+        var rfn = document.getElementById("actionRfn").value;
+        var zip = document.getElementById("actionZip").value;
+          
+        if (selection == 'contact') {
+        	contact('');
+        /*  if (param == "nothing=true") {
+            openDialog("/nextt-online-public/piece_renderer.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?" + param + '&pageActionSelect=loadDialog');
+            return;
+          }
+          $("#contactFormPieceId").empty();
+            
+          for (i = 0; i < spA.length; i++) {
+            if (spA[i].checked == true) {
+              $("#contactFormPieceId").append("<input type=\"hidden\" value="+ spA[i].value +" name=\"submitPieceId\"/>");
+            }
+          }        
+          document.getElementById("contactForm").submit();
+            */
+        } else if (selection == 'download' || selection == 'print') {
+          openDialog("/nextt-online-public/piece_renderer.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?" + param + '&pageActionSelect=loadDialog&idc=' + idc + '&rfn=' + rfn + '&zip=' + zip, selection);
+        } else if(selection == 'parcelalert'){
+          openDialog("/nextt-online-public/gw/edicc/index.action;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?" + param +"&intern="+isInternCall(), null);
+        } else if (selection == 'null') {
+            $("#pageActionSelectHead").addClass("error");
+            $("#pageActionSelectFoot").addClass("error");
+	       	 openDialog("/nextt-online-public/piece_renderer.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?pleaseChoose=true", selection);
+        }
+      }
+
+      function singlePieceParcelAlert(pieceId) {  
+    	 // DHLNOLB-487 Interne Nutzung von NOLP  
+        openDialog("/nextt-online-public/gw/edicc/index.action;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?submitPieceId=" + pieceId+"&intern="+isInternCall(), null);
+      }
+
+      function downloadSinglePiece(pieceId) {
+        openDialog("/nextt-online-public/piece_renderer.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?submitPieceId=" + pieceId + '&pageActionSelect=loadDialog', "download");
+      }
+
+      function printSinglePiece(pieceId) {
+        openDialog("/nextt-online-public/piece_renderer.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?submitPieceId=" + pieceId + '&pageActionSelect=loadDialog', "print");
+      }
+
+      function contact(pieceId) {
+    	  countLinkClick('contact_dhl');
+    	  window.open("","","dependend=yes,resizable=yes,height=580,width=1012,screenX=40,screenY=40,scrollbars=yes");
+        /*
+        $("#contactFormPieceId").empty();
+        $("#contactFormPieceId").append("<input type=\"hidden\" value="+ pieceId +" name=\"submitPieceId\"/>");
+        document.getElementById("contactForm").submit();
+        */
+      } 
+      
+      function openDialog(dialogUrl, selection) {
+        var dialogAction;
+        if (selection == 'print') {
+          dialogAction = "dialogAction=print"
+        } else {
+          dialogAction = "dialogAction=download"
+        }
+          
+        $.ajax({
+          type: "GET",
+          contentType: "text/html",
+          url: dialogUrl + "&" + dialogAction + "&lang=de",
+          async: true,
+          success: function (conf) {
+            
+            if(conf.indexOf('id="set' + '_identcodes"') >= 0) {
+              gotoLogin();
+              return;
+            }
+            $("#action").html( conf );
+            if (selection != null) {
+              $("#pageActionSelectDialog").val(selection);
+            }
+            
+            if (selection == 'print' || selection == 'download') {
+              if (document.getElementById("renderForm") != null) {
+                document.getElementById("renderForm").submit();
+                return;
+              }
+            }
+            hideBanners();
+            $("#dialog").show();
+            $("#layer").bgiframe();
+            $("#dialog").bgiframe();
+            var dialogPosition = ($(window).height() - $("#dialog").height()) / 2;
+            $("#dialog").css("top", (dialogPosition > 0) ? dialogPosition : 0);
+            var doc_h = $("body").height();
+            var wnd_h = $(window).height();
+            $("#layer").show().css("height", (doc_h > wnd_h)  ? doc_h : wnd_h);
+          }
+        });
+      }
+
+      function closeLayer() {
+    	  displayBanners();
+        $("#layer").hide();
+        $("#dialog").hide();
+      }
+
+      function loadRecipient(formId, identCode, delivered) {
+    	  $.getJSON("/nextt-online-public/recipent.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?" + $("#" + formId).serialize(), function(jason) {
+    		  fillRecipient(jason, identCode, delivered);
+    		});
+      }
+
+      function loadRecipientForShipment(formId, identCode, delivered) {
+          $.getJSON("/nextt-online-public/recipent.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?" + $("#" + formId).serialize(), function(jason) {
+            if (jason.recipient.error == true) {
+              $('#error_' + identCode).html(jason.recipient.responseMsg);
+              $('#div_error_' + identCode).removeAttr("style");
+              if (jason.recipient.reload == true) {
+                gotoLogin();
+              }
+              return;
+            }
+            $('#tr_panrecipient').removeAttr("style");
+            $('#panrecipient').html(jason.recipient.responseObject.panRecipient);
+            if (delivered == 1) {
+              $('#recipient_' + identCode).html(jason.recipient.responseObject.recipient);
+            }
+            $('#zip-link_' + identCode).remove();
+            $('#zip-request-' + identCode).remove();
+          });
+        }
+
+      function hideIntRecipient(identCode) {
+    	  hideRecipientInput(identCode);
+    	  $('#tr_panrecipient_' + identCode).hide();
+    	  $('#tr_recipient_' + identCode).hide();
+      }
+
+      function showIntRecipient(identCode, delivered) {
+    	  showRecipientInput(identCode);
+    	  $.getJSON("/nextt-online-public/recipent.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA?international=&sid=" + identCode, function(jason) {
+        	
+    		  fillRecipient(jason, identCode, delivered);
+    	  });
+      }
+
+      function fillRecipient(jason, identCode, delivered) {
+    	  if (jason.recipient.error == true) {
+    		  $('#error_' + identCode).html(jason.recipient.responseMsg);
+          $('#div_error_' + identCode).removeAttr("style");
+          if (jason.recipient.reload == true) {
+            gotoLogin();
+          }
+          return;
+        }
+    	  if ($('#panrecipient_' + identCode).length >0) {  
+        	$('#tr_panrecipient_' + identCode).removeAttr("style");
+          $('#panrecipient_' + identCode).html(jason.recipient.responseObject.panRecipient);
+        }
+         
+    	  if (delivered == 1) {
+        	if ($('#recipient_' + identCode).length >0) {
+        	  $('#recipient_' + identCode).html(jason.recipient.responseObject.recipient);
+        		$('#tr_recipient_' + identCode).removeAttr("style");
+        	}
+        }
+        if ($('#zip-link_' + identCode).length >0) {  
+          $('#zip-link_' + identCode).remove();
+        }
+        if ($('#zip-request-' + identCode).length >0) {
+        	$('#zip-request-' + identCode).remove();
+        }
+      }
+      
+   // DHLNOLB-487 Interne Nutzung von NOLP  
+      function isInternCall(){
+    	 handleInternalCall();
+         return getInternValue();    	  	 
+      }
+   
+   
+      function displayBanners(){
+    		if($.browser.msie || $.browser.webkit){
+    			var flashElement= document.getElementById('topBanner');
+    			if(flashElement!=null){
+    				flashElement.style.display = 'block';
+    			}	
+    			
+    			var werbungsElement= document.getElementById('werbung');
+    			if(werbungsElement!=null){
+    				werbungsElement.style.display = 'block';
+    			}
+    		}
+    	}
+
+    	function hideBanners(){
+    		if($.browser.msie || $.browser.webkit){
+    			var flashElement= document.getElementById('topBanner');
+    			if(flashElement!=null){
+    				flashElement.style.display = 'none';
+    			}	
+    			
+    			var werbungsElement= document.getElementById('werbung');
+    			if(werbungsElement!=null){
+    				werbungsElement.style.display = 'none';
+    			}
+    		}
+    	}
+   
+   
+   
+   
+   
+      --></script>
+
+      
+      
+      
+      
+		
+      
+        
+          
+          
+          
+          
+	    <div id="searchresult" class="container">
+	    	
+       
+	    	<div id="formpage">
+	    		
+		
+		
+		
+			<div><a name="nolp_searchResult_contact_link" class="arrowLinkHelp" onclick="javascript:countLinkClick('contact');" href="javascript:newWindow('')" title=""></a></div>
+		
+			
+		
+		
+		
+				
+	    		<h2>Suchergebnis</h2>
+	    		<p>Hier finden Sie die Informationen zu Ihren gesuchten Sendungen.<br>Es gelten die  <a href='http://www.dhl.de/de/paket/kundenservice/sendungsverfolgung/nutzungsbedingungen.html' class='arrowLink' target='_blank'>Nutzungsbedingungen der DHL Sendungsverfolgung</a>.</p>
+	    	</div>
+	    	
+	    <span id="pageform">
+	    
+	    <div id="resulttable">
+      
+        
+          
+        
+        
+      
+      <div class="tablewrap singleResult">
+                 
+        <table name ="results" border="0" cellspacing="0" class="full" style="table-layout: fixed;">
+          <colgroup>
+            <col class="explorerCol" /><col class="mainCol1" /><col class="mainCol2"/>
+          </colgroup>
+          
+          
+            
+            
+              
+          
+          <tbody>
+            
+            
+          		
+          			
+          		
+          		
+           
+                        
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            	
+            <tr class="even">
+              
+               <th class="explorer_spezial">
+                
+                  
+                    <input type="checkbox" name="selectedPiece" value="4e33dfbc-a57e-42ca-9afa-c7360c31ae1a" checked="checked" style="display:none;"/>
+                  
+                  
+                
+                </th>
+                <th colspan="2" class="lasttd">
+                <div id="multicolliPieceCode">
+                  Sendungsnummer 123123123123
+                </div>
+                <div class="openParcelalert arr">
+                
+                </div>
+                <div class="clearAll"></div>
+              </th>
+            </tr>
+            
+            
+            
+            
+
+            
+            
+            
+            
+            <tr> 
+            <td class="explorer">&nbsp;</td>
+              <td>Produkt / Service</td>
+              <td>
+                DHL PAKET
+                
+              </td>
+            </tr>
+            
+            
+             
+            
+            
+            
+            
+            <tr class="status eventList">
+            <td class="explorer">&nbsp;</td>
+              <td>
+                Status vom Mi, 27.02.2013 18:00 Uhr
+              </td>
+              <td class="status">
+               
+               
+               
+                
+                  
+                  Die Sendung wurde im Start-Paketzentrum bearbeitet.
+                
+               
+                
+              </td>
+            </tr>
+          
+          
+            <tr><td class="explorer">&nbsp;</td>
+              <td>
+                Nächster Schritt
+              </td>
+              <td>Die Sendung wird zum Ziel-Paketzentrum transportiert.</td>
+            </tr>
+          
+          
+          
+            
+            
+              
+              <tr id="tr_panrecipient_123123123123" style="display: none;">
+                <td class="explorer">&nbsp;</td>
+                <td>Empfänger</td>
+                <td id="panrecipient_123123123123" ></td>
+              </tr>
+            
+            
+                    
+          
+          
+            
+             
+            
+            
+          
+          
+            
+            
+            
+               
+              <tr id="zip-link_123123123123">
+                <td class="explorer">&nbsp;</td>
+                <td colspan="2" class="stepIconTableData">
+                  <div class="linksBelowStatus"><div class="showEvents">
+                    <a class="close" href="javascript:hideRecipientInput('123123123123');" id="ahideZip123123123123" style="display: none;">
+                      Detaillierte Empfängerinformationen anzeigen
+                    </a>
+                    <a class="open" href="javascript:showRecipientInput('123123123123');" id="ashowZip123123123123">
+                      Detaillierte Empfängerinformationen anzeigen
+                    </a></div></div>
+                </td>
+              </tr>
+              <tr id="zip-request-123123123123" style="display: none;">
+                <td class="explorer">&nbsp;</td>
+                  <td colspan="2" >
+	                  <form id="plzEingrenzung_1" action="/nextt-online-public/recipent.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" class="plzEingrenzung" method="get" onsubmit="return false;">
+	                    <div class="error" style="display:none" id="div_error_123123123123">
+	                      <ul id="error" style="list-style-type:none;"><li id="error_123123123123"></li></ul>
+	                    </div><div>
+	                    <label style="font-size: 1.1em; line-height: 2em;" for="zip1">Bitte geben Sie die 5 stellige Postleitzahl des Empfängers an.</label>
+	                    <div class="input_margin"><div class="container left" style="width: 250px; padding-top: 5px; padding-bottom: 5px;">
+	                      <input id="zip1" maxlength="5" name="validationzip" class="half text" type="text" size="6" />
+	                      <a class="arrowLink" href="http://www.postdirekt.de/plzserver/PlzSearchServlet" title="Postleitzahl vergessen?" target="_blank">Postleitzahl vergessen?</a>
+		                    </div>
+		                    <input name="sid" value="123123123123" type="hidden" />
+		                    <input name="fromShipment" value="false" type="hidden" />
+		                    
+		                    <input style="margin-left: 30px; margin-top: 10px" name="onConfirmZip" value="Weiter" onclick="javascript:loadRecipient('plzEingrenzung_' + 1, '123123123123', 0);" class="submit" type="button" />
+	                    </div></div>
+	                  <div style="display: none;"><input type="hidden" name="_sourcePage" value="/WEB-INF/jsp/searchresult.jsp" /><input type="hidden" name="__fp" value="ote6lfQs/LpQ3J/qLOXhmA==" /></div></form>  
+                  </td>
+                </tr>
+              
+	            
+	              
+	          
+	          
+                         
+            
+
+<tr>
+  <td class="explorer">&nbsp;</td>
+  <td colspan="2" class="stepIconTableData">
+      <div class="linksBelowStatus">
+      <div class="showEvents">
+        
+          
+            
+            
+          
+          
+        
+        <a class="close" href="javascript:hideEvents('123123123123_1');" id="ahide123123123123_1" style="">
+          Detaillierter Verlauf Ihrer Sendung
+        </a>
+        <a class="open" href="javascript:showEvents('123123123123_1');" id="ashow123123123123_1" style="display: none;">
+          Detaillierter Verlauf Ihrer Sendung
+        </a>
+      </div>
+      
+      
+      <div class="openParcelalert arr">
+        <a id="tooltipParcelalert123123123123_1" class="tooltip" >
+          <div style="display: none;"><div id="tooltipParcelalertContent123123123123_1"><h4>Statusbenachrichtigung</h4><p>Auf Wunsch können Sie sich oder Ihren Paketempfänger kostenlos per E-Mail über den Sendungsstatus informieren lassen</p></div></div>
+        </a>
+        <a class="arrowLinkHelp" href="javascript:singlePieceParcelAlert('4e33dfbc-a57e-42ca-9afa-c7360c31ae1a');">Statusbenachrichtigung</a>
+        <script type="text/javascript">
+        $(document).ready(function() {
+          $('#tooltipParcelalert123123123123_1').tooltip({ 
+            track: true, 
+            delay: 0, 
+            showURL: false, 
+            bodyHandler: function() { 
+                var code = $("#tooltipParcelalertContent123123123123_1").html();
+                return code; 
+            }, 
+            fade: 250 
+          });
+        });
+        </script>
+        <div class="clearAll">&nbsp;</div>
+      </div>
+      
+      
+      
+      <div class="clearAll">&nbsp;</div>
+    </div>
+    
+
+
+
+  <div id="progress-123123123123_1" style="">
+      
+      
+
+
+  
+
+
+
+
+
+
+<div class="clearAll">&nbsp;</div>
+
+  
+  
+  
+  
+    
+    <div class="yellowprogressbar" style="width: 134.0px; border-width: 1px; line-height:16px">
+      &nbsp;
+    </div>
+    <div class="greyprogressbar" style="width: 233.0px; border-width: 1px; border-left: 0px; line-height:16px">
+      <span>40%</span>
+    </div>
+  
+
+
+
+<div class="clearAll">&nbsp;</div>
+      
+
+<div class="stepIconBar"  >
+
+  
+    
+                         
+    
+     
+    <a class="stepIconLink" title="Auftragsdaten elektronisch an DHL übermittelt"><img src="/nextt-online-public/img/piece_details_icons/Icon_01_DatenErhaltenACTIVE_58x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Auftragsdaten elektronisch an DHL übermittelt" /></a>
+  
+    
+    
+      
+        
+        
+          <img src="/nextt-online-public/img/piece_details_icons/_trennelement_20x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="" />
+        
+      
+                         
+    
+     
+    <a class="stepIconLink" title="Transport"><img src="/nextt-online-public/img/piece_details_icons/Icon_02_TransportACTIVE_58x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Transport" /></a>
+  
+    
+    
+      
+        
+        
+          <img src="/nextt-online-public/img/piece_details_icons/_trennelement_20x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="" />
+        
+      
+                         
+    
+     
+    <a class="stepIconLink" title="Bearbeitung in Paketzentrum"><img src="/nextt-online-public/img/piece_details_icons/Icon_03_PaketzentrumDEFAULT_58x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Bearbeitung in Paketzentrum" /></a>
+  
+    
+    
+      
+        
+        
+          <img src="/nextt-online-public/img/piece_details_icons/_trennelement_20x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="" />
+        
+      
+                         
+    
+     
+    <a class="stepIconLink" title="Zustellung"><img src="/nextt-online-public/img/piece_details_icons/Icon_04_ZustellungDEFAULT_58x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Zustellung" /></a>
+  
+    
+    
+      
+        
+        
+          <img src="/nextt-online-public/img/piece_details_icons/_trennelement_20x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="" />
+        
+      
+                         
+    
+     
+    <a class="stepIconLink" title="Sendung wurde erfolgreich zugestellt"><img src="/nextt-online-public/img/piece_details_icons/Icon_05_ZugestelltDEFAULT_58x58.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Sendung wurde erfolgreich zugestellt" /></a>
+  
+  
+</div>
+
+      
+  </div>
+  </td>
+</tr>
+
+
+
+
+<tr id="toggle-123123123123_1" style="">
+  <td class="explorer">&nbsp;</td>
+  <td colspan="2" class="events">
+    
+    
+
+<div class="tablewrap">
+<table border="0" cellspacing="0" class="full eventList"  style="width: 100%; table-layout: fixed;">
+	<thead>
+		<tr>
+			<th class="event_date" style="width:22%;">Datum/Uhrzeit</th>
+			<th class="location" style="width:22%;">Ort</th>
+			<th class="status lasttd">Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		
+			<tr>
+				<!--          <td class="event_date">-->
+				
+				
+				<td class="overflow" style="word-wrap:break-word;">
+				  
+					  
+						  Di, 26.02.2013 19:10
+						  Uhr
+					  
+					  
+				  
+				</td>
+				
+				  
+				  
+				
+				<td class="location">
+				<div class="overflow">
+					
+						
+							
+								--
+							
+							
+						
+					
+					
+				</div>
+				</td>
+				<td class="status lasttd">
+				<div class="overflow">
+					
+						Die Auftragsdaten zu dieser Sendung wurden vom Absender elektronisch an DHL übermittelt.
+					
+					
+				</div>
+				</td>
+				
+				
+			</tr>
+		
+			<tr>
+				<!--          <td class="event_date">-->
+				
+				
+				<td class="overflow" style="word-wrap:break-word;">
+				  
+					  
+						  Mi, 27.02.2013 18:00
+						  Uhr
+					  
+					  
+				  
+				</td>
+				
+				  
+				  
+				
+				<td class="location">
+				<div class="overflow">
+					
+						
+							
+							
+                      Bielefeld
+                    
+						
+					
+					
+				</div>
+				</td>
+				<td class="status lasttd">
+				<div class="overflow">
+					
+						Die Sendung wurde im Start-Paketzentrum bearbeitet.
+					
+					
+				</div>
+				</td>
+				
+				
+			</tr>
+		
+		
+    
+	</tbody>
+</table>
+</div>
+  </td>
+</tr>
+<tr id="toggle-link-123123123123_1" style="">
+<td class="explorer">&nbsp;</td>
+  <td colspan="2" class="arr">
+    <a name="nolp_pieceDetails_contact_link" class="arrowLinkHelp" onclick="javascript:countLinkClick('contact_dhl');" href="javascript:contact('4e33dfbc-a57e-42ca-9afa-c7360c31ae1a');">  </a>
+    
+    
+    
+    <a class="arrowLinkHelp" href="javascript:printSinglePiece('4e33dfbc-a57e-42ca-9afa-c7360c31ae1a');"> Drucken </a>
+    
+    
+    <a class="dlLink" href="javascript:downloadSinglePiece('4e33dfbc-a57e-42ca-9afa-c7360c31ae1a');"> PDF-Download </a>
+    
+    
+  </td>
+</tr>
+
+            
+             
+            
+          </tbody>
+          <tfoot>
+          
+          
+          
+            
+              
+                  
+              
+            
+          	
+
+          </tfoot>
+        </table>
+	   
+
+
+      </div>
+      </div>
+      <form action="/nextt-online-public/set_identcodes.do;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" method="post"> 
+          <input name="idc" value="123123123123" type="hidden" /> 
+          <input name="rfn" value="" type="hidden" /> 
+          <input name="zip" value="65185" type="hidden" />
+          <input name="extendedSearch" value="false" type="hidden" />
+          <input name="back" value="Zurück" class="reset button left" type="submit" />
+          
+          <input id="nolp_searchResults_newSearch_button" name="new" value="Neue Suche" class="submit right button" type="submit" />
+      <div style="display: none;"><input type="hidden" name="_sourcePage" value="/WEB-INF/jsp/searchresult.jsp" /><input type="hidden" name="__fp" value="ote6lfQs/LpQ3J/qLOXhmA==" /></div></form>
+      </span><!-- #pageform END -->
+      </div><!-- container END -->
+       
+      
+  
+ 
+   					
+			</div><!-- #content_main_index END -->
+
+        </div>
+        	
+			<div id="footer">
+			
+			<!-- Teaser Beginn -->
+			
+				<div  id ="werbung">
+    				<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"  WIDTH="468" HEIGHT="60" id="objectFlashId-Top"><PARAM NAME=movie VALUE="http://www.meinpaket.de/img/dhl/meinpaket.swf"> <PARAM NAME=quality VALUE=high>  <PARAM NAME="SCALE" value="noborder"><EMBED src="http://www.meinpaket.de/img/dhl/meinpaket.swf" quality=high WIDTH="468" HEIGHT="60" NAME="embedFlashName-Top" TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"></EMBED>  </OBJECT>
+     			</div>			
+			
+			<!-- Teaser Ende -->
+			
+			<div class="container">
+					
+					<div class="logo">
+						<a target="_blank" href="http://www.dp-dhl.de" title="Deutsche Post DHL">
+							<img alt="Deutsche Post DHL" src="/nextt-online-public/img/meta/dpwn_logo.gif;jsessionid=AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+						</a>
+					</div><!-- #logo END -->
+					
+					<div class="footer_navigation">
+						<ul>
+              <li><a target="_blank" class="firstItem" href="http://www.dhl.de/de/toolbar/footer/impressum.html" title="Impressum" >Impressum</a></li>
+              <li><a target="_blank" href="http://www.dhl.de/de/toolbar/footer/datenschutz.html" title="Datenschutz" >Datenschutz</a></li>
+						</ul>
+						<ul>
+						<!-- copyright -->
+						<li>© 2012 DHL - Alle Rechte vorbehalten</li>
+						</ul>	  			
+					</div><!-- .footer_navigation END -->
+					
+					<div class="clearAll">&nbsp;</div>
+				</div><!-- .container END -->
+			</div><!-- #footer END-->
+				
+		</div><!-- #main_area END -->
+		
+			<div id="navigation_main_shadow">&nbsp;</div>
+		
+</div><!-- #main END -->
+
+
+</body>
+</html>
