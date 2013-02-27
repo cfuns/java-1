@@ -39,6 +39,7 @@ public class DhlBeanMapper extends MapObjectMapperAdapter<DhlBean> {
 		final List<StringObjectMapper<DhlBean>> result = new ArrayList<StringObjectMapper<DhlBean>>();
 		result.add(new StringObjectMapperAdapter<DhlBean, DhlIdentifier>("id", mapperDhlIdentifier));
 		result.add(new StringObjectMapperAdapter<DhlBean, String>("trackingNumber", mapperString));
+		result.add(new StringObjectMapperAdapter<DhlBean, String>("status", mapperString));
 		result.add(new StringObjectMapperAdapter<DhlBean, Long>("zip", mapperLong));
 		result.add(new StringObjectMapperAdapter<DhlBean, UserIdentifier>("owner", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<DhlBean, Calendar>("created", mapperCalendar));

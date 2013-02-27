@@ -41,11 +41,11 @@ public class MicroblogCronJob implements CronJob {
 	@Override
 	public void execute() {
 		if (microblogConfig.isCronEnabled()) {
-			logger.debug("microblog refresh cron => started");
+			logger.trace("microblog refresh cron => started");
 			microblogRefresher.refresh();
 		}
 		else {
-			logger.debug("microblog refresh cron => skip");
+			logger.trace("microblog refresh cron => skip");
 		}
 	}
 }

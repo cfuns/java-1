@@ -29,7 +29,7 @@ public class MessageUnlockCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("execute");
+		logger.trace("execute");
 		messageUnlock.execute();
 	}
 

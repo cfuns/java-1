@@ -69,7 +69,7 @@ public class CronMessageSender {
 			messageService.sendMessage(CronConstants.MESSAGE_TYPE, id, content);
 		}
 		else {
-			logger.debug("exec cron direct - name: " + name);
+			logger.trace("exec cron direct - name: " + name);
 			threadRunner.run("exec direct", new ParallelCronRunnable(name));
 		}
 	}

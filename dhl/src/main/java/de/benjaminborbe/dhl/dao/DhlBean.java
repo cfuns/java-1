@@ -25,6 +25,8 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 
 	private UserIdentifier owner;
 
+	private String status;
+
 	@Override
 	public String getTrackingNumber() {
 		return trackingNumber;
@@ -77,8 +79,16 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 		return owner;
 	}
 
-	public void setOwner(UserIdentifier owner) {
+	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(final String status) {
+		this.status = status;
 	}
 
 }

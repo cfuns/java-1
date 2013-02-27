@@ -45,7 +45,13 @@ public class DhlGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/dhl", "/dhl/send", "/dhl/list", "/dhl/delete", "/dhl/create");
+		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_CREATE);
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_DELETE);
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_LIST);
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_SEND);
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_SLASH);
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_TRIGGER_CHECK);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

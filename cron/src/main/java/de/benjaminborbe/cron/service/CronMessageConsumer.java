@@ -37,10 +37,10 @@ public class CronMessageConsumer implements MessageConsumer {
 	@Override
 	public boolean process(final Message message) {
 		try {
-			logger.debug("process message: " + message.getId() + " started");
+			logger.trace("process message: " + message.getId() + " started");
 			final CronMessage cronMessage = cronMessageMapper.map(message.getContent());
 			cronExecutor.execute(cronMessage.getName());
-			logger.debug("process message: " + message.getId() + " finished");
+			logger.trace("process message: " + message.getId() + " finished");
 			return true;
 		}
 		catch (final MapException e) {

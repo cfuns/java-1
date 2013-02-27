@@ -97,7 +97,7 @@ public class MessageServiceImpl implements MessageService {
 				return;
 			}
 			else {
-				logger.debug("message not exists => sendMessage");
+				logger.trace("message not exists => sendMessage");
 				final MessageBean bean = messageDao.create();
 				bean.setId(messageIdentifier);
 				bean.setType(type);

@@ -30,9 +30,9 @@ public class MessageConsumerCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.debug("message consumer - started");
+		logger.trace("message consumer - started");
 		messageConsumerExchangerProvider.get().exchange();
-		logger.debug("message consumer - finished");
+		logger.trace("message consumer - finished");
 	}
 
 	@Override

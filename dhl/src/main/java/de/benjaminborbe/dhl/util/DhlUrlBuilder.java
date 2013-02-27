@@ -19,7 +19,7 @@ public class DhlUrlBuilder {
 	}
 
 	public URL buildUrl(final Dhl dhl) throws MalformedURLException {
-		logger.debug("buildUrl");
+		logger.trace("buildUrl");
 		return new URL("http://nolp.dhl.de/nextt-online-public/set_identcodes.do?lang=de&zip=" + dhl.getZip() + "&idc=" + dhl.getTrackingNumber());
 	}
 }

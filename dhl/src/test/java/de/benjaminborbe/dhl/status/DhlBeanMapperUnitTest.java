@@ -56,6 +56,7 @@ public class DhlBeanMapperUnitTest {
 		result.add(new Object[] { "trackingNumber", "012345" });
 		result.add(new Object[] { "zip", "65307" });
 		result.add(new Object[] { "owner", "bgates" });
+		result.add(new Object[] { "status", "go" });
 		return result;
 	}
 

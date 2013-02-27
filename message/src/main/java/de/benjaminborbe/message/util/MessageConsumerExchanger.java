@@ -110,7 +110,7 @@ public class MessageConsumerExchanger {
 
 	public boolean exchange() {
 		try {
-			logger.debug("exchange message - started");
+			logger.trace("exchange message - started");
 			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
 			while (i.hasNext()) {
 				final MessageBean message = i.next();
@@ -152,7 +152,7 @@ public class MessageConsumerExchanger {
 				logger.trace("lock message failed => skip");
 				return;
 			}
-			logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
+			logger.trace("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 			result = messageConsumer.process(message);
 		}
 		catch (final Exception e) {
@@ -162,9 +162,9 @@ public class MessageConsumerExchanger {
 		final long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
 		final long maxRetry = message.getMaxRetryCounter() != null ? message.getMaxRetryCounter() : MessageConstants.MAX_RETRY;
 		if (result) {
-			logger.info("delete success processed message - type: " + message.getType() + " id: " + message.getId());
+			logger.trace("delete success processed message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.delete(message);
-			logger.debug("result success => delete message");
+			logger.trace("result success => delete message");
 			track(analyticsReportIdentifierSuccess);
 		}
 		else if (counter >= maxRetry) {
@@ -184,7 +184,7 @@ public class MessageConsumerExchanger {
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName").add("retryCounter").add("startTime"));
 			track(analyticsReportIdentifierRetry);
 		}
-		logger.debug("process message done");
+		logger.trace("process message done");
 	}
 
 	private Calendar calcStartTime(final long retryCounter) {
@@ -204,10 +204,10 @@ public class MessageConsumerExchanger {
 	private boolean lock(final MessageBean message) throws StorageException {
 		if (message.getLockTime() == null) {
 			final Calendar now = calendarUtil.now();
-			logger.debug("try lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
+			logger.trace("try lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockName(lockName);
 			message.setLockTime(now);
-			logger.info("lock message - type: " + message.getType() + " id: " + message.getId());
+			logger.trace("lock message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName"));
 
 			try {
@@ -219,7 +219,7 @@ public class MessageConsumerExchanger {
 			messageDao.load(message, new StorageValueList(getEncoding()).add("lockName"));
 
 			if (lockName.equals(message.getLockName())) {
-				logger.debug("lock message success - id: " + message.getId());
+				logger.trace("lock message success - id: " + message.getId());
 				return true;
 			}
 			else {

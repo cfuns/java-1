@@ -44,7 +44,7 @@ public class DhlStatusParser {
 	}
 
 	public DhlStatus parseCurrentStatus(final Dhl dhl, final String htmlContent) {
-		logger.debug("parseHtml for " + dhl.getTrackingNumber());
+		logger.trace("parseHtml for " + dhl.getTrackingNumber());
 		final List<DhlStatus> all = parseAllStatus(dhl, htmlContent);
 		final int size = all.size();
 		logger.info("found " + size + " status");
@@ -52,20 +52,20 @@ public class DhlStatusParser {
 	}
 
 	public List<DhlStatus> parseAllStatus(final Dhl dhl, final String htmlContent) {
-		logger.debug("parseHtml for " + dhl.getTrackingNumber());
+		logger.trace("parseHtml for " + dhl.getTrackingNumber());
 		final List<DhlStatus> result = new ArrayList<DhlStatus>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByAttributeValue("class", "full eventList");
-		logger.debug("tables " + tables.size());
+		logger.trace("tables " + tables.size());
 		for (final Element table : tables) {
 			final Elements tbodies = table.getElementsByTag("tbody");
-			logger.debug("tbodies " + tbodies.size());
+			logger.trace("tbodies " + tbodies.size());
 			for (final Element tbody : tbodies) {
 				final Elements trs = tbody.getElementsByTag("tr");
-				logger.debug("trs " + trs.size());
+				logger.trace("trs " + trs.size());
 				for (final Element tr : trs) {
 					final Elements tds = tr.getElementsByAttributeValue("class", "overflow");
-					logger.debug("tds " + tds.size());
+					logger.trace("tds " + tds.size());
 					if (tds.size() == 3) {
 						final Calendar calendar = parseDate(tds.get(0).html());
 						final String place = parsePlace(tds.get(1).html());

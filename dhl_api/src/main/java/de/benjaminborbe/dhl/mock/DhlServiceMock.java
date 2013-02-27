@@ -6,7 +6,9 @@ import java.util.Collection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
@@ -44,6 +46,10 @@ public class DhlServiceMock implements DhlService {
 	@Override
 	public DhlIdentifier addTracking(final SessionIdentifier sessionIdentifier, final String trackingNumber, final long zip) throws DhlServiceException {
 		return null;
+	}
+
+	@Override
+	public void triggerCheck(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 }

@@ -24,4 +24,6 @@ public interface DhlService {
 
 	DhlIdentifier addTracking(SessionIdentifier sessionIdentifier, String trackingNumber, long zip) throws DhlServiceException, LoginRequiredException, PermissionDeniedException,
 			ValidationException;
+
+	void triggerCheck(SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
 }

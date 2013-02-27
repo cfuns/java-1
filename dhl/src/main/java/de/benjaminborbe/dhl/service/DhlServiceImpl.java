@@ -28,6 +28,7 @@ import de.benjaminborbe.dhl.api.DhlServiceException;
 import de.benjaminborbe.dhl.dao.DhlBean;
 import de.benjaminborbe.dhl.dao.DhlDao;
 import de.benjaminborbe.dhl.util.DhlStatus;
+import de.benjaminborbe.dhl.util.DhlStatusChecker;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
@@ -57,9 +58,12 @@ public class DhlServiceImpl implements DhlService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final DhlStatusChecker dhlStatusChecker;
+
 	@Inject
 	public DhlServiceImpl(
 			final Logger logger,
+			final DhlStatusChecker dhlStatusChecker,
 			final ValidationExecutor validationExecutor,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
@@ -68,6 +72,7 @@ public class DhlServiceImpl implements DhlService {
 			final DhlUrlBuilder dhlUrlBuilder,
 			final DhlDao dhlDao) {
 		this.logger = logger;
+		this.dhlStatusChecker = dhlStatusChecker;
 		this.validationExecutor = validationExecutor;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
@@ -75,6 +80,17 @@ public class DhlServiceImpl implements DhlService {
 		this.dhlStatusNotifier = dhlStatusNotifier;
 		this.dhlUrlBuilder = dhlUrlBuilder;
 		this.dhlDao = dhlDao;
+	}
+
+	@Override
+	public void triggerCheck(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			dhlStatusChecker.check();
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
+		}
 	}
 
 	@Override

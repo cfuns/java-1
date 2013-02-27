@@ -15,6 +15,7 @@ import de.benjaminborbe.dhl.gui.servlet.DhlGuiDeleteServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiListServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiSendStatusServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiServlet;
+import de.benjaminborbe.dhl.gui.servlet.DhlGuiTriggerCheckServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -22,6 +23,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class DhlGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private DhlGuiTriggerCheckServlet dhlGuiTriggerCheckServlet;
 
 	@Inject
 	private DhlGuiNavigationEntry dhlGuiNavigationEntry;
@@ -53,11 +57,12 @@ public class DhlGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(dhlGuiServlet, "/"));
-		result.add(new ServletInfo(dhlGuiSendStatusServlet, "/send"));
-		result.add(new ServletInfo(dhlGuiCreateServlet, "/create"));
-		result.add(new ServletInfo(dhlGuiDeleteServlet, "/delete"));
-		result.add(new ServletInfo(dhlGuiListServlet, "/list"));
+		result.add(new ServletInfo(dhlGuiServlet, DhlGuiConstants.URL_SLASH));
+		result.add(new ServletInfo(dhlGuiSendStatusServlet, DhlGuiConstants.URL_SEND));
+		result.add(new ServletInfo(dhlGuiCreateServlet, DhlGuiConstants.URL_CREATE));
+		result.add(new ServletInfo(dhlGuiDeleteServlet, DhlGuiConstants.URL_DELETE));
+		result.add(new ServletInfo(dhlGuiListServlet, DhlGuiConstants.URL_LIST));
+		result.add(new ServletInfo(dhlGuiTriggerCheckServlet, DhlGuiConstants.URL_TRIGGER_CHECK));
 		return result;
 	}
 
