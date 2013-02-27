@@ -34,11 +34,11 @@ public class DhlStatusParserIntegrationTest {
 		final String content = resourceUtil.getResourceContentAsString("status.html");
 		final DhlBean dhl = new DhlBean();
 		dhl.setId(new DhlIdentifier("286476016780"));
-		dhl.setTrackingNumber(286476016780l);
+		dhl.setTrackingNumber("286476016780");
 		dhl.setZip(65185l);
 		final DhlStatus dhlStatus = dhlStatusParser.parseCurrentStatus(dhl, content);
 		assertNotNull(dhlStatus);
-		assertEquals(new Long(286476016780l), dhlStatus.getDhl().getTrackingNumber());
+		assertEquals("286476016780", dhlStatus.getDhl().getTrackingNumber());
 		assertEquals(new Long(65185l), dhlStatus.getDhl().getZip());
 		assertEquals("2012-02-29 17:16:00", calendarUtil.toDateTimeString(dhlStatus.getCalendar()));
 		assertEquals("--", dhlStatus.getPlace());

@@ -11,7 +11,15 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
@@ -25,8 +33,8 @@ import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlUrlBuilder;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.tools.IdentifierIterator;
-import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.EntityIteratorException;
 
 @Singleton
 public class DhlServiceImpl implements DhlService {
@@ -41,14 +49,22 @@ public class DhlServiceImpl implements DhlService {
 
 	private final DhlDao dhlDao;
 
+	private final AuthenticationService authenticationService;
+
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public DhlServiceImpl(
 			final Logger logger,
+			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final DhlStatusFetcher dhlStatusFetcher,
 			final DhlStatusNotifier dhlStatusNotifier,
 			final DhlUrlBuilder dhlUrlBuilder,
 			final DhlDao dhlDao) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.dhlStatusFetcher = dhlStatusFetcher;
 		this.dhlStatusNotifier = dhlStatusNotifier;
 		this.dhlUrlBuilder = dhlUrlBuilder;
@@ -56,86 +72,94 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public void mailStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+	public void mailStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION));
+
 			logger.trace("mailStatus - dhlIdentifier: " + dhlIdentifier);
 			final Dhl dhl = dhlDao.load(dhlIdentifier);
 			final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
 			dhlStatusNotifier.mailUpdate(newStatus);
 		}
-		catch (final DhlStatusFetcherException e) {
-			throw new DhlServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final MailServiceException e) {
-			throw new DhlServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final StorageException e) {
-			throw new DhlServiceException(e.getClass().getSimpleName(), e);
+		catch (final DhlStatusFetcherException | MailServiceException | StorageException | AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
 		}
 	}
 
 	@Override
-	public Collection<DhlIdentifier> getRegisteredDhlIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException {
-		logger.debug("getRegisteredDhlIdentifiers");
+	public Collection<DhlIdentifier> getRegisteredDhlIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION));
+
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+
+			logger.debug("getRegisteredDhlIdentifiers");
 			final List<DhlIdentifier> result = new ArrayList<DhlIdentifier>();
-			final IdentifierIterator<DhlIdentifier> i = dhlDao.getIdentifierIterator();
+			final EntityIterator<DhlBean> i = dhlDao.getEntityIterator();
 			while (i.hasNext()) {
-				result.add(i.next());
+				final DhlBean bean = i.next();
+				if (userIdentifier.equals(bean.getOwner())) {
+					result.add(bean.getId());
+				}
 			}
 			return result;
 		}
-		catch (final StorageException e) {
-			throw new DhlServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final IdentifierIteratorException e) {
-			throw new DhlServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthorizationServiceException | EntityIteratorException | AuthenticationServiceException e) {
+			throw new DhlServiceException(e);
 		}
 	}
 
 	@Override
-	public void removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+	public void removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION));
+
 			logger.debug("removeTracking");
 			dhlDao.delete(dhlIdentifier);
 		}
-		catch (final StorageException e) {
-			throw new DhlServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
 		}
 	}
 
 	@Override
-	public URL buildDhlUrl(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
+	public URL buildDhlUrl(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION));
+
 			final Dhl dhl = dhlDao.load(dhlIdentifier);
 			return dhlUrlBuilder.buildUrl(dhl);
 		}
-		catch (final MalformedURLException e) {
-			throw new DhlServiceException("MalformedURLException", e);
-		}
-		catch (final StorageException e) {
-			throw new DhlServiceException("MalformedURLException", e);
+		catch (final MalformedURLException | StorageException | AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
 		}
 	}
 
 	@Override
-	public DhlIdentifier createDhlIdentifier(final SessionIdentifier sessionIdentifier, final long id) throws DhlServiceException {
-		return new DhlIdentifier(String.valueOf(id));
+	public DhlIdentifier createDhlIdentifier(final String id) throws DhlServiceException {
+		return id != null ? new DhlIdentifier(id) : null;
 	}
 
 	@Override
-	public DhlIdentifier addTracking(final SessionIdentifier sessionIdentifier, final long trackingNumber, final long zip) throws DhlServiceException {
+	public DhlIdentifier addTracking(final SessionIdentifier sessionIdentifier, final String trackingNumber, final long zip) throws DhlServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION));
+
 			final DhlBean bean = dhlDao.create();
-			final DhlIdentifier id = createDhlIdentifier(sessionIdentifier, trackingNumber);
+			final DhlIdentifier id = createDhlIdentifier(trackingNumber);
 			bean.setId(id);
 			bean.setTrackingNumber(trackingNumber);
 			bean.setZip(zip);
 			dhlDao.save(bean);
 			return id;
 		}
-		catch (final StorageException e) {
-			throw new DhlServiceException("MalformedURLException", e);
+		catch (final StorageException | AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
 		}
 	}
 

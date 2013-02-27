@@ -7,6 +7,8 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.storage.api.StorageService;
 
@@ -14,6 +16,8 @@ public class DhlOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
+		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(StorageService.class).toProvider(service(StorageService.class).single());
 		bind(MailService.class).toProvider(service(MailService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());

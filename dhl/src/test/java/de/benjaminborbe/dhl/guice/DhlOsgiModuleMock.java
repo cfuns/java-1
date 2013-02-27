@@ -6,6 +6,10 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.mock.MailServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
@@ -17,6 +21,8 @@ public class DhlOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
+		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);

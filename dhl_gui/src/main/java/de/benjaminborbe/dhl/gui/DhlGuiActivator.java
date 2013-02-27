@@ -9,16 +9,22 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.dhl.gui.guice.DhlGuiModules;
+import de.benjaminborbe.dhl.gui.service.DhlGuiNavigationEntry;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiCreateServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiDeleteServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiListServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiSendStatusServlet;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiServlet;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class DhlGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private DhlGuiNavigationEntry dhlGuiNavigationEntry;
 
 	@Inject
 	private DhlGuiServlet dhlGuiServlet;
@@ -52,6 +58,13 @@ public class DhlGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(dhlGuiCreateServlet, "/create"));
 		result.add(new ServletInfo(dhlGuiDeleteServlet, "/delete"));
 		result.add(new ServletInfo(dhlGuiListServlet, "/list"));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, dhlGuiNavigationEntry));
 		return result;
 	}
 

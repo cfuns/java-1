@@ -4,7 +4,7 @@ public interface Dhl {
 
 	DhlIdentifier getId();
 
-	Long getTrackingNumber();
+	String getTrackingNumber();
 
 	Long getZip();
 

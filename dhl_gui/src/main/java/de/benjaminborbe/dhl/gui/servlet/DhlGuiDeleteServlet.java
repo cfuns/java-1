@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -26,17 +27,15 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
+public class DhlGuiDeleteServlet extends DhlWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 4956434804365230995L;
 
@@ -49,8 +48,6 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
-
-	private final ParseUtil parseUtil;
 
 	@Inject
 	public DhlGuiDeleteServlet(
@@ -70,7 +67,6 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 		this.dhlService = dhlService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;
-		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -80,18 +76,16 @@ public class DhlGuiDeleteServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+			PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
-			try {
-				final long id = parseUtil.parseLong(request.getParameter(PARAMETER_ID));
+			final String id = request.getParameter(PARAMETER_ID);
+			if (id != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(sessionIdentifier, id);
+				final DhlIdentifier dhlIdentifier = dhlService.createDhlIdentifier(id);
 				dhlService.removeTracking(sessionIdentifier, dhlIdentifier);
 				throw new RedirectException(request.getContextPath() + "/dhl/list");
-			}
-			catch (final ParseException e) {
 			}
 			widgets.add(new H1Widget(getTitle()));
 			widgets.add("delete tracking failed");

@@ -322,3 +322,8 @@ buildcms:
 	cd cms && make all
 	cd cms_gui && make all
 	cd cms_test && make all
+builddhl:
+	cd dhl_api && make all
+	cd dhl && make all
+	cd dhl_gui && make all
+	cd dhl_test && make all

@@ -2,6 +2,7 @@ package de.benjaminborbe.dhl.dao;
 
 import java.util.Calendar;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
@@ -14,7 +15,7 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 
 	private DhlIdentifier id;
 
-	private Long trackingNumber;
+	private String trackingNumber;
 
 	private Long zip;
 
@@ -22,8 +23,10 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 
 	private Calendar modified;
 
+	private UserIdentifier owner;
+
 	@Override
-	public Long getTrackingNumber() {
+	public String getTrackingNumber() {
 		return trackingNumber;
 	}
 
@@ -32,7 +35,7 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 		return zip;
 	}
 
-	public void setTrackingNumber(final Long trackingNumber) {
+	public void setTrackingNumber(final String trackingNumber) {
 		this.trackingNumber = trackingNumber;
 	}
 
@@ -68,6 +71,14 @@ public class DhlBean extends EntityBase<DhlIdentifier> implements Dhl, HasCreate
 	@Override
 	public void setId(final DhlIdentifier id) {
 		this.id = id;
+	}
+
+	public UserIdentifier getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UserIdentifier owner) {
+		this.owner = owner;
 	}
 
 }
