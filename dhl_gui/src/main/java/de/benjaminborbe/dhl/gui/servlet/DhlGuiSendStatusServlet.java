@@ -85,6 +85,7 @@ public class DhlGuiSendStatusServlet extends DhlWebsiteHtmlServlet {
 			final DhlIdentifier dhlIdentifier = new DhlIdentifier(trackingNumber);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			dhlService.mailStatus(sessionIdentifier, dhlIdentifier);
+			widgets.add("status mailed");
 			return widgets;
 		}
 		catch (final DhlServiceException e) {
