@@ -8,4 +8,6 @@ public interface Dhl {
 
 	Long getZip();
 
+	String getStatus();
+
 }

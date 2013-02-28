@@ -109,8 +109,7 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public Collection<DhlIdentifier> getRegisteredDhlIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public Collection<DhlIdentifier> getIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
 
@@ -188,6 +187,29 @@ public class DhlServiceImpl implements DhlService {
 			return id;
 		}
 		catch (final StorageException | AuthorizationServiceException | AuthenticationServiceException e) {
+			throw new DhlServiceException(e);
+		}
+	}
+
+	@Override
+	public Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
+
+			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+
+			logger.debug("getRegisteredDhlIdentifiers");
+			final List<Dhl> result = new ArrayList<Dhl>();
+			final EntityIterator<DhlBean> i = dhlDao.getEntityIterator();
+			while (i.hasNext()) {
+				final DhlBean bean = i.next();
+				if (userIdentifier.equals(bean.getOwner())) {
+					result.add(bean);
+				}
+			}
+			return result;
+		}
+		catch (final StorageException | AuthorizationServiceException | EntityIteratorException | AuthenticationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}

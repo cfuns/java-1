@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
@@ -30,7 +31,7 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
-	public Collection<DhlIdentifier> getRegisteredDhlIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException {
+	public Collection<DhlIdentifier> getIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException {
 		return null;
 	}
 
@@ -50,6 +51,11 @@ public class DhlServiceMock implements DhlService {
 
 	@Override
 	public void triggerCheck(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public Collection<Dhl> getEntries(SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
 	}
 
 }

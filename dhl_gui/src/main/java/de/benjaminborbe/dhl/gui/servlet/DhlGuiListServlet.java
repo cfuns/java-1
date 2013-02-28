@@ -1,6 +1,7 @@
 package de.benjaminborbe.dhl.gui.servlet;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
-import de.benjaminborbe.dhl.api.DhlIdentifier;
+import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
 import de.benjaminborbe.dhl.gui.util.DhlWebsiteHtmlServlet;
@@ -36,6 +37,7 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
@@ -85,11 +87,15 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			for (final DhlIdentifier dhlIdentifier : dhlService.getRegisteredDhlIdentifiers(sessionIdentifier)) {
+			for (final Dhl dhl : dhlService.getEntries(sessionIdentifier)) {
 				final ListWidget row = new ListWidget();
-				row.add(new LinkWidget(dhlService.buildDhlUrl(sessionIdentifier, dhlIdentifier), String.valueOf(dhlIdentifier.getId())));
+				final URL url = dhlService.buildDhlUrl(sessionIdentifier, dhl.getId());
+				final String name = String.valueOf(dhl.getId());
+				row.add(new LinkWidget(url, name).addTarget(Target.BLANK));
 				row.add(" ");
-				row.add(new DhlGuiDeleteDhlIdentifierLink(request, dhlIdentifier));
+				row.add(dhl.getStatus());
+				row.add(" ");
+				row.add(new DhlGuiDeleteDhlIdentifierLink(request, dhl.getId()));
 				ul.add(row);
 			}
 			widgets.add(ul);
@@ -107,5 +113,4 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 			return exceptionWidget;
 		}
 	}
-
 }
