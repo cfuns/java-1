@@ -117,7 +117,7 @@ public class AuthenticationGuiUserProfileServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			final ListWidget links = new ListWidget();
-			links.add(authenticationGuiLinkFactory.userChangePassword(request));
+			links.add(authenticationGuiLinkFactory.userPasswordChange(request));
 			widgets.add(links);
 
 			return widgets;

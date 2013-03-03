@@ -645,7 +645,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyEmail(final UserIdentifier userIdentifier, final String token) throws AuthenticationServiceException {
+	public boolean verifyEmailToken(final UserIdentifier userIdentifier, final String token) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserBean user = userDao.load(userIdentifier);

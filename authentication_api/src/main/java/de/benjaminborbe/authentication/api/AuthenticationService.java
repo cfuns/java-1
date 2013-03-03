@@ -58,7 +58,7 @@ public interface AuthenticationService {
 
 	void expectSuperAdmin(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	boolean verifyEmail(final UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
+	boolean verifyEmailToken(final UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
 
 	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException,
 			SuperAdminRequiredException;

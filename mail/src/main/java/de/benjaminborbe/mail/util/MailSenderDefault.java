@@ -30,7 +30,7 @@ public class MailSenderDefault implements MailSender {
 			throw new MailServiceException("parameter mail missing");
 		}
 		if (mail.getTo() != null && mail.getTo().indexOf("@example.com") != -1) {
-			logger.debug("skip send mail because @example.com");
+			logger.debug("skip send mail because @example.com - subject: " + mail.getSubject());
 			return;
 		}
 		try {

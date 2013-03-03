@@ -137,7 +137,7 @@ public class AuthenticationGuiLoginServletUnitTest {
 		EasyMock.replay(cacheService);
 
 		final AuthenticationGuiLoginServlet authenticationServlet = new AuthenticationGuiLoginServlet(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget,
-				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService, authenticationGuiConfig, cacheService);
+				httpContextProvider, authenticationService, redirectUtil, urlUtil, authorizationService, authenticationGuiConfig, cacheService, null);
 
 		authenticationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

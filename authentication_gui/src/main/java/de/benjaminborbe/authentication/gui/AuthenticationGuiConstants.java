@@ -60,4 +60,6 @@ public interface AuthenticationGuiConstants {
 
 	String URL_USER_SWITCH = "/user/switch";
 
+	String URL_USER_PASSWORD_LOST_RESET = "/user/password/reset";
+
 }

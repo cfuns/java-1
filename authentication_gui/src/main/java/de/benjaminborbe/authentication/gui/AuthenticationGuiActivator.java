@@ -22,7 +22,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterSe
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserCreateServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserDeleteServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
-import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostEmailServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserVerifyEmailServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
@@ -35,7 +35,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class AuthenticationGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private AuthenticationGuiUserPasswordLostServlet authenticationGuiUserPasswordLostServlet;
+	private AuthenticationGuiUserPasswordLostEmailServlet authenticationGuiUserPasswordLostServlet;
 
 	@Inject
 	private AuthenticationGuiUserDeleteServlet authenticationGuiUserDeleteServlet;

@@ -2,6 +2,7 @@ package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +21,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -28,6 +30,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -40,7 +43,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class AuthenticationGuiUserPasswordLostServlet extends WebsiteHtmlServlet {
+public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -53,7 +56,7 @@ public class AuthenticationGuiUserPasswordLostServlet extends WebsiteHtmlServlet
 	private final AuthenticationGuiLinkFactory authenticationGuiLinkFactory;
 
 	@Inject
-	public AuthenticationGuiUserPasswordLostServlet(
+	public AuthenticationGuiUserPasswordLostResetServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
@@ -85,21 +88,23 @@ public class AuthenticationGuiUserPasswordLostServlet extends WebsiteHtmlServlet
 			widgets.add(new H1Widget(getTitle()));
 
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
-			final String email = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL);
-			if (userIdentifier != null && email != null) {
+			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
+			final String passwordRepeat = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT);
+			if (userIdentifier != null && password != null && passwordRepeat != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					authenticationService.sendPasswordLostEmail(sessionIdentifier, userIdentifier, email);
-					widgets.add("password lost email sent successful");
+					setNewPassword(sessionIdentifier, userIdentifier, password, passwordRepeat);
+					widgets.add("set new password successful");
 				}
 				catch (final ValidationException e) {
-					widgets.add("password lost failed!");
+					widgets.add("set new password failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
 			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username:").addPlaceholder("Username..."));
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Password:").addPlaceholder("Email..."));
+			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_USER_ID));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT).addLabel("Password-Repeat").addPlaceholder("Password repeat..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
 			widgets.add(form);
 
@@ -116,9 +121,33 @@ public class AuthenticationGuiUserPasswordLostServlet extends WebsiteHtmlServlet
 		}
 	}
 
+	private void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password, final String passwordRepeat)
+			throws ValidationException {
+	}
+
 	@Override
 	public boolean isAdminRequired() {
 		return false;
 	}
 
+	@Override
+	public boolean isLoginRequired() {
+		return false;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+
+		try {
+			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
+			final String token = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN);
+			if (!authenticationService.verifyEmailToken(userIdentifier, token)) {
+				throw new PermissionDeniedException("invalid token");
+			}
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
+	}
 }

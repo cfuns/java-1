@@ -74,7 +74,7 @@ public class AuthenticationGuiUserVerifyEmailServlet extends WebsiteHtmlServlet 
 			widgets.add(new H1Widget(getTitle()));
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
 			final String token = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN);
-			if (authenticationService.verifyEmail(userIdentifier, token)) {
+			if (authenticationService.verifyEmailToken(userIdentifier, token)) {
 				widgets.add("completed");
 			}
 			else {

@@ -152,7 +152,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyEmail(final UserIdentifier userIdentifier, final String token) throws AuthenticationServiceException {
+	public boolean verifyEmailToken(final UserIdentifier userIdentifier, final String token) throws AuthenticationServiceException {
 		return false;
 	}
 
