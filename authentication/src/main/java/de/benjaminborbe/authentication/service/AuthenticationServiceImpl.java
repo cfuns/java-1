@@ -668,10 +668,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier createUser(final SessionIdentifier sessionId, final UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+	public UserIdentifier createUser(final SessionIdentifier sessionIdentifier, final UserDto userDto) throws AuthenticationServiceException, LoginRequiredException,
+			ValidationException, SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
+			expectSuperAdmin(sessionIdentifier);
+
 			final UserBean user = userDao.create();
+			user.setId(userDto.getId());
 			setNewEmail(user, userDto.getEmail());
 			setNewPassword(user, authenticationPasswordUtil.generatePassword());
 
@@ -686,6 +690,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return user.getId();
 		}
 		catch (final NoSuchAlgorithmException | InvalidKeySpecException | StorageException | AuthenticationGeneratePasswordFailedException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void deleteUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
+			SuperAdminRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectSuperAdmin(sessionIdentifier);
+
+			userDao.delete(userIdentifier);
+		}
+		catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {

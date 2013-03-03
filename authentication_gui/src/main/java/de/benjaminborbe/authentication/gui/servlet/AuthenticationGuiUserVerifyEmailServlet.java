@@ -33,7 +33,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class AuthenticationGuiVerifyEmailServlet extends WebsiteHtmlServlet {
+public class AuthenticationGuiUserVerifyEmailServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 7573426507030055638L;
 
@@ -44,7 +44,7 @@ public class AuthenticationGuiVerifyEmailServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public AuthenticationGuiVerifyEmailServlet(
+	public AuthenticationGuiUserVerifyEmailServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,

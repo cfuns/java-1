@@ -57,6 +57,7 @@ public class AuthenticationGuiActivatorIntegrationTest {
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_STATUS);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_LIST);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CREATE);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_DELETE);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_SWITCH);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE);
 		assertEquals("servlet count doesn't match", paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

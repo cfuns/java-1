@@ -16,9 +16,11 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authentication.api.UserDto;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
+import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -33,6 +35,7 @@ import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -51,6 +54,8 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final AuthenticationGuiLinkFactory authenticationGuiLinkFactory;
+
 	@Inject
 	public AuthenticationGuiUserCreateServlet(
 			final Logger logger,
@@ -63,10 +68,12 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+			final CacheService cacheService,
+			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.authenticationGuiLinkFactory = authenticationGuiLinkFactory;
 	}
 
 	@Override
@@ -76,7 +83,7 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, LoginRequiredException {
+			PermissionDeniedException, LoginRequiredException, RedirectException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -84,10 +91,19 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 
 			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME);
 			final String email = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL);
+			final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER);
+
 			if (username != null && email != null) {
 				try {
 					final SessionIdentifier sessionId = authenticationService.createSessionIdentifier(request);
 					createUser(sessionId, username, email);
+
+					if (referer != null) {
+						throw new RedirectException(referer);
+					}
+					else {
+						throw new RedirectException(authenticationGuiLinkFactory.userListUrl(request));
+					}
 				}
 				catch (final ValidationException e) {
 					widgets.add("create user failed!");
@@ -104,7 +120,7 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 
 			return widgets;
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthenticationServiceException | SuperAdminRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -112,7 +128,7 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private void createUser(final SessionIdentifier sessionId, final String username, final String email) throws ValidationException, AuthenticationServiceException,
-			LoginRequiredException {
+			LoginRequiredException, SuperAdminRequiredException {
 		final UserDto userDto = new UserDto();
 		userDto.setEmail(email);
 		userDto.setId(new UserIdentifier(username));

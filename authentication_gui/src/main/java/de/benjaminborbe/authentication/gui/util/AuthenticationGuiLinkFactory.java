@@ -65,4 +65,8 @@ public class AuthenticationGuiLinkFactory {
 	public Widget userCreate(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CREATE, "create user");
 	}
+
+	public String userListUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
+		return urlUtil.buildUrl(request.getContextPath() + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_LIST, new MapParameter());
+	}
 }

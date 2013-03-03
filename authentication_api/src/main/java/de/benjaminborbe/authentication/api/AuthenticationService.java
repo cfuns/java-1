@@ -60,6 +60,9 @@ public interface AuthenticationService {
 
 	boolean verifyEmail(final UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
 
-	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException;
+	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException,
+			SuperAdminRequiredException;
+
+	void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
 }

@@ -166,4 +166,8 @@ public class AuthenticationServiceMock implements AuthenticationService {
 		return null;
 	}
 
+	@Override
+	public void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+	}
+
 }

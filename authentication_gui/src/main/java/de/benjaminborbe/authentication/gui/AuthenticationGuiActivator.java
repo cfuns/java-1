@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry;
-import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiChangePasswordServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserChangePasswordServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServlet;
@@ -20,9 +20,10 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServle
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiSwitchUserServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserCreateServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserDeleteServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
-import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiVerifyEmailServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserVerifyEmailServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -33,13 +34,16 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class AuthenticationGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private AuthenticationGuiUserDeleteServlet authenticationGuiUserDeleteServlet;
+
+	@Inject
 	private AuthenticationGuiUserCreateServlet authenticationGuiUserCreateServlet;
 
 	@Inject
 	private AuthenticationGuiNavigationEntry authenticationGuiNavigationEntry;
 
 	@Inject
-	private AuthenticationGuiVerifyEmailServlet authenticationGuiVerifyEmailServlet;
+	private AuthenticationGuiUserVerifyEmailServlet authenticationGuiVerifyEmailServlet;
 
 	@Inject
 	private AuthenticationGuiStatusServlet authenticationGuiStatusServlet;
@@ -60,7 +64,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	private AuthenticationGuiRegisterServlet authenticationGuiRegisterServlet;
 
 	@Inject
-	private AuthenticationGuiChangePasswordServlet authenticationGuiChangePasswordServlet;
+	private AuthenticationGuiUserChangePasswordServlet authenticationGuiChangePasswordServlet;
 
 	@Inject
 	private AuthenticationGuiUserListServlet authenticationGuiUserListServlet;
@@ -98,6 +102,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiProfileServlet, AuthenticationGuiConstants.URL_USER_PROFILE));
 		result.add(new ServletInfo(authenticationGuiVerifyEmailServlet, AuthenticationGuiConstants.URL_EMAIL_VALIDATION));
 		result.add(new ServletInfo(authenticationGuiUserCreateServlet, AuthenticationGuiConstants.URL_USER_CREATE));
+		result.add(new ServletInfo(authenticationGuiUserDeleteServlet, AuthenticationGuiConstants.URL_USER_DELETE));
 		return result;
 	}
 

@@ -56,4 +56,6 @@ public interface AuthenticationGuiConstants {
 
 	String URL_USER_CREATE = "/user/create";
 
+	String URL_USER_DELETE = "/user/delete";
+
 }
