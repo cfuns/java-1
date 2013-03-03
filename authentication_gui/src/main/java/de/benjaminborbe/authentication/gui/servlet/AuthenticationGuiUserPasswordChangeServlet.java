@@ -39,7 +39,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class AuthenticationGuiUserChangePasswordServlet extends WebsiteHtmlServlet {
+public class AuthenticationGuiUserPasswordChangeServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -52,7 +52,7 @@ public class AuthenticationGuiUserChangePasswordServlet extends WebsiteHtmlServl
 	private final AuthenticationGuiLinkFactory authenticationGuiLinkFactory;
 
 	@Inject
-	public AuthenticationGuiUserChangePasswordServlet(
+	public AuthenticationGuiUserPasswordChangeServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,

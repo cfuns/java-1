@@ -91,6 +91,8 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 				row.add(authenticationGuiLinkFactory.userView(request, user.getId()));
 				row.add(" ");
 				row.add(authenticationGuiLinkFactory.userSwitch(request, userIdentifier));
+				row.add(" ");
+				row.add(authenticationGuiLinkFactory.userDelete(request, userIdentifier));
 				ul.add(row);
 			}
 			widgets.add(ul);

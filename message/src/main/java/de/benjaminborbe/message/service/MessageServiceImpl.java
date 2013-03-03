@@ -157,7 +157,8 @@ public class MessageServiceImpl implements MessageService {
 
 			final IdentifierIterator<MessageIdentifier> i = messageDao.getIdentifierIteratorForUser(type);
 			while (i.hasNext()) {
-				messageDao.delete(i.next());
+				final MessageIdentifier messageIdentifier = i.next();
+				messageDao.delete(messageIdentifier);
 			}
 		}
 		catch (final AuthorizationServiceException e) {

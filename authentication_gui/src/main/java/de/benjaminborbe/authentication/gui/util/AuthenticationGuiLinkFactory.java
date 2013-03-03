@@ -33,7 +33,7 @@ public class AuthenticationGuiLinkFactory {
 	}
 
 	public Widget userChangePassword(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CHANGE_PASSWORD, "change password");
+		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_CHANGE, "change password");
 	}
 
 	public Widget userProfile(final HttpServletRequest request) throws MalformedURLException {
@@ -68,5 +68,10 @@ public class AuthenticationGuiLinkFactory {
 
 	public String userListUrl(final HttpServletRequest request) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_LIST, new MapParameter());
+	}
+
+	public Widget userDelete(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_DELETE, new MapParameter().add(
+				AuthenticationGuiConstants.PARAMETER_USER_ID, String.valueOf(userIdentifier)), "delete").addConfirm("delete " + userIdentifier + "?");
 	}
 }

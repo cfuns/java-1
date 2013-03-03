@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry;
-import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserChangePasswordServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordChangeServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServlet;
@@ -22,6 +22,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterSe
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserCreateServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserDeleteServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserVerifyEmailServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
@@ -32,6 +33,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiUserPasswordLostServlet authenticationGuiUserPasswordLostServlet;
 
 	@Inject
 	private AuthenticationGuiUserDeleteServlet authenticationGuiUserDeleteServlet;
@@ -64,7 +68,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 	private AuthenticationGuiRegisterServlet authenticationGuiRegisterServlet;
 
 	@Inject
-	private AuthenticationGuiUserChangePasswordServlet authenticationGuiChangePasswordServlet;
+	private AuthenticationGuiUserPasswordChangeServlet authenticationGuiChangePasswordServlet;
 
 	@Inject
 	private AuthenticationGuiUserListServlet authenticationGuiUserListServlet;
@@ -96,7 +100,8 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiLogoutServlet, AuthenticationGuiConstants.URL_LOGOUT));
 		result.add(new ServletInfo(authenticationGuiRegisterServlet, AuthenticationGuiConstants.URL_REGISTER));
 		result.add(new ServletInfo(authenticationGuiUnregisterServlet, AuthenticationGuiConstants.URL_UNREGISTER));
-		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_USER_CHANGE_PASSWORD));
+		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_CHANGE));
+		result.add(new ServletInfo(authenticationGuiUserPasswordLostServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_LOST));
 		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
 		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_USER_SWITCH));
 		result.add(new ServletInfo(authenticationGuiProfileServlet, AuthenticationGuiConstants.URL_USER_PROFILE));

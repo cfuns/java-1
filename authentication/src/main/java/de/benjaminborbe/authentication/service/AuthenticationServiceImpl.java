@@ -715,4 +715,37 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				logger.debug("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public void sendPasswordLostEmail(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email) throws AuthenticationServiceException,
+			ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			final UserBean user = userDao.load(userIdentifier);
+			if (user == null) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("no such user found")));
+			}
+			if (email == null || !email.equals(user.getEmail())) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("email missmatch")));
+			}
+			sendPasswordLostEmail(user);
+		}
+		catch (final StorageException | MailServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	private void sendPasswordLostEmail(final UserBean user) throws MailServiceException {
+		final String from = "bborbe@seibert-media.net";
+		final String to = user.getEmail();
+		final String subject = "Validate Email";
+		final StringBuilder content = new StringBuilder();
+		content.append("");
+		final String contentType = "text/plain";
+		mailService.send(new MailDto(from, to, subject, content.toString(), contentType));
+	}
 }

@@ -65,4 +65,6 @@ public interface AuthenticationService {
 
 	void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
+	void sendPasswordLostEmail(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String email) throws AuthenticationServiceException, ValidationException;
+
 }

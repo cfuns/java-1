@@ -170,4 +170,8 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	public void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
 	}
 
+	@Override
+	public void sendPasswordLostEmail(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String email) throws AuthenticationServiceException, ValidationException {
+	}
+
 }
