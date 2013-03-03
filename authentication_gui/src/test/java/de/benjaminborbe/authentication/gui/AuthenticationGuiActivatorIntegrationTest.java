@@ -54,7 +54,8 @@ public class AuthenticationGuiActivatorIntegrationTest {
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_UNREGISTER);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_EMAIL_VALIDATION);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_CHANGE);
-		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_LOST);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_LOST_EMAIL);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_LOST_RESET);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_STATUS);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_LIST);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CREATE);

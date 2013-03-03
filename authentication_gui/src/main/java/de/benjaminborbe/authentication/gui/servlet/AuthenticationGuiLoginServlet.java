@@ -97,7 +97,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME);
+			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID);
 			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
 			final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER);
 			if (username != null && password != null) {
@@ -115,14 +115,15 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 				}
 				catch (final ValidationException e) {
 					logger.info("login failed for user " + username);
-					widgets.add("login => failed");
+					widgets.add("login => failed (");
 					widgets.add(authenticationGuiLinkFactory.userPasswordLost(request, userIdentifier));
+					widgets.add(" )");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
 			final String action = request.getContextPath() + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN;
 			final FormWidget form = new FormWidget(action).addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username").addPlaceholder("Username..."));
 			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
 			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER));
 			form.addFormInputWidget(new FormInputSubmitWidget("login"));

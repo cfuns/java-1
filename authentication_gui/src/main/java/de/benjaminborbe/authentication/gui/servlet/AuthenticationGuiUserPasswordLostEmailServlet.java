@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +29,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
@@ -63,8 +64,8 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 			final AuthenticationService authenticationService,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
 			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
+			final AuthorizationService authorizationService,
 			final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
@@ -89,7 +90,7 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 			if (userIdentifier != null && email != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					authenticationService.sendPasswordLostEmail(sessionIdentifier, userIdentifier, email);
+					sendPasswordLostEmail(request, sessionIdentifier, userIdentifier, email);
 					widgets.add("password lost email sent successful");
 				}
 				catch (final ValidationException e) {
@@ -97,16 +98,13 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username:").addPlaceholder("Username..."));
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email:").addPlaceholder("Email..."));
-			form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
-			widgets.add(form);
-
-			final ListWidget links = new ListWidget();
-			links.add(authenticationGuiLinkFactory.userProfile(request));
-			widgets.add(links);
-
+			else {
+				final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
+				form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username:").addPlaceholder("Username..."));
+				form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email:").addPlaceholder("Email..."));
+				form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
+				widgets.add(form);
+			}
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
@@ -114,6 +112,13 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private void sendPasswordLostEmail(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email)
+			throws AuthenticationServiceException, ValidationException, UnsupportedEncodingException {
+		final String shortenUrl = authenticationGuiLinkFactory.getShortenUrl(request);
+		final String resetUrl = authenticationGuiLinkFactory.getPasswordResetUrl(request);
+		authenticationService.sendPasswordLostEmail(sessionIdentifier, shortenUrl, resetUrl, userIdentifier, email);
 	}
 
 	@Override

@@ -130,7 +130,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	protected void onLoginRequired(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		final String url = buildLoginUrl(request);
-		logger.info("loginRequired - redirect: " + url);
+		logger.info("loginRequired for servlet " + getClass().getSimpleName() + " - redirect: " + url);
 		final RedirectWidget widget = new RedirectWidget(url);
 		widget.render(request, response, context);
 	}

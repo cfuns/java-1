@@ -352,7 +352,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 
 			setNewPassword(user, newPassword);
+
+			final ValidationResult errors = validationExecutor.validate(user);
+			if (errors.hasErrors()) {
+				logger.warn("User " + errors.toString());
+				throw new ValidationException(errors);
+			}
 			userDao.save(user);
+
 			logger.info("set password => true");
 			return true;
 		}
@@ -380,6 +387,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final byte[] newEncryptedPassword = passwordEncryptionService.getEncryptedPassword(newPassword, newSalt);
 		user.setPassword(newEncryptedPassword);
 		user.setPasswordSalt(newSalt);
+		user.setEmailVerifyToken(String.valueOf(UUID.randomUUID()));
 	}
 
 	@Override
@@ -717,8 +725,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void sendPasswordLostEmail(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email) throws AuthenticationServiceException,
-			ValidationException {
+	public void sendPasswordLostEmail(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
+			final String email) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserBean user = userDao.load(userIdentifier);
@@ -728,9 +736,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (email == null || !email.equals(user.getEmail())) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("email missmatch")));
 			}
-			sendPasswordLostEmail(user);
+			sendPasswordLostEmail(user, shortenUrl, resetUrl);
 		}
-		catch (final StorageException | MailServiceException e) {
+		catch (final StorageException | MailServiceException | ShortenerServiceException | ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {
@@ -739,13 +747,47 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void sendPasswordLostEmail(final UserBean user) throws MailServiceException {
+	private void sendPasswordLostEmail(final UserBean user, final String shortenUrl, final String resetUrl) throws MailServiceException, ShortenerServiceException, ParseException,
+			ValidationException {
 		final String from = "bborbe@seibert-media.net";
 		final String to = user.getEmail();
-		final String subject = "Validate Email";
+		final String subject = "Password Reset";
 		final StringBuilder content = new StringBuilder();
-		content.append("");
+		content.append(shortenLink(shortenUrl, String.format(resetUrl, user.getEmailVerifyToken(), String.valueOf(user.getId()))));
 		final String contentType = "text/plain";
 		mailService.send(new MailDto(from, to, subject, content.toString(), contentType));
+	}
+
+	@Override
+	public void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String newPassword,
+			final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			if (!newPassword.equals(newPasswordRepeat)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("passwordRepeat not matching")));
+			}
+			final UserBean user = userDao.load(userIdentifier);
+			if (user == null) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("no such user found")));
+			}
+			if (user.getEmailVerifyToken() == null || !user.getEmailVerifyToken().equals(token)) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("token missmatch")));
+			}
+			setNewPassword(user, newPassword);
+
+			final ValidationResult errors = validationExecutor.validate(user);
+			if (errors.hasErrors()) {
+				logger.warn("User " + errors.toString());
+				throw new ValidationException(errors);
+			}
+			userDao.save(user);
+		}
+		catch (final StorageException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 }

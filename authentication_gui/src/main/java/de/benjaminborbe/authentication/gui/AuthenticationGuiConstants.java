@@ -30,8 +30,6 @@ public interface AuthenticationGuiConstants {
 
 	String PARAMETER_USER_ID = "user_id";
 
-	String PARAMETER_USERNAME = "username";
-
 	String URL_EMAIL_VALIDATION = "/email/valdation";
 
 	String URL_LOGIN = "/login";
@@ -52,7 +50,7 @@ public interface AuthenticationGuiConstants {
 
 	String URL_USER_PASSWORD_CHANGE = "/user/password/change";
 
-	String URL_USER_PASSWORD_LOST = "/user/password/lost";
+	String URL_USER_PASSWORD_LOST_EMAIL = "/user/password/lost";
 
 	String URL_USER_PROFILE = "/profile";
 

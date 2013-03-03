@@ -65,7 +65,7 @@ public class AuthenticationGuiLoginServletUnitTest {
 		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
-		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();

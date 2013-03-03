@@ -162,16 +162,22 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+	public UserIdentifier createUser(final SessionIdentifier sessionId, final UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+	public void deleteUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
 	}
 
 	@Override
-	public void sendPasswordLostEmail(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String email) throws AuthenticationServiceException, ValidationException {
+	public void sendPasswordLostEmail(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
+			final String email) throws AuthenticationServiceException, ValidationException {
+	}
+
+	@Override
+	public void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String newPassword,
+			final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
 	}
 
 }

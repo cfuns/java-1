@@ -73,7 +73,7 @@ public class AuthenticationGuiLinkFactory {
 	}
 
 	public Widget userPasswordLost(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_LOST, new MapParameter().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_LOST_EMAIL, new MapParameter().add(
 				AuthenticationGuiConstants.PARAMETER_USER_ID, String.valueOf(userIdentifier)), "reset password");
 	}
 
@@ -92,5 +92,14 @@ public class AuthenticationGuiLinkFactory {
 
 	public Widget userView(final HttpServletRequest request, final UserIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthenticationGuiConstants.PARAMETER_USER_ID, id), id.getId());
+	}
+
+	public Widget userLogin(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN, "login");
+	}
+
+	public Widget userLogin(final HttpServletRequest request, final UserIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN, new MapParameter().add(
+				AuthenticationGuiConstants.PARAMETER_USER_ID, id), "login");
 	}
 }

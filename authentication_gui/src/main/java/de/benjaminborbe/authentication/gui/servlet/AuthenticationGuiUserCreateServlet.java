@@ -89,7 +89,7 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME);
+			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID);
 			final String email = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL);
 			final String referer = request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER);
 
@@ -113,7 +113,7 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username:"));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username:"));
 			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email:"));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(form);

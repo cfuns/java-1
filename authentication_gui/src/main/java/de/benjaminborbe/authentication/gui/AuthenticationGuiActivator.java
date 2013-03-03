@@ -23,6 +23,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserCreateSe
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserDeleteServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostEmailServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostResetServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserVerifyEmailServlet;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
@@ -33,6 +34,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiUserPasswordLostResetServlet authenticationGuiUserPasswordLostResetServlet;
 
 	@Inject
 	private AuthenticationGuiUserPasswordLostEmailServlet authenticationGuiUserPasswordLostServlet;
@@ -100,14 +104,15 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authenticationGuiLogoutServlet, AuthenticationGuiConstants.URL_LOGOUT));
 		result.add(new ServletInfo(authenticationGuiRegisterServlet, AuthenticationGuiConstants.URL_REGISTER));
 		result.add(new ServletInfo(authenticationGuiUnregisterServlet, AuthenticationGuiConstants.URL_UNREGISTER));
-		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_CHANGE));
-		result.add(new ServletInfo(authenticationGuiUserPasswordLostServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_LOST));
 		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
 		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_USER_SWITCH));
 		result.add(new ServletInfo(authenticationGuiProfileServlet, AuthenticationGuiConstants.URL_USER_PROFILE));
 		result.add(new ServletInfo(authenticationGuiVerifyEmailServlet, AuthenticationGuiConstants.URL_EMAIL_VALIDATION));
 		result.add(new ServletInfo(authenticationGuiUserCreateServlet, AuthenticationGuiConstants.URL_USER_CREATE));
 		result.add(new ServletInfo(authenticationGuiUserDeleteServlet, AuthenticationGuiConstants.URL_USER_DELETE));
+		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_CHANGE));
+		result.add(new ServletInfo(authenticationGuiUserPasswordLostServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_LOST_EMAIL));
+		result.add(new ServletInfo(authenticationGuiUserPasswordLostResetServlet, AuthenticationGuiConstants.URL_USER_PASSWORD_LOST_RESET));
 		return result;
 	}
 

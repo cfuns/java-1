@@ -40,6 +40,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
@@ -67,8 +68,8 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
-			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
-			final CacheService cacheService) {
+			final CacheService cacheService,
+			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -90,28 +91,29 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
 			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
 			final String passwordRepeat = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT);
-			if (userIdentifier != null && password != null && passwordRepeat != null) {
+			final String token = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN);
+			if (userIdentifier != null && password != null && passwordRepeat != null && token != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					setNewPassword(sessionIdentifier, userIdentifier, password, passwordRepeat);
+					setNewPassword(sessionIdentifier, userIdentifier, token, password, passwordRepeat);
 					widgets.add("set new password successful");
+					widgets.add(new BrWidget());
+					widgets.add(authenticationGuiLinkFactory.userLogin(request, userIdentifier));
 				}
 				catch (final ValidationException e) {
 					widgets.add("set new password failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_USER_ID));
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
-			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT).addLabel("Password-Repeat").addPlaceholder("Password repeat..."));
-			form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
-			widgets.add(form);
-
-			final ListWidget links = new ListWidget();
-			links.add(authenticationGuiLinkFactory.userProfile(request));
-			widgets.add(links);
-
+			else {
+				final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
+				form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_USER_ID));
+				form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN));
+				form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
+				form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT).addLabel("Password-Repeat").addPlaceholder("Password repeat..."));
+				form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
+				widgets.add(form);
+			}
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {
@@ -121,8 +123,9 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 		}
 	}
 
-	private void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password, final String passwordRepeat)
-			throws ValidationException {
+	private void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String password, final String passwordRepeat)
+			throws ValidationException, AuthenticationServiceException {
+		authenticationService.setNewPassword(sessionIdentifier, userIdentifier, token, password, passwordRepeat);
 	}
 
 	@Override

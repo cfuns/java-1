@@ -91,7 +91,7 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USERNAME);
+			final String username = request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID);
 			final String email = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL);
 			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
 			final String passwordRepeat = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT);
@@ -114,7 +114,7 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			}
 			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_REFERER));
-			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USERNAME).addLabel("Username").addPlaceholder("Username..."));
+			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username").addPlaceholder("Username..."));
 			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email").addPlaceholder("Email..."));
 			form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_FULLNAME).addLabel("Fullname").addPlaceholder("Fullname..."));
 			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
