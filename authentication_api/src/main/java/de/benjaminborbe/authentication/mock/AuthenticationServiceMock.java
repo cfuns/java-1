@@ -16,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.User;
+import de.benjaminborbe.authentication.api.UserDto;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
 @Singleton
@@ -158,6 +159,11 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	@Override
 	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailBaseUrl, final String email, final String fullname,
 			final String timeZone) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+	}
+
+	@Override
+	public UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+		return null;
 	}
 
 }

@@ -90,10 +90,13 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 				final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
 				row.add(authenticationGuiLinkFactory.userView(request, user.getId()));
 				row.add(" ");
-				row.add(authenticationGuiLinkFactory.changeUser(request, userIdentifier));
+				row.add(authenticationGuiLinkFactory.userSwitch(request, userIdentifier));
 				ul.add(row);
 			}
 			widgets.add(ul);
+
+			widgets.add(authenticationGuiLinkFactory.userCreate(request));
+
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

@@ -26,7 +26,7 @@ public interface AuthenticationGuiConstants {
 
 	String PARAMETER_USERNAME = "username";
 
-	String URL_CHANGE_PASSWORD = "/changePassword";
+	String URL_USER_CHANGE_PASSWORD = "/changePassword";
 
 	String URL_LOGIN = "/login";
 
@@ -36,9 +36,9 @@ public interface AuthenticationGuiConstants {
 
 	String URL_SLASH = "/";
 
-	String URL_STATUS = "/status";
+	String URL_USER_STATUS = "/status";
 
-	String URL_SWITCH_USER = "/user/switch";
+	String URL_USER_SWITCH = "/user/switch";
 
 	String URL_UNREGISTER = "/unregister";
 
@@ -53,5 +53,7 @@ public interface AuthenticationGuiConstants {
 	String URL_EMAIL_VALIDATION = "/email/valdation";
 
 	String PARAMETER_EMAIL_VERIFY_TOKEN = "email_verify_token";
+
+	String URL_USER_CREATE = "/user/create";
 
 }

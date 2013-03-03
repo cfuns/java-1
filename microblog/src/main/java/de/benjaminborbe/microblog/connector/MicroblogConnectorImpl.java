@@ -160,7 +160,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		else {
 			result = null;
 		}
-		logger.debug("extractCalendar => " + calendarUtil.toDateTimeString(result));
+		logger.trace("extractCalendar => " + calendarUtil.toDateTimeString(result));
 		return result;
 	}
 

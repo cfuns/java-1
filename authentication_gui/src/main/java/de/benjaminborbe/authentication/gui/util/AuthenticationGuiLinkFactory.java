@@ -23,8 +23,8 @@ public class AuthenticationGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget changeUser(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_SWITCH_USER, new MapParameter().add(
+	public Widget userSwitch(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_SWITCH, new MapParameter().add(
 				AuthenticationGuiConstants.PARAMETER_USER_ID, String.valueOf(userIdentifier)), "switch user");
 	}
 
@@ -32,8 +32,8 @@ public class AuthenticationGuiLinkFactory {
 		return request.getContextPath() + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE;
 	}
 
-	public Widget changePassword(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_CHANGE_PASSWORD, "change password");
+	public Widget userChangePassword(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CHANGE_PASSWORD, "change password");
 	}
 
 	public Widget userProfile(final HttpServletRequest request) throws MalformedURLException {
@@ -59,6 +59,10 @@ public class AuthenticationGuiLinkFactory {
 	}
 
 	public Widget userView(final HttpServletRequest request, final UserIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add("user_id", id), id.getId());
+		return new LinkRelativWidget(urlUtil, request, "/authorization/user/info", new MapParameter().add(AuthenticationGuiConstants.PARAMETER_USER_ID, id), id.getId());
+	}
+
+	public Widget userCreate(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CREATE, "create user");
 	}
 }

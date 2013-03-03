@@ -73,7 +73,7 @@ public class AuthenticationServiceImplUnitTest {
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
 
-		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, sessionDao, userDao, null, null, null, null, durationUtil, v);
+		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, null, userDao, null, null, null, null, durationUtil, v);
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userWrong, "test123"));
 		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userRight, "wrongPw"));
 		assertTrue(authenticationService.verifyCredential(sessionIdentifier, userRight, "test123"));

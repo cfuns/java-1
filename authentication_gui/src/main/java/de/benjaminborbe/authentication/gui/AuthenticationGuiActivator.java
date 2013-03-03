@@ -19,6 +19,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiStatusServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiSwitchUserServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserCreateServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiVerifyEmailServlet;
@@ -30,6 +31,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthenticationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthenticationGuiUserCreateServlet authenticationGuiUserCreateServlet;
 
 	@Inject
 	private AuthenticationGuiNavigationEntry authenticationGuiNavigationEntry;
@@ -84,15 +88,16 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(authenticationGuiServlet, AuthenticationGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(authenticationGuiLoginServlet, AuthenticationGuiConstants.URL_LOGIN));
-		result.add(new ServletInfo(authenticationGuiStatusServlet, AuthenticationGuiConstants.URL_STATUS));
+		result.add(new ServletInfo(authenticationGuiStatusServlet, AuthenticationGuiConstants.URL_USER_STATUS));
 		result.add(new ServletInfo(authenticationGuiLogoutServlet, AuthenticationGuiConstants.URL_LOGOUT));
 		result.add(new ServletInfo(authenticationGuiRegisterServlet, AuthenticationGuiConstants.URL_REGISTER));
 		result.add(new ServletInfo(authenticationGuiUnregisterServlet, AuthenticationGuiConstants.URL_UNREGISTER));
-		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_CHANGE_PASSWORD));
+		result.add(new ServletInfo(authenticationGuiChangePasswordServlet, AuthenticationGuiConstants.URL_USER_CHANGE_PASSWORD));
 		result.add(new ServletInfo(authenticationGuiUserListServlet, AuthenticationGuiConstants.URL_USER_LIST));
-		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_SWITCH_USER));
+		result.add(new ServletInfo(authenticationGuiSwitchUserServlet, AuthenticationGuiConstants.URL_USER_SWITCH));
 		result.add(new ServletInfo(authenticationGuiProfileServlet, AuthenticationGuiConstants.URL_USER_PROFILE));
 		result.add(new ServletInfo(authenticationGuiVerifyEmailServlet, AuthenticationGuiConstants.URL_EMAIL_VALIDATION));
+		result.add(new ServletInfo(authenticationGuiUserCreateServlet, AuthenticationGuiConstants.URL_USER_CREATE));
 		return result;
 	}
 

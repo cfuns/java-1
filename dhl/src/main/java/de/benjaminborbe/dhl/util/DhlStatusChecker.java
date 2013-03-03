@@ -37,28 +37,31 @@ public class DhlStatusChecker {
 			while (i.hasNext()) {
 				final DhlBean dhl = i.next();
 				try {
-					final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
+					final String oldStatusMessage = dhl.getStatus();
+					logger.debug("oldStatus: " + oldStatusMessage);
 
-					if (newStatus != null) {
-						logger.debug("newStatus: " + newStatus.getMessage());
+					if (!"Die Sendung wurde erfolgreich zugestellt.".equals(oldStatusMessage)) {
 
-						final String oldStatusMessage = dhl.getStatus();
-						logger.debug("oldStatus: " + oldStatusMessage);
+						final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
 
-						if (oldStatusMessage == null || !oldStatusMessage.equals(newStatus.getMessage())) {
+						if (newStatus != null) {
+							logger.debug("newStatus: " + newStatus.getMessage());
 
-							dhl.setStatus(newStatus.getMessage());
-							dhlDao.save(dhl, new StorageValueList(dhlDao.getEncoding()).add("status"));
+							if (oldStatusMessage == null || !oldStatusMessage.equals(newStatus.getMessage())) {
 
-							logger.debug("status changed from: " + oldStatusMessage + " to: " + newStatus.getMessage() + " send email");
-							dhlStatusNotifier.mailUpdate(newStatus);
+								dhl.setStatus(newStatus.getMessage());
+								dhlDao.save(dhl, new StorageValueList(dhlDao.getEncoding()).add("status"));
+
+								logger.debug("status changed from: " + oldStatusMessage + " to: " + newStatus.getMessage() + " send email");
+								dhlStatusNotifier.mailUpdate(newStatus);
+							}
+							else {
+								logger.debug("status not change, skip mail");
+							}
 						}
 						else {
-							logger.debug("status not change, skip mail");
+							logger.debug("can't find new status");
 						}
-					}
-					else {
-						logger.debug("can't find new status");
 					}
 				}
 				catch (final DhlStatusFetcherException e) {

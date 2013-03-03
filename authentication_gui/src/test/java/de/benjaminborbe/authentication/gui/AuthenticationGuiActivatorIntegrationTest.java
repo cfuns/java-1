@@ -48,16 +48,17 @@ public class AuthenticationGuiActivatorIntegrationTest {
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_SLASH);
-		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_CHANGE_PASSWORD);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGOUT);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_REGISTER);
-		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_STATUS);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_UNREGISTER);
-		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_LIST);
-		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_SWITCH_USER);
-		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_EMAIL_VALIDATION);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CHANGE_PASSWORD);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_STATUS);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_LIST);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_CREATE);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_SWITCH);
+		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PROFILE);
 		assertEquals("servlet count doesn't match", paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

@@ -28,13 +28,13 @@ public class MicroblogPostUpdater {
 	}
 
 	public void update(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogConnectorException {
-		logger.debug("fetch post: " + microblogPostIdentifier);
+		logger.trace("fetch post: " + microblogPostIdentifier);
 		final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
 		final Collection<MicroblogPostListener> listeners = microblogPostListenerRegistry.getAll();
-		logger.debug("notify " + listeners.size() + " listners");
+		logger.trace("notify " + listeners.size() + " listners");
 		for (final MicroblogPostListener listener : listeners) {
 			try {
-				logger.debug("onNewPost: " + listener.getClass().getName());
+				logger.trace("onNewPost: " + listener.getClass().getName());
 				listener.onNewPost(microblogPost);
 			}
 			catch (final Exception e) {

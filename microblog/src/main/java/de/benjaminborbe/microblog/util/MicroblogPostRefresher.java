@@ -29,7 +29,7 @@ public class MicroblogPostRefresher {
 				else {
 					logger.trace("latestRevision send: " + latestRevision);
 					for (long rev = lastestRevisionSend.getId() + 1; rev <= latestRevision.getId(); ++rev) {
-						logger.debug("get post with revision: " + rev);
+						logger.trace("get post with revision: " + rev);
 						final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(rev);
 						microblogRevisionStorage.setLastRevision(microblogPostIdentifier);
 						microblogPostUpdater.update(microblogPostIdentifier);

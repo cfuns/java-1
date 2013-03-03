@@ -35,7 +35,7 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 
 	@Override
 	public void add(final DistributedIndexEntryBean bean) throws StorageException {
-		logger.debug("add");
+		logger.trace("add");
 		final DistributedIndexEntryIdentifier id = bean.getId();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			final StorageValue columnName = buildColumnName(e.getValue(), id);

@@ -60,4 +60,6 @@ public interface AuthenticationService {
 
 	boolean verifyEmail(final UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
 
+	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException;
+
 }

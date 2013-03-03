@@ -2,7 +2,6 @@ package de.benjaminborbe.authentication.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -28,12 +27,15 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authentication.api.User;
+import de.benjaminborbe.authentication.api.UserDto;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.dao.SessionBean;
 import de.benjaminborbe.authentication.dao.SessionDao;
 import de.benjaminborbe.authentication.dao.UserBean;
 import de.benjaminborbe.authentication.dao.UserDao;
+import de.benjaminborbe.authentication.util.AuthenticationGeneratePasswordFailedException;
 import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
+import de.benjaminborbe.authentication.util.AuthenticationPasswordUtil;
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
@@ -45,7 +47,6 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.password.PasswordValidator;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
@@ -66,8 +67,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final TimeZoneUtil timeZoneUtil;
 
-	private final PasswordValidator passwordValidator;
-
 	private final ValidationExecutor validationExecutor;
 
 	private final MailService mailService;
@@ -82,12 +81,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final AuthenticationVerifyCredential authenticationVerifyCredential;
 
+	private final AuthenticationPasswordUtil authenticationPasswordUtil;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
+			final AuthenticationPasswordUtil authenticationPasswordUtil,
 			final ParseUtil parseUtil,
 			final MailService mailService,
-			final PasswordValidator passwordValidator,
 			final SessionDao sessionDao,
 			final UserDao userDao,
 			final AuthenticationPasswordEncryptionService passwordEncryptionService,
@@ -97,9 +98,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final DurationUtil durationUtil,
 			final AuthenticationVerifyCredential authenticationVerifyCredential) {
 		this.logger = logger;
+		this.authenticationPasswordUtil = authenticationPasswordUtil;
 		this.parseUtil = parseUtil;
 		this.mailService = mailService;
-		this.passwordValidator = passwordValidator;
 		this.sessionDao = sessionDao;
 		this.userDao = userDao;
 		this.passwordEncryptionService = passwordEncryptionService;
@@ -371,25 +372,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	private void setNewPassword(final UserBean user, final String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException, ValidationException {
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
-		if (!passwordValidator.hasDigest(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("password contains no digest characters"));
-		}
-		if (!passwordValidator.hasLength(newPassword, 8)) {
-			errors.add(new ValidationErrorSimple("password at least 8 characters"));
-		}
-		if (!passwordValidator.hasValidChars(newPassword)) {
-			errors.add(new ValidationErrorSimple("password contains invalid characters"));
-		}
-		if (!passwordValidator.hasLowerCharacter(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("password at least one lower letter"));
-		}
-		if (!passwordValidator.hasSpecialCharacter(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("password at least one special character"));
-		}
-		if (!passwordValidator.hasUpperCharacter(newPassword, 1)) {
-			errors.add(new ValidationErrorSimple("password at least one upper letter"));
-		}
+		final List<ValidationError> errors = authenticationPasswordUtil.validatePassword(newPassword);
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
@@ -676,6 +659,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			}
 		}
 		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public UserIdentifier createUser(final SessionIdentifier sessionId, final UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			final UserBean user = userDao.create();
+			setNewEmail(user, userDto.getEmail());
+			setNewPassword(user, authenticationPasswordUtil.generatePassword());
+
+			final ValidationResult errors = validationExecutor.validate(user);
+			if (errors.hasErrors()) {
+				logger.warn("User " + errors.toString());
+				throw new ValidationException(errors);
+			}
+
+			userDao.save(user);
+
+			return user.getId();
+		}
+		catch (final NoSuchAlgorithmException | InvalidKeySpecException | StorageException | AuthenticationGeneratePasswordFailedException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 		finally {

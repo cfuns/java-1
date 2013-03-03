@@ -12,12 +12,13 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.api.MessageConsumer;
+import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.config.MessageConfig;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.tools.EntityIterator;
-import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -30,27 +31,30 @@ public class MessageConsumerExchanger {
 
 	private final class ExchangeMessage implements Runnable {
 
-		private final MessageBean message;
+		private final MessageIdentifier messageIdentifier;
 
-		private ExchangeMessage(final MessageBean message) {
-			this.message = message;
+		private ExchangeMessage(final MessageIdentifier messageIdentifier) {
+			this.messageIdentifier = messageIdentifier;
 		}
 
 		@Override
 		public void run() {
 			try {
-				if (message.getType() == null) {
-					logger.info("delete message without type - type: " + message.getType() + " id: " + message.getId());
-					messageDao.delete(message);
-					return;
-				}
+				final MessageBean message = messageDao.load(messageIdentifier);
+				if (message != null) {
+					if (message.getType() == null) {
+						logger.info("delete message without type - type: " + message.getType() + " id: " + message.getId());
+						messageDao.delete(message);
+						return;
+					}
 
-				final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
-				if (messageConsumer != null) {
-					exchange(messageConsumer, message);
-				}
-				else {
-					logger.warn("no messageConsumer found for type: " + message.getType());
+					final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
+					if (messageConsumer != null) {
+						exchange(messageConsumer, message);
+					}
+					else {
+						logger.warn("no messageConsumer found for type: " + message.getType());
+					}
 				}
 			}
 			catch (final StorageException e) {
@@ -111,18 +115,15 @@ public class MessageConsumerExchanger {
 	public boolean exchange() {
 		try {
 			logger.trace("exchange message - started");
-			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
+			final IdentifierIterator<MessageIdentifier> i = messageDao.getIdentifierIterator();
 			while (i.hasNext()) {
-				final MessageBean message = i.next();
-				runOnlyOnceATimeByType.run(String.valueOf(message.getId()), new ExchangeMessage(message));
+				final MessageIdentifier messageIdentifier = i.next();
+				runOnlyOnceATimeByType.run(String.valueOf(messageIdentifier), new ExchangeMessage(messageIdentifier));
 			}
 			logger.trace("exchange message - finished");
 			return true;
 		}
-		catch (final StorageException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		catch (final StorageException | IdentifierIteratorException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		return false;
