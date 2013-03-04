@@ -20,6 +20,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkDeletionException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiWebsiteHtmlServlet;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -35,7 +36,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 
 @Singleton
-public class BookmarkGuiDeleteServlet extends BookmarkGuiBaseServlet {
+public class BookmarkGuiDeleteServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 4956434804365230995L;
 

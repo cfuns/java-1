@@ -10,13 +10,13 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModules;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiFavoriteDashboardWidget;
+import de.benjaminborbe.bookmark.gui.service.BookmarkGuiNavigationEntry;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiSpecialSearch;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiCreateServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiDeleteServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiListServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiServlet;
 import de.benjaminborbe.bookmark.gui.servlet.BookmarkGuiUpdateServlet;
-import de.benjaminborbe.bookmark.gui.util.BookmarkGuiNavigationEntry;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;

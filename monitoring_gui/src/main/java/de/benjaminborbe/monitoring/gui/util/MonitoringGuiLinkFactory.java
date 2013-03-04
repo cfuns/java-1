@@ -58,6 +58,11 @@ public class MonitoringGuiLinkFactory {
 				MonitoringGuiConstants.PARAMETER_NODE_ID, id), "silent");
 	}
 
+	public Widget nodeUnsilent(final HttpServletRequest request, final MonitoringNodeIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_UNSILENT, new MapParameter().add(
+				MonitoringGuiConstants.PARAMETER_NODE_ID, id), "unsilent");
+	}
+
 	public Widget createNode(final HttpServletRequest request, final MonitoringNodeIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_CREATE, new MapParameter().add(
 				MonitoringGuiConstants.PARAMETER_NODE_PARENT_ID, id), "create subnode");

@@ -11,6 +11,7 @@ public class IteratorByList<T, E extends Exception> implements IteratorWithExcep
 
 	private List<T> values;
 
+	@SafeVarargs
 	public IteratorByList(final T... values) {
 		this(Arrays.asList(values));
 	}

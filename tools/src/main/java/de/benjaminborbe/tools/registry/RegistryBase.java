@@ -8,6 +8,7 @@ public class RegistryBase<T> implements Registry<T> {
 
 	private final Set<T> objects = new HashSet<T>();
 
+	@SafeVarargs
 	public RegistryBase(final T... ts) {
 		add(ts);
 	}
@@ -30,6 +31,7 @@ public class RegistryBase<T> implements Registry<T> {
 	protected void onElementRemoved(final T object) {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void add(final T... objects) {
 		for (final T object : objects) {

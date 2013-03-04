@@ -48,4 +48,6 @@ public interface MonitoringGuiConstants {
 
 	String URL_TRIGGER_MAIL = "/trigger/mail";
 
+	String URL_NODE_UNSILENT = "/node/unsilent";
+
 }

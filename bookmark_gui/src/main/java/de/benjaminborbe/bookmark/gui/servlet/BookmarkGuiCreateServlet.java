@@ -20,6 +20,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiWebsiteHtmlServlet;
 import de.benjaminborbe.bookmark.gui.util.BookmarkGuiKeywordUtil;
 import de.benjaminborbe.bookmark.gui.util.BookmarkGuiLinkFactory;
 import de.benjaminborbe.cache.api.CacheService;
@@ -42,7 +43,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class BookmarkGuiCreateServlet extends BookmarkGuiBaseServlet {
+public class BookmarkGuiCreateServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	private static final String PARAMETER_KEYWORDS = "keywords";
 

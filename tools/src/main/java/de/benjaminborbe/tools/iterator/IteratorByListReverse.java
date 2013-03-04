@@ -11,6 +11,7 @@ public class IteratorByListReverse<T, E extends Exception> implements IteratorWi
 
 	private List<T> values;
 
+	@SafeVarargs
 	public IteratorByListReverse(final T... values) {
 		this(Arrays.asList(values));
 	}

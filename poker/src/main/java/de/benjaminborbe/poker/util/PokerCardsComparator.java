@@ -9,7 +9,6 @@ import de.benjaminborbe.tools.util.ComparatorChain;
 
 public class PokerCardsComparator extends ComparatorChain<Collection<PokerCardIdentifier>> {
 
-	@SuppressWarnings("unchecked")
 	@Inject
 	public PokerCardsComparator(
 			final PokerCardsRoyalFlushComparator pokerCardsRoyalFlushComparator,

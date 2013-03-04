@@ -9,6 +9,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface BookmarkService {
 
+	String PERMISSION = "bookmark";
+
 	void createBookmark(SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords, boolean favorite)
 			throws BookmarkServiceException, LoginRequiredException, ValidationException;
 

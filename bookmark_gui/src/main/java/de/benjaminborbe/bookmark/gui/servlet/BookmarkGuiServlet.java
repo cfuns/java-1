@@ -8,14 +8,14 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiWebsiteRedirectServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteRedirectServlet;
 
 @Singleton
-public class BookmarkGuiServlet extends WebsiteRedirectServlet {
+public class BookmarkGuiServlet extends BookmarkGuiWebsiteRedirectServlet {
 
 	private static final long serialVersionUID = -4538727884647259439L;
 
@@ -36,11 +36,6 @@ public class BookmarkGuiServlet extends WebsiteRedirectServlet {
 	@Override
 	protected String getTarget() {
 		return TARGET;
-	}
-
-	@Override
-	public boolean isAdminRequired() {
-		return false;
 	}
 
 }

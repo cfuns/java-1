@@ -7,6 +7,7 @@ public class RegistryListenerBase<T> extends RegistryBase<T> implements Registry
 
 	private final Set<RegistryChangeListener<T>> changeListener = new HashSet<RegistryChangeListener<T>>();
 
+	@SafeVarargs
 	public RegistryListenerBase(final T... ts) {
 		super(ts);
 	}

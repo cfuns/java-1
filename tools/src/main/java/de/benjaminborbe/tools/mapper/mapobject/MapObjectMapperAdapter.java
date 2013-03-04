@@ -17,6 +17,7 @@ public class MapObjectMapperAdapter<T> extends MapObjectMapperBase<T> {
 
 	private final List<StringObjectMapper<T>> mappings;
 
+	@SafeVarargs
 	public MapObjectMapperAdapter(final Provider<T> provider, final StringObjectMapper<T>... mapSingles) {
 		this(provider, Arrays.asList(mapSingles));
 	}

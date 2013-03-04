@@ -23,6 +23,7 @@ public class JsonObjectMapper<T> {
 
 	private final List<StringObjectMapper<T>> mappings;
 
+	@SafeVarargs
 	public JsonObjectMapper(final Provider<T> provider, final StringObjectMapper<T>... mapSingles) {
 		this(provider, Arrays.asList(mapSingles));
 	}

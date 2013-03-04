@@ -37,6 +37,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
+import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -141,18 +142,28 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 
 	private Widget buildRow(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringNode result) throws LoginRequiredException,
 			MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
-		final ListWidget row = new ListWidget();
-		row.add("[");
+		final boolean isSilent = Boolean.TRUE.equals(result.getSilent());
+
+		final ListWidget widgets = new ListWidget();
+		final DivWidget row = new DivWidget(widgets);
+
+		widgets.add("[");
 		if (result.getResult() == null) {
-			row.add(new SpanWidget("???").addClass("checkResultUnknown"));
+			widgets.add(new SpanWidget("???").addClass("checkResultUnknown"));
 		}
 		else if (Boolean.TRUE.equals(result.getResult())) {
-			row.add(new SpanWidget("OK").addClass("checkResultOk"));
+			widgets.add(new SpanWidget("OK").addClass("checkResultOk"));
 		}
 		else {
-			row.add(new SpanWidget("FAIL").addClass("checkResultFail"));
+			widgets.add(new SpanWidget("FAIL").addClass("checkResultFail"));
 		}
-		row.add("] ");
+		widgets.add("] ");
+
+		if (isSilent) {
+			widgets.add("[");
+			widgets.add(new SpanWidget("SILENT").addClass("checkSilent"));
+			widgets.add("] ");
+		}
 
 		final ListWidget name = new ListWidget();
 		name.add(result.getDescription());
@@ -160,25 +171,30 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 		name.add(result.getName());
 		name.add(") ");
 		final String description = "LastCheck: " + (result.getLastCheck() != null ? calendarUtil.toDateTimeString(result.getLastCheck()) : "-");
-		row.add(new TooltipWidget(name).addTooltip(description));
+		widgets.add(new TooltipWidget(name).addTooltip(description));
 
 		if (Boolean.FALSE.equals(result.getResult())) {
-			row.add("(");
-			row.add(result.getMessage() != null ? result.getMessage() : "-");
-			row.add(")");
-			row.add(" ");
+			widgets.add("(");
+			widgets.add(result.getMessage() != null ? result.getMessage() : "-");
+			widgets.add(")");
+			widgets.add(" ");
 		}
 
 		if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
-			row.add(monitoringGuiLinkFactory.nodeSilent(request, result.getId()));
-			row.add(" ");
-			row.add(monitoringGuiLinkFactory.nodeUpdate(request, result.getId()));
-			row.add(" ");
-			row.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
-			row.add(" ");
-			row.add(monitoringGuiLinkFactory.createNode(request, result.getId()));
-			row.add(" ");
-			row.add(monitoringGuiLinkFactory.checkNode(request, result.getId()));
+			if (isSilent) {
+				widgets.add(monitoringGuiLinkFactory.nodeUnsilent(request, result.getId()));
+			}
+			else {
+				widgets.add(monitoringGuiLinkFactory.nodeSilent(request, result.getId()));
+			}
+			widgets.add(" ");
+			widgets.add(monitoringGuiLinkFactory.nodeUpdate(request, result.getId()));
+			widgets.add(" ");
+			widgets.add(monitoringGuiLinkFactory.nodeDelete(request, result.getId()));
+			widgets.add(" ");
+			widgets.add(monitoringGuiLinkFactory.createNode(request, result.getId()));
+			widgets.add(" ");
+			widgets.add(monitoringGuiLinkFactory.checkNode(request, result.getId()));
 		}
 
 		return row;

@@ -8,6 +8,7 @@ public class ComparatorChain<T> implements Comparator<T> {
 
 	private final Collection<Comparator<T>> comparators;
 
+	@SafeVarargs
 	public ComparatorChain(final Comparator<T>... comparators) {
 		this(Arrays.asList(comparators));
 	}

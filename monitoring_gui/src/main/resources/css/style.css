@@ -5,3 +5,7 @@
 .checkResultFail {
 	color: red;
 }
+
+.checkSilent {
+	color: #AAAAAA;
+}

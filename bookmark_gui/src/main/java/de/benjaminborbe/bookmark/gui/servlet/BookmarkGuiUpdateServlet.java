@@ -23,6 +23,7 @@ import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
+import de.benjaminborbe.bookmark.gui.util.BookmarkGuiWebsiteHtmlServlet;
 import de.benjaminborbe.bookmark.gui.util.BookmarkGuiKeywordUtil;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -44,7 +45,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
-public class BookmarkGuiUpdateServlet extends BookmarkGuiBaseServlet {
+public class BookmarkGuiUpdateServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	private static final String PARAMETER_KEYWORDS = "keywords";
 

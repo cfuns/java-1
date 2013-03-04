@@ -494,4 +494,26 @@ public class MonitoringServiceImpl implements MonitoringService {
 				logger.debug("duration " + duration.getTime());
 		}
 	}
+
+	@Override
+	public void unsilentNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+			LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectMonitoringAdminRole(sessionIdentifier);
+			logger.debug("unsilentNode");
+
+			final MonitoringNodeBean node = monitoringNodeDao.load(monitoringNodeIdentifier);
+			node.setSilent(false);
+
+			monitoringNodeDao.save(node, Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.SILENT)));
+		}
+		catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		}
+		finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
 }
