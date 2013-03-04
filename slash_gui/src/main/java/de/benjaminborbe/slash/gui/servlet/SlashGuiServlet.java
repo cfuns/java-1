@@ -59,7 +59,7 @@ public class SlashGuiServlet extends WebsiteServlet {
 			try {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				if (authenticationService.isLoggedIn(sessionIdentifier)) {
-					return request.getContextPath() + "/dashboard";
+					return request.getContextPath() + "/search";
 				}
 			}
 			catch (final AuthenticationServiceException e) {
@@ -69,9 +69,6 @@ public class SlashGuiServlet extends WebsiteServlet {
 		}
 		else if (serverName.indexOf("harteslicht.de") != -1 || serverName.indexOf("harteslicht.com") != -1) {
 			return request.getContextPath() + "/blog";
-		}
-		else if (serverName.indexOf("bborbe.devel") != -1) {
-			return request.getContextPath() + "/search";
 		}
 		else if (serverName.indexOf("rocketnews") != -1 || serverName.indexOf("rocketsource") != -1) {
 			return request.getContextPath() + "/wiki";
