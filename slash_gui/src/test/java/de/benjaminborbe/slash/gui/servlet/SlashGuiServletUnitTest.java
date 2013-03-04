@@ -19,7 +19,7 @@ public class SlashGuiServletUnitTest {
 		EasyMock.expect(request.getContextPath()).andReturn("/bb");
 		EasyMock.replay(request);
 
-		assertEquals("/bb/dashboard", slashServlet.buildRedirectTargetPath(request));
+		assertEquals("/bb/search", slashServlet.buildRedirectTargetPath(request));
 
 		EasyMock.verify(request);
 	}
