@@ -126,7 +126,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 			logger.debug("getSlacktimeReportAllTeams");
 
 			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
@@ -155,15 +155,14 @@ public class ProjectileServiceImpl implements ProjectileService {
 			}
 			return result;
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthenticationServiceException | StorageException | EntityIteratorException | AuthorizationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
-		catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new ProjectileServiceException(e);
-		}
+	}
+
+	private void expectPermission(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException, AuthorizationServiceException,
+			PermissionDeniedException {
+		authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
 	}
 
 	@Override
@@ -192,7 +191,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public ProjectileSlacktimeReport getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
 			LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("getSlacktimeReportCurrentTeam for user " + currentUser);
 
@@ -221,13 +220,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 			return aggregateReports(team.getName(), result);
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new ProjectileServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
+		catch (final AuthenticationServiceException | StorageException | EntityIteratorException | AuthorizationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
@@ -240,15 +233,12 @@ public class ProjectileServiceImpl implements ProjectileService {
 	public ProjectileSlacktimeReport getSlacktimeReportCurrentUser(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("getSlacktimeReportCurrentUser for user " + currentUser);
 			return projectileReportDao.getReportForUser(currentUser);
 		}
-		catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}

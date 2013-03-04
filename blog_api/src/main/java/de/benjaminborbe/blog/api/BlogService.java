@@ -9,6 +9,8 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 
 public interface BlogService {
 
+	String PERMISSION = "blog";
+
 	Collection<BlogPostIdentifier> getBlogPostIdentifiers(SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException;
 
 	BlogPost getBlogPost(SessionIdentifier sessionIdentifier, BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException, LoginRequiredException;

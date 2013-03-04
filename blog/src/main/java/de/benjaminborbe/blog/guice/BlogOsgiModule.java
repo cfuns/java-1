@@ -8,12 +8,14 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.storage.api.StorageService;
 
 public class BlogOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(StorageService.class).toProvider(service(StorageService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());

@@ -16,6 +16,8 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.blog.api.BlogPostNotFoundException;
@@ -44,14 +46,18 @@ public class BlogServiceImpl implements BlogService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public BlogServiceImpl(
 			final Logger logger,
+			final AuthorizationService authorizationService,
 			final BlogPostDao blogPostDao,
 			final AuthenticationService authenticationService,
 			final ValidationExecutor validationExecutor,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
+		this.authorizationService = authorizationService;
 		this.blogPostDao = blogPostDao;
 		this.authenticationService = authenticationService;
 		this.validationExecutor = validationExecutor;
@@ -62,7 +68,7 @@ public class BlogServiceImpl implements BlogService {
 	public BlogPostIdentifier createBlogPost(final SessionIdentifier sessionIdentifier, final String title, final String content) throws BlogServiceException, ValidationException,
 			LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			final BlogPostBean blogPost = blogPostDao.create();
@@ -85,11 +91,8 @@ public class BlogServiceImpl implements BlogService {
 				return id;
 			}
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final StorageException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
 		}
 	}
 
@@ -97,7 +100,7 @@ public class BlogServiceImpl implements BlogService {
 	public void updateBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier, final String title, final String content)
 			throws BlogServiceException, ValidationException, LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final BlogPostBean blogPost = blogPostDao.load(blogPostIdentifier);
 			blogPost.setTitle(title);
@@ -120,12 +123,13 @@ public class BlogServiceImpl implements BlogService {
 				blogPostDao.save(blogPost);
 			}
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
 		}
-		catch (final StorageException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
+	}
+
+	private void expectPermission(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException, AuthorizationServiceException {
+		authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
 	}
 
 	@Override
@@ -139,18 +143,15 @@ public class BlogServiceImpl implements BlogService {
 			}
 			return result;
 		}
-		catch (final StorageException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | EntityIteratorException e) {
+			throw new BlogServiceException(e);
 		}
 	}
 
 	@Override
 	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 			final List<BlogPostIdentifier> result = new ArrayList<BlogPostIdentifier>();
 			final IdentifierIterator<BlogPostIdentifier> i = blogPostDao.getIdentifierIterator();
 			while (i.hasNext()) {
@@ -158,14 +159,8 @@ public class BlogServiceImpl implements BlogService {
 			}
 			return result;
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final StorageException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final IdentifierIteratorException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | IdentifierIteratorException e) {
+			throw new BlogServiceException(e);
 		}
 	}
 
@@ -173,7 +168,7 @@ public class BlogServiceImpl implements BlogService {
 	public BlogPost getBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException,
 			LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final BlogPostBean result = blogPostDao.load(blogPostIdentifier);
 			if (result == null) {
@@ -183,11 +178,8 @@ public class BlogServiceImpl implements BlogService {
 				return result;
 			}
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final StorageException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
 		}
 	}
 
@@ -195,14 +187,11 @@ public class BlogServiceImpl implements BlogService {
 	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, ValidationException,
 			LoginRequiredException {
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 			blogPostDao.delete(blogPostIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final StorageException e) {
-			throw new BlogServiceException(e.getClass().getSimpleName(), e);
+		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
 		}
 	}
 

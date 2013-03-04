@@ -135,7 +135,7 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) throws LunchServiceException, LoginRequiredException {
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier) throws LunchServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getLunchs for current user");
@@ -152,10 +152,11 @@ public class LunchServiceImpl implements LunchService {
 		}
 	}
 
-	private Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Calendar date) throws LunchServiceException, LoginRequiredException {
+	private Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Calendar date) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
 
 			logger.debug("getLunchs - fullname: " + fullname + " date: " + calendarUtil.toDateString(date));
 			final String spaceKey = lunchConfig.getConfluenceSpaceKey();
@@ -163,22 +164,7 @@ public class LunchServiceImpl implements LunchService {
 			final String password = lunchConfig.getConfluencePassword();
 			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, date);
 		}
-		catch (final AuthenticationFailedException e) {
-			throw new LunchServiceException(e);
-		}
-		catch (final RemoteException e) {
-			throw new LunchServiceException(e);
-		}
-		catch (final java.rmi.RemoteException e) {
-			throw new LunchServiceException(e);
-		}
-		catch (final ServiceException e) {
-			throw new LunchServiceException(e);
-		}
-		catch (final ParseException e) {
-			throw new LunchServiceException(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException | java.rmi.RemoteException | ServiceException | ParseException e) {
 			throw new LunchServiceException(e);
 		}
 		finally {
@@ -189,15 +175,16 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException {
+	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
 
 			logger.debug("getLunchs - fullname: " + fullname);
 			return getLunchs(sessionIdentifier, fullname, calendarUtil.today());
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			throw new LunchServiceException(e);
 		}
 		finally {
@@ -207,7 +194,8 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException {
+	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException,
+			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getLunchsArchiv - fullname: " + fullname);
