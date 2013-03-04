@@ -12,6 +12,8 @@ public interface ProjectileService {
 
 	String PERMISSION_ADMIN = "projectileAdmin";
 
+	String PERMISSION_VIEW = "projectileView";
+
 	boolean validateAuthToken(String token) throws ProjectileServiceException;
 
 	void expectAuthToken(String token) throws ProjectileServiceException, PermissionDeniedException;

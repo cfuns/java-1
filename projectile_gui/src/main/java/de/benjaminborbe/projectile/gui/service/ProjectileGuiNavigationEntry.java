@@ -2,19 +2,21 @@ package de.benjaminborbe.projectile.gui.service;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
 
 public class ProjectileGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthenticationService authenticationService;
+	private final AuthorizationService authorizationService;
 
 	@Inject
-	public ProjectileGuiNavigationEntry(final AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
+	public ProjectileGuiNavigationEntry(final AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -30,9 +32,10 @@ public class ProjectileGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isLoggedIn(sessionIdentifier);
+			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_VIEW);
+			return authorizationService.hasPermission(sessionIdentifier, permissionIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}
