@@ -9,9 +9,9 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface PokerService {
 
-	String PERMISSION_ADMIN = "PokerAdmin";
+	String PERMISSION_ADMIN = "pokerAdmin";
 
-	String PERMISSION_PLAYER = "PokerPlayer";
+	String PERMISSION_PLAYER = "pokerPlayer";
 
 	void deleteGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 

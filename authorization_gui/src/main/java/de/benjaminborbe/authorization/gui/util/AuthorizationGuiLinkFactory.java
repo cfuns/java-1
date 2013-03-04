@@ -82,4 +82,9 @@ public class AuthorizationGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE, new MapParameter().add(
 				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "remove");
 	}
+
+	public Widget permissionDelete(final HttpServletRequest request, final PermissionIdentifier permissionIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DELETE, new MapParameter().add(
+				AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "delete").addConfirm("delete " + permissionIdentifier + "?");
+	}
 }

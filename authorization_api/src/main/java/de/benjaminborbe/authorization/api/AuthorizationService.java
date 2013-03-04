@@ -70,4 +70,7 @@ public interface AuthorizationService {
 
 	Collection<RoleIdentifier> roleList(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException;
 
+	void deletePermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException;
+
 }

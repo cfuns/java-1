@@ -10,7 +10,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface DhlService {
 
-	String PERMISSION = "Dhl";
+	String PERMISSION = "dhl";
 
 	DhlIdentifier createDhlIdentifier(String id) throws DhlServiceException;
 

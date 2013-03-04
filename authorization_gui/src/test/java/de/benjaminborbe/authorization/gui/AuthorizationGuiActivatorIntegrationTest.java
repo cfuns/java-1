@@ -49,6 +49,7 @@ public class AuthorizationGuiActivatorIntegrationTest {
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_LIST);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DENIED);
+		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DELETE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_ADD);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_CREATE);
 		paths.add("/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_INFO);
@@ -127,6 +128,7 @@ public class AuthorizationGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
+		names.add(NavigationEntry.class.getName());
 		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

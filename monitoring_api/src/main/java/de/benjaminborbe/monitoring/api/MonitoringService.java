@@ -9,9 +9,9 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface MonitoringService {
 
-	String MONITORING_ROLE_ADMIN = "MonitoringAdmin";
+	String MONITORING_ROLE_ADMIN = "monitoringAdmin";
 
-	String MONITORING_ROLE_VIEW = "MonitoringView";
+	String MONITORING_ROLE_VIEW = "monitoringView";
 
 	void mail(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 

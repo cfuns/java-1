@@ -8,12 +8,12 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 
-public class AuthorizationGuiNavigationEntry implements NavigationEntry {
+public class AuthorizationGuiNavigationRolesEntry implements NavigationEntry {
 
 	private final AuthorizationService authorizationService;
 
 	@Inject
-	public AuthorizationGuiNavigationEntry(final AuthorizationService authorizationService) {
+	public AuthorizationGuiNavigationRolesEntry(final AuthorizationService authorizationService) {
 		this.authorizationService = authorizationService;
 	}
 

@@ -16,6 +16,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -42,6 +43,8 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
+
 	@Inject
 	public AuthorizationGuiPermissionListServlet(
 			final Logger logger,
@@ -54,10 +57,12 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 			final Provider<HttpContext> httpContextProvider,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
-			final CacheService cacheService) {
+			final CacheService cacheService,
+			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authorizationService = authorizationService;
 		this.logger = logger;
+		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
 	}
 
 	@Override
@@ -74,7 +79,11 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			for (final PermissionIdentifier permissionIdentifier : authorizationService.permissionList()) {
-				ul.add(permissionIdentifier.getId());
+				final ListWidget row = new ListWidget();
+				row.add(permissionIdentifier.getId());
+				row.add(" ");
+				row.add(authorizationGuiLinkFactory.permissionDelete(request, permissionIdentifier));
+				ul.add(row);
 			}
 			widgets.add(ul);
 			return widgets;

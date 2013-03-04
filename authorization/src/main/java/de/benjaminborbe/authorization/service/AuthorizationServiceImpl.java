@@ -509,4 +509,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		return roles;
 	}
 
+	@Override
+	public void deletePermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			expectAdminRole(sessionIdentifier);
+			logger.debug("deletePermission- permission: " + permissionIdentifier);
+
+			permissionRoleManyToManyRelation.removeA(permissionIdentifier);
+			permissionDao.delete(permissionIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthorizationServiceException(e);
+		}
+	}
+
 }
