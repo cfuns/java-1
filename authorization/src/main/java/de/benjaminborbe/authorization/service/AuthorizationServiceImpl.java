@@ -292,7 +292,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				return false;
 			}
 
-			for (final RoleIdentifier roleIdentifier : roleList()) {
+			for (final RoleIdentifier roleIdentifier : getRoles()) {
 				if (hasRole(userIdentifier, roleIdentifier)) {
 					if (permissionRoleManyToManyRelation.exists(permissionIdentifier, roleIdentifier)) {
 						return true;
@@ -331,7 +331,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException {
+	public Collection<PermissionIdentifier> getPermissions() throws AuthorizationServiceException {
 		try {
 			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
 			final EntityIterator<PermissionBean> i = permissionDao.getEntityIterator();
@@ -350,12 +350,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<PermissionIdentifier> permissionList(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public Collection<PermissionIdentifier> getPermissions(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			logger.info("permissionList for role: " + roleIdentifier);
 
 			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
-			for (final PermissionIdentifier permissionIdentifier : permissionList()) {
+			for (final PermissionIdentifier permissionIdentifier : getPermissions()) {
 				if (permissionRoleManyToManyRelation.exists(permissionIdentifier, roleIdentifier)) {
 					result.add(permissionIdentifier);
 				}
@@ -401,7 +401,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<RoleIdentifier> roleList() throws AuthorizationServiceException {
+	public Collection<RoleIdentifier> getRoles() throws AuthorizationServiceException {
 		try {
 			final Set<RoleIdentifier> result = new HashSet<RoleIdentifier>();
 			final EntityIterator<RoleBean> i = roleDao.getEntityIterator();
@@ -499,9 +499,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<RoleIdentifier> roleList(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException {
+	public Collection<RoleIdentifier> getRoles(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException {
 		final List<RoleIdentifier> roles = new ArrayList<RoleIdentifier>();
-		for (final RoleIdentifier roleIdentifier : roleList()) {
+		for (final RoleIdentifier roleIdentifier : getRoles()) {
 			if (hasRole(userIdentifier, roleIdentifier)) {
 				roles.add(roleIdentifier);
 			}

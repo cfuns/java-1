@@ -43,9 +43,9 @@ public interface AuthorizationService {
 
 	boolean hasPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
 
-	Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException;
+	Collection<PermissionIdentifier> getPermissions() throws AuthorizationServiceException;
 
-	Collection<PermissionIdentifier> permissionList(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+	Collection<PermissionIdentifier> getPermissions(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	boolean removePermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException, LoginRequiredException;
@@ -53,7 +53,7 @@ public interface AuthorizationService {
 	boolean removeUserRole(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException, LoginRequiredException;
 
-	Collection<RoleIdentifier> roleList() throws AuthorizationServiceException;
+	Collection<RoleIdentifier> getRoles() throws AuthorizationServiceException;
 
 	void expectUser(UserIdentifier currentUser, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
@@ -68,7 +68,7 @@ public interface AuthorizationService {
 
 	boolean hasOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException;
 
-	Collection<RoleIdentifier> roleList(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException;
+	Collection<RoleIdentifier> getRoles(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException;
 
 	void deletePermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException;

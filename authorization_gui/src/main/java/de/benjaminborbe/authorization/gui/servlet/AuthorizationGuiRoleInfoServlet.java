@@ -111,7 +111,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			{
 				widgets.add(new H2Widget("Permissions:"));
 				final UlWidget ul = new UlWidget();
-				for (final PermissionIdentifier permissionIdentifier : authorizationSerivce.permissionList(roleIdentifier)) {
+				for (final PermissionIdentifier permissionIdentifier : authorizationSerivce.getPermissions(roleIdentifier)) {
 					final ListWidget row = new ListWidget();
 					row.add(permissionIdentifier.getId());
 					row.add(" ");

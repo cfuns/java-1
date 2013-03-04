@@ -57,7 +57,7 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<RoleIdentifier> roleList() {
+	public Collection<RoleIdentifier> getRoles() {
 		return null;
 	}
 
@@ -67,7 +67,7 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException {
+	public Collection<PermissionIdentifier> getPermissions() throws AuthorizationServiceException {
 		return null;
 	}
 
@@ -84,7 +84,7 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<PermissionIdentifier> permissionList(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public Collection<PermissionIdentifier> getPermissions(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		return null;
 	}
 
@@ -141,7 +141,7 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<RoleIdentifier> roleList(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) {
+	public Collection<RoleIdentifier> getRoles(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) {
 		return null;
 	}
 

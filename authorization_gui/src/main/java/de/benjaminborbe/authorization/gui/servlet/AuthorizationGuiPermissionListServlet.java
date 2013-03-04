@@ -17,6 +17,7 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
+import de.benjaminborbe.authorization.gui.util.PermissionIdentifierComparator;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -24,6 +25,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -45,6 +47,8 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 
 	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
 
+	private final ComparatorUtil comparatorUtil;
+
 	@Inject
 	public AuthorizationGuiPermissionListServlet(
 			final Logger logger,
@@ -58,11 +62,13 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
 			final CacheService cacheService,
-			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory) {
+			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory,
+			final ComparatorUtil comparatorUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authorizationService = authorizationService;
 		this.logger = logger;
 		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
+		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
@@ -78,7 +84,7 @@ public class AuthorizationGuiPermissionListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
-			for (final PermissionIdentifier permissionIdentifier : authorizationService.permissionList()) {
+			for (final PermissionIdentifier permissionIdentifier : comparatorUtil.sort(authorizationService.getPermissions(), new PermissionIdentifierComparator())) {
 				final ListWidget row = new ListWidget();
 				row.add(permissionIdentifier.getId());
 				row.add(" ");

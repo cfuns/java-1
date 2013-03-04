@@ -91,7 +91,7 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 			widgets.add(new H2Widget("Roles"));
-			for (final RoleIdentifier roleIdentifier : authorizationSerivce.roleList(sessionIdentifier, userIdentifier)) {
+			for (final RoleIdentifier roleIdentifier : authorizationSerivce.getRoles(sessionIdentifier, userIdentifier)) {
 				final ListWidget row = new ListWidget();
 				row.add(authorizationGuiLinkFactory.roleInfo(request, roleIdentifier));
 				row.add(" ");
