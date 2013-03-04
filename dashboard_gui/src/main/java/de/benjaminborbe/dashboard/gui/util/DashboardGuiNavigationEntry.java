@@ -2,19 +2,21 @@ package de.benjaminborbe.dashboard.gui.util;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.dashboard.api.DashboardService;
 import de.benjaminborbe.dashboard.gui.DashboardGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 
 public class DashboardGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthenticationService authenticationService;
+	private final AuthorizationService authorizationService;
 
 	@Inject
-	public DashboardGuiNavigationEntry(final AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
+	public DashboardGuiNavigationEntry(final AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -30,9 +32,10 @@ public class DashboardGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isLoggedIn(sessionIdentifier);
+			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(DashboardService.PERMISSION);
+			return authorizationService.hasPermission(sessionIdentifier, permissionIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}

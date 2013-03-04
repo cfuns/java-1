@@ -287,7 +287,7 @@ public class LunchServiceImpl implements LunchService {
 			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(PERMISSION_ADMIN);
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(PERMISSION_BOOKING);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
 			runOnlyOnceATime.run(new SendBookings(users, day));
 		}

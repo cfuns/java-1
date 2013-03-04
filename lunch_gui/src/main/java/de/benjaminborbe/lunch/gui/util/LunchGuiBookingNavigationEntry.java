@@ -32,7 +32,7 @@ public class LunchGuiBookingNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_ADMIN);
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_BOOKING);
 			return authorizationService.hasPermission(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthorizationServiceException e) {

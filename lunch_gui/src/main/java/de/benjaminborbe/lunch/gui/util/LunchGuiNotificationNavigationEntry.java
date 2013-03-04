@@ -2,19 +2,21 @@ package de.benjaminborbe.lunch.gui.util;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 
 public class LunchGuiNotificationNavigationEntry implements NavigationEntry {
 
-	private final AuthenticationService authenticationService;
+	private final AuthorizationService authorizationService;
 
 	@Inject
-	public LunchGuiNotificationNavigationEntry(final AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
+	public LunchGuiNotificationNavigationEntry(final AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -30,9 +32,10 @@ public class LunchGuiNotificationNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authenticationService.isLoggedIn(sessionIdentifier);
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_NOTIFICATION);
+			return authorizationService.hasPermission(sessionIdentifier, roleIdentifier);
 		}
-		catch (final AuthenticationServiceException e) {
+		catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}
