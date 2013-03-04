@@ -103,7 +103,7 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			widgets.add(buildRows(request, sessionIdentifier, tree, tree.getRootNodes()));
 
 			final ListWidget links = new ListWidget();
-			if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
+			if (monitoringService.hasMonitoringAdminPermission(sessionIdentifier)) {
 				links.add(monitoringGuiLinkFactory.createNode(request));
 			}
 			widgets.add(links);
@@ -180,7 +180,7 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			widgets.add(" ");
 		}
 
-		if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
+		if (monitoringService.hasMonitoringAdminPermission(sessionIdentifier)) {
 			if (isSilent) {
 				widgets.add(monitoringGuiLinkFactory.nodeUnsilent(request, result.getId()));
 			}
@@ -210,7 +210,7 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			monitoringService.expectMonitoringViewOrAdminRole(sessionIdentifier);
+			monitoringService.expectMonitoringViewOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

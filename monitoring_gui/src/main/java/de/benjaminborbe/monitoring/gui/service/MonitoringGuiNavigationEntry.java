@@ -31,7 +31,7 @@ public class MonitoringGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return monitoringService.hasMonitoringViewOrAdminRole(sessionIdentifier);
+			return monitoringService.hasMonitoringViewOrAdminPermission(sessionIdentifier);
 		}
 		catch (final LoginRequiredException e) {
 			return false;

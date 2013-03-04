@@ -12,7 +12,7 @@ import de.benjaminborbe.kiosk.api.KioskUser;
 
 public interface LunchService {
 
-	String LUNCH_ADMIN_ROLENAME = "LunchAdmin";
+	String PERMISSION_ADMIN = "lunchAdmin";
 
 	Collection<Lunch> getLunchs(SessionIdentifier sessionIdentifier, String fullname) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 

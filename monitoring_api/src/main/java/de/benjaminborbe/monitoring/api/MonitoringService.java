@@ -46,17 +46,17 @@ public interface MonitoringService {
 	void unsilentNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
 			PermissionDeniedException;
 
-	void expectMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
+	void expectMonitoringAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
 
-	void expectMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
+	void expectMonitoringViewOrAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
 
-	void expectMonitoringViewRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
+	void expectMonitoringViewPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
 
-	boolean hasMonitoringAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
+	boolean hasMonitoringAdminPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
 
-	boolean hasMonitoringViewOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
+	boolean hasMonitoringViewOrAdminPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
 
-	boolean hasMonitoringViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
+	boolean hasMonitoringViewPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException;
 
 	Collection<MonitoringCheck> getMonitoringCheckTypes() throws MonitoringServiceException;
 

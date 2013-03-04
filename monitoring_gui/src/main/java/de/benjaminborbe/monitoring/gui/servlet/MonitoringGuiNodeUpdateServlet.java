@@ -240,7 +240,7 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			monitoringService.expectMonitoringAdminRole(sessionIdentifier);
+			monitoringService.expectMonitoringAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

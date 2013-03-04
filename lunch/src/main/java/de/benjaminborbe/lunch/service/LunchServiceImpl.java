@@ -25,7 +25,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.api.KioskServiceException;
 import de.benjaminborbe.kiosk.api.KioskUser;
@@ -287,8 +287,8 @@ public class LunchServiceImpl implements LunchService {
 			PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LUNCH_ADMIN_ROLENAME);
-			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(PERMISSION_ADMIN);
+			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
 			runOnlyOnceATime.run(new SendBookings(users, day));
 		}
 		catch (final AuthorizationServiceException e) {

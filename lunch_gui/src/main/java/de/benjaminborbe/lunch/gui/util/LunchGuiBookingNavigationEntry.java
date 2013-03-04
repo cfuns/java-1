@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -32,8 +32,8 @@ public class LunchGuiBookingNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(LunchService.LUNCH_ADMIN_ROLENAME);
-			return authorizationService.hasRole(sessionIdentifier, roleIdentifier);
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_ADMIN);
+			return authorizationService.hasPermission(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthorizationServiceException e) {
 			return false;

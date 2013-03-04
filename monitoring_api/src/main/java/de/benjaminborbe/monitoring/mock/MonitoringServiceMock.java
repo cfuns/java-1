@@ -67,29 +67,29 @@ public class MonitoringServiceMock implements MonitoringService {
 	}
 
 	@Override
-	public void expectMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 	}
 
 	@Override
-	public void expectMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 	}
 
 	@Override
-	public void expectMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringViewPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 	}
 
 	@Override
-	public boolean hasMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringViewPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		return false;
 	}
 

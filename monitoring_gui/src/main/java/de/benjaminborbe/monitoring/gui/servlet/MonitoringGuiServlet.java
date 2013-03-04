@@ -89,10 +89,10 @@ public class MonitoringGuiServlet extends MonitoringWebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			if (monitoringService.hasMonitoringViewOrAdminRole(sessionIdentifier)) {
+			if (monitoringService.hasMonitoringViewOrAdminPermission(sessionIdentifier)) {
 				ul.add(monitoringGuiLinkFactory.view(request));
 			}
-			if (monitoringService.hasMonitoringAdminRole(sessionIdentifier)) {
+			if (monitoringService.hasMonitoringAdminPermission(sessionIdentifier)) {
 				ul.add(monitoringGuiLinkFactory.check(request));
 				ul.add(monitoringGuiLinkFactory.mail(request));
 			}
@@ -128,7 +128,7 @@ public class MonitoringGuiServlet extends MonitoringWebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			monitoringService.expectMonitoringViewOrAdminRole(sessionIdentifier);
+			monitoringService.expectMonitoringViewOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

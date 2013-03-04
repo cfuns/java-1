@@ -116,7 +116,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("deleteNode");
 			monitoringNodeDao.delete(monitoringNodeIdentifier);
 		}
@@ -134,7 +134,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("updateNode");
 
 			final MonitoringNodeBean monitoringNode = monitoringNodeDao.load(node.getId());
@@ -166,7 +166,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("createNode");
 
 			final MonitoringNodeIdentifier id = createNodeIdentifier(idGeneratorUUID.nextId());
@@ -201,7 +201,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	public Collection<MonitoringNode> listNodes(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("listNodes");
 
 			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
@@ -228,7 +228,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("getNode");
 
 			return monitoringNodeBuilder.build(monitoringNodeDao.load(monitoringNodeIdentifier));
@@ -247,7 +247,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("getRequireParameter");
 
 			final MonitoringCheck check = monitoringCheckRegistry.get(monitoringCheckType);
@@ -263,7 +263,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	public Collection<MonitoringNode> getCheckResults(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringViewOrAdminRole(sessionIdentifier);
+			expectMonitoringViewOrAdminPermission(sessionIdentifier);
 			logger.debug("getCheckResults");
 
 			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
@@ -292,7 +292,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	public void mail(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("mail");
 
 			monitoringMailer.mail();
@@ -307,7 +307,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	public void check(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("check");
 
 			monitoringChecker.checkAll();
@@ -323,7 +323,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("silentNode");
 
 			final MonitoringNodeBean node = monitoringNodeDao.load(monitoringNodeIdentifier);
@@ -341,9 +341,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public void expectMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(MONITORING_ROLE_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -351,10 +351,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public void expectMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
+	public void expectMonitoringViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 		try {
-			authorizationService.expectOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN),
-					authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
+			authorizationService.expectOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(MONITORING_ROLE_ADMIN),
+					authorizationService.createPermissionIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -362,9 +362,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public void expectMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException, LoginRequiredException {
+	public void expectMonitoringViewPermission(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -372,9 +372,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public boolean hasMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN));
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(MONITORING_ROLE_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -382,10 +382,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public boolean hasMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		try {
-			return authorizationService.hasOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN),
-					authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
+			return authorizationService.hasOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(MONITORING_ROLE_ADMIN),
+					authorizationService.createPermissionIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -393,9 +393,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public boolean hasMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
+	public boolean hasMonitoringViewPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -481,7 +481,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("checkNode");
 
 			final MonitoringNodeBean node = monitoringNodeDao.load(monitoringNodeIdentifier);
@@ -501,7 +501,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectMonitoringAdminRole(sessionIdentifier);
+			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("unsilentNode");
 
 			final MonitoringNodeBean node = monitoringNodeDao.load(monitoringNodeIdentifier);
