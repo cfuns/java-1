@@ -172,7 +172,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 	}
 
 	private Collection<DashboardContentWidget> getWidgets(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, DashboardServiceException,
-			LoginRequiredException {
+			LoginRequiredException, PermissionDeniedException {
 		final boolean hasAdmin = authorizationService.hasAdminRole(sessionIdentifier);
 		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
 		Collections.sort(dashboardWidgets, dashboardContentWidgetComparator);

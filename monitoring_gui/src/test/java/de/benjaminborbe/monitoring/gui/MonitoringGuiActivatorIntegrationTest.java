@@ -52,6 +52,7 @@ public class MonitoringGuiActivatorIntegrationTest {
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST_JSON);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_JSON);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_SILENT);
+		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_VIEW);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_UNSILENT);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_CREATE);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_DELETE);

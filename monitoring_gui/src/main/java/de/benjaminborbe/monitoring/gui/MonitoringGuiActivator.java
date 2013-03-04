@@ -19,6 +19,7 @@ import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeListServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeSilentServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUnsilentServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUpdateServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeViewServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiTriggerCheckServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiTriggerMailServlet;
@@ -30,6 +31,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class MonitoringGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MonitoringGuiNodeViewServlet monitoringGuiNodeViewServlet;
 
 	@Inject
 	private MonitoringGuiNodeUnsilentServlet monitoringGuiNodeUnsilentServlet;
@@ -95,6 +99,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(monitoringGuiNodeJsonServlet, MonitoringGuiConstants.URL_NODE_JSON));
 		result.add(new ServletInfo(monitoringGuiNodeListServlet, MonitoringGuiConstants.URL_NODE_LIST));
 		result.add(new ServletInfo(monitoringGuiNodeListJsonServlet, MonitoringGuiConstants.URL_NODE_LIST_JSON));
+		result.add(new ServletInfo(monitoringGuiNodeViewServlet, MonitoringGuiConstants.URL_NODE_VIEW));
 		result.add(new ServletInfo(monitoringGuiNodeCreateServlet, MonitoringGuiConstants.URL_NODE_CREATE));
 		result.add(new ServletInfo(monitoringGuiNodeDeleteServlet, MonitoringGuiConstants.URL_NODE_DELETE));
 		result.add(new ServletInfo(monitoringGuiNodeUpdateServlet, MonitoringGuiConstants.URL_NODE_UPDATE));

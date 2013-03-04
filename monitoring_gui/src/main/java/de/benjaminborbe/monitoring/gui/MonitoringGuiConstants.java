@@ -50,4 +50,6 @@ public interface MonitoringGuiConstants {
 
 	String URL_NODE_UNSILENT = "/node/unsilent";
 
+	String URL_NODE_VIEW = "/node/view";
+
 }

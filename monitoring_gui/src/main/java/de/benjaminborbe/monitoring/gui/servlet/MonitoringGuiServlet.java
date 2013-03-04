@@ -90,7 +90,7 @@ public class MonitoringGuiServlet extends MonitoringWebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (monitoringService.hasMonitoringViewOrAdminPermission(sessionIdentifier)) {
-				ul.add(monitoringGuiLinkFactory.view(request));
+				ul.add(monitoringGuiLinkFactory.nodeList(request));
 			}
 			if (monitoringService.hasMonitoringAdminPermission(sessionIdentifier)) {
 				ul.add(monitoringGuiLinkFactory.check(request));

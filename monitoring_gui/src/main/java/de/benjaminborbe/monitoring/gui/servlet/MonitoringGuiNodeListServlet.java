@@ -104,7 +104,7 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 
 			final ListWidget links = new ListWidget();
 			if (monitoringService.hasMonitoringAdminPermission(sessionIdentifier)) {
-				links.add(monitoringGuiLinkFactory.createNode(request));
+				links.add(monitoringGuiLinkFactory.nodeCreate(request));
 			}
 			widgets.add(links);
 
@@ -168,7 +168,7 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 		final ListWidget name = new ListWidget();
 		name.add(result.getDescription());
 		name.add(" (");
-		name.add(result.getName());
+		name.add(monitoringGuiLinkFactory.nodeView(request, result.getId(), result.getName()));
 		name.add(") ");
 		final String description = "LastCheck: " + (result.getLastCheck() != null ? calendarUtil.toDateTimeString(result.getLastCheck()) : "-");
 		widgets.add(new TooltipWidget(name).addTooltip(description));
