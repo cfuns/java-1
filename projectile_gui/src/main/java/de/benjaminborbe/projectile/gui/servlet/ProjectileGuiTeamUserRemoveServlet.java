@@ -20,7 +20,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.api.ProjectileServiceException;
@@ -86,8 +86,8 @@ public class ProjectileGuiTeamUserRemoveServlet extends WebsiteServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(ProjectileService.PROJECTILE_ADMIN_ROLENAME);
-			authorizationService.expectRole(sessionIdentifier, roleIdentifier);
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
+			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

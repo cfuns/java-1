@@ -18,7 +18,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -99,8 +99,8 @@ public class ProjectileGuiServlet extends WebsiteHtmlServlet {
 				ul.add(projectileLinkFactory.reportForCurrentTeam(request));
 			}
 
-			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(ProjectileService.PROJECTILE_ADMIN_ROLENAME);
-			if (authorizationService.hasRole(sessionIdentifier, roleIdentifier)) {
+			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
+			if (authorizationService.hasPermission(sessionIdentifier, roleIdentifier)) {
 				ul.add(projectileLinkFactory.reportForAllUser(request));
 				ul.add(projectileLinkFactory.reportForAllTeam(request));
 				ul.add(projectileLinkFactory.teamList(request));

@@ -125,11 +125,11 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public void expectProjectileAdminRole(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+	public void expectProjectileAdminPermission(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
-	public boolean hasProjectileAdminRole(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException {
+	public boolean hasProjectileAdminPermission(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException {
 		return true;
 	}
 

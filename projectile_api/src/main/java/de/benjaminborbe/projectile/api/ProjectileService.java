@@ -10,7 +10,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface ProjectileService {
 
-	String PROJECTILE_ADMIN_ROLENAME = "ProjectileAdmin";
+	String PERMISSION_ADMIN = "projectileAdmin";
 
 	boolean validateAuthToken(String token) throws ProjectileServiceException;
 
@@ -60,8 +60,8 @@ public interface ProjectileService {
 	Collection<UserIdentifier> getUsersForTeam(SessionIdentifier sessionIdentifier, ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
 			PermissionDeniedException, LoginRequiredException;
 
-	void expectProjectileAdminRole(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
+	void expectProjectileAdminPermission(SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException;
 
-	boolean hasProjectileAdminRole(SessionIdentifier sessionIdentifier) throws ProjectileServiceException;
+	boolean hasProjectileAdminPermission(SessionIdentifier sessionIdentifier) throws ProjectileServiceException;
 
 }
