@@ -216,7 +216,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
+			analyticsService.expectAnalyticsViewOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

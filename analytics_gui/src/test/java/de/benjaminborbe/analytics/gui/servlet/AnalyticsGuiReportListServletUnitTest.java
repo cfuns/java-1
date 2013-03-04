@@ -135,8 +135,8 @@ public class AnalyticsGuiReportListServletUnitTest {
 
 		final AnalyticsService analyticsService = EasyMock.createMock(AnalyticsService.class);
 		EasyMock.expect(analyticsService.getReports(sessionIdentifier)).andReturn(new ArrayList<AnalyticsReport>()).anyTimes();
-		analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
-		EasyMock.expect(analyticsService.hasAnalyticsAdminRole(sessionIdentifier)).andReturn(false).anyTimes();
+		analyticsService.expectAnalyticsViewOrAdminPermission(sessionIdentifier);
+		EasyMock.expect(analyticsService.hasAnalyticsAdminPermission(sessionIdentifier)).andReturn(false).anyTimes();
 		EasyMock.replay(analyticsService);
 
 		final CacheService cacheService = EasyMock.createMock(CacheService.class);

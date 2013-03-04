@@ -7,7 +7,6 @@ import de.benjaminborbe.tools.util.ComparatorChain;
 
 public class GalleryCollectionComparator extends ComparatorChain<GalleryCollection> {
 
-	@SuppressWarnings("unchecked")
 	@Inject
 	public GalleryCollectionComparator(final GalleryCollectionComparatorName name, final GalleryCollectionComparatorPrio prio) {
 		super(prio, name);

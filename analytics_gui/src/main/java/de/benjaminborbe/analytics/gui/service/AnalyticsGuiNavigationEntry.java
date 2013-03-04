@@ -31,7 +31,7 @@ public class AnalyticsGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return analyticsService.hasAnalyticsViewOrAdminRole(sessionIdentifier);
+			return analyticsService.hasAnalyticsViewOrAdminPermission(sessionIdentifier);
 		}
 		catch (final LoginRequiredException e) {
 			return false;

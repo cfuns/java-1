@@ -442,17 +442,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public void expectOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException {
-		try {
-			authenticationService.expectLoggedIn(sessionIdentifier);
-			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
-				return;
-			}
-			if (!hasOneOfRoles(sessionIdentifier, roleIdentifiers)) {
-				throw new PermissionDeniedException("no role " + roleIdentifiers);
-			}
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+		if (!hasOneOfRoles(sessionIdentifier, roleIdentifiers)) {
+			throw new PermissionDeniedException("no role " + roleIdentifiers);
 		}
 	}
 
@@ -478,6 +469,32 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					if (!isLoggedIn && ROLE_LOGGED_OUT.equals(roleIdentifier.getId())) {
 						return true;
 					}
+				}
+			}
+			return false;
+		}
+		catch (final AuthenticationServiceException e) {
+			throw new AuthorizationServiceException(e);
+		}
+	}
+
+	@Override
+	public void expectOneOfPermissions(final SessionIdentifier sessionIdentifier, final PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException,
+			PermissionDeniedException {
+		if (!hasOneOfPermissions(sessionIdentifier, permissionIdentifiers)) {
+			throw new PermissionDeniedException("no permission " + permissionIdentifiers);
+		}
+	}
+
+	@Override
+	public boolean hasOneOfPermissions(final SessionIdentifier sessionIdentifier, final PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException {
+		try {
+			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
+				return true;
+			}
+			for (final PermissionIdentifier permissionIdentifier : permissionIdentifiers) {
+				if (hasPermission(sessionIdentifier, permissionIdentifier)) {
+					return true;
 				}
 			}
 			return false;

@@ -103,7 +103,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 						new SpanWidget(report.getName())));
 				row.add(" ");
 				row.add("(" + report.getAggregation().name().toLowerCase() + ")");
-				if (analyticsService.hasAnalyticsAdminRole(sessionIdentifier)) {
+				if (analyticsService.hasAnalyticsAdminPermission(sessionIdentifier)) {
 					row.add(" ");
 					row.add(analyticsGuiLinkFactory.reportAddData(request, report.getId()));
 					row.add(" ");
@@ -115,7 +115,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			}
 			widgets.add(ul);
 
-			if (analyticsService.hasAnalyticsAdminRole(sessionIdentifier)) {
+			if (analyticsService.hasAnalyticsAdminPermission(sessionIdentifier)) {
 				final ListWidget links = new ListWidget();
 				links.add(analyticsGuiLinkFactory.addReport(request));
 				links.add(" ");
@@ -146,7 +146,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			analyticsService.expectAnalyticsViewOrAdminRole(sessionIdentifier);
+			analyticsService.expectAnalyticsViewOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

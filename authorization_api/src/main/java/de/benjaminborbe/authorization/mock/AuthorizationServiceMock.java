@@ -159,4 +159,14 @@ public class AuthorizationServiceMock implements AuthorizationService {
 		return false;
 	}
 
+	@Override
+	public void expectOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException,
+			PermissionDeniedException {
+	}
+
+	@Override
+	public boolean hasOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException {
+		return false;
+	}
+
 }

@@ -103,7 +103,7 @@ public class AnalyticsGuiReportAggregateServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			analyticsService.expectAnalyticsAdminRole(sessionIdentifier);
+			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

@@ -74,30 +74,30 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	}
 
 	@Override
-	public void expectAnalyticsViewRole(final SessionIdentifier sessionIdentifier) {
+	public void expectAnalyticsViewPermission(final SessionIdentifier sessionIdentifier) {
 	}
 
 	@Override
-	public void expectAnalyticsAdminRole(final SessionIdentifier sessionIdentifier) {
+	public void expectAnalyticsAdminPermission(final SessionIdentifier sessionIdentifier) {
 	}
 
 	@Override
-	public boolean hasAnalyticsViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
+	public boolean hasAnalyticsViewPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasAnalyticsAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
+	public boolean hasAnalyticsAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
+	public boolean hasAnalyticsViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		return false;
 	}
 
 	@Override
-	public void expectAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
+	public void expectAnalyticsViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 	}
 
 	@Override

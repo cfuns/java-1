@@ -77,4 +77,8 @@ public interface AuthorizationService {
 
 	boolean hasOneOfRoles(SessionIdentifier sessionIdentifier, RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException;
 
+	void expectOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException, PermissionDeniedException;
+
+	boolean hasOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException;
+
 }

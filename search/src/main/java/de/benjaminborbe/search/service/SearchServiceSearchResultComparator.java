@@ -7,7 +7,6 @@ import de.benjaminborbe.tools.util.ComparatorChain;
 
 public class SearchServiceSearchResultComparator extends ComparatorChain<SearchResult> {
 
-	@SuppressWarnings("unchecked")
 	@Inject
 	public SearchServiceSearchResultComparator(
 			final SearchServiceSearchResultComparatorName searchServiceSearchResultComparatorName,

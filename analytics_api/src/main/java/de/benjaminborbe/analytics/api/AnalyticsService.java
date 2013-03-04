@@ -10,9 +10,9 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface AnalyticsService {
 
-	String ANALYTICS_ROLE_ADMIN = "AnalyticsAdmin";
+	String PERMISSION_ADMIN = "analyticsAdmin";
 
-	String ANALYTICS_ROLE_VIEW = "AnalyticsView";
+	String PERMISSION_VIEW = "analyticsView";
 
 	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException;
 
@@ -32,11 +32,11 @@ public interface AnalyticsService {
 	void deleteReport(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	void expectAnalyticsAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
+	void expectAnalyticsAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
 
-	void expectAnalyticsViewOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
+	void expectAnalyticsViewOrAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
 
-	void expectAnalyticsViewRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
+	void expectAnalyticsViewPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException;
 
 	Collection<String> getLogWithoutReport(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
@@ -54,11 +54,11 @@ public interface AnalyticsService {
 
 	Collection<AnalyticsReport> getReports(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
 
-	boolean hasAnalyticsAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
+	boolean hasAnalyticsAdminPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
 
-	boolean hasAnalyticsViewOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
+	boolean hasAnalyticsViewOrAdminPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
 
-	boolean hasAnalyticsViewRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
+	boolean hasAnalyticsViewPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException;
 
 	void rebuildReport(SessionIdentifier sessionIdentifier, AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException, PermissionDeniedException,
 			LoginRequiredException;
