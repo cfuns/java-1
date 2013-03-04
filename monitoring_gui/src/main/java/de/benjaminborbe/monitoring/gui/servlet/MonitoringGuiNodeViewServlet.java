@@ -76,8 +76,16 @@ public class MonitoringGuiNodeViewServlet extends MonitoringWebsiteHtmlServlet {
 			final MonitoringNodeIdentifier monitoringNodeIdentifier = monitoringService.createNodeIdentifier(request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ID));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringNode node = monitoringService.getNode(sessionIdentifier, monitoringNodeIdentifier);
-			widgets.add(new H2Widget(node.getName()));
-			widgets.add(new PreWidget(node.getDescription()));
+
+			final ListWidget name = new ListWidget();
+			name.add(node.getDescription());
+			name.add(" (");
+			name.add(node.getName());
+			name.add(") ");
+
+			widgets.add(new H2Widget(name));
+			widgets.add(node.getMessage());
+			widgets.add(new PreWidget(node.getException()));
 
 			return widgets;
 		}

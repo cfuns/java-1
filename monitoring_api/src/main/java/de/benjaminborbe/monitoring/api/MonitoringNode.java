@@ -27,4 +27,6 @@ public interface MonitoringNode extends MonitoringHasParentId {
 
 	Calendar getLastCheck();
 
+	String getException();
+
 }

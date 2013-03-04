@@ -29,6 +29,8 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	private Calendar lastCheck;
 
+	private String exception;
+
 	@Override
 	public MonitoringNodeIdentifier getId() {
 		return id;
@@ -135,6 +137,14 @@ public class MonitoringNodeDto implements MonitoringNode {
 
 	public void setLastCheck(final Calendar lastCheck) {
 		this.lastCheck = lastCheck;
+	}
+
+	public String getException() {
+		return exception;
+	}
+
+	public void setException(String exception) {
+		this.exception = exception;
 	}
 
 }

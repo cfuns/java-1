@@ -32,6 +32,8 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	private String message;
 
+	private String exception;
+
 	private Boolean result;
 
 	private MonitoringNodeIdentifier parentId;
@@ -149,6 +151,14 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 
 	public void setLastCheck(final Calendar lastCheck) {
 		this.lastCheck = lastCheck;
+	}
+
+	public String getException() {
+		return exception;
+	}
+
+	public void setException(String exception) {
+		this.exception = exception;
 	}
 
 }

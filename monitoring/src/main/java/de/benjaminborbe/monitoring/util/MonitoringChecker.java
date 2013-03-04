@@ -1,5 +1,7 @@
 package de.benjaminborbe.monitoring.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -109,6 +111,7 @@ public class MonitoringChecker {
 				node.setMessage(result.getMessage());
 				node.setResult(result.getSuccessful());
 				node.setFailureCounter(0);
+				node.setException(null);
 				save(node);
 
 				check(tree.getChildNodes(node.getId()), tree);
@@ -124,6 +127,7 @@ public class MonitoringChecker {
 				node.setMessage(result.getMessage());
 				node.setResult(result.getSuccessful());
 				node.setFailureCounter(node.getFailureCounter() != null ? node.getFailureCounter() + 1 : 1);
+				node.setException(asString(result.getException()));
 				save(node);
 
 				reset(tree.getChildNodes(node.getId()), tree);
@@ -133,6 +137,7 @@ public class MonitoringChecker {
 
 				node.setMessage(result.getMessage());
 				node.setResult(result.getSuccessful());
+				node.setException(asString(result.getException()));
 				save(node);
 
 				reset(tree.getChildNodes(node.getId()), tree);
@@ -142,6 +147,15 @@ public class MonitoringChecker {
 			logger.debug("node " + name + " inactive => skip");
 			reset(node);
 		}
+	}
+
+	private String asString(final Exception exception) {
+		if (exception == null) {
+			return null;
+		}
+		final StringWriter sw = new StringWriter();
+		exception.printStackTrace(new PrintWriter(sw));
+		return sw.toString();
 	}
 
 	private void save(final MonitoringNodeBean bean) throws StorageException {
@@ -162,6 +176,7 @@ public class MonitoringChecker {
 		bean.setMessage(null);
 		bean.setResult(null);
 		bean.setFailureCounter(null);
+		bean.setException(null);
 		save(bean);
 	}
 }

@@ -52,6 +52,8 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 
 	public static final String LAST_CHECK = "lastCheck";
 
+	public static final String EXCEPTION = "exception";
+
 	@Inject
 	public MonitoringNodeBeanMapper(
 			final Provider<MonitoringNodeBean> provider,
@@ -74,6 +76,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckIdentifier>(CHECK_TYPE, mapperMonitoringCheck));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Map<String, String>>(PARAMETER, mapperMapString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(NAME, mapperString));
+		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, String>(EXCEPTION, mapperString));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(SILENT, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Boolean>(ACTIVE, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, Calendar>(CREATED, mapperCalendar));

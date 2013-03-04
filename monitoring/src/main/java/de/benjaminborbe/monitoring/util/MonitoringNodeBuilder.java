@@ -89,6 +89,11 @@ public class MonitoringNodeBuilder {
 		public Calendar getLastCheck() {
 			return node.getLastCheck();
 		}
+
+		@Override
+		public String getException() {
+			return node.getException();
+		}
 	}
 
 	@Inject
