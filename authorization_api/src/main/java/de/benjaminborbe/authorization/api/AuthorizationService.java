@@ -31,25 +31,17 @@ public interface AuthorizationService {
 
 	boolean existsPermission(PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
 
-	boolean existsRole(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
-
 	void expectAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
 	void expectPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException;
 
-	void expectRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
-
 	void expectUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
-	Collection<UserIdentifier> getUserWithRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+	Collection<UserIdentifier> getUsersWithRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	boolean hasAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException;
 
 	boolean hasPermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException;
-
-	boolean hasRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
-
-	boolean hasRole(UserIdentifier userIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	Collection<PermissionIdentifier> permissionList() throws AuthorizationServiceException;
 
@@ -72,13 +64,10 @@ public interface AuthorizationService {
 
 	void deleteRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
-	void expectOneOfRoles(SessionIdentifier sessionIdentifier, RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException;
-
-	boolean hasOneOfRoles(SessionIdentifier sessionIdentifier, RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException;
-
 	void expectOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException, PermissionDeniedException;
 
 	boolean hasOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException;
+
+	Collection<RoleIdentifier> roleList(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException;
 
 }

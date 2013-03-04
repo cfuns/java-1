@@ -22,15 +22,6 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
-		return false;
-	}
-
-	@Override
-	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
-	}
-
-	@Override
 	public boolean hasPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
 		return false;
 	}
@@ -62,11 +53,6 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	@Override
 	public boolean removeUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier)
 			throws PermissionDeniedException, AuthorizationServiceException {
-		return false;
-	}
-
-	@Override
-	public boolean hasRole(final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		return false;
 	}
 
@@ -103,11 +89,6 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
-		return false;
-	}
-
-	@Override
 	public boolean existsPermission(final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
 		return false;
 	}
@@ -127,7 +108,7 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<UserIdentifier> getUserWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public Collection<UserIdentifier> getUsersWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		return null;
 	}
 
@@ -150,23 +131,18 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public void expectOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException {
-	}
-
-	@Override
-	public boolean hasOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException {
-		return false;
-	}
-
-	@Override
-	public void expectOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException,
+	public void expectOneOfPermissions(final SessionIdentifier sessionIdentifier, final PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException,
 			PermissionDeniedException {
 	}
 
 	@Override
-	public boolean hasOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException {
+	public boolean hasOneOfPermissions(final SessionIdentifier sessionIdentifier, final PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException {
 		return false;
+	}
+
+	@Override
+	public Collection<RoleIdentifier> roleList(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) {
+		return null;
 	}
 
 }

@@ -178,8 +178,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 	}
 
-	@Override
-	public boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	private boolean existsRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			return roleDao.exists(roleIdentifier);
 		}
@@ -201,8 +200,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 	}
 
-	@Override
-	public void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+	private void expectRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException {
 		expectOneOfRoles(sessionIdentifier, roleIdentifier);
 	}
@@ -252,7 +250,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<UserIdentifier> getUserWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public Collection<UserIdentifier> getUsersWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
 			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
@@ -312,13 +310,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 	}
 
-	@Override
-	public boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	protected boolean hasRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		return hasOneOfRoles(sessionIdentifier, roleIdentifier);
 	}
 
-	@Override
-	public boolean hasRole(final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	protected boolean hasRole(final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			final RoleBean role = roleDao.findByRolename(roleIdentifier);
 			if (role != null && userRoleManyToManyRelation.exists(userIdentifier, roleIdentifier)) {
@@ -439,16 +435,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 	}
 
-	@Override
-	public void expectOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	private void expectOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
 		if (!hasOneOfRoles(sessionIdentifier, roleIdentifiers)) {
 			throw new PermissionDeniedException("no role " + roleIdentifiers);
 		}
 	}
 
-	@Override
-	public boolean hasOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException {
+	private boolean hasOneOfRoles(final SessionIdentifier sessionIdentifier, final RoleIdentifier... roleIdentifiers) throws AuthorizationServiceException {
 		try {
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
 				return true;
@@ -502,6 +496,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e);
 		}
+	}
+
+	@Override
+	public Collection<RoleIdentifier> roleList(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException {
+		final List<RoleIdentifier> roles = new ArrayList<RoleIdentifier>();
+		for (final RoleIdentifier roleIdentifier : roleList()) {
+			if (hasRole(userIdentifier, roleIdentifier)) {
+				roles.add(roleIdentifier);
+			}
+		}
+		return roles;
 	}
 
 }

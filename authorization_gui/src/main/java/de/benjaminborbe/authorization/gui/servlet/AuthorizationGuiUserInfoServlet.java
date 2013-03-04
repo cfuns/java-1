@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -86,29 +87,22 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 			widgets.add(new H2Widget("Roles"));
-			for (final RoleIdentifier roleIdentifier : authorizationSerivce.roleList()) {
-				if (authorizationSerivce.hasRole(userIdentifier, roleIdentifier)) {
-					final ListWidget row = new ListWidget();
-					row.add(authorizationGuiLinkFactory.roleInfo(request, roleIdentifier));
-					row.add(" ");
-					row.add(authorizationGuiLinkFactory.roleRemoveUser(request, roleIdentifier, userIdentifier));
-					ul.add(row);
-				}
+			for (final RoleIdentifier roleIdentifier : authorizationSerivce.roleList(sessionIdentifier, userIdentifier)) {
+				final ListWidget row = new ListWidget();
+				row.add(authorizationGuiLinkFactory.roleInfo(request, roleIdentifier));
+				row.add(" ");
+				row.add(authorizationGuiLinkFactory.roleRemoveUser(request, roleIdentifier, userIdentifier));
+				ul.add(row);
 			}
 			widgets.add(ul);
 			widgets.add(authorizationGuiLinkFactory.userAddRole(request, userIdentifier));
 			return widgets;
 		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
-		}
-		catch (final AuthorizationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
+		catch (final AuthenticationServiceException | AuthorizationServiceException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

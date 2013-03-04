@@ -97,7 +97,7 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 				widgets.add(new H2Widget("Users:"));
 				final UlWidget ul = new UlWidget();
 
-				for (final UserIdentifier userIdentifier : authorizationSerivce.getUserWithRole(sessionIdentifier, roleIdentifier)) {
+				for (final UserIdentifier userIdentifier : authorizationSerivce.getUsersWithRole(sessionIdentifier, roleIdentifier)) {
 					final ListWidget row = new ListWidget();
 					row.add(authorizationGuiLinkFactory.userInfo(request, userIdentifier));
 					row.add(" ");
