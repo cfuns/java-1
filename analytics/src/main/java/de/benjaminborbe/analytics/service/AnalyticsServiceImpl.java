@@ -35,7 +35,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -216,7 +215,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public void expectAnalyticsAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN));
+			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(ANALYTICS_ROLE_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
@@ -226,7 +225,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public void expectAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 		try {
-			authorizationService.expectOneOfRoles(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN), new RoleIdentifier(ANALYTICS_ROLE_VIEW));
+			authorizationService.expectOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(ANALYTICS_ROLE_ADMIN),
+					authorizationService.createRoleIdentifier(ANALYTICS_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
@@ -236,7 +236,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public void expectAnalyticsViewRole(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_VIEW));
+			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(ANALYTICS_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
@@ -312,7 +312,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public boolean hasAnalyticsAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN));
+			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(ANALYTICS_ROLE_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
@@ -322,7 +322,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public boolean hasAnalyticsViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			return authorizationService.hasOneOfRoles(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_ADMIN), new RoleIdentifier(ANALYTICS_ROLE_VIEW));
+			return authorizationService.hasOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(ANALYTICS_ROLE_ADMIN),
+					authorizationService.createRoleIdentifier(ANALYTICS_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
@@ -332,7 +333,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public boolean hasAnalyticsViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(ANALYTICS_ROLE_VIEW));
+			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(ANALYTICS_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);

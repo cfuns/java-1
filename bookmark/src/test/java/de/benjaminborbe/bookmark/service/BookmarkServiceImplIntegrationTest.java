@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -24,7 +24,7 @@ public class BookmarkServiceImplIntegrationTest {
 		assertEquals(a, b);
 	}
 
-	@Test(expected = LoginRequiredException.class)
+	@Test(expected = PermissionDeniedException.class)
 	public void testDescription() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new BookmarkModulesMock());
 		final BookmarkService bookmarkService = injector.getInstance(BookmarkService.class);

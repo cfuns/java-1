@@ -23,6 +23,7 @@ import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
 import de.benjaminborbe.checklist.gui.ChecklistGuiConstants;
+import de.benjaminborbe.checklist.gui.util.ChecklistGuiWebsiteServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -30,7 +31,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class ChecklistGuiEntryCompleteServlet extends ChecklistServlet {
+public class ChecklistGuiEntryCompleteServlet extends ChecklistGuiWebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 

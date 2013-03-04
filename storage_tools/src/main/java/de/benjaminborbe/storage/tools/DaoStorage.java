@@ -455,11 +455,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		{
 			final E entity = load(id);
 			if (entity != null) {
+				logger.debug("found entry with id: " + id);
 				return entity;
 			}
 		}
 		{
 			final E entity = create();
+			logger.debug("didn't found entry with id: " + id + " => create new entry");
 			entity.setId(id);
 			save(entity);
 			return entity;

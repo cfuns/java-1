@@ -9,7 +9,13 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface AuthorizationService {
 
-	String ADMIN_ROLE = "admin";
+	String ROLE_ADMIN = "admin";
+
+	String ROLE_LOGGED_IN = "loggedIn";
+
+	String ROLE_LOGGED_OUT = "loggedOut";
+
+	String PERMISSION_CREATE_ROLE = "createRole";
 
 	boolean addPermissionRole(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier, RoleIdentifier roleIdentifier) throws PermissionDeniedException,
 			AuthorizationServiceException, LoginRequiredException;

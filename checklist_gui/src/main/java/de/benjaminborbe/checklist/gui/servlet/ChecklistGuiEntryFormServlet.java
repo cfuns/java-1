@@ -28,6 +28,7 @@ import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
 import de.benjaminborbe.checklist.gui.ChecklistGuiConstants;
+import de.benjaminborbe.checklist.gui.util.ChecklistGuiWebsiteHtmlServlet;
 import de.benjaminborbe.checklist.gui.util.ChecklistGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -47,7 +48,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
-public abstract class ChecklistGuiEntryFormServlet extends ChecklistHtmlServlet {
+public abstract class ChecklistGuiEntryFormServlet extends ChecklistGuiWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 

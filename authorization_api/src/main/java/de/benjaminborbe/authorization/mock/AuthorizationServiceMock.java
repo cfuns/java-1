@@ -38,6 +38,9 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	@Override
 	public void expectPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
 			PermissionDeniedException {
+		if (!hasPermission(sessionIdentifier, permissionIdentifier)) {
+			throw new PermissionDeniedException("permission denied");
+		}
 	}
 
 	@Override

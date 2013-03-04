@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -29,6 +31,8 @@ public abstract class BookmarkGuiWebsiteRedirectServlet extends WebsiteRedirectS
 
 	private final AuthorizationService authorizationService;
 
+	private final AuthenticationService authenticationService;
+
 	public BookmarkGuiWebsiteRedirectServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
@@ -39,6 +43,7 @@ public abstract class BookmarkGuiWebsiteRedirectServlet extends WebsiteRedirectS
 			final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider, authorizationService);
 		this.authorizationService = authorizationService;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -50,10 +55,11 @@ public abstract class BookmarkGuiWebsiteRedirectServlet extends WebsiteRedirectS
 	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
-			authorizationService.existsPermission(permissionIdentifier);
+			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final AuthorizationServiceException | AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

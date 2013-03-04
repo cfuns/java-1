@@ -128,10 +128,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException {
+	public List<Bookmark> getBookmarks(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
-			authorizationService.existsPermission(permissionIdentifier);
+			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
 
 			logger.trace("getBookmarks");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -149,10 +149,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException {
+	public List<Bookmark> getBookmarkFavorite(final SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
-			authorizationService.existsPermission(permissionIdentifier);
+			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
 
 			logger.trace("getBookmarkFavorite");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -171,7 +171,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws BookmarkServiceException,
-			LoginRequiredException {
+			LoginRequiredException, PermissionDeniedException {
 		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
 		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
 		final List<BeanMatch<Bookmark>> matches = beanSearch.search(bookmarks, limit, words);

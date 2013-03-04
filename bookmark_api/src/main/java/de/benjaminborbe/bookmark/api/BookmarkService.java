@@ -20,14 +20,15 @@ public interface BookmarkService {
 	void deleteBookmark(SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException,
 			PermissionDeniedException, LoginRequiredException;
 
-	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException;
+	List<Bookmark> getBookmarks(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Bookmark getBookmark(SessionIdentifier sessionIdentifier, BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
-	List<BookmarkMatch> searchBookmarks(SessionIdentifier sessionIdentifier, int limit, List<String> words) throws BookmarkServiceException, LoginRequiredException;
+	List<BookmarkMatch> searchBookmarks(SessionIdentifier sessionIdentifier, int limit, List<String> words) throws BookmarkServiceException, LoginRequiredException,
+			PermissionDeniedException;
 
-	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException;
+	List<Bookmark> getBookmarkFavorite(SessionIdentifier sessionIdentifier) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException;
 
 	BookmarkIdentifier createBookmarkIdentifier(SessionIdentifier sessionIdentifier, String url) throws BookmarkServiceException;
 }

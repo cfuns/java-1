@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.checklist.gui.guice.ChecklistGuiModules;
+import de.benjaminborbe.checklist.gui.service.ChecklistGuiNavigationEntry;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryCompleteServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryCreateServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryDeleteServlet;
@@ -20,7 +21,6 @@ import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListDeleteServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListListServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListResetServlet;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiListUpdateServlet;
-import de.benjaminborbe.checklist.gui.util.ChecklistGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;

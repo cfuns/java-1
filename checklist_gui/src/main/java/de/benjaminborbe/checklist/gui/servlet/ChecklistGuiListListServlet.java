@@ -24,8 +24,9 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.checklist.api.ChecklistList;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
+import de.benjaminborbe.checklist.gui.util.ChecklistGuiWebsiteHtmlServlet;
 import de.benjaminborbe.checklist.gui.util.ChecklistGuiLinkFactory;
-import de.benjaminborbe.checklist.gui.util.ChecklistListComparator;
+import de.benjaminborbe.checklist.gui.util.ChecklistGuiListComparator;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -41,7 +42,7 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class ChecklistGuiListListServlet extends ChecklistHtmlServlet {
+public class ChecklistGuiListListServlet extends ChecklistGuiWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -55,7 +56,7 @@ public class ChecklistGuiListListServlet extends ChecklistHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
-	private final ChecklistListComparator checklistListComparator;
+	private final ChecklistGuiListComparator checklistListComparator;
 
 	@Inject
 	public ChecklistGuiListListServlet(
@@ -71,7 +72,7 @@ public class ChecklistGuiListListServlet extends ChecklistHtmlServlet {
 			final ChecklistGuiLinkFactory linkFactory,
 			final ChecklistService checklistService,
 			final AuthorizationService authorizationService,
-			final ChecklistListComparator checklistListComparator,
+			final ChecklistGuiListComparator checklistListComparator,
 			final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.linkFactory = linkFactory;

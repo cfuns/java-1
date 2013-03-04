@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +22,9 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardIdentifier;
@@ -61,6 +64,8 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public DashboardGuiConfigureServlet(
 			final Logger logger,
@@ -79,6 +84,7 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 		this.dashboardService = dashboardService;
 		this.dashboardGuiWidgetRegistry = dashboardGuiWidgetRegistry;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 		this.logger = logger;
 	}
 
@@ -136,6 +142,19 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(DashboardService.PERMISSION);
+			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
+		}
+		catch (final AuthorizationServiceException | AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.benjaminborbe.bookmark.gui.util;
+package de.benjaminborbe.checklist.gui.util;
 
 import java.io.IOException;
 
@@ -18,36 +18,30 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
-import de.benjaminborbe.bookmark.api.BookmarkService;
-import de.benjaminborbe.cache.api.CacheService;
+import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.servlet.WebsiteServlet;
 
-public abstract class BookmarkGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
+public abstract class ChecklistGuiWebsiteServlet extends WebsiteServlet {
 
-	private static final long serialVersionUID = -7305831810086217136L;
+	private static final long serialVersionUID = -9103041945448332226L;
 
 	private final AuthorizationService authorizationService;
 
 	private final AuthenticationService authenticationService;
 
-	public BookmarkGuiWebsiteHtmlServlet(
+	public ChecklistGuiWebsiteServlet(
 			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
+			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final Provider<HttpContext> httpContextProvider) {
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;
 	}
@@ -62,7 +56,7 @@ public abstract class BookmarkGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
+			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
 			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
 		}
 		catch (final AuthorizationServiceException | AuthenticationServiceException e) {

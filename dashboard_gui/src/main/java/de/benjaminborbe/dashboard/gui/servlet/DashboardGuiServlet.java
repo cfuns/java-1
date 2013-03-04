@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,9 +16,15 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.cache.api.CacheService;
+import de.benjaminborbe.dashboard.api.DashboardService;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.gui.util.DashboardGuiLinkFactory;
 import de.benjaminborbe.html.api.HttpContext;
@@ -45,6 +52,10 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public DashboardGuiServlet(
 			final Logger logger,
@@ -64,6 +75,8 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 		this.dashboardWidget = dashboardWidget;
 		this.dashboardGuiLinkFactory = dashboardGuiLinkFactory;
 		this.logger = logger;
+		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -91,6 +104,19 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	public boolean isAdminRequired() {
 		return false;
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(DashboardService.PERMISSION);
+			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
+		}
+		catch (final AuthorizationServiceException | AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		}
 	}
 
 }

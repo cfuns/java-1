@@ -16,6 +16,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkMatch;
 import de.benjaminborbe.bookmark.api.BookmarkService;
@@ -64,10 +65,7 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 			}
 			logger.trace("search found " + results.size() + " bookmarks");
 		}
-		catch (final BookmarkServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-		}
-		catch (final LoginRequiredException e) {
+		catch (final BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		return results;

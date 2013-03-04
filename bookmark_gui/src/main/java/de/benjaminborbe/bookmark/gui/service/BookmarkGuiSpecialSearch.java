@@ -8,8 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -17,6 +15,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.bookmark.api.BookmarkMatch;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
@@ -43,11 +42,8 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 
 	private final AuthenticationService authenticationService;
 
-	private final Logger logger;
-
 	@Inject
-	public BookmarkGuiSpecialSearch(final Logger logger, final BookmarkService bookmarkService, final SearchUtil searchUtil, final AuthenticationService authenticationService) {
-		this.logger = logger;
+	public BookmarkGuiSpecialSearch(final BookmarkService bookmarkService, final SearchUtil searchUtil, final AuthenticationService authenticationService) {
 		this.bookmarkService = bookmarkService;
 		this.searchUtil = searchUtil;
 		this.authenticationService = authenticationService;
@@ -80,18 +76,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 				widgets.render(request, response, context);
 			}
 		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
-		}
-		catch (final BookmarkServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
-		}
-		catch (final LoginRequiredException e) {
-			logger.debug(e.getClass().getName(), e);
+		catch (final AuthenticationServiceException | BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

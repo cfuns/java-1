@@ -17,7 +17,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
@@ -344,7 +343,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public void expectMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(MONITORING_ROLE_ADMIN));
+			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -354,7 +353,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public void expectMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException {
 		try {
-			authorizationService.expectOneOfRoles(sessionIdentifier, new RoleIdentifier(MONITORING_ROLE_ADMIN), new RoleIdentifier(MONITORING_ROLE_VIEW));
+			authorizationService.expectOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN),
+					authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -364,7 +364,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public void expectMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, new RoleIdentifier(MONITORING_ROLE_VIEW));
+			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -374,7 +374,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public boolean hasMonitoringAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(MONITORING_ROLE_ADMIN));
+			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -384,7 +384,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public boolean hasMonitoringViewOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		try {
-			return authorizationService.hasOneOfRoles(sessionIdentifier, new RoleIdentifier(MONITORING_ROLE_ADMIN), new RoleIdentifier(MONITORING_ROLE_VIEW));
+			return authorizationService.hasOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_ADMIN),
+					authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);
@@ -394,7 +395,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Override
 	public boolean hasMonitoringViewRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, MonitoringServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, new RoleIdentifier(MONITORING_ROLE_VIEW));
+			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(MONITORING_ROLE_VIEW));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MonitoringServiceException(e);

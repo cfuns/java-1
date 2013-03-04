@@ -135,7 +135,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public boolean createRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws PermissionDeniedException, AuthorizationServiceException {
 		try {
-			expectPermission(sessionIdentifier, new PermissionIdentifier("createRole"));
+			expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION_CREATE_ROLE));
 
 			if (roleDao.findByRolename(roleIdentifier) != null) {
 				logger.info("role " + roleIdentifier + " already exists");
@@ -153,6 +153,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public RoleIdentifier createRoleIdentifier(final String rolename) throws AuthorizationServiceException {
 		try {
+			logger.debug("createRoleIdentifier - role: " + rolename);
 			if (rolename != null) {
 				final RoleIdentifier id = new RoleIdentifier(rolename);
 				roleDao.findOrCreate(id);
@@ -189,7 +190,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
-		expectRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+		expectRole(sessionIdentifier, new RoleIdentifier(ROLE_ADMIN));
 	}
 
 	@Override
@@ -272,7 +273,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public boolean hasAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
-		return hasRole(sessionIdentifier, new RoleIdentifier(ADMIN_ROLE));
+		return hasRole(sessionIdentifier, new RoleIdentifier(ROLE_ADMIN));
 	}
 
 	@Override
@@ -463,16 +464,23 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			logger.trace("hasRole " + roleIdentifiers);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			if (userIdentifier == null) {
-				return false;
-			}
-			boolean hasRole = false;
+			final boolean isLoggedIn = authenticationService.isLoggedIn(sessionIdentifier);
 			for (final RoleIdentifier roleIdentifier : roleIdentifiers) {
-				if (hasRole || hasRole(userIdentifier, roleIdentifier)) {
-					hasRole = true;
+				if (isLoggedIn) {
+					if (ROLE_LOGGED_IN.equals(roleIdentifier.getId())) {
+						return true;
+					}
+					else if (hasRole(userIdentifier, roleIdentifier)) {
+						return true;
+					}
+				}
+				else {
+					if (!isLoggedIn && ROLE_LOGGED_OUT.equals(roleIdentifier.getId())) {
+						return true;
+					}
 				}
 			}
-			return hasRole;
+			return false;
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e);
