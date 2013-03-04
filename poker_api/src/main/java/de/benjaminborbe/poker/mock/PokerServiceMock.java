@@ -138,29 +138,29 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public void expectPokerAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 	}
 
 	@Override
-	public void expectPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 	}
 
 	@Override
-	public void expectPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 	}
 
 	@Override
-	public boolean hasPokerAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		return false;
 	}
 
 	@Override
-	public boolean hasPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		return false;
 	}
 

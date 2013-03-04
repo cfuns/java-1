@@ -127,7 +127,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 						row.addCell("-");
 					}
 					row.addCell(asString(player.getAmount()));
-					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+					if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 						final ListWidget options = new ListWidget();
 						options.add(pokerGuiLinkFactory.playerUpdate(request, player.getId()));
 						options.add(" ");
@@ -142,7 +142,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 				widgets.add(table);
 			}
 
-			if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+			if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 				widgets.add(pokerGuiLinkFactory.playerCreate(request));
 				widgets.add(" ");
 			}
@@ -178,7 +178,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

@@ -125,7 +125,7 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

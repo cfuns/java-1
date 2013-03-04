@@ -106,7 +106,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			widgets.add(new BrWidget());
 			widgets.add("Credits: " + player.getAmount());
 			widgets.add(new BrWidget());
-			if (pokerService.hasPokerAdminRole(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
+			if (pokerService.hasPokerAdminPermission(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
 				widgets.add("ID: " + player.getId());
 				widgets.add(new BrWidget());
 				widgets.add("Token: " + player.getToken());
@@ -134,7 +134,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 						final ListWidget list = new ListWidget();
 						list.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 						list.add(" ");
-						if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+						if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 							list.add(pokerGuiLinkFactory.gameJoin(request, game.getId(), playerIdentifier));
 							list.add(" ");
 						}
@@ -149,7 +149,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 				widgets.add("Game: ");
 				widgets.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 				widgets.add(new BrWidget());
-				if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+				if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 					if (!Boolean.TRUE.equals(game.getRunning())) {
 						widgets.add(pokerGuiLinkFactory.gameLeave(request, player.getGame(), playerIdentifier));
 					}
@@ -181,7 +181,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

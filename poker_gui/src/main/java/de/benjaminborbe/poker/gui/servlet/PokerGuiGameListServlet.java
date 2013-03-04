@@ -115,7 +115,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 				for (final PokerGame game : games) {
 					final TableRowWidget row = new TableRowWidget();
 					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
-					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+					if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 						final ListWidget options = new ListWidget();
 						options.add(pokerGuiLinkFactory.gameUpdate(request, game.getId()));
 						options.add(" ");
@@ -129,7 +129,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 				}
 				widgets.add(table);
 			}
-			if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+			if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 				widgets.add(pokerGuiLinkFactory.gameCreate(request));
 				widgets.add(" ");
 			}
@@ -161,7 +161,7 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

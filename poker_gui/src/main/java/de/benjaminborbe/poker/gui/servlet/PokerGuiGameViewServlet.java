@@ -115,7 +115,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			if (Boolean.TRUE.equals(game.getRunning())) {
 				widgets.add("running = true");
 				widgets.add(new BrWidget());
-				if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+				if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 					widgets.add(pokerGuiLinkFactory.gameStop(request, gameIdentifier));
 					widgets.add(new BrWidget());
 				}
@@ -143,7 +143,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 					widgets.add("ActivePlayer: ");
 					widgets.add(toWidget(request, playerIdentifier));
 					widgets.add(new BrWidget());
-					if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+					if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 						widgets.add(new H2Widget("Actions"));
 						widgets.add(pokerGuiLinkFactory.call(request, gameIdentifier, playerIdentifier));
 						widgets.add(new BrWidget());
@@ -166,7 +166,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			else {
 				widgets.add("running = false");
 				widgets.add(new BrWidget());
-				if (pokerService.hasPokerAdminRole(sessionIdentifier)) {
+				if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 					widgets.add(pokerGuiLinkFactory.gameStart(request, gameIdentifier));
 					widgets.add(new BrWidget());
 				}
@@ -266,7 +266,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerPlayerOrAdminRole(sessionIdentifier);
+			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
 		}
 		catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);

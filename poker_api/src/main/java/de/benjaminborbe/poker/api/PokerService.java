@@ -9,9 +9,9 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface PokerService {
 
-	String POKER_ROLE_ADMIN = "PokerAdmin";
+	String PERMISSION_ADMIN = "PokerAdmin";
 
-	String POKER_ROLE_PLAYER = "PokerPlayer";
+	String PERMISSION_PLAYER = "PokerPlayer";
 
 	void deleteGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 
@@ -69,17 +69,17 @@ public interface PokerService {
 
 	PokerPlayerIdentifier getButtonPlayer(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	void expectPokerAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
+	void expectPokerAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
 
-	void expectPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
+	void expectPokerPlayerOrAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
 
-	void expectPokerPlayerRole(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
+	void expectPokerPlayerPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException;
 
-	boolean hasPokerAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
+	boolean hasPokerAdminPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
 
-	boolean hasPokerPlayerOrAdminRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
+	boolean hasPokerPlayerOrAdminPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
 
-	boolean hasPokerPlayerRole(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
+	boolean hasPokerPlayerPermission(SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException;
 
 	void updateGame(PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException;
 

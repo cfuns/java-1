@@ -31,7 +31,7 @@ public class PokerGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return pokerService.hasPokerPlayerOrAdminRole(sessionIdentifier);
+			return pokerService.hasPokerPlayerOrAdminPermission(sessionIdentifier);
 		}
 		catch (final LoginRequiredException e) {
 			return false;

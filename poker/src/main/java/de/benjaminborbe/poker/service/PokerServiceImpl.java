@@ -901,9 +901,9 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void expectPokerAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(POKER_ROLE_ADMIN));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
@@ -911,10 +911,10 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void expectPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 		try {
-			authorizationService.expectOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(POKER_ROLE_ADMIN),
-					authorizationService.createRoleIdentifier(POKER_ROLE_PLAYER));
+			authorizationService.expectOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
+					authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
@@ -922,9 +922,9 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void expectPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+	public void expectPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 		try {
-			authorizationService.expectRole(sessionIdentifier, authorizationService.createRoleIdentifier(POKER_ROLE_PLAYER));
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
@@ -932,9 +932,9 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public boolean hasPokerAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(POKER_ROLE_ADMIN));
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
@@ -942,10 +942,10 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public boolean hasPokerPlayerOrAdminRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		try {
-			return authorizationService.hasOneOfRoles(sessionIdentifier, authorizationService.createRoleIdentifier(POKER_ROLE_ADMIN),
-					authorizationService.createRoleIdentifier(POKER_ROLE_PLAYER));
+			return authorizationService.hasOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
+					authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
@@ -953,9 +953,9 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public boolean hasPokerPlayerRole(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+	public boolean hasPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		try {
-			return authorizationService.hasRole(sessionIdentifier, authorizationService.createRoleIdentifier(POKER_ROLE_PLAYER));
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
