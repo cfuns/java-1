@@ -116,25 +116,30 @@ public class AuthorizationServiceImplUnitTest {
 	public void testHasLoggedInRole() throws Exception {
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier("sid");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier(AuthorizationService.ROLE_LOGGED_IN);
-		final UserIdentifier userIdentifier = new UserIdentifier("testuser");
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
 		// logged out
 		{
+			final UserIdentifier userIdentifier = null;
 			final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
 			EasyMock.expect(authenticationService.isSuperAdmin(sessionIdentifier)).andReturn(false);
-			EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(null);
-			EasyMock.expect(authenticationService.isLoggedIn(sessionIdentifier)).andReturn(false);
+			EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier);
+			EasyMock.expect(authenticationService.isSuperAdmin(userIdentifier)).andReturn(false);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, null, null, null, null);
+			final RoleDao roleDao = EasyMock.createMock(RoleDao.class);
+			EasyMock.expect(roleDao.findByRolename(roleIdentifier)).andReturn(null);
+			EasyMock.replay(roleDao);
+
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null);
 			assertThat(service.hasRole(sessionIdentifier, roleIdentifier), is(false));
 		}
 
 		// logged in
 		{
+			final UserIdentifier userIdentifier = new UserIdentifier("testuser");
 			final AuthenticationService authenticationService = EasyMock.createMock(AuthenticationService.class);
 			EasyMock.expect(authenticationService.isSuperAdmin(sessionIdentifier)).andReturn(false);
 			EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier);

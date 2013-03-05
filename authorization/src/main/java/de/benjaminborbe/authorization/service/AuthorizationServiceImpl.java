@@ -316,6 +316,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	protected boolean hasRole(final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
+			if (userIdentifier != null && ROLE_LOGGED_IN.equals(roleIdentifier.getId())) {
+				return true;
+			}
+			if (userIdentifier == null && ROLE_LOGGED_OUT.equals(roleIdentifier.getId())) {
+				return true;
+			}
+
 			final RoleBean role = roleDao.findByRolename(roleIdentifier);
 			if (role != null && userRoleManyToManyRelation.exists(userIdentifier, roleIdentifier)) {
 				return true;
@@ -409,6 +416,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				final RoleBean role = i.next();
 				result.add(role.getId());
 			}
+
+			result.add(new RoleIdentifier(ROLE_LOGGED_IN));
+			result.add(new RoleIdentifier(ROLE_LOGGED_OUT));
+
 			return result;
 		}
 		catch (final StorageException e) {
@@ -449,20 +460,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 			logger.trace("hasRole " + roleIdentifiers);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final boolean isLoggedIn = authenticationService.isLoggedIn(sessionIdentifier);
 			for (final RoleIdentifier roleIdentifier : roleIdentifiers) {
-				if (isLoggedIn) {
-					if (ROLE_LOGGED_IN.equals(roleIdentifier.getId())) {
-						return true;
-					}
-					else if (hasRole(userIdentifier, roleIdentifier)) {
-						return true;
-					}
-				}
-				else {
-					if (!isLoggedIn && ROLE_LOGGED_OUT.equals(roleIdentifier.getId())) {
-						return true;
-					}
+				if (hasRole(userIdentifier, roleIdentifier)) {
+					return true;
 				}
 			}
 			return false;
@@ -499,7 +499,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<RoleIdentifier> getRoles(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException {
+	public Collection<RoleIdentifier> getRoles(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		expectAdminRole(sessionIdentifier);
+		logger.debug("getRoles for user: " + userIdentifier);
+
 		final List<RoleIdentifier> roles = new ArrayList<RoleIdentifier>();
 		for (final RoleIdentifier roleIdentifier : getRoles()) {
 			if (hasRole(userIdentifier, roleIdentifier)) {

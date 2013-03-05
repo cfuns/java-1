@@ -68,7 +68,8 @@ public interface AuthorizationService {
 
 	boolean hasOneOfPermissions(SessionIdentifier sessionIdentifier, PermissionIdentifier... permissionIdentifiers) throws AuthorizationServiceException;
 
-	Collection<RoleIdentifier> getRoles(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException;
+	Collection<RoleIdentifier> getRoles(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
+			LoginRequiredException;
 
 	void deletePermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException;
