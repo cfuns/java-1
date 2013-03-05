@@ -553,6 +553,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean isSuperAdmin(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
+			if (userIdentifier == null) {
+				return false;
+			}
 			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
 				return false;
