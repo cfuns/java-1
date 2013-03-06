@@ -248,3 +248,7 @@ cms/target
 cms_api/target
 cms_gui/target
 cms_test/target
+note/target
+note_api/target
+note_gui/target
+note_test/target

@@ -111,6 +111,7 @@
 				<module>streamcache_test</module>
 				<module>systemstatus_test</module>
 				<module>cms_test</module>
+				<module>note_test</module>
 				<module>task_test</module>
 				<module>poker_test</module>
 				<module>cache_test</module>
@@ -281,6 +282,9 @@
 				<module>cms</module>
 				<module>cms_api</module>
 				<module>cms_gui</module>
+				<module>note</module>
+				<module>note_api</module>
+				<module>note_gui</module>
 				<module>task</module>
 				<module>task_api</module>
 				<module>task_gui</module>

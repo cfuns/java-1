@@ -343,3 +343,12 @@ create column family poker_player with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family note;
+create column family note with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: owner, validation_class: UTF8Type, index_type: KEYS}
+  ];

@@ -327,3 +327,8 @@ builddhl:
 	cd dhl && make all
 	cd dhl_gui && make all
 	cd dhl_test && make all
+buildnote:
+	cd note_api && make all
+	cd note && make all
+	cd note_gui && make all
+	cd note_test && make all
