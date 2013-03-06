@@ -35,12 +35,12 @@ import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
+import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 
 @Singleton
@@ -82,7 +82,8 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, LoginRequiredException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, LoginRequiredException,
+			RedirectException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -96,24 +97,20 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
 					setNewPassword(sessionIdentifier, userIdentifier, token, password, passwordRepeat);
-					widgets.add("set new password successful");
-					widgets.add(new BrWidget());
-					widgets.add(authenticationGuiLinkFactory.userLogin(request, userIdentifier));
+					throw new RedirectException(authenticationGuiLinkFactory.userLoginUrl(request, userIdentifier));
 				}
 				catch (final ValidationException e) {
 					widgets.add("set new password failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
-			else {
-				final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
-				form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_USER_ID));
-				form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN));
-				form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
-				form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT).addLabel("Password-Repeat").addPlaceholder("Password repeat..."));
-				form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
-				widgets.add(form);
-			}
+			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
+			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_USER_ID));
+			form.addFormInputWidget(new FormInputHiddenWidget(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD).addLabel("Password").addPlaceholder("Password..."));
+			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT).addLabel("Password-Repeat").addPlaceholder("Password repeat..."));
+			form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
+			widgets.add(form);
 			return widgets;
 		}
 		catch (final AuthenticationServiceException e) {

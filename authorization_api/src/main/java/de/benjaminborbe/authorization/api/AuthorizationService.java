@@ -71,6 +71,9 @@ public interface AuthorizationService {
 	Collection<RoleIdentifier> getRoles(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException;
 
+	Collection<RoleIdentifier> getRoles(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException;
+
 	void deletePermission(SessionIdentifier sessionIdentifier, PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 			LoginRequiredException;
 

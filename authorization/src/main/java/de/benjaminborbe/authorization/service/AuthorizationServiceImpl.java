@@ -32,6 +32,7 @@ import de.benjaminborbe.authorization.dao.RoleDao;
 import de.benjaminborbe.authorization.dao.UserRoleManyToManyRelation;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 
@@ -525,6 +526,28 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 		catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		}
+	}
+
+	@Override
+	public Collection<RoleIdentifier> getRoles(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		try {
+			expectAdminRole(sessionIdentifier);
+			logger.debug("getRoles for permission: " + permissionIdentifier);
+
+			final List<RoleIdentifier> roles = new ArrayList<RoleIdentifier>();
+			final StorageIterator i = permissionRoleManyToManyRelation.getA(permissionIdentifier);
+			while (i.hasNext()) {
+				final StorageValue v = i.next();
+				roles.add(new RoleIdentifier(v.getString()));
+			}
+			return roles;
+		}
+		catch (final StorageException | UnsupportedEncodingException e) {
+			throw new AuthorizationServiceException(e);
+		}
+		finally {
 		}
 	}
 

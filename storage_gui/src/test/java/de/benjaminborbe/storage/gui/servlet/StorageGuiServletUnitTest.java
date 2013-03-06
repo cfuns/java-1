@@ -28,6 +28,7 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.gui.util.StorageGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
@@ -132,8 +133,11 @@ public class StorageGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
+		final StorageGuiLinkFactory storageGuiLinkFactory = EasyMock.createNiceMock(StorageGuiLinkFactory.class);
+		EasyMock.replay(storageGuiLinkFactory);
+
 		final StorageGuiServlet storageServlet = new StorageGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, storageService, cacheService);
+				redirectUtil, urlUtil, authorizationService, storageService, cacheService, storageGuiLinkFactory);
 
 		storageServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -13,6 +13,7 @@ import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationPerm
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationRolesEntry;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionDeleteServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionDeniedServlet;
+import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionInfoServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiPermissionListServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleAddPermissionServlet;
 import de.benjaminborbe.authorization.gui.servlet.AuthorizationGuiRoleCreateServlet;
@@ -32,6 +33,9 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class AuthorizationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private AuthorizationGuiPermissionInfoServlet authorizationGuiPermissionInfoServlet;
 
 	@Inject
 	private AuthorizationGuiPermissionDeleteServlet authorizationGuiPermissionDeleteServlet;
@@ -107,6 +111,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(authorizationGuiPermissionListServlet, AuthorizationGuiConstants.URL_PERMISSION_LIST));
 		result.add(new ServletInfo(authorizationGuiPermissionDeleteServlet, AuthorizationGuiConstants.URL_PERMISSION_DELETE));
 		result.add(new ServletInfo(authorizationGuiPermissionDeniedServlet, AuthorizationGuiConstants.URL_PERMISSION_DENIED));
+		result.add(new ServletInfo(authorizationGuiPermissionInfoServlet, AuthorizationGuiConstants.URL_PERMISSION_INFO));
 		return result;
 	}
 

@@ -20,6 +20,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.gui.util.StorageGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -28,6 +29,7 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
@@ -40,6 +42,8 @@ public class StorageGuiServlet extends StorageHtmlServlet {
 	private final Logger logger;
 
 	private final StorageService storageService;
+
+	private final StorageGuiLinkFactory storageGuiLinkFactory;
 
 	@Inject
 	public StorageGuiServlet(
@@ -54,10 +58,12 @@ public class StorageGuiServlet extends StorageHtmlServlet {
 			final UrlUtil urlUtil,
 			final AuthorizationService authorizationService,
 			final StorageService storageService,
-			final CacheService cacheService) {
+			final CacheService cacheService,
+			final StorageGuiLinkFactory storageGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.storageService = storageService;
+		this.storageGuiLinkFactory = storageGuiLinkFactory;
 	}
 
 	@Override
@@ -77,6 +83,12 @@ public class StorageGuiServlet extends StorageHtmlServlet {
 		widgets.add(new BrWidget());
 		widgets.add("Connections: " + storageService.getConnections());
 		widgets.add(new BrWidget());
+
+		final UlWidget ul = new UlWidget();
+		ul.add(storageGuiLinkFactory.backup(request));
+		ul.add(storageGuiLinkFactory.restore(request));
+		widgets.add(ul);
+
 		return widgets;
 	}
 

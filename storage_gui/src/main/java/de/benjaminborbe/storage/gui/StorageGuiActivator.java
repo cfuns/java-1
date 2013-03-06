@@ -8,7 +8,9 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.storage.gui.guice.StorageGuiModules;
+import de.benjaminborbe.storage.gui.service.StorageGuiNavigationEntry;
 import de.benjaminborbe.storage.gui.servlet.StorageBackupServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageDeleteServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageGuiServlet;
@@ -18,9 +20,13 @@ import de.benjaminborbe.storage.gui.servlet.StorageRestoreServlet;
 import de.benjaminborbe.storage.gui.servlet.StorageWriteServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class StorageGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private StorageGuiNavigationEntry storageGuiNavigationEntry;
 
 	@Inject
 	private StorageBackupServlet storageBackupServlet;
@@ -62,6 +68,13 @@ public class StorageGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(storageListServlet, StorageGuiConstants.URL_LIST));
 		result.add(new ServletInfo(storageBackupServlet, StorageGuiConstants.URL_BACKUP));
 		result.add(new ServletInfo(storageRestoreServlet, StorageGuiConstants.URL_RESTORE));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, storageGuiNavigationEntry));
 		return result;
 	}
 

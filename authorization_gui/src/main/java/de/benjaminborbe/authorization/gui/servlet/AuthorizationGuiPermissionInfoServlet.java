@@ -15,7 +15,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -23,6 +22,7 @@ import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.gui.AuthorizationGuiConstants;
 import de.benjaminborbe.authorization.gui.util.AuthorizationGuiLinkFactory;
+import de.benjaminborbe.authorization.gui.util.RoleIdentifierComparator;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
@@ -30,6 +30,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -40,40 +41,43 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
 @Singleton
-public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
+public class AuthorizationGuiPermissionInfoServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Authorization - Role info";
+	private static final String TITLE = "Authorization - Permission Info";
 
-	private final AuthorizationService authorizationSerivce;
+	private final AuthorizationService authorizationService;
 
 	private final Logger logger;
 
-	private final AuthenticationService authenticationService;
-
 	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
 
+	private final ComparatorUtil comparatorUtil;
+
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public AuthorizationGuiRoleInfoServlet(
+	public AuthorizationGuiPermissionInfoServlet(
 			final Logger logger,
 			final CalendarUtil calendarUtil,
 			final TimeZoneUtil timeZoneUtil,
 			final ParseUtil parseUtil,
 			final NavigationWidget navigationWidget,
 			final AuthenticationService authenticationService,
+			final AuthorizationService authorizationService,
 			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationSerivce,
 			final RedirectUtil redirectUtil,
 			final UrlUtil urlUtil,
+			final CacheService cacheService,
 			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+			final ComparatorUtil comparatorUtil) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		this.authorizationService = authorizationService;
 		this.logger = logger;
-		this.authorizationSerivce = authorizationSerivce;
-		this.authenticationService = authenticationService;
 		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
+		this.comparatorUtil = comparatorUtil;
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -85,54 +89,27 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, LoginRequiredException {
 		try {
-			logger.trace("printContent");
-			final RoleIdentifier roleIdentifier = authorizationSerivce.createRoleIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
-			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle() + " " + roleIdentifier));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID));
 
-			// users
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle() + " " + permissionIdentifier));
 			{
-				widgets.add(new H2Widget("Users:"));
+				widgets.add(new H2Widget("Roles"));
 				final UlWidget ul = new UlWidget();
-
-				for (final UserIdentifier userIdentifier : authorizationSerivce.getUsersWithRole(sessionIdentifier, roleIdentifier)) {
-					final ListWidget row = new ListWidget();
-					row.add(authorizationGuiLinkFactory.userInfo(request, userIdentifier));
-					row.add(" ");
-					row.add(authorizationGuiLinkFactory.roleRemoveUser(request, roleIdentifier, userIdentifier));
-					ul.add(row);
+				for (final RoleIdentifier roleIdentifier : comparatorUtil.sort(authorizationService.getRoles(sessionIdentifier, permissionIdentifier), new RoleIdentifierComparator())) {
+					ul.add(authorizationGuiLinkFactory.roleInfo(request, roleIdentifier));
 				}
 				widgets.add(ul);
 			}
+			final UlWidget ul = new UlWidget();
+			ul.add(authorizationGuiLinkFactory.permissionAddRole(request, permissionIdentifier));
+			widgets.add(ul);
 
-			// permissions
-			{
-				widgets.add(new H2Widget("Permissions:"));
-				final UlWidget ul = new UlWidget();
-				for (final PermissionIdentifier permissionIdentifier : authorizationSerivce.getPermissions(roleIdentifier)) {
-					final ListWidget row = new ListWidget();
-					row.add(authorizationGuiLinkFactory.permissionInfo(request, permissionIdentifier));
-					row.add(" ");
-					row.add(authorizationGuiLinkFactory.roleRemovePermission(request, roleIdentifier, permissionIdentifier));
-					ul.add(row);
-				}
-				widgets.add(ul);
-			}
-
-			final ListWidget links = new ListWidget();
-			links.add(authorizationGuiLinkFactory.roleAddUser(request, roleIdentifier));
-			links.add(" ");
-			links.add(authorizationGuiLinkFactory.roleAddPermission(request, roleIdentifier));
-			widgets.add(links);
 			return widgets;
 		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
-		}
-		catch (final AuthorizationServiceException e) {
+		catch (final AuthorizationServiceException | AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;

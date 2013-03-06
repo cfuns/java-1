@@ -146,8 +146,14 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
-	public void deletePermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier roleIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public void deletePermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier roleIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public Collection<RoleIdentifier> getRoles(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
+			PermissionDeniedException, LoginRequiredException {
+		return null;
 	}
 
 }

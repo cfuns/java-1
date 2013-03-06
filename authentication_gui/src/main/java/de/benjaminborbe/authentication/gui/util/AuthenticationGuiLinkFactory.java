@@ -102,4 +102,9 @@ public class AuthenticationGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN, new MapParameter().add(
 				AuthenticationGuiConstants.PARAMETER_USER_ID, id), "login");
 	}
+
+	public String userLoginUrl(final HttpServletRequest request, final UserIdentifier id) throws UnsupportedEncodingException {
+		return urlUtil.buildUrl(request.getContextPath() + "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN,
+				new MapParameter().add(AuthenticationGuiConstants.PARAMETER_USER_ID, id));
+	}
 }
