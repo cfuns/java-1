@@ -131,6 +131,27 @@ public class HtmlContentIteratorUnitTest {
 	}
 
 	@Test
+	public void testScriptTagSingle() throws Exception {
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		{
+			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<script/>");
+			assertThat(i.hasNext(), is(false));
+			assertThat(i.hasNext(), is(false));
+		}
+		{
+			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "foo<script/>bar");
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.next(), is("foo"));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.next(), is("bar"));
+			assertThat(i.hasNext(), is(false));
+			assertThat(i.hasNext(), is(false));
+		}
+	}
+
+	@Test
 	public void testStyleTag() throws Exception {
 		final HtmlTagParser htmlTagParser = new HtmlTagParser();
 		{

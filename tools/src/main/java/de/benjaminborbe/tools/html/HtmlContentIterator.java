@@ -32,19 +32,19 @@ public class HtmlContentIterator implements IteratorWithException<String, ParseE
 			final String token = tokens.next();
 			if (isTag(token)) {
 				final HtmlTag htmlTag = htmlTagParser.parse(token);
-				if (!script && htmlTag.isOpening() && "script".equals(htmlTag.getName())) {
+				if (!script && htmlTag.isOpening() && !htmlTag.isClosing() && "script".equals(htmlTag.getName())) {
 					final String type = htmlTag.getAttribute("type");
 					if (type == null || type.contains("script")) {
 						script = true;
 					}
 				}
-				else if (!style && htmlTag.isOpening() && "style".equals(htmlTag.getName())) {
+				else if (!style && htmlTag.isOpening() && !htmlTag.isClosing() && "style".equals(htmlTag.getName())) {
 					style = true;
 				}
-				else if (script && !htmlTag.isOpening() && "script".equals(htmlTag.getName())) {
+				else if (script && htmlTag.isClosing() && "script".equals(htmlTag.getName())) {
 					script = false;
 				}
-				else if (style && !htmlTag.isOpening() && "style".equals(htmlTag.getName())) {
+				else if (style && htmlTag.isClosing() && "style".equals(htmlTag.getName())) {
 					style = false;
 				}
 			}

@@ -45,4 +45,58 @@ public class HtmlTagParserUnitTest {
 			assertThat(htmlTagParser.parse("</br>").isClosing(), is(true));
 		}
 	}
+
+	@Test
+	public void testParseTagWithAttribute() {
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		{
+			assertThat(htmlTagParser.parse("<br class=\"foo\">"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class=\"foo\">").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class=\"foo\">").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class=\"foo\">").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class=\"foo\">").getAttribute("class"), is("foo"));
+		}
+		{
+			assertThat(htmlTagParser.parse("<br class=\"foo\" >"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class=\"foo\" >").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class=\"foo\" >").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class=\"foo\" >").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class=\"foo\" >").getAttribute("class"), is("foo"));
+		}
+		{
+			assertThat(htmlTagParser.parse("<br class='foo'>"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class='foo'>").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class='foo'>").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class='foo'>").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class='foo'>").getAttribute("class"), is("foo"));
+		}
+		{
+			assertThat(htmlTagParser.parse("<br class='foo' >"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class='foo' >").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class='foo' >").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class='foo' >").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class='foo' >").getAttribute("class"), is("foo"));
+		}
+		{
+			assertThat(htmlTagParser.parse("<br class=foo>"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class=foo'>").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class=foo>").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class=foo>").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class=foo>").getAttribute("class"), is("foo"));
+		}
+		{
+			assertThat(htmlTagParser.parse("<br class=foo >"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class=foo >").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class=foo >").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class=foo >").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class=foo >").getAttribute("class"), is("foo"));
+		}
+		{
+			assertThat(htmlTagParser.parse("<br class = foo >"), is(not(nullValue())));
+			assertThat(htmlTagParser.parse("<br class = foo >").getName(), is("br"));
+			assertThat(htmlTagParser.parse("<br class = foo >").isOpening(), is(true));
+			assertThat(htmlTagParser.parse("<br class = foo >").isClosing(), is(false));
+			assertThat(htmlTagParser.parse("<br class = foo >").getAttribute("class"), is("foo"));
+		}
+	}
 }

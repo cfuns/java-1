@@ -17,15 +17,74 @@ public class HtmlTagParser {
 			if (!open) {
 				i.next();
 			}
-			final int start = i.getCurrentPosition();
+			final int startName = i.getCurrentPosition();
 			while (isNameCharacter(i)) {
 				i.next();
 			}
-			final String name = i.substring(start, i.getCurrentPosition());
+			final String name = i.substring(startName, i.getCurrentPosition());
 			final HtmlTag htmlTag = new HtmlTag(name, open, close);
+
+			while (i.hasCurrentCharacter()) {
+				while (isEmptyCharacter(i)) {
+					i.next();
+				}
+				final int startKey = i.getCurrentPosition();
+				while (isNameCharacter(i)) {
+					i.next();
+				}
+				final String key = i.substring(startKey, i.getCurrentPosition());
+				while (isEmptyCharacter(i)) {
+					i.next();
+				}
+				if (i.getCurrentCharacter() == '=') {
+					i.next();
+				}
+				while (isEmptyCharacter(i)) {
+					i.next();
+				}
+				final Character valueQuote;
+				if (i.getCurrentCharacter() == '\'' || i.getCurrentCharacter() == '"') {
+					valueQuote = i.getCurrentCharacter();
+					i.next();
+				}
+				else {
+					valueQuote = null;
+				}
+				final int valueStart = i.getCurrentPosition();
+				while (isValueCharacter(i, valueQuote)) {
+					i.next();
+				}
+				final String value = i.substring(valueStart, i.getCurrentPosition());
+				htmlTag.addAttribute(key, value);
+				i.next();
+			}
 			return htmlTag;
 		}
 		return null;
+	}
+
+	private boolean isValueCharacter(final StringIterator i, final Character valueQuote) {
+		if (valueQuote == null) {
+			return isNameCharacter(i);
+		}
+		else {
+			return i.getCurrentCharacter() != valueQuote;
+		}
+	}
+
+	private boolean isEmptyCharacter(final StringIterator i) {
+		switch (i.getCurrentCharacter()) {
+		case ' ':
+			return true;
+		case '\n':
+			return true;
+		case '\r':
+			return true;
+		case '\t':
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	private boolean isNameCharacter(final StringIterator i) {
