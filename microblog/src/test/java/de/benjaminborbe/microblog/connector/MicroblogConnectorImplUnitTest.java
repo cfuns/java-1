@@ -20,6 +20,7 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.CurrentTimeImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.html.HtmlTagParser;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
@@ -325,7 +326,8 @@ public class MicroblogConnectorImplUnitTest {
 		EasyMock.expect(parseUtil.parseLong("14")).andReturn(14l);
 		EasyMock.replay(parseUtil);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 

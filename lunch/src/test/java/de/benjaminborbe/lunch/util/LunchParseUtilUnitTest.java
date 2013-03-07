@@ -12,6 +12,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import de.benjaminborbe.tools.html.HtmlTagParser;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -39,7 +40,8 @@ public class LunchParseUtilUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final LunchParseUtil lunchParseUtil = new LunchParseUtil(logger, htmlUtil, parseUtil);
 		return lunchParseUtil;

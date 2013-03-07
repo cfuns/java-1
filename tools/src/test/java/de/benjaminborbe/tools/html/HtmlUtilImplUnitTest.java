@@ -19,7 +19,8 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals("&amp;", htmlUtil.escapeHtml("&"));
 	}
 
@@ -28,7 +29,8 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals("&", htmlUtil.unescapeHtml("&amp;"));
 	}
 
@@ -37,7 +39,8 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals(0, htmlUtil.parseLinks(null).size());
 		assertEquals(0, htmlUtil.parseLinks("").size());
 		assertEquals(0, htmlUtil.parseLinks("http://www.benjamin-borbe.de").size());
@@ -55,7 +58,8 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertNull(htmlUtil.filterHtmlTages(null));
 		assertEquals("", htmlUtil.filterHtmlTages(""));
 		assertEquals("ü", htmlUtil.filterHtmlTages("&uuml;"));
@@ -78,7 +82,8 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals(
 				"bin/nodetool -host 192.168.0.103 drain",
 				htmlUtil
@@ -91,7 +96,8 @@ public class HtmlUtilImplUnitTest {
 		EasyMock.replay(logger);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final String htmlContent = resourceUtil.getResourceContentAsString("sample.html");
 		assertEquals("Home", htmlUtil.filterHtmlTages(htmlContent));
 	}
@@ -101,7 +107,8 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 
 		// http
 		assertEquals("", htmlUtil.addLinks(""));

@@ -11,9 +11,12 @@ public class HtmlTag {
 
 	private final boolean opening;
 
-	public HtmlTag(final String name, final boolean opening) {
+	private final boolean closing;
+
+	public HtmlTag(final String name, final boolean opening, final boolean closing) {
 		this.name = name;
 		this.opening = opening;
+		this.closing = closing;
 	}
 
 	public String getName() {
@@ -25,8 +28,16 @@ public class HtmlTag {
 		return this;
 	}
 
+	public String getAttribute(final String name) {
+		return attributes.get(name);
+	}
+
 	public boolean isOpening() {
 		return opening;
+	}
+
+	public boolean isClosing() {
+		return closing;
 	}
 
 }

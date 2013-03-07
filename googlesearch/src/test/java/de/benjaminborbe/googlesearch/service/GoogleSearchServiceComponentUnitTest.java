@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import de.benjaminborbe.search.api.SearchResult;
+import de.benjaminborbe.tools.html.HtmlTagParser;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.json.JSONParser;
@@ -29,7 +30,8 @@ public class GoogleSearchServiceComponentUnitTest {
 		EasyMock.replay(logger);
 		final JSONParser jsonParser = new JSONParserSimple();
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, null, htmlUtil, urlUtil, jsonParser);
 		final StreamUtil streamUtil = new StreamUtil();
@@ -78,7 +80,8 @@ public class GoogleSearchServiceComponentUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, null, htmlUtil, urlUtil, null);
 		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(Arrays.asList("crawler", "java"))

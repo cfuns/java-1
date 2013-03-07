@@ -26,9 +26,12 @@ public class HtmlUtilImpl implements HtmlUtil {
 
 	private final Logger logger;
 
+	private final HtmlTagParser htmlTagParser;
+
 	@Inject
-	public HtmlUtilImpl(final Logger logger) {
+	public HtmlUtilImpl(final Logger logger, final HtmlTagParser htmlTagParser) {
 		this.logger = logger;
+		this.htmlTagParser = htmlTagParser;
 	}
 
 	@Override
@@ -46,12 +49,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 		if (content == null) {
 			return null;
 		}
-
-		// return unescapeHtml(content.replaceAll("[\n\r]+", " ").replaceAll("<style[^>]*/>",
-		// " ").replaceAll("<style.*?</style>", " ").replaceAll("<script[^>]*/>", " ")
-		// .replaceAll("<script.*?</script>", " ").replaceAll("<!--.*?-->",
-		// " ").replaceAll("<.*?>", " ").replaceAll("\\s+", " ").trim());
-		final HtmlContentIterator i = new HtmlContentIterator(content);
+		final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, content);
 		final List<String> parts = new ArrayList<String>();
 		while (i.hasNext()) {
 			parts.add(i.next());

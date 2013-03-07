@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
+import de.benjaminborbe.tools.html.HtmlTagParser;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -30,7 +31,8 @@ public class LunchWikiConnectorUnitTest {
 		final LunchParseUtil lunchParseUtil = EasyMock.createNiceMock(LunchParseUtil.class);
 		EasyMock.replay(lunchParseUtil);
 
-		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger);
+		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CurrentTime currentTime = null;
 		final ParseUtil parseUtil = new ParseUtilImpl();
