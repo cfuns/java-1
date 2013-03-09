@@ -108,6 +108,7 @@ worktime_api/target
 worktime_gui/target
 worktime_test/target
 target/
+test_osgi/target/
 filestorage/target
 filestorage_api/target
 filestorage_gui/target

@@ -10,8 +10,11 @@ import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.test.osgi.TestUtil;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
@@ -73,26 +76,20 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
 
-		final String sessionId = "asdf";
-		final String username = "testuser";
-		final String password = "Test123!";
-		final String email = "test@example.com";
-		final String fullname = "foo bar";
-
-		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
-		final UserIdentifier userIdentifier = new UserIdentifier(username);
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(TestUtil.SESSION_ID);
+		final UserIdentifier userIdentifier = new UserIdentifier(TestUtil.LOGIN_USER);
 
 		// if user already exists unregister first
-		if (service.verifyCredential(sessionIdentifier, userIdentifier, password)) {
-			service.login(sessionIdentifier, userIdentifier, password);
+		if (service.verifyCredential(sessionIdentifier, userIdentifier, TestUtil.PASSWORD)) {
+			service.login(sessionIdentifier, userIdentifier, TestUtil.PASSWORD);
 			service.unregister(sessionIdentifier);
 		}
 
 		assertFalse(service.isLoggedIn(sessionIdentifier));
-		assertFalse(service.verifyCredential(sessionIdentifier, userIdentifier, password));
-		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
+		assertFalse(service.verifyCredential(sessionIdentifier, userIdentifier, TestUtil.PASSWORD));
+		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD, TestUtil.FULLNAME, TimeZone.getDefault());
 		try {
-			service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
+			service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD, TestUtil.FULLNAME, TimeZone.getDefault());
 			fail("must fail, because already registered");
 		}
 		catch (final ValidationException e) {
@@ -107,27 +104,45 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
 
-		final String sessionId = "asdf";
-		final String username = "testuser";
-		final String password = "Test123!";
-		final String email = "test@example.com";
-		final String fullname = "foo bar";
-
-		final SessionIdentifier sessionIdentifier = new SessionIdentifier(sessionId);
-		final UserIdentifier userIdentifier = new UserIdentifier(username);
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(TestUtil.SESSION_ID);
+		final UserIdentifier userIdentifier = new UserIdentifier(TestUtil.LOGIN_USER);
 
 		// if user already exists unregister first
-		if (service.verifyCredential(sessionIdentifier, userIdentifier, password)) {
-			service.login(sessionIdentifier, userIdentifier, password);
+		if (service.verifyCredential(sessionIdentifier, userIdentifier, TestUtil.PASSWORD)) {
+			service.login(sessionIdentifier, userIdentifier, TestUtil.PASSWORD);
 			service.unregister(sessionIdentifier);
 		}
 
 		service.logout(sessionIdentifier);
 
 		assertFalse(service.isLoggedIn(sessionIdentifier));
-		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, TimeZone.getDefault());
-		assertTrue(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), password));
-		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier("wrong"), password));
-		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier(username), "wrong"));
+		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD, TestUtil.FULLNAME, TimeZone.getDefault());
+		assertTrue(service.verifyCredential(sessionIdentifier, new UserIdentifier(TestUtil.LOGIN_USER), TestUtil.PASSWORD));
+		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier("wrong"), TestUtil.PASSWORD));
+		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier(TestUtil.LOGIN_USER), "wrong"));
+	}
+
+	public void testCreateUser() throws AuthenticationServiceException, ValidationException {
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		final StorageService storageService = getService(StorageService.class);
+		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(TestUtil.SESSION_ID);
+		assertNotNull(testUtil.createUser(sessionIdentifier));
+		assertFalse(authenticationService.isSuperAdmin(sessionIdentifier));
+	}
+
+	public void testCreateSuperAdmin() throws Exception {
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		final StorageService storageService = getService(StorageService.class);
+		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(TestUtil.SESSION_ID);
+		assertNotNull(testUtil.createSuperAdmin(sessionIdentifier));
+		assertTrue(authenticationService.isSuperAdmin(sessionIdentifier));
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> T getService(final Class<T> clazz) {
+		final Object serviceObject = getServiceObject(clazz.getName(), null);
+		return (T) serviceObject;
 	}
 }
