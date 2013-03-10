@@ -332,3 +332,8 @@ buildnote:
 	cd note && make all
 	cd note_gui && make all
 	cd note_test && make all
+buildxmlrpc:
+	cd xmlrpc_api && make all
+	cd xmlrpc && make all
+	cd xmlrpc_gui && make all
+	cd xmlrpc_test && make all

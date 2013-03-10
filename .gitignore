@@ -253,3 +253,7 @@ note/target
 note_api/target
 note_gui/target
 note_test/target
+xmlrpc/target
+xmlrpc_api/target
+xmlrpc_gui/target
+xmlrpc_test/target
