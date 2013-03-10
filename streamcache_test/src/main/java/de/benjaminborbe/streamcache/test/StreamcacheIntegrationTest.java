@@ -1,7 +1,7 @@
 package de.benjaminborbe.streamcache.test;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
@@ -10,7 +10,7 @@ import de.benjaminborbe.streamcache.api.StreamcacheService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
-public class StreamcacheIntegrationTest extends OSGiTestCase {
+public class StreamcacheIntegrationTest extends TestCaseOsgi {
 
 	@Override
 	protected void setUp() throws Exception {

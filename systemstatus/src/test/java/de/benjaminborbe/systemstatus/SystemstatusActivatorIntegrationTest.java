@@ -16,10 +16,10 @@ import com.google.inject.Injector;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.guice.SystemstatusModulesMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class SystemstatusActivatorIntegrationTest {
 

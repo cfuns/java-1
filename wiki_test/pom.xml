@@ -90,10 +90,10 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<dependencies>		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+	<dependencies><dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.test.osgi</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

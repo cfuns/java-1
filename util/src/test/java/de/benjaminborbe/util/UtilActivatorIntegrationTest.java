@@ -12,10 +12,10 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.util.api.UtilService;
 import de.benjaminborbe.util.guice.UtilModulesMock;
 

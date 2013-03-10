@@ -18,10 +18,10 @@ import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.guice.ConfluenceModulesMock;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.search.api.SearchServiceComponent;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class ConfluenceActivatorIntegrationTest {
 

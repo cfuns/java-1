@@ -3,7 +3,7 @@ package de.benjaminborbe.distributed.search.test;
 import java.net.URL;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -11,7 +11,7 @@ import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
-public class DistributedSearchIntegrationTest extends OSGiTestCase {
+public class DistributedSearchIntegrationTest extends TestCaseOsgi {
 
 	@Override
 	protected void setUp() throws Exception {

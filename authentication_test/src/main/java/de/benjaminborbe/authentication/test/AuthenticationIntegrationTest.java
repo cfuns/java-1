@@ -3,8 +3,6 @@ package de.benjaminborbe.authentication.test;
 import java.util.TimeZone;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -14,11 +12,12 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.test.osgi.TestUtil;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
-public class AuthenticationIntegrationTest extends OSGiTestCase {
+public class AuthenticationIntegrationTest extends TestCaseOsgi {
 
 	private final String validateEmailBaseUrl = "http://example.com/test";
 
@@ -34,7 +33,6 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
@@ -61,7 +59,6 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	@Test
 	public void testGetAuthenticationService() {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
@@ -69,7 +66,6 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		assertEquals("de.benjaminborbe.authentication.service.AuthenticationServiceImpl", service.getClass().getName());
 	}
 
-	@Test
 	public void testRegister() throws Exception {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
@@ -97,7 +93,6 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		}
 	}
 
-	@Test
 	public void testVerifyCredentials() throws Exception {
 		final Object serviceObject = getServiceObject(AuthenticationService.class.getName(), null);
 		final AuthenticationService service = (AuthenticationService) serviceObject;
@@ -140,9 +135,4 @@ public class AuthenticationIntegrationTest extends OSGiTestCase {
 		assertTrue(authenticationService.isSuperAdmin(sessionIdentifier));
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T> T getService(final Class<T> clazz) {
-		final Object serviceObject = getServiceObject(clazz.getName(), null);
-		return (T) serviceObject;
-	}
 }

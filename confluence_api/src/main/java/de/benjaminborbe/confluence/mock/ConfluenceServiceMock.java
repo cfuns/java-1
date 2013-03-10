@@ -14,19 +14,12 @@ import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
-import de.benjaminborbe.confluence.api.ConfluenceSpaceIdentifier;
 
 @Singleton
 public class ConfluenceServiceMock implements ConfluenceService {
 
 	@Inject
 	public ConfluenceServiceMock() {
-	}
-
-	@Override
-	public Collection<ConfluenceSpaceIdentifier> getConfluenceSpaceIdentifiers(final SessionIdentifier sessionIdentifier, final String confluenceUrl, final String username,
-			final String password) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
-		return null;
 	}
 
 	@Override
@@ -80,6 +73,15 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	public long countPages(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
 			LoginRequiredException, PermissionDeniedException {
 		return 0;
+	}
+
+	@Override
+	public void expectPermission(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public boolean hasPermission(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
+		return false;
 	}
 
 }

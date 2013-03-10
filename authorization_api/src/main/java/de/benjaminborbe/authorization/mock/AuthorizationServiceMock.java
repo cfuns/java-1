@@ -23,7 +23,7 @@ public class AuthorizationServiceMock implements AuthorizationService {
 
 	@Override
 	public boolean hasPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package de.benjaminborbe.vnc.test;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -12,7 +12,7 @@ import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 
-public class VncIntegrationTest extends OSGiTestCase {
+public class VncIntegrationTest extends TestCaseOsgi {
 
 	@Override
 	protected void setUp() throws Exception {

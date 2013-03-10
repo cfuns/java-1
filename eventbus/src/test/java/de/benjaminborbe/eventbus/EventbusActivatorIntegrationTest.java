@@ -14,10 +14,10 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModulesMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class EventbusActivatorIntegrationTest {
 

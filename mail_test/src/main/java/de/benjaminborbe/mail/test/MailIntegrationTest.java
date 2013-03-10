@@ -1,7 +1,7 @@
 package de.benjaminborbe.mail.test;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -10,7 +10,7 @@ import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
-public class MailIntegrationTest extends OSGiTestCase {
+public class MailIntegrationTest extends TestCaseOsgi {
 
 	@Override
 	protected void setUp() throws Exception {

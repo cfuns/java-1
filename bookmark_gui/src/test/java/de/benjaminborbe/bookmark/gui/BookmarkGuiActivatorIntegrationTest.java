@@ -19,11 +19,11 @@ import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModulesMock;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class BookmarkGuiActivatorIntegrationTest {
 

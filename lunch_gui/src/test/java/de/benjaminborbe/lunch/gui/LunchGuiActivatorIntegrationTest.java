@@ -18,11 +18,11 @@ import com.google.inject.Injector;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class LunchGuiActivatorIntegrationTest {
 

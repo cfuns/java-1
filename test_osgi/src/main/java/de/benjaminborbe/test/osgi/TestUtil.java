@@ -73,4 +73,8 @@ public class TestUtil {
 
 		return userIdentifier;
 	}
+
+	public SessionIdentifier createSessionIdentifier() {
+		return new SessionIdentifier(SESSION_ID);
+	}
 }

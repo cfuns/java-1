@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -24,7 +23,6 @@ import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
-import de.benjaminborbe.confluence.api.ConfluenceSpaceIdentifier;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
@@ -101,7 +99,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createConfluenceIntance");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = createConfluenceInstanceIdentifier(sessionIdentifier, idGeneratorUUID.nextId());
 			final ConfluenceInstanceBean confluenceInstance = confluenceInstanceDao.create();
@@ -128,9 +126,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
-		}
 		catch (final AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
@@ -146,7 +141,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateConfluenceIntance");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final ConfluenceInstanceBean confluenceInstance = confluenceInstanceDao.load(confluenceInstanceIdentifier);
 			confluenceInstance.setUrl(url);
@@ -180,9 +175,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstanceDao.save(confluenceInstance);
 		}
 		catch (final StorageException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final AuthenticationServiceException e) {
@@ -222,16 +214,13 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteConfluenceInstance");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			removeContent(confluenceInstanceIdentifier);
 
 			confluenceInstanceDao.delete(confluenceInstanceIdentifier);
 		}
 		catch (final StorageException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		catch (final EntityIteratorException e) {
@@ -263,7 +252,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getConfluenceInstanceIdentifiers");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final IdentifierIterator<ConfluenceInstanceIdentifier> i = confluenceInstanceDao.getIdentifierIterator();
 			final List<ConfluenceInstanceIdentifier> result = new ArrayList<ConfluenceInstanceIdentifier>();
@@ -278,26 +267,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		finally {
-			logger.trace("duration " + duration.getTime());
-		}
-	}
-
-	@Override
-	public Collection<ConfluenceSpaceIdentifier> getConfluenceSpaceIdentifiers(final SessionIdentifier sessionIdentifier, final String confluenceUrl, final String username,
-			final String password) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			logger.debug("getConfluenceSpaceIdentifiers");
-			authorizationService.expectAdminRole(sessionIdentifier);
-			throw new NotImplementedException();
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
-		}
 		finally {
 			logger.trace("duration " + duration.getTime());
 		}
@@ -309,11 +278,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getConfluenceInstances");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
+
 			return new ConfluenceInstanceIdentifier(id);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
@@ -326,7 +293,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getConfluenceInstances");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getEntityIterator();
 			final List<ConfluenceInstance> result = new ArrayList<ConfluenceInstance>();
@@ -341,9 +308,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		catch (final EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
-		}
 		finally {
 			logger.trace("duration " + duration.getTime());
 		}
@@ -355,7 +319,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getConfluenceInstances - id: " + confluenceInstanceIdentifier);
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
 
 			final ConfluenceInstance confluenceInstance = confluenceInstanceDao.load(confluenceInstanceIdentifier);
 			if (confluenceInstance == null) {
@@ -365,9 +329,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			return confluenceInstance;
 		}
 		catch (final StorageException e) {
-			throw new ConfluenceServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		}
 		finally {
@@ -380,11 +341,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("refreshSearchIndex");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
+
 			confluenceRefresher.refresh();
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
@@ -396,7 +355,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("expireAll");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
+
 			final EntityIterator<ConfluencePageBean> i = confluencePageDao.getEntityIterator();
 			while (i.hasNext()) {
 				final ConfluencePageBean bean = i.next();
@@ -404,9 +364,6 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 				bean.setLastVisit(null);
 				confluencePageDao.save(bean);
 			}
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
@@ -425,11 +382,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("countPages");
-			authorizationService.expectAdminRole(sessionIdentifier);
+			expectPermission(sessionIdentifier);
+
 			return confluencePageDao.countPagesOfInstance(confluenceInstanceIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ConfluenceServiceException(e);
 		}
 		catch (final StorageException e) {
 			throw new ConfluenceServiceException(e);
@@ -439,6 +394,26 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 		finally {
 			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void expectPermission(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
+		}
+	}
+
+	@Override
+	public boolean hasPermission(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
+		try {
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new ConfluenceServiceException(e);
 		}
 	}
 }

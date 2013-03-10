@@ -1,7 +1,7 @@
 package de.benjaminborbe.dhl.test;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -10,7 +10,7 @@ import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 
-public class DhlIntegrationTest extends OSGiTestCase {
+public class DhlIntegrationTest extends TestCaseOsgi {
 
 	@Override
 	protected void setUp() throws Exception {

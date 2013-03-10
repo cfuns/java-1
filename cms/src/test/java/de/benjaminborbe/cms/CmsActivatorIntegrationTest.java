@@ -15,10 +15,10 @@ import com.google.inject.Injector;
 import de.benjaminborbe.cms.CmsActivator;
 import de.benjaminborbe.cms.api.CmsService;
 import de.benjaminborbe.cms.guice.CmsModulesMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class CmsActivatorIntegrationTest {
 

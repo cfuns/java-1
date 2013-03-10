@@ -17,11 +17,11 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.geocaching.gui.GeocachingGuiActivator;
 import de.benjaminborbe.sample.gui.guice.GeocachingGuiModulesMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class GeocachingGuiActivatorIntegrationTest {
 
